@@ -1,18 +1,76 @@
 (() => {
   "use strict";
 
-  // The product video is a silent, looping visual—no playback UI.
-  const video = document.getElementById("filmVideo");
-  if (video) {
-    video.muted = true;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      video.removeAttribute("autoplay");
-      video.pause();
+  const film = document.getElementById("filmVideo");
+  const replay = document.getElementById("soundBtn");
+  const replayLabel = document.getElementById("soundLabel");
+  const pause = document.getElementById("pauseBtn");
+  const pauseLabel = document.getElementById("pauseLabel");
+  const pauseIcon = document.getElementById("pauseIcon");
+  const mute = document.getElementById("muteBtn");
+  const muteLabel = document.getElementById("muteLabel");
+  const muteIcon = document.getElementById("muteIcon");
+
+  if (film) {
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    function syncPlaybackControls() {
+      const playing = !film.paused && !film.ended;
+      if (pauseLabel) pauseLabel.textContent = playing ? "Pause" : "Play";
+      if (pauseIcon) pauseIcon.textContent = playing ? "Ⅱ" : "▶";
+      if (pause) pause.setAttribute("aria-label", playing ? "Pause film" : "Play film");
+      if (muteLabel) muteLabel.textContent = film.muted ? "Unmute" : "Mute";
+      if (muteIcon) muteIcon.textContent = film.muted ? "♪" : "♫";
+      if (mute) mute.setAttribute("aria-label", film.muted ? "Unmute film" : "Mute film");
+    }
+
+    film.muted = true;
+    if (reducedMotion) {
+      film.removeAttribute("autoplay");
+      film.pause();
     } else {
-      video.play().catch(() => {
-        // Preserve the poster when a browser blocks autoplay.
+      film.play().catch(() => {
+        // Browsers may block autoplay; the Play button remains available.
+        syncPlaybackControls();
       });
     }
+
+    for (const event of ["play", "pause", "ended", "volumechange", "loadedmetadata"]) {
+      film.addEventListener(event, syncPlaybackControls);
+    }
+
+    replay?.addEventListener("click", async () => {
+      film.muted = false;
+      film.currentTime = 0;
+      try {
+        await film.play();
+        if (replayLabel) replayLabel.textContent = "Replay with sound";
+      } catch {
+        film.controls = true;
+        if (replayLabel) replayLabel.textContent = "Use video controls";
+      }
+      syncPlaybackControls();
+    });
+
+    pause?.addEventListener("click", async () => {
+      if (film.paused) {
+        try {
+          await film.play();
+        } catch {
+          film.controls = true;
+        }
+      } else {
+        film.pause();
+      }
+      syncPlaybackControls();
+    });
+
+    mute?.addEventListener("click", () => {
+      film.muted = !film.muted;
+      syncPlaybackControls();
+    });
+
+    syncPlaybackControls();
   }
 
   const installCommands = Object.freeze({
