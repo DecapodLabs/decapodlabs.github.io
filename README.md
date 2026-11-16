@@ -29,7 +29,16 @@ The human initializes once per repository, then keeps working through their exis
 
 The canonical product contract and assurance limits are in [the kernel's README](https://github.com/DecapodLabs/decapod/blob/master/README.md) and [specifications](https://github.com/DecapodLabs/decapod/tree/master/.decapod/managed/specs). Marketing must not imply universal sandboxing, a semantic correctness oracle, or completed hosted-cloud assurance.
 
-The reproducible media-sync workflow obtains the original Decapod film and mascot assets and vendors them under `assets/`.
+**The website owns Decapod's brand media sources.** The original
+[renderer](scripts/render-showcase.py), [editable mascot](assets/mascot.svg),
+and [render workflow](.github/workflows/site-bootstrap.yml) live here. The
+workflow generates the film, GIF, poster, mascot exports and social graphics
+into `assets/` and verifies those artifacts before publication.
+
+The [Decapod kernel](https://github.com/DecapodLabs/decapod) vendors a
+reviewed subset of the generated files for its README and documentation.
+The kernel does not own a second marketing renderer or a separate media
+publishing workflow.
 
 ## Distribution
 

@@ -1,4 +1,4 @@
-name: Bootstrap governed Decapod Labs homepage
+name: Render media and govern Decapod Labs homepage
 
 on:
   push:
@@ -9,6 +9,7 @@ on:
       - main.js
       - docs/decisions/**
       - scripts/**
+      - assets/mascot.svg
       - .github/workflows/site-bootstrap.yml
   workflow_dispatch:
 
@@ -22,49 +23,56 @@ concurrency:
 jobs:
   initialize-and-vendor:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
         with:
           persist-credentials: true
 
-      - name: Download exact, reviewed Decapod artwork and film
+      - name: Render website-owned Decapod mascot and product media
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p assets
-          src=https://raw.githubusercontent.com/DecapodLabs/decapod/36bdfd4fec1c871d33fe4eaf5e8a2a961102b402/assets/showcase
-          curl --fail --location --retry 3 --silent --show-error "$src/generated/decapod-showcase.mp4" -o assets/decapod-showcase.mp4
-          curl --fail --location --retry 3 --silent --show-error "$src/generated/decapod-showcase-poster.png" -o assets/decapod-poster.png
-          curl --fail --location --retry 3 --silent --show-error "$src/mascot-github-avatar.png" -o assets/mascot-github-avatar.png
-          curl --fail --location --retry 3 --silent --show-error "$src/mascot.svg" -o assets/mascot.svg
-          printf '%s  %s\n' \
-            fb76f54c18bb45a989ba0c884f94e8fd5e3c5829 assets/decapod-showcase.mp4 \
-            7389e0c6f555b1a2920bf6f5ea38353624f7a3dd assets/decapod-poster.png \
-            209a55d97aa8b14163e22e1c5e3b4efd64466d45 assets/mascot-github-avatar.png \
-            67618b475f8d37216b08c16f9a73e236ce6422ce assets/mascot.svg > /tmp/artwork-git-blob-sha
-          while read -r expected file; do
-            actual=$(git hash-object "$file")
-            if [ "$actual" != "$expected" ]; then
-              echo "ARTIFACT_MISMATCH: $file expected $expected got $actual" >&2
-              exit 1
-            fi
-          done < /tmp/artwork-git-blob-sha
-
-      - name: Generate preview and verify video
-        shell: bash
-        run: |
-          set -euo pipefail
-          python3 -m pip install 'Pillow==11.3.0'
+          sudo apt-get update -q
+          sudo apt-get install -y ffmpeg fonts-lato libcairo2 fonts-dejavu-core
+          python3 -m pip install 'Pillow==11.3.0' 'numpy==2.3.4' 'CairoSVG==2.7.1'
+          python3 scripts/render-showcase.py
           python3 scripts/generate-social.py
-          file assets/decapod-showcase.mp4 assets/mascot-github-avatar.png
-          test "$(stat -c%s assets/decapod-showcase.mp4)" -gt 500000
+
+      - name: Verify generated visual artifacts
+        shell: bash
+        run: |
           python3 - <<'PY'
+          import json, pathlib, subprocess
           from PIL import Image
-          p=Image.open("assets/mascot-github-avatar.png")
-          assert p.size==(1024,1024) and p.mode=="RGBA"
-          assert p.getchannel("A").getextrema()==(0,255)
-          print("Published Decapod media verified.")
+          root=pathlib.Path("assets")
+          assets=["decapod-showcase.mp4","decapod-showcase.gif","decapod-poster.png",
+                  "mascot.svg","mascot.png","mascot-github-avatar.png",
+                  "social-preview.png","favicon.png"]
+          for name in assets:
+              p=root/name
+              assert p.is_file() and p.stat().st_size>1000, name
+          data=json.loads(subprocess.check_output([
+              "ffprobe","-v","error",
+              "-show_entries","format=duration:stream=codec_type,codec_name",
+              "-of","json",str(root/"decapod-showcase.mp4")
+          ],text=True))
+          assert 6.0<=float(data["format"]["duration"])<7.0, data
+          assert any(s["codec_name"]=="h264" for s in data["streams"])
+          assert any(s["codec_name"]=="aac" for s in data["streams"])
+          with Image.open(root/"decapod-showcase.gif") as gif:
+              assert gif.n_frames >=80, gif.n_frames
+          with Image.open(root/"mascot.png") as im:
+              assert im.mode=="RGBA" and im.size==(1040,880)
+          with Image.open(root/"mascot-github-avatar.png") as im:
+              assert im.mode=="RGBA" and im.size==(1024,1024)
+              alpha=im.getchannel("A")
+              assert alpha.getextrema()==(0,255)
+              bbox=alpha.getbbox()
+              assert bbox is not None
+              assert all((x-512)**2+(y-512)**2 <490**2
+                for x in (bbox[0],bbox[2]) for y in (bbox[1],bbox[3]))
+          print("Verified website-owned film, mascot exports, poster and social media.")
           PY
 
       - name: Install checksum-verified Decapod v0.148.0
