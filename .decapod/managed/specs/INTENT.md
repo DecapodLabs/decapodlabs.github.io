@@ -149,7 +149,7 @@ These declarations select authoring and proof obligations; they do not attest im
 ## Decapod Labs website intent
 
 The human-authored source of intent is
-[docs/decisions/0001-site-intent.md](../../../../docs/decisions/0001-site-intent.md).
+[docs/decisions/0001-site-intent.md](../../../docs/decisions/0001-site-intent.md).
 The outcome is an independent, vibrant, public Decapod Labs landing page
 at https://decapodlabs.github.io/, linking to existing docs at
 https://decapodlabs.github.io/decapod/. AI coding agents operate through

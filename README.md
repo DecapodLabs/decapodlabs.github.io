@@ -39,6 +39,10 @@ The reproducible media-sync workflow obtains the original Decapod film and masco
 
 ## Governing development record
 
-Decapod should be initialized **in this repository**, with the specific intent and the site acceptance checks preserved in `docs/decisions/` and in the generated `.decapod/` records. The initial bootstrap workflow downloads the official pinned Linux release, executes `decapod init`, and commits the resulting repository state. This is real CLI execution on a GitHub Actions checkout; it does not pretend to be a manually fabricated governance receipt.
+**Initialized and committed.** The [successful bootstrap run](https://github.com/DecapodLabs/decapodlabs.github.io/actions/runs/43792365844) downloaded the checksum-verified official Decapod v0.148.0 Linux release and executed `decapod init` inside this repository's checked-out workspace. The [generated `.decapod/` governance files](.decapod/) and [agent entrypoints](AGENTS.md) are real CLI output, committed together with the verified original film, mascot, poster and social graphics in [commit ba856780](https://github.com/DecapodLabs/decapodlabs.github.io/commit/ba856780bd1fd52b5821778bb4e06ee303ea0f46).
+
+**Open assurance item:** Decapod also generated a validation workflow, but the GitHub App's token was refused permission to create a new workflow. The [exact generated workflow was preserved for review](docs/decisions/bootstrap/decapod-validate.workflow.txt) and the [installation gap](docs/decisions/0002-workflow-installation-pending.md) is explicitly recorded. Decapod initialization is not evidence of validation passing or of live-site behavior.
+
+The source intent and acceptance criteria are in [the site decision record](docs/decisions/0001-site-intent.md).
 
 See [site intent and acceptance](docs/decisions/0001-site-intent.md).
