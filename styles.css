@@ -167,3 +167,27 @@
 .film-media .video-controls button:focus-visible{outline:3px solid #ffc65b;outline-offset:3px}
 .film-media .video-controls button>span:first-child{font-size:17px;line-height:1;min-width:18px;text-align:center}
 @media(max-width:560px){.film-media .video-controls{gap:8px}.film-media .video-controls button{min-height:42px;padding:10px 11px;font-size:11px}}
+
+/* Wordmark-only site navigation; the official crab remains the hero mascot. */
+.nav .brand .wordmark{font-size:31px;letter-spacing:-.065em}
+.footer .footer-brand .wordmark{font-size:24px;letter-spacing:-.065em}
+@media(max-width:560px){
+  .nav .brand .wordmark{font-size:26px}
+  .footer .footer-brand .wordmark{font-size:21px}
+}
+
+/* One install panel, two verified distribution paths. */
+.install-panel .install-methods{display:flex;align-items:center;gap:7px;margin:1px 0 13px}
+.install-panel .install-method{background:#372b39;color:#d7c4c9;border:1px solid #594453;border-radius:8px;padding:9px 15px;font-size:13px;font-weight:800;cursor:pointer;transition:background .18s,color .18s}
+.install-panel .install-method:hover{background:#534058;color:#fff}
+.install-panel .install-method.is-active{background:var(--orange);color:#fff;border-color:var(--orange)}
+.install-panel .install-method:focus-visible{outline:3px solid #ffc65b;outline-offset:3px}
+.install-panel .install-shell{align-items:flex-start}
+.install-panel .install-shell>span{line-height:1.5}
+.install-panel .install-shell code{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.58;font-size:clamp(12px,1.05vw,15px);min-width:0;padding-top:1px}
+.install-panel .install-shell button{flex-shrink:0;align-self:flex-start}
+@media(max-width:560px){
+  .install-panel .install-methods{gap:6px}
+  .install-panel .install-method{font-size:12px;padding:9px 12px}
+  .install-panel .install-shell code{font-size:12px;flex-basis:70%}
+}

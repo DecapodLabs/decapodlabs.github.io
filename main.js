@@ -73,19 +73,57 @@
     syncPlaybackControls();
   }
 
+  const installCommands = Object.freeze({
+    cargo: "cargo binstall decapod && decapod init",
+    nix: [
+      "nix run nixpkgs#cachix -- use decapod &&",
+      "nix profile install github:DecapodLabs/decapod &&",
+      "decapod init"
+    ].join("\n")
+  });
+
   const copy = document.getElementById("copyBtn");
   const copyStatus = document.getElementById("copyStatus");
+  const commandNode = document.getElementById("installCommand");
+  const cargoButton = document.getElementById("installCargo");
+  const nixButton = document.getElementById("installNix");
+  const sourceLink = document.getElementById("installSource");
+  let selectedInstall = "cargo";
+
+  function selectInstall(method) {
+    if (!Object.prototype.hasOwnProperty.call(installCommands, method)) return;
+    selectedInstall = method;
+    if (commandNode) commandNode.textContent = installCommands[method];
+    cargoButton?.classList.toggle("is-active", method === "cargo");
+    nixButton?.classList.toggle("is-active", method === "nix");
+    cargoButton?.setAttribute("aria-pressed", String(method === "cargo"));
+    nixButton?.setAttribute("aria-pressed", String(method === "nix"));
+    if (sourceLink) {
+      sourceLink.href = method === "nix"
+        ? "https://app.cachix.org/organization/decapodlabs/cache/decapod#pull"
+        : "https://crates.io/crates/decapod";
+      sourceLink.textContent = method === "nix" ? "Decapod Cachix ↗" : "Crates.io ↗";
+    }
+    if (copy) copy.textContent = "COPY";
+    if (copyStatus) copyStatus.textContent = method === "nix"
+      ? "Requires Nix with flakes enabled. Initializes once per project."
+      : "One initialization per project.";
+  }
+
+  cargoButton?.addEventListener("click", () => selectInstall("cargo"));
+  nixButton?.addEventListener("click", () => selectInstall("nix"));
+
   copy?.addEventListener("click", async () => {
-    const command = "cargo binstall decapod && decapod init";
+    const command = installCommands[selectedInstall];
     try {
       await navigator.clipboard.writeText(command);
       copy.textContent = "COPIED ✓";
       copyStatus.textContent = "Copied. Run this inside your repository.";
     } catch {
-      const node = document.getElementById("installCommand");
+      if (!commandNode) return;
       const selection = window.getSelection();
       const range = document.createRange();
-      range.selectNodeContents(node);
+      range.selectNodeContents(commandNode);
       selection.removeAllRanges();
       selection.addRange(range);
       copyStatus.textContent = "Select and copy the highlighted command.";

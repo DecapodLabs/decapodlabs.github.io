@@ -27,7 +27,7 @@
 <div id="top"></div>
 <header class="nav">
   <div class="wrap nav-content">
-    <a href="#top" class="brand" aria-label="Decapod Labs home"><img class="brand-icon" src="assets/mascot.svg" alt="" width="50" height="44"><span class="wordmark">decapod<span>labs</span></span></a>
+    <a href="#top" class="brand" aria-label="Decapod Labs home"><span class="wordmark">decapod<span>labs</span></span></a>
     <nav class="nav-links" aria-label="Site navigation"><a href="#film">The film</a><a href="#kernel">Features</a><a href="#architecture">Architecture</a><a href="#install">Install</a></nav>
     <a class="nav-cta" href="https://github.com/DecapodLabs/decapod" target="_blank" rel="noopener">GitHub <span aria-hidden="true">↗</span></a>
   </div>
@@ -98,9 +98,13 @@
     <div><h2 id="installHeading">Init once.<br><span>Go build.</span></h2></div>
     <div class="install-panel">
       <div class="install-title"><span>INSTALL + INITIALIZE</span><span class="terminal-dots" aria-hidden="true">● ● ●</span></div>
-      <div class="shell"><span aria-hidden="true">$</span><code id="installCommand">cargo binstall decapod &amp;&amp; decapod init</code><button type="button" id="copyBtn" aria-label="Copy installation command">COPY</button></div>
+      <div class="install-methods" role="group" aria-label="Installation method">
+        <button type="button" class="install-method is-active" id="installCargo" aria-pressed="true">Cargo</button>
+        <button type="button" class="install-method" id="installNix" aria-pressed="false">Nix + Cachix</button>
+      </div>
+      <div class="shell install-shell"><span aria-hidden="true">$</span><code id="installCommand">cargo binstall decapod &amp;&amp; decapod init</code><button type="button" id="copyBtn" aria-label="Copy installation command">COPY</button></div>
       <p id="copyStatus" aria-live="polite">One initialization per project.</p>
-      <div class="install-choices"><a href="https://github.com/DecapodLabs/decapod/blob/master/flake.nix">Also available on Nix ↗</a><a href="https://decapodlabs.github.io/decapod/">Read the docs ↗</a></div>
+      <div class="install-choices"><a id="installSource" href="https://crates.io/crates/decapod">Crates.io ↗</a><a href="https://decapodlabs.github.io/decapod/">Read the docs ↗</a></div>
     </div>
   </div>
 </section>
@@ -114,6 +118,6 @@
   </div>
 </section>
 </main>
-<footer class="footer"><div class="wrap footer-grid"><a href="#top" class="footer-brand" aria-label="Decapod Labs home"><img src="assets/mascot.svg" alt="" width="40" height="36"><span class="wordmark">decapod<span>labs</span></span></a><span>© <span id="year">2026</span> Decapod Labs</span><div><a href="https://github.com/DecapodLabs/decapod">GitHub ↗</a><a href="https://decapodlabs.github.io/decapod/">Read the docs ↗</a></div></div></footer>
+<footer class="footer"><div class="wrap footer-grid"><a href="#top" class="footer-brand" aria-label="Decapod Labs home"><span class="wordmark">decapod<span>labs</span></span></a><span>© <span id="year">2026</span> Decapod Labs</span><div><a href="https://github.com/DecapodLabs/decapod">GitHub ↗</a><a href="https://decapodlabs.github.io/decapod/">Read the docs ↗</a></div></div></footer>
 </body>
 </html>
