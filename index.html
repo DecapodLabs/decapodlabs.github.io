@@ -16,7 +16,7 @@
 <link rel="icon" type="image/png" href="assets/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 <script src="main.js" defer></script>
 <title>Decapod Labs — Harness AI</title>
@@ -27,72 +27,89 @@
 <div id="top"></div>
 <header class="nav">
   <div class="wrap nav-content">
-    <a href="#top" class="brand" aria-label="Decapod Labs home"><img src="assets/mascot-github-avatar.png" alt="" width="44" height="44"><span>DECAPOD<span class="brand-small">LABS</span></span></a>
-    <nav class="nav-links" aria-label="Site navigation"><a href="#film">The film</a><a href="#kernel">The kernel</a><a href="#install">Get started</a><a href="https://decapodlabs.github.io/decapod/">Read the docs ↗</a></nav>
+    <a href="#top" class="brand" aria-label="Decapod Labs home"><img class="brand-icon" src="assets/crab-mark.svg" alt="" width="42" height="42"><span class="wordmark">decapod<span>labs</span></span></a>
+    <nav class="nav-links" aria-label="Site navigation"><a href="#film">The film</a><a href="#kernel">Features</a><a href="#architecture">Architecture</a><a href="#install">Install</a></nav>
     <a class="nav-cta" href="https://github.com/DecapodLabs/decapod" target="_blank" rel="noopener">GitHub <span aria-hidden="true">↗</span></a>
   </div>
 </header>
 <main id="main">
 <section class="hero" aria-labelledby="heroHeading">
-  <div class="hero-noise" aria-hidden="true"></div>
   <div class="wrap hero-grid">
     <div class="hero-text">
-      <p class="eyebrow"><span class="eyebrow-star">✳</span> THE METACOGNITIVE GOVERNANCE KERNEL</p>
       <h1 id="heroHeading">HARNESS <span>AI.</span></h1>
       <p class="hero-lead">Tired of babysitting your coding agents?</p>
-      <p class="hero-body">Give them a governance kernel that keeps intent, boundaries, and proof with the project—through every iteration, session, and handoff.</p>
-      <div class="hero-actions"><a class="btn btn-dark" href="#film">See Decapod in 7 seconds <span>↗</span></a><a class="btn btn-outline" href="#install">Install Decapod <span>↗</span></a></div>
-      <div class="hero-facts"><span><i></i> OPEN SOURCE</span><span><i></i> OFFLINE FIRST</span><span><i></i> USE YOUR AGENTS</span></div>
+      <p class="hero-body">Decapod is a repo-native metacognitive governance kernel that gives coding agents persistent state, enforced boundaries, and commit-bound proof.</p>
+      <div class="hero-actions">
+        <a class="btn btn-dark" href="#film"><span aria-hidden="true">▶</span> See the film</a>
+        <a class="btn btn-outline" href="#install"><span aria-hidden="true">›_</span> Install Decapod</a>
+      </div>
     </div>
     <div class="hero-showcase" aria-hidden="true">
-      <div class="sunburst"></div><div class="hero-halo halo-a"></div><div class="hero-halo halo-b"></div>
+      <div class="sunburst"></div>
+      <div class="hero-halo halo-a"></div><div class="hero-halo halo-b"></div>
       <div class="crab-art"><img src="assets/mascot-github-avatar.png" width="700" height="700" alt=""></div>
-      <div class="floating-chip chip-one">PERSISTENT STATE <b>✳</b></div><div class="floating-chip chip-two"><b>✓</b> PROOF, NOT PROMISES</div>
-      <div class="hero-caption"><span>🦀</span> ONE KERNEL. EVERY CODING AGENT.</div>
     </div>
   </div>
-  <div class="hero-bottom wrap"><span>DECAPOD LABS / 2026</span><span>SCROLL TO EXPLORE <span aria-hidden="true">↓</span></span></div>
 </section>
 <section class="film-section" id="film" aria-labelledby="filmHeading">
-  <div class="wrap">
-    <div class="section-marker"><span>01 / INTRODUCING DECAPOD</span><span>6.9 SECONDS / ONE IDEA</span></div>
-    <div class="film-title-row"><h2 id="filmHeading">MEET THE <span>KERNEL.</span></h2><p>The whole idea, in one tiny film. With an original soundtrack and a very enthusiastic crab.</p></div>
-    <div class="video-shell"><video id="filmVideo" autoplay muted loop playsinline preload="metadata" poster="assets/decapod-poster.png" aria-label="Decapod animated introduction"><source src="assets/decapod-showcase.mp4" type="video/mp4">Your browser cannot play the film.</video><span class="video-corner">DECAPOD / 001</span></div>
-    <div class="video-controls"><button type="button" id="soundBtn" aria-label="Replay film with sound">◉ <span id="soundLabel">REPLAY WITH SOUND</span></button><span>ORIGINAL SCORE &nbsp;·&nbsp; 1080P &nbsp;·&nbsp; 6.9 SEC</span></div>
+  <div class="wrap film-layout">
+    <h2 id="filmHeading">Meet the<br><span>kernel.</span></h2>
+    <div class="film-media">
+      <div class="video-shell"><video id="filmVideo" autoplay muted loop playsinline preload="metadata" poster="assets/decapod-poster.png" aria-label="Decapod film showing the metacognitive governance kernel"><source src="assets/decapod-showcase.mp4" type="video/mp4">Your browser cannot play the film.</video></div>
+      <button type="button" class="sound-control" id="soundBtn" aria-label="Play film with sound"><span aria-hidden="true">▶</span> <span id="soundLabel">Play with sound</span></button>
+    </div>
   </div>
 </section>
 <section class="statement" aria-labelledby="statementHeading">
-  <div class="wrap statement-grid"><span class="tiny-label">THE PROBLEM / 02</span><h2 id="statementHeading">THE AGENT <em>CAN</em> WRITE CODE.<br>WHO MAKES SURE THE WORK <em>HOLDS?</em></h2></div>
+  <div class="wrap"><h2 id="statementHeading">The agent can write code.<br>Who makes sure the work <em>holds?</em></h2></div>
 </section>
 <section class="kernel-section" id="kernel" aria-labelledby="kernelHeading">
   <div class="wrap">
-    <div class="section-marker dark"><span>03 / UNDER THE SHELL</span><span>CONTEXT → EXECUTION → EVIDENCE</span></div>
-    <div class="kernel-heading"><h2 id="kernelHeading">AUTONOMY WITH <span>A BACKBONE.</span></h2><p>Models reason. Your agents work. Decapod preserves the conditions for accepting what they produce.</p></div>
+    <h2 id="kernelHeading" class="sr-only">What Decapod gives your agents</h2>
     <div class="feature-grid">
-      <article class="feature-card feature-orange" data-reveal><div class="feature-head"><span>01 / REMEMBER</span><span>✳</span></div><h3>PERSISTENT<br>STATE.</h3><p>Intent, decisions, plans, ownership, and unresolved work stay with the repository—even when sessions and agents change.</p><span class="feature-foot">CONTINUE WITHOUT RESTARTING THE THINKING ↗</span></article>
-      <article class="feature-card feature-cream" data-reveal><div class="feature-head"><span>02 / RESPECT</span><span>⌘</span></div><h3>ENFORCED<br>BOUNDARIES.</h3><p>Declare scope. Retain task custody. Keep competing agents in admitted workspaces with governing rules that cannot be wished away.</p><span class="feature-foot">EXPLICIT AUTHORITY ↗</span></article>
-      <article class="feature-card feature-ink" data-reveal><div class="feature-head"><span>03 / VERIFY</span><span>✓</span></div><h3>COMMIT-BOUND<br>PROOF.</h3><p>Checks, obligations, and evidence attach to actual candidate work. Failed or stale proof remains visible, not magically green.</p><span class="feature-foot">CHECK THE EXACT WORK ↗</span></article>
-      <article class="feature-card feature-pink" data-reveal><div class="feature-head"><span>04 / KEEP GOING</span><span>↗</span></div><h3>YOUR AGENTS.<br>YOUR WAY.</h3><p>Initialize Decapod once per project. Continue using Codex, Claude Code, Cursor, and your preferred agents as normal.</p><span class="feature-foot">ONE SETUP. SAME WORKFLOW. ↗</span></article>
+      <article class="feature-card feature-orange" data-reveal><span class="feature-symbol" aria-hidden="true">▱</span><h3>Persistent<br>State.</h3><p>State survives across sessions.</p></article>
+      <article class="feature-card feature-cream" data-reveal><span class="feature-symbol" aria-hidden="true">⬡</span><h3>Enforced<br>Boundaries.</h3><p>Authority stays bounded.</p></article>
+      <article class="feature-card feature-ink" data-reveal><span class="feature-symbol" aria-hidden="true">✓</span><h3>Commit-Bound<br>Proof.</h3><p>Evidence tied to exact commits.</p></article>
+      <article class="feature-card feature-pink" data-reveal><span class="feature-symbol" aria-hidden="true">↗</span><h3>Your Agents.<br>Your Way.</h3><p>Initialize once per project. Keep using your agents.</p></article>
     </div>
   </div>
 </section>
-<section class="flow-section" aria-labelledby="flowHeading">
+<section class="flow-section" id="architecture" aria-labelledby="flowHeading">
   <div class="wrap flow-grid">
-    <div><p class="eyebrow">THE MISSING LAYER</p><h2 id="flowHeading">THE AGENT DOES THE WORK.<br><span>DECAPOD GOVERNS IT.</span></h2><p>You give the objective. The agent calls Decapod at meaningful decisions and state transitions, carrying context, constraints and validation forward.</p><a class="text-link" href="https://decapodlabs.github.io/decapod/">Dive into the architecture ↗</a></div>
-    <div class="flow-diagram" aria-label="Human intent goes to coding agent, which calls Decapod for state, boundaries and proof"><div class="diagram-unit"><span class="unit-number">01</span><div><b>YOUR IDEA</b><small>Human intent and judgment</small></div></div><div class="diagram-arrow">↓</div><div class="diagram-unit"><span class="unit-number">02</span><div><b>YOUR CODING AGENT</b><small>Reasoning and engineering</small></div></div><div class="diagram-arrow">↓</div><div class="diagram-unit diagram-hot"><span class="unit-number">03</span><div><b>DECAPOD</b><small>Governed state · boundaries · proof</small></div><span class="diagram-crab">✳</span></div></div>
+    <div>
+      <h2 id="flowHeading">The agent does<br>the work.<br><span>Decapod governs it.</span></h2>
+      <a class="text-link" href="https://decapodlabs.github.io/decapod/">Explore the architecture ↗</a>
+    </div>
+    <div class="flow-diagram" aria-label="You describe the objective, your coding agent does the work, and Decapod governs its execution">
+      <div class="diagram-unit"><span class="diagram-symbol" aria-hidden="true">✳</span><div><b>Your idea</b></div></div>
+      <div class="diagram-arrow">↓</div>
+      <div class="diagram-unit"><span class="diagram-symbol" aria-hidden="true">⌘</span><div><b>Your coding agent</b></div></div>
+      <div class="diagram-arrow">↓</div>
+      <div class="diagram-unit diagram-hot"><img src="assets/crab-mark.svg" alt="" width="31" height="31"><div><b>Decapod</b></div></div>
+    </div>
   </div>
 </section>
 <section class="install-section" id="install" aria-labelledby="installHeading">
-  <div class="wrap">
-    <div class="section-marker dark"><span>04 / START BUILDING</span><span>FREE · LOCAL-FIRST · MIT</span></div>
-    <div class="install-grid">
-      <div><h2 id="installHeading">INIT ONCE.<br><span>GO BUILD.</span></h2><p>Set up Decapod in your repository. Then keep using your coding agents. The kernel runs locally on demand, without a resident daemon.</p></div>
-      <div class="install-panel"><div class="install-title"><span>INSTALL + INITIALIZE</span><span class="terminal-dots">● ● ●</span></div><div class="shell"><span>$</span><code id="installCommand">cargo binstall decapod &amp;&amp; decapod init</code><button type="button" id="copyBtn" aria-label="Copy installation command">COPY</button></div><p id="copyStatus" aria-live="polite">Install the CLI, then initialize once per project.</p><div class="install-choices"><a href="https://github.com/DecapodLabs/decapod/blob/master/flake.nix">NIX FLAKE ↗</a><a href="https://github.com/DecapodLabs/decapod/releases">RELEASES ↗</a><a href="https://decapodlabs.github.io/decapod/">DOCUMENTATION ↗</a></div></div>
+  <div class="wrap install-grid">
+    <div><h2 id="installHeading">Init once.<br><span>Go build.</span></h2></div>
+    <div class="install-panel">
+      <div class="install-title"><span>INSTALL + INITIALIZE</span><span class="terminal-dots" aria-hidden="true">● ● ●</span></div>
+      <div class="shell"><span aria-hidden="true">$</span><code id="installCommand">cargo binstall decapod &amp;&amp; decapod init</code><button type="button" id="copyBtn" aria-label="Copy installation command">COPY</button></div>
+      <p id="copyStatus" aria-live="polite">One initialization per project.</p>
+      <div class="install-choices"><a href="https://github.com/DecapodLabs/decapod/blob/master/flake.nix">Also available on Nix ↗</a><a href="https://decapodlabs.github.io/decapod/">Read the docs ↗</a></div>
     </div>
   </div>
 </section>
-<section class="closing"><div class="wrap closing-grid"><div><p class="eyebrow">THE FUTURE OF ENGINEERING</p><h2>HARNESS<br><span>AI.</span></h2></div><div class="closing-right"><img src="assets/mascot-github-avatar.png" width="200" height="200" alt="Smiling kawaii orange crab, the Decapod mascot"><p>Bring your favorite agent.<br>Decapod handles the governance.</p><a class="btn btn-dark" href="https://github.com/DecapodLabs/decapod">EXPLORE ON GITHUB ↗</a></div></div></section>
+<section class="closing" aria-label="Explore Decapod">
+  <div class="wrap closing-layout">
+    <h2>HARNESS <span>AI.</span></h2>
+    <div class="closing-action">
+      <p>Bring your coding agents.<br>Decapod governs the work.</p>
+      <div class="closing-buttons"><a class="btn btn-dark" href="https://github.com/DecapodLabs/decapod">GitHub ↗</a><a class="btn btn-light" href="https://decapodlabs.github.io/decapod/">Read the docs ↗</a></div>
+    </div>
+  </div>
+</section>
 </main>
-<footer class="footer"><div class="wrap footer-grid"><a href="#top" class="footer-brand">🦀 DECAPOD LABS</a><span>© <span id="year">2026</span> DECAPOD LABS</span><div><a href="https://github.com/DecapodLabs/decapod">GITHUB ↗</a><a href="https://decapodlabs.github.io/decapod/">READ THE DOCS ↗</a></div></div></footer>
+<footer class="footer"><div class="wrap footer-grid"><a href="#top" class="footer-brand" aria-label="Decapod Labs home"><img src="assets/crab-mark.svg" alt="" width="34" height="34"><span class="wordmark">decapod<span>labs</span></span></a><span>© <span id="year">2026</span> Decapod Labs</span><div><a href="https://github.com/DecapodLabs/decapod">GitHub ↗</a><a href="https://decapodlabs.github.io/decapod/">Read the docs ↗</a></div></div></footer>
 </body>
 </html>

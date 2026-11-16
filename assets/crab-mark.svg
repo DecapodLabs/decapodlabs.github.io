@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" role="img" aria-label="Decapod crab mark">
+  <g fill="#F05B37">
+    <path d="M16 30C8 29 3 22 4 15c1-6 8-9 13-5 4 3 4 8 1 11-2 2-5 1-6-1-1-2 0-4 2-5-3-1-5 1-5 4 0 6 5 8 12 9z"/>
+    <path d="M48 30c8-1 13-8 12-15-1-6-8-9-13-5-4 3-4 8-1 11 2 2 5 1 6-1 1-2 0-4-2-5 3-1 5 1 5 4 0 6-5 8-12 9z"/>
+    <path d="M15 41 5 49q-2 2 1 4l13-5zM49 41l10 8q2 2-1 4l-13-5zM21 49l-8 8q-2 3 2 3l11-7zM43 49l8 8q2 3-2 3l-11-7z"/>
+    <path d="M32 18c-16 0-26 9-26 22 0 13 11 22 26 22s26-9 26-22c0-13-10-22-26-22z"/>
+  </g>
+  <ellipse cx="32" cy="41" rx="20.5" ry="15.5" fill="#FFF7EB"/>
+  <g fill="#261923"><ellipse cx="24" cy="39" rx="4.4" ry="5.7"/><ellipse cx="40" cy="39" rx="4.4" ry="5.7"/></g>
+  <g fill="#FFF"><circle cx="22.6" cy="37" r="1.75"/><circle cx="38.6" cy="37" r="1.75"/></g>
+  <path d="M28 47q4 5 8 0" stroke="#261923" stroke-width="2.3" stroke-linecap="round"/>
+</svg>
