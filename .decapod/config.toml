@@ -1,0 +1,56 @@
+schema_version = "1.0.0"
+
+[context]
+declared_sources = []
+
+[custody]
+isolation = "container"
+
+[governance]
+approval_categories = ["destructive_operations"]
+protected_paths = []
+
+[init]
+ci = true
+diagram_style = "ascii"
+entrypoints = [
+    "AGENTS.md",
+    "CLAUDE.md",
+    "GEMINI.md",
+    "CODEX.md",
+]
+specs = true
+
+[proof]
+commands = []
+validation_buildkite_preflights = false
+
+[repo]
+architecture_direction = "Architecture is not established by repository shape; inspect entrypoints, components, and their interactions."
+backend = "local"
+base_branch = "main"
+container_workspaces = true
+declared_capabilities = [
+    "authentication",
+    "background-processing",
+    "event-driven",
+    "external-integrations",
+    "persistent-state",
+    "public-api",
+]
+detected_surfaces = [
+    "javascript",
+    "python",
+]
+done_criteria = "Decapod validate passes, required tests pass, and promotion-relevant artifacts are present."
+external_tracker = false
+primary_languages = [
+    "javascript",
+    "python",
+]
+product_name = "decapodlabs.github.io"
+product_summary = "This is the single-page Decapod landing page, published from the **organization-level** GitHub Pages repository:"
+product_type = "service_or_library"
+
+[tracker]
+provider = "decapod"
