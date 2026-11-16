@@ -119,6 +119,31 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # Decapod init generates its native source-validation workflow. The
+          # GitHub App token lacks "workflows" permission to install it. Keep
+          # the exact generated file as reviewed evidence, but DO NOT bypass
+          # that permission gate or pretend the validation workflow ran.
+          if [ -f .github/workflows/decapod-validate.yml ]; then
+            mkdir -p docs/decisions/bootstrap
+            mv .github/workflows/decapod-validate.yml docs/decisions/bootstrap/decapod-validate.workflow.txt
+            cat > docs/decisions/0002-workflow-installation-pending.md <<'NOTE'
+          # Validation workflow installation pending
+
+          Decapod v0.148.0 successfully executed `decapod init` in the official
+          `DecapodLabs/decapodlabs.github.io` checkout during site bootstrap.
+          The installer generated a native `.github/workflows/decapod-validate.yml`.
+          The GitHub Actions installation token cannot create or modify a
+          workflow file without the separate `workflows` permission. The prior
+          run's commit was therefore rejected.
+
+          The exact generated workflow text is retained in
+          [bootstrap/decapod-validate.workflow.txt](bootstrap/decapod-validate.workflow.txt).
+          It is **not** an installed or executed validation gate. Installation
+          requires an authorized operator with workflow-writing permission.
+          This explicit gap does not change the `.decapod/` specifications,
+          accepted human intent, or make the website appear validated.
+          NOTE
+          fi
           git add -A
           if ! git diff --cached --quiet; then
             git commit -m "chore(site): vendor verified artwork and initialize Decapod governance"
