@@ -157,17 +157,6 @@
 .diagram-hot>img{width:34px;height:31px;object-fit:contain}
 @media(max-width:560px){.brand .brand-icon{width:44px;height:40px}.footer-brand>img{width:36px;height:33px}}
 
-/* Film controls: replay with audio, pause/play, and independent mute toggle. */
-.film-media .video-controls{display:flex;justify-content:flex-start;align-items:center;flex-wrap:wrap;gap:10px;padding-top:0;margin-top:16px}
-.film-media .video-controls button{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:42px;padding:10px 15px;margin:0;border-radius:9px;font-size:12px;font-weight:800;letter-spacing:0;text-transform:none;white-space:nowrap;cursor:pointer;transition:background .2s,border-color .2s}
-.film-media .video-controls .sound-control{background:var(--orange);border:1px solid var(--orange);color:#fff}
-.film-media .video-controls .sound-control:hover{background:#ff8155;border-color:#ff8155}
-.film-media .video-controls .film-toggle{background:#322934;border:1px solid #655365;color:#fff}
-.film-media .video-controls .film-toggle:hover{background:#493a4b;border-color:#8a718d}
-.film-media .video-controls button:focus-visible{outline:3px solid #ffc65b;outline-offset:3px}
-.film-media .video-controls button>span:first-child{font-size:17px;line-height:1;min-width:18px;text-align:center}
-@media(max-width:560px){.film-media .video-controls{gap:8px}.film-media .video-controls button{min-height:42px;padding:10px 11px;font-size:11px}}
-
 /* Wordmark-only site navigation; the official crab remains the hero mascot. */
 .nav .brand .wordmark{font-size:31px;letter-spacing:-.065em}
 .footer .footer-brand .wordmark{font-size:24px;letter-spacing:-.065em}
@@ -191,3 +180,12 @@
   .install-panel .install-method{font-size:12px;padding:9px 12px}
   .install-panel .install-shell code{font-size:12px;flex-basis:70%}
 }
+
+
+/* Video is a visual interlude. No chapter labels, playback controls or CTAs. */
+.film-section{padding:60px 0;background:#1c1720}
+.film-layout{display:block;max-width:1100px;margin-inline:auto}
+.film-media{width:100%}
+.video-shell{border:6px solid #40313e;border-radius:18px;overflow:hidden;box-shadow:0 18px 52px rgba(0,0,0,.26)}
+.video-shell video{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}
+@media(max-width:600px){.film-section{padding:36px 0}.video-shell{border-width:4px;border-radius:13px}}
