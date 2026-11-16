@@ -1,0 +1,125 @@
+name: Bootstrap governed Decapod Labs homepage
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - index.html
+      - styles.css
+      - main.js
+      - docs/decisions/**
+      - scripts/**
+      - .github/workflows/site-bootstrap.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: decapod-labs-site-bootstrap
+  cancel-in-progress: true
+
+jobs:
+  initialize-and-vendor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - name: Download exact, reviewed Decapod artwork and film
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p assets
+          src=https://raw.githubusercontent.com/DecapodLabs/decapod/36bdfd4fec1c871d33fe4eaf5e8a2a961102b402/assets/showcase
+          curl --fail --location --retry 3 --silent --show-error "$src/generated/decapod-showcase.mp4" -o assets/decapod-showcase.mp4
+          curl --fail --location --retry 3 --silent --show-error "$src/generated/decapod-showcase-poster.png" -o assets/decapod-poster.png
+          curl --fail --location --retry 3 --silent --show-error "$src/mascot-github-avatar.png" -o assets/mascot-github-avatar.png
+          curl --fail --location --retry 3 --silent --show-error "$src/mascot.svg" -o assets/mascot.svg
+          printf '%s  %s\n' \
+            fb76f54c18bb45a989ba0c884f94e8fd5e3c5829 assets/decapod-showcase.mp4 \
+            7389e0c6f555b1a2920bf6f5ea38353624f7a3dd assets/decapod-poster.png \
+            209a55d97aa8b14163e22e1c5e3b4efd64466d45 assets/mascot-github-avatar.png \
+            67618b475f8d37216b08c16f9a73e236ce6422ce assets/mascot.svg > /tmp/artwork-git-blob-sha
+          while read -r expected file; do
+            actual=$(git hash-object "$file")
+            if [ "$actual" != "$expected" ]; then
+              echo "ARTIFACT_MISMATCH: $file expected $expected got $actual" >&2
+              exit 1
+            fi
+          done < /tmp/artwork-git-blob-sha
+
+      - name: Generate preview and verify video
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m pip install 'Pillow==11.3.0'
+          python3 scripts/generate-social.py
+          file assets/decapod-showcase.mp4 assets/mascot-github-avatar.png
+          test "$(stat -c%s assets/decapod-showcase.mp4)" -gt 500000
+          python3 - <<'PY'
+          from PIL import Image
+          p=Image.open("assets/mascot-github-avatar.png")
+          assert p.size==(1024,1024) and p.mode=="RGBA"
+          assert p.getchannel("A").getextrema()==(0,255)
+          print("Published Decapod media verified.")
+          PY
+
+      - name: Install checksum-verified Decapod v0.148.0
+        shell: bash
+        run: |
+          set -euo pipefail
+          archive=decapod-x86_64-unknown-linux-gnu.tar.xz
+          url="https://github.com/DecapodLabs/decapod/releases/download/v0.148.0"
+          curl --fail --location --retry 3 --silent --show-error "$url/$archive" -o "/tmp/$archive"
+          curl --fail --location --retry 3 --silent --show-error "$url/$archive.sha256" -o "/tmp/$archive.sha256"
+          expected=$(awk 'NR==1 {print $1}' "/tmp/$archive.sha256")
+          actual=$(sha256sum "/tmp/$archive" | cut -d' ' -f1)
+          test "$actual" = "$expected"
+          mkdir -p /tmp/decapod-release
+          tar -xJf "/tmp/$archive" -C /tmp/decapod-release
+          bin=$(find /tmp/decapod-release -type f -name decapod -print -quit)
+          test -n "$bin"
+          sudo install -m 0755 "$bin" /usr/local/bin/decapod
+          decapod --version
+
+      - name: Initialize real repository governance using Decapod
+        shell: bash
+        run: |
+          set -euo pipefail
+          # This is a real Decapod invocation inside the Git checkout.
+          # It must not be replaced with hand-written pretend governance files.
+          decapod init
+          test -d .decapod
+          test -f .decapod/managed/specs/INTENT.md
+          if ! grep -q '^## Decapod Labs website intent' .decapod/managed/specs/INTENT.md; then
+            cat >> .decapod/managed/specs/INTENT.md <<'DOC'
+
+          ## Decapod Labs website intent
+
+          The human-authored source of intent is
+          [docs/decisions/0001-site-intent.md](../../../../docs/decisions/0001-site-intent.md).
+          The outcome is an independent, vibrant, public Decapod Labs landing page
+          at https://decapodlabs.github.io/, linking to existing docs at
+          https://decapodlabs.github.io/decapod/. AI coding agents operate through
+          Decapod; humans run init once per project and continue their agent workflow.
+          Preserve offline-first, bounded authority, current commit-specific proof,
+          and the actual original film and mascot. Publication must be verified
+          independently against the publicly served Pages URL.
+          DOC
+          fi
+          echo "Decapod initialized this GitHub Actions checkout."
+
+      - name: Commit vendored media and authentic initialized governance
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if ! git diff --cached --quiet; then
+            git commit -m "chore(site): vendor verified artwork and initialize Decapod governance"
+            git push origin "HEAD:main"
+          fi
