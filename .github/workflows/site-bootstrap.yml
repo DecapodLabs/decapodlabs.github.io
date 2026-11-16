@@ -83,7 +83,8 @@ jobs:
           bin=$(find /tmp/decapod-release -type f -name decapod -print -quit)
           test -n "$bin"
           sudo install -m 0755 "$bin" /usr/local/bin/decapod
-          decapod --version
+          decapod --help > /tmp/decapod-command-help.txt
+          sed -n "1,32p" /tmp/decapod-command-help.txt
 
       - name: Initialize real repository governance using Decapod
         shell: bash
