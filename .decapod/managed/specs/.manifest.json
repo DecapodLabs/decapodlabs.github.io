@@ -1,8 +1,8 @@
 {
   "schema_version": "1.1.0",
   "template_version": "scaffold-v5",
-  "generated_at": "1794803897Z",
-  "repo_signal_fingerprint": "3829f48061b0745ff4a81ce94ddde2abc0ee4bd059b4d66d8096e21a24424565",
+  "generated_at": "1794804316Z",
+  "repo_signal_fingerprint": "2234956f02600cf7ca7b2ab5ec11fdf6bbd24d28349a64afd5b895dcf8df9725",
   "declared_capabilities": [
     "authentication",
     "background-processing",
