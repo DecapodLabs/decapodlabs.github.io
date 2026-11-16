@@ -56,7 +56,11 @@
     <h2 id="filmHeading">Meet the<br><span>kernel.</span></h2>
     <div class="film-media">
       <div class="video-shell"><video id="filmVideo" autoplay muted loop playsinline preload="metadata" poster="assets/decapod-poster.png" aria-label="Decapod film showing the metacognitive governance kernel"><source src="assets/decapod-showcase.mp4" type="video/mp4">Your browser cannot play the film.</video></div>
-      <button type="button" class="sound-control" id="soundBtn" aria-label="Play film with sound"><span aria-hidden="true">▶</span> <span id="soundLabel">Play with sound</span></button>
+      <div class="video-controls" role="group" aria-label="Film playback">
+        <button type="button" class="sound-control" id="soundBtn" aria-label="Replay film with sound"><span aria-hidden="true">↻</span><span id="soundLabel">Replay with sound</span></button>
+        <button type="button" class="film-toggle" id="pauseBtn" aria-label="Pause film"><span id="pauseIcon" aria-hidden="true">Ⅱ</span><span id="pauseLabel">Pause</span></button>
+        <button type="button" class="film-toggle" id="muteBtn" aria-label="Unmute film"><span id="muteIcon" aria-hidden="true">♪</span><span id="muteLabel">Unmute</span></button>
+      </div>
     </div>
   </div>
 </section>
