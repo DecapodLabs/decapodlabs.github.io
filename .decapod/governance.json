@@ -37,6 +37,11 @@
       "id": "preview-spec-format",
       "summary": "Restore required topology fence and semantics invariant/state-machine sections without changing proof requirements or rendered page.",
       "input_digest": "sha256:6817e166df4a8ac266c139fe8a84058c588c6f952eb08a44c70600f1b4b498af"
+    },
+    {
+      "id": "preview-inventory-review",
+      "summary": "Reviewed final two-document static checker and unchanged media workflow; reconcile first-adoption source inventory to current helper bytes. Preserve all required commands and explicit hosted limitations.",
+      "input_digest": "sha256:6b83788cdfe705f6fa6b2c0d6dc9ea7492c84c5775ac4751818f98af707333d4"
     }
   ],
   "intents": {

@@ -57,7 +57,7 @@ provider = "decapod"
 
 [proof.required_profile]
 id = "repo.pr-readiness.v1"
-reviewed_sources_digest = "sha256:a7b4d206eeba84a721c6ec11c87b8937c155e79afec826fe3b4882f6a1956a92"
+reviewed_sources_digest = "sha256:025eee5d26f59c346a3cc52832eeea95fe5f6a5b8bb3eb6a885657c7317e988c"
 
 [proof.repository_contract]
 reviewed_commands_digest = "sha256:aba12a3b46bf0a2e263126afc595f0afed5d63bc65b89d2f287e975209e8f8ee"
