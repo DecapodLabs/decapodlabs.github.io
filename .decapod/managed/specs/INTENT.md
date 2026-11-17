@@ -51,3 +51,22 @@ Decapod; humans run init once per project and continue their agent workflow.
 Preserve offline-first, bounded authority, current commit-specific proof,
 and the actual original film and mascot. Publication must be verified
 independently against the publicly served Pages URL.
+
+## Closed-loop metacognitive governance on the public homepage (November 2026)
+
+Retain HARNESS AI METACOGNITION, Meet the Kernel, the approved mascot,
+original video, install panel, complete capability catalog, and the existing
+distinct brand palette. Explain Decapod's execution contract with a clear,
+accessible, mobile-safe presentation: agents respond to governance feedback
+while converging on the original prompt and accepted subsequent instructions.
+The agent develops falsifiable proof obligations in response to Decapod's
+expectations. Separately, validation executes the required checks against the
+actual candidate and binds evidence to the identified artifact. A rejection
+can inform a new agent iteration; the agent cannot self-approve acceptance.
+
+The homepage must link to the technical convergence manual and preserve the
+truth boundary: recorded governed transitions are observable, but the kernel
+does not claim access to all internal model reasoning or perfect semantic
+correctness. Success requires checking HTML structure, narrow-screen layout,
+existing links and functionality, and independent verification of the
+published Pages output. A source edit alone never demonstrates deployment.
