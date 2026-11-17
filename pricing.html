@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#fff5e9">
+<meta name="description" content="Decapod pricing preview. Local is free. Explore the planned Decapod Cloud subscription with interactive repository and contributor sliders. Cloud is coming soon.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Decapod Labs">
+<meta property="og:title" content="Pricing — Decapod Labs">
+<meta property="og:description" content="Local is free. Decapod Cloud is coming soon. Explore the pricing experience without a checkout.">
+<meta property="og:image" content="https://decapodlabs.github.io/assets/social-preview.png">
+<meta property="og:url" content="https://decapodlabs.github.io/pricing.html">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://decapodlabs.github.io/pricing.html">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="pricing.css">
+<script src="pricing.js" defer></script>
+<title>Pricing — Decapod Labs</title>
+</head>
+<body class="pricing-page">
+<a class="skip" href="#main">Skip to content</a>
+<header class="nav">
+  <div class="wrap nav-content">
+    <a href="/" class="brand" aria-label="Decapod Labs home"><img class="site-wordmark" src="assets/logo-a.png" alt="Decapod Labs" width="420" height="140"></a>
+    <nav class="nav-links" aria-label="Site navigation"><a href="/">Overview</a><a href="/pricing.html" aria-current="page">Pricing</a><a href="https://decapodlabs.github.io/decapod/">Documentation</a></nav>
+    <a class="nav-cta" href="https://decapodlabs.github.io/decapod/quickstart.html">Get started <span aria-hidden="true">↗</span></a>
+  </div>
+</header>
+<main id="main">
+  <section class="pricing-hero" aria-labelledby="pricing-heading">
+    <div class="wrap pricing-hero-grid">
+      <div>
+        <p class="pricing-eyebrow">LOCAL TODAY. CLOUD COMING SOON.</p>
+        <h1 id="pricing-heading">Scale the work.<br><span>Keep the proof.</span></h1>
+        <p class="pricing-intro">Decapod is free on your machine. When Cloud launches, your team will be able to share governed repository state with predictable, bounded capacity.</p>
+      </div>
+      <aside class="launch-notice" aria-label="Availability">
+        <span class="launch-notice-mark" aria-hidden="true">✳</span>
+        <strong>EARLY LOOK</strong>
+        <p>Explore how Cloud pricing will work. Prices and included allowances are not announced. Purchases are closed.</p>
+        <span class="launch-pill">COMING SOON</span>
+      </aside>
+    </div>
+  </section>
+
+  <section class="pricing-plans" aria-label="Decapod plans">
+    <div class="wrap pricing-plan-grid">
+      <article class="pricing-plan" aria-labelledby="local-title">
+        <div class="pricing-plan-top"><span class="plan-index">01 / REPO-NATIVE</span><span class="plan-availability">Available now</span></div>
+        <h2 id="local-title">Decapod Local</h2>
+        <p class="plan-price">Free <span>forever</span></p>
+        <p class="plan-subtitle">One command. Your repo. Your agents.</p>
+        <ul class="plan-bullets">
+          <li>Local repository database, offline by default</li>
+          <li>Governed tasks, boundaries, and durable context</li>
+          <li>Engineering Constitution and agent-accessible guidance</li>
+          <li>Workspaces, handoffs, and commit-bound evidence</li>
+        </ul>
+        <a class="plan-link plan-link-active" href="https://decapodlabs.github.io/decapod/quickstart.html">Install for free <span aria-hidden="true">↗</span></a>
+        <p class="plan-fineprint">No account, payment details, or Cloud subscription needed.</p>
+      </article>
+      <article class="pricing-plan pricing-plan-cloud" aria-labelledby="cloud-title">
+        <div class="pricing-plan-top"><span class="plan-index">02 / SHARED CLOUD</span><span class="plan-availability plan-soon">Coming soon</span></div>
+        <h2 id="cloud-title">Decapod Cloud</h2>
+        <p class="plan-price">$X <span>/ contributor · repository · month</span></p>
+        <p class="plan-subtitle">Shared, governed state for engineering teams.</p>
+        <ul class="plan-bullets">
+          <li>Planned hosted Decapod repository database</li>
+          <li>Managed authentication and repository access</li>
+          <li>Human contributor seats with team administration</li>
+          <li>Included cloud capacity with clear usage boundaries</li>
+        </ul>
+        <button class="plan-link plan-link-disabled" type="button" disabled aria-describedby="cloud-fineprint">Cloud coming soon <span aria-hidden="true">↗</span></button>
+        <p class="plan-fineprint" id="cloud-fineprint">A preview only. No checkout, live quote, or public price is available.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="pricing-preview" aria-labelledby="preview-heading">
+    <div class="wrap">
+      <div class="preview-heading-row">
+        <div>
+          <p class="pricing-eyebrow">EXPLORE THE MODEL</p>
+          <h2 id="preview-heading">Your team.<br><span>Your repositories.</span></h2>
+        </div>
+        <p>Adjust the sliders to preview how human assignments would be counted. Your agents don't require additional human seats.</p>
+      </div>
+      <div class="preview-panel">
+        <div class="preview-controls">
+          <div class="preview-control">
+            <div class="preview-control-label"><label for="repo-count">Repositories</label><output id="repo-count-value" for="repo-count">2</output></div>
+            <input id="repo-count" type="range" min="1" max="10" step="1" value="2">
+            <div class="preview-range-labels"><span>1 repository</span><span>10 repositories</span></div>
+          </div>
+          <div class="preview-control">
+            <div class="preview-control-label"><label for="seat-count">Contributors per repository</label><output id="seat-count-value" for="seat-count">5</output></div>
+            <input id="seat-count" type="range" min="1" max="25" step="1" value="5">
+            <div class="preview-range-labels"><span>1 contributor</span><span>25 contributors</span></div>
+          </div>
+          <p class="preview-explainer">Each assigned human on a repository counts once. The same person assigned to two repositories uses two contributor–repository assignments. Agents and worktrees add no human seats.</p>
+        </div>
+        <div class="preview-result">
+          <div class="preview-result-top"><span>ILLUSTRATIVE CONFIGURATION</span><span class="preview-dot" aria-hidden="true"></span></div>
+          <p class="preview-big" id="assignment-count" aria-live="polite" aria-atomic="true">10</p>
+          <p class="preview-big-subtitle">contributor–repository assignments</p>
+          <p class="preview-formula" id="assignment-formula">2 repositories × 5 contributors each</p>
+          <div class="preview-total"><span>Estimated monthly subscription</span><strong>$X<span>/mo</span></strong></div>
+          <p class="preview-unpriced">Price withheld until launch. <strong>$X is a placeholder</strong>, not a calculated quote.</p>
+          <button type="button" disabled class="preview-checkout">Coming soon <span aria-hidden="true">↗</span></button>
+        </div>
+      </div>
+      <p class="preview-caveat">This preview assumes equal contributor counts on each repository. The future Admin will let teams assign different seat counts per repository.</p>
+    </div>
+  </section>
+
+  <section class="pricing-resources" aria-labelledby="resource-heading">
+    <div class="wrap">
+      <div class="resources-intro">
+        <div>
+          <p class="pricing-eyebrow">CLOUD CAPACITY</p>
+          <h2 id="resource-heading">No usage homework.</h2>
+        </div>
+        <p>Cloud will include a defined resource allowance. We’ll measure what the service uses and show the limits plainly before paid access opens. You won’t need to predict how many requests your agents will make.</p>
+      </div>
+      <div class="resource-highlights" aria-label="Cloud capacity commitments">
+        <div><span aria-hidden="true">01</span><strong>Capacity included</strong><p>Usage within published limits is part of the subscription.</p></div>
+        <div><span aria-hidden="true">02</span><strong>Measured automatically</strong><p>Actual cloud consumption is tracked under your account.</p></div>
+        <div><span aria-hidden="true">03</span><strong>No surprise overages</strong><p>Additional paid capacity requires explicit approval.</p></div>
+      </div>
+      <details class="resources-advanced">
+        <summary><span>Advanced: how Cloud usage will work</span><span class="advanced-arrow" aria-hidden="true">+</span></summary>
+        <div class="advanced-content">
+          <p class="advanced-intro">These are the resource dimensions we intend to measure. Exact included quantities, limits, and expansion prices will be published after workload testing.</p>
+          <div class="advanced-grid">
+            <div class="resource-type"><span class="resource-type-icon" aria-hidden="true">⇄</span><h3>Network transfer</h3><p>Data entering and leaving the service, including large exports and repeated requests.</p><small>Monthly consumption · allowance TBD</small></div>
+            <div class="resource-type"><span class="resource-type-icon" aria-hidden="true">⌘</span><h3>Compute &amp; operations</h3><p>Service work needed for agent requests, database queries, and coordination.</p><small>Monthly consumption · allowance TBD</small></div>
+            <div class="resource-type"><span class="resource-type-icon" aria-hidden="true">▤</span><h3>Retained data</h3><p>Stored database records, events, and retained proof. Storage persists between months.</p><small>Retained capacity · allowance TBD</small></div>
+            <div class="resource-type"><span class="resource-type-icon" aria-hidden="true">⟐</span><h3>Request pressure</h3><p>Burst and concurrency protection to keep one workload from degrading another.</p><small>Fair-use controls · limits TBD</small></div>
+          </div>
+          <p class="advanced-footnote">Monthly consumable limits and longer-lived retained data have different rules. Higher capacity would require a confirmed purchase. Nothing here constitutes a usage commitment or SLA yet.</p>
+        </div>
+      </details>
+    </div>
+  </section>
+  <section class="pricing-ending" aria-labelledby="ending-heading">
+    <div class="wrap pricing-ending-layout">
+      <div><p class="pricing-eyebrow">SAME AGENTS. CLEAR BOUNDARIES.</p><h2 id="ending-heading">Get started locally.<br><span>Cloud can wait.</span></h2></div>
+      <div><p>Decapod's kernel runs in your repository today. When Cloud is ready, it will add managed shared state—not a new agent harness.</p><a class="plan-link plan-link-active" href="https://decapodlabs.github.io/decapod/quickstart.html">Read the quickstart <span aria-hidden="true">↗</span></a></div>
+    </div>
+  </section>
+</main>
+<footer class="offerings-footer"><div class="wrap"><a href="/">Decapod Labs</a><nav aria-label="Footer navigation"><a href="/pricing.html">Pricing</a><a href="https://decapodlabs.github.io/decapod/">Documentation</a><a href="https://github.com/DecapodLabs/decapod">GitHub <span aria-hidden="true">↗</span></a></nav></div></footer>
+</body>
+</html>
