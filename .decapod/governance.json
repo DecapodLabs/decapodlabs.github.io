@@ -42,6 +42,11 @@
       "id": "preview-inventory-review",
       "summary": "Reviewed final two-document static checker and unchanged media workflow; reconcile first-adoption source inventory to current helper bytes. Preserve all required commands and explicit hosted limitations.",
       "input_digest": "sha256:6b83788cdfe705f6fa6b2c0d6dc9ea7492c84c5775ac4751818f98af707333d4"
+    },
+    {
+      "id": "preview-final-manifest",
+      "summary": "Capture CLI-refreshed config-input manifest after first-adoption inventory review; source and required checks unchanged.",
+      "input_digest": "sha256:721add5b1469a491396ab71a5368326d8226e5a7b06e772e141c0a5e74db0b2e"
     }
   ],
   "intents": {
