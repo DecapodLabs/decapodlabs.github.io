@@ -209,3 +209,58 @@
 .closing h2{font-size:clamp(49px,7vw,104px);line-height:.93;white-space:normal}
 .closing h2 .closing-metacognition{display:block;font-size:.67em;letter-spacing:-.07em;white-space:nowrap}
 @media(max-width:400px){.closing h2{font-size:clamp(43px,12vw,49px)}}
+
+/* Governed workflow capability catalog: repository and agent-facing capabilities. */
+.capabilities-section{background:#fff9f0;padding:83px 0 92px}
+.capabilities-heading{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,420px);gap:40px;align-items:end;margin-bottom:34px}
+.capabilities-kicker{font-size:11px;font-weight:900;letter-spacing:.16em;color:#d7482e;margin:0 0 18px}
+.capabilities-heading h2{font-family:"Space Grotesk",sans-serif;font-size:clamp(49px,6.2vw,90px);line-height:.96;letter-spacing:-.078em;margin:0;font-weight:700}
+.capabilities-heading h2 span{color:var(--orange)}
+.capabilities-heading>p{font-size:18px;line-height:1.5;color:#514349;max-width:420px;margin:0 0 4px}
+.capability-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:14px}
+.capability-card{grid-column:span 2;display:flex;flex-direction:column;gap:0;min-width:0;min-height:211px;padding:25px 26px 22px;border:1px solid #e4cfc4;border-radius:18px;background:#fffdfa;color:#2a1a28;text-decoration:none;transition:transform .18s,box-shadow .18s,border-color .18s}
+.capability-card:nth-child(3n + 3){background:#fff0dc}
+.capability-card:hover{transform:translateY(-3px);box-shadow:0 7px 0 #efcfb9;border-color:#d9aa94}
+.capability-card:focus-visible{outline:3px solid var(--orange);outline-offset:4px}
+.capability-index{font-size:10px;font-weight:900;letter-spacing:.14em;line-height:1.4;opacity:.8}
+.capability-card h3{font-family:"Space Grotesk",sans-serif;font-size:clamp(24px,2.4vw,35px);line-height:1.05;letter-spacing:-.065em;margin:23px 0 10px}
+.capability-card p{font-size:14px;line-height:1.52;margin:0 0 22px;max-width:42ch}
+.capability-link{display:inline-flex;gap:5px;align-items:center;margin-top:auto;font-size:12px;font-weight:900;letter-spacing:-.01em}
+.capability-link>span{font-size:16px}
+.capability-featured{grid-column:span 3;min-height:290px;padding:33px 35px}
+.capability-featured h3{font-size:clamp(37px,3.65vw,56px);max-width:14ch;margin-top:38px}
+.capability-featured p{font-size:17px;line-height:1.47;max-width:46ch}
+.capability-tasks{background:var(--orange);border-color:var(--orange);color:#25161e}
+.capability-constitution{background:#251b2a;border-color:#251b2a;color:#fff8eb}
+.capability-tasks:hover{box-shadow:0 7px 0 #e7b394}
+.capability-constitution:hover{box-shadow:0 7px 0 #ba9fa8}
+.capabilities-all{display:inline-flex;gap:9px;align-items:center;margin-top:30px;font-weight:900;font-size:14px;text-underline-offset:5px}
+.capabilities-all:hover{color:var(--orange)}
+@media(max-width:1050px){
+  .capability-card{grid-column:span 3}
+  .capability-featured{grid-column:span 3}
+  .capabilities-heading{gap:24px}
+}
+@media(max-width:680px){
+  .capabilities-section{padding:63px 0 68px}
+  .capabilities-heading{grid-template-columns:minmax(0,1fr);gap:17px;margin-bottom:26px}
+  .capabilities-heading h2{font-size:clamp(44px,11.5vw,65px)}
+  .capabilities-heading>p{font-size:16px}
+  .capability-grid{grid-template-columns:minmax(0,1fr);gap:12px}
+  .capability-card,.capability-featured{grid-column:span 1;min-height:0;padding:24px}
+  .capability-card h3,.capability-featured h3{font-size:clamp(28px,7vw,41px);margin:20px 0 10px}
+  .capability-card p,.capability-featured p{font-size:15px;max-width:none}
+}
+
+/* Full-width closing brand: prevent a headline's intrinsic width from displacing CTAs. */
+.closing .closing-layout{display:grid;grid-template-columns:minmax(0,1fr);gap:24px;min-width:0}
+.closing .closing-layout>h2{max-width:100%;min-width:0;font-size:clamp(44px,9vw,130px);line-height:.92;letter-spacing:-.078em;white-space:normal;margin:0}
+.closing .closing-layout>h2 .closing-metacognition{display:block;font-size:clamp(25px,5.1vw,77px);line-height:1.12;letter-spacing:-.07em;white-space:normal;overflow-wrap:anywhere}
+.closing .closing-action{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:23px;border-left:0;border-top:1px solid rgba(255,251,237,.56);padding:24px 0 0;min-width:0}
+.closing .closing-action p{flex:1 1 260px;min-width:0;margin:0}
+.closing .closing-buttons{flex:0 1 auto;min-width:0}
+@media(max-width:740px){
+  .closing .closing-action{display:flex;flex-direction:column;align-items:flex-start;gap:18px}
+  .closing .closing-action p{flex:none}
+  .closing .closing-buttons{width:100%}
+}
