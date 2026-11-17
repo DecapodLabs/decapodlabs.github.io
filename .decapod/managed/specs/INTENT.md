@@ -95,3 +95,22 @@ governance loop applies at preparation, implementation, validation and
 publication. Keep the existing concise public copy, original film, visual
 identity and mobile-safe layout, and preserve the distinction between
 observed evidence and unexpressed human meaning.
+
+## Offensive model, bounded evidence (November 17, 2026)
+
+The public homepage leads with Decapod's immediate developer value: the model
+can reason, but autonomous work degrades when the surrounding execution loop
+loses governing state, repeats failed approaches, or accepts unsupported
+completion. Explain the three distinct stages: durable repo-native context,
+corrective agent feedback at supported governed boundaries, and the independent
+validation of required evidence against the exact artifact. Keep the existing
+"HARNESS AI METACOGNITION." hero, brand, film, mascots, installation and complete
+feature navigation. Surface the practical outcome before compliance rhetoric.
+
+The runtime does not guarantee interception of all model turns or direct shell
+writes. Recovery is supported where Decapod provides an actionable correction;
+unproven end-to-end cold-context continuation remains a target tracked in
+Decapod issues #1083, #1367 and #1758. Do not suggest that every latent defect,
+human meaning, or third-party host is independently proven. The technical docs
+must carry the proof/authority limits, while the homepage remains a credible
+adoption surface.
