@@ -1,4 +1,153 @@
 {
   "schema_version": "1.0.0",
-  "baseline": {}
+  "baseline": {
+    "accepted_commit": "5aaabbe74f3cc5ac5cc5747aad5f7d71cb986ffa"
+  },
+  "change": {
+    "id": "change_01M7KY7KQMYQ6V6PYS6C7J359Y",
+    "base_commit": "5aaabbe74f3cc5ac5cc5747aad5f7d71cb986ffa",
+    "target_base": "origin/main"
+  },
+  "claims": {
+    "offerings-preview": {
+      "statement": "The dedicated offering comparison displays free local use without signup and planned Cloud benefits with Coming soon and disabled purchasing, with no public prices; the homepage links to it while preserving current accepted design changes.",
+      "falsifier": "Actual rendered mobile or desktop documents show a price, active Cloud purchase transition, wrong Get started destination, horizontal overflow or loss of accepted homepage capability/media content.",
+      "status": "supported",
+      "proof_refs": [
+        "Isolated Chrome desktop1440/mobile390 rendered DOM and screenshots; actual disabled property and quickstart targets observed; no hosted purchase claim."
+      ]
+    }
+  },
+  "checkpoints": [
+    {
+      "id": "current-main-cloud-offerings",
+      "summary": "Integrate prepared pricing and exact static proof from accepted current main with one current material checkpoint",
+      "input_digest": "sha256:7d30172f3b249d87494d16f2a580365f3036f0a2da1fb35dab38c4d79b9719a0",
+      "proof_refs": [
+        "/private/tmp/propodus-website-validation-3.json",
+        "docs/decisions/0003-local-cloud-offerings.md"
+      ]
+    },
+    {
+      "id": "rebased-offerings-preview",
+      "summary": "Rebased onto accepted main1753762 and revised offering to approved coming-soon preview: no public prices, free/no-signup local, exact quickstart targets, disabled Cloud button/sticker; both documents covered and actual desktop/mobile browser inspected.",
+      "input_digest": "sha256:277f1e38ad57e16c463bc67daa6c200e067e53ebc56055e6546d8853e7c69f94"
+    }
+  ],
+  "intents": {
+    "intent:change_01M7KY7KQMYQ6V6PYS6C7J359Y": {
+      "acceptance_criteria": [],
+      "assumptions": [],
+      "boundaries": [
+        "Current claimed task and isolated work branch"
+      ],
+      "constraints": [
+        "root"
+      ],
+      "created_sequence": 1,
+      "id": "intent:change_01M7KY7KQMYQ6V6PYS6C7J359Y",
+      "out_of_scope": [],
+      "proof_requirements": [],
+      "raw_intent": "Reconcile current website source qualification and cloud offerings\n\nIntegrate prepared static pricing and first source-proof contract on current accepted main, preserving the earlier branch and its missing merge-checkpoint evidence. Hold sales publication until real Propodus destination works.",
+      "refined_intent": "Reconcile current website source qualification and cloud offerings\n\nIntegrate prepared static pricing and first source-proof contract on current accepted main, preserving the earlier branch and its missing merge-checkpoint evidence. Hold sales publication until real Propodus destination works.",
+      "status": "refined",
+      "updated_sequence": 3
+    }
+  },
+  "sections": {
+    "plan": {
+      "constraints": {
+        "file_touch_budget": null,
+        "forbidden_paths": []
+      },
+      "deferred_questions": [],
+      "human_questions": [],
+      "intent": "Rebase PR4 onto current accepted site and publish a dedicated offerings page. Local is free with no signup; Cloud is coming soon with benefits visible, no prices, and a disabled purchase button with Coming soon sticker. Link from the homepage without redesigning its accepted content. Add a coordinated documentation entry in the owning repository. No checkout, cloud readiness or public pricing is promised.",
+      "phases": [],
+      "proof_hooks": [
+        "Required static-source Deno proof checks JavaScript compilation, document IDs, local files and fragments; real purchase/activation remains separate"
+      ],
+      "schema_version": "1.1.0",
+      "spec_reviews": [
+        {
+          "disposition": "updated",
+          "path": ".decapod/managed/specs/ARCHITECTURE.md",
+          "reason": "Reviewed rebased current main; dedicated static offering preview preserves hero/capability/closing changes and adds no backend or active sales route.",
+          "reviewed_code_fingerprint": "7ed87e3ea4dfbda9cc5c5bb6a1d41a1bf6458e6641b583cf8691a6a6c4c230fc",
+          "spec_material_hash": "e53e6d79a6e3da59bccd2a3a7acb325aaf3542f34007cf22c7941bd7c1d32f70"
+        },
+        {
+          "disposition": "updated",
+          "path": ".decapod/managed/specs/INTERFACES.md",
+          "reason": "Local Get started uses exact quickstart URL; Cloud is native-disabled with Coming soon sticker, no prices or checkout link; both documents covered by static source qualification.",
+          "reviewed_code_fingerprint": "7ed87e3ea4dfbda9cc5c5bb6a1d41a1bf6458e6641b583cf8691a6a6c4c230fc",
+          "spec_material_hash": "2c1d4d791cd195e21c9d5e633a50503f2e4acff150f3cb2f3cb748f84165d7e8"
+        },
+        {
+          "disposition": "updated",
+          "path": ".decapod/managed/specs/SECURITY.md",
+          "reason": "Public preview carries no identity or payment state, publishes no cloud price and grants no authority. Live service acceptance remains separate.",
+          "reviewed_code_fingerprint": "7ed87e3ea4dfbda9cc5c5bb6a1d41a1bf6458e6641b583cf8691a6a6c4c230fc",
+          "spec_material_hash": "47f7a70f9e79158a6822f42c333a3043c67816c456f0fba83e21028bb01149da"
+        }
+      ],
+      "state": "APPROVED",
+      "stop_conditions": [
+        "Keep cloud prices unpublished and purchases disabled; do not infer production payment readiness from the preview."
+      ],
+      "title": "Current website local/cloud offerings",
+      "todo_ids": [
+        "cicd_01m7kxpgba0hp5pt"
+      ],
+      "unknowns": [],
+      "unresolved_contradictions": [],
+      "updated_at": "1794901636Z"
+    },
+    "trajectory": {
+      "active_boundaries": [
+        "Current claimed task and isolated work branch"
+      ],
+      "artifact_hash": "sha256:6ff676215f247e576677ceb6e7ec4ed7e309df6188f6703e5d9511a5955dc4c8",
+      "checks": [],
+      "current_phase": "intent",
+      "custody": {
+        "events": [
+          {
+            "event_id": "event:2",
+            "intent_id": "intent:change_01M7KY7KQMYQ6V6PYS6C7J359Y",
+            "kind": "created",
+            "sequence": 2
+          },
+          {
+            "event_id": "event:3",
+            "intent_id": "intent:change_01M7KY7KQMYQ6V6PYS6C7J359Y",
+            "kind": "refined",
+            "sequence": 3
+          }
+        ],
+        "knowledge_candidates": [],
+        "next_sequence": 3,
+        "schema_version": "1.0.0",
+        "trajectories": {}
+      },
+      "declared_commands": [],
+      "destination": "pull request",
+      "evidence": [],
+      "inspected_files": [],
+      "intent_id": "intent:change_01M7KY7KQMYQ6V6PYS6C7J359Y",
+      "modified_files": [],
+      "next_transitions": [
+        "Refine plan and declare falsifiable checks"
+      ],
+      "repo_scope": [
+        "root"
+      ],
+      "run_id": "branch_01M7KY7KTA40PVHM3R2V1F2BWJ",
+      "schema_version": "1.1.0",
+      "shortcut_risk_signals": [],
+      "task_id": "cicd_01m7kxpgba0hp5pt",
+      "tool_calls": [],
+      "unresolved_assumptions": []
+    }
+  }
 }

@@ -1,131 +1,34 @@
 # Architecture
 
-## Project Purpose
-This is the single-page Decapod landing page, published from the **organization-level** GitHub Pages repository:
-
-## Authoring Scope and Evidence
-Project: decapodlabs.github.io. This is an initial authoring scaffold, not an implementation attestation.
-
-Describe the configured project from purpose to architecture to implementation depth. Start with the whole product: its users, problem, outcomes, and boundaries; then explain the system and its components, interfaces, state, operations, security, and proof. Ground factual prose in the repository's config, README/product documentation, source paths and symbols, contracts, and tests. Distinguish implemented behavior, intended behavior, assumptions, and unresolved gaps. A narrow task changes the relevant part of this whole-project account; it must not replace project-wide identity with the latest task, release workflow, or tooling. Record task-specific scope and evidence in the current change's governance record. Templates and declared capabilities are authoring/proof obligations, not evidence that a runtime guarantee exists. Preserve authored prose during generated refreshes. If configured metadata and explicit project-level sections are absent, leave project identity unknown and ask for or author grounded context rather than promoting an arbitrary legacy/task line.
-
-Use the seeded context below as a starting point to verify against repository sources. Replace example diagrams, suggested controls, targets, tables, and blank fields with source-grounded prose; mark non-applicable topics with a reason. Do not adopt a store, queue, server, CI provider, replay guarantee, or service level merely because it appears in a template.
+GitHub Pages serves a static homepage and a dedicated offerings.html. Existing styles.css supplies branding and responsive layout; main.js retains film controls and install-selection/copy behavior on the homepage. The offerings page needs no browser script or application server. Website-owned media generation and its existing release workflow remain unchanged.
 
 ## Direction
-Architecture is not established by repository shape; inspect entrypoints, components, and their interactions.
-
-## System Overview
-Explain how decapodlabs.github.io's main components fulfill the project purpose above.
-Start at the whole-system boundary, then trace the primary workflows down to
-implementation paths and symbols. Explain why the boundaries exist and which
-tradeoffs or limitations they create. Link to evidence for each factual claim.
+Keep this site static. Propodus owns business logic, Auth, permissions, billing and hosted database authority.
 
 ## Current Facts
-- Runtime/languages: javascript, python
-- Detected surfaces/framework hints: javascript, python
-- Product type: service_or_library
-
-## Architecture Map
-Document the actual component boundaries and source paths in this repository.
-Do not infer a directory layout from the project's language or product type.
-
-## Data Flows
-Trace real inputs through the owning components to observable outcomes.
-Name each source path or symbol, state owner if any, and failure boundary;
-distinguish verified behavior from proposed changes and unresolved questions.
-
-## Strongest Existing Primitives
-- Define the strongest existing primitives in the codebase (e.g., helper utilities, base controllers, data access layers).
+The homepage has only a navigation link and highlighted Local + Cloud entry added to its accepted content. The standalone offering page uses existing wordmark/assets/fonts and shared CSS. It exposes no checkout link or price. Local's Get started links point at the exact published quickstart; Cloud's button is native-disabled.
 
 ## Topology
-Illustrative shape only; replace with the observed whole-project topology.
-```text
-Actor / Input -> Project Entrypoint -> Component Boundary -> Observable Outcome
-```
-
-## Store Boundaries
-Describe state ownership and consistency only where supported by source evidence;
-if the project has no persistent store, say so and identify the relevant sources.
-
-## Happy Path Sequence
-Illustrative shape only; replace with a source-grounded end-to-end workflow.
-```text
-Actor -> Project: Input (confirm contract)
-Project -> Actor: Outcome (confirm behavior)
-```
-
-## Error Path
-Trace an actual failure from its origin to the caller-visible result and recovery.
-Do not assume database transactions, automatic retries, or side-effect rollback.
+Visitor -> GitHub Pages -> homepage -> offerings.html -> Decapod quickstart.
+Cloud is a Coming soon preview with no outbound purchase transition.
 
 ## Execution Path
-- Ingress parse + validation:
-- Policy/interlock checks:
-- Core execution + persistence:
-- Verification and artifact emission:
+The browser renders semantic HTML and shared CSS. Local navigation opens documentation. The disabled Cloud button has no handler, form or target. Existing homepage film/install behavior is unchanged.
 
 ## Concurrency and Runtime Model
-- Execution model:
-- Isolation boundaries:
-- Backpressure strategy:
-- Shared state synchronization:
+Visitors have independent static documents. There is no shared account state, queue, worker, database transaction or browser payment state here.
 
 ## Deployment Topology
-- Runtime units:
-- Region/zone model:
-- Rollout strategy (blue/green/canary):
-- Rollback trigger and blast-radius scope:
+Existing branch-based GitHub Pages publication serves accepted main. Media rendering is a distinct main/manual workflow, not proof of hosted cloud readiness. No new host or domain is purchased.
 
 ## Data and Contracts
-- Inbound contracts (CLI/API/events):
-- Outbound dependencies (datastores/queues/external APIs):
-- Data ownership boundaries:
-- Schema evolution + migration policy:
+Git owns website content and media. Propodus owns customer accounts, assignments, exact quotes, payment reconciliation and hosted Decapod records. The preview grants no access and creates no subscription.
 
-## Component Responsibility Matrix
-| Component/Path | Responsibility | Owns State | Calls | Must Not Do | Failure Boundary |
-|---|---|---|---|---|---|
-| Entrypoint | Parse, authenticate, and normalize input | Request context | Core boundary | Apply domain mutations directly | Typed input error |
-| Core/domain | Enforce invariants and execute the workflow | Domain state | Interfaces and stores | Bypass policy or validation | Transaction/error result |
-| Persistence adapter | Commit and retrieve canonical state | Store representation | Database/queue | Become a second source of truth | Retryable storage error |
-| Verification | Produce evidence for promotion | Proof artifacts | Test/runtime surfaces | Declare success without checks | Failed/unsupported proof |
-
-## State and Data Lifecycle
-| Data/Artifact | Created By | Source of Truth | Retention | Consistency | Recovery |
-|---|---|---|---|---|---|
-| User/domain state | | | | | |
-| Derived/read state | | | | | |
-| Audit/provenance evidence | | | | | |
-| Temporary execution state | | | | | |
-
-## Failure Containment
-- For each boundary, describe what can fail and which side effects remain.
-- Cite the code and tests for rejection, retry, rollback, or compensation claims.
-- Record unsupported guarantees and unresolved recovery gaps explicitly.
-- Distinguish product runtime failures from delivery/proof failures in
-  [VALIDATION.md](./VALIDATION.md).
-
-## Change Propagation Checklist
-- [ ] Component ownership remains singular and explicit.
-- [ ] Inbound/outbound calls and data flow are still represented.
-- [ ] New state has an owner, lifecycle, and migration path.
-- [ ] Failure containment and rollback behavior were re-evaluated.
-- [ ] Architecture and interface diagrams still describe the implementation.
-
-## ADR Register
-| ADR | Title | Status | Rationale | Date |
-|---|---|---|---|---|
-| ADR-001 | Initial topology choice | Proposed | Define first stable architecture | YYYY-MM-DD |
-
-## Delivery Plan (first 3 slices)
-- Slice 1 (ship first):
-- Slice 2:
-- Slice 3:
+## Delivery Plan
+Rebase PR4 onto current site main, preserve other design changes, qualify the final informational preview through Decapod, publish it, and verify actual served content. Open the documentation entry as a coordinated PR in Decapod.
 
 ## Risks and Mitigations
-| Risk | Likelihood | Impact | Mitigation |
-|---|---|---|---|
-| Contract drift across components | Medium | High | Spec + schema checks in CI |
-| Runtime saturation under peak load | Medium | High | Capacity model + load tests |
+A preview could look purchasable: use visible Coming soon labels, an actually disabled button and explicit planned-benefit wording. Pricing is withheld. Do not imply a live sale, complete local/cloud parity, uptime guarantee or other unsupported commitment.
 
 <!-- decapod:capability-overlay:persistent-state:start -->
 
@@ -149,3 +52,11 @@ Generated capability obligations: `persistent-state` is declared for this projec
 - Migration and rollback treatment MUST match the selected storage technology
 <!-- decapod:capability-overlay:persistent-state:end -->
 
+<!-- decapod:codebase-attestation:start -->
+
+## Codebase Attestation
+
+- Repository signal fingerprint: `7ed87e3ea4dfbda9cc5c5bb6a1d41a1bf6458e6641b583cf8691a6a6c4c230fc`
+- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `main.js/` (1 files), `scripts/` (3 files)
+- Refreshed from the current codebase by `decapod rpc --op specs.refresh`
+<!-- decapod:codebase-attestation:end -->
