@@ -32,6 +32,11 @@
       "id": "rebased-offerings-preview",
       "summary": "Rebased onto accepted main1753762 and revised offering to approved coming-soon preview: no public prices, free/no-signup local, exact quickstart targets, disabled Cloud button/sticker; both documents covered and actual desktop/mobile browser inspected.",
       "input_digest": "sha256:277f1e38ad57e16c463bc67daa6c200e067e53ebc56055e6546d8853e7c69f94"
+    },
+    {
+      "id": "preview-spec-format",
+      "summary": "Restore required topology fence and semantics invariant/state-machine sections without changing proof requirements or rendered page.",
+      "input_digest": "sha256:6817e166df4a8ac266c139fe8a84058c588c6f952eb08a44c70600f1b4b498af"
     }
   ],
   "intents": {
@@ -72,9 +77,9 @@
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/ARCHITECTURE.md",
-          "reason": "Reviewed rebased current main; dedicated static offering preview preserves hero/capability/closing changes and adds no backend or active sales route.",
+          "reason": "Static topology explicitly separates documentation navigation from unavailable Cloud purchase; no runtime or host was added.",
           "reviewed_code_fingerprint": "7ed87e3ea4dfbda9cc5c5bb6a1d41a1bf6458e6641b583cf8691a6a6c4c230fc",
-          "spec_material_hash": "e53e6d79a6e3da59bccd2a3a7acb325aaf3542f34007cf22c7941bd7c1d32f70"
+          "spec_material_hash": "7c4bceea9dbfe9a66695b0594f3bb3736664368685c0c8594d0b5bba4b82795f"
         },
         {
           "disposition": "updated",
@@ -101,7 +106,7 @@
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1794901636Z"
+      "updated_at": "1794908074Z"
     },
     "trajectory": {
       "active_boundaries": [

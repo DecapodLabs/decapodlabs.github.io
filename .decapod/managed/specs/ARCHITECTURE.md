@@ -9,8 +9,10 @@ Keep this site static. Propodus owns business logic, Auth, permissions, billing 
 The homepage has only a navigation link and highlighted Local + Cloud entry added to its accepted content. The standalone offering page uses existing wordmark/assets/fonts and shared CSS. It exposes no checkout link or price. Local's Get started links point at the exact published quickstart; Cloud's button is native-disabled.
 
 ## Topology
+```text
 Visitor -> GitHub Pages -> homepage -> offerings.html -> Decapod quickstart.
 Cloud is a Coming soon preview with no outbound purchase transition.
+```
 
 ## Execution Path
 The browser renders semantic HTML and shared CSS. Local navigation opens documentation. The disabled Cloud button has no handler, form or target. Existing homepage film/install behavior is unchanged.

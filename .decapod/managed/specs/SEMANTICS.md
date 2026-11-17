@@ -7,8 +7,11 @@ Cloud is coming soon. Its planned benefits are a hosted logical Decapod database
 ## Domain Model
 The site owns static documents and existing film/install browser state only. Propodus owns cloud organizations, stable repository identity, assignments, subscriptions and authorization. Source code, Git history, specifications and worktrees remain repository-native.
 
-## State Transitions
+## State Machines
 Local navigation opens documentation. Cloud has no purchase transition. Enabling it later requires a reviewed implementation and independent hosted acceptance. A webpage cannot confer exceptional governance authority, verified completion, dual-write permission or fallback after denied cloud access.
+
+## Invariants
+Local stays free without signup. Cloud prices remain unpublished and its purchase button stays disabled. Static content cannot grant membership, entitlements, payment acceptance or governance authority. Local and hosted operational proof remain independent of this preview.
 
 <!-- decapod:capability-overlay:background-processing:start -->
 
