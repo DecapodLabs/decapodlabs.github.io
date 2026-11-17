@@ -1,6 +1,6 @@
 # Decapod Labs — Official Website
 
-This is the Decapod homepage and Local + Cloud offering comparison, published from the **organization-level** GitHub Pages repository:
+This is the Decapod homepage and pricing preview, published from the **organization-level** GitHub Pages repository:
 
 **https://decapodlabs.github.io/**
 
@@ -12,7 +12,9 @@ GitHub Pages: Settings → Pages → **Deploy from a branch** → **main** → *
 
 The GitHub Pages domain is derived from the exact repository name `DecapodLabs/decapodlabs.github.io`. No DNS records or hosted service are required.
 
-The [offerings page](https://decapodlabs.github.io/offerings.html) shows free local use without signup and planned Cloud benefits. Cloud is Coming soon: no public prices or active purchase link are published. Get started goes directly to the Decapod quickstart.
+The [pricing page](https://decapodlabs.github.io/pricing.html) shows free local use without signup, planned Cloud benefits, and an interactive **non-transactional** calculator for repositories and human contributors. All Cloud prices deliberately display `$X`; the numbers of purchased assignments are illustrative only. Optional advanced disclosures describe future network, compute, retained-data and request-pressure metering without making numerical allowance promises. Cloud is **Coming soon**: no checkout or public quoted price is enabled. The former `/offerings.html` path is a noindex redirect to `/pricing.html`. Get started goes directly to the Decapod quickstart.
+
+The interactive preview is static HTML/CSS/JavaScript (`pricing.html`, `pricing.css`, `pricing.js`) and is intentionally disconnected from billing, customer identity and production infrastructure. Approved live catalog pricing and quotas must be surfaced only when Propodus can authoritatively quote and enforce them, and the purchase path is fully validated. See [Propodus UX #150](https://github.com/DecapodLabs/propodus/issues/150) and [load/cost envelope #149](https://github.com/DecapodLabs/propodus/issues/149).
 
 ## Local development
 
