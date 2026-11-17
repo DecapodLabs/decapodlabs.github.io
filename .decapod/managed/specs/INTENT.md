@@ -39,3 +39,15 @@ These declarations select authoring and proof obligations; they do not attest im
 - Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `main.js/` (1 files), `scripts/` (3 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->
+
+## Decapod Labs website intent
+
+The human-authored source of intent is
+[docs/decisions/0001-site-intent.md](../../../../docs/decisions/0001-site-intent.md).
+The outcome is an independent, vibrant, public Decapod Labs landing page
+at https://decapodlabs.github.io/, linking to existing docs at
+https://decapodlabs.github.io/decapod/. AI coding agents operate through
+Decapod; humans run init once per project and continue their agent workflow.
+Preserve offline-first, bounded authority, current commit-specific proof,
+and the actual original film and mascot. Publication must be verified
+independently against the publicly served Pages URL.

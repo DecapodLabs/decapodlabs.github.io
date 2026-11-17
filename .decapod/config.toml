@@ -22,8 +22,43 @@ entrypoints = [
 specs = true
 
 [proof]
-commands = [{ name = "static-source", command = "deno", args = ["run", "--no-remote", "--no-npm", "--allow-read=.", "scripts/check-site.ts"], description = "Compile browser script and verify document IDs, local assets and fragment references without network or application effects", required = true }]
 validation_buildkite_preflights = false
+
+[[proof.commands]]
+args = [
+    "run",
+    "--no-remote",
+    "--no-npm",
+    "--allow-read=.",
+    "scripts/check-site.ts",
+]
+command = "deno"
+description = "Compile browser script and verify document IDs, local assets and fragment references without network or application effects"
+name = "static-source"
+required = true
+
+[proof.repository_contract]
+reviewed_commands_digest = "sha256:aba12a3b46bf0a2e263126afc595f0afed5d63bc65b89d2f287e975209e8f8ee"
+
+[proof.repository_contract.executions.static-source]
+directory = "."
+program = "/opt/homebrew/Cellar/deno/2.9.8/bin/deno"
+timeout_seconds = 60
+
+[proof.repository_contract.executions.static-source.environment]
+
+[proof.repository_contract.executions.static-source.toolchain_files]
+deno = "/opt/homebrew/Cellar/deno/2.9.8/bin/deno"
+
+[[proof.repository_contract.source_coverage]]
+ci_only = true
+commands = []
+reason = "Main-only/manual release workflow renders and verifies original media, installs checksum-verified Linux Decapod and commits vendored assets/governance with contents-write. Local static source checks do not execute this renderer or attest GitHub release/publication, credentials or hosted payment acceptance."
+source = ".github/workflows/site-bootstrap.yml"
+
+[proof.required_profile]
+id = "repo.pr-readiness.v1"
+reviewed_sources_digest = "sha256:025eee5d26f59c346a3cc52832eeea95fe5f6a5b8bb3eb6a885657c7317e988c"
 
 [repo]
 architecture_direction = "Architecture is not established by repository shape; inspect entrypoints, components, and their interactions."
@@ -54,20 +89,3 @@ product_type = "service_or_library"
 
 [tracker]
 provider = "decapod"
-
-[proof.required_profile]
-id = "repo.pr-readiness.v1"
-reviewed_sources_digest = "sha256:025eee5d26f59c346a3cc52832eeea95fe5f6a5b8bb3eb6a885657c7317e988c"
-
-[proof.repository_contract]
-reviewed_commands_digest = "sha256:aba12a3b46bf0a2e263126afc595f0afed5d63bc65b89d2f287e975209e8f8ee"
-source_coverage = [{ source = ".github/workflows/site-bootstrap.yml", ci_only = true, reason = "Main-only/manual release workflow renders and verifies original media, installs checksum-verified Linux Decapod and commits vendored assets/governance with contents-write. Local static source checks do not execute this renderer or attest GitHub release/publication, credentials or hosted payment acceptance." }]
-
-[proof.repository_contract.executions.static-source]
-program = "/opt/homebrew/Cellar/deno/2.9.8/bin/deno"
-directory = "."
-timeout_seconds = 60
-environment = {}
-
-[proof.repository_contract.executions.static-source.toolchain_files]
-deno = "/opt/homebrew/Cellar/deno/2.9.8/bin/deno"
