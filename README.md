@@ -1,6 +1,6 @@
 # Decapod Labs — Official Website
 
-This is the single-page Decapod landing page, published from the **organization-level** GitHub Pages repository:
+This is the Decapod homepage and Local + Cloud offering comparison, published from the **organization-level** GitHub Pages repository:
 
 **https://decapodlabs.github.io/**
 
@@ -11,6 +11,8 @@ It is separate from the [Decapod documentation](https://decapodlabs.github.io/de
 GitHub Pages: Settings → Pages → **Deploy from a branch** → **main** → **/(root)** → Save.
 
 The GitHub Pages domain is derived from the exact repository name `DecapodLabs/decapodlabs.github.io`. No DNS records or hosted service are required.
+
+The [offerings page](https://decapodlabs.github.io/offerings.html) shows free local use without signup and planned Cloud benefits. Cloud is Coming soon: no public prices or active purchase link are published. Get started goes directly to the Decapod quickstart.
 
 ## Local development
 

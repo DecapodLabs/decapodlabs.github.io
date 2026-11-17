@@ -1,134 +1,20 @@
 # Intent
 
-## Project Purpose
-This is the single-page Decapod landing page, published from the **organization-level** GitHub Pages repository:
+The public Decapod Labs website explains the repo-native governance kernel and helps humans begin with their existing coding agents. A dedicated offerings.html compares Local with the planned Cloud offering; the homepage links to it without replacing the accepted hero, capability catalog or closing layout.
 
-## Authoring Scope and Evidence
-Project: decapodlabs.github.io. This is an initial authoring scaffold, not an implementation attestation.
-
-Describe the configured project from purpose to architecture to implementation depth. Start with the whole product: its users, problem, outcomes, and boundaries; then explain the system and its components, interfaces, state, operations, security, and proof. Ground factual prose in the repository's config, README/product documentation, source paths and symbols, contracts, and tests. Distinguish implemented behavior, intended behavior, assumptions, and unresolved gaps. A narrow task changes the relevant part of this whole-project account; it must not replace project-wide identity with the latest task, release workflow, or tooling. Record task-specific scope and evidence in the current change's governance record. Templates and declared capabilities are authoring/proof obligations, not evidence that a runtime guarantee exists. Preserve authored prose during generated refreshes. If configured metadata and explicit project-level sections are absent, leave project identity unknown and ask for or author grounded context rather than promoting an arbitrary legacy/task line.
-
-Use the seeded context below as a starting point to verify against repository sources. Replace example diagrams, suggested controls, targets, tables, and blank fields with source-grounded prose; mark non-applicable topics with a reason. Do not adopt a store, queue, server, CI provider, replay guarantee, or service level merely because it appears in a template.
+Local is free, works offline, and requires no signup. Every Get started link on the offerings page goes to https://decapodlabs.github.io/decapod/quickstart.html. Cloud displays Coming soon, shows its planned hosted database, managed sign-in and organization/repository/member management benefits, and has a genuinely disabled purchase button under a second Coming soon sticker. No price, annual term, launch date, checkout URL or live availability promise is published.
 
 ## Product Outcome
-- This is the single-page Decapod landing page, published from the **organization-level** GitHub Pages repository:
-
-## What This Project Is
-decapodlabs.github.io is a service_or_library project built using javascript, python.
-This is the single-page Decapod landing page, published from the **organization-level** GitHub Pages repository:
-
-Key operating facts:
-- **Primary languages**: javascript, python
-- **Detected surfaces**: javascript, python
-
-## Product View
-```mermaid
-flowchart LR
-  U[Primary User] --> P[decapodlabs.github.io]
-  P --> O[User-visible Outcome]
-  P --> G[Proof Gates]
-  G --> E[Evidence Artifacts]
-```
-
-## Inferred Baseline
-- Repository: decapodlabs.github.io
-- Product type: service_or_library
-- Primary languages: javascript, python
-- Detected surfaces: javascript, python
+Help visitors understand the two ways to use Decapod and begin local operation immediately.
 
 ## Scope
-| Area | In Scope | Proof Surface |
-|---|---|---|
-| Core workflow | Define a concrete user-visible workflow | Acceptance criteria + tests |
-| Data contracts | Document canonical inputs/outputs | [INTERFACES.md](./INTERFACES.md) and schema checks |
-| Delivery quality | Block promotion on broken proof surfaces | [VALIDATION.md](./VALIDATION.md) blocking gates |
-
-## Non-Goals (Falsifiable)
-| Non-goal | How to falsify |
-|---|---|
-| Feature creep beyond the primary outcome | Any PR adds capability not tied to outcome criteria |
-| Shipping without evidence | Missing validation artifacts for promoted changes |
-| Ambiguous ownership boundaries | Missing owner/system-of-record in interfaces |
+Dedicated static offering comparison, a restrained homepage entry and preserved branding/media. Authentication, billing, entitlement and hosted storage remain Propodus responsibilities. A coordinated docs navigation change belongs to the Decapod repository.
 
 ## Constraints
-- Technical: runtime, dependency, and topology boundaries are explicit.
-- Operational: deployment, rollback, and incident ownership are defined.
-- Security/compliance: sensitive data handling and authz are mandatory.
+Preserve current accepted site changes and GitHub Pages hosting. The informational preview does not alter the authoritative Stripe catalog or assert hosted readiness. Source code/history/specifications/worktrees stay repository-native.
 
-## Acceptance Criteria (must be objectively testable)
-- [ ] Decapod validate passes, required tests pass, and promotion-relevant artifacts are present.
-- [ ] Non-functional targets are met (latency, reliability, cost, etc.).
-- [ ] Validation gates pass and artifacts are attached.
-- [ ] `pytest -q` passes for unit/integration scenarios
-- [ ] `ruff check .` passes for lint quality
-- [ ] `mypy .` passes for typed modules in production paths
-
-## Epistemic Custody Fields
-
-### Active Assumptions
-- [ ] List any assumptions made to proceed.
-- [ ] Flag assumptions that require future verification.
-
-### Confidence & Risk Level
-- **Confidence**: Low/Medium/High (Rationale: )
-- **Risk**: Low/Medium/High (Impact of wrong assumptions: )
-
-### Measured vs Inferred Facts
-| Fact | Source (Provenance) | Type (Measured/Inferred) |
-|---|---|---|
-| | | |
-
-### Unresolved Contradictions
-- [ ] List any evidence that conflicts with current assumptions or intent.
-
-### Deferred Questions
-- [ ] Questions to be answered later.
-
-### Stop Conditions
-- [ ] Explicit conditions under which the agent should stop and ask for help.
-
-### Proof Required Before Completion
-- [ ] Specific evidence needed to prove the outcome is met.
-
-## Tradeoffs Register
-| Decision | Benefit | Cost | Review Trigger |
-|---|---|---|---|
-| Simplicity vs extensibility | Faster iteration | Potential rework | Feature set expands |
-| Strict gates vs dev speed | Higher confidence | More upfront discipline | Lead time regressions |
-
-## First Implementation Slice
-- [ ] Define the smallest user-visible workflow to ship first.
-- [ ] Define required data/contracts for that workflow.
-- [ ] Define what is intentionally postponed until v2.
-
-## User and Actor Contract
-- Primary user/agent:
-- Authorized actors and their allowed mutations:
-- Preconditions required before the primary workflow:
-- Observable success result:
-- Observable failure result and recovery action:
-- Human decision points that automation must not infer:
-
-## Outcome Decomposition
-| Outcome | Trigger | State Written | Evidence | Owner |
-|---|---|---|---|---|
-| Primary outcome | | | | |
-| Safety/quality outcome | | | | |
-| Operational outcome | | | | |
-
-## Change Impact Rules
-- A change to user intent updates this document and acceptance criteria.
-- A change to a runtime boundary updates [ARCHITECTURE.md](./ARCHITECTURE.md).
-- A change to a callable or persisted contract updates [INTERFACES.md](./INTERFACES.md).
-- A change to proof or promotion behavior updates [VALIDATION.md](./VALIDATION.md).
-- A breaking change requires an explicit migration trigger, compatibility note,
-  rollback condition, and an agent-facing instruction.
-
-## Open Questions (with decision deadlines)
-| Question | Owner | Deadline | Decision |
-|---|---|---|---|
-| Which interfaces are versioned at launch? | TBD | YYYY-MM-DD | |
-| Which non-functional target is hardest to hit? | TBD | YYYY-MM-DD | |
+## Acceptance Criteria
+Local clearly says free and no signup; Get started reaches the exact quickstart URL. Cloud benefits are visible with Coming soon status and a disabled control/sticker, with no public price or purchasing route. Both documents are readable on mobile and desktop. Exact-candidate governed validation precedes publication.
 
 <!-- decapod:declared-capabilities:start -->
 
@@ -145,15 +31,11 @@ These declarations select authoring and proof obligations; they do not attest im
 
 <!-- decapod:declared-capabilities:end -->
 
+<!-- decapod:codebase-attestation:start -->
 
-## Decapod Labs website intent
+## Codebase Attestation
 
-The human-authored source of intent is
-[docs/decisions/0001-site-intent.md](../../../docs/decisions/0001-site-intent.md).
-The outcome is an independent, vibrant, public Decapod Labs landing page
-at https://decapodlabs.github.io/, linking to existing docs at
-https://decapodlabs.github.io/decapod/. AI coding agents operate through
-Decapod; humans run init once per project and continue their agent workflow.
-Preserve offline-first, bounded authority, current commit-specific proof,
-and the actual original film and mascot. Publication must be verified
-independently against the publicly served Pages URL.
+- Repository signal fingerprint: `7ed87e3ea4dfbda9cc5c5bb6a1d41a1bf6458e6641b583cf8691a6a6c4c230fc`
+- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `main.js/` (1 files), `scripts/` (3 files)
+- Refreshed from the current codebase by `decapod rpc --op specs.refresh`
+<!-- decapod:codebase-attestation:end -->

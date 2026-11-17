@@ -1,85 +1,17 @@
 # Semantics
 
-## Project Purpose
-This is the single-page Decapod landing page, published from the **organization-level** GitHub Pages repository:
+Local is free and needs no signup. It uses the local repository SQLite database and works offline with the user's existing coding agents and Git workflow. Get started means navigation to the published quickstart, not a registration or transaction.
 
-## Authoring Scope and Evidence
-Project: decapodlabs.github.io. This is an initial authoring scaffold, not an implementation attestation.
+Cloud is coming soon. Its planned benefits are a hosted logical Decapod database, managed identities/permissions and organization/repository/member administration in Propodus. No price or availability date is public on this preview. A visible benefit is not evidence of current production readiness. The disabled purchase control cannot create payment or account state.
 
-Describe the configured project from purpose to architecture to implementation depth. Start with the whole product: its users, problem, outcomes, and boundaries; then explain the system and its components, interfaces, state, operations, security, and proof. Ground factual prose in the repository's config, README/product documentation, source paths and symbols, contracts, and tests. Distinguish implemented behavior, intended behavior, assumptions, and unresolved gaps. A narrow task changes the relevant part of this whole-project account; it must not replace project-wide identity with the latest task, release workflow, or tooling. Record task-specific scope and evidence in the current change's governance record. Templates and declared capabilities are authoring/proof obligations, not evidence that a runtime guarantee exists. Preserve authored prose during generated refreshes. If configured metadata and explicit project-level sections are absent, leave project identity unknown and ask for or author grounded context rather than promoting an arbitrary legacy/task line.
-
-Use the seeded context below as a starting point to verify against repository sources. Replace example diagrams, suggested controls, targets, tables, and blank fields with source-grounded prose; mark non-applicable topics with a reason. Do not adopt a store, queue, server, CI provider, replay guarantee, or service level merely because it appears in a template.
+## Domain Model
+The site owns static documents and existing film/install browser state only. Propodus owns cloud organizations, stable repository identity, assignments, subscriptions and authorization. Source code, Git history, specifications and worktrees remain repository-native.
 
 ## State Machines
-Describe the project's actual entities, states, transitions, and externally
-observable behavior. Cite implementation symbols and tests; do not substitute
-the agent's task lifecycle for the product's state model.
+Local navigation opens documentation. Cloud has no purchase transition. Enabling it later requires a reviewed implementation and independent hosted acceptance. A webpage cannot confer exceptional governance authority, verified completion, dual-write permission or fallback after denied cloud access.
 
 ## Invariants
-| Invariant | Scope | Implementation Source | Proof or Gap |
-|---|---|---|---|
-| Identify a project-specific invariant | | | |
-
-## Event Sourcing Schema
-Only applicable if the repository actually implements event sourcing. Otherwise
-record that it is not applicable; this example is not a replay guarantee.
-| Field | Type | Description |
-|---|---|---|
-| event_id | string | globally unique event id |
-| aggregate_id | string | entity/workflow id |
-| event_type | string | semantic transition |
-| payload | object | transition data |
-| recorded_at | timestamp | append time |
-
-## Replay Semantics
-- Replay order:
-- Conflict resolution:
-- Snapshot cadence:
-- Determinism proof strategy:
-
-## Error Code Semantics
-- Namespace:
-- Stable compatibility window:
-- Mapping to retry/degrade behavior:
-
-## Domain Rules
-- Business rule 1:
-- Business rule 2:
-- Business rule 3:
-
-## Idempotency Contracts
-| Operation | Idempotency Key | Duplicate Behavior |
-|---|---|---|
-| Actual operation and source | Declared key, if any | Observed duplicate behavior and proof |
-
-## Transition Contract
-| Current State | Trigger | Preconditions | State Mutation | Emitted Evidence | Next State |
-|---|---|---|---|---|---|
-| | | | | | |
-
-## Invariant Violation Response
-- Which invariant is checked before mutation?
-- Which invariant is checked after persistence?
-- Is the failed operation retried, rejected, compensated, or escalated?
-- What evidence distinguishes a rejected operation from an incomplete one?
-- Which state remains canonical if derived state disagrees?
-
-## Determinism and Replay Boundary
-- Inputs included in a replay:
-- Inputs deliberately excluded (wall clock, randomness, external state):
-- Ordering and conflict resolution:
-- Snapshot/checkpoint policy:
-- Proof that replay is equivalent to the original outcome:
-
-## Backward-Compatibility Semantics
-- Legacy states accepted:
-- Legacy states rewritten:
-- States that require a migration:
-- Agent instruction emitted before a breaking transition:
-- Rollback behavior if migration or replay fails:
-
-## Language Note
-- Primary language inferred: javascript
+Local stays free without signup. Cloud prices remain unpublished and its purchase button stays disabled. Static content cannot grant membership, entitlements, payment acceptance or governance authority. Local and hosted operational proof remain independent of this preview.
 
 <!-- decapod:capability-overlay:background-processing:start -->
 
@@ -125,3 +57,11 @@ Generated capability obligations: `persistent-state` is declared for this projec
 - Recovery test cadence MUST be selected for the project and recorded as a proof obligation
 <!-- decapod:capability-overlay:persistent-state:end -->
 
+<!-- decapod:codebase-attestation:start -->
+
+## Codebase Attestation
+
+- Repository signal fingerprint: `7ed87e3ea4dfbda9cc5c5bb6a1d41a1bf6458e6641b583cf8691a6a6c4c230fc`
+- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `main.js/` (1 files), `scripts/` (3 files)
+- Refreshed from the current codebase by `decapod rpc --op specs.refresh`
+<!-- decapod:codebase-attestation:end -->
