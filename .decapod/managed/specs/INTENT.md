@@ -81,3 +81,17 @@ bypass. Ordinary installation and product discovery remain front and center.
 Marketing keeps the approved film, mascot, colors, hero and responsive layout.
 The kernel owns the actual proof and enforcement contracts; the public site
 must never invent a newly implemented external intent oracle.
+
+## Existing governance custody and gate taxonomy (November 17, 2026)
+
+The site must present Decapod validation as the governed acceptance surface
+covering recorded intent, scope, task custody, applicable Constitution and
+project rules, actual configured execution checks, evidence freshness and
+publication policy. Validation is broader than test completion.
+The implementation already stores original and refined intent, claims and
+trajectory in the single tracked `.decapod/governance.json`; do not imply
+a separate intent database or a novel model-based judge. The phase-based
+governance loop applies at preparation, implementation, validation and
+publication. Keep the existing concise public copy, original film, visual
+identity and mobile-safe layout, and preserve the distinction between
+observed evidence and unexpressed human meaning.
