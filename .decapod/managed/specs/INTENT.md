@@ -70,3 +70,14 @@ does not claim access to all internal model reasoning or perfect semantic
 correctness. Success requires checking HTML structure, narrow-screen layout,
 existing links and functionality, and independent verification of the
 published Pages output. A source edit alone never demonstrates deployment.
+
+## Public assurance boundary — adversarial intent review (November 2026)
+
+The homepage explains a closed-loop metacognitive feedback mechanism and the
+separate executed validation boundary without promising universal comprehension
+of human intent. Passing checks must never be presented as evidence of an
+unexpressed want, automatic human approval or proof against arbitrary host
+bypass. Ordinary installation and product discovery remain front and center.
+Marketing keeps the approved film, mascot, colors, hero and responsive layout.
+The kernel owns the actual proof and enforcement contracts; the public site
+must never invent a newly implemented external intent oracle.
