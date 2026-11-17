@@ -47,7 +47,7 @@
   function paintMilestones(selector, count) {
     const nodes = document.querySelectorAll(selector);
     for (const item of nodes) {
-      const min = Number(item.dataset.minimum);
+      const min = Number(item.dataset.repoThreshold ?? item.dataset.contributorThreshold);
       item.classList.toggle("is-reached", count >= min);
     }
   }
