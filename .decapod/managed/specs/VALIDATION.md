@@ -14,6 +14,12 @@ Governed validation qualifies source publication. This preview can publish witho
 ## Regression Guardrails
 Preserve accepted hero/capabilities/closing, Cargo/Nix instructions, film controls, reduced-motion behavior, brand assets and workflow permissions. Keep exact quickstart navigation, free/no-signup local wording, planned Cloud benefits and disabled purchase status. No brittle test merely repeats marketing copy; browser review checks real interaction/layout.
 
+## Launch acceptance verification
+
+The existing mandatory static-source command now also verifies safe witness byte digests, original objective, event source bindings, actual failed engineering check, complete fresh native success, exact independent forge head/base, false authority flags and actual movie/caption hashes. It remains offline and requires only the accepted Deno execution contract. Kernel regression tests remain Rust-only and independent of marketing/media services.
+
+Manual live acceptance additionally verifies actual encoded H264/AAC media,56/12-second durations,1920x1080/1280x720/1080x1920 dimensions, non-silent original audio, WebVTT timing, poster and actual browser playback/seeking/captions at desktop/mobile sizes with reduced motion. Final public URL readback is separate from the passing local preview. No Cloud segment is shown without authenticated hosted authorization evidence.
+
 <!-- decapod:capability-overlay:background-processing:start -->
 
 Generated capability obligations: `background-processing` is declared for this project. These are decisions and proof requirements, not claims of implemented behavior. Resolve each against project source and tests; record unsupported or non-applicable mechanisms explicitly.
@@ -80,7 +86,7 @@ Generated capability obligations: `public-api` is declared for this project. The
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `7ed87e3ea4dfbda9cc5c5bb6a1d41a1bf6458e6641b583cf8691a6a6c4c230fc`
-- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `main.js/` (1 files), `scripts/` (3 files)
+- Repository signal fingerprint: `1553cff1115a10947250c46fb63dd2d199df6c06be925e7e2715418f078f57f0`
+- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `evidence/` (1 files), `main.js/` (1 files), `scripts/` (6 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->

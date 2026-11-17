@@ -16,6 +16,14 @@ Preserve current accepted site changes and GitHub Pages hosting. The information
 ## Acceptance Criteria
 Local clearly says free and no signup; Get started reaches the exact quickstart URL. Cloud benefits are visible with Coming soon status and a disabled control/sticker, with no public price or purchasing route. Both documents are readable on mobile and desktop. Exact-candidate governed validation precedes publication.
 
+## Verified autonomous engineering launch film (#9)
+
+Deliver the actual Pi objective-to-PR lifecycle as a 56-second 1920x1080 launch film, 12-second social cut, 1080x1920 mobile film, optional captions, original synthesized soundtrack and poster. Preserve the original teaser and homepage identity. Use the original mascot and existing Pillow/CairoSVG/FFmpeg helpers; no new application backend, agent framework, purchase or Cloud subscription is required.
+
+The evidence owner is Decapod #1757/#1758. The observer correlated actual failure, model-requested repair, fresh native checks and exact-head GitHub PR2 admission with zero post-objective input. Separately labelled operator controls prove post-creation quarantine, source rejection and target invalidation. Current admission is historical after the target advanced; never imply merge authorization. Public assertions must match source witnesses rather than agent narration.
+
+The delivery criteria are complete media files, reproducible rendering, independent encoded-media checks, native site qualification, desktop/mobile browser playback and separate actual deployed-site verification. A local render or preview does not prove publication. Cloud remains Coming soon unless its real hosted authorization and payment journey is independently evidenced; the film omits it.
+
 <!-- decapod:declared-capabilities:start -->
 
 ## Declared Capability Surfaces
@@ -35,8 +43,8 @@ These declarations select authoring and proof obligations; they do not attest im
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `7ed87e3ea4dfbda9cc5c5bb6a1d41a1bf6458e6641b583cf8691a6a6c4c230fc`
-- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `main.js/` (1 files), `scripts/` (3 files)
+- Repository signal fingerprint: `1553cff1115a10947250c46fb63dd2d199df6c06be925e7e2715418f078f57f0`
+- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `evidence/` (1 files), `main.js/` (1 files), `scripts/` (6 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->
 

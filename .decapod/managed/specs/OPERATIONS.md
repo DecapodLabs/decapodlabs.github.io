@@ -13,6 +13,12 @@ Verify homepage navigation, the standalone offering page, the exact quickstart d
 ## Incident Response
 Repair or revert broken static navigation through governed Git. Keep purchasing disabled until separately authorized and verified. Propodus handles account/payment incidents; this site owns no customer records.
 
+## Regenerate and publish the launch film
+
+Install the existing pinned renderer dependencies in an isolated Python environment; run python scripts/render-launch.py --evidence evidence/pi-1758-20261117-01 and python scripts/verify-launch.py. Pinned licensed fonts avoid platform font discovery. Record actual FFmpeg/Python versions; encoding bytes can differ between platforms and must be reverified. The source manifest and renderer keep observed events separate from editorial language.
+
+Commit authored specs, native projections, reviewed source inventory and governance checkpoint before normal decapod validate and workspace publish. Preserve the accepted static-source command and CI-only coverage row. Existing main/manual media automation regenerates marketing assets only; it cannot authorize kernel work or hosted purchase. After publication, verify real public HTML, media responses and browser playback. Keep all operational captures and credentials outside Git.
+
 <!-- decapod:capability-overlay:background-processing:start -->
 
 Generated capability obligations: `background-processing` is declared for this project. These are decisions and proof requirements, not claims of implemented behavior. Resolve each against project source and tests; record unsupported or non-applicable mechanisms explicitly.
@@ -58,7 +64,7 @@ Generated capability obligations: `persistent-state` is declared for this projec
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `7ed87e3ea4dfbda9cc5c5bb6a1d41a1bf6458e6641b583cf8691a6a6c4c230fc`
-- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `main.js/` (1 files), `scripts/` (3 files)
+- Repository signal fingerprint: `1553cff1115a10947250c46fb63dd2d199df6c06be925e7e2715418f078f57f0`
+- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `evidence/` (1 files), `main.js/` (1 files), `scripts/` (6 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->

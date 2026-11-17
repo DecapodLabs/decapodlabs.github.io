@@ -1,70 +1,39 @@
 {
   "schema_version": "1.0.0",
   "baseline": {
-    "accepted_commit": "5aaabbe74f3cc5ac5cc5747aad5f7d71cb986ffa"
+    "accepted_commit": "3e26192a24d7478f9928eb53812b8bb9d7ed40f4"
   },
   "change": {
-    "id": "change_01M7KY7KQMYQ6V6PYS6C7J359Y",
-    "base_commit": "5aaabbe74f3cc5ac5cc5747aad5f7d71cb986ffa",
+    "id": "change_01M7NPRYFTCC0HJ7RVTM267T25",
+    "base_commit": "3e26192a24d7478f9928eb53812b8bb9d7ed40f4",
     "target_base": "origin/main"
-  },
-  "claims": {
-    "offerings-preview": {
-      "statement": "The dedicated offering comparison displays free local use without signup and planned Cloud benefits with Coming soon and disabled purchasing, with no public prices; the homepage links to it while preserving current accepted design changes.",
-      "falsifier": "Actual rendered mobile or desktop documents show a price, active Cloud purchase transition, wrong Get started destination, horizontal overflow or loss of accepted homepage capability/media content.",
-      "status": "supported",
-      "proof_refs": [
-        "Isolated Chrome desktop1440/mobile390 rendered DOM and screenshots; actual disabled property and quickstart targets observed; no hosted purchase claim."
-      ]
-    }
   },
   "checkpoints": [
     {
-      "id": "current-main-cloud-offerings",
-      "summary": "Integrate prepared pricing and exact static proof from accepted current main with one current material checkpoint",
-      "input_digest": "sha256:7d30172f3b249d87494d16f2a580365f3036f0a2da1fb35dab38c4d79b9719a0",
+      "id": "verified-pi-launch-film",
+      "summary": "Actual Pi event-backed56-second launch film,12-second social/vertical assets, original score, captions, poster, offline source/byte regression gate and accessible static integration; public verification remains separate",
+      "input_digest": "sha256:d808303a9135c3c29532dfd20b2912d1b5b0d556c8423d6bef8b4c4409b0948f",
       "proof_refs": [
-        "/private/tmp/propodus-website-validation-3.json",
-        "docs/decisions/0003-local-cloud-offerings.md"
+        "https://github.com/alexhraber/decapod-admission-acceptance-20261117-1747-06/tree/3c6c373ea703144a2a096e7c3ad6b17c45fcdc38"
       ]
-    },
-    {
-      "id": "rebased-offerings-preview",
-      "summary": "Rebased onto accepted main1753762 and revised offering to approved coming-soon preview: no public prices, free/no-signup local, exact quickstart targets, disabled Cloud button/sticker; both documents covered and actual desktop/mobile browser inspected.",
-      "input_digest": "sha256:277f1e38ad57e16c463bc67daa6c200e067e53ebc56055e6546d8853e7c69f94"
-    },
-    {
-      "id": "preview-spec-format",
-      "summary": "Restore required topology fence and semantics invariant/state-machine sections without changing proof requirements or rendered page.",
-      "input_digest": "sha256:6817e166df4a8ac266c139fe8a84058c588c6f952eb08a44c70600f1b4b498af"
-    },
-    {
-      "id": "preview-inventory-review",
-      "summary": "Reviewed final two-document static checker and unchanged media workflow; reconcile first-adoption source inventory to current helper bytes. Preserve all required commands and explicit hosted limitations.",
-      "input_digest": "sha256:6b83788cdfe705f6fa6b2c0d6dc9ea7492c84c5775ac4751818f98af707333d4"
-    },
-    {
-      "id": "preview-final-manifest",
-      "summary": "Capture CLI-refreshed config-input manifest after first-adoption inventory review; source and required checks unchanged.",
-      "input_digest": "sha256:721add5b1469a491396ab71a5368326d8226e5a7b06e772e141c0a5e74db0b2e"
     }
   ],
   "intents": {
-    "intent:change_01M7KY7KQMYQ6V6PYS6C7J359Y": {
+    "intent:change_01M7NPRYFTCC0HJ7RVTM267T25": {
       "acceptance_criteria": [],
       "assumptions": [],
       "boundaries": [
         "Current claimed task and isolated work branch"
       ],
       "constraints": [
-        "root"
+        "scripts"
       ],
       "created_sequence": 1,
-      "id": "intent:change_01M7KY7KQMYQ6V6PYS6C7J359Y",
+      "id": "intent:change_01M7NPRYFTCC0HJ7RVTM267T25",
       "out_of_scope": [],
       "proof_requirements": [],
-      "raw_intent": "Reconcile current website source qualification and cloud offerings\n\nIntegrate prepared static pricing and first source-proof contract on current accepted main, preserving the earlier branch and its missing merge-checkpoint evidence. Hold sales publication until real Propodus destination works.",
-      "refined_intent": "Reconcile current website source qualification and cloud offerings\n\nIntegrate prepared static pricing and first source-proof contract on current accepted main, preserving the earlier branch and its missing merge-checkpoint evidence. Hold sales publication until real Propodus destination works.",
+      "raw_intent": "Produce verified autonomous engineering launch film and website integration (#9)\n\nUse actual independently observed Pi rejection/repair/admission evidence only. Reuse website Python/FFmpeg renderer, original mascot and teaser. Deliver primary/social/mobile cuts, captions, original audio, poster, deterministic rendering, accessible integration and real browser playback verification.",
+      "refined_intent": "Produce verified autonomous engineering launch film and website integration (#9)\n\nUse actual independently observed Pi rejection/repair/admission evidence only. Reuse website Python/FFmpeg renderer, original mascot and teaser. Deliver primary/social/mobile cuts, captions, original audio, poster, deterministic rendering, accessible integration and real browser playback verification.",
       "status": "refined",
       "updated_sequence": 3
     }
@@ -72,95 +41,178 @@
   "sections": {
     "plan": {
       "constraints": {
-        "file_touch_budget": null,
+        "file_touch_budget": 90,
         "forbidden_paths": []
       },
       "deferred_questions": [],
       "human_questions": [],
-      "intent": "Rebase PR4 onto current accepted site and publish a dedicated offerings page. Local is free with no signup; Cloud is coming soon with benefits visible, no prices, and a disabled purchase button with Coming soon sticker. Link from the homepage without redesigning its accepted content. Add a coordinated documentation entry in the owning repository. No checkout, cloud readiness or public pricing is promised.",
+      "intent": "Turn verified real Pi objective, required-check rejection, autonomous repair and exact-head admission into a 56-second evidence-backed film; retain teaser; publish accessible static integration with source links and reproducible Python/FFmpeg rendering",
       "phases": [],
       "proof_hooks": [
-        "Required static-source Deno proof checks JavaScript compilation, document IDs, local files and fragments; real purchase/activation remains separate"
+        "decapod validate; actual ffprobe/decode/audio/caption verification; real desktop/mobile browser playback; independent public URL readback"
       ],
       "schema_version": "1.1.0",
       "spec_reviews": [
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/ARCHITECTURE.md",
-          "reason": "Static topology explicitly separates documentation navigation from unavailable Cloud purchase; no runtime or host was added.",
-          "reviewed_code_fingerprint": "7ed87e3ea4dfbda9cc5c5bb6a1d41a1bf6458e6641b583cf8691a6a6c4c230fc",
-          "spec_material_hash": "7c4bceea9dbfe9a66695b0594f3bb3736664368685c0c8594d0b5bba4b82795f"
+          "reason": "Reuse current static site and original showcase; add verified evidence presentation and offline byte/source regression checks without kernel or hosted authority",
+          "reviewed_code_fingerprint": "1553cff1115a10947250c46fb63dd2d199df6c06be925e7e2715418f078f57f0",
+          "spec_material_hash": "74ed3d8057665bad2ddaeaceb62a32e8a277d459fd8daeaa026723d7bc355462"
         },
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/INTERFACES.md",
-          "reason": "Local Get started uses exact quickstart URL; Cloud is native-disabled with Coming soon sticker, no prices or checkout link; both documents covered by static source qualification.",
-          "reviewed_code_fingerprint": "7ed87e3ea4dfbda9cc5c5bb6a1d41a1bf6458e6641b583cf8691a6a6c4c230fc",
-          "spec_material_hash": "2c1d4d791cd195e21c9d5e633a50503f2e4acff150f3cb2f3cb748f84165d7e8"
+          "reason": "Reviewed versioned capture and render contracts, responsive native video sources, captions and public evidence links",
+          "reviewed_code_fingerprint": "1553cff1115a10947250c46fb63dd2d199df6c06be925e7e2715418f078f57f0",
+          "spec_material_hash": "33d14e868977bfaf5c50f6453ec41842dc70074871ada5ca645109d9056174d7"
         },
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/SECURITY.md",
-          "reason": "Public preview carries no identity or payment state, publishes no cloud price and grants no authority. Live service acceptance remains separate.",
-          "reviewed_code_fingerprint": "7ed87e3ea4dfbda9cc5c5bb6a1d41a1bf6458e6641b583cf8691a6a6c4c230fc",
-          "spec_material_hash": "47f7a70f9e79158a6822f42c333a3043c67816c456f0fba83e21028bb01149da"
+          "reason": "Keep raw session/Auth captures private; export allowlisted provenance, never infer merge/Cloud authority; preserve initialized governance during media automation",
+          "reviewed_code_fingerprint": "1553cff1115a10947250c46fb63dd2d199df6c06be925e7e2715418f078f57f0",
+          "spec_material_hash": "786307a2d08572ce96fda48be1aaf2181904257f7f49e4f3466f1def123c1bb8"
         }
       ],
       "state": "APPROVED",
-      "stop_conditions": [
-        "Keep cloud prices unpublished and purchases disabled; do not infer production payment readiness from the preview."
-      ],
-      "title": "Current website local/cloud offerings",
+      "stop_conditions": [],
+      "title": "Produce verified autonomous engineering launch film and website integration (#9)",
       "todo_ids": [
-        "cicd_01m7kxpgba0hp5pt"
+        "test_01m7nnw95n2ff7d8"
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1794908074Z"
+      "updated_at": "1794957002Z"
     },
     "trajectory": {
       "active_boundaries": [
-        "Current claimed task and isolated work branch"
+        "Current claimed task and isolated work branch",
+        "Preserve teaser and static architecture; no cloud-success claim or fabricated terminal"
       ],
-      "artifact_hash": "sha256:6ff676215f247e576677ceb6e7ec4ed7e309df6188f6703e5d9511a5955dc4c8",
-      "checks": [],
-      "current_phase": "intent",
+      "artifact_hash": "sha256:ebc97aaf30e1f7a60157e02825b8af3f34db81f223297e1337fc6ec7be15ed2a",
+      "checks": [
+        {
+          "name": "actual-encoded-media",
+          "status": "passed"
+        },
+        {
+          "name": "desktop-mobile-browser",
+          "status": "passed"
+        },
+        {
+          "name": "public-deployment",
+          "status": "unavailable"
+        },
+        {
+          "name": "real-source-observer",
+          "status": "passed"
+        }
+      ],
+      "current_phase": "verification",
       "custody": {
         "events": [
           {
             "event_id": "event:2",
-            "intent_id": "intent:change_01M7KY7KQMYQ6V6PYS6C7J359Y",
+            "intent_id": "intent:change_01M7NPRYFTCC0HJ7RVTM267T25",
             "kind": "created",
             "sequence": 2
           },
           {
             "event_id": "event:3",
-            "intent_id": "intent:change_01M7KY7KQMYQ6V6PYS6C7J359Y",
+            "intent_id": "intent:change_01M7NPRYFTCC0HJ7RVTM267T25",
             "kind": "refined",
             "sequence": 3
+          },
+          {
+            "detail": "trajectory:branch_01M7NPRYJD5MRKGEDF4JW8NFA7",
+            "event_id": "event:4",
+            "intent_id": "intent:change_01M7NPRYFTCC0HJ7RVTM267T25",
+            "kind": "trajectory_step_recorded",
+            "sequence": 4
+          },
+          {
+            "detail": "trajectory:branch_01M7NPRYJD5MRKGEDF4JW8NFA7",
+            "event_id": "event:5",
+            "intent_id": "intent:change_01M7NPRYFTCC0HJ7RVTM267T25",
+            "kind": "trajectory_step_recorded",
+            "sequence": 5
           }
         ],
         "knowledge_candidates": [],
-        "next_sequence": 3,
+        "next_sequence": 5,
         "schema_version": "1.0.0",
-        "trajectories": {}
+        "trajectories": {
+          "branch_01M7NPRYJD5MRKGEDF4JW8NFA7": {
+            "evidence_only": true,
+            "id": "branch_01M7NPRYJD5MRKGEDF4JW8NFA7",
+            "intent_id": "intent:change_01M7NPRYFTCC0HJ7RVTM267T25",
+            "steps": [
+              {
+                "action": "implementation",
+                "custody_event_id": "event:4",
+                "observations": [
+                  "scripts/render-showcase.py",
+                  "scripts/generate-social.py",
+                  "scripts/check-site.ts",
+                  ".github/workflows/site-bootstrap.yml",
+                  "Real Pi PR2 independently read back at f3a7a1609 against4b7f3b056; source observer verification pending, no success film export until correlated manifest exists."
+                ],
+                "proof_refs": [],
+                "scope": [
+                  "scripts"
+                ],
+                "sequence": 4,
+                "validation_findings": []
+              },
+              {
+                "action": "verification",
+                "custody_event_id": "event:5",
+                "observations": [
+                  "Actual H264/AAC56/12/56 sec files decoded, dimensions/audio/caption timing/poster verified. Chrome155 desktop/mobile played/seeks correct1920x1080 and1080x1920 sources with eight optional cues and reduced-motion paused defaults. Public deployment must be separately checked after publication. GitHub immutable archive3c6c373 independently read back, original refs unchanged."
+                ],
+                "proof_refs": [
+                  "actual-encoded-media",
+                  "desktop-mobile-browser",
+                  "real-source-observer",
+                  "public-deployment"
+                ],
+                "scope": [
+                  "index.html styles.css scripts assets evidence .github/workflows",
+                  "scripts"
+                ],
+                "sequence": 5,
+                "validation_findings": []
+              }
+            ]
+          }
+        }
       },
       "declared_commands": [],
       "destination": "pull request",
-      "evidence": [],
-      "inspected_files": [],
-      "intent_id": "intent:change_01M7KY7KQMYQ6V6PYS6C7J359Y",
+      "evidence": [
+        "Actual H264/AAC56/12/56 sec files decoded, dimensions/audio/caption timing/poster verified. Chrome155 desktop/mobile played/seeks correct1920x1080 and1080x1920 sources with eight optional cues and reduced-motion paused defaults. Public deployment must be separately checked after publication. GitHub immutable archive3c6c373 independently read back, original refs unchanged.",
+        "Real Pi PR2 independently read back at f3a7a1609 against4b7f3b056; source observer verification pending, no success film export until correlated manifest exists."
+      ],
+      "inspected_files": [
+        ".github/workflows/site-bootstrap.yml",
+        "scripts/check-site.ts",
+        "scripts/generate-social.py",
+        "scripts/render-showcase.py"
+      ],
+      "intent_id": "intent:change_01M7NPRYFTCC0HJ7RVTM267T25",
       "modified_files": [],
       "next_transitions": [
         "Refine plan and declare falsifiable checks"
       ],
       "repo_scope": [
-        "root"
+        "index.html styles.css scripts assets evidence .github/workflows",
+        "scripts"
       ],
-      "run_id": "branch_01M7KY7KTA40PVHM3R2V1F2BWJ",
+      "run_id": "branch_01M7NPRYJD5MRKGEDF4JW8NFA7",
       "schema_version": "1.1.0",
       "shortcut_risk_signals": [],
-      "task_id": "cicd_01m7kxpgba0hp5pt",
+      "task_id": "test_01m7nnw95n2ff7d8",
       "tool_calls": [],
       "unresolved_assumptions": []
     }

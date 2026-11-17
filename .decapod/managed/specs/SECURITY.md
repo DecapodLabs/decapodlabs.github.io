@@ -13,6 +13,14 @@ Premature sales claims and misleading enabled controls are the relevant preview 
 
 Generated capability overlays below are obligations rather than evidence of a backend. Actual Supabase/Stripe authorization, recovery and payment acceptance remain independent Propodus proof gates.
 
+## Public evidence and publication boundary
+
+Raw Pi reasoning, tool arguments/results, native session output, Auth material and local machine paths remain private. Only reviewed allowlisted witnesses, exact artifact identities, synthetic fixture metadata, receipts and hashed provenance are exported. Digests establish byte binding, not producer authentication; trusted-host assertions and bounded tool-boundary sampling do not establish a universal OS sandbox. A model alias is not immutable model weights.
+
+Presentation always preserves publication_ready=false and merge_authorized=false. Historical PR admission is labelled separately from current applicability. The actual target advanced after the autonomous run, so the primary PR is now draft and its old proof is inapplicable. The post-creation quarantine probe is a separately labelled operator control, never an agent repair. No original archive/ref or historical PR1 is rewritten.
+
+Static HTML introduces no executable evidence injection, account state, new remote script, credential, checkout or backend. The existing renderer workflow skips old bootstrap initialization when governance already exists, preserving current authored and generated surfaces. Branch protection and kernel checks are separately evidenced; local static checks do not attest deployment or hosted Cloud access.
+
 <!-- decapod:capability-overlay:public-api:start -->
 
 Generated capability obligations: `public-api` is declared for this project. These are decisions and proof requirements, not claims of implemented behavior. Resolve each against project source and tests; record unsupported or non-applicable mechanisms explicitly.
@@ -39,7 +47,7 @@ Generated capability obligations: `public-api` is declared for this project. The
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `7ed87e3ea4dfbda9cc5c5bb6a1d41a1bf6458e6641b583cf8691a6a6c4c230fc`
-- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `main.js/` (1 files), `scripts/` (3 files)
+- Repository signal fingerprint: `1553cff1115a10947250c46fb63dd2d199df6c06be925e7e2715418f078f57f0`
+- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `evidence/` (1 files), `main.js/` (1 files), `scripts/` (6 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->
