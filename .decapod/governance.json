@@ -26,6 +26,11 @@
       "proof_refs": [
         "https://github.com/alexhraber/decapod-admission-acceptance-20261117-1747-06/tree/3c6c373ea703144a2a096e7c3ad6b17c45fcdc38"
       ]
+    },
+    {
+      "id": "expose-publication-proof-links",
+      "summary": "Expose exact publication receipt and canonical record on the public proof page with current-content interface review",
+      "input_digest": "sha256:583d6aa0f81f23c87c089b63c0daf350ec5cb52b019e954040c53a9576b03b95"
     }
   ],
   "intents": {
@@ -73,9 +78,9 @@
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/INTERFACES.md",
-          "reason": "Reviewed versioned capture and render contracts, responsive native video sources, captions and public evidence links",
-          "reviewed_code_fingerprint": "1553cff1115a10947250c46fb63dd2d199df6c06be925e7e2715418f078f57f0",
-          "spec_material_hash": "33d14e868977bfaf5c50f6453ec41842dc70074871ada5ca645109d9056174d7"
+          "reason": "Public proof page exposes exact publication-time native receipt and canonical completion distinctly from earlier standalone validation and later task completion",
+          "reviewed_code_fingerprint": "3e28ff6b991360283d8d9eb0055d52dea2db533970f5a6e5d4c82f5c1a54104c",
+          "spec_material_hash": "7e8d7cffe77e1d2208c01956ab9f03402d9154834afc4d48ac11ecba2cb09131"
         },
         {
           "disposition": "updated",
@@ -93,7 +98,7 @@
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1794959247Z"
+      "updated_at": "1794959448Z"
     },
     "trajectory": {
       "active_boundaries": [

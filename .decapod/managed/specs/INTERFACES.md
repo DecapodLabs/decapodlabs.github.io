@@ -20,6 +20,10 @@ The source contract is decapod.agent-acceptance.v1, exported read-only by the Ru
 
 The renderer requires an actually correlated autonomous arc and rejects missing controls or changed witness digests. Its decapod.launch-render.v1 output declares editorial scene text and source IDs alongside actual MP4/VTT hashes. Main and vertical durations are56 seconds; social is12. Native HTML video controls supply play/pause, mute, seek, fullscreen and optional captions, with playsinline, preload=none and no autoplay. Every narrative sentence is already visible for sound-off comprehension. No Cloud authorization call is introduced.
 
+## Publication proof inspection links
+
+proof.html links directly to the actual retained publication-time native receipt, unchanged canonical completion record and historical readback wrapper in the evidence directory. Readers can distinguish these from the standalone validation shown before publication in the film. The supplement exposes digest and subject verification without importing live admission or merge authority.
+
 <!-- decapod:capability-overlay:public-api:start -->
 
 Generated capability obligations: `public-api` is declared for this project. These are decisions and proof requirements, not claims of implemented behavior. Resolve each against project source and tests; record unsupported or non-applicable mechanisms explicitly.

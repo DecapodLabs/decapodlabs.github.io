@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1.0",
   "template_version": "scaffold-v5",
-  "generated_at": "1794959245Z",
+  "generated_at": "1794959446Z",
   "repo_signal_fingerprint": "3e28ff6b991360283d8d9eb0055d52dea2db533970f5a6e5d4c82f5c1a54104c",
   "declared_capabilities": [
     "authentication",
@@ -13,7 +13,7 @@
   ],
   "capability_definition_version": "1.0.0",
   "config_input_hash": "5690df2df6cad243f3811c6360baf320222b1465caf2eaa5058fa16237db78da",
-  "spec_input_hash": "31165fee892d45a0814c365094718c19d4284747edd116cc3f833c1a3d809fa0",
+  "spec_input_hash": "a1b6b35da93921250f690d0212479a8cd6e9474045a828b4e63e80dd3c69181b",
   "decapod_release": "0.148.9",
   "entrypoints": [
     {
@@ -63,7 +63,7 @@
     {
       "path": ".decapod/managed/specs/INTERFACES.md",
       "template_hash": "15b9926ffe3ae53fc7224a5c0440b76dfac487e6c9ecc5b37cf42faa3bf450e7",
-      "content_hash": "f12607832664c1c1d75d21bbd05c0fbfef1c386a704099335aeab8b4935269fd",
+      "content_hash": "f66110a4e2e5cc78965520fb6ef9e1bd546967001470da350559feca39f93650",
       "fingerprint": ""
     },
     {
