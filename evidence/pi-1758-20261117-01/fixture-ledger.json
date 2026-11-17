@@ -11880,6 +11880,233 @@
       "stderr_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "stdout_sha256": "sha256:31e96e61f659ebd6091b0e10a4b10d22c554de0555fa42d191f93b582709fd53",
       "time_ns": 1794956460607177000
+    },
+    {
+      "after": {
+        "exists": true,
+        "head": "4b7f3b05637120a2ac6d638c46a13288fa6d74ce",
+        "refs": "refs/heads/acceptance/1757/launch-20261117-01-base 4b7f3b05637120a2ac6d638c46a13288fa6d74ce\nrefs/heads/agent/operator-1758-controls/code_01m7nrm4mncp7d1z-quarantine 37200f54641de80e39c3d250d99309e201a3c4e0\nrefs/heads/agent/pi-1758-run01/feat_01m7nqgz4z48b3a6-repository-read f3a7a160946b42fed7eefa3898362f0dbb122fd0\nrefs/remotes/origin/HEAD e36fd2979d57ea1892d70a532d568b087e294fac\nrefs/remotes/origin/acceptance-evidence ae15eeffd6812002fbda2a2adaca23b006de0ba6\nrefs/remotes/origin/acceptance/1757/launch-20261117-01-base 4b7f3b05637120a2ac6d638c46a13288fa6d74ce\nrefs/remotes/origin/agent/real-forge-admission/code_01m7mm80zeddrdp8-repair ccbc08207c8c592824c4b3fc75a8541da22bff8e\nrefs/remotes/origin/main e36fd2979d57ea1892d70a532d568b087e294fac",
+        "status": "",
+        "symbolic_head": "refs/heads/acceptance/1757/launch-20261117-01-base",
+        "working_diff_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "worktrees": [
+          {
+            "head": "4b7f3b05637120a2ac6d638c46a13288fa6d74ce",
+            "id": "sha256:b93059d88e42ba48277bd0171521faf3000fd34c2cc736adf8222273619157bc",
+            "status": "",
+            "working_diff_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "head": "37200f54641de80e39c3d250d99309e201a3c4e0",
+            "id": "sha256:162e502ad3560e0466d6f252899a6722dcf69ecd047d1bcb80aaa96b8873c0b0",
+            "status": "",
+            "working_diff_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "head": "f3a7a160946b42fed7eefa3898362f0dbb122fd0",
+            "id": "sha256:afcb37bf506c483056ac9fb50f1609c0e7b91d7fde0b0e51a54878880bdb797f",
+            "status": "",
+            "working_diff_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        ]
+      },
+      "before": {
+        "exists": true,
+        "head": "4b7f3b05637120a2ac6d638c46a13288fa6d74ce",
+        "refs": "refs/heads/acceptance/1757/launch-20261117-01-base 4b7f3b05637120a2ac6d638c46a13288fa6d74ce\nrefs/heads/agent/operator-1758-controls/code_01m7nrm4mncp7d1z-quarantine 37200f54641de80e39c3d250d99309e201a3c4e0\nrefs/heads/agent/pi-1758-run01/feat_01m7nqgz4z48b3a6-repository-read f3a7a160946b42fed7eefa3898362f0dbb122fd0\nrefs/remotes/origin/HEAD e36fd2979d57ea1892d70a532d568b087e294fac\nrefs/remotes/origin/acceptance-evidence ae15eeffd6812002fbda2a2adaca23b006de0ba6\nrefs/remotes/origin/acceptance/1757/launch-20261117-01-base 4b7f3b05637120a2ac6d638c46a13288fa6d74ce\nrefs/remotes/origin/agent/real-forge-admission/code_01m7mm80zeddrdp8-repair ccbc08207c8c592824c4b3fc75a8541da22bff8e\nrefs/remotes/origin/main e36fd2979d57ea1892d70a532d568b087e294fac",
+        "status": "",
+        "symbolic_head": "refs/heads/acceptance/1757/launch-20261117-01-base",
+        "working_diff_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "worktrees": [
+          {
+            "head": "4b7f3b05637120a2ac6d638c46a13288fa6d74ce",
+            "id": "sha256:b93059d88e42ba48277bd0171521faf3000fd34c2cc736adf8222273619157bc",
+            "status": "",
+            "working_diff_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "head": "37200f54641de80e39c3d250d99309e201a3c4e0",
+            "id": "sha256:162e502ad3560e0466d6f252899a6722dcf69ecd047d1bcb80aaa96b8873c0b0",
+            "status": "",
+            "working_diff_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "head": "f3a7a160946b42fed7eefa3898362f0dbb122fd0",
+            "id": "sha256:afcb37bf506c483056ac9fb50f1609c0e7b91d7fde0b0e51a54878880bdb797f",
+            "status": "",
+            "working_diff_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        ]
+      },
+      "command": [
+        "env",
+        "DECAPOD_AGENT_ID=operator-1758-observer",
+        "DECAPOD_CLAIM_AUTORUN=0",
+        "<private-run>/kernel/decapod",
+        "qa",
+        "verify",
+        "commit",
+        "f3a7a160946b42fed7eefa3898362f0dbb122fd0",
+        "--json"
+      ],
+      "exit_code": 0,
+      "operation": "observe-primary-canonical-validation-after-target-advance",
+      "owner_issue": "https://github.com/DecapodLabs/decapod/issues/1758",
+      "schema": "decapod.fixture-operation.v1",
+      "sequence": 178,
+      "stderr_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "sha256:1d9932e09968ae773a0ead247eec8e7ceba13e0e2723065ff283122f07ddc3ee",
+      "time_ns": 1794958612347034000
+    },
+    {
+      "after": {
+        "exists": true,
+        "head": "4b7f3b05637120a2ac6d638c46a13288fa6d74ce",
+        "refs": "refs/heads/acceptance/1757/launch-20261117-01-base 4b7f3b05637120a2ac6d638c46a13288fa6d74ce\nrefs/heads/agent/operator-1758-controls/code_01m7nrm4mncp7d1z-quarantine 37200f54641de80e39c3d250d99309e201a3c4e0\nrefs/heads/agent/pi-1758-run01/feat_01m7nqgz4z48b3a6-repository-read f3a7a160946b42fed7eefa3898362f0dbb122fd0\nrefs/remotes/origin/HEAD e36fd2979d57ea1892d70a532d568b087e294fac\nrefs/remotes/origin/acceptance-evidence ae15eeffd6812002fbda2a2adaca23b006de0ba6\nrefs/remotes/origin/acceptance/1757/launch-20261117-01-base 4b7f3b05637120a2ac6d638c46a13288fa6d74ce\nrefs/remotes/origin/agent/real-forge-admission/code_01m7mm80zeddrdp8-repair ccbc08207c8c592824c4b3fc75a8541da22bff8e\nrefs/remotes/origin/main e36fd2979d57ea1892d70a532d568b087e294fac",
+        "status": "",
+        "symbolic_head": "refs/heads/acceptance/1757/launch-20261117-01-base",
+        "working_diff_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "worktrees": [
+          {
+            "head": "4b7f3b05637120a2ac6d638c46a13288fa6d74ce",
+            "id": "sha256:b93059d88e42ba48277bd0171521faf3000fd34c2cc736adf8222273619157bc",
+            "status": "",
+            "working_diff_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "head": "37200f54641de80e39c3d250d99309e201a3c4e0",
+            "id": "sha256:162e502ad3560e0466d6f252899a6722dcf69ecd047d1bcb80aaa96b8873c0b0",
+            "status": "",
+            "working_diff_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "head": "f3a7a160946b42fed7eefa3898362f0dbb122fd0",
+            "id": "sha256:afcb37bf506c483056ac9fb50f1609c0e7b91d7fde0b0e51a54878880bdb797f",
+            "status": "",
+            "working_diff_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        ]
+      },
+      "before": {
+        "exists": true,
+        "head": "4b7f3b05637120a2ac6d638c46a13288fa6d74ce",
+        "refs": "refs/heads/acceptance/1757/launch-20261117-01-base 4b7f3b05637120a2ac6d638c46a13288fa6d74ce\nrefs/heads/agent/operator-1758-controls/code_01m7nrm4mncp7d1z-quarantine 37200f54641de80e39c3d250d99309e201a3c4e0\nrefs/heads/agent/pi-1758-run01/feat_01m7nqgz4z48b3a6-repository-read f3a7a160946b42fed7eefa3898362f0dbb122fd0\nrefs/remotes/origin/HEAD e36fd2979d57ea1892d70a532d568b087e294fac\nrefs/remotes/origin/acceptance-evidence ae15eeffd6812002fbda2a2adaca23b006de0ba6\nrefs/remotes/origin/acceptance/1757/launch-20261117-01-base 4b7f3b05637120a2ac6d638c46a13288fa6d74ce\nrefs/remotes/origin/agent/real-forge-admission/code_01m7mm80zeddrdp8-repair ccbc08207c8c592824c4b3fc75a8541da22bff8e\nrefs/remotes/origin/main e36fd2979d57ea1892d70a532d568b087e294fac",
+        "status": "",
+        "symbolic_head": "refs/heads/acceptance/1757/launch-20261117-01-base",
+        "working_diff_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "worktrees": [
+          {
+            "head": "4b7f3b05637120a2ac6d638c46a13288fa6d74ce",
+            "id": "sha256:b93059d88e42ba48277bd0171521faf3000fd34c2cc736adf8222273619157bc",
+            "status": "",
+            "working_diff_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "head": "37200f54641de80e39c3d250d99309e201a3c4e0",
+            "id": "sha256:162e502ad3560e0466d6f252899a6722dcf69ecd047d1bcb80aaa96b8873c0b0",
+            "status": "",
+            "working_diff_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "head": "f3a7a160946b42fed7eefa3898362f0dbb122fd0",
+            "id": "sha256:afcb37bf506c483056ac9fb50f1609c0e7b91d7fde0b0e51a54878880bdb797f",
+            "status": "",
+            "working_diff_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        ]
+      },
+      "command": [
+        "env",
+        "DECAPOD_AGENT_ID=operator-1758-observer",
+        "DECAPOD_CLAIM_AUTORUN=0",
+        "<private-run>/kernel/decapod",
+        "trace",
+        "flight-recorder",
+        "timeline",
+        "--format",
+        "json",
+        "--limit",
+        "200"
+      ],
+      "exit_code": 0,
+      "operation": "observe-primary-kernel-record-timeline-after-publication",
+      "owner_issue": "https://github.com/DecapodLabs/decapod/issues/1758",
+      "schema": "decapod.fixture-operation.v1",
+      "sequence": 179,
+      "stderr_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "sha256:cbf6fa16f128118af650ffee510c732f745dd671a6848109633384df02f2a354",
+      "time_ns": 1794958646750505000
+    },
+    {
+      "after": {
+        "exists": true,
+        "head": "4b7f3b05637120a2ac6d638c46a13288fa6d74ce",
+        "refs": "refs/heads/acceptance/1757/launch-20261117-01-base 4b7f3b05637120a2ac6d638c46a13288fa6d74ce\nrefs/heads/agent/operator-1758-controls/code_01m7nrm4mncp7d1z-quarantine 37200f54641de80e39c3d250d99309e201a3c4e0\nrefs/heads/agent/pi-1758-run01/feat_01m7nqgz4z48b3a6-repository-read f3a7a160946b42fed7eefa3898362f0dbb122fd0\nrefs/remotes/origin/HEAD e36fd2979d57ea1892d70a532d568b087e294fac\nrefs/remotes/origin/acceptance-evidence ae15eeffd6812002fbda2a2adaca23b006de0ba6\nrefs/remotes/origin/acceptance/1757/launch-20261117-01-base 4b7f3b05637120a2ac6d638c46a13288fa6d74ce\nrefs/remotes/origin/agent/real-forge-admission/code_01m7mm80zeddrdp8-repair ccbc08207c8c592824c4b3fc75a8541da22bff8e\nrefs/remotes/origin/main e36fd2979d57ea1892d70a532d568b087e294fac",
+        "status": "",
+        "symbolic_head": "refs/heads/acceptance/1757/launch-20261117-01-base",
+        "working_diff_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "worktrees": [
+          {
+            "head": "4b7f3b05637120a2ac6d638c46a13288fa6d74ce",
+            "id": "sha256:b93059d88e42ba48277bd0171521faf3000fd34c2cc736adf8222273619157bc",
+            "status": "",
+            "working_diff_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "head": "37200f54641de80e39c3d250d99309e201a3c4e0",
+            "id": "sha256:162e502ad3560e0466d6f252899a6722dcf69ecd047d1bcb80aaa96b8873c0b0",
+            "status": "",
+            "working_diff_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "head": "f3a7a160946b42fed7eefa3898362f0dbb122fd0",
+            "id": "sha256:afcb37bf506c483056ac9fb50f1609c0e7b91d7fde0b0e51a54878880bdb797f",
+            "status": "",
+            "working_diff_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        ]
+      },
+      "before": {
+        "exists": true,
+        "head": "4b7f3b05637120a2ac6d638c46a13288fa6d74ce",
+        "refs": "refs/heads/acceptance/1757/launch-20261117-01-base 4b7f3b05637120a2ac6d638c46a13288fa6d74ce\nrefs/heads/agent/operator-1758-controls/code_01m7nrm4mncp7d1z-quarantine 37200f54641de80e39c3d250d99309e201a3c4e0\nrefs/heads/agent/pi-1758-run01/feat_01m7nqgz4z48b3a6-repository-read f3a7a160946b42fed7eefa3898362f0dbb122fd0\nrefs/remotes/origin/HEAD e36fd2979d57ea1892d70a532d568b087e294fac\nrefs/remotes/origin/acceptance-evidence ae15eeffd6812002fbda2a2adaca23b006de0ba6\nrefs/remotes/origin/acceptance/1757/launch-20261117-01-base 4b7f3b05637120a2ac6d638c46a13288fa6d74ce\nrefs/remotes/origin/agent/real-forge-admission/code_01m7mm80zeddrdp8-repair ccbc08207c8c592824c4b3fc75a8541da22bff8e\nrefs/remotes/origin/main e36fd2979d57ea1892d70a532d568b087e294fac",
+        "status": "",
+        "symbolic_head": "refs/heads/acceptance/1757/launch-20261117-01-base",
+        "working_diff_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "worktrees": [
+          {
+            "head": "4b7f3b05637120a2ac6d638c46a13288fa6d74ce",
+            "id": "sha256:b93059d88e42ba48277bd0171521faf3000fd34c2cc736adf8222273619157bc",
+            "status": "",
+            "working_diff_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "head": "37200f54641de80e39c3d250d99309e201a3c4e0",
+            "id": "sha256:162e502ad3560e0466d6f252899a6722dcf69ecd047d1bcb80aaa96b8873c0b0",
+            "status": "",
+            "working_diff_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "head": "f3a7a160946b42fed7eefa3898362f0dbb122fd0",
+            "id": "sha256:afcb37bf506c483056ac9fb50f1609c0e7b91d7fde0b0e51a54878880bdb797f",
+            "status": "",
+            "working_diff_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        ]
+      },
+      "command": [
+        "python3",
+        "-c",
+        "import pathlib,tempfile;print((pathlib.Path(tempfile.gettempdir())/'decapod-readiness-T7sSlC'/'completion/native-readiness-receipt.json').read_text(),end='')"
+      ],
+      "exit_code": 0,
+      "operation": "observe-exact-publication-time-native-receipt",
+      "owner_issue": "https://github.com/DecapodLabs/decapod/issues/1758",
+      "schema": "decapod.fixture-operation.v1",
+      "sequence": 180,
+      "stderr_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "sha256:c2f5d9e209ae2fedc8a490ade9ee54db0cb80f7fe2cb1ad15405943182e0aaa8",
+      "time_ns": 1794958844296339000
     }
   ],
   "agent_tools": [
@@ -14904,5 +15131,6 @@
     }
   ],
   "archive_commit": "3c6c373ea703144a2a096e7c3ad6b17c45fcdc38",
-  "archive_ledger_end": 177
+  "archive_ledger_end": 177,
+  "complete_operator_ledger_end": 180
 }

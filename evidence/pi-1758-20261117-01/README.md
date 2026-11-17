@@ -177,3 +177,30 @@ matched byte-for-byte. Original main/archive and PR1 heads were rechecked unchan
 The archive freezes the pre-archival invocation ledger; archive creation and its
 readbacks are separately sealed on the owning Decapod issues. This website copy
 also includes the complete post-archive operator ledger and archive-seal.json.
+
+## Permanent presentation guard
+
+media/launch-production.json pins the independently reviewed actual manifest and
+control digests. python scripts/test-launch-evidence.py exercises seven offline
+controls, including changed heads, missing failures, path escape, altered
+witnesses and historical proof relabelled as present authority. The normal Deno
+site contract also checks these source bindings and actual movie/caption bytes.
+The automated workflow renders and decodes the film in a temporary directory,
+then uploads verified review assets. It does not replace the committed film behind
+a prior website validation receipt. Publish revised assets through a fresh
+governed change. The original teaser workflow and asset identity are preserved.
+
+## Exact proof used during publication
+
+The later read-only canonical query found four successful records for the final
+head. They must not be conflated. Standalone validation is haYncK; the observed
+workspace publisher produced T7sSlC; later validated task completion produced
+bBFwPo and D5Od54. Only T7sSlC falls inside the actual publisher child interval.
+publication-record.json retains that unchanged canonical record, and
+publication-receipt.json is the actual retained native receipt, not a recreated
+receipt. Their native digests, expected-plan/suite binding, exact head/base and
+publisher timing are checked by the permanent offline site gate. The readback
+wrapper grants neither publication nor merge authority. This supplement was
+read after the immutable archive was sealed, and is preserved by the website
+Git commit rather than rewriting that archive. Its fixture reads are included
+in the complete post-archive ledger.

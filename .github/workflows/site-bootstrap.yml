@@ -12,6 +12,7 @@ on:
       - assets/mascot.svg
       - assets/fonts/**
       - evidence/**
+      - media/**
       - proof.html
       - .github/workflows/site-bootstrap.yml
   workflow_dispatch:
@@ -82,8 +83,16 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python3 scripts/render-launch.py --evidence evidence/pi-1758-20261117-01
-          python3 scripts/verify-launch.py
+          python3 scripts/test-launch-evidence.py
+          python3 scripts/render-launch.py --evidence evidence/pi-1758-20261117-01 --output "$RUNNER_TEMP/decapod-launch-render"
+          python3 scripts/verify-launch.py --assets "$RUNNER_TEMP/decapod-launch-render"
+
+      - name: Preserve independently verified launch build for review
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: decapod-verified-launch-film
+          path: ${{ runner.temp }}/decapod-launch-render
+          if-no-files-found: error
 
       - name: Install checksum-verified Decapod v0.148.0
         if: hashFiles('.decapod/config.toml') == ''

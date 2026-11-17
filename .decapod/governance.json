@@ -8,6 +8,16 @@
     "base_commit": "3e26192a24d7478f9928eb53812b8bb9d7ed40f4",
     "target_base": "origin/main"
   },
+  "claims": {
+    "actual-launch-evidence": {
+      "statement": "The film presents the observed Pi failure repair and exact-head admission, with separately labelled operator probes; decoded assets and offline negative guards pass, while publication/deployment remain separately verified",
+      "falsifier": "A changed event source, different PR head/base, missing actual required failure, invalid receipt binding, undecodable media, or a claimed successful deployment without public browser readback refutes the respective claim",
+      "status": "supported",
+      "proof_refs": [
+        "https://github.com/alexhraber/decapod-admission-acceptance-20261117-1747-06/tree/3c6c373ea703144a2a096e7c3ad6b17c45fcdc38"
+      ]
+    }
+  },
   "checkpoints": [
     {
       "id": "verified-pi-launch-film",
@@ -70,9 +80,9 @@
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/SECURITY.md",
-          "reason": "Keep raw session/Auth captures private; export allowlisted provenance, never infer merge/Cloud authority; preserve initialized governance during media automation",
-          "reviewed_code_fingerprint": "1553cff1115a10947250c46fb63dd2d199df6c06be925e7e2715418f078f57f0",
-          "spec_material_hash": "786307a2d08572ce96fda48be1aaf2181904257f7f49e4f3466f1def123c1bb8"
+          "reason": "Pinned reviewed real-run manifest and exact publication-time receipt; preserve historical/current authority separation and render review artifacts without silent asset replacement",
+          "reviewed_code_fingerprint": "3e28ff6b991360283d8d9eb0055d52dea2db533970f5a6e5d4c82f5c1a54104c",
+          "spec_material_hash": "7d86a5e851bdd61ba42def8012c2ee005b7f7d7fbceada003b63235743b3bb7f"
         }
       ],
       "state": "APPROVED",
@@ -83,21 +93,29 @@
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1794957002Z"
+      "updated_at": "1794959247Z"
     },
     "trajectory": {
       "active_boundaries": [
         "Current claimed task and isolated work branch",
         "Preserve teaser and static architecture; no cloud-success claim or fabricated terminal"
       ],
-      "artifact_hash": "sha256:ebc97aaf30e1f7a60157e02825b8af3f34db81f223297e1337fc6ec7be15ed2a",
+      "artifact_hash": "sha256:1616beaf70237b43f6dcf6103e609705354a68064d2cbb15d59906dadda50d20",
       "checks": [
+        {
+          "name": "actual-delivery-media",
+          "status": "passed"
+        },
         {
           "name": "actual-encoded-media",
           "status": "passed"
         },
         {
           "name": "desktop-mobile-browser",
+          "status": "passed"
+        },
+        {
+          "name": "production-negative-controls",
           "status": "passed"
         },
         {
@@ -137,10 +155,17 @@
             "intent_id": "intent:change_01M7NPRYFTCC0HJ7RVTM267T25",
             "kind": "trajectory_step_recorded",
             "sequence": 5
+          },
+          {
+            "detail": "trajectory:branch_01M7NPRYJD5MRKGEDF4JW8NFA7",
+            "event_id": "event:6",
+            "intent_id": "intent:change_01M7NPRYFTCC0HJ7RVTM267T25",
+            "kind": "trajectory_step_recorded",
+            "sequence": 6
           }
         ],
         "knowledge_candidates": [],
-        "next_sequence": 5,
+        "next_sequence": 6,
         "schema_version": "1.0.0",
         "trajectories": {
           "branch_01M7NPRYJD5MRKGEDF4JW8NFA7": {
@@ -183,6 +208,23 @@
                 ],
                 "sequence": 5,
                 "validation_findings": []
+              },
+              {
+                "action": "verification",
+                "custody_event_id": "event:6",
+                "observations": [
+                  "Seven offline guard tests pass. Final56/12/56-second H264/AAC files decoded, audio/captions/poster checked. Publication-time T7sSlC native receipt and unchanged canonical record were independently read and matched to the observed publisher interval, separate from R1 and later task completion. Current applicability remains false after actual target advance."
+                ],
+                "proof_refs": [
+                  "production-negative-controls",
+                  "actual-delivery-media"
+                ],
+                "scope": [
+                  "index.html styles.css scripts assets evidence .github/workflows",
+                  "scripts"
+                ],
+                "sequence": 6,
+                "validation_findings": []
               }
             ]
           }
@@ -192,7 +234,8 @@
       "destination": "pull request",
       "evidence": [
         "Actual H264/AAC56/12/56 sec files decoded, dimensions/audio/caption timing/poster verified. Chrome155 desktop/mobile played/seeks correct1920x1080 and1080x1920 sources with eight optional cues and reduced-motion paused defaults. Public deployment must be separately checked after publication. GitHub immutable archive3c6c373 independently read back, original refs unchanged.",
-        "Real Pi PR2 independently read back at f3a7a1609 against4b7f3b056; source observer verification pending, no success film export until correlated manifest exists."
+        "Real Pi PR2 independently read back at f3a7a1609 against4b7f3b056; source observer verification pending, no success film export until correlated manifest exists.",
+        "Seven offline guard tests pass. Final56/12/56-second H264/AAC files decoded, audio/captions/poster checked. Publication-time T7sSlC native receipt and unchanged canonical record were independently read and matched to the observed publisher interval, separate from R1 and later task completion. Current applicability remains false after actual target advance."
       ],
       "inspected_files": [
         ".github/workflows/site-bootstrap.yml",
@@ -207,6 +250,7 @@
       ],
       "repo_scope": [
         "index.html styles.css scripts assets evidence .github/workflows",
+        "media evidence scripts assets static homepage and existing workflow",
         "scripts"
       ],
       "run_id": "branch_01M7NPRYJD5MRKGEDF4JW8NFA7",

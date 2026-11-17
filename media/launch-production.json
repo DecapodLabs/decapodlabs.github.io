@@ -1,0 +1,27 @@
+{
+  "schema": "decapod.launch-production.v1",
+  "owner_issue": "https://github.com/DecapodLabs/decapodlabs.github.io/issues/9",
+  "approved_archive_commit": "3c6c373ea703144a2a096e7c3ad6b17c45fcdc38",
+  "approved_manifest_sha256": "sha256:4180e2b8b1b20e020025be51d858712d7b71e33a93d7b42446d005a05d954949",
+  "approved_controls_sha256": "sha256:44d35c367842aa0261caf8d86c8bcf42177fd0279eaff8afc13319a4f53365ab",
+  "scene_durations": [
+    6,
+    6,
+    8,
+    9,
+    9,
+    8,
+    5,
+    5
+  ],
+  "social_durations": [
+    3,
+    3,
+    3,
+    3
+  ],
+  "fps": 30,
+  "typography": "assets/fonts/SOURCES.json",
+  "audio": "Original synthesized score; no external samples",
+  "scope": "Presentation of a reviewed actual-run export; this configuration grants no admission or merge authority"
+}

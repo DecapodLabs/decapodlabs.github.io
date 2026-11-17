@@ -3,11 +3,18 @@ const root = 'evidence/pi-1758-20261117-01/';
 const read = async (p: string) => JSON.parse(await Deno.readTextFile(p));
 const hash = async (bytes: Uint8Array) => 'sha256:' + [...new Uint8Array(await crypto.subtle.digest('SHA-256', bytes as BufferSource))].map(v => v.toString(16).padStart(2, '0')).join('');
 const bytes = (s: string) => new TextEncoder().encode(s);
+type Json = null | boolean | number | string | Json[] | {[key: string]: Json};
+const canonical = (v: Json): Json => Array.isArray(v) ? v.map(canonical) : v !== null && typeof v === 'object' ? Object.fromEntries(Object.entries(v).sort(([a],[b]) => a < b ? -1 : a > b ? 1 : 0).map(([k,x]) => [k,canonical(x)])) : v;
+const valueHash = (v: Json) => hash(bytes(JSON.stringify(canonical(v))));
 const assert = (condition: unknown, message: string) => { if (!condition) throw Error('launch_' + message); };
 export async function verifyLaunch() {
   const m = await read(root + 'manifest.json'), c = await read(root + 'capture.json');
+  const production = await read('media/launch-production.json');
+  assert(production.schema === 'decapod.launch-production.v1' && production.approved_manifest_sha256 === await hash(await Deno.readFile(root + 'manifest.json')), 'unreviewed_manifest');
+  assert(production.approved_controls_sha256 === await hash(await Deno.readFile(root + 'controls.json')), 'unreviewed_controls');
   assert(m.schema === 'decapod.agent-acceptance.v1' && m.observed_autonomous_admission === true, 'real_admission_required');
   assert(m.publication_ready === false && m.merge_authorized === false && m.human_interventions === 0, 'authority_or_intervention');
+  assert(m.current_admission_applicable === false, 'historical_admission_required');
   assert(m.run_id === c.run_id && m.objective.text === c.objective, 'run_identity');
   assert(c.approved_objective_sha256 === await hash(bytes(c.objective)), 'objective_digest');
   const witnesses: Record<string, unknown[]> = {};
@@ -50,8 +57,24 @@ export async function verifyLaunch() {
   const controls = await read(root + 'controls.json');
   for (const name of ['source_mutation','target_advancement']) assert(controls[name].exit_code !== 0 && controls[name].reason_codes.length > 0, 'negative_control');
   assert(controls.primary_agent_head === m.admission_observed.head && controls.merge_authorized === false, 'control_identity');
+  // The exact publication-time proof is distinct from standalone validation
+  // and the later task-completion proof. Verify hashes and observed identity;
+  // this readback does not import authority or replace the Rust verifier.
+  const publication = await read(root + 'publication-record.json');
+  const receipt = await read(root + 'publication-receipt.json');
+  const readback = await read(root + 'publication-proof-readback.json');
+  const {record_digest, ...recordBody} = publication;
+  const {receipt_hash, ...receiptBody} = receipt;
+  assert(await valueHash(recordBody) === record_digest && await valueHash(receiptBody) === receipt_hash, 'publication_proof_hash');
+  assert(await hash(await Deno.readFile(root + 'publication-receipt.json')) === readback.receipt_file_sha256, 'publication_receipt_bytes');
+  assert(await valueHash(publication.proof.suite) === receipt.evidence_digest && await valueHash(publication.proof.expected_plan) === receipt.proof_plan_digest, 'publication_proof_binding');
+  assert(publication.event_id === readback.record_id && record_digest === readback.record_digest && receipt.invocation_id === publication.event_id, 'publication_record_identity');
+  assert(receipt.material.head_revision === m.admission_observed.head && receipt.material.accepted_base_revision === m.admission_observed.base && await valueHash(receipt.material) === await valueHash(publication.proof.material), 'publication_subject');
+  assert(readback.record_time_ns >= readback.publisher_invocation.started_ns && readback.record_time_ns <= readback.publisher_invocation.ended_ns && readback.publisher_invocation.exit_code === 0 && readback.publisher_invocation.binary_sha256 === m.kernel.binary_sha256, 'publication_time');
+  assert(readback.publication_ready === false && readback.current_admission_applicable === false && readback.merge_authorized === false, 'historical_readback_authority');
   const report = await read('assets/decapod-launch-render.json');
   assert(report.run_id === m.run_id && report.manifest_sha256 === await hash(await Deno.readFile(root + 'manifest.json')), 'render_source');
+  assert(report.production_config_sha256 === await hash(await Deno.readFile('media/launch-production.json')), 'production_config');
   assert(report.outputs.length === 3 && new Set(report.outputs.map((o: any) => o.variant)).size === 3, 'variants');
   for (const output of report.outputs) {
     const stem = 'assets/decapod-launch' + (output.variant === 'main' ? '' : '-' + output.variant);

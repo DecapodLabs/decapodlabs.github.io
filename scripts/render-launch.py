@@ -9,6 +9,7 @@ kernel's read-only manifest. No terminal, agent thought or validation is simulat
 from __future__ import annotations
 import argparse
 import hashlib
+from functools import lru_cache
 import importlib.util
 import json
 import math
@@ -28,9 +29,13 @@ os.environ['DECAPOD_SHOWCASE_FONTS'] = str(ROOT / 'assets/fonts')
 spec = importlib.util.spec_from_file_location('showcase', ROOT / 'scripts/render-showcase.py')
 brand = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(brand)
+brand.font = lru_cache(maxsize=128)(brand.font)
 IVORY, INK, CORAL = (249, 246, 238), brand.INK, brand.CORAL
 MUTED, GREEN = (105, 108, 103), (43, 105, 80)
-FPS = 30
+PRODUCTION = json.loads((ROOT / 'media/launch-production.json').read_text())
+if PRODUCTION['schema'] != 'decapod.launch-production.v1':
+    raise ValueError('unsupported production configuration')
+FPS = PRODUCTION['fps']
 
 
 def digest(data):
@@ -41,10 +46,16 @@ def evidence(directory):
     """Reject invented success, altered witnesses, missing causal events or controls."""
     manifest = json.loads((directory / 'manifest.json').read_text())
     capture = json.loads((directory / 'capture.json').read_text())
+    if digest((directory / 'manifest.json').read_bytes()) != PRODUCTION['approved_manifest_sha256']:
+        raise ValueError('manifest differs from the reviewed real-run production source')
+    if digest((directory / 'controls.json').read_bytes()) != PRODUCTION['approved_controls_sha256']:
+        raise ValueError('controls differ from the independently reviewed archive')
     if manifest['schema'] != 'decapod.agent-acceptance.v1' or not manifest['observed_autonomous_admission']:
         raise ValueError('a real independently correlated autonomous admission is required')
     if manifest['publication_ready'] or manifest['merge_authorized'] or manifest['human_interventions']:
         raise ValueError('presentation must never grant authority or conceal intervention')
+    if manifest['current_admission_applicable'] or manifest['objective']['text'] != capture['objective']:
+        raise ValueError('historical admission and the original objective must remain truthful')
     for artifact in capture['artifacts'].values():
         name = artifact['file']
         if Path(name).name != name or (directory / name).is_symlink():
@@ -75,6 +86,8 @@ def evidence(directory):
         if event['kind'] == 'pr_admission_independently_correlated':
             if facts != {k:source[k] for k in ['head','base','merged']} | {'pr_url':source['url']}:
                 raise ValueError('editorial admission facts differ from GitHub readback')
+            if manifest['admission_observed'] != facts:
+                raise ValueError('presented admission differs from the independently correlated subject')
     controls = json.loads((directory / 'controls.json').read_text())
     for name in ['source_mutation', 'target_advancement']:
         control = controls[name]
@@ -94,29 +107,33 @@ def scenes(m, controls, social=False):
         dict(duration=6, act='02 / AUTONOMY', title=['Walk away.'], accent=0,
              detail='The agent discovers Decapod, claims its task and enters an isolated workspace.',
              tag='PI · REAL MODEL · REAL TOOLS', evidence=[e['id'] for e in m['events'] if e['kind'] in ['context_consulted','task_claimed','workspace_bound']]),
-        dict(duration=8, act='03 / REJECTION', title=['Progress is', 'not proof.'], accent=1,
+        dict(duration=8, act='03 / REJECTION', title=['The check fails.', 'Decapod rejects.'], accent=1,
              detail='Required authorization check failed. A member without a repository grant was allowed access.',
              tag='EXPECTED FALSE / OBSERVED TRUE', status='REJECTED', evidence=[fail['id']]),
-        dict(duration=9, act='04 / CORRECTION', title=['Feedback becomes', 'a better decision.'], accent=1,
+        dict(duration=9, act='04 / CORRECTION', title=['The agent investigates.', 'Then repairs.'], accent=1,
              detail='The agent reads the failure and repairs repository-scoped access. No human supplies the fix.',
-             tag='INVESTIGATE → REPAIR → REVALIDATE', evidence=source),
+             tag='READ FAILURE · EDIT src/access.cjs · REVALIDATE', evidence=source),
         dict(duration=9, act='05 / PROOF', title=['Come back', 'to receipts.'], accent=1,
              detail='10 access assertions. Independent source guard. Fresh execution, bound to the exact work.',
              tag='HEAD ' + admission['head'][:12], status='CHECKS PASSED',
              receipt=fresh['facts']['receipt_hash'], evidence=[fresh['id']]),
         dict(duration=8, act='06 / ADMISSION', title=['A real PR.', 'Verified by Decapod.'], accent=1,
-             detail=f"PR #{admission['pr_url'].rsplit('/',1)[1]} · exact head and accepted base independently read back on GitHub.",
+             detail=f"PR #{admission['pr_url'].rsplit('/',1)[1]} · exact head and base independently read back on GitHub. Admission does not authorize merge.",
              tag='BASE ' + admission['base'][:12], status='ADMITTED · NOT MERGE AUTHORIZED',
              evidence=[e['id'] for e in m['events'] if e['kind']=='pr_admission_independently_correlated']),
-        dict(duration=5, act='07 / STILL BOUND', title=['Change the work.', 'Invalidate the proof.'], accent=1,
-             detail='Source mutation and target advancement reject historical authorization. Admission never authorizes merge.',
+        dict(duration=5, act='07 / POST-RUN CONTROL', title=['Change the work.', 'Invalidate the proof.'], accent=1,
+             detail='After the run, operator probes mutate source and advance the target. Both reject historical authorization.',
              tag='HISTORICAL SUCCESS ≠ PRESENT AUTHORITY', evidence=[controls['source_mutation']['evidence_sha256'],controls['target_advancement']['evidence_sha256']]),
         dict(duration=5, act='DECAPOD LABS', title=['DECAPOD'], accent=0,
-             detail='HARNESS AI METACOGNITION.', tag='decapodlabs.github.io', outro=True, evidence=[]),
+             detail='HARNESS AI METACOGNITION.', tag='https://decapodlabs.github.io/', outro=True, evidence=[]),
     ]
+    for scene, duration in zip(result, PRODUCTION['scene_durations'], strict=True):
+        scene['duration'] = duration
     if social:
         result = [dict(result[0], duration=3), dict(result[2], duration=3),
                   dict(result[4], duration=3), dict(result[-1], duration=3)]
+        for scene, duration in zip(result, PRODUCTION['social_durations'], strict=True):
+            scene['duration'] = duration
     return result
 
 
@@ -178,7 +195,7 @@ def frame(scene, local, width, height, absolute):
     sx,sy=(cx-sprite.width//2,cy-sprite.height//2)
     image.paste(sprite,(sx,sy),sprite)
     if not scene.get('outro'):
-        label='REAL AGENT RUN / EDITED FROM OBSERVED EVENTS'
+        label='OPERATOR-OWNED PROBES / AFTER THE AUTONOMOUS RUN' if scene['act'].startswith('07') else 'REAL AGENT RUN / EDITED FROM OBSERVED EVENTS'
         d.text((x,h-70),label,font=reg(18 if mobile else 19),fill=MUTED)
     # Subtle scene entrance, no flashing or invented terminal output.
     if local < .25:
@@ -246,6 +263,7 @@ def main():
     variants=['main','social','mobile'] if args.variant=='all' else [args.variant]
     outputs=[render(m,c,args.output,v) for v in variants]
     report={'schema':'decapod.launch-render.v1','run_id':m['run_id'],'manifest_sha256':digest((args.evidence/'manifest.json').read_bytes()),
+            'production_config_sha256':digest((ROOT/'media/launch-production.json').read_bytes()),
             'audio':'Original synthesized score by Decapod Labs; no external samples',
             'claim_scope':'Edited real-agent events; historical PR admission, never merge authorization. Controlled post-run probes are distinct from agent actions.',
             'outputs':outputs}

@@ -21,6 +21,14 @@ Presentation always preserves publication_ready=false and merge_authorized=false
 
 Static HTML introduces no executable evidence injection, account state, new remote script, credential, checkout or backend. The existing renderer workflow skips old bootstrap initialization when governance already exists, preserving current authored and generated surfaces. Branch protection and kernel checks are separately evidenced; local static checks do not attest deployment or hosted Cloud access.
 
+## Reviewed production evidence and rendering custody
+
+media/launch-production.json pins the independently reviewed immutable event manifest and control digests. The renderer and accepted offline static qualification reject different subjects, altered witness bytes or historical authorization relabelled as current. Seven offline negative controls exercise these failures before every automated rendering. The existing workflow renders the new film into a temporary directory and uploads verified review artifacts; it does not silently rewrite the committed film or borrow the prior website receipt for different movie bytes. Updated public assets require a new governed checkpoint and validation.
+
+## Publication-time evidence readback
+
+The public supplement preserves the actual retained native receipt and unchanged canonical completion created inside the observed publisher invocation, separately from standalone validation and later task-completion records. The offline site gate checks native record/receipt digests, expected-plan/suite binding, exact admitted head/base and the observed publisher interval. This is historical verification with publication_ready=false and merge_authorized=false; it never reauthorizes the changed target.
+
 <!-- decapod:capability-overlay:public-api:start -->
 
 Generated capability obligations: `public-api` is declared for this project. These are decisions and proof requirements, not claims of implemented behavior. Resolve each against project source and tests; record unsupported or non-applicable mechanisms explicitly.
@@ -47,7 +55,7 @@ Generated capability obligations: `public-api` is declared for this project. The
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `1553cff1115a10947250c46fb63dd2d199df6c06be925e7e2715418f078f57f0`
-- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `evidence/` (1 files), `main.js/` (1 files), `scripts/` (6 files)
+- Repository signal fingerprint: `3e28ff6b991360283d8d9eb0055d52dea2db533970f5a6e5d4c82f5c1a54104c`
+- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `evidence/` (1 files), `main.js/` (1 files), `scripts/` (7 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->
