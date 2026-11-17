@@ -193,3 +193,8 @@
 @media(max-width:560px){.film-media .video-controls{gap:8px}.film-media .video-controls button{min-height:42px;padding:10px 11px;font-size:11px}}
 
 
+
+/* Image wordmarks; transparent PNGs preserve the approved paired identity. */
+.nav .brand .site-wordmark{display:block;width:205px;height:auto;max-height:70px;object-fit:contain}
+.footer .footer-brand .site-wordmark{display:block;width:172px;height:auto;max-height:64px;object-fit:contain}
+@media(max-width:560px){.nav .brand .site-wordmark{width:165px}.footer .footer-brand .site-wordmark{width:155px}}
