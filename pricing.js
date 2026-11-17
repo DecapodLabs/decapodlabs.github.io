@@ -1,39 +1,105 @@
 (() => {
   "use strict";
-  // Public pricing mock: human/repository counts only. No billable amount, live quote,
-  // tracking, network requests, Stripe integration, or activated purchase buttons.
-  const repositories = document.getElementById("repo-count");
-  const contributors = document.getElementById("seat-count");
-  const repositoryValue = document.getElementById("repo-count-value");
-  const contributorValue = document.getElementById("seat-count-value");
-  const assignmentValue = document.getElementById("assignment-count");
-  const assignmentFormula = document.getElementById("assignment-formula");
+  // Public Coming soon mock. This file never computes money, generates Stripe sessions,
+  // sets commercial entitlements, or derives real provider usage limits.
+  const byId = (id) => document.getElementById(id);
+  const repositories = byId("repo-count");
+  const contributors = byId("seat-count");
+  const repositoryValue = byId("repo-count-value");
+  const contributorValue = byId("seat-count-value");
+  const assignmentValue = byId("assignment-count");
+  const assignmentFormula = byId("assignment-formula");
+  const repositoryDiscount = byId("repo-discount");
+  const contributorDiscount = byId("contributor-discount");
+  const combinedDiscount = byId("combined-discount");
+  const resourceInputs = [
+    ["network-capacity", "network-capacity-value"],
+    ["compute-capacity", "compute-capacity-value"],
+    ["storage-capacity", "storage-capacity-value"]
+  ];
+  const capacitySummary = byId("capacity-summary");
 
   if (!repositories || !contributors || !repositoryValue || !contributorValue ||
       !assignmentValue || !assignmentFormula) return;
 
+  // Illustrative 1/2/3 percent discounts on each independently selected axis.
+  // The service will own all actual eligibility, cost validation, and invoice math.
+  const repositorySteps = Object.freeze([[3, 1], [6, 2], [10, 3]]);
+  const contributorSteps = Object.freeze([[5, 1], [10, 2], [20, 3]]);
+
+  function stepPercent(count, steps) {
+    let percent = 0;
+    for (const [minimum, value] of steps) {
+      if (count >= minimum) percent = value;
+    }
+    return percent;
+  }
+
   function fill(slider) {
-    const lower = Number(slider.min);
-    const upper = Number(slider.max);
-    const selected = Number(slider.value);
-    const progress = 100 * (selected - lower) / (upper - lower);
+    const min = Number(slider.min);
+    const max = Number(slider.max);
+    const value = Number(slider.value);
+    if (max <= min) return;
+    const progress = 100 * (value - min) / (max - min);
     slider.style.setProperty("--fill", progress + "%");
   }
 
-  function update() {
+  function paintMilestones(selector, count) {
+    const nodes = document.querySelectorAll(selector);
+    for (const item of nodes) {
+      const min = Number(item.dataset.minimum);
+      item.classList.toggle("is-reached", count >= min);
+    }
+  }
+
+  function updateAssignments() {
     const repos = Math.min(10, Math.max(1, Number(repositories.value) || 1));
     const people = Math.min(25, Math.max(1, Number(contributors.value) || 1));
+
     repositoryValue.value = String(repos);
     contributorValue.value = String(people);
     assignmentValue.textContent = String(repos * people);
     assignmentFormula.textContent =
       repos + " " + (repos === 1 ? "repository" : "repositories") +
       " × " + people + " " + (people === 1 ? "contributor" : "contributors") + " each";
+
+    // The mock deliberately assumes the same distinct human group across all repos.
+    // We count these humans once for the contributor-volume axis, NOT repos * humans.
+    const repoPercent = stepPercent(repos, repositorySteps);
+    const peoplePercent = stepPercent(people, contributorSteps);
+    if (repositoryDiscount) repositoryDiscount.textContent = repoPercent + "%";
+    if (contributorDiscount) contributorDiscount.textContent = peoplePercent + "%";
+    if (combinedDiscount) combinedDiscount.textContent = Math.min(6, repoPercent + peoplePercent) + "%";
+
+    paintMilestones("[data-repo-threshold]", repos);
+    paintMilestones("[data-contributor-threshold]", people);
     fill(repositories);
     fill(contributors);
   }
 
-  repositories.addEventListener("input", update);
-  contributors.addEventListener("input", update);
-  update();
+  function updateCapacity() {
+    let extra = 0;
+    for (const [inputId, outputId] of resourceInputs) {
+      const slider = byId(inputId);
+      const output = byId(outputId);
+      if (!slider || !output) continue;
+      const ratio = Math.min(300, Math.max(100, Number(slider.value) || 100));
+      const aboveBaseline = ratio - 100;
+      output.value = aboveBaseline === 0 ? "Included" : "+" + aboveBaseline + "%";
+      if (aboveBaseline > 0) extra += 1;
+      fill(slider);
+    }
+    if (capacitySummary) {
+      capacitySummary.textContent = extra === 0
+        ? "All resources within included capacity"
+        : extra + " resource " + (extra === 1 ? "category" : "categories") +
+          " above baseline — prepaid capacity required";
+    }
+  }
+
+  repositories.addEventListener("input", updateAssignments);
+  contributors.addEventListener("input", updateAssignments);
+  for (const [id] of resourceInputs) byId(id)?.addEventListener("input", updateCapacity);
+  updateAssignments();
+  updateCapacity();
 })();
