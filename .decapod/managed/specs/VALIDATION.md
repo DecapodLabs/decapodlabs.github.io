@@ -56,6 +56,22 @@ Only the existing workflow and Python evidence-test definitions changed among th
 
 The maintainer explicitly approved the exact inventory pin and the use of the existing SSH identity for the scoped workflow branch push. GitHub main commit `0a3de12e1024529ee6122b945b0d5cdaf4a5e506` changes one config line. This candidate integrates that accepted policy and still requires complete native validation, publication readback, and independent deployed-media verification.
 
+## Live Pi recording and case study
+
+On the second successful recorded run, Pi executed 33 tools in 367.768 seconds with zero follow-up inputs. The authorization check rejected dfc10cc9, then Pi read the actual assertion, edited src/access.cjs and earned fresh matching PR #4 admission at a402d49d / ada3eb89. The observer matched all 131 events. Real desktop/mobile previews played and sought both videos, loaded all captions, and followed the case study and social links. FFmpeg verified all five encodes and exact original audio packets for the three case-study variants. Fourteen offline tests and the actual Deno presentation guard passed. Full native validation still requires separate acceptance of the exact candidate source inventory.
+
+## Native Pi terminal recording at /#proofs
+
+Recording pi-1758-tui-05 contains 2,193 distinct terminal frames and 142 independently correlated events for 35 real Pi tool calls with zero follow-up input. The required check rejects candidate 3240002405a3e59cf10167528bb2199c40509007. Fresh evidence binds fixture PR #6 to head 4cea13d000edb911c60e2e857301bb50c4479872 and base ada3eb89c3707801a5b86265dccc899fdabe5e1c, independently matched on GitHub. The case study keeps all original scene durations and encoded soundtrack bytes. Local media decoding and desktop/mobile playback include captions and the actual terminal capture. Public Pages verification follows native website validation and merge.
+
+## Accepted native TUI verification source policy
+
+The site owner authorized publication of the actual Pi TUI at /#proofs. The accepted target at 6862ce73ff3ddadd23c8eaa25e4b0bddc0ad89a7 pins the eight reviewed verification sources for the real capture and case study. The native admission result still requires a fresh check of this exact candidate and GitHub readback.
+
+## Proof recording delivery size
+
+Decapod denied website readiness for the initial 22.8 MB proof MP4 with the snapshot Git output limit. The publishable movie encodes the same masked 1440 × 924 compositor frames with H.264 rate control. Timing, captions, case study, accepted inventory, and artifact identity evidence are unchanged. Decapod binds fresh website readiness to the final encoded bytes.
+
 <!-- decapod:capability-overlay:background-processing:start -->
 
 Generated capability obligations: `background-processing` is declared for this project. These are decisions and proof requirements, not claims of implemented behavior. Resolve each against project source and tests; record unsupported or non-applicable mechanisms explicitly.
@@ -122,7 +138,7 @@ Generated capability obligations: `public-api` is declared for this project. The
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `088038b673519fa48b7887dcf303faa61e8a1e42e960d9ff057a63d878bac455`
-- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `evidence/` (1 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files)
+- Repository signal fingerprint: `abfc871112e7bb630d611fdc4d681dd1f905dc47c665ba592e5fc97f95764a4d`
+- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `evidence/` (3 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->

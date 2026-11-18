@@ -1,0 +1,893 @@
+{
+  "schema": "decapod.agent-acceptance.v1",
+  "run_id": "pi-1758-tui-05",
+  "owner_issue": 1758,
+  "repository": "alexhraber/decapod-admission-acceptance-20261117-1747-06",
+  "objective": "Implement the repository-scoped read authorization described in README.md and publish a verified pull request.",
+  "objective_revision": 1,
+  "approved_objective_sha256": "sha256:8e417d57bc8a469fc970718d7b06b65610b3ca24972ae9ec08159744d417f234",
+  "harness_version": "0.73.1",
+  "kernel_version": "0.148.8",
+  "kernel_sha256": "sha256:35b01d60367b8df72ce7097e43c676bd59165540a9b031a29d4308266e13a274",
+  "kernel_source": "18cbb30ca4d16a80810d8f3c0cecfc4073a83cbc",
+  "artifacts": {
+    "host": {
+      "file": "host.json",
+      "source": "host",
+      "sha256": "sha256:d19419e9510eadeca8d0288c4ec8ba9c89c53b43ae78353a7026c2dd12ba3d0b",
+      "public_uri": null
+    },
+    "kernel": {
+      "file": "kernel.json",
+      "source": "kernel",
+      "sha256": "sha256:526b4754fb43de4aea8f1f9dd3d03b919412569d8d2dc673be160b0bc0869c64",
+      "public_uri": null
+    },
+    "git": {
+      "file": "git.json",
+      "source": "git",
+      "sha256": "sha256:90b31a87f9ff8879107ab14a2ffd884f00a449a7c16023afb0629124da597dd0",
+      "public_uri": null
+    },
+    "github": {
+      "file": "github.json",
+      "source": "github",
+      "sha256": "sha256:408c14a010b2149b15c1863ab66b11af35e2784f64c470e2bce5109eb18631ca",
+      "public_uri": null
+    }
+  },
+  "events": [
+    {
+      "sequence": 1,
+      "elapsed_ms": 0,
+      "artifact": "host",
+      "pointer": "/0"
+    },
+    {
+      "sequence": 2,
+      "elapsed_ms": 2778,
+      "artifact": "host",
+      "pointer": "/1"
+    },
+    {
+      "sequence": 3,
+      "elapsed_ms": 2778,
+      "artifact": "host",
+      "pointer": "/2"
+    },
+    {
+      "sequence": 4,
+      "elapsed_ms": 3872,
+      "artifact": "host",
+      "pointer": "/3"
+    },
+    {
+      "sequence": 5,
+      "elapsed_ms": 5648,
+      "artifact": "host",
+      "pointer": "/4"
+    },
+    {
+      "sequence": 6,
+      "elapsed_ms": 5649,
+      "artifact": "host",
+      "pointer": "/5"
+    },
+    {
+      "sequence": 7,
+      "elapsed_ms": 5859,
+      "artifact": "kernel",
+      "pointer": "/9"
+    },
+    {
+      "sequence": 8,
+      "elapsed_ms": 6032,
+      "artifact": "host",
+      "pointer": "/6"
+    },
+    {
+      "sequence": 9,
+      "elapsed_ms": 9048,
+      "artifact": "host",
+      "pointer": "/7"
+    },
+    {
+      "sequence": 10,
+      "elapsed_ms": 9048,
+      "artifact": "host",
+      "pointer": "/8"
+    },
+    {
+      "sequence": 11,
+      "elapsed_ms": 9347,
+      "artifact": "host",
+      "pointer": "/9"
+    },
+    {
+      "sequence": 12,
+      "elapsed_ms": 12743,
+      "artifact": "host",
+      "pointer": "/10"
+    },
+    {
+      "sequence": 13,
+      "elapsed_ms": 12743,
+      "artifact": "host",
+      "pointer": "/11"
+    },
+    {
+      "sequence": 14,
+      "elapsed_ms": 12886,
+      "artifact": "host",
+      "pointer": "/12"
+    },
+    {
+      "sequence": 15,
+      "elapsed_ms": 13047,
+      "artifact": "host",
+      "pointer": "/13"
+    },
+    {
+      "sequence": 16,
+      "elapsed_ms": 13200,
+      "artifact": "host",
+      "pointer": "/14"
+    },
+    {
+      "sequence": 17,
+      "elapsed_ms": 13486,
+      "artifact": "host",
+      "pointer": "/15"
+    },
+    {
+      "sequence": 18,
+      "elapsed_ms": 13647,
+      "artifact": "host",
+      "pointer": "/16"
+    },
+    {
+      "sequence": 19,
+      "elapsed_ms": 13795,
+      "artifact": "host",
+      "pointer": "/17"
+    },
+    {
+      "sequence": 20,
+      "elapsed_ms": 16656,
+      "artifact": "kernel",
+      "pointer": "/6"
+    },
+    {
+      "sequence": 21,
+      "elapsed_ms": 18511,
+      "artifact": "host",
+      "pointer": "/18"
+    },
+    {
+      "sequence": 22,
+      "elapsed_ms": 23791,
+      "artifact": "host",
+      "pointer": "/19"
+    },
+    {
+      "sequence": 23,
+      "elapsed_ms": 23792,
+      "artifact": "host",
+      "pointer": "/20"
+    },
+    {
+      "sequence": 24,
+      "elapsed_ms": 29244,
+      "artifact": "host",
+      "pointer": "/21"
+    },
+    {
+      "sequence": 25,
+      "elapsed_ms": 32523,
+      "artifact": "host",
+      "pointer": "/22"
+    },
+    {
+      "sequence": 26,
+      "elapsed_ms": 32523,
+      "artifact": "host",
+      "pointer": "/23"
+    },
+    {
+      "sequence": 27,
+      "elapsed_ms": 37568,
+      "artifact": "kernel",
+      "pointer": "/5"
+    },
+    {
+      "sequence": 28,
+      "elapsed_ms": 42690,
+      "artifact": "kernel",
+      "pointer": "/7"
+    },
+    {
+      "sequence": 29,
+      "elapsed_ms": 42958,
+      "artifact": "host",
+      "pointer": "/24"
+    },
+    {
+      "sequence": 30,
+      "elapsed_ms": 42958,
+      "artifact": "git",
+      "pointer": "/0"
+    },
+    {
+      "sequence": 31,
+      "elapsed_ms": 47185,
+      "artifact": "host",
+      "pointer": "/25"
+    },
+    {
+      "sequence": 32,
+      "elapsed_ms": 47185,
+      "artifact": "host",
+      "pointer": "/26"
+    },
+    {
+      "sequence": 33,
+      "elapsed_ms": 49513,
+      "artifact": "kernel",
+      "pointer": "/2"
+    },
+    {
+      "sequence": 34,
+      "elapsed_ms": 49574,
+      "artifact": "kernel",
+      "pointer": "/3"
+    },
+    {
+      "sequence": 35,
+      "elapsed_ms": 51311,
+      "artifact": "kernel",
+      "pointer": "/4"
+    },
+    {
+      "sequence": 36,
+      "elapsed_ms": 51718,
+      "artifact": "host",
+      "pointer": "/27"
+    },
+    {
+      "sequence": 37,
+      "elapsed_ms": 51718,
+      "artifact": "git",
+      "pointer": "/1"
+    },
+    {
+      "sequence": 38,
+      "elapsed_ms": 59783,
+      "artifact": "host",
+      "pointer": "/28"
+    },
+    {
+      "sequence": 39,
+      "elapsed_ms": 59784,
+      "artifact": "host",
+      "pointer": "/29"
+    },
+    {
+      "sequence": 40,
+      "elapsed_ms": 65266,
+      "artifact": "host",
+      "pointer": "/30"
+    },
+    {
+      "sequence": 41,
+      "elapsed_ms": 65266,
+      "artifact": "git",
+      "pointer": "/2"
+    },
+    {
+      "sequence": 42,
+      "elapsed_ms": 72973,
+      "artifact": "host",
+      "pointer": "/31"
+    },
+    {
+      "sequence": 43,
+      "elapsed_ms": 72974,
+      "artifact": "host",
+      "pointer": "/32"
+    },
+    {
+      "sequence": 44,
+      "elapsed_ms": 86903,
+      "artifact": "kernel",
+      "pointer": "/1"
+    },
+    {
+      "sequence": 45,
+      "elapsed_ms": 87134,
+      "artifact": "host",
+      "pointer": "/33"
+    },
+    {
+      "sequence": 46,
+      "elapsed_ms": 87134,
+      "artifact": "git",
+      "pointer": "/3"
+    },
+    {
+      "sequence": 47,
+      "elapsed_ms": 90028,
+      "artifact": "host",
+      "pointer": "/34"
+    },
+    {
+      "sequence": 48,
+      "elapsed_ms": 90029,
+      "artifact": "host",
+      "pointer": "/35"
+    },
+    {
+      "sequence": 49,
+      "elapsed_ms": 90455,
+      "artifact": "host",
+      "pointer": "/36"
+    },
+    {
+      "sequence": 50,
+      "elapsed_ms": 90455,
+      "artifact": "git",
+      "pointer": "/4"
+    },
+    {
+      "sequence": 51,
+      "elapsed_ms": 94822,
+      "artifact": "host",
+      "pointer": "/37"
+    },
+    {
+      "sequence": 52,
+      "elapsed_ms": 94822,
+      "artifact": "host",
+      "pointer": "/38"
+    },
+    {
+      "sequence": 53,
+      "elapsed_ms": 95311,
+      "artifact": "host",
+      "pointer": "/39"
+    },
+    {
+      "sequence": 54,
+      "elapsed_ms": 95311,
+      "artifact": "git",
+      "pointer": "/5"
+    },
+    {
+      "sequence": 55,
+      "elapsed_ms": 102761,
+      "artifact": "host",
+      "pointer": "/40"
+    },
+    {
+      "sequence": 56,
+      "elapsed_ms": 102762,
+      "artifact": "host",
+      "pointer": "/41"
+    },
+    {
+      "sequence": 57,
+      "elapsed_ms": 103011,
+      "artifact": "host",
+      "pointer": "/42"
+    },
+    {
+      "sequence": 58,
+      "elapsed_ms": 103254,
+      "artifact": "host",
+      "pointer": "/43"
+    },
+    {
+      "sequence": 59,
+      "elapsed_ms": 103484,
+      "artifact": "host",
+      "pointer": "/44"
+    },
+    {
+      "sequence": 60,
+      "elapsed_ms": 103945,
+      "artifact": "host",
+      "pointer": "/45"
+    },
+    {
+      "sequence": 61,
+      "elapsed_ms": 103945,
+      "artifact": "git",
+      "pointer": "/6"
+    },
+    {
+      "sequence": 62,
+      "elapsed_ms": 104171,
+      "artifact": "host",
+      "pointer": "/46"
+    },
+    {
+      "sequence": 63,
+      "elapsed_ms": 104171,
+      "artifact": "git",
+      "pointer": "/7"
+    },
+    {
+      "sequence": 64,
+      "elapsed_ms": 104425,
+      "artifact": "host",
+      "pointer": "/47"
+    },
+    {
+      "sequence": 65,
+      "elapsed_ms": 104425,
+      "artifact": "git",
+      "pointer": "/8"
+    },
+    {
+      "sequence": 66,
+      "elapsed_ms": 104664,
+      "artifact": "host",
+      "pointer": "/48"
+    },
+    {
+      "sequence": 67,
+      "elapsed_ms": 104664,
+      "artifact": "git",
+      "pointer": "/9"
+    },
+    {
+      "sequence": 68,
+      "elapsed_ms": 113975,
+      "artifact": "host",
+      "pointer": "/49"
+    },
+    {
+      "sequence": 69,
+      "elapsed_ms": 113976,
+      "artifact": "host",
+      "pointer": "/50"
+    },
+    {
+      "sequence": 70,
+      "elapsed_ms": 114405,
+      "artifact": "host",
+      "pointer": "/51"
+    },
+    {
+      "sequence": 71,
+      "elapsed_ms": 114405,
+      "artifact": "git",
+      "pointer": "/10"
+    },
+    {
+      "sequence": 72,
+      "elapsed_ms": 119415,
+      "artifact": "host",
+      "pointer": "/52"
+    },
+    {
+      "sequence": 73,
+      "elapsed_ms": 119415,
+      "artifact": "host",
+      "pointer": "/53"
+    },
+    {
+      "sequence": 74,
+      "elapsed_ms": 138280,
+      "artifact": "kernel",
+      "pointer": "/8"
+    },
+    {
+      "sequence": 75,
+      "elapsed_ms": 138555,
+      "artifact": "host",
+      "pointer": "/54"
+    },
+    {
+      "sequence": 76,
+      "elapsed_ms": 138555,
+      "artifact": "git",
+      "pointer": "/11"
+    },
+    {
+      "sequence": 77,
+      "elapsed_ms": 141427,
+      "artifact": "host",
+      "pointer": "/55"
+    },
+    {
+      "sequence": 78,
+      "elapsed_ms": 141428,
+      "artifact": "host",
+      "pointer": "/56"
+    },
+    {
+      "sequence": 79,
+      "elapsed_ms": 142051,
+      "artifact": "host",
+      "pointer": "/57"
+    },
+    {
+      "sequence": 80,
+      "elapsed_ms": 142051,
+      "artifact": "git",
+      "pointer": "/12"
+    },
+    {
+      "sequence": 81,
+      "elapsed_ms": 144619,
+      "artifact": "host",
+      "pointer": "/58"
+    },
+    {
+      "sequence": 82,
+      "elapsed_ms": 144619,
+      "artifact": "host",
+      "pointer": "/59"
+    },
+    {
+      "sequence": 83,
+      "elapsed_ms": 145192,
+      "artifact": "host",
+      "pointer": "/60"
+    },
+    {
+      "sequence": 84,
+      "elapsed_ms": 145192,
+      "artifact": "git",
+      "pointer": "/13"
+    },
+    {
+      "sequence": 85,
+      "elapsed_ms": 148199,
+      "artifact": "host",
+      "pointer": "/61"
+    },
+    {
+      "sequence": 86,
+      "elapsed_ms": 148199,
+      "artifact": "host",
+      "pointer": "/62"
+    },
+    {
+      "sequence": 87,
+      "elapsed_ms": 148686,
+      "artifact": "host",
+      "pointer": "/63"
+    },
+    {
+      "sequence": 88,
+      "elapsed_ms": 148686,
+      "artifact": "git",
+      "pointer": "/14"
+    },
+    {
+      "sequence": 89,
+      "elapsed_ms": 157635,
+      "artifact": "host",
+      "pointer": "/64"
+    },
+    {
+      "sequence": 90,
+      "elapsed_ms": 157636,
+      "artifact": "host",
+      "pointer": "/65"
+    },
+    {
+      "sequence": 91,
+      "elapsed_ms": 162146,
+      "artifact": "host",
+      "pointer": "/66"
+    },
+    {
+      "sequence": 92,
+      "elapsed_ms": 162146,
+      "artifact": "git",
+      "pointer": "/15"
+    },
+    {
+      "sequence": 93,
+      "elapsed_ms": 167268,
+      "artifact": "host",
+      "pointer": "/67"
+    },
+    {
+      "sequence": 94,
+      "elapsed_ms": 167269,
+      "artifact": "host",
+      "pointer": "/68"
+    },
+    {
+      "sequence": 95,
+      "elapsed_ms": 167722,
+      "artifact": "host",
+      "pointer": "/69"
+    },
+    {
+      "sequence": 96,
+      "elapsed_ms": 167722,
+      "artifact": "git",
+      "pointer": "/16"
+    },
+    {
+      "sequence": 97,
+      "elapsed_ms": 186738,
+      "artifact": "host",
+      "pointer": "/70"
+    },
+    {
+      "sequence": 98,
+      "elapsed_ms": 186739,
+      "artifact": "host",
+      "pointer": "/71"
+    },
+    {
+      "sequence": 99,
+      "elapsed_ms": 201074,
+      "artifact": "kernel",
+      "pointer": "/12"
+    },
+    {
+      "sequence": 100,
+      "elapsed_ms": 201290,
+      "artifact": "host",
+      "pointer": "/72"
+    },
+    {
+      "sequence": 101,
+      "elapsed_ms": 201290,
+      "artifact": "git",
+      "pointer": "/17"
+    },
+    {
+      "sequence": 102,
+      "elapsed_ms": 204500,
+      "artifact": "host",
+      "pointer": "/73"
+    },
+    {
+      "sequence": 103,
+      "elapsed_ms": 204500,
+      "artifact": "host",
+      "pointer": "/74"
+    },
+    {
+      "sequence": 104,
+      "elapsed_ms": 204959,
+      "artifact": "host",
+      "pointer": "/75"
+    },
+    {
+      "sequence": 105,
+      "elapsed_ms": 204959,
+      "artifact": "git",
+      "pointer": "/18"
+    },
+    {
+      "sequence": 106,
+      "elapsed_ms": 211530,
+      "artifact": "host",
+      "pointer": "/76"
+    },
+    {
+      "sequence": 107,
+      "elapsed_ms": 211530,
+      "artifact": "host",
+      "pointer": "/77"
+    },
+    {
+      "sequence": 108,
+      "elapsed_ms": 224666,
+      "artifact": "kernel",
+      "pointer": "/0"
+    },
+    {
+      "sequence": 109,
+      "elapsed_ms": 224895,
+      "artifact": "host",
+      "pointer": "/78"
+    },
+    {
+      "sequence": 110,
+      "elapsed_ms": 224895,
+      "artifact": "git",
+      "pointer": "/19"
+    },
+    {
+      "sequence": 111,
+      "elapsed_ms": 227472,
+      "artifact": "host",
+      "pointer": "/79"
+    },
+    {
+      "sequence": 112,
+      "elapsed_ms": 227472,
+      "artifact": "host",
+      "pointer": "/80"
+    },
+    {
+      "sequence": 113,
+      "elapsed_ms": 227901,
+      "artifact": "host",
+      "pointer": "/81"
+    },
+    {
+      "sequence": 114,
+      "elapsed_ms": 227901,
+      "artifact": "git",
+      "pointer": "/20"
+    },
+    {
+      "sequence": 115,
+      "elapsed_ms": 236885,
+      "artifact": "host",
+      "pointer": "/82"
+    },
+    {
+      "sequence": 116,
+      "elapsed_ms": 236885,
+      "artifact": "host",
+      "pointer": "/83"
+    },
+    {
+      "sequence": 117,
+      "elapsed_ms": 241160,
+      "artifact": "host",
+      "pointer": "/84"
+    },
+    {
+      "sequence": 118,
+      "elapsed_ms": 241160,
+      "artifact": "git",
+      "pointer": "/21"
+    },
+    {
+      "sequence": 119,
+      "elapsed_ms": 246022,
+      "artifact": "host",
+      "pointer": "/85"
+    },
+    {
+      "sequence": 120,
+      "elapsed_ms": 246022,
+      "artifact": "host",
+      "pointer": "/86"
+    },
+    {
+      "sequence": 121,
+      "elapsed_ms": 246441,
+      "artifact": "host",
+      "pointer": "/87"
+    },
+    {
+      "sequence": 122,
+      "elapsed_ms": 246441,
+      "artifact": "git",
+      "pointer": "/22"
+    },
+    {
+      "sequence": 123,
+      "elapsed_ms": 256013,
+      "artifact": "host",
+      "pointer": "/88"
+    },
+    {
+      "sequence": 124,
+      "elapsed_ms": 256013,
+      "artifact": "host",
+      "pointer": "/89"
+    },
+    {
+      "sequence": 125,
+      "elapsed_ms": 276312,
+      "artifact": "kernel",
+      "pointer": "/10"
+    },
+    {
+      "sequence": 126,
+      "elapsed_ms": 276546,
+      "artifact": "host",
+      "pointer": "/90"
+    },
+    {
+      "sequence": 127,
+      "elapsed_ms": 276546,
+      "artifact": "git",
+      "pointer": "/23"
+    },
+    {
+      "sequence": 128,
+      "elapsed_ms": 280298,
+      "artifact": "host",
+      "pointer": "/91"
+    },
+    {
+      "sequence": 129,
+      "elapsed_ms": 280298,
+      "artifact": "host",
+      "pointer": "/92"
+    },
+    {
+      "sequence": 130,
+      "elapsed_ms": 280841,
+      "artifact": "host",
+      "pointer": "/93"
+    },
+    {
+      "sequence": 131,
+      "elapsed_ms": 280841,
+      "artifact": "git",
+      "pointer": "/24"
+    },
+    {
+      "sequence": 132,
+      "elapsed_ms": 289774,
+      "artifact": "host",
+      "pointer": "/94"
+    },
+    {
+      "sequence": 133,
+      "elapsed_ms": 289775,
+      "artifact": "host",
+      "pointer": "/95"
+    },
+    {
+      "sequence": 134,
+      "elapsed_ms": 336174,
+      "artifact": "kernel",
+      "pointer": "/11"
+    },
+    {
+      "sequence": 135,
+      "elapsed_ms": 336431,
+      "artifact": "host",
+      "pointer": "/96"
+    },
+    {
+      "sequence": 136,
+      "elapsed_ms": 336431,
+      "artifact": "git",
+      "pointer": "/25"
+    },
+    {
+      "sequence": 137,
+      "elapsed_ms": 338710,
+      "artifact": "host",
+      "pointer": "/97"
+    },
+    {
+      "sequence": 138,
+      "elapsed_ms": 338710,
+      "artifact": "host",
+      "pointer": "/98"
+    },
+    {
+      "sequence": 139,
+      "elapsed_ms": 339151,
+      "artifact": "host",
+      "pointer": "/99"
+    },
+    {
+      "sequence": 140,
+      "elapsed_ms": 339151,
+      "artifact": "git",
+      "pointer": "/26"
+    },
+    {
+      "sequence": 141,
+      "elapsed_ms": 344591,
+      "artifact": "host",
+      "pointer": "/100"
+    },
+    {
+      "sequence": 142,
+      "elapsed_ms": 344591,
+      "artifact": "github",
+      "pointer": "/0"
+    }
+  ]
+}

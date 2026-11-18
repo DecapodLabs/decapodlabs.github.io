@@ -19,9 +19,7 @@ from pathlib import Path
 import subprocess
 import sys
 import tempfile
-import wave
 
-import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -108,6 +106,23 @@ def evidence(directory):
     return manifest, controls
 
 
+def current_recording():
+    directory = ROOT / PRODUCTION['recorded_evidence_directory']
+    manifest = (directory / 'manifest.json').read_bytes()
+    terminal = (directory / 'tui-capture.json').read_bytes()
+    if (digest(manifest) != PRODUCTION['approved_recorded_manifest_sha256']
+            or digest(terminal) != PRODUCTION['approved_tui_capture_sha256']):
+        raise ValueError('unreviewed recording or case study data')
+    m, record = json.loads(manifest), json.loads(terminal)
+    admission = m['admission_observed']
+    if (not m['observed_autonomous_admission'] or m['human_interventions']
+            or m['publication_ready'] or m['merge_authorized']
+            or (m['run_id'], admission['head'], admission['base'], admission['pr_url'])
+            != (record['run_id'], record['head'], record['base'], record['pr_url'])):
+        raise ValueError('case study and observed recording must match')
+    return m
+
+
 def scenes(m, controls, social=False):
     admission = m['admission_observed']
     fresh = [e for e in m['events'] if e['kind'] == 'fresh_validation_observed'][-1]
@@ -134,9 +149,9 @@ def scenes(m, controls, social=False):
              tag='BASE ' + admission['base'][:12], status='ADMITTED · NOT MERGE AUTHORIZED',
              evidence=[e['id'] for e in m['events'] if e['kind']=='pr_admission_independently_correlated']),
         dict(duration=5, act='07 / POST-RUN CONTROL', title=['Change the work.', 'Invalidate the proof.'], accent=1,
-             detail='After the run, operator probes mutate source and advance the target. Both reject historical authorization.',
+             detail='Separate operator probes changed source and advanced the target. Both rejected historical authorization.',
              tag='HISTORICAL SUCCESS ≠ PRESENT AUTHORITY', evidence=[controls['source_mutation']['evidence_sha256'],controls['target_advancement']['evidence_sha256']]),
-        dict(duration=5, act='DECAPOD LABS', title=['DECAPOD'], accent=0,
+        dict(duration=5, act='', title=['Decapod Labs'], accent=0,
              detail='HARNESS AI METACOGNITION.', tag='https://decapodlabs.github.io/', outro=True, evidence=[]),
     ]
     for scene, duration in zip(result, PRODUCTION['scene_durations'], strict=True):
@@ -160,6 +175,15 @@ def wrapped(draw, text, font, width):
     return lines + ([current] if current else [])
 
 
+@lru_cache(maxsize=2)
+def closing_logo(mobile):
+    logo = Image.open(ROOT / 'assets/logo-b.png').convert('RGBA')
+    logo = logo.crop(logo.getbbox())
+    width = 780 if mobile else 880
+    height = round(logo.height * width / logo.width)
+    return logo.resize((width, height), Image.Resampling.LANCZOS)
+
+
 def frame(scene, local, width, height, absolute):
     mobile = height > width
     # Render in design coordinates, then resample only for the social export.
@@ -180,14 +204,20 @@ def frame(scene, local, width, height, absolute):
     angle = absolute * .35
     px,py=cx+radius*math.cos(angle),cy+radius*math.sin(angle)
     d.ellipse((px-7,py-7,px+7,py+7),fill=CORAL)
-    d.text((x, 88 if not mobile else 112), scene['act'],font=small,fill=CORAL)
-    title_size = (112 if mobile else 118) if not scene.get('outro') else (150 if mobile else 174)
     title_y = (295 if mobile else 245) + offset
-    for i,line in enumerate(scene['title']):
-        f=heavy(title_size)
-        while d.textlength(line,font=f)>content_width:
-            title_size-=2;f=heavy(title_size)
-        d.text((x,title_y+i*(title_size+16)),line,font=f,fill=CORAL if i==scene.get('accent') else fg)
+    if scene.get('outro'):
+        logo = closing_logo(mobile)
+        image.paste(logo, (x, title_y), logo)
+    else:
+        d.text((x, 88 if not mobile else 112), scene['act'], font=small, fill=CORAL)
+        title_size = 112 if mobile else 118
+        for i, line in enumerate(scene['title']):
+            f = heavy(title_size)
+            while d.textlength(line, font=f) > content_width:
+                title_size -= 2
+                f = heavy(title_size)
+            d.text((x, title_y+i*(title_size+16)), line, font=f,
+                   fill=CORAL if i == scene.get('accent') else fg)
     body_y = (680 if mobile else 605) + offset
     body_size = 38 if mobile else 34
     for i,line in enumerate(wrapped(d,scene['detail'],reg(body_size), 885 if mobile else 1120)):
@@ -207,7 +237,7 @@ def frame(scene, local, width, height, absolute):
     sx,sy=(cx-sprite.width//2,cy-sprite.height//2)
     image.paste(sprite,(sx,sy),sprite)
     if not scene.get('outro'):
-        label='OPERATOR-OWNED PROBES / AFTER THE AUTONOMOUS RUN' if scene['act'].startswith('07') else 'REAL AGENT RUN / EDITED FROM OBSERVED EVENTS'
+        label='OPERATOR-OWNED PROBES / EARLIER FIXTURE RUN' if scene['act'].startswith('07') else 'REAL AGENT RUN / EDITED FROM OBSERVED EVENTS'
         d.text((x,h-70),label,font=reg(18 if mobile else 19),fill=MUTED)
     # Subtle scene entrance, no flashing or invented terminal output.
     if local < .25:
@@ -216,20 +246,19 @@ def frame(scene, local, width, height, absolute):
     return image if (w,h)==(width,height) else image.resize((width,height),Image.Resampling.LANCZOS)
 
 
-def soundtrack(path, duration):
-    """Original restrained score; no samples or third-party music."""
-    rate=48000;t=np.arange(round(duration*rate),dtype=np.float64)/rate
-    score=np.zeros_like(t)
-    for i,at in enumerate(np.arange(0,duration,2)):
-        freq=[130.8128,155.5635,174.6141,195.9977,261.6256,233.0819,195.9977][i%7]
-        u=t-at;mask=(u>=0)&(u<3.8);z=u[mask]
-        env=(1-np.exp(-z*4))*np.exp(-z*1.25)
-        score[mask]+=env*(np.sin(2*np.pi*freq*z)*.08+np.sin(2*np.pi*freq*2*z)*.025)
-    score*=np.minimum(1,t/1.5)*np.minimum(1,(duration-t)/2)
-    stereo=np.column_stack((score,score*.96))
-    with wave.open(str(path),'wb') as out:
-        out.setnchannels(2);out.setsampwidth(2);out.setframerate(rate)
-        out.writeframes((np.clip(stereo,-1,1)*32767).astype('<i2').tobytes())
+def audio_digest(path):
+    result = subprocess.check_output(['ffmpeg', '-v', 'error', '-i', str(path),
+                                      '-map', '0:a:0', '-c:a', 'copy', '-f', 'hash', '-'], text=True)
+    return 'sha256:' + result.strip().removeprefix('SHA256=')
+
+
+def original_soundtrack(path, stem, variant):
+    revision = PRODUCTION['original_audio_revision']
+    with path.open('wb') as out:
+        subprocess.run(['git', 'show', f'{revision}:assets/{stem}.mp4'],
+                       cwd=ROOT, stdout=out, check=True)
+    if audio_digest(path) != PRODUCTION['original_audio_sha256'][variant]:
+        raise ValueError('original case study soundtrack differs')
 
 
 def stamp(seconds):
@@ -247,8 +276,9 @@ def render(m, controls, output, variant):
         edit.append({'start':now,'end':now+s['duration'],'editorial':s,'observed_event_ids_or_control_digests':s['evidence']});now+=s['duration']
     target.with_suffix('.vtt').write_text('\n'.join(cues)+'\n')
     with tempfile.TemporaryDirectory(prefix='decapod-launch-') as tmp:
-        audio=Path(tmp)/'original-score.wav';soundtrack(audio,duration)
-        command=['ffmpeg','-hide_banner','-loglevel','error','-y','-f','rawvideo','-pix_fmt','rgb24','-s',f'{width}x{height}','-r',str(FPS),'-i','pipe:0','-i',str(audio),'-map','0:v','-map','1:a','-c:v','libx264','-preset','medium','-crf','22','-pix_fmt','yuv420p','-c:a','aac','-b:a','128k','-movflags','+faststart','-t',str(duration),str(target.with_suffix('.mp4'))]
+        audio=Path(tmp)/'original-score.mp4'
+        original_soundtrack(audio, target.name, variant)
+        command=['ffmpeg','-hide_banner','-loglevel','error','-y','-f','rawvideo','-pix_fmt','rgb24','-s',f'{width}x{height}','-r',str(FPS),'-i','pipe:0','-i',str(audio),'-map','0:v','-map','1:a','-c:v','libx264','-preset','medium','-crf','22','-pix_fmt','yuv420p','-c:a','copy','-movflags','+faststart','-t',str(duration),str(target.with_suffix('.mp4'))]
         proc=subprocess.Popen(command,stdin=subprocess.PIPE)
         try:
             n=0;absolute=0
@@ -260,10 +290,13 @@ def render(m, controls, output, variant):
             if proc.wait()!=0:raise RuntimeError('FFmpeg failed')
         except BaseException:
             proc.stdin.close();proc.terminate();proc.wait();raise
+    original_audio = audio_digest(target.with_suffix('.mp4'))
+    if original_audio != PRODUCTION['original_audio_sha256'][variant]:
+        raise ValueError('case study soundtrack changed during rendering')
     if variant=='main':
         frame(timeline[4],1,1920,1080,31).save(output/'decapod-launch-poster.png',optimize=True)
     return {'variant':variant,'width':width,'height':height,'duration':duration,'fps':FPS,'scenes':edit,
-            'video_sha256':digest(target.with_suffix('.mp4').read_bytes()),'captions_sha256':digest(target.with_suffix('.vtt').read_bytes())}
+            'original_audio_sha256':original_audio, 'video_sha256':digest(target.with_suffix('.mp4').read_bytes()),'captions_sha256':digest(target.with_suffix('.vtt').read_bytes())}
 
 
 def main():
@@ -271,14 +304,15 @@ def main():
     parser.add_argument('--evidence',type=Path,required=True)
     parser.add_argument('--output',type=Path,default=ROOT/'assets')
     parser.add_argument('--variant',choices=['all','main','social','mobile'],default='all')
-    args=parser.parse_args();m,c=evidence(args.evidence);args.output.mkdir(parents=True,exist_ok=True)
+    args=parser.parse_args();_,c=evidence(args.evidence);m=current_recording()
+    args.output.mkdir(parents=True,exist_ok=True)
     variants=['main','social','mobile'] if args.variant=='all' else [args.variant]
     outputs=[render(m,c,args.output,v) for v in variants]
-    report={'schema':'decapod.launch-render.v1','run_id':m['run_id'],'manifest_sha256':digest((args.evidence/'manifest.json').read_bytes()),
+    report={'schema':'decapod.launch-render.v1','run_id':m['run_id'],'manifest_sha256':PRODUCTION['approved_recorded_manifest_sha256'],
             'production_config_sha256':digest((ROOT/'media/launch-production.json').read_bytes()),
             'runtime':{'python':sys.version.split()[0], 'ffmpeg':subprocess.check_output(['ffmpeg','-version'],text=True).splitlines()[0], 'packages':{name:importlib.metadata.version(name) for name in ['Pillow','numpy','CairoSVG']}},
             'audio':'Original synthesized score by Decapod Labs; no external samples',
-            'claim_scope':'Edited real-agent events; historical PR admission, never merge authorization. Controlled post-run probes are distinct from agent actions.',
+            'claim_scope':'Edited from the same run as the live terminal proof. Separate operator probes are from the earlier fixture run. Admission grants no merge authorization.',
             'outputs':outputs}
     (args.output/'decapod-launch-render.json').write_text(json.dumps(report,indent=2)+'\n')
     print(json.dumps({'outputs':[{'variant':r['variant'],'duration':r['duration']} for r in outputs]}))

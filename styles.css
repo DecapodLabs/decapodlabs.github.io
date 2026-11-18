@@ -388,3 +388,5 @@ html{scroll-padding-top:120px}
  .nav-links a{font-size:11px}
  .nav-links a[href="/pricing.html"]{padding:7px 8px}
 }
+
+.launch-player.proof-player video{aspect-ratio:120/77}

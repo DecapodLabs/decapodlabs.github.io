@@ -1,0 +1,14 @@
+{
+  "schema": "decapod.pi-tui-release.v1",
+  "run_id": "pi-1758-tui-05",
+  "tui_capture_sha256": "sha256:f64f6c7ecc61b7a502f6c8750ad5cffa56f5115904c780870ef051d468e5be5d",
+  "output": {
+    "file": "decapod-proof.mp4",
+    "width": 1440,
+    "height": 924,
+    "duration_ms": 352133,
+    "sha256": "sha256:e534585f7b7e3e2b51d745f330ac727b46491124a5c0a11b2200c31f441b57fd"
+  },
+  "captions_sha256": "sha256:24b15c1c819ae3ba1f96943d968fc41918011c402d573223b6433e1b2b15638a",
+  "poster_sha256": "sha256:f8f63f04995e2403418dadd2b8da4361700f562e46578df8344cf6a8643a7f10"
+}

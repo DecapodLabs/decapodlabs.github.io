@@ -32,6 +32,92 @@ async function rejected(action: () => Promise<void>, reason: string) {
   }
   throw Error('launch_negative_control_was_admitted');
 }
+async function verifyRecording(production: any) {
+  const dir = production.recorded_evidence_directory;
+  assert(typeof dir === 'string' && /^evidence\/pi-1758-[a-z0-9-]+$/.test(dir), 'recording_path');
+  const manifestBytes = await Deno.readFile(dir + '/manifest.json');
+  const captureBytes = await Deno.readFile(dir + '/capture.json');
+  const terminalBytes = await Deno.readFile(dir + '/tui-capture.json');
+  assert(await hash(manifestBytes) === production.approved_recorded_manifest_sha256 &&
+    await hash(captureBytes) === production.approved_recorded_capture_sha256 &&
+    await hash(terminalBytes) === production.approved_tui_capture_sha256, 'recording_source_bytes');
+  const manifest = await read(dir + '/manifest.json');
+  const capture = await read(dir + '/capture.json');
+  const terminal = await read(dir + '/tui-capture.json');
+  const admission = manifest.admission_observed;
+  assert(manifest.observed_autonomous_admission === true && manifest.human_interventions === 0 &&
+    manifest.publication_ready === false && manifest.merge_authorized === false, 'recording_authority');
+  assert(manifest.run_id === capture.run_id && manifest.run_id === terminal.run_id &&
+    capture.objective === manifest.objective.text && terminal.manifest_sha256 === production.approved_recorded_manifest_sha256,
+    'recording_run_identity');
+  assert(terminal.head === admission.head && terminal.base === admission.base &&
+    terminal.pr_url === admission.pr_url && terminal.merge_authorized === false &&
+    terminal.schema === 'decapod.pi-tui-capture.v1' &&
+    terminal.capture_kind === 'live_native_tui_pixels' && terminal.human_interventions === 0, 'recording_subject');
+  const witnesses: Record<string, any[]> = {};
+  for (const [key, value] of Object.entries(capture.artifacts)) {
+    const witness = value as { file: string; sha256: string };
+    assert(/^[a-z]+\.json$/.test(witness.file), 'recorded_witness_path');
+    assert(await hash(await Deno.readFile(dir + '/' + witness.file)) === witness.sha256, 'recorded_witness_bytes');
+    witnesses[key] = await read(dir + '/' + witness.file);
+  }
+  const events = manifest.events;
+  const fail = events.find((event: any) => event.kind === 'required_check_failed');
+  const repair = events.find((event: any) => event.kind === 'agent_changed_failed_source' && fail && event.sequence > fail.sequence);
+  const validation = events.find((event: any) => event.kind === 'fresh_validation_observed' && repair && event.sequence > repair.sequence &&
+    event.facts.head === admission.head && event.facts.base === admission.base);
+  const publish = events.find((event: any) => event.kind === 'publication_observed' && validation && event.sequence > validation.sequence);
+  const readback = events.find((event: any) => event.kind === 'pr_admission_independently_correlated' && publish && event.sequence > publish.sequence);
+  assert(fail && repair && validation && publish && readback && terminal.failure_head !== terminal.head, 'recording_causal_arc');
+  for (const event of [fail, repair, validation, publish, readback]) {
+    const source = capture.events.find((item: any) => item.sequence === event.sequence);
+    const artifact = capture.artifacts[source.artifact];
+    assert(event.id === await hash(bytes(`${capture.run_id}:${event.sequence}:${artifact.sha256}:${source.pointer}`)) &&
+      event.evidence.sha256 === artifact.sha256 && event.evidence.pointer === source.pointer &&
+      witnesses[source.artifact][Number(source.pointer.slice(1))], 'recorded_event_source');
+  }
+  const nativeFor = (event: any) => witnesses.kernel[Number(event.evidence.pointer.slice(1))];
+  const failed = nativeFor(fail), passed = nativeFor(validation), publisher = nativeFor(publish);
+  const observedRemote = witnesses.github[Number(readback.evidence.pointer.slice(1))];
+  assert(failed.operation === 'validate' && failed.exit_code === 1 &&
+    failed.observations.before.head_revision === terminal.failure_head &&
+    failed.observations.results.some((r: any) => r.key.job === 'authorization-contract' &&
+      r.observation.kind === 'executed' && r.observation.conclusion === 'failure' && r.observation.exit_code === 1),
+    'recorded_engineering_failure');
+  assert(passed.operation === 'validate' && passed.exit_code === 0 && passed.output.publication_ready === true &&
+    passed.receipt.material.head_revision === admission.head && passed.receipt.material.accepted_base_revision === admission.base &&
+    passed.observations.results.length === 2 && passed.observations.results.every((r: any) =>
+      r.observation.kind === 'executed' && r.observation.conclusion === 'success' && r.observation.exit_code === 0),
+    'recorded_fresh_checks');
+  assert(publisher.operation === 'publish' && publisher.exit_code === 0 && publisher.output.pr_verified &&
+    publisher.output.remote_verified && publisher.output.commit_hash === admission.head &&
+    publisher.output.pr_url === admission.pr_url && observedRemote.url === admission.pr_url &&
+    observedRemote.head === admission.head && observedRemote.base === admission.base && observedRemote.merged === false,
+    'recorded_publication_readback');
+  const pixelsPath = dir + '/tui-pixels.json';
+  assert(await hash(await Deno.readFile(pixelsPath)) === terminal.pixel_manifest_sha256, 'tui_pixel_manifest');
+  const pixels = await read(pixelsPath);
+  assert(pixels.schema === 'decapod.pi-tui-pixels.v1' && pixels.playback_speed === 1 &&
+    pixels.timeline.length === pixels.capture_frame_count && pixels.capture_frame_count > 100 &&
+    pixels.length_ms === pixels.recording_stop_ms - pixels.recording_start_ms &&
+    pixels.timeline[0].offset_ms === 0 && pixels.timeline.every((frame: any, index: number) =>
+      /^sha256:[0-9a-f]{64}$/.test(frame.raw_frame_sha256) &&
+      /^sha256:[0-9a-f]{64}$/.test(frame.masked_frame_sha256) &&
+      (index === 0 || frame.offset_ms > pixels.timeline[index-1].offset_ms)), 'tui_full_capture');
+  const proof = await read('assets/decapod-proof-render.json');
+  assert(proof.schema === 'decapod.pi-tui-release.v1' && proof.run_id === manifest.run_id &&
+    proof.tui_capture_sha256 === production.approved_tui_capture_sha256, 'proof_render_source');
+  const output = proof.output;
+  assert(output.file === 'decapod-proof.mp4' && output.width === pixels.width && output.height === pixels.height &&
+    Math.abs(output.duration_ms - pixels.length_ms) < 150 &&
+    await hash(await Deno.readFile('assets/' + output.file)) === output.sha256, 'proof_video_bytes');
+  assert(await hash(await Deno.readFile('assets/decapod-proof.vtt')) === proof.captions_sha256 &&
+    await hash(await Deno.readFile('assets/decapod-proof-poster.png')) === proof.poster_sha256, 'proof_accessible_media');
+  const home = await Deno.readTextFile('index.html');
+  assert(home.includes(`href="${admission.pr_url}"`) && home.includes('src="assets/decapod-proof.mp4"') &&
+    home.includes('id="proofs"') && home.includes('href="proof.html#case-study"'), 'proof_homepage_links');
+  return manifest;
+}
 export async function verifyLaunch() {
   const m = await read(root + 'manifest.json'), c = await read(root + 'capture.json');
   const production = await read('media/launch-production.json');
@@ -100,14 +186,16 @@ export async function verifyLaunch() {
   altered.record_digest = await valueHash(alteredBody); alteredReadback.record_digest = altered.record_digest;
   await rejected(() => verifyPublishedProof(altered, receipt, alteredReadback, m, witnesses.kernel, receiptFileDigest), 'approved_publication_proof');
   await rejected(() => verifyPublishedProof(publication, receipt, {...readback, publication_ready:true}, m, witnesses.kernel, receiptFileDigest), 'historical_readback_authority');
+  const recorded = await verifyRecording(production);
   const report = await read('assets/decapod-launch-render.json');
-  assert(report.run_id === m.run_id && report.manifest_sha256 === await hash(await Deno.readFile(root + 'manifest.json')), 'render_source');
+  assert(report.run_id === recorded.run_id && report.manifest_sha256 === production.approved_recorded_manifest_sha256, 'render_source');
   assert(report.production_config_sha256 === await hash(await Deno.readFile('media/launch-production.json')), 'production_config');
   assert(report.outputs.length === 3 && new Set(report.outputs.map((o: any) => o.variant)).size === 3, 'variants');
   for (const output of report.outputs) {
     const stem = 'assets/decapod-launch' + (output.variant === 'main' ? '' : '-' + output.variant);
     assert(await hash(await Deno.readFile(stem + '.mp4')) === output.video_sha256 && await hash(await Deno.readFile(stem + '.vtt')) === output.captions_sha256, 'render_bytes');
     assert(output.duration === (output.variant === 'social' ? 12 : 56), 'duration');
+    assert(output.original_audio_sha256 === production.original_audio_sha256[output.variant], 'original_soundtrack');
   }
-  console.log(JSON.stringify({scope:'offline_launch_source',observed_run:m.run_id,witnesses:Object.keys(witnesses).length,events:m.events.length,media_variants:3,publication_negative_controls:2,merge_authorized:false,deployed_playback_verified:false}));
+  console.log(JSON.stringify({scope:'offline_launch_source',observed_run:m.run_id,witnesses:Object.keys(witnesses).length,events:m.events.length,case_study_run:recorded.run_id,media_variants:4,publication_negative_controls:2,merge_authorized:false,deployed_playback_verified:false}));
 }

@@ -1,0 +1,212 @@
+[
+  {
+    "sequence": 210,
+    "owner_issue": "https://github.com/DecapodLabs/decapod/issues/1758",
+    "operation": "tui-video-04-clone",
+    "exit_code": 0,
+    "stdout_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "sha256:8cc9ba203966ef9bf37048ebd18895dde132beee1270c8153f1fde448609d4ea",
+    "before_head": null,
+    "after_head": "ada3eb89c3707801a5b86265dccc899fdabe5e1c"
+  },
+  {
+    "sequence": 211,
+    "owner_issue": "https://github.com/DecapodLabs/decapod/issues/1758",
+    "operation": "tui-video-04-read-target",
+    "exit_code": 0,
+    "stdout_sha256": "sha256:5c35cbe27c53bc546485140fdfcb6ce14fe970d41dab25775f2431b4edcb7774",
+    "stderr_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "before_head": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+    "after_head": "ada3eb89c3707801a5b86265dccc899fdabe5e1c"
+  },
+  {
+    "sequence": 212,
+    "owner_issue": "https://github.com/DecapodLabs/decapod/issues/1758",
+    "operation": "tui-video-04-source-is-clean",
+    "exit_code": 0,
+    "stdout_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "before_head": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+    "after_head": "ada3eb89c3707801a5b86265dccc899fdabe5e1c"
+  },
+  {
+    "sequence": 213,
+    "owner_issue": "https://github.com/DecapodLabs/decapod/issues/1758",
+    "operation": "tui-video-04-author",
+    "exit_code": 0,
+    "stdout_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "before_head": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+    "after_head": "ada3eb89c3707801a5b86265dccc899fdabe5e1c"
+  },
+  {
+    "sequence": 214,
+    "owner_issue": "https://github.com/DecapodLabs/decapod/issues/1758",
+    "operation": "tui-video-04-email",
+    "exit_code": 0,
+    "stdout_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "before_head": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+    "after_head": "ada3eb89c3707801a5b86265dccc899fdabe5e1c"
+  },
+  {
+    "sequence": 215,
+    "owner_issue": "https://github.com/DecapodLabs/decapod/issues/1758",
+    "operation": "tui-video-04-signature-policy",
+    "exit_code": 0,
+    "stdout_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "before_head": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+    "after_head": "ada3eb89c3707801a5b86265dccc899fdabe5e1c"
+  },
+  {
+    "sequence": 216,
+    "owner_issue": "https://github.com/DecapodLabs/decapod/issues/1758",
+    "operation": "tui-video-04-ingest",
+    "exit_code": 0,
+    "stdout_sha256": "sha256:025511977c12c47cfa5bc24ddf8729de59598b49723a4679790a28d2b2ee3891",
+    "stderr_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "before_head": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+    "after_head": "ada3eb89c3707801a5b86265dccc899fdabe5e1c"
+  },
+  {
+    "sequence": 217,
+    "owner_issue": "https://github.com/DecapodLabs/decapod/issues/1758",
+    "operation": "tui-video-04-eval",
+    "exit_code": 0,
+    "stdout_sha256": "sha256:68a94ecda3a8ebc855da88fcc8dcc4b8eabd37e5b9e0a7d5533571f1e091c194",
+    "stderr_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "before_head": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+    "after_head": "ada3eb89c3707801a5b86265dccc899fdabe5e1c"
+  },
+  {
+    "sequence": 218,
+    "owner_issue": "https://github.com/DecapodLabs/decapod/issues/1758",
+    "operation": "tui-video-04-actual-interactive-pi-pixel-recording",
+    "exit_code": 1,
+    "stdout_sha256": "sha256:e1fe0accfd9c24aaac539006676d3ade2cf68d335fab0a7660a528418607ee53",
+    "stderr_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "before_head": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+    "after_head": "ada3eb89c3707801a5b86265dccc899fdabe5e1c"
+  },
+  {
+    "sequence": 219,
+    "owner_issue": "https://github.com/DecapodLabs/decapod/issues/1758",
+    "operation": "tui-video-04-actual-interactive-pi-pixel-recording",
+    "exit_code": 0,
+    "stdout_sha256": "sha256:2d5ee65d34c59ed13aca2af3ccac93ff5d2ecee7cafd849b2d85caa79d3cee82",
+    "stderr_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "before_head": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+    "after_head": "ada3eb89c3707801a5b86265dccc899fdabe5e1c"
+  },
+  {
+    "sequence": 220,
+    "owner_issue": "https://github.com/DecapodLabs/decapod/issues/1758",
+    "operation": "tui-video-05-clone",
+    "exit_code": 0,
+    "stdout_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "sha256:74ddf6636918a4fe812880db305cffd3a1280cae665376258c40606d43263a14",
+    "before_head": null,
+    "after_head": "ada3eb89c3707801a5b86265dccc899fdabe5e1c"
+  },
+  {
+    "sequence": 221,
+    "owner_issue": "https://github.com/DecapodLabs/decapod/issues/1758",
+    "operation": "tui-video-05-read-target",
+    "exit_code": 0,
+    "stdout_sha256": "sha256:5c35cbe27c53bc546485140fdfcb6ce14fe970d41dab25775f2431b4edcb7774",
+    "stderr_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "before_head": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+    "after_head": "ada3eb89c3707801a5b86265dccc899fdabe5e1c"
+  },
+  {
+    "sequence": 222,
+    "owner_issue": "https://github.com/DecapodLabs/decapod/issues/1758",
+    "operation": "tui-video-05-source-is-clean",
+    "exit_code": 0,
+    "stdout_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "before_head": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+    "after_head": "ada3eb89c3707801a5b86265dccc899fdabe5e1c"
+  },
+  {
+    "sequence": 223,
+    "owner_issue": "https://github.com/DecapodLabs/decapod/issues/1758",
+    "operation": "tui-video-05-author",
+    "exit_code": 0,
+    "stdout_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "before_head": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+    "after_head": "ada3eb89c3707801a5b86265dccc899fdabe5e1c"
+  },
+  {
+    "sequence": 224,
+    "owner_issue": "https://github.com/DecapodLabs/decapod/issues/1758",
+    "operation": "tui-video-05-email",
+    "exit_code": 0,
+    "stdout_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "before_head": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+    "after_head": "ada3eb89c3707801a5b86265dccc899fdabe5e1c"
+  },
+  {
+    "sequence": 225,
+    "owner_issue": "https://github.com/DecapodLabs/decapod/issues/1758",
+    "operation": "tui-video-05-signature-policy",
+    "exit_code": 0,
+    "stdout_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "before_head": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+    "after_head": "ada3eb89c3707801a5b86265dccc899fdabe5e1c"
+  },
+  {
+    "sequence": 226,
+    "owner_issue": "https://github.com/DecapodLabs/decapod/issues/1758",
+    "operation": "tui-video-05-ingest",
+    "exit_code": 0,
+    "stdout_sha256": "sha256:025511977c12c47cfa5bc24ddf8729de59598b49723a4679790a28d2b2ee3891",
+    "stderr_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "before_head": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+    "after_head": "ada3eb89c3707801a5b86265dccc899fdabe5e1c"
+  },
+  {
+    "sequence": 227,
+    "owner_issue": "https://github.com/DecapodLabs/decapod/issues/1758",
+    "operation": "tui-video-05-eval",
+    "exit_code": 0,
+    "stdout_sha256": "sha256:68a94ecda3a8ebc855da88fcc8dcc4b8eabd37e5b9e0a7d5533571f1e091c194",
+    "stderr_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "before_head": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+    "after_head": "ada3eb89c3707801a5b86265dccc899fdabe5e1c"
+  },
+  {
+    "sequence": 228,
+    "owner_issue": "https://github.com/DecapodLabs/decapod/issues/1758",
+    "operation": "tui-video-05-actual-interactive-pi-pixel-recording",
+    "exit_code": 0,
+    "stdout_sha256": "sha256:2d5ee65d34c59ed13aca2af3ccac93ff5d2ecee7cafd849b2d85caa79d3cee82",
+    "stderr_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "before_head": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+    "after_head": "ada3eb89c3707801a5b86265dccc899fdabe5e1c"
+  },
+  {
+    "sequence": 229,
+    "owner_issue": "https://github.com/DecapodLabs/decapod/issues/1758",
+    "operation": "tui-video-05-github-pr-readback",
+    "exit_code": 0,
+    "stdout_sha256": "sha256:585820aaa9dd44f0acf17afadc14b3dd014001193b0b51f90f9ad585487fea25",
+    "stderr_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "before_head": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+    "after_head": "ada3eb89c3707801a5b86265dccc899fdabe5e1c"
+  },
+  {
+    "sequence": 230,
+    "owner_issue": "https://github.com/DecapodLabs/decapod/issues/1758",
+    "operation": "tui-video-05-live-target-readback",
+    "exit_code": 0,
+    "stdout_sha256": "sha256:5c35cbe27c53bc546485140fdfcb6ce14fe970d41dab25775f2431b4edcb7774",
+    "stderr_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "before_head": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+    "after_head": "ada3eb89c3707801a5b86265dccc899fdabe5e1c"
+  }
+]

@@ -1,0 +1,15 @@
+[
+  {
+    "base": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+    "base_branch": "acceptance/1757/launch-20261117-01-base",
+    "branch": "agent/pi-1758-run03/feat_01m7q70ywdd66fm8-repo-read",
+    "head": "a402d49d245bed1b45a9282ef823aa152def96ce",
+    "merged": false,
+    "private_source": {
+      "scope": "independent gh PR readback plus live target ref",
+      "sha256": "sha256:7c3db7940b1da63c1b70a5702b2ec4cd6958e1664abfbbac616ca76e3210d475"
+    },
+    "state": "OPEN",
+    "url": "https://github.com/alexhraber/decapod-admission-acceptance-20261117-1747-06/pull/4"
+  }
+]

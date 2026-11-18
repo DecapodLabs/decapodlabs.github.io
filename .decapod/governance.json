@@ -1,32 +1,42 @@
 {
   "schema_version": "1.0.0",
   "baseline": {
-    "accepted_commit": "5fd0476f3606b9fa75293e3977e3669d7cb42abb"
+    "accepted_commit": "8d302f0dbbe639d96e999253c3a4c9ff8c6c45e6"
   },
   "change": {
-    "id": "change_01M7Q3G9C0HM80DF9TM0BYZ36M",
-    "base_commit": "5fd0476f3606b9fa75293e3977e3669d7cb42abb",
+    "id": "change_01M7Q6TKKV1S9QF6E72V0NC5NA",
+    "base_commit": "8d302f0dbbe639d96e999253c3a4c9ff8c6c45e6",
     "target_base": "origin/main"
   },
   "checkpoints": [
     {
-      "id": "preserve-original-teaser-bytes",
-      "summary": "Restore exact accepted original teaser after automated encoder drift; retain new verified launch films, all evidence and accepted site; source policy unchanged",
-      "input_digest": "sha256:91f24692725c83d34d89abe67c73738fe12af08e3f2939c0dcadf38a5ed1a940"
+      "id": "actual-pi-terminal-proof-and-case-study",
+      "summary": "Checkpoint redacted live Pi terminal proof video and synchronized case-study films with original soundtrack and logo-b asset, verified browser/media and exact PR evidence.",
+      "input_digest": "sha256:cfdf8001ddb1865281a8d011c9fbe33460d576e3fa4b9115691a155c07e6e1f8"
     },
     {
-      "id": "stable-film-inputs-and-original-teaser",
-      "summary": "Checkpoint original teaser preservation and tested media-input selection; copy changes verify without re-encoding, unknown history regenerates safely; new source policy awaits separate acceptance",
-      "input_digest": "sha256:d5c08f031975b92efd302ff519e8559d68f1f92302af56eed04043f970bd8abd"
+      "id": "review-final-encoded-and-caption-bytes",
+      "summary": "Bind reviews to the exact finalized proof and case-study render, captions and evidence",
+      "input_digest": "sha256:1cc1e53ee2d2f67c5e9c51d356323745d50b9040475183bc3e2a54edca7fdac4"
     },
     {
-      "id": "accepted-media-guard-policy",
-      "summary": "Integrate maintainer-approved source digest and preserve all required checks before fresh validation",
-      "input_digest": "sha256:b15a3190f2f193ce0226cea272e5c079fe7a62dcea65bebde3644737b417a04a"
+      "id": "native-pi-recording-proofs",
+      "summary": "Checkpoint the actual Pi terminal movie, matching case study, output digests, exact eight-source policy diff and tested #proofs website integration.",
+      "input_digest": "sha256:2a88b67b73e53ce58a95dec92f382d77b5209af4d198997a661fff7b97ca53e5"
+    },
+    {
+      "id": "accepted-native-pi-proof-policy",
+      "summary": "Integrate the accepted exact verification inventory and checkpoint the reviewed capture, case study and proofs page for native admission.",
+      "input_digest": "sha256:c5371ab5b17fcb6cd49c4f9e396369f9f6f50da363128d56f25b0fa6541311f0"
+    },
+    {
+      "id": "native-pi-footage-web-encode",
+      "summary": "Checkpoint delivery-size proof encode, native frame ledger binding and rerun verification without altering any source policy or the case study.",
+      "input_digest": "sha256:1f4e585bf6584db15a2ca79e281f6e031ce18d5d3f04a2f8534a5abc5ade984e"
     }
   ],
   "intents": {
-    "intent:change_01M7Q3G9C0HM80DF9TM0BYZ36M": {
+    "intent:change_01M7Q6TKKV1S9QF6E72V0NC5NA": {
       "acceptance_criteria": [],
       "assumptions": [],
       "boundaries": [
@@ -36,11 +46,11 @@
         "root"
       ],
       "created_sequence": 1,
-      "id": "intent:change_01M7Q3G9C0HM80DF9TM0BYZ36M",
+      "id": "intent:change_01M7Q6TKKV1S9QF6E72V0NC5NA",
       "out_of_scope": [],
       "proof_requirements": [],
-      "raw_intent": "Preserve original teaser bytes after automated launch rendering (#9)",
-      "refined_intent": "Preserve original teaser bytes after automated launch rendering (#9)",
+      "raw_intent": "Publish live Pi proof video and align the case study closing logo and run results (#9)",
+      "refined_intent": "Publish live Pi proof video and align the case study closing logo and run results (#9)",
       "status": "refined",
       "updated_sequence": 3
     }
@@ -48,79 +58,95 @@
   "sections": {
     "plan": {
       "constraints": {
-        "file_touch_budget": 20,
+        "file_touch_budget": 65,
         "forbidden_paths": []
       },
       "deferred_questions": [],
       "human_questions": [],
-      "intent": "Preserve original accepted teaser bytes and prevent unrelated site changes from re-encoding media; always verify actual committed evidence/media, regenerate review cuts only from changed inputs; keep explicit policy and truthful present-time lineage boundaries",
+      "intent": "Publish actual Pi terminal capture at /#proofs, with expanded Decapod tool output and public receipts for fixture PR #6. Match the 56-second case study to the same run and retain its timing, AAC soundtrack and logo-b closing asset. Preserve the original homepage teaser.",
       "phases": [],
       "proof_hooks": [
-        "14 actual offline evidence/shell-Git controls, complete native exact-subject validation/publication after separate target-policy acceptance, public served original-teaser and unchanged-launch byte comparisons"
+        "Verify observed terminal pixels and private redaction, exact independent fixture readback and receipt, all committed video and caption bytes, original teaser and soundtrack, required site guard, Chrome desktop/mobile playback and native exact-subject publication before public Pages verification."
       ],
       "schema_version": "1.1.0",
       "spec_reviews": [
         {
           "disposition": "unchanged_with_reason",
           "path": ".decapod/managed/specs/ARCHITECTURE.md",
-          "reason": "Explicit maintainer acceptance changes the exact inventory pin only. Preserve reviewed media input guard, original teaser restoration and required checks.",
-          "reviewed_code_fingerprint": "088038b673519fa48b7887dcf303faa61e8a1e42e960d9ff057a63d878bac455",
-          "spec_material_hash": "7592bf80f4960de83fa542f98c7ad5cd1959bce73a84978fd93206f3f385efa5"
+          "reason": "Bounded the H.264 proof movie size while preserving exact frame sources, dimensions, duration and redaction. Updated the published checksum and verified all media and desktop/mobile playback.",
+          "reviewed_code_fingerprint": "abfc871112e7bb630d611fdc4d681dd1f905dc47c665ba592e5fc97f95764a4d",
+          "spec_material_hash": "eb42f628ec315b0f7d6e7d3a79a3523288900604f1d66ed1c415cbf74b8fed0b"
         },
         {
           "disposition": "unchanged_with_reason",
           "path": ".decapod/managed/specs/INTERFACES.md",
-          "reason": "Explicit maintainer acceptance changes the exact inventory pin only. Preserve reviewed media input guard, original teaser restoration and required checks.",
-          "reviewed_code_fingerprint": "088038b673519fa48b7887dcf303faa61e8a1e42e960d9ff057a63d878bac455",
-          "spec_material_hash": "57a2c4f03d6dea100a64bb54bc7954ff60640fb31a7edf7323bf1670b5ff9faa"
+          "reason": "Bounded the H.264 proof movie size while preserving exact frame sources, dimensions, duration and redaction. Updated the published checksum and verified all media and desktop/mobile playback.",
+          "reviewed_code_fingerprint": "abfc871112e7bb630d611fdc4d681dd1f905dc47c665ba592e5fc97f95764a4d",
+          "spec_material_hash": "e2fb528986c81930c42ba998bd6c50c47c4291e03106fab36e1df80858259c73"
         },
         {
           "disposition": "unchanged_with_reason",
           "path": ".decapod/managed/specs/SECURITY.md",
-          "reason": "Explicit maintainer acceptance changes the exact inventory pin only. Preserve reviewed media input guard, original teaser restoration and required checks.",
-          "reviewed_code_fingerprint": "088038b673519fa48b7887dcf303faa61e8a1e42e960d9ff057a63d878bac455",
-          "spec_material_hash": "7748872631971bd8f10e197a33d1e6c6bae81c28e1f9ba61bc62b36343a6900b"
+          "reason": "Bounded the H.264 proof movie size while preserving exact frame sources, dimensions, duration and redaction. Updated the published checksum and verified all media and desktop/mobile playback.",
+          "reviewed_code_fingerprint": "abfc871112e7bb630d611fdc4d681dd1f905dc47c665ba592e5fc97f95764a4d",
+          "spec_material_hash": "8bcf582cf1684a76bb9570a673cac371e6f36c90840def82eff69b2e433a7a68"
         }
       ],
       "state": "APPROVED",
       "stop_conditions": [],
-      "title": "Preserve original teaser bytes after automated launch rendering (#9)",
+      "title": "Publish live Pi proof video and align the case study closing logo and run results (#9)",
       "todo_ids": [
-        "code_01m7q3ehb6rzpp7w"
+        "code_01m7q6sb6sfpajbw"
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1795001024Z"
+      "updated_at": "1795007433Z"
     },
     "trajectory": {
       "active_boundaries": [
         "Current claimed task and isolated work branch"
       ],
-      "artifact_hash": "sha256:cc91a7dc0055f96e377929a27c2a8b8568a66f76a1086db24ee35d05d34a7c1f",
+      "artifact_hash": "sha256:8440f9438516ca26289c0759b67a6ad1d102e21d2374231c97048b82672f726e",
       "checks": [
         {
-          "name": "media-input-decision-and-evidence-controls",
-          "status": "passed"
-        },
-        {
-          "name": "new-target-policy-acceptance",
+          "name": "accepted-consumer-policy",
           "status": "unavailable"
         },
         {
-          "name": "original-teaser-byte-preservation",
-          "status": "partial"
-        },
-        {
-          "name": "present-time-lineage-recovery",
-          "status": "partial"
-        },
-        {
-          "name": "public-launch-playback",
+          "name": "all-media-decode-and-original-audio",
           "status": "passed"
         },
         {
-          "name": "transferred-task-lineage-before-recovery",
-          "status": "failed"
+          "name": "desktop-and-mobile-browser",
+          "status": "passed"
+        },
+        {
+          "name": "native-pi-viewport-and-independent-pr",
+          "status": "passed"
+        },
+        {
+          "name": "new-accepted-target-policy",
+          "status": "unavailable"
+        },
+        {
+          "name": "proof-movie-native-size-budget",
+          "status": "passed"
+        },
+        {
+          "name": "recorded-real-pi-admission",
+          "status": "passed"
+        },
+        {
+          "name": "video-encoding-and-original-audio",
+          "status": "passed"
+        },
+        {
+          "name": "website-desktop-and-mobile-playback",
+          "status": "passed"
+        },
+        {
+          "name": "website-playback-and-binding",
+          "status": "passed"
         }
       ],
       "current_phase": "intent",
@@ -128,49 +154,58 @@
         "events": [
           {
             "event_id": "event:2",
-            "intent_id": "intent:change_01M7Q3G9C0HM80DF9TM0BYZ36M",
+            "intent_id": "intent:change_01M7Q6TKKV1S9QF6E72V0NC5NA",
             "kind": "created",
             "sequence": 2
           },
           {
             "event_id": "event:3",
-            "intent_id": "intent:change_01M7Q3G9C0HM80DF9TM0BYZ36M",
+            "intent_id": "intent:change_01M7Q6TKKV1S9QF6E72V0NC5NA",
             "kind": "refined",
             "sequence": 3
           },
           {
-            "detail": "trajectory:branch_01M7Q3G9DPRB7RNG1TY18P2RR4",
+            "detail": "trajectory:branch_01M7Q6TKNA43XB87PD8JH0A800",
             "event_id": "event:4",
-            "intent_id": "intent:change_01M7Q3G9C0HM80DF9TM0BYZ36M",
+            "intent_id": "intent:change_01M7Q6TKKV1S9QF6E72V0NC5NA",
             "kind": "trajectory_step_recorded",
             "sequence": 4
           },
           {
-            "detail": "trajectory:branch_01M7Q3G9DPRB7RNG1TY18P2RR4",
+            "detail": "trajectory:branch_01M7Q6TKNA43XB87PD8JH0A800",
             "event_id": "event:5",
-            "intent_id": "intent:change_01M7Q3G9C0HM80DF9TM0BYZ36M",
+            "intent_id": "intent:change_01M7Q6TKKV1S9QF6E72V0NC5NA",
             "kind": "trajectory_step_recorded",
             "sequence": 5
+          },
+          {
+            "detail": "trajectory:branch_01M7Q6TKNA43XB87PD8JH0A800",
+            "event_id": "event:6",
+            "intent_id": "intent:change_01M7Q6TKKV1S9QF6E72V0NC5NA",
+            "kind": "trajectory_step_recorded",
+            "sequence": 6
           }
         ],
         "knowledge_candidates": [],
-        "next_sequence": 5,
+        "next_sequence": 6,
         "schema_version": "1.0.0",
         "trajectories": {
-          "branch_01M7Q3G9DPRB7RNG1TY18P2RR4": {
+          "branch_01M7Q6TKNA43XB87PD8JH0A800": {
             "evidence_only": true,
-            "id": "branch_01M7Q3G9DPRB7RNG1TY18P2RR4",
-            "intent_id": "intent:change_01M7Q3G9C0HM80DF9TM0BYZ36M",
+            "id": "branch_01M7Q6TKNA43XB87PD8JH0A800",
+            "intent_id": "intent:change_01M7Q6TKKV1S9QF6E72V0NC5NA",
             "steps": [
               {
                 "action": "trajectory.record",
                 "custody_event_id": "event:4",
                 "observations": [
-                  "Original launch PR36 merged5730ae; actual Pages desktop/mobile playback and24 byte comparisons passed; real render workflow44284325426 passed all regenerated cuts. Existing teaser encoder changed its bytes at5fd0476f. This isolated follow-up restores the exact accepted pre-launch MP4; no launch film, source checker, workflow or config changes. Native proof and served-file readback remain required."
+                  "Actual second Pi run 33 tools in 367.768 seconds, rejection and autonomous repair, 131 verified events, exact GitHub PR4 head and base. Terminal capture while Pi ran, private material omitted. Both films use that run, case study pacing and encoded soundtrack exact. Five media and captions verified; live website merge still depends on separately accepted source policy and fresh native proof."
                 ],
                 "proof_refs": [
-                  "public-launch-playback",
-                  "original-teaser-byte-preservation"
+                  "recorded-real-pi-admission",
+                  "video-encoding-and-original-audio",
+                  "desktop-and-mobile-browser",
+                  "new-accepted-target-policy"
                 ],
                 "scope": [
                   "root"
@@ -182,18 +217,34 @@
                 "action": "trajectory.record",
                 "custody_event_id": "event:5",
                 "observations": [
-                  "Actual14 Python tests pass, including five executed Bash/Git cases; original source-evidence Deno checks still pass. Workflow25afad87 and Python testca6c19d2 are the only changed verification definitions; source inventory4e9f04d9 explicitly reviewed, no check/tool/timeout/coverage removed. Prior native failure names missing transferred-task commitment. Existing decision/observation were observed, and a new imported commitment was recorded at present time through native federation with actual task/issue/commit provenance. No past event or receipt rewritten. New exact policy approval and full validation/publication remain required."
+                  "Observed native TUI frames through Chromium, local media decoding and tests, Chrome playback on desktop and mobile, matching PR #6 receipt and GitHub endpoints. Separate acceptance of the reviewed target policy and exact native website publication before live Pages verification."
                 ],
                 "proof_refs": [
-                  "media-input-decision-and-evidence-controls",
-                  "transferred-task-lineage-before-recovery",
-                  "present-time-lineage-recovery",
-                  "new-target-policy-acceptance"
+                  "native-pi-viewport-and-independent-pr",
+                  "all-media-decode-and-original-audio",
+                  "website-desktop-and-mobile-playback",
+                  "accepted-consumer-policy"
                 ],
                 "scope": [
                   "root"
                 ],
                 "sequence": 5,
+                "validation_findings": []
+              },
+              {
+                "action": "trajectory.record",
+                "custody_event_id": "event:6",
+                "observations": [
+                  "Original 22.8 MB encoded file hit the native 16 MiB Git output bound. Re-encoded the same masked 1440 by 924 frames at 15 fps original speed, validated final media and tested both screen sizes. Reviewed verification-source pin unchanged."
+                ],
+                "proof_refs": [
+                  "proof-movie-native-size-budget",
+                  "website-playback-and-binding"
+                ],
+                "scope": [
+                  "root"
+                ],
+                "sequence": 6,
                 "validation_findings": []
               }
             ]
@@ -203,11 +254,12 @@
       "declared_commands": [],
       "destination": "pull request",
       "evidence": [
-        "Actual14 Python tests pass, including five executed Bash/Git cases; original source-evidence Deno checks still pass. Workflow25afad87 and Python testca6c19d2 are the only changed verification definitions; source inventory4e9f04d9 explicitly reviewed, no check/tool/timeout/coverage removed. Prior native failure names missing transferred-task commitment. Existing decision/observation were observed, and a new imported commitment was recorded at present time through native federation with actual task/issue/commit provenance. No past event or receipt rewritten. New exact policy approval and full validation/publication remain required.",
-        "Original launch PR36 merged5730ae; actual Pages desktop/mobile playback and24 byte comparisons passed; real render workflow44284325426 passed all regenerated cuts. Existing teaser encoder changed its bytes at5fd0476f. This isolated follow-up restores the exact accepted pre-launch MP4; no launch film, source checker, workflow or config changes. Native proof and served-file readback remain required."
+        "Actual second Pi run 33 tools in 367.768 seconds, rejection and autonomous repair, 131 verified events, exact GitHub PR4 head and base. Terminal capture while Pi ran, private material omitted. Both films use that run, case study pacing and encoded soundtrack exact. Five media and captions verified; live website merge still depends on separately accepted source policy and fresh native proof.",
+        "Observed native TUI frames through Chromium, local media decoding and tests, Chrome playback on desktop and mobile, matching PR #6 receipt and GitHub endpoints. Separate acceptance of the reviewed target policy and exact native website publication before live Pages verification.",
+        "Original 22.8 MB encoded file hit the native 16 MiB Git output bound. Re-encoded the same masked 1440 by 924 frames at 15 fps original speed, validated final media and tested both screen sizes. Reviewed verification-source pin unchanged."
       ],
       "inspected_files": [],
-      "intent_id": "intent:change_01M7Q3G9C0HM80DF9TM0BYZ36M",
+      "intent_id": "intent:change_01M7Q6TKKV1S9QF6E72V0NC5NA",
       "modified_files": [],
       "next_transitions": [
         "Refine plan and declare falsifiable checks"
@@ -215,10 +267,10 @@
       "repo_scope": [
         "root"
       ],
-      "run_id": "branch_01M7Q3G9DPRB7RNG1TY18P2RR4",
+      "run_id": "branch_01M7Q6TKNA43XB87PD8JH0A800",
       "schema_version": "1.1.0",
       "shortcut_risk_signals": [],
-      "task_id": "code_01m7q3ehb6rzpp7w",
+      "task_id": "code_01m7q6sb6sfpajbw",
       "tool_calls": [],
       "unresolved_assumptions": []
     }

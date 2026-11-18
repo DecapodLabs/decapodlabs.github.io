@@ -56,6 +56,14 @@ New-task validation exposed missing commitment lineage for the actually imported
 
 Only the existing workflow and Python evidence-test definitions changed among the eight verification sources. The candidate inventory issha256:4e9f04d9ec00b3c9d93dbc1637340f04436f4a0acc53d7c522fe358c260b0499. Existing command/tool/argument/environment/timeout/coverage declarations are unchanged. Exact target-policy acceptance remains separate; prior7482 acceptance does not authorize this new source inventory. Native complete validation/publication and public teaser-byte readback remain required.
 
+## Live Pi recording and case study
+
+The homepage proof section plays the actual-run terminal recording with native controls and responsive sources. A separate evidence page plays the unchanged 56-second case-study edit, now tied to the same observed run. Both are static, website-owned media. The case-study renderer reuses the exact encoded soundtrack from the reviewed Git revision and uses the existing logo-b.png on its closing frame.
+
+## Native Pi terminal recording at /#proofs
+
+The homepage proof section at /#proofs plays a native Pi terminal recording. Its capture came from the live ANSI stream through a headless browser compositor with an expanded tool viewport. The separate 56-second case study uses the same observed run, original encoded audio and supplied logo-b.png. Both are static website assets. The existing teaser remains intact.
+
 <!-- decapod:capability-overlay:persistent-state:start -->
 
 Generated capability obligations: `persistent-state` is declared for this project. These are decisions and proof requirements, not claims of implemented behavior. Resolve each against project source and tests; record unsupported or non-applicable mechanisms explicitly.
@@ -82,7 +90,7 @@ Generated capability obligations: `persistent-state` is declared for this projec
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `088038b673519fa48b7887dcf303faa61e8a1e42e960d9ff057a63d878bac455`
-- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `evidence/` (1 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files)
+- Repository signal fingerprint: `abfc871112e7bb630d611fdc4d681dd1f905dc47c665ba592e5fc97f95764a4d`
+- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `evidence/` (3 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->

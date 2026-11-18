@@ -1,0 +1,623 @@
+[
+  {
+    "binary_sha256": "sha256:35b01d60367b8df72ce7097e43c676bd59165540a9b031a29d4308266e13a274",
+    "exit_code": 0,
+    "host_tool_call_id": "call_57896340d9024198baae3f7871392e76|fc_0d4554fa372b56d1016afd8d7497c487d0aaac981f53afde93",
+    "operation": "claim",
+    "output": {
+      "id": "feat_01m7q70ywdd66fm8",
+      "result": {
+        "assigned_to": "pi-1758-run03",
+        "lease_generation": 1,
+        "lease_seconds": 1800,
+        "mode": "exclusive"
+      },
+      "status": "ok"
+    },
+    "private_source": {
+      "file_id": "invocation-0a5cdd4d893d4e62ab35d9ff2bf926c2.json",
+      "redaction": "argv, local paths, session output and arbitrary text omitted",
+      "sha256": "sha256:3667d28878229dfa3018ae15db3ae9e6439ad59e6aeee1ced83569e38f916791"
+    },
+    "reason_codes": [],
+    "repository": "alexhraber/decapod-admission-acceptance-20261117-1747-06"
+  },
+  {
+    "binary_sha256": "sha256:35b01d60367b8df72ce7097e43c676bd59165540a9b031a29d4308266e13a274",
+    "exit_code": 1,
+    "host_tool_call_id": "call_9d9804ac2dc040758b8be92a6048ea5b|fc_0d4554fa372b56d1016afd8dc4536c87d0ab0247b435f44c08",
+    "observations": {
+      "after": {
+        "accepted_base_revision": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+        "base_branch": "acceptance/1757/launch-20261117-01-base",
+        "candidate_digest": "sha256:8666f38a8ae3166d81184a27d078c5a45075c2572ac79719528b662b62e757ed",
+        "configuration_digest": "sha256:c36ac9aefedcbbd570e35adba8a54af47d752878fab1c75a35d237611cce8f37",
+        "head_revision": "dfc10cc945e33d36fa4ac17ac2fb82cc4a6520c9",
+        "history_digest": "sha256:23db13d23edf923e181bc51925a68b012e61346bc9d2731805558d9b482ffe56",
+        "repository": "alexhraber/decapod-admission-acceptance-20261117-1747-06",
+        "toolchain_digest": "sha256:2ac1b8165670d91a284b6eef71e1b36731df1eb2a9049c140c6d15ddf80c2c3d",
+        "tree_digest": "sha256:8fb20f0ff78c0325673ebc7e1d0a1cd4e6d1109c40564bf3f08d6982604c6ce0",
+        "work_branch": "agent/pi-1758-run03/feat_01m7q70ywdd66fm8-repo-read",
+        "workflow_digest": "sha256:ec705cf11c7c129db71e511cd00705e0905a47db2cca97294090785470eb599a"
+      },
+      "before": {
+        "accepted_base_revision": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+        "base_branch": "acceptance/1757/launch-20261117-01-base",
+        "candidate_digest": "sha256:8666f38a8ae3166d81184a27d078c5a45075c2572ac79719528b662b62e757ed",
+        "configuration_digest": "sha256:c36ac9aefedcbbd570e35adba8a54af47d752878fab1c75a35d237611cce8f37",
+        "head_revision": "dfc10cc945e33d36fa4ac17ac2fb82cc4a6520c9",
+        "history_digest": "sha256:23db13d23edf923e181bc51925a68b012e61346bc9d2731805558d9b482ffe56",
+        "repository": "alexhraber/decapod-admission-acceptance-20261117-1747-06",
+        "toolchain_digest": "sha256:2ac1b8165670d91a284b6eef71e1b36731df1eb2a9049c140c6d15ddf80c2c3d",
+        "tree_digest": "sha256:8fb20f0ff78c0325673ebc7e1d0a1cd4e6d1109c40564bf3f08d6982604c6ce0",
+        "work_branch": "agent/pi-1758-run03/feat_01m7q70ywdd66fm8-repo-read",
+        "workflow_digest": "sha256:ec705cf11c7c129db71e511cd00705e0905a47db2cca97294090785470eb599a"
+      },
+      "expected_plan_digest": "sha256:ccc4be242af2ebd304e390cd61f8a8abbb66c2a587eff7a959a54d7ca6953a10",
+      "facts": {
+        "changed_paths": [
+          ".decapod/governance.json",
+          ".decapod/managed/specs/.manifest.json",
+          ".decapod/managed/specs/INTENT.md"
+        ],
+        "event": "pull_request",
+        "target_branch": "acceptance/1757/launch-20261117-01-base"
+      },
+      "results": [
+        {
+          "definition_digest": "sha256:640102d4aa62b66a20928475fb1fe08092be09baac418498bf6a6b3da3725157",
+          "executor": "native",
+          "identity": {
+            "accepted_base_revision": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+            "base_branch": "acceptance/1757/launch-20261117-01-base",
+            "candidate_digest": "sha256:8666f38a8ae3166d81184a27d078c5a45075c2572ac79719528b662b62e757ed",
+            "configuration_digest": "sha256:c36ac9aefedcbbd570e35adba8a54af47d752878fab1c75a35d237611cce8f37",
+            "head_revision": "dfc10cc945e33d36fa4ac17ac2fb82cc4a6520c9",
+            "history_digest": "sha256:23db13d23edf923e181bc51925a68b012e61346bc9d2731805558d9b482ffe56",
+            "repository": "alexhraber/decapod-admission-acceptance-20261117-1747-06",
+            "toolchain_digest": "sha256:2ac1b8165670d91a284b6eef71e1b36731df1eb2a9049c140c6d15ddf80c2c3d",
+            "tree_digest": "sha256:8fb20f0ff78c0325673ebc7e1d0a1cd4e6d1109c40564bf3f08d6982604c6ce0",
+            "work_branch": "agent/pi-1758-run03/feat_01m7q70ywdd66fm8-repo-read",
+            "workflow_digest": "sha256:ec705cf11c7c129db71e511cd00705e0905a47db2cca97294090785470eb599a"
+          },
+          "invocation_digest": "sha256:5e5a34721200260783b6c1f745b86762c3e3a6328d80a98850d666466e055aae",
+          "key": {
+            "job": "authorization-contract",
+            "matrix": {},
+            "profile": "repo.pr-readiness.v1",
+            "provider": "native",
+            "workflow": ".decapod/config.toml"
+          },
+          "observation": {
+            "artifact_digest": null,
+            "conclusion": "failure",
+            "execution_id": "native:48544:native-proof-OnbsNV",
+            "exit_code": 1,
+            "kind": "executed",
+            "output_digest": "sha256:d87212fb2f96a5b3dd1691e214ef51fec8a68ca3c409da4203d5239100a0dee6"
+          },
+          "toolchain_digest": "sha256:0a316aadf931418f2b847e4113d732ffdae8d04d95905f5ec6668a6b84ad1a99"
+        }
+      ],
+      "schema_version": "1.1.0"
+    },
+    "operation": "validate",
+    "output": {
+      "publication_ready": false,
+      "scope": "publication_readiness",
+      "status": "fail"
+    },
+    "plan": {
+      "buildkite_enabled": false,
+      "checks": [
+        {
+          "definition_digest": "sha256:640102d4aa62b66a20928475fb1fe08092be09baac418498bf6a6b3da3725157",
+          "dependencies": [],
+          "executor": "native",
+          "invocation_digest": "sha256:5e5a34721200260783b6c1f745b86762c3e3a6328d80a98850d666466e055aae",
+          "key": {
+            "job": "authorization-contract",
+            "matrix": {},
+            "profile": "repo.pr-readiness.v1",
+            "provider": "native",
+            "workflow": ".decapod/config.toml"
+          },
+          "kind": "repository_local",
+          "requirement": {
+            "kind": "execute"
+          },
+          "toolchain_digest": "sha256:0a316aadf931418f2b847e4113d732ffdae8d04d95905f5ec6668a6b84ad1a99"
+        },
+        {
+          "definition_digest": "sha256:89b00829b06c96f3c4743669853c6daa9fa8798c4165bc890bd65186c27380fc",
+          "dependencies": [],
+          "executor": "native",
+          "invocation_digest": "sha256:a5e57e5018f93b1f19fcc2cd18e81b931be801e7c57a26a24eb16a6c039a8da7",
+          "key": {
+            "job": "guard-contract",
+            "matrix": {},
+            "profile": "repo.pr-readiness.v1",
+            "provider": "native",
+            "workflow": ".decapod/config.toml"
+          },
+          "kind": "repository_local",
+          "requirement": {
+            "kind": "execute"
+          },
+          "toolchain_digest": "sha256:c747cf748a99694528700f6f82ab4cb19557338ba1f0e2c5b3af97f4c304b5c2"
+        }
+      ],
+      "policy_digest": "sha256:ca30ad3e69ea408b0abddf3ae59d39e980cc541297a2bd9a079567f8ab046618",
+      "schema_version": "1.1.0",
+      "source_inventory_digest": "sha256:6f7e5c7c150a4430f0d984b80c60c11374fb50fc4ba1759d77f1c17a5dc839b7"
+    },
+    "private_source": {
+      "file_id": "invocation-166e67a39ddb42e7874a665f7fff6a61.json",
+      "redaction": "argv, local paths, session output and arbitrary text omitted",
+      "sha256": "sha256:582fc83261537222c06ce57fe4f0db1967f5f27149ae5e2a5b45cb2fab770435"
+    },
+    "reason_codes": [
+      "NOT_READY",
+      "READINESS_BLOCKED",
+      "STATE_COMMIT"
+    ],
+    "repository": "alexhraber/decapod-admission-acceptance-20261117-1747-06"
+  },
+  {
+    "binary_sha256": "sha256:35b01d60367b8df72ce7097e43c676bd59165540a9b031a29d4308266e13a274",
+    "exit_code": 1,
+    "host_tool_call_id": "call_57b483b488124c4aa669cb1cf162c303|fc_0d4554fa372b56d1016afd8e0116e087d080ec87da59365db4",
+    "operation": "validate",
+    "output": {
+      "publication_ready": false,
+      "scope": "publication_readiness",
+      "status": "fail"
+    },
+    "private_source": {
+      "file_id": "invocation-16b0a839c1934e259df5c44b35bd27cb.json",
+      "redaction": "argv, local paths, session output and arbitrary text omitted",
+      "sha256": "sha256:6d84056674063bab2b8958df9cb32a3005a69a42b5544f298dbd245c60c6394c"
+    },
+    "reason_codes": [
+      "READINESS_BLOCKED",
+      "SPEC_REVIEW_REQUIRED",
+      "STATE_COMMIT"
+    ],
+    "repository": "alexhraber/decapod-admission-acceptance-20261117-1747-06"
+  },
+  {
+    "binary_sha256": "sha256:35b01d60367b8df72ce7097e43c676bd59165540a9b031a29d4308266e13a274",
+    "exit_code": 1,
+    "host_tool_call_id": "call_ce7b6ea8be174204b8b780b13a3bf056|fc_0d4554fa372b56d1016afd8e1cfa8487d0925acf7e7058afbc",
+    "operation": "validate",
+    "output": {
+      "publication_ready": false,
+      "scope": "publication_readiness",
+      "status": "fail"
+    },
+    "private_source": {
+      "file_id": "invocation-2b5ac91493524f669e4acc2d9cdf1aac.json",
+      "redaction": "argv, local paths, session output and arbitrary text omitted",
+      "sha256": "sha256:9c613f1c7679c6f47a348e2a9bb113eebd9f90a0c11be76b0f8d771f5c58721b"
+    },
+    "reason_codes": [
+      "READINESS_BLOCKED",
+      "SPEC_REVIEW_REQUIRED",
+      "STATE_COMMIT"
+    ],
+    "repository": "alexhraber/decapod-admission-acceptance-20261117-1747-06"
+  },
+  {
+    "binary_sha256": "sha256:35b01d60367b8df72ce7097e43c676bd59165540a9b031a29d4308266e13a274",
+    "exit_code": 1,
+    "host_tool_call_id": "call_fda175e778ae4144aa69453e0c010330|fc_0d4554fa372b56d1016afd8da2880887d080a29c271e795b09",
+    "operation": "validate",
+    "output": {
+      "publication_ready": false,
+      "scope": "publication_readiness",
+      "status": "fail"
+    },
+    "private_source": {
+      "file_id": "invocation-2da80b5077c3481c93dcd792f79eb060.json",
+      "redaction": "argv, local paths, session output and arbitrary text omitted",
+      "sha256": "sha256:bc7c4b071b0e5f4fff5afb6ca56b4b7b96e5d58a42d30137ede6cddc7ffecf51"
+    },
+    "reason_codes": [
+      "READINESS_BLOCKED",
+      "STATE_COMMIT",
+      "UNSTAGED_GOVERNANCE_ARTIFACT"
+    ],
+    "repository": "alexhraber/decapod-admission-acceptance-20261117-1747-06"
+  },
+  {
+    "binary_sha256": "sha256:35b01d60367b8df72ce7097e43c676bd59165540a9b031a29d4308266e13a274",
+    "exit_code": 0,
+    "host_tool_call_id": "call_716e4ab23b27425499a71dff3f0713f1|fc_0d4554fa372b56d1016afd8d6cab0487d0900942f1eb19b693",
+    "operation": "context",
+    "output": {
+      "status": "ok"
+    },
+    "private_source": {
+      "file_id": "invocation-3bede866d8124387808cc30129a6e6be.json",
+      "redaction": "argv, local paths, session output and arbitrary text omitted",
+      "sha256": "sha256:57b4510a4a411ec2b7e984609cc1281fd81918a7359561691b30b96d0bb912f1"
+    },
+    "reason_codes": [
+      "EMERGENCY_PROTOCOL",
+      "ENGINEERING_EXCELLENCE"
+    ],
+    "repository": "alexhraber/decapod-admission-acceptance-20261117-1747-06"
+  },
+  {
+    "binary_sha256": "sha256:35b01d60367b8df72ce7097e43c676bd59165540a9b031a29d4308266e13a274",
+    "exit_code": 0,
+    "host_tool_call_id": "call_61fba5707cc24952baddfd523a9969fb|fc_0d4554fa372b56d1016afd8d85f5a487d0b86a93e0c8ba4a5b",
+    "operation": "context",
+    "output": {
+      "status": "ok"
+    },
+    "private_source": {
+      "file_id": "invocation-3ec8ba75abf844dea07d005b4499e2cd.json",
+      "redaction": "argv, local paths, session output and arbitrary text omitted",
+      "sha256": "sha256:e09bd1fe0b503b843ad63a5c7290edc606a938b644914a6a5eceb0b597d3000e"
+    },
+    "reason_codes": [],
+    "repository": "alexhraber/decapod-admission-acceptance-20261117-1747-06"
+  },
+  {
+    "binary_sha256": "sha256:35b01d60367b8df72ce7097e43c676bd59165540a9b031a29d4308266e13a274",
+    "exit_code": 0,
+    "host_tool_call_id": "call_67c958809e8240edad7a7f5e76c71402|fc_0d4554fa372b56d1016afd8d7ebcfc87d0b2d1e8ccb85965a5",
+    "operation": "workspace",
+    "output": {
+      "branch": "agent/pi-1758-run03/feat_01m7q70ywdd66fm8-repo-read",
+      "can_work": true,
+      "status": "ok"
+    },
+    "private_source": {
+      "file_id": "invocation-79d159886c4e4defa5a4a016e1dd6466.json",
+      "redaction": "argv, local paths, session output and arbitrary text omitted",
+      "sha256": "sha256:b506cb9c14469ca7d997b2cc06c626466398cdce91f8f62d0af013ce27923ea2"
+    },
+    "reason_codes": [],
+    "repository": "alexhraber/decapod-admission-acceptance-20261117-1747-06"
+  },
+  {
+    "binary_sha256": "sha256:35b01d60367b8df72ce7097e43c676bd59165540a9b031a29d4308266e13a274",
+    "exit_code": 0,
+    "host_tool_call_id": "call_2aef125d53734149aba9bad22f4cb921|fc_0d4554fa372b56d1016afd8d5ade6887d0b645b18285cd6152",
+    "operation": "context",
+    "output": {
+      "status": "ok"
+    },
+    "private_source": {
+      "file_id": "invocation-8e0bfde90ea94658a7d92490e41ce563.json",
+      "redaction": "argv, local paths, session output and arbitrary text omitted",
+      "sha256": "sha256:d898348e4e088aafcdacf098e6554df734f25506d8993aad5b27824e65dc90b2"
+    },
+    "reason_codes": [
+      "ACCEPTED_REPOSITORY_CONTRACT_CHANGED",
+      "ARTIFACT_DURABILITY_UNCONFIRMED",
+      "AUTHORING_CHECKOUT_OCCUPIED",
+      "AUTHORING_TASK_ALREADY_BOUND",
+      "CAPABILITY_UNSUPPORTED",
+      "CLOUD_PRINCIPAL_UNVERIFIED",
+      "CONTROLLER_CONTRACT_UNSUPPORTED",
+      "EXTERNAL_ACTIONS",
+      "FINGERPRINT_ONLY_SPECS",
+      "GITHUB_ACTIONS",
+      "GOVERNANCE_CHECKPOINT_ID_CONFLICT",
+      "GOVERNANCE_UNARCHIVED_WORK",
+      "GOVERNANCE_UNSTAGED_MATERIAL",
+      "HANDOFF_CALLER_MISSING",
+      "HANDOFF_RECOVERY",
+      "LEGACY_EVENT_CONFLICT",
+      "LEGACY_EVENT_PAYLOAD",
+      "LEGACY_TODO_RECONCILIATION",
+      "LEGACY_TODO_RECOVERY_PENDING",
+      "NEEDS_HUMAN_INPUT",
+      "OVERRIDE_DUPLICATE_DIRECTIVE",
+      "OVERRIDE_MALFORMED_DIRECTIVE",
+      "OVERRIDE_UNCLOSED_BODY_FENCE",
+      "PROOF_HOOK_FAILED",
+      "READINESS_GATE_OVERRIDE_UNSUPPORTED",
+      "REPOSITORY_CONTRACT_REQUIRED",
+      "SHARED_RESOURCE_OCCUPIED",
+      "SPEC_REFRESH_AUTHORED_CONTENT_LOSS",
+      "STALE_COMMAND_CONTRACT",
+      "STALE_TASK_VERIFICATION",
+      "TODO_ID",
+      "TODO_PROJECTION_MISSING",
+      "UNKNOWN_REQUIRED_PROFILE",
+      "XDG_DATA_HOME"
+    ],
+    "repository": "alexhraber/decapod-admission-acceptance-20261117-1747-06"
+  },
+  {
+    "binary_sha256": "sha256:35b01d60367b8df72ce7097e43c676bd59165540a9b031a29d4308266e13a274",
+    "exit_code": 0,
+    "host_tool_call_id": "call_ce7f46b99f0a475b80e7f895ed59db40|fc_0d4554fa372b56d1016afd8e6026d887d0ae85f8f19670731e",
+    "operation": "publish",
+    "output": {
+      "branch": "agent/pi-1758-run03/feat_01m7q70ywdd66fm8-repo-read",
+      "commit_hash": "a402d49d245bed1b45a9282ef823aa152def96ce",
+      "pr_url": "https://github.com/alexhraber/decapod-admission-acceptance-20261117-1747-06/pull/4",
+      "pr_verified": true,
+      "remote_verified": true,
+      "status": "ok",
+      "warnings": [
+        "PR admission applies to the observed head and base only. It does not authorize merge; subsequent head, base or required-context changes require fresh applicable proof and merge checks."
+      ]
+    },
+    "private_source": {
+      "file_id": "invocation-95bd41699ff64d028c099da03132f074.json",
+      "redaction": "argv, local paths, session output and arbitrary text omitted",
+      "sha256": "sha256:d0d249e313ae29e82b3417ef66a0ef620681e5698f99662ae750b4d8400e4cd3"
+    },
+    "reason_codes": [],
+    "repository": "alexhraber/decapod-admission-acceptance-20261117-1747-06"
+  },
+  {
+    "binary_sha256": "sha256:35b01d60367b8df72ce7097e43c676bd59165540a9b031a29d4308266e13a274",
+    "exit_code": 1,
+    "host_tool_call_id": "call_57896340d9024198baae3f7871392e76|fc_0d4554fa372b56d1016afd8d7497c487d0aaac981f53afde93",
+    "operation": "context",
+    "output": {
+      "status": "error"
+    },
+    "private_source": {
+      "file_id": "invocation-978734320fc14a109a7ba40ece61ad21.json",
+      "redaction": "argv, local paths, session output and arbitrary text omitted",
+      "sha256": "sha256:b52f9f525c3e0a2b3d9c559ef10d99f4ffff17fec9a401168dd49ace8a39c7ef"
+    },
+    "reason_codes": [],
+    "repository": "alexhraber/decapod-admission-acceptance-20261117-1747-06"
+  },
+  {
+    "binary_sha256": "sha256:35b01d60367b8df72ce7097e43c676bd59165540a9b031a29d4308266e13a274",
+    "exit_code": 0,
+    "host_tool_call_id": "call_7b6467a627b344379d20a23df114962e|fc_0d4554fa372b56d1016afd8e43b1a487d0ac87d6f65aefb275",
+    "observations": {
+      "after": {
+        "accepted_base_revision": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+        "base_branch": "acceptance/1757/launch-20261117-01-base",
+        "candidate_digest": "sha256:18877e4304ce253fe778de4994277c62135a341794cfebe9415eebe7b9afff02",
+        "configuration_digest": "sha256:c36ac9aefedcbbd570e35adba8a54af47d752878fab1c75a35d237611cce8f37",
+        "head_revision": "a402d49d245bed1b45a9282ef823aa152def96ce",
+        "history_digest": "sha256:8b9ee2a8792d6ddf4070d93bec9e875b5d389b3dccbb93607411a409176b7a2c",
+        "repository": "alexhraber/decapod-admission-acceptance-20261117-1747-06",
+        "toolchain_digest": "sha256:2ac1b8165670d91a284b6eef71e1b36731df1eb2a9049c140c6d15ddf80c2c3d",
+        "tree_digest": "sha256:2ca2d4e84e5dc6240bcad005c42e915d62108410a563c9dc264227e8be335b15",
+        "work_branch": "agent/pi-1758-run03/feat_01m7q70ywdd66fm8-repo-read",
+        "workflow_digest": "sha256:ec705cf11c7c129db71e511cd00705e0905a47db2cca97294090785470eb599a"
+      },
+      "before": {
+        "accepted_base_revision": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+        "base_branch": "acceptance/1757/launch-20261117-01-base",
+        "candidate_digest": "sha256:18877e4304ce253fe778de4994277c62135a341794cfebe9415eebe7b9afff02",
+        "configuration_digest": "sha256:c36ac9aefedcbbd570e35adba8a54af47d752878fab1c75a35d237611cce8f37",
+        "head_revision": "a402d49d245bed1b45a9282ef823aa152def96ce",
+        "history_digest": "sha256:8b9ee2a8792d6ddf4070d93bec9e875b5d389b3dccbb93607411a409176b7a2c",
+        "repository": "alexhraber/decapod-admission-acceptance-20261117-1747-06",
+        "toolchain_digest": "sha256:2ac1b8165670d91a284b6eef71e1b36731df1eb2a9049c140c6d15ddf80c2c3d",
+        "tree_digest": "sha256:2ca2d4e84e5dc6240bcad005c42e915d62108410a563c9dc264227e8be335b15",
+        "work_branch": "agent/pi-1758-run03/feat_01m7q70ywdd66fm8-repo-read",
+        "workflow_digest": "sha256:ec705cf11c7c129db71e511cd00705e0905a47db2cca97294090785470eb599a"
+      },
+      "expected_plan_digest": "sha256:8ddc7a1bba57c6fec25f3bb0252f41c196957701c28774e73f819293bda83dbc",
+      "facts": {
+        "changed_paths": [
+          ".decapod/governance.json",
+          ".decapod/managed/specs/.manifest.json",
+          ".decapod/managed/specs/ARCHITECTURE.md",
+          ".decapod/managed/specs/INTENT.md",
+          ".decapod/managed/specs/INTERFACES.md",
+          ".decapod/managed/specs/OPERATIONS.md",
+          ".decapod/managed/specs/README.md",
+          ".decapod/managed/specs/SECURITY.md",
+          ".decapod/managed/specs/SEMANTICS.md",
+          ".decapod/managed/specs/VALIDATION.md",
+          "evidence/1758/baseline-authorization.stderr",
+          "evidence/1758/baseline-validation.json",
+          "src/access.cjs"
+        ],
+        "event": "pull_request",
+        "target_branch": "acceptance/1757/launch-20261117-01-base"
+      },
+      "results": [
+        {
+          "definition_digest": "sha256:640102d4aa62b66a20928475fb1fe08092be09baac418498bf6a6b3da3725157",
+          "executor": "native",
+          "identity": {
+            "accepted_base_revision": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+            "base_branch": "acceptance/1757/launch-20261117-01-base",
+            "candidate_digest": "sha256:18877e4304ce253fe778de4994277c62135a341794cfebe9415eebe7b9afff02",
+            "configuration_digest": "sha256:c36ac9aefedcbbd570e35adba8a54af47d752878fab1c75a35d237611cce8f37",
+            "head_revision": "a402d49d245bed1b45a9282ef823aa152def96ce",
+            "history_digest": "sha256:8b9ee2a8792d6ddf4070d93bec9e875b5d389b3dccbb93607411a409176b7a2c",
+            "repository": "alexhraber/decapod-admission-acceptance-20261117-1747-06",
+            "toolchain_digest": "sha256:2ac1b8165670d91a284b6eef71e1b36731df1eb2a9049c140c6d15ddf80c2c3d",
+            "tree_digest": "sha256:2ca2d4e84e5dc6240bcad005c42e915d62108410a563c9dc264227e8be335b15",
+            "work_branch": "agent/pi-1758-run03/feat_01m7q70ywdd66fm8-repo-read",
+            "workflow_digest": "sha256:ec705cf11c7c129db71e511cd00705e0905a47db2cca97294090785470eb599a"
+          },
+          "invocation_digest": "sha256:5e5a34721200260783b6c1f745b86762c3e3a6328d80a98850d666466e055aae",
+          "key": {
+            "job": "authorization-contract",
+            "matrix": {},
+            "profile": "repo.pr-readiness.v1",
+            "provider": "native",
+            "workflow": ".decapod/config.toml"
+          },
+          "observation": {
+            "artifact_digest": null,
+            "conclusion": "success",
+            "execution_id": "native:61624:native-proof-RhGr3O",
+            "exit_code": 0,
+            "kind": "executed",
+            "output_digest": "sha256:b4a1b9bf3bce748d73b75e6d7adae605ddc509f07798feccc6dd228619d5fbd0"
+          },
+          "toolchain_digest": "sha256:0a316aadf931418f2b847e4113d732ffdae8d04d95905f5ec6668a6b84ad1a99"
+        },
+        {
+          "definition_digest": "sha256:89b00829b06c96f3c4743669853c6daa9fa8798c4165bc890bd65186c27380fc",
+          "executor": "native",
+          "identity": {
+            "accepted_base_revision": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+            "base_branch": "acceptance/1757/launch-20261117-01-base",
+            "candidate_digest": "sha256:18877e4304ce253fe778de4994277c62135a341794cfebe9415eebe7b9afff02",
+            "configuration_digest": "sha256:c36ac9aefedcbbd570e35adba8a54af47d752878fab1c75a35d237611cce8f37",
+            "head_revision": "a402d49d245bed1b45a9282ef823aa152def96ce",
+            "history_digest": "sha256:8b9ee2a8792d6ddf4070d93bec9e875b5d389b3dccbb93607411a409176b7a2c",
+            "repository": "alexhraber/decapod-admission-acceptance-20261117-1747-06",
+            "toolchain_digest": "sha256:2ac1b8165670d91a284b6eef71e1b36731df1eb2a9049c140c6d15ddf80c2c3d",
+            "tree_digest": "sha256:2ca2d4e84e5dc6240bcad005c42e915d62108410a563c9dc264227e8be335b15",
+            "work_branch": "agent/pi-1758-run03/feat_01m7q70ywdd66fm8-repo-read",
+            "workflow_digest": "sha256:ec705cf11c7c129db71e511cd00705e0905a47db2cca97294090785470eb599a"
+          },
+          "invocation_digest": "sha256:a5e57e5018f93b1f19fcc2cd18e81b931be801e7c57a26a24eb16a6c039a8da7",
+          "key": {
+            "job": "guard-contract",
+            "matrix": {},
+            "profile": "repo.pr-readiness.v1",
+            "provider": "native",
+            "workflow": ".decapod/config.toml"
+          },
+          "observation": {
+            "artifact_digest": null,
+            "conclusion": "success",
+            "execution_id": "native:61624:native-proof-hXhknE",
+            "exit_code": 0,
+            "kind": "executed",
+            "output_digest": "sha256:f68776d1eeb3f3379c58834061add0b44494f3ccbebb213a9eeb35a904b8595e"
+          },
+          "toolchain_digest": "sha256:c747cf748a99694528700f6f82ab4cb19557338ba1f0e2c5b3af97f4c304b5c2"
+        }
+      ],
+      "schema_version": "1.1.0"
+    },
+    "operation": "validate",
+    "output": {
+      "publication_ready": true,
+      "scope": "publication_readiness",
+      "status": "ok"
+    },
+    "plan": {
+      "buildkite_enabled": false,
+      "checks": [
+        {
+          "definition_digest": "sha256:640102d4aa62b66a20928475fb1fe08092be09baac418498bf6a6b3da3725157",
+          "dependencies": [],
+          "executor": "native",
+          "invocation_digest": "sha256:5e5a34721200260783b6c1f745b86762c3e3a6328d80a98850d666466e055aae",
+          "key": {
+            "job": "authorization-contract",
+            "matrix": {},
+            "profile": "repo.pr-readiness.v1",
+            "provider": "native",
+            "workflow": ".decapod/config.toml"
+          },
+          "kind": "repository_local",
+          "requirement": {
+            "kind": "execute"
+          },
+          "toolchain_digest": "sha256:0a316aadf931418f2b847e4113d732ffdae8d04d95905f5ec6668a6b84ad1a99"
+        },
+        {
+          "definition_digest": "sha256:89b00829b06c96f3c4743669853c6daa9fa8798c4165bc890bd65186c27380fc",
+          "dependencies": [],
+          "executor": "native",
+          "invocation_digest": "sha256:a5e57e5018f93b1f19fcc2cd18e81b931be801e7c57a26a24eb16a6c039a8da7",
+          "key": {
+            "job": "guard-contract",
+            "matrix": {},
+            "profile": "repo.pr-readiness.v1",
+            "provider": "native",
+            "workflow": ".decapod/config.toml"
+          },
+          "kind": "repository_local",
+          "requirement": {
+            "kind": "execute"
+          },
+          "toolchain_digest": "sha256:c747cf748a99694528700f6f82ab4cb19557338ba1f0e2c5b3af97f4c304b5c2"
+        }
+      ],
+      "policy_digest": "sha256:b89ff1f94a176fd56cf9fc57924b2a2d3a618dbe91544f197e33ef99b76a514f",
+      "schema_version": "1.1.0",
+      "source_inventory_digest": "sha256:6f7e5c7c150a4430f0d984b80c60c11374fb50fc4ba1759d77f1c17a5dc839b7"
+    },
+    "private_source": {
+      "file_id": "invocation-a74aaf2dbe2440619d04212d7036c351.json",
+      "redaction": "argv, local paths, session output and arbitrary text omitted",
+      "sha256": "sha256:4db53210374efde33addc1462ac1641fc3b5ddb3b6690a3d194e813fc1799fce"
+    },
+    "reason_codes": [
+      "STATE_COMMIT"
+    ],
+    "receipt": {
+      "evidence_digest": "sha256:61785b9184c1ffbe4abaaf3960c269e9c3d1d739e5926efafccfbc90c4438579",
+      "governance_digest": "sha256:078cd6370a0248e1bf331de47424ed1ea9cf1c3cc8faa2752ffd3786b3e64e1d",
+      "invocation_id": "decapod-readiness-YyYl2F",
+      "kind": "native_readiness_receipt",
+      "laya_readiness_digest": "sha256:f47a3c8ac0ea4e420df2b43f21f46888ed5d8e2875d6105529df37a75798b180",
+      "material": {
+        "accepted_base_revision": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+        "base_branch": "acceptance/1757/launch-20261117-01-base",
+        "candidate_digest": "sha256:18877e4304ce253fe778de4994277c62135a341794cfebe9415eebe7b9afff02",
+        "configuration_digest": "sha256:c36ac9aefedcbbd570e35adba8a54af47d752878fab1c75a35d237611cce8f37",
+        "head_revision": "a402d49d245bed1b45a9282ef823aa152def96ce",
+        "history_digest": "sha256:8b9ee2a8792d6ddf4070d93bec9e875b5d389b3dccbb93607411a409176b7a2c",
+        "repository": "alexhraber/decapod-admission-acceptance-20261117-1747-06",
+        "toolchain_digest": "sha256:2ac1b8165670d91a284b6eef71e1b36731df1eb2a9049c140c6d15ddf80c2c3d",
+        "tree_digest": "sha256:2ca2d4e84e5dc6240bcad005c42e915d62108410a563c9dc264227e8be335b15",
+        "work_branch": "agent/pi-1758-run03/feat_01m7q70ywdd66fm8-repo-read",
+        "workflow_digest": "sha256:ec705cf11c7c129db71e511cd00705e0905a47db2cca97294090785470eb599a"
+      },
+      "proof_plan_digest": "sha256:8ddc7a1bba57c6fec25f3bb0252f41c196957701c28774e73f819293bda83dbc",
+      "receipt_hash": "sha256:4ad28bd1a0408cf2aa0a7dd841d1beccf6e71906677db652d656a742860fd8a8",
+      "schema_version": "1.0.0",
+      "scope": "repository_local_readiness",
+      "status": "ok",
+      "trajectory_digest": "sha256:c0eb357e5583f45707a71935e3ff86434cc7adea34615692633d4f3b5a5e674d"
+    },
+    "repository": "alexhraber/decapod-admission-acceptance-20261117-1747-06"
+  },
+  {
+    "binary_sha256": "sha256:35b01d60367b8df72ce7097e43c676bd59165540a9b031a29d4308266e13a274",
+    "exit_code": 0,
+    "host_tool_call_id": "call_61fba5707cc24952baddfd523a9969fb|fc_0d4554fa372b56d1016afd8d85f5a487d0b86a93e0c8ba4a5b",
+    "operation": "context",
+    "output": {
+      "status": "ok"
+    },
+    "private_source": {
+      "file_id": "invocation-d010ebd84af84279a67c22f139851b27.json",
+      "redaction": "argv, local paths, session output and arbitrary text omitted",
+      "sha256": "sha256:b73df282e2eaf5fd88e763f595e1d22a497424ab6c4d205b248fd8d4a8c5489a"
+    },
+    "reason_codes": [
+      "ARCHITECTURE_FOUNDATIONS",
+      "CONTROL_PLANE",
+      "PROJECT_SPECS"
+    ],
+    "repository": "alexhraber/decapod-admission-acceptance-20261117-1747-06"
+  },
+  {
+    "binary_sha256": "sha256:35b01d60367b8df72ce7097e43c676bd59165540a9b031a29d4308266e13a274",
+    "exit_code": 0,
+    "host_tool_call_id": "call_6634d9a0674a4859b499d34049d5999d|fc_0d4554fa372b56d1016afd8d63255887d086bdf79faa40368c",
+    "operation": "context",
+    "output": {
+      "status": "ok"
+    },
+    "private_source": {
+      "file_id": "invocation-fe1cfb2fcdf846aaac434f6ee31baf32.json",
+      "redaction": "argv, local paths, session output and arbitrary text omitted",
+      "sha256": "sha256:690548c0c3ecec8ded93fcfd090e28d8bd35d312f8ddd8d630aa91d9499cfd9f"
+    },
+    "reason_codes": [
+      "REQUIRED_PROOF_NOT_RUN"
+    ],
+    "repository": "alexhraber/decapod-admission-acceptance-20261117-1747-06"
+  }
+]
