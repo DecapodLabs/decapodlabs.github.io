@@ -1,0 +1,32 @@
+{
+  "schema": "decapod.pi-tui-capture.v1",
+  "capture_kind": "timed_native_pty_raster",
+  "run_id": "pi-1758-tui-06",
+  "manifest_sha256": "sha256:3b38ca4138d7f33ca8da0f28250f410c9b22f387f9b44794e89fa42d6caed75e",
+  "pixel_manifest_sha256": "sha256:ce2740bb65e28cefa65cd21cd54bf044dfe0b202aa438b3c13c2844495c98411",
+  "pty_stream_sha256": "sha256:17c409883799f94510e2cb2a20886e3b2480d352ab7fc564b47b02d5c56e2e9c",
+  "terminal_timing_sha256": "sha256:d302e40d25f419e10ebbed82cdfe7e2221ebd7afc700171389d7ec8fe6272a63",
+  "head": "a063de9040c458204eace1929d1e8536ad048a88",
+  "base": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+  "pr_url": "https://github.com/alexhraber/decapod-admission-acceptance-20261117-1747-06/pull/7",
+  "failure_head": "ed086de6691d92da623febfaa6b411514828440e",
+  "fresh_validation_receipt": "sha256:bcd043bc1cec93ccb51d227c699ef137014bb54ab7714518404c60de8b888542",
+  "elapsed_seconds": 731.64,
+  "tool_calls": 43,
+  "human_interventions": 0,
+  "prompt_submissions": 1,
+  "merge_authorized": false,
+  "pi_version": "0.73.1",
+  "provider": "openai-codex",
+  "model": "gpt-6.1-sol",
+  "kernel_version": "0.148.8",
+  "adapter_digests": {
+    "capture.ts": "sha256:ee88dadee4b217e48995cd3e61d103fc0028dc6333690d0229374df16030723f",
+    "record_pty.py": "sha256:314ccb5ac13f8090c906abb64bad6932de6a71d1d1bbeee411e46c54cadfff1b",
+    "decapod-carrier.py": "sha256:69441d10ba717925c3b42d330974c64f4570517ee9fb48714c7dbab8119ccd3d"
+  },
+  "kernel_binary_sha256": "sha256:35b01d60367b8df72ce7097e43c676bd59165540a9b031a29d4308266e13a274",
+  "pre_objective_ui_input": "expand tools",
+  "post_objective_agent_inputs": 0,
+  "observed_event_count": 173
+}

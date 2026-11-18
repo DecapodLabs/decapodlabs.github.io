@@ -61,6 +61,10 @@ The terminal recording is opt-in and runs while the real Pi process executes. On
 
 Private raw viewports, terminal streams, tool logs and credentials remain private. Opaque pixel masks cover private fields in the public movie, and exported event witnesses omit raw tool arguments, output and reasoning. The observer is read-only. The published recording and case study carry historical observations. They grant neither present PR admission nor merge authorization.
 
+## High-contrast Pi recording and chapter links
+
+Private ANSI bytes and cursor-state captures stay private. The public media uses opaque masks for credentials and private paths, with a distinct OCR review of the redacted footage. The observer correlates each native operation with the captured bash interval and command arguments. The publisher and independent forge readback remain distinct observations.
+
 <!-- decapod:capability-overlay:public-api:start -->
 
 Generated capability obligations: `public-api` is declared for this project. These are decisions and proof requirements, not claims of implemented behavior. Resolve each against project source and tests; record unsupported or non-applicable mechanisms explicitly.
@@ -87,7 +91,7 @@ Generated capability obligations: `public-api` is declared for this project. The
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `abfc871112e7bb630d611fdc4d681dd1f905dc47c665ba592e5fc97f95764a4d`
-- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `evidence/` (3 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files)
+- Repository signal fingerprint: `b388ed7433f724e836814b3825d99c3db7a53eb560635e8956698ee6989b31e4`
+- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->

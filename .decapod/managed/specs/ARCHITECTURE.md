@@ -64,6 +64,10 @@ The homepage proof section plays the actual-run terminal recording with native c
 
 The homepage proof section at /#proofs plays a native Pi terminal recording. Its capture came from the live ANSI stream through a headless browser compositor with an expanded tool viewport. The separate 56-second case study uses the same observed run, original encoded audio and supplied logo-b.png. Both are static website assets. The existing teaser remains intact.
 
+## High-contrast Pi recording and chapter links
+
+The proof player uses a crisp 1920 × 1160 rendering of a timed real Pi PTY stream. Its 2:30 edit preserves the actual prompt, rejected validation, autonomous repair, fresh checks and exact PR admission. The matching case-study cuts retain the previous timing, soundtrack and logo. Static chapter links and captions support browser playback.
+
 <!-- decapod:capability-overlay:persistent-state:start -->
 
 Generated capability obligations: `persistent-state` is declared for this project. These are decisions and proof requirements, not claims of implemented behavior. Resolve each against project source and tests; record unsupported or non-applicable mechanisms explicitly.
@@ -90,7 +94,7 @@ Generated capability obligations: `persistent-state` is declared for this projec
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `abfc871112e7bb630d611fdc4d681dd1f905dc47c665ba592e5fc97f95764a4d`
-- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `evidence/` (3 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files)
+- Repository signal fingerprint: `b388ed7433f724e836814b3825d99c3db7a53eb560635e8956698ee6989b31e4`
+- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->

@@ -1,42 +1,22 @@
 {
   "schema_version": "1.0.0",
   "baseline": {
-    "accepted_commit": "8d302f0dbbe639d96e999253c3a4c9ff8c6c45e6"
+    "accepted_commit": "040cad94bb8c285d553b6510fc793ed188c55cb3"
   },
   "change": {
-    "id": "change_01M7Q6TKKV1S9QF6E72V0NC5NA",
-    "base_commit": "8d302f0dbbe639d96e999253c3a4c9ff8c6c45e6",
+    "id": "change_01M7QE155R26Y9SY0Y6QD25HNP",
+    "base_commit": "040cad94bb8c285d553b6510fc793ed188c55cb3",
     "target_base": "origin/main"
   },
   "checkpoints": [
     {
-      "id": "actual-pi-terminal-proof-and-case-study",
-      "summary": "Checkpoint redacted live Pi terminal proof video and synchronized case-study films with original soundtrack and logo-b asset, verified browser/media and exact PR evidence.",
-      "input_digest": "sha256:cfdf8001ddb1865281a8d011c9fbe33460d576e3fa4b9115691a155c07e6e1f8"
-    },
-    {
-      "id": "review-final-encoded-and-caption-bytes",
-      "summary": "Bind reviews to the exact finalized proof and case-study render, captions and evidence",
-      "input_digest": "sha256:1cc1e53ee2d2f67c5e9c51d356323745d50b9040475183bc3e2a54edca7fdac4"
-    },
-    {
-      "id": "native-pi-recording-proofs",
-      "summary": "Checkpoint the actual Pi terminal movie, matching case study, output digests, exact eight-source policy diff and tested #proofs website integration.",
-      "input_digest": "sha256:2a88b67b73e53ce58a95dec92f382d77b5209af4d198997a661fff7b97ca53e5"
-    },
-    {
-      "id": "accepted-native-pi-proof-policy",
-      "summary": "Integrate the accepted exact verification inventory and checkpoint the reviewed capture, case study and proofs page for native admission.",
-      "input_digest": "sha256:c5371ab5b17fcb6cd49c4f9e396369f9f6f50da363128d56f25b0fa6541311f0"
-    },
-    {
-      "id": "native-pi-footage-web-encode",
-      "summary": "Checkpoint delivery-size proof encode, native frame ledger binding and rerun verification without altering any source policy or the case study.",
-      "input_digest": "sha256:1f4e585bf6584db15a2ca79e281f6e031ce18d5d3f04a2f8534a5abc5ade984e"
+      "id": "high-contrast-pi-proof-and-case-study",
+      "summary": "Checkpoint readable actual Pi proof, matching receipts, original-audio case study and accessible chapter navigation.",
+      "input_digest": "sha256:39c72d540cb3360f8522a81244fed67af639926850bdf3da588a4452419f8ecd"
     }
   ],
   "intents": {
-    "intent:change_01M7Q6TKKV1S9QF6E72V0NC5NA": {
+    "intent:change_01M7QE155R26Y9SY0Y6QD25HNP": {
       "acceptance_criteria": [],
       "assumptions": [],
       "boundaries": [
@@ -46,11 +26,11 @@
         "root"
       ],
       "created_sequence": 1,
-      "id": "intent:change_01M7Q6TKKV1S9QF6E72V0NC5NA",
+      "id": "intent:change_01M7QE155R26Y9SY0Y6QD25HNP",
       "out_of_scope": [],
       "proof_requirements": [],
-      "raw_intent": "Publish live Pi proof video and align the case study closing logo and run results (#9)",
-      "refined_intent": "Publish live Pi proof video and align the case study closing logo and run results (#9)",
+      "raw_intent": "Improve native Pi proof readability and sync the case study\n\nReplace the hard-to-read screen encode with a high-contrast render of a fresh actual native Pi terminal run; update /#proofs and case study to independently verified evidence; publish and verify.",
+      "refined_intent": "Improve native Pi proof readability and sync the case study\n\nReplace the hard-to-read screen encode with a high-contrast render of a fresh actual native Pi terminal run; update /#proofs and case study to independently verified evidence; publish and verify.",
       "status": "refined",
       "updated_sequence": 3
     }
@@ -58,94 +38,66 @@
   "sections": {
     "plan": {
       "constraints": {
-        "file_touch_budget": 65,
+        "file_touch_budget": null,
         "forbidden_paths": []
       },
       "deferred_questions": [],
       "human_questions": [],
-      "intent": "Publish actual Pi terminal capture at /#proofs, with expanded Decapod tool output and public receipts for fixture PR #6. Match the 56-second case study to the same run and retain its timing, AAC soundtrack and logo-b closing asset. Preserve the original homepage teaser.",
+      "intent": "Publish a readable, high-contrast proof video drawn from a new recording of actual Pi terminal output. Keep the matching case study edit and audio, update the real fixture PR and evidence, and provide chapter links at /#proofs.",
       "phases": [],
       "proof_hooks": [
-        "Verify observed terminal pixels and private redaction, exact independent fixture readback and receipt, all committed video and caption bytes, original teaser and soundtrack, required site guard, Chrome desktop/mobile playback and native exact-subject publication before public Pages verification."
+        "Check the chronological PTY excerpt and file digests, redacted text, exact independent PR7 readback, offline required contracts, actual desktop/mobile playback and chapters, native website admission, and deployed Pages bytes."
       ],
       "schema_version": "1.1.0",
       "spec_reviews": [
         {
-          "disposition": "unchanged_with_reason",
+          "disposition": "updated",
           "path": ".decapod/managed/specs/ARCHITECTURE.md",
-          "reason": "Bounded the H.264 proof movie size while preserving exact frame sources, dimensions, duration and redaction. Updated the published checksum and verified all media and desktop/mobile playback.",
-          "reviewed_code_fingerprint": "abfc871112e7bb630d611fdc4d681dd1f905dc47c665ba592e5fc97f95764a4d",
-          "spec_material_hash": "eb42f628ec315b0f7d6e7d3a79a3523288900604f1d66ed1c415cbf74b8fed0b"
+          "reason": "Verified new native terminal capture and contrast, selected footage timing, privacy masks, exact PR #7 evidence, original soundtrack and desktop/mobile chapters.",
+          "reviewed_code_fingerprint": "b388ed7433f724e836814b3825d99c3db7a53eb560635e8956698ee6989b31e4",
+          "spec_material_hash": "77ef18847db8cf7badad2c351ecc9ac9f24f026ed8850a745b25bf43486ee4f2"
         },
         {
-          "disposition": "unchanged_with_reason",
+          "disposition": "updated",
           "path": ".decapod/managed/specs/INTERFACES.md",
-          "reason": "Bounded the H.264 proof movie size while preserving exact frame sources, dimensions, duration and redaction. Updated the published checksum and verified all media and desktop/mobile playback.",
-          "reviewed_code_fingerprint": "abfc871112e7bb630d611fdc4d681dd1f905dc47c665ba592e5fc97f95764a4d",
-          "spec_material_hash": "e2fb528986c81930c42ba998bd6c50c47c4291e03106fab36e1df80858259c73"
+          "reason": "Verified new native terminal capture and contrast, selected footage timing, privacy masks, exact PR #7 evidence, original soundtrack and desktop/mobile chapters.",
+          "reviewed_code_fingerprint": "b388ed7433f724e836814b3825d99c3db7a53eb560635e8956698ee6989b31e4",
+          "spec_material_hash": "cb3fd2ea398257f43ed23b65bdc9cc288571ce03f8f61a44f329cd4ed1abd078"
         },
         {
-          "disposition": "unchanged_with_reason",
+          "disposition": "updated",
           "path": ".decapod/managed/specs/SECURITY.md",
-          "reason": "Bounded the H.264 proof movie size while preserving exact frame sources, dimensions, duration and redaction. Updated the published checksum and verified all media and desktop/mobile playback.",
-          "reviewed_code_fingerprint": "abfc871112e7bb630d611fdc4d681dd1f905dc47c665ba592e5fc97f95764a4d",
-          "spec_material_hash": "8bcf582cf1684a76bb9570a673cac371e6f36c90840def82eff69b2e433a7a68"
+          "reason": "Verified new native terminal capture and contrast, selected footage timing, privacy masks, exact PR #7 evidence, original soundtrack and desktop/mobile chapters.",
+          "reviewed_code_fingerprint": "b388ed7433f724e836814b3825d99c3db7a53eb560635e8956698ee6989b31e4",
+          "spec_material_hash": "7cedb190ff919824ef00d59167e9f3ceb4c957e24177d58d85b6c7e6711e8820"
         }
       ],
       "state": "APPROVED",
       "stop_conditions": [],
-      "title": "Publish live Pi proof video and align the case study closing logo and run results (#9)",
+      "title": "Improve native Pi proof readability and sync the case study",
       "todo_ids": [
-        "code_01m7q6sb6sfpajbw"
+        "refa_01m7qdw5kpsv74qp"
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1795007433Z"
+      "updated_at": "1795011153Z"
     },
     "trajectory": {
       "active_boundaries": [
         "Current claimed task and isolated work branch"
       ],
-      "artifact_hash": "sha256:8440f9438516ca26289c0759b67a6ad1d102e21d2374231c97048b82672f726e",
+      "artifact_hash": "sha256:73e2781fe08e393f129ed3e5266b8e291492171dd481773da0236203c45e7265",
       "checks": [
         {
-          "name": "accepted-consumer-policy",
+          "name": "deployed-pages",
           "status": "unavailable"
         },
         {
-          "name": "all-media-decode-and-original-audio",
+          "name": "independent-real-pi-admission",
           "status": "passed"
         },
         {
-          "name": "desktop-and-mobile-browser",
-          "status": "passed"
-        },
-        {
-          "name": "native-pi-viewport-and-independent-pr",
-          "status": "passed"
-        },
-        {
-          "name": "new-accepted-target-policy",
-          "status": "unavailable"
-        },
-        {
-          "name": "proof-movie-native-size-budget",
-          "status": "passed"
-        },
-        {
-          "name": "recorded-real-pi-admission",
-          "status": "passed"
-        },
-        {
-          "name": "video-encoding-and-original-audio",
-          "status": "passed"
-        },
-        {
-          "name": "website-desktop-and-mobile-playback",
-          "status": "passed"
-        },
-        {
-          "name": "website-playback-and-binding",
+          "name": "readable-proof-and-accessible-chapters",
           "status": "passed"
         }
       ],
@@ -154,97 +106,48 @@
         "events": [
           {
             "event_id": "event:2",
-            "intent_id": "intent:change_01M7Q6TKKV1S9QF6E72V0NC5NA",
+            "intent_id": "intent:change_01M7QE155R26Y9SY0Y6QD25HNP",
             "kind": "created",
             "sequence": 2
           },
           {
             "event_id": "event:3",
-            "intent_id": "intent:change_01M7Q6TKKV1S9QF6E72V0NC5NA",
+            "intent_id": "intent:change_01M7QE155R26Y9SY0Y6QD25HNP",
             "kind": "refined",
             "sequence": 3
           },
           {
-            "detail": "trajectory:branch_01M7Q6TKNA43XB87PD8JH0A800",
+            "detail": "trajectory:branch_01M7QE162XCRSQ8CG8153TTBEA",
             "event_id": "event:4",
-            "intent_id": "intent:change_01M7Q6TKKV1S9QF6E72V0NC5NA",
+            "intent_id": "intent:change_01M7QE155R26Y9SY0Y6QD25HNP",
             "kind": "trajectory_step_recorded",
             "sequence": 4
-          },
-          {
-            "detail": "trajectory:branch_01M7Q6TKNA43XB87PD8JH0A800",
-            "event_id": "event:5",
-            "intent_id": "intent:change_01M7Q6TKKV1S9QF6E72V0NC5NA",
-            "kind": "trajectory_step_recorded",
-            "sequence": 5
-          },
-          {
-            "detail": "trajectory:branch_01M7Q6TKNA43XB87PD8JH0A800",
-            "event_id": "event:6",
-            "intent_id": "intent:change_01M7Q6TKKV1S9QF6E72V0NC5NA",
-            "kind": "trajectory_step_recorded",
-            "sequence": 6
           }
         ],
         "knowledge_candidates": [],
-        "next_sequence": 6,
+        "next_sequence": 4,
         "schema_version": "1.0.0",
         "trajectories": {
-          "branch_01M7Q6TKNA43XB87PD8JH0A800": {
+          "branch_01M7QE162XCRSQ8CG8153TTBEA": {
             "evidence_only": true,
-            "id": "branch_01M7Q6TKNA43XB87PD8JH0A800",
-            "intent_id": "intent:change_01M7Q6TKKV1S9QF6E72V0NC5NA",
+            "id": "branch_01M7QE162XCRSQ8CG8153TTBEA",
+            "intent_id": "intent:change_01M7QE155R26Y9SY0Y6QD25HNP",
             "steps": [
               {
                 "action": "trajectory.record",
                 "custody_event_id": "event:4",
                 "observations": [
-                  "Actual second Pi run 33 tools in 367.768 seconds, rejection and autonomous repair, 131 verified events, exact GitHub PR4 head and base. Terminal capture while Pi ran, private material omitted. Both films use that run, case study pacing and encoded soundtrack exact. Five media and captions verified; live website merge still depends on separately accepted source policy and fresh native proof."
+                  "Independent fixture PR7 exact subject readback, required access failure and repair, chronological high-contrast selected footage, offline Deno and offline media tests, end-to-end Chrome preview and retained original case-study audio. Public check follows native publication and Pages."
                 ],
                 "proof_refs": [
-                  "recorded-real-pi-admission",
-                  "video-encoding-and-original-audio",
-                  "desktop-and-mobile-browser",
-                  "new-accepted-target-policy"
+                  "independent-real-pi-admission",
+                  "readable-proof-and-accessible-chapters",
+                  "deployed-pages"
                 ],
                 "scope": [
                   "root"
                 ],
                 "sequence": 4,
-                "validation_findings": []
-              },
-              {
-                "action": "trajectory.record",
-                "custody_event_id": "event:5",
-                "observations": [
-                  "Observed native TUI frames through Chromium, local media decoding and tests, Chrome playback on desktop and mobile, matching PR #6 receipt and GitHub endpoints. Separate acceptance of the reviewed target policy and exact native website publication before live Pages verification."
-                ],
-                "proof_refs": [
-                  "native-pi-viewport-and-independent-pr",
-                  "all-media-decode-and-original-audio",
-                  "website-desktop-and-mobile-playback",
-                  "accepted-consumer-policy"
-                ],
-                "scope": [
-                  "root"
-                ],
-                "sequence": 5,
-                "validation_findings": []
-              },
-              {
-                "action": "trajectory.record",
-                "custody_event_id": "event:6",
-                "observations": [
-                  "Original 22.8 MB encoded file hit the native 16 MiB Git output bound. Re-encoded the same masked 1440 by 924 frames at 15 fps original speed, validated final media and tested both screen sizes. Reviewed verification-source pin unchanged."
-                ],
-                "proof_refs": [
-                  "proof-movie-native-size-budget",
-                  "website-playback-and-binding"
-                ],
-                "scope": [
-                  "root"
-                ],
-                "sequence": 6,
                 "validation_findings": []
               }
             ]
@@ -254,12 +157,10 @@
       "declared_commands": [],
       "destination": "pull request",
       "evidence": [
-        "Actual second Pi run 33 tools in 367.768 seconds, rejection and autonomous repair, 131 verified events, exact GitHub PR4 head and base. Terminal capture while Pi ran, private material omitted. Both films use that run, case study pacing and encoded soundtrack exact. Five media and captions verified; live website merge still depends on separately accepted source policy and fresh native proof.",
-        "Observed native TUI frames through Chromium, local media decoding and tests, Chrome playback on desktop and mobile, matching PR #6 receipt and GitHub endpoints. Separate acceptance of the reviewed target policy and exact native website publication before live Pages verification.",
-        "Original 22.8 MB encoded file hit the native 16 MiB Git output bound. Re-encoded the same masked 1440 by 924 frames at 15 fps original speed, validated final media and tested both screen sizes. Reviewed verification-source pin unchanged."
+        "Independent fixture PR7 exact subject readback, required access failure and repair, chronological high-contrast selected footage, offline Deno and offline media tests, end-to-end Chrome preview and retained original case-study audio. Public check follows native publication and Pages."
       ],
       "inspected_files": [],
-      "intent_id": "intent:change_01M7Q6TKKV1S9QF6E72V0NC5NA",
+      "intent_id": "intent:change_01M7QE155R26Y9SY0Y6QD25HNP",
       "modified_files": [],
       "next_transitions": [
         "Refine plan and declare falsifiable checks"
@@ -267,10 +168,10 @@
       "repo_scope": [
         "root"
       ],
-      "run_id": "branch_01M7Q6TKNA43XB87PD8JH0A800",
+      "run_id": "branch_01M7QE162XCRSQ8CG8153TTBEA",
       "schema_version": "1.1.0",
       "shortcut_risk_signals": [],
-      "task_id": "code_01m7q6sb6sfpajbw",
+      "task_id": "refa_01m7qdw5kpsv74qp",
       "tool_calls": [],
       "unresolved_assumptions": []
     }

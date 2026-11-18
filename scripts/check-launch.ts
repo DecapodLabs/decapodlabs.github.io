@@ -53,7 +53,7 @@ async function verifyRecording(production: any) {
   assert(terminal.head === admission.head && terminal.base === admission.base &&
     terminal.pr_url === admission.pr_url && terminal.merge_authorized === false &&
     terminal.schema === 'decapod.pi-tui-capture.v1' &&
-    terminal.capture_kind === 'live_native_tui_pixels' && terminal.human_interventions === 0, 'recording_subject');
+    terminal.capture_kind === 'timed_native_pty_raster' && terminal.human_interventions === 0, 'recording_subject');
   const witnesses: Record<string, any[]> = {};
   for (const [key, value] of Object.entries(capture.artifacts)) {
     const witness = value as { file: string; sha256: string };
@@ -97,25 +97,59 @@ async function verifyRecording(production: any) {
   const pixelsPath = dir + '/tui-pixels.json';
   assert(await hash(await Deno.readFile(pixelsPath)) === terminal.pixel_manifest_sha256, 'tui_pixel_manifest');
   const pixels = await read(pixelsPath);
-  assert(pixels.schema === 'decapod.pi-tui-pixels.v1' && pixels.playback_speed === 1 &&
+  const clips: {start_ms: number, end_ms: number}[] = pixels.clips;
+  assert(Array.isArray(clips) && clips.length > 0 && clips[0].start_ms === 0 &&
+    clips.at(-1)?.end_ms === pixels.length_ms && clips.every(({start_ms, end_ms}, index) =>
+      Number.isInteger(start_ms) && Number.isInteger(end_ms) && start_ms >= 0 &&
+      start_ms < end_ms && end_ms <= pixels.length_ms &&
+      (index === 0 || clips[index - 1].end_ms <= start_ms)), 'tui_clip_ranges');
+  const playbackLength = clips.reduce((total, clip) => total + clip.end_ms - clip.start_ms, 0);
+  function playbackOffset(sourceTime: number): number {
+    let offset = 0;
+    for (const {start_ms, end_ms} of clips) {
+      if (sourceTime < start_ms) break;
+      if (sourceTime < end_ms) return offset + sourceTime - start_ms;
+      offset += end_ms - start_ms;
+    }
+    return -1;
+  }
+  const isDigest = (value: unknown) => typeof value === 'string' && /^sha256:[0-9a-f]{64}$/.test(value);
+  assert(pixels.schema === 'decapod.pi-tui-pixels.v2' && pixels.playback_speed === 1 &&
+    pixels.width === 1920 && pixels.height === 1160 && pixels.columns === 84 && pixels.rows === 29 &&
+    isDigest(pixels.terminal_timing_sha256) && isDigest(pixels.pty_stream_sha256) &&
+    isDigest(pixels.font_sha256) && isDigest(pixels.render_source_sha256) &&
+    pixels.terminal_timing_sha256 === terminal.terminal_timing_sha256 &&
+    pixels.pty_stream_sha256 === terminal.pty_stream_sha256 &&
     pixels.timeline.length === pixels.capture_frame_count && pixels.capture_frame_count > 100 &&
     pixels.length_ms === pixels.recording_stop_ms - pixels.recording_start_ms &&
+    pixels.playback_length_ms === playbackLength &&
     pixels.timeline[0].offset_ms === 0 && pixels.timeline.every((frame: any, index: number) =>
-      /^sha256:[0-9a-f]{64}$/.test(frame.raw_frame_sha256) &&
-      /^sha256:[0-9a-f]{64}$/.test(frame.masked_frame_sha256) &&
-      (index === 0 || frame.offset_ms > pixels.timeline[index-1].offset_ms)), 'tui_full_capture');
+      isDigest(frame.terminal_state_sha256) && isDigest(frame.masked_frame_sha256) &&
+      Number.isInteger(frame.source_byte_offset) && frame.source_byte_offset >= 0 &&
+      Number.isInteger(frame.offset_ms) && frame.offset_ms < pixels.length_ms &&
+      Number.isInteger(frame.screen_state_ms) && frame.screen_state_ms >= 0 &&
+      frame.screen_state_ms <= frame.offset_ms &&
+      Number.isInteger(frame.playback_offset_ms) && frame.playback_offset_ms >= 0 &&
+      frame.playback_offset_ms === playbackOffset(frame.offset_ms) &&
+      (index === 0 || (frame.offset_ms > pixels.timeline[index-1].offset_ms &&
+        frame.source_byte_offset > pixels.timeline[index-1].source_byte_offset))), 'tui_full_capture');
   const proof = await read('assets/decapod-proof-render.json');
   assert(proof.schema === 'decapod.pi-tui-release.v1' && proof.run_id === manifest.run_id &&
     proof.tui_capture_sha256 === production.approved_tui_capture_sha256, 'proof_render_source');
   const output = proof.output;
   assert(output.file === 'decapod-proof.mp4' && output.width === pixels.width && output.height === pixels.height &&
-    Math.abs(output.duration_ms - pixels.length_ms) < 150 &&
+    Math.abs(output.duration_ms - playbackLength) < 150 &&
     await hash(await Deno.readFile('assets/' + output.file)) === output.sha256, 'proof_video_bytes');
   assert(await hash(await Deno.readFile('assets/decapod-proof.vtt')) === proof.captions_sha256 &&
     await hash(await Deno.readFile('assets/decapod-proof-poster.png')) === proof.poster_sha256, 'proof_accessible_media');
   const home = await Deno.readTextFile('index.html');
   assert(home.includes(`href="${admission.pr_url}"`) && home.includes('src="assets/decapod-proof.mp4"') &&
     home.includes('id="proofs"') && home.includes('href="proof.html#case-study"'), 'proof_homepage_links');
+  const jumps = [...home.matchAll(/href="#proofVideo" data-proof-seek="(\d+)"/g)]
+    .map(match => Number(match[1]));
+  assert(jumps.length === 3 && jumps.every((time, index) =>
+    time > 0 && time * 1000 < output.duration_ms && (index === 0 || time > jumps[index-1])),
+    'proof_chapters');
   return manifest;
 }
 export async function verifyLaunch() {

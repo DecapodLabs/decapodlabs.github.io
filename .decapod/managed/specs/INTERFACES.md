@@ -60,6 +60,10 @@ The proof renderer accepts reviewed decapod.pi-terminal-excerpts.v1 data with ac
 
 The proof uses one 1440 × 924 H.264 recording with native playback, ten WebVTT descriptions and a captured poster. The viewer can use fullscreen on a phone. The capture metadata, frame ledger, evidence and linked PR expose the same independently observed head and accepted base. The offline presentation guard checks the native witness chain and exact reviewed media bytes. The media workflow verifies the live footage by digest and renders the case-study cuts from the approved manifest.
 
+## High-contrast Pi recording and chapter links
+
+The proof ledger binds visible terminal states to ordered byte offsets and the selected original-speed footage ranges. Three accessible chapter links point to failure, fresh validation and publication. The proof page and case study use the same observed fixture PR #7, with head a063de9040c458204eace1929d1e8536ad048a88 and accepted base ada3eb89c3707801a5b86265dccc899fdabe5e1c.
+
 <!-- decapod:capability-overlay:public-api:start -->
 
 Generated capability obligations: `public-api` is declared for this project. These are decisions and proof requirements, not claims of implemented behavior. Resolve each against project source and tests; record unsupported or non-applicable mechanisms explicitly.
@@ -87,7 +91,7 @@ Generated capability obligations: `public-api` is declared for this project. The
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `abfc871112e7bb630d611fdc4d681dd1f905dc47c665ba592e5fc97f95764a4d`
-- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `evidence/` (3 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files)
+- Repository signal fingerprint: `b388ed7433f724e836814b3825d99c3db7a53eb560635e8956698ee6989b31e4`
+- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->
