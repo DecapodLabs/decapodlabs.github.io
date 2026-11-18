@@ -1,112 +1,120 @@
 (() => {
   "use strict";
-  // Public Coming soon mock. This file never computes money, generates Stripe sessions,
-  // sets commercial entitlements, or derives real provider usage limits.
-  const byId = (id) => document.getElementById(id);
-  const repositories = byId("repo-count");
-  const contributors = byId("seat-count");
-  const repositoryValue = byId("repo-count-value");
-  const contributorValue = byId("seat-count-value");
-  const assignmentValue = byId("assignment-count");
-  const assignmentFormula = byId("assignment-formula");
-  const repositoryDiscount = byId("repo-discount");
-  const contributorDiscount = byId("contributor-discount");
-  const combinedDiscount = byId("combined-discount");
-  const annualDiscount = byId("annual-discount");
-  const resourceInputs = [
-    ["network-capacity", "network-capacity-value"],
-    ["compute-capacity", "compute-capacity-value"],
-    ["storage-capacity", "storage-capacity-value"]
-  ];
-  const capacitySummary = byId("capacity-summary");
 
-  if (!repositories || !contributors || !repositoryValue || !contributorValue ||
-      !assignmentValue || !assignmentFormula) return;
+  // Public subscription estimate only. This never creates Stripe sessions, entitlements,
+  // invoices, or Cloud resource allowances. Propodus verifies checkout eligibility.
+  const $ = (id) => document.getElementById(id);
+  const repositories = $("repo-count");
+  const contributors = $("seat-count");
+  if (!repositories || !contributors) return;
 
-  // Illustrative 2/4/6-point discounts on each independently selected axis.
-  // The service will own all actual eligibility, cost validation, and invoice math.
-  const repositorySteps = Object.freeze([[3, 2], [6, 4], [10, 6]]);
-  const contributorSteps = Object.freeze([[5, 2], [10, 4], [20, 6]]);
+  const steps = Object.freeze({
+    repository: [[3, 2], [6, 4], [10, 6]],
+    contributor: [[5, 2], [10, 4], [20, 6]]
+  });
 
-  function stepPercent(count, steps) {
-    let percent = 0;
-    for (const [minimum, value] of steps) {
-      if (count >= minimum) percent = value;
-    }
-    return percent;
+  const formatUSD = new Intl.NumberFormat("en-US", {
+    style: "currency", currency: "USD", maximumFractionDigits: 0
+  });
+
+  // Matches the exact active Decapod Cloud tier prices in Stripe.
+  // Values are cents per paid contributor–repository assignment.
+  function quote(repos, people) {
+    const tier = (count, levels) => levels.reduce(
+      (current, [min, percent]) => count >= min ? percent : current, 0
+    );
+    const repoSavings = tier(repos, steps.repository);
+    const peopleSavings = tier(people, steps.contributor);
+    const volume = repoSavings + peopleSavings;
+    const monthlyCents = 5000 - volume * 50;
+    const annualCents = Math.max(48000, 55000 - volume * 600);
+    const annualSavingsPercent = (60000 - annualCents) / 600;
+    return {
+      assignments: repos * people, repoSavings, peopleSavings, volume,
+      monthlyCents, annualCents, annualSavingsPercent
+    };
   }
+
+  const elements = {
+    repoValue: $("repo-count-value"),
+    peopleValue: $("seat-count-value"),
+    repoDiscount: $("repo-discount"),
+    peopleDiscount: $("contributor-discount"),
+    assignments: $("assignment-count"),
+    formula: $("assignment-formula"),
+    volume: $("combined-discount"),
+    annual: $("annual-discount"),
+    total: $("estimated-price"),
+    period: $("estimate-period"),
+    unit: $("estimate-unit"),
+    savings: $("estimate-savings")
+  };
+  const billingButtons = [...document.querySelectorAll("[data-billing]")];
+  let billingPeriod = "year";
 
   function fill(slider) {
     const min = Number(slider.min);
     const max = Number(slider.max);
-    const value = Number(slider.value);
-    if (max <= min) return;
-    const progress = 100 * (value - min) / (max - min);
-    slider.style.setProperty("--fill", progress + "%");
+    slider.style.setProperty("--fill",
+      (100 * (Number(slider.value) - min) / (max - min)) + "%");
   }
 
-  function paintMilestones(selector, count) {
-    const nodes = document.querySelectorAll(selector);
-    for (const item of nodes) {
-      const min = Number(item.dataset.repoThreshold ?? item.dataset.contributorThreshold);
-      item.classList.toggle("is-reached", count >= min);
+  function milestones(selector, count) {
+    for (const item of document.querySelectorAll(selector)) {
+      const minimum = Number(item.dataset.repoThreshold ?? item.dataset.contributorThreshold);
+      item.classList.toggle("is-reached", count >= minimum);
     }
   }
 
-  function updateAssignments() {
+  function update() {
     const repos = Math.min(10, Math.max(1, Number(repositories.value) || 1));
     const people = Math.min(25, Math.max(1, Number(contributors.value) || 1));
+    const q = quote(repos, people);
+    const annual = billingPeriod === "year";
+    const unitCents = annual ? q.annualCents : q.monthlyCents;
+    const totalCents = unitCents * q.assignments;
+    const baseCents = (annual ? 60000 : 5000) * q.assignments;
+    const savingsCents = baseCents - totalCents;
 
-    repositoryValue.value = String(repos);
-    contributorValue.value = String(people);
-    assignmentValue.textContent = String(repos * people);
-    assignmentFormula.textContent =
+    if (elements.repoValue) elements.repoValue.value = String(repos);
+    if (elements.peopleValue) elements.peopleValue.value = String(people);
+    if (elements.repoDiscount) elements.repoDiscount.textContent = "+" + q.repoSavings + "%";
+    if (elements.peopleDiscount) elements.peopleDiscount.textContent = "+" + q.peopleSavings + "%";
+    if (elements.assignments) elements.assignments.textContent = String(q.assignments);
+    if (elements.formula) elements.formula.textContent =
       repos + " " + (repos === 1 ? "repository" : "repositories") +
       " × " + people + " " + (people === 1 ? "contributor" : "contributors") + " each";
+    if (elements.volume) elements.volume.textContent = q.volume + "%";
+    if (elements.annual) elements.annual.textContent = q.annualSavingsPercent.toFixed(
+      Number.isInteger(q.annualSavingsPercent) ? 0 : 2) + "%";
+    if (elements.total) elements.total.textContent = formatUSD.format(totalCents / 100);
+    if (elements.period) elements.period.textContent = annual ? "/year" : "/month";
+    if (elements.unit) elements.unit.textContent = q.assignments +
+      " assignments × " + formatUSD.format(unitCents / 100) + (annual ? " per year" : " per month");
+    if (elements.savings) elements.savings.textContent = annual
+      ? "Save " + formatUSD.format(savingsCents / 100) + " vs. 12 monthly payments at the base list rate."
+      : "Save " + formatUSD.format(savingsCents / 100) + " each month with volume pricing.";
 
-    // The mock deliberately assumes the same distinct human group across all repos.
-    // We count these humans once for the contributor-volume axis, NOT repos * humans.
-    const repoPercent = stepPercent(repos, repositorySteps);
-    const peoplePercent = stepPercent(people, contributorSteps);
-    const volume = repoPercent + peoplePercent;
-    // Annual $550 base saves one month from the unmodified $600 annualized list.
-    // Add volume percentage points against that same list, capped at 20%.
-    const annualTotal = Math.min(20, 100 / 12 + volume);
-    if (repositoryDiscount) repositoryDiscount.textContent = "+" + repoPercent + "%";
-    if (contributorDiscount) contributorDiscount.textContent = "+" + peoplePercent + "%";
-    if (combinedDiscount) combinedDiscount.textContent = volume + "%";
-    if (annualDiscount) annualDiscount.textContent =
-      (Number.isInteger(annualTotal) ? annualTotal.toFixed(0) : annualTotal.toFixed(2)) + "%";
-
-    paintMilestones("[data-repo-threshold]", repos);
-    paintMilestones("[data-contributor-threshold]", people);
+    repositories.setAttribute("aria-valuetext", repos + " repositories, " + q.repoSavings + "% volume savings");
+    contributors.setAttribute("aria-valuetext", people + " contributors, " + q.peopleSavings + "% volume savings");
+    milestones("[data-repo-threshold]", repos);
+    milestones("[data-contributor-threshold]", people);
     fill(repositories);
     fill(contributors);
   }
 
-  function updateCapacity() {
-    let extra = 0;
-    for (const [inputId, outputId] of resourceInputs) {
-      const slider = byId(inputId);
-      const output = byId(outputId);
-      if (!slider || !output) continue;
-      const ratio = Math.min(300, Math.max(100, Number(slider.value) || 100));
-      const aboveBaseline = ratio - 100;
-      output.value = aboveBaseline === 0 ? "Included" : "+" + aboveBaseline + "%";
-      if (aboveBaseline > 0) extra += 1;
-      fill(slider);
-    }
-    if (capacitySummary) {
-      capacitySummary.textContent = extra === 0
-        ? "All resources within included capacity"
-        : extra + " resource " + (extra === 1 ? "category" : "categories") +
-          " above illustrative included baseline — actual excess would be billed by resource";
-    }
+  for (const button of billingButtons) {
+    button.addEventListener("click", () => {
+      billingPeriod = button.dataset.billing === "month" ? "month" : "year";
+      for (const item of billingButtons) {
+        const selected = item.dataset.billing === billingPeriod;
+        item.classList.toggle("is-selected", selected);
+        item.setAttribute("aria-pressed", String(selected));
+      }
+      update();
+    });
   }
-
-  repositories.addEventListener("input", updateAssignments);
-  contributors.addEventListener("input", updateAssignments);
-  for (const [id] of resourceInputs) byId(id)?.addEventListener("input", updateCapacity);
-  updateAssignments();
-  updateCapacity();
+  repositories.addEventListener("input", update);
+  contributors.addEventListener("input", update);
+  update();
 })();
