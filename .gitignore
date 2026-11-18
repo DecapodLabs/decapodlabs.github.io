@@ -9,3 +9,5 @@
 !.decapod/managed/specs/
 !.decapod/managed/specs/*.md
 !.decapod/managed/specs/.manifest.json
+__pycache__/
+target/

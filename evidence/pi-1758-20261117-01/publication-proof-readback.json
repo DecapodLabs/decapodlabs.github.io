@@ -1,0 +1,21 @@
+{
+  "schema": "decapod.publication-proof-readback.v1",
+  "owner_issue": "https://github.com/DecapodLabs/decapod/issues/1758",
+  "scope": "historical_publication_validation",
+  "record_id": "decapod-readiness-T7sSlC",
+  "record_digest": "sha256:8975febbf5c1e98c2eabf66cb7ca79659fcebb4824aa33958751548e7cdaa7bd",
+  "canonical_timeline_source_sha256": "sha256:cbf6fa16f128118af650ffee510c732f745dd671a6848109633384df02f2a354",
+  "canonical_pointer": "/events/40/details",
+  "receipt_file_sha256": "sha256:c2f5d9e209ae2fedc8a490ade9ee54db0cb80f7fe2cb1ad15405943182e0aaa8",
+  "publisher_invocation": {
+    "started_ns": 1794952228041621000,
+    "ended_ns": 1794952274768246000,
+    "binary_sha256": "sha256:35b01d60367b8df72ce7097e43c676bd59165540a9b031a29d4308266e13a274",
+    "exit_code": 0
+  },
+  "record_time_ns": 1794952257000000000,
+  "publication_ready": false,
+  "current_admission_applicable": false,
+  "merge_authorized": false,
+  "assurance": "Actual canonical completion and receipt, independently read after the run. Timestamp falls inside the observed publisher child invocation. Different standalone and later task-completion records are not relabelled as publication proof."
+}

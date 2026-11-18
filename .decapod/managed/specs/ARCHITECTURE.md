@@ -1,6 +1,6 @@
 # Architecture
 
-GitHub Pages serves a static homepage and a dedicated offerings.html. Existing styles.css supplies branding and responsive layout; main.js retains film controls and install-selection/copy behavior on the homepage. The offerings page needs no browser script or application server. Website-owned media generation and its existing release workflow remain unchanged.
+GitHub Pages serves a static homepage and a dedicated pricing.html preview. Existing styles.css supplies branding and responsive layout; main.js retains film controls and install-selection/copy behavior on the homepage. pricing.js updates illustrative assignment, discount and resource-capacity controls locally; no application server or payment authority is introduced. offerings.html redirects to pricing.html. Website-owned media generation extends the existing renderer and main/manual workflow with verified real-agent launch assets.
 
 ## Direction
 Keep this site static. Propodus owns business logic, Auth, permissions, billing and hosted database authority.
@@ -10,7 +10,7 @@ The homepage has only a navigation link and highlighted Local + Cloud entry adde
 
 ## Topology
 ```text
-Visitor -> GitHub Pages -> homepage -> offerings.html -> Decapod quickstart.
+Visitor -> GitHub Pages -> homepage -> pricing.html -> Decapod quickstart.
 Cloud is a Coming soon preview with no outbound purchase transition.
 ```
 
@@ -31,6 +31,14 @@ Rebase PR4 onto current site main, preserve other design changes, qualify the fi
 
 ## Risks and Mitigations
 A preview could look purchasable: use visible Coming soon labels, an actually disabled button and explicit planned-benefit wording. Pricing is withheld. Do not imply a live sale, complete local/cloud parity, uptime guarantee or other unsupported commitment.
+
+## Evidence-backed media architecture
+
+Rust Decapod owns observation and authority separation. This repository owns the sanitized immutable event data, editorial mapping, Python/FFmpeg rendering and static presentation. scripts/render-launch.py imports the existing showcase renderer for mascot, fonts and motion helpers; assets/fonts pins licensed Lato source and digests. There is no model inference or kernel admission inside the renderer.
+
+The render manifest binds actual movie/caption digests, event identifiers, timing and separately labelled editorial text. scripts/verify-launch.py decodes actual H264/AAC files and verifies dimensions, duration, audio, captions, fast-start containers and poster. The accepted offline Deno static-source command includes scripts/check-launch.ts, rejecting changed source witnesses, mismatched observed facts and media bytes without invoking inference, network, Python or FFmpeg.
+
+index.html retains its teaser and adds a native controlled video with responsive source selection, poster, optional caption track and evidence links. proof.html provides inspectable scope and limitations. The existing main/manual media workflow regenerates the film and verifies encoded media. Existing initialized governance is preserved; the historical bootstrap installer runs only when project configuration is absent.
 
 <!-- decapod:capability-overlay:persistent-state:start -->
 
@@ -58,7 +66,7 @@ Generated capability obligations: `persistent-state` is declared for this projec
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `7ed87e3ea4dfbda9cc5c5bb6a1d41a1bf6458e6641b583cf8691a6a6c4c230fc`
-- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `main.js/` (1 files), `scripts/` (3 files)
+- Repository signal fingerprint: `09a50f9e16cb92823d2f39f8bf9563b25090e5e54439b21ba6972eb75ec4988a`
+- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `evidence/` (1 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->

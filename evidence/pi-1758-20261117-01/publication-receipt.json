@@ -1,0 +1,26 @@
+{
+  "evidence_digest": "sha256:ac99f912ffa94a7b297126c4983304d31eaa6dd855ae3c915b85b65305ee8afb",
+  "governance_digest": "sha256:dcbe9d5da0e844e46b684b797b2a33d273c07e1776c0020475882ccb10c4dc5f",
+  "invocation_id": "decapod-readiness-T7sSlC",
+  "kind": "native_readiness_receipt",
+  "laya_readiness_digest": "sha256:c9613f1bc17f34f5d34cadca0af1a9223e4f9d51e6a98c0b90d698b8c158bc95",
+  "material": {
+    "accepted_base_revision": "4b7f3b05637120a2ac6d638c46a13288fa6d74ce",
+    "base_branch": "acceptance/1757/launch-20261117-01-base",
+    "candidate_digest": "sha256:20f367bd1307b0d6da0a84e87523e4e0c1bc49ec721f6137f4e41daae5751fe4",
+    "configuration_digest": "sha256:c36ac9aefedcbbd570e35adba8a54af47d752878fab1c75a35d237611cce8f37",
+    "head_revision": "f3a7a160946b42fed7eefa3898362f0dbb122fd0",
+    "history_digest": "sha256:2f9a7852e2336d9a1c4b6d1f170d9807ffb21f4fd413c8d193937fd848e19bb7",
+    "repository": "alexhraber/decapod-admission-acceptance-20261117-1747-06",
+    "toolchain_digest": "sha256:2ac1b8165670d91a284b6eef71e1b36731df1eb2a9049c140c6d15ddf80c2c3d",
+    "tree_digest": "sha256:79cbbe53b3a6e7721da421983f11927644a29153242c12222a82f23d085376d3",
+    "work_branch": "agent/pi-1758-run01/feat_01m7nqgz4z48b3a6-repository-read",
+    "workflow_digest": "sha256:ec705cf11c7c129db71e511cd00705e0905a47db2cca97294090785470eb599a"
+  },
+  "proof_plan_digest": "sha256:162824e887dfa708fd005d129d655d867987200f614c771a1f2f48136fa3b60c",
+  "receipt_hash": "sha256:0bd96cd0bad9992a3ca1e475e9394573928254830900066f7b9c4bc24ec3e5eb",
+  "schema_version": "1.0.0",
+  "scope": "repository_local_readiness",
+  "status": "ok",
+  "trajectory_digest": "sha256:da02cd3eeebb7e6c609fc768d0384ae6ccf41279e3c170136c105caa578e0cc0"
+}

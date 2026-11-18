@@ -1,70 +1,36 @@
 {
   "schema_version": "1.0.0",
   "baseline": {
-    "accepted_commit": "5aaabbe74f3cc5ac5cc5747aad5f7d71cb986ffa"
+    "accepted_commit": "f9c804a7beb0da2a41af4eaaabd5ebe6043c942e"
   },
   "change": {
-    "id": "change_01M7KY7KQMYQ6V6PYS6C7J359Y",
-    "base_commit": "5aaabbe74f3cc5ac5cc5747aad5f7d71cb986ffa",
+    "id": "change_01M7P3MS42DDAPYYZZXH5XK89Q",
+    "base_commit": "f9c804a7beb0da2a41af4eaaabd5ebe6043c942e",
     "target_base": "origin/main"
-  },
-  "claims": {
-    "offerings-preview": {
-      "statement": "The dedicated offering comparison displays free local use without signup and planned Cloud benefits with Coming soon and disabled purchasing, with no public prices; the homepage links to it while preserving current accepted design changes.",
-      "falsifier": "Actual rendered mobile or desktop documents show a price, active Cloud purchase transition, wrong Get started destination, horizontal overflow or loss of accepted homepage capability/media content.",
-      "status": "supported",
-      "proof_refs": [
-        "Isolated Chrome desktop1440/mobile390 rendered DOM and screenshots; actual disabled property and quickstart targets observed; no hosted purchase claim."
-      ]
-    }
   },
   "checkpoints": [
     {
-      "id": "current-main-cloud-offerings",
-      "summary": "Integrate prepared pricing and exact static proof from accepted current main with one current material checkpoint",
-      "input_digest": "sha256:7d30172f3b249d87494d16f2a580365f3036f0a2da1fb35dab38c4d79b9719a0",
-      "proof_refs": [
-        "/private/tmp/propodus-website-validation-3.json",
-        "docs/decisions/0003-local-cloud-offerings.md"
-      ]
-    },
-    {
-      "id": "rebased-offerings-preview",
-      "summary": "Rebased onto accepted main1753762 and revised offering to approved coming-soon preview: no public prices, free/no-signup local, exact quickstart targets, disabled Cloud button/sticker; both documents covered and actual desktop/mobile browser inspected.",
-      "input_digest": "sha256:277f1e38ad57e16c463bc67daa6c200e067e53ebc56055e6546d8853e7c69f94"
-    },
-    {
-      "id": "preview-spec-format",
-      "summary": "Restore required topology fence and semantics invariant/state-machine sections without changing proof requirements or rendered page.",
-      "input_digest": "sha256:6817e166df4a8ac266c139fe8a84058c588c6f952eb08a44c70600f1b4b498af"
-    },
-    {
-      "id": "preview-inventory-review",
-      "summary": "Reviewed final two-document static checker and unchanged media workflow; reconcile first-adoption source inventory to current helper bytes. Preserve all required commands and explicit hosted limitations.",
-      "input_digest": "sha256:6b83788cdfe705f6fa6b2c0d6dc9ea7492c84c5775ac4751818f98af707333d4"
-    },
-    {
-      "id": "preview-final-manifest",
-      "summary": "Capture CLI-refreshed config-input manifest after first-adoption inventory review; source and required checks unchanged.",
-      "input_digest": "sha256:721add5b1469a491396ab71a5368326d8226e5a7b06e772e141c0a5e74db0b2e"
+      "id": "actual-pi-launch-container-delivery",
+      "summary": "Verified real Pi event-backed main/social/mobile film, immutable publication receipts, offline evidence/media guards and accessible static site; fresh native container custody with explicit task transfer",
+      "input_digest": "sha256:9cb495ed4ff53e333b0bf92a0b9926f972c9ad8050b2316d11de5441e52616d6"
     }
   ],
   "intents": {
-    "intent:change_01M7KY7KQMYQ6V6PYS6C7J359Y": {
+    "intent:change_01M7P3MS42DDAPYYZZXH5XK89Q": {
       "acceptance_criteria": [],
       "assumptions": [],
       "boundaries": [
         "Current claimed task and isolated work branch"
       ],
       "constraints": [
-        "root"
+        "scripts"
       ],
       "created_sequence": 1,
-      "id": "intent:change_01M7KY7KQMYQ6V6PYS6C7J359Y",
+      "id": "intent:change_01M7P3MS42DDAPYYZZXH5XK89Q",
       "out_of_scope": [],
       "proof_requirements": [],
-      "raw_intent": "Reconcile current website source qualification and cloud offerings\n\nIntegrate prepared static pricing and first source-proof contract on current accepted main, preserving the earlier branch and its missing merge-checkpoint evidence. Hold sales publication until real Propodus destination works.",
-      "refined_intent": "Reconcile current website source qualification and cloud offerings\n\nIntegrate prepared static pricing and first source-proof contract on current accepted main, preserving the earlier branch and its missing merge-checkpoint evidence. Hold sales publication until real Propodus destination works.",
+      "raw_intent": "Produce verified autonomous engineering launch film and website integration (#9)\n\nUse actual independently observed Pi rejection/repair/admission evidence only. Reuse website Python/FFmpeg renderer, original mascot and teaser. Deliver primary/social/mobile cuts, captions, original audio, poster, deterministic rendering, accessible integration and real browser playback verification.",
+      "refined_intent": "Produce verified autonomous engineering launch film and website integration (#9)\n\nUse actual independently observed Pi rejection/repair/admission evidence only. Reuse website Python/FFmpeg renderer, original mascot and teaser. Deliver primary/social/mobile cuts, captions, original audio, poster, deterministic rendering, accessible integration and real browser playback verification.",
       "status": "refined",
       "updated_sequence": 3
     }
@@ -72,95 +38,135 @@
   "sections": {
     "plan": {
       "constraints": {
-        "file_touch_budget": null,
+        "file_touch_budget": 90,
         "forbidden_paths": []
       },
       "deferred_questions": [],
       "human_questions": [],
-      "intent": "Rebase PR4 onto current accepted site and publish a dedicated offerings page. Local is free with no signup; Cloud is coming soon with benefits visible, no prices, and a disabled purchase button with Coming soon sticker. Link from the homepage without redesigning its accepted content. Add a coordinated documentation entry in the owning repository. No checkout, cloud readiness or public pricing is promised.",
+      "intent": "Publish verified actual Pi launch film with exact source provenance, accessible static playback and historical admission boundaries; preserve accepted pricing and original teaser; no Cloud purchase claim",
       "phases": [],
       "proof_hooks": [
-        "Required static-source Deno proof checks JavaScript compilation, document IDs, local files and fragments; real purchase/activation remains separate"
+        "Full native container validation/publication, immutable source/media binding, actual decoded media and desktop/mobile/public browser readback"
       ],
       "schema_version": "1.1.0",
       "spec_reviews": [
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/ARCHITECTURE.md",
-          "reason": "Static topology explicitly separates documentation navigation from unavailable Cloud purchase; no runtime or host was added.",
-          "reviewed_code_fingerprint": "7ed87e3ea4dfbda9cc5c5bb6a1d41a1bf6458e6641b583cf8691a6a6c4c230fc",
-          "spec_material_hash": "7c4bceea9dbfe9a66695b0594f3bb3736664368685c0c8594d0b5bba4b82795f"
+          "reason": "Current exact source from reviewed0d7133d reauthored in fresh native container custody; actual pricing and launch evidence boundary preserved, historical readiness never imported",
+          "reviewed_code_fingerprint": "09a50f9e16cb92823d2f39f8bf9563b25090e5e54439b21ba6972eb75ec4988a",
+          "spec_material_hash": "5c7706b9b5433b1bf2410bfd7e4fbaf0ebada687abe4af6762e4161c04180bbf"
         },
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/INTERFACES.md",
-          "reason": "Local Get started uses exact quickstart URL; Cloud is native-disabled with Coming soon sticker, no prices or checkout link; both documents covered by static source qualification.",
-          "reviewed_code_fingerprint": "7ed87e3ea4dfbda9cc5c5bb6a1d41a1bf6458e6641b583cf8691a6a6c4c230fc",
-          "spec_material_hash": "2c1d4d791cd195e21c9d5e633a50503f2e4acff150f3cb2f3cb748f84165d7e8"
+          "reason": "Current exact source from reviewed0d7133d reauthored in fresh native container custody; actual pricing and launch evidence boundary preserved, historical readiness never imported",
+          "reviewed_code_fingerprint": "09a50f9e16cb92823d2f39f8bf9563b25090e5e54439b21ba6972eb75ec4988a",
+          "spec_material_hash": "566b597381d921819f2160f3c419d289e2d1b5305f609e5f370de161bc7e0ff6"
         },
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/SECURITY.md",
-          "reason": "Public preview carries no identity or payment state, publishes no cloud price and grants no authority. Live service acceptance remains separate.",
-          "reviewed_code_fingerprint": "7ed87e3ea4dfbda9cc5c5bb6a1d41a1bf6458e6641b583cf8691a6a6c4c230fc",
-          "spec_material_hash": "47f7a70f9e79158a6822f42c333a3043c67816c456f0fba83e21028bb01149da"
+          "reason": "Current exact source from reviewed0d7133d reauthored in fresh native container custody; actual pricing and launch evidence boundary preserved, historical readiness never imported",
+          "reviewed_code_fingerprint": "09a50f9e16cb92823d2f39f8bf9563b25090e5e54439b21ba6972eb75ec4988a",
+          "spec_material_hash": "2411ec6f1be1084eba2a657d3993b31847b9f6cf6f7e84179419200b9cd96939"
         }
       ],
       "state": "APPROVED",
-      "stop_conditions": [
-        "Keep cloud prices unpublished and purchases disabled; do not infer production payment readiness from the preview."
-      ],
-      "title": "Current website local/cloud offerings",
+      "stop_conditions": [],
+      "title": "Produce verified autonomous engineering launch film and website integration (#9)",
       "todo_ids": [
-        "cicd_01m7kxpgba0hp5pt"
+        "test_01m7nnw95n2ff7d8"
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1794908074Z"
+      "updated_at": "1794964796Z"
     },
     "trajectory": {
       "active_boundaries": [
         "Current claimed task and isolated work branch"
       ],
-      "artifact_hash": "sha256:6ff676215f247e576677ceb6e7ec4ed7e309df6188f6703e5d9511a5955dc4c8",
-      "checks": [],
+      "artifact_hash": "sha256:53449bdd6e36875c799976d230e785b72fa9f9b5dd5f27653442597a8d6e0e7e",
+      "checks": [
+        {
+          "name": "actual-media-byte-readback",
+          "status": "passed"
+        },
+        {
+          "name": "desktop-mobile-browser",
+          "status": "passed"
+        }
+      ],
       "current_phase": "intent",
       "custody": {
         "events": [
           {
             "event_id": "event:2",
-            "intent_id": "intent:change_01M7KY7KQMYQ6V6PYS6C7J359Y",
+            "intent_id": "intent:change_01M7P3MS42DDAPYYZZXH5XK89Q",
             "kind": "created",
             "sequence": 2
           },
           {
             "event_id": "event:3",
-            "intent_id": "intent:change_01M7KY7KQMYQ6V6PYS6C7J359Y",
+            "intent_id": "intent:change_01M7P3MS42DDAPYYZZXH5XK89Q",
             "kind": "refined",
             "sequence": 3
+          },
+          {
+            "detail": "trajectory:branch_01M7P3MS5DCW110VK162809HWA",
+            "event_id": "event:4",
+            "intent_id": "intent:change_01M7P3MS42DDAPYYZZXH5XK89Q",
+            "kind": "trajectory_step_recorded",
+            "sequence": 4
           }
         ],
         "knowledge_candidates": [],
-        "next_sequence": 3,
+        "next_sequence": 4,
         "schema_version": "1.0.0",
-        "trajectories": {}
+        "trajectories": {
+          "branch_01M7P3MS5DCW110VK162809HWA": {
+            "evidence_only": true,
+            "id": "branch_01M7P3MS5DCW110VK162809HWA",
+            "intent_id": "intent:change_01M7P3MS42DDAPYYZZXH5XK89Q",
+            "steps": [
+              {
+                "action": "trajectory.record",
+                "custody_event_id": "event:4",
+                "observations": [
+                  "Reauthor byte-identical reviewed0d7133d website source/media after explicit task transfer into fresh Linux tmpfs; original source branch, failed attempts and task history preserved. Independent public downloads matched all9 critical assets; Chrome desktop/mobile playback passed after accepted pricing merge. New native validation/publication required; no historical proof imported."
+                ],
+                "proof_refs": [
+                  "actual-media-byte-readback",
+                  "desktop-mobile-browser"
+                ],
+                "scope": [
+                  "scripts"
+                ],
+                "sequence": 4,
+                "validation_findings": []
+              }
+            ]
+          }
+        }
       },
       "declared_commands": [],
       "destination": "pull request",
-      "evidence": [],
+      "evidence": [
+        "Reauthor byte-identical reviewed0d7133d website source/media after explicit task transfer into fresh Linux tmpfs; original source branch, failed attempts and task history preserved. Independent public downloads matched all9 critical assets; Chrome desktop/mobile playback passed after accepted pricing merge. New native validation/publication required; no historical proof imported."
+      ],
       "inspected_files": [],
-      "intent_id": "intent:change_01M7KY7KQMYQ6V6PYS6C7J359Y",
+      "intent_id": "intent:change_01M7P3MS42DDAPYYZZXH5XK89Q",
       "modified_files": [],
       "next_transitions": [
         "Refine plan and declare falsifiable checks"
       ],
       "repo_scope": [
-        "root"
+        "scripts"
       ],
-      "run_id": "branch_01M7KY7KTA40PVHM3R2V1F2BWJ",
+      "run_id": "branch_01M7P3MS5DCW110VK162809HWA",
       "schema_version": "1.1.0",
       "shortcut_risk_signals": [],
-      "task_id": "cicd_01m7kxpgba0hp5pt",
+      "task_id": "test_01m7nnw95n2ff7d8",
       "tool_calls": [],
       "unresolved_assumptions": []
     }
