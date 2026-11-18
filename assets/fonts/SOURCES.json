@@ -1,0 +1,23 @@
+{
+  "license": "SIL Open Font License 1.1; see LICENSE.txt",
+  "source_repository": "https://github.com/latofonts/lato-source",
+  "source_revision": "83bd714f56fc33210b4cd603304c086aed365ac4",
+  "files": {
+    "Lato-Heavy.ttf": {
+      "source_path": "build/Lato3Upr2M/ds-ufo/masters/Lato-Heavy.ttf",
+      "sha256": "3e9faf1fe4f94c6681239cf195886ebefbe29e5bae208fa3d63ac4b7a824abc9"
+    },
+    "Lato-Medium.ttf": {
+      "source_path": "build/Lato3Upr2M/ds-ufo/masters/Lato-Medium.ttf",
+      "sha256": "b9c585cafae1d019c143c27c0ed5fe95c47ae3a9748a6dcf71fdc1dc2387c17a"
+    },
+    "Lato-Regular.ttf": {
+      "source_path": "build/Lato3Upr2M/ds-ufo/masters/Lato-Regular.ttf",
+      "sha256": "61059b90577329b8f53b7af4341d842e387c750dc08820deeb6887464cab9e8c"
+    },
+    "LICENSE.txt": {
+      "source_path": "LICENSE.txt",
+      "sha256": "13b67c23643c8e2026352dc9c74bc81393936c508c023a75962b7a1eb69bcde1"
+    }
+  }
+}

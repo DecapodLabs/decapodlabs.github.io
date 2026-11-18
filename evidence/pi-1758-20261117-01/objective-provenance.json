@@ -1,0 +1,16 @@
+{
+  "schema": "decapod.launch-objective-provenance.v1",
+  "owner_issue": "https://github.com/DecapodLabs/decapod/issues/1758",
+  "run_id": "pi-1758-20261117-01",
+  "objective": "Implement the repository-scoped read authorization described in README.md and publish a verified pull request.",
+  "objective_revision": 1,
+  "selected_by": "controller_agent",
+  "human_mission_sha256": "sha256:88caaf945f2e3923862a43d32c5e6e1d05f0a65a6cce138c75a7475fdd83e0ad",
+  "human_mission_authorized_controller_to_select_task": true,
+  "direct_human_authorship_attested": false,
+  "post_objective_input_count": 0,
+  "disclosure_source": "Retrospective controller disclosure; captured objective and zero subsequent input remain separately observed. This supplement does not authenticate a human signer or alter the original run archive.",
+  "publication_ready": false,
+  "merge_authorized": false,
+  "human_mission_file": "human-mission.txt"
+}

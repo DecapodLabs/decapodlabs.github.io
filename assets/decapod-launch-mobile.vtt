@@ -1,0 +1,26 @@
+WEBVTT
+
+00:00:00.000 --> 00:00:06.000
+Give your agent an objective. Implement the repository-scoped read authorization described in README.md and publish a verified pull request.
+
+00:00:06.000 --> 00:00:12.000
+Walk away. The agent discovers Decapod, claims its task and enters an isolated workspace.
+
+00:00:12.000 --> 00:00:20.000
+The check fails. Decapod rejects. Required authorization check failed. A member without a repository grant was allowed access.
+
+00:00:20.000 --> 00:00:29.000
+The agent investigates. Then repairs. The agent reads the failure and repairs repository-scoped access. No human supplies the fix.
+
+00:00:29.000 --> 00:00:38.000
+Come back to receipts. 10 access assertions. Independent source guard. Fresh execution, bound to the exact work.
+
+00:00:38.000 --> 00:00:46.000
+A real PR. Verified by Decapod. PR #2 · exact head and base independently read back on GitHub. Admission does not authorize merge.
+
+00:00:46.000 --> 00:00:51.000
+Change the work. Invalidate the proof. After the run, operator probes mutate source and advance the target. Both reject historical authorization.
+
+00:00:51.000 --> 00:00:56.000
+DECAPOD HARNESS AI METACOGNITION.
+

@@ -1,0 +1,128 @@
+{
+  "schema": "decapod.fixture-archive-seal.v1",
+  "owner_issues": [
+    "https://github.com/DecapodLabs/decapod/issues/1757",
+    "https://github.com/DecapodLabs/decapod/issues/1758"
+  ],
+  "repository": "alexhraber/decapod-admission-acceptance-20261117-1747-06",
+  "ref": "acceptance/1758/pi-20261117-01-evidence",
+  "commit": "3c6c373ea703144a2a096e7c3ad6b17c45fcdc38",
+  "tree": "f0ea3415b31ba80313dece137644ba18d7f893a0",
+  "url": "https://github.com/alexhraber/decapod-admission-acceptance-20261117-1747-06/tree/3c6c373ea703144a2a096e7c3ad6b17c45fcdc38",
+  "files": {
+    "README.md": "sha256:fc320cb2ad6261ec4b512d83b0238d063182785a17c1bb0d9a39d7cb9e2ddcf4",
+    "capture.json": "sha256:e9180ed549e495e2bb18b91135f42ee3b917efb39f2a023b3ca7fe88e6756c20",
+    "controls.json": "sha256:44d35c367842aa0261caf8d86c8bcf42177fd0279eaff8afc13319a4f53365ab",
+    "created-not-admitted.json": "sha256:bf80cc59d8026a2d5d9829318cfeb1628633b0a959d979d9027adf586436e816",
+    "fixture-ledger.json": "sha256:b10a85d7d8dd8058a74fa647cef6ce06f968d7540fd1180d4f3fa0793d9faaaa",
+    "git.json": "sha256:d726de76508af34b66eeb57c81fa760c9f5ca43b3974ebb04b5113c1690333d3",
+    "github.json": "sha256:97b47a91e3ac1d56e07aaed9e7931569d5516ccb5a892ed9e8d9ac3eca1cf4bc",
+    "host.json": "sha256:74f71de3489167162de9105853de2bf28b9e2a1140cb3291f53305e3912b8f5c",
+    "kernel.json": "sha256:8ef9220cbf04f4ec72a8421900c840f9be44bd9acdef13f32e0b7f8fc9c0e6eb",
+    "manifest.json": "sha256:4180e2b8b1b20e020025be51d858712d7b71e33a93d7b42446d005a05d954949",
+    "runtime.json": "sha256:0cc60f2cd9a8fbcddbda81d63300549dfd6f615a46c8b659bba8e6f82b81ad50",
+    "capture-tools/README.md": "sha256:04b5575fe15a83e2cbab858217510201a8a84b70572dea7f106eed49b2fb1b2a",
+    "capture-tools/capture.ts": "sha256:d9cc46175309c76d070d9107866ea13afc45fb9499fe55d3d7b194e1c4981328",
+    "capture-tools/capture_support.py": "sha256:b6977900cec10b5aa78c2553d012e52eadd6981864f9a895240cdf71e120c5e1",
+    "capture-tools/decapod-carrier.py": "sha256:69441d10ba717925c3b42d330974c64f4570517ee9fb48714c7dbab8119ccd3d",
+    "capture-tools/export_capture.py": "sha256:310018cd49f3f66b1563fa3159e797fa2f51874009835f164049c5c4b9afcaed",
+    "capture-tools/run_pi.py": "sha256:5bca00947fc3fdfef6c1606876614073e09d6c58e4fa91bef4fd9319edd9b1ac"
+  },
+  "objects": [
+    {
+      "path": "README.md",
+      "blob": "b42956764d30f71e6588a5d1aa565ea90f9c6233",
+      "sha256": "sha256:fc320cb2ad6261ec4b512d83b0238d063182785a17c1bb0d9a39d7cb9e2ddcf4"
+    },
+    {
+      "path": "capture.json",
+      "blob": "d99bddc2205a9d1f12e72e5b8408c2dc4cae39af",
+      "sha256": "sha256:e9180ed549e495e2bb18b91135f42ee3b917efb39f2a023b3ca7fe88e6756c20"
+    },
+    {
+      "path": "controls.json",
+      "blob": "4f2961828cf6019028a00bd45e876dd73cac4c54",
+      "sha256": "sha256:44d35c367842aa0261caf8d86c8bcf42177fd0279eaff8afc13319a4f53365ab"
+    },
+    {
+      "path": "created-not-admitted.json",
+      "blob": "1fb013234d814a74a70e204a70242845f84a5f9c",
+      "sha256": "sha256:bf80cc59d8026a2d5d9829318cfeb1628633b0a959d979d9027adf586436e816"
+    },
+    {
+      "path": "fixture-ledger.json",
+      "blob": "b8a59a1a142db856d8721b77dcc1db807ab6fa89",
+      "sha256": "sha256:b10a85d7d8dd8058a74fa647cef6ce06f968d7540fd1180d4f3fa0793d9faaaa"
+    },
+    {
+      "path": "git.json",
+      "blob": "af4b65c226d4a2444e4b7fbc56ca94db740fa6ab",
+      "sha256": "sha256:d726de76508af34b66eeb57c81fa760c9f5ca43b3974ebb04b5113c1690333d3"
+    },
+    {
+      "path": "github.json",
+      "blob": "dd7169832e692af7fcd39947dbdcd2df55b0dd36",
+      "sha256": "sha256:97b47a91e3ac1d56e07aaed9e7931569d5516ccb5a892ed9e8d9ac3eca1cf4bc"
+    },
+    {
+      "path": "host.json",
+      "blob": "50b5ac4a64eac89e3df9b86792825939013fb8c0",
+      "sha256": "sha256:74f71de3489167162de9105853de2bf28b9e2a1140cb3291f53305e3912b8f5c"
+    },
+    {
+      "path": "kernel.json",
+      "blob": "337d6337dcf4f557f61d8873483bab19ed7fc1ea",
+      "sha256": "sha256:8ef9220cbf04f4ec72a8421900c840f9be44bd9acdef13f32e0b7f8fc9c0e6eb"
+    },
+    {
+      "path": "manifest.json",
+      "blob": "a5350efbc50252460f5125d4b1d4c759a145aa46",
+      "sha256": "sha256:4180e2b8b1b20e020025be51d858712d7b71e33a93d7b42446d005a05d954949"
+    },
+    {
+      "path": "runtime.json",
+      "blob": "ca1f10232259d17fece480c08cef350355b7c27c",
+      "sha256": "sha256:0cc60f2cd9a8fbcddbda81d63300549dfd6f615a46c8b659bba8e6f82b81ad50"
+    },
+    {
+      "path": "capture-tools/README.md",
+      "blob": "88697ddac91b5bb01dfa612f969febf8b5b528d3",
+      "sha256": "sha256:04b5575fe15a83e2cbab858217510201a8a84b70572dea7f106eed49b2fb1b2a"
+    },
+    {
+      "path": "capture-tools/capture.ts",
+      "blob": "9d64dafa78a2373cd4a844a83e32494728a6e571",
+      "sha256": "sha256:d9cc46175309c76d070d9107866ea13afc45fb9499fe55d3d7b194e1c4981328"
+    },
+    {
+      "path": "capture-tools/capture_support.py",
+      "blob": "e7c591dd55431be9953d32912b789b3aa5e3f17f",
+      "sha256": "sha256:b6977900cec10b5aa78c2553d012e52eadd6981864f9a895240cdf71e120c5e1"
+    },
+    {
+      "path": "capture-tools/decapod-carrier.py",
+      "blob": "d6615a4e21e9a35b5e06c1051868b4cec64da268",
+      "sha256": "sha256:69441d10ba717925c3b42d330974c64f4570517ee9fb48714c7dbab8119ccd3d"
+    },
+    {
+      "path": "capture-tools/export_capture.py",
+      "blob": "db341dda23f8e19a477ecae90b1a8fab9b4a57c8",
+      "sha256": "sha256:310018cd49f3f66b1563fa3159e797fa2f51874009835f164049c5c4b9afcaed"
+    },
+    {
+      "path": "capture-tools/run_pi.py",
+      "blob": "b8d713579f7d9a9808930bf993e45ba001766606",
+      "sha256": "sha256:5bca00947fc3fdfef6c1606876614073e09d6c58e4fa91bef4fd9319edd9b1ac"
+    }
+  ],
+  "original_refs_preserved": {
+    "main": "e36fd2979d57ea1892d70a532d568b087e294fac",
+    "acceptance-evidence": "ae15eeffd6812002fbda2a2adaca23b006de0ba6"
+  },
+  "original_pr1_head": "ccbc08207c8c592824c4b3fc75a8541da22bff8e",
+  "primary_pr2_head": "f3a7a160946b42fed7eefa3898362f0dbb122fd0",
+  "primary_pr2_draft": true,
+  "merge_authorized": false,
+  "all_archived_blobs_independently_read_back": true,
+  "archive_operations_ledger_end": 177
+}

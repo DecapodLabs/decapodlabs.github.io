@@ -308,6 +308,23 @@
 @media(min-width:1600px){.offerings-page .wrap{max-width:1320px}}
 @media(max-width:760px){.offerings-intro{padding:50px 0 32px}.offerings-grid{grid-template-columns:1fr}.offering-card{padding:26px}.offering-state{min-height:0}.offering-description{min-height:0}.offerings-selection{padding-bottom:48px}.offering-topline{margin-bottom:28px}.offerings-page .nav-content{gap:12px}.offerings-page .nav-cta{padding:11px 15px;font-size:11px}}
 
+/* Verified launch demonstration: native controls, no autoplay, no JS dependency. */
+.launch-proof{padding:96px 0;background:#f9f6ee;color:var(--ink)}
+.launch-heading{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:end;margin-bottom:40px}
+.launch-heading h2{font-family:'Outfit',sans-serif;font-size:clamp(45px,6vw,82px);line-height:1.02;letter-spacing:-.055em;margin:0}
+.launch-heading h2 span{color:var(--orange)}
+.launch-heading>p{font-size:19px;line-height:1.65;max-width:480px;color:#66665f;margin:0 0 5px}
+.launch-player{border-radius:20px;overflow:hidden;background:#141719;box-shadow:0 24px 64px #14171917}
+.launch-player video{display:block;width:100%;aspect-ratio:16/9;object-fit:contain}
+#launchVideo::cue{font-family:Arial,sans-serif;background:#141719e6;color:#fff}
+.launch-foot{display:grid;grid-template-columns:1.2fr 1fr;gap:48px;margin-top:26px}
+.launch-foot p{font-size:14px;line-height:1.7;color:#66665f;margin:0}
+.launch-foot nav{display:flex;gap:14px 24px;flex-wrap:wrap;align-content:start;justify-content:flex-end}
+.launch-foot a{font-size:13px;font-weight:700;text-underline-offset:5px}
+.launch-proof a:focus-visible,.launch-proof video:focus-visible{outline:3px solid var(--orange);outline-offset:6px}
+.proof-page{background:#f9f6ee;color:#141719}.proof-content{max-width:850px;margin:64px auto;padding:0 24px 64px}.proof-content h1{font-family:'Outfit',sans-serif;font-size:clamp(40px,7vw,70px);letter-spacing:-.05em;line-height:1.05}.proof-content h2{margin-top:40px}.proof-content p,.proof-content li{line-height:1.75}.proof-content code{overflow-wrap:anywhere;font-size:.85em}.proof-content a{text-underline-offset:4px}.proof-content table{width:100%;border-collapse:collapse}.proof-content td,.proof-content th{padding:12px;text-align:left;border-bottom:1px solid #ccc;overflow-wrap:anywhere}
+@media(max-width:760px){.launch-proof{padding:64px 0}.launch-heading,.launch-foot{grid-template-columns:1fr;gap:24px}.launch-heading>p{font-size:17px}.launch-foot nav{justify-content:flex-start}.launch-player{border-radius:12px}}
+@media(max-width:600px){.launch-player video{aspect-ratio:9/16}.launch-heading h2 br:nth-of-type(1){display:none}}
 
 /* Consistent, persistent header across Home and Pricing. */
 html{scroll-padding-top:120px}

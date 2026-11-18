@@ -1,6 +1,6 @@
 # Security
 
-The homepage and offering comparison contain public static content only. Local is free without signup. Cloud is a Coming soon preview: its native-disabled button has no checkout target or handler. No price or claim of current hosted activation is displayed. Benefits are explicitly planned for launch.
+The homepage, pricing preview and proof page contain public static content only. Local is free without signup. Cloud is a Coming soon preview: its native-disabled button has no checkout target or handler. No authoritative price or claim of current hosted activation is displayed. Benefits are explicitly planned for launch.
 
 ## Authorization
 Public reading and local onboarding need no website login. Propodus independently enforces any future account, repository, paid-seat or exceptional governance access. Static labels confer no authority.
@@ -12,6 +12,38 @@ Committed HTML, styles and assets are public. Credentials, Auth sessions, privat
 Premature sales claims and misleading enabled controls are the relevant preview risks. Visible Coming soon states, no public prices, a disabled purchase control and source/browser review bound them. The exact quickstart destination carries no credential or customer state. No new remote script, installer, runtime backend or website dependency is introduced.
 
 Generated capability overlays below are obligations rather than evidence of a backend. Actual Supabase/Stripe authorization, recovery and payment acceptance remain independent Propodus proof gates.
+
+## Public evidence and publication boundary
+
+Raw Pi reasoning, tool arguments/results, native session output, Auth material and local machine paths remain private. Only reviewed allowlisted witnesses, exact artifact identities, synthetic fixture metadata, receipts and hashed provenance are exported. Digests establish byte binding, not producer authentication; trusted-host assertions and bounded tool-boundary sampling do not establish a universal OS sandbox. A model alias is not immutable model weights.
+
+Presentation always preserves publication_ready=false and merge_authorized=false. Historical PR admission is labelled separately from current applicability. The actual target advanced after the autonomous run, so the primary PR is now draft and its old proof is inapplicable. The post-creation quarantine probe is a separately labelled operator control, never an agent repair. No original archive/ref or historical PR1 is rewritten.
+
+Static HTML introduces no executable evidence injection, account state, new remote script, credential, checkout or backend. The existing renderer workflow skips old bootstrap initialization when governance already exists, preserving current authored and generated surfaces. Branch protection and kernel checks are separately evidenced; local static checks do not attest deployment or hosted Cloud access.
+
+## Reviewed production evidence and rendering custody
+
+media/launch-production.json pins the independently reviewed immutable event manifest and control digests. The renderer and accepted offline static qualification reject different subjects, altered witness bytes or historical authorization relabelled as current. Seven offline negative controls exercise these failures before every automated rendering. The existing workflow renders the new film into a temporary directory and uploads verified review artifacts; it does not silently rewrite the committed film or borrow the prior website receipt for different movie bytes. Updated public assets require a new governed checkpoint and validation.
+
+## Publication-time evidence readback
+
+The public supplement preserves the actual retained native receipt and unchanged canonical completion created inside the observed publisher invocation, separately from standalone validation and later task-completion records. The offline site gate checks native record/receipt digests, expected-plan/suite binding, exact admitted head/base and the observed publisher interval. This is historical verification with publication_ready=false and merge_authorized=false; it never reauthorizes the changed target.
+
+## Container custody and private snapshots
+
+The website retains its accepted container isolation requirement. A host-only validation correctly fails custody and grants no publication authority. Native workspace preparation uses a private tmpfs database fork; ignored target snapshots and temporary credential environments remain private. Official checksum-verified Linux tools preserve the accepted logical program path and are measured inside the actual proof container. No host environment marker substitutes for container execution, and no container database is copied back as authoritative host state.
+
+## Native publication evidence presentation
+
+The offline presentation gate pins the independently observed T7sSlC native record digest and receipt hash. It compares the publication plan with the Rust-verified standalone plan and checks native suite/plan references, exact subject and publisher timing. Rust typed digests are not generic sorted-JSON digests; this website does not replace the kernel verifier. Two read-only adversarial controls reject an altered execution-output digest with recomputed wrapper hashes and false present authority. The unchanged original native record/receipt and movie assets remain retained. Presentation review is not native publication readiness; accepted verification-source policy still requires independent maintainer acceptance.
+
+## Navigation validation boundary
+
+Resolving links to the actual target document closes both false rejection of accepted root-relative navigation and false acceptance of a fragment that exists only on the referring page. Unsafe protocols, credentials, missing/empty local assets and duplicate target IDs still fail. This source check grants no hosted service, payment, publication or merge authority. The separately accepted verification-source policy remains required before this candidate can earn readiness.
+
+## Explicit maintainer source-policy acceptance
+
+The human maintainer authorized the exact025eee→7482eb verification-source transition in response to the concrete review request. GitHub commitcd2c05dfc70fe01fa374bd62110717fc4761b718 independently confirms only that one config line changed; concurrent accepted BYOA/on-demand invocation copy, Cloud limits/alerts and exact8-percent annual preview changes were preserved at its parent3e4b4ce4. The feature integrates the actual accepted target and retains its pricing bytes exactly. All eight verification-source definitions remain unchanged from reviewed759ba58b. This policy acceptance is separate from candidate proof; fresh full native validation and publication/readback remain mandatory. It is not a post-objective intervention in the archived Pi experiment.
 
 <!-- decapod:capability-overlay:public-api:start -->
 
@@ -39,7 +71,7 @@ Generated capability obligations: `public-api` is declared for this project. The
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `7ed87e3ea4dfbda9cc5c5bb6a1d41a1bf6458e6641b583cf8691a6a6c4c230fc`
-- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `main.js/` (1 files), `scripts/` (3 files)
+- Repository signal fingerprint: `7f8a37633988611464a345388608acaa44154d3ad49cc885a1e1970322e8ddf3`
+- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `evidence/` (1 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->
