@@ -109,9 +109,9 @@ def evidence(directory):
 def current_recording():
     directory = ROOT / PRODUCTION['recorded_evidence_directory']
     manifest = (directory / 'manifest.json').read_bytes()
-    terminal = (directory / 'terminal-excerpts.json').read_bytes()
+    terminal = (directory / 'tui-capture.json').read_bytes()
     if (digest(manifest) != PRODUCTION['approved_recorded_manifest_sha256']
-            or digest(terminal) != PRODUCTION['approved_terminal_excerpts_sha256']):
+            or digest(terminal) != PRODUCTION['approved_tui_capture_sha256']):
         raise ValueError('unreviewed recording or case study data')
     m, record = json.loads(manifest), json.loads(terminal)
     admission = m['admission_observed']

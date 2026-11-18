@@ -389,4 +389,4 @@ html{scroll-padding-top:120px}
  .nav-links a[href="/pricing.html"]{padding:7px 8px}
 }
 
-@media(max-width:600px){.proof-player video{aspect-ratio:3/4}}
+.launch-player.proof-player video{aspect-ratio:120/77}

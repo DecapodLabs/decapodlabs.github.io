@@ -37,13 +37,13 @@ async function verifyRecording(production: any) {
   assert(typeof dir === 'string' && /^evidence\/pi-1758-[a-z0-9-]+$/.test(dir), 'recording_path');
   const manifestBytes = await Deno.readFile(dir + '/manifest.json');
   const captureBytes = await Deno.readFile(dir + '/capture.json');
-  const terminalBytes = await Deno.readFile(dir + '/terminal-excerpts.json');
+  const terminalBytes = await Deno.readFile(dir + '/tui-capture.json');
   assert(await hash(manifestBytes) === production.approved_recorded_manifest_sha256 &&
     await hash(captureBytes) === production.approved_recorded_capture_sha256 &&
-    await hash(terminalBytes) === production.approved_terminal_excerpts_sha256, 'recording_source_bytes');
+    await hash(terminalBytes) === production.approved_tui_capture_sha256, 'recording_source_bytes');
   const manifest = await read(dir + '/manifest.json');
   const capture = await read(dir + '/capture.json');
-  const terminal = await read(dir + '/terminal-excerpts.json');
+  const terminal = await read(dir + '/tui-capture.json');
   const admission = manifest.admission_observed;
   assert(manifest.observed_autonomous_admission === true && manifest.human_interventions === 0 &&
     manifest.publication_ready === false && manifest.merge_authorized === false, 'recording_authority');
@@ -52,8 +52,8 @@ async function verifyRecording(production: any) {
     'recording_run_identity');
   assert(terminal.head === admission.head && terminal.base === admission.base &&
     terminal.pr_url === admission.pr_url && terminal.merge_authorized === false &&
-    terminal.schema === 'decapod.pi-terminal-excerpts.v1' &&
-    /^sha256:[0-9a-f]{64}$/.test(terminal.terminal_capture_sha256), 'recording_subject');
+    terminal.schema === 'decapod.pi-tui-capture.v1' &&
+    terminal.capture_kind === 'live_native_tui_pixels' && terminal.human_interventions === 0, 'recording_subject');
   const witnesses: Record<string, any[]> = {};
   for (const [key, value] of Object.entries(capture.artifacts)) {
     const witness = value as { file: string; sha256: string };
@@ -94,24 +94,28 @@ async function verifyRecording(production: any) {
     publisher.output.pr_url === admission.pr_url && observedRemote.url === admission.pr_url &&
     observedRemote.head === admission.head && observedRemote.base === admission.base && observedRemote.merged === false,
     'recorded_publication_readback');
-  const indexedHost = new Set(witnesses.host.filter((event: any) => event.type === 'tool_execution_start').map((event: any) => event.toolCallId));
-  assert(terminal.clips.length >= 7 && terminal.clips.every((clip: any, index: number) =>
-    (index === 0 || clip.elapsed_ms >= terminal.clips[index - 1].elapsed_ms) &&
-    (clip.source.kind !== 'live_tool' || indexedHost.has(clip.source.tool_call_id))), 'terminal_excerpt_origin');
+  const pixelsPath = dir + '/tui-pixels.json';
+  assert(await hash(await Deno.readFile(pixelsPath)) === terminal.pixel_manifest_sha256, 'tui_pixel_manifest');
+  const pixels = await read(pixelsPath);
+  assert(pixels.schema === 'decapod.pi-tui-pixels.v1' && pixels.playback_speed === 1 &&
+    pixels.timeline.length === pixels.capture_frame_count && pixels.capture_frame_count > 100 &&
+    pixels.length_ms === pixels.recording_stop_ms - pixels.recording_start_ms &&
+    pixels.timeline[0].offset_ms === 0 && pixels.timeline.every((frame: any, index: number) =>
+      /^sha256:[0-9a-f]{64}$/.test(frame.raw_frame_sha256) &&
+      /^sha256:[0-9a-f]{64}$/.test(frame.masked_frame_sha256) &&
+      (index === 0 || frame.offset_ms > pixels.timeline[index-1].offset_ms)), 'tui_full_capture');
   const proof = await read('assets/decapod-proof-render.json');
-  assert(proof.schema === 'decapod.pi-proof-render.v1' && proof.run_id === manifest.run_id &&
-    proof.terminal_excerpts_sha256 === production.approved_terminal_excerpts_sha256, 'proof_render_source');
-  assert(proof.outputs.length === 2 && proof.outputs[0].file === 'decapod-proof.mp4' &&
-    proof.outputs[1].file === 'decapod-proof-mobile.mp4', 'proof_video_variants');
-  for (const output of proof.outputs) {
-    assert(await hash(await Deno.readFile('assets/' + output.file)) === output.sha256 &&
-      output.duration_ms === terminal.clips.reduce((sum: number, c: any) => sum + c.seconds * 1000, 0), 'proof_video_bytes');
-  }
+  assert(proof.schema === 'decapod.pi-tui-release.v1' && proof.run_id === manifest.run_id &&
+    proof.tui_capture_sha256 === production.approved_tui_capture_sha256, 'proof_render_source');
+  const output = proof.output;
+  assert(output.file === 'decapod-proof.mp4' && output.width === pixels.width && output.height === pixels.height &&
+    Math.abs(output.duration_ms - pixels.length_ms) < 150 &&
+    await hash(await Deno.readFile('assets/' + output.file)) === output.sha256, 'proof_video_bytes');
   assert(await hash(await Deno.readFile('assets/decapod-proof.vtt')) === proof.captions_sha256 &&
     await hash(await Deno.readFile('assets/decapod-proof-poster.png')) === proof.poster_sha256, 'proof_accessible_media');
   const home = await Deno.readTextFile('index.html');
   assert(home.includes(`href="${admission.pr_url}"`) && home.includes('src="assets/decapod-proof.mp4"') &&
-    home.includes('href="proof.html#case-study"'), 'proof_homepage_links');
+    home.includes('id="proofs"') && home.includes('href="proof.html#case-study"'), 'proof_homepage_links');
   return manifest;
 }
 export async function verifyLaunch() {
@@ -193,5 +197,5 @@ export async function verifyLaunch() {
     assert(output.duration === (output.variant === 'social' ? 12 : 56), 'duration');
     assert(output.original_audio_sha256 === production.original_audio_sha256[output.variant], 'original_soundtrack');
   }
-  console.log(JSON.stringify({scope:'offline_launch_source',observed_run:m.run_id,witnesses:Object.keys(witnesses).length,events:m.events.length,case_study_run:recorded.run_id,media_variants:5,publication_negative_controls:2,merge_authorized:false,deployed_playback_verified:false}));
+  console.log(JSON.stringify({scope:'offline_launch_source',observed_run:m.run_id,witnesses:Object.keys(witnesses).length,events:m.events.length,case_study_run:recorded.run_id,media_variants:4,publication_negative_controls:2,merge_authorized:false,deployed_playback_verified:false}));
 }

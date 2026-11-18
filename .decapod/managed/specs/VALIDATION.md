@@ -60,6 +60,10 @@ The maintainer explicitly approved the exact inventory pin and the use of the ex
 
 On the second successful recorded run, Pi executed 33 tools in 367.768 seconds with zero follow-up inputs. The authorization check rejected dfc10cc9, then Pi read the actual assertion, edited src/access.cjs and earned fresh matching PR #4 admission at a402d49d / ada3eb89. The observer matched all 131 events. Real desktop/mobile previews played and sought both videos, loaded all captions, and followed the case study and social links. FFmpeg verified all five encodes and exact original audio packets for the three case-study variants. Fourteen offline tests and the actual Deno presentation guard passed. Full native validation still requires separate acceptance of the exact candidate source inventory.
 
+## Native Pi terminal recording at /#proofs
+
+Recording pi-1758-tui-05 contains 2,193 distinct terminal frames and 142 independently correlated events for 35 real Pi tool calls with zero follow-up input. The required check rejects candidate 3240002405a3e59cf10167528bb2199c40509007. Fresh evidence binds fixture PR #6 to head 4cea13d000edb911c60e2e857301bb50c4479872 and base ada3eb89c3707801a5b86265dccc899fdabe5e1c, independently matched on GitHub. The case study keeps all original scene durations and encoded soundtrack bytes. Local media decoding and desktop/mobile playback include captions and the actual terminal capture. Public Pages verification follows native website validation and merge.
+
 <!-- decapod:capability-overlay:background-processing:start -->
 
 Generated capability obligations: `background-processing` is declared for this project. These are decisions and proof requirements, not claims of implemented behavior. Resolve each against project source and tests; record unsupported or non-applicable mechanisms explicitly.
@@ -126,7 +130,7 @@ Generated capability obligations: `public-api` is declared for this project. The
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `6bb69cf20cea9c4fb4b05f664140510f5a0e77c0268b6ca83830bcf67a52a004`
-- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `evidence/` (2 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (8 files)
+- Repository signal fingerprint: `abfc871112e7bb630d611fdc4d681dd1f905dc47c665ba592e5fc97f95764a4d`
+- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `evidence/` (3 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->

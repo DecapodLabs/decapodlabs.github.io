@@ -1,0 +1,31 @@
+{
+  "schema": "decapod.pi-tui-capture.v1",
+  "capture_kind": "live_native_tui_pixels",
+  "run_id": "pi-1758-tui-05",
+  "manifest_sha256": "sha256:c57df249c2ff945b09bdcb914786068207eee918f79e4caa3d978960dfeb9e35",
+  "pixel_manifest_sha256": "sha256:b8b60d98dc3a8e37a85972fd6c3f38a310f56b259942e88637ff83774088813c",
+  "head": "4cea13d000edb911c60e2e857301bb50c4479872",
+  "base": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+  "pr_url": "https://github.com/alexhraber/decapod-admission-acceptance-20261117-1747-06/pull/6",
+  "failure_head": "3240002405a3e59cf10167528bb2199c40509007",
+  "fresh_validation_receipt": "sha256:a5009df673a890df88b2f17e766b86d40769c1e479f5047dd13429c48124f825",
+  "elapsed_seconds": 344.592,
+  "tool_calls": 35,
+  "human_interventions": 0,
+  "prompt_submissions": 1,
+  "merge_authorized": false,
+  "pi_version": "0.73.1",
+  "provider": "openai-codex",
+  "model": "gpt-6.1-sol",
+  "kernel_version": "0.148.8",
+  "adapter_digests": {
+    "capture.ts": "sha256:ee88dadee4b217e48995cd3e61d103fc0028dc6333690d0229374df16030723f",
+    "record.mjs": "sha256:04c9c52b159c634668d5486e11767fdf3ea38583ffff64f3152765928a790905",
+    "pty_pi.py": "sha256:f64a2e3581453d8c3d9284dc8a503bd614ea8e5f176206c6e7969a1f72e09073",
+    "decapod-carrier.py": "sha256:69441d10ba717925c3b42d330974c64f4570517ee9fb48714c7dbab8119ccd3d"
+  },
+  "kernel_binary_sha256": "sha256:35b01d60367b8df72ce7097e43c676bd59165540a9b031a29d4308266e13a274",
+  "pre_objective_ui_input": "expand tools",
+  "post_objective_agent_inputs": 0,
+  "observed_event_count": 142
+}

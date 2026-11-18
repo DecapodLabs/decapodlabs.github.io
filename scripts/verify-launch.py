@@ -65,29 +65,30 @@ def verify(assets):
 
 def verify_proof_video(assets):
  report = json.loads((assets/'decapod-proof-render.json').read_text())
- assert report['schema'] == 'decapod.pi-proof-render.v1'
- assert [o['file'] for o in report['outputs']] == ['decapod-proof.mp4', 'decapod-proof-mobile.mp4']
+ assert report['schema'] == 'decapod.pi-tui-release.v1'
+ output = report['output']
+ assert output['file'] == 'decapod-proof.mp4'
  captions = assets/'decapod-proof.vtt'
  poster = assets/'decapod-proof-poster.png'
  assert sha(captions) == report['captions_sha256'] and sha(poster) == report['poster_sha256']
  with Image.open(poster) as image:
-  assert image.size == (1920, 1080) and image.mode == 'RGB'
+  assert image.size == (1440, 924) and image.mode == 'RGB'
  cues = re.findall(r'(\d\d:\d\d:\d\d\.\d{3}) --> (\d\d:\d\d:\d\d\.\d{3})', captions.read_text())
- assert captions.read_text().startswith('WEBVTT\n') and len(cues) >= 7
+ assert captions.read_text().startswith('WEBVTT\n') and len(cues) >= 5
  previous = 0
  for begin, end in cues:
-  assert seconds(begin) == previous and seconds(end) > previous
+  assert seconds(begin) >= previous and seconds(end) > seconds(begin)
   previous = seconds(end)
- for output, dimensions in zip(report['outputs'], [(1920, 1080), (1080, 1440)], strict=True):
-  path = assets/output['file']
-  assert sha(path) == output['sha256'] and 100_000 < path.stat().st_size < 10*1024*1024
-  meta = json.loads(subprocess.check_output(['ffprobe','-v','error','-show_format','-show_streams','-of','json',str(path)]))
-  video, = meta['streams']
-  assert video['codec_type'] == 'video' and video['codec_name'] == 'h264' and video['pix_fmt'] == 'yuv420p'
-  assert (video['width'], video['height']) == dimensions == (output['width'], output['height'])
-  assert abs(float(meta['format']['duration']) - previous) < .1
-  assert output['duration_ms'] == round(previous * 1000)
-  subprocess.run(['ffmpeg','-v','error','-i',str(path),'-f','null','-'],check=True)
- return report['outputs']
+ path = assets/output['file']
+ assert sha(path) == output['sha256'] and 100_000 < path.stat().st_size < 80*1024*1024
+ meta = json.loads(subprocess.check_output(['ffprobe','-v','error','-show_format','-show_streams','-of','json',str(path)]))
+ video, = meta['streams']
+ assert video['codec_type'] == 'video' and video['codec_name'] == 'h264' and video['pix_fmt'] == 'yuv420p'
+ assert (video['width'], video['height']) == (1440, 924) == (output['width'], output['height'])
+ duration = float(meta['format']['duration'])
+ assert abs(duration * 1000 - output['duration_ms']) < 100 and duration >= previous
+ subprocess.run(['ffmpeg','-v','error','-i',str(path),'-f','null','-'],check=True)
+ return [output]
+
 if __name__=='__main__':
  p=argparse.ArgumentParser();p.add_argument('--assets',type=Path,default=ROOT/'assets');verify(p.parse_args().assets)

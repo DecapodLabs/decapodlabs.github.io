@@ -18,6 +18,11 @@
       "id": "review-final-encoded-and-caption-bytes",
       "summary": "Bind reviews to the exact finalized proof and case-study render, captions and evidence",
       "input_digest": "sha256:1cc1e53ee2d2f67c5e9c51d356323745d50b9040475183bc3e2a54edca7fdac4"
+    },
+    {
+      "id": "native-pi-recording-proofs",
+      "summary": "Checkpoint the actual Pi terminal movie, matching case study, output digests, exact eight-source policy diff and tested #proofs website integration.",
+      "input_digest": "sha256:2a88b67b73e53ce58a95dec92f382d77b5209af4d198997a661fff7b97ca53e5"
     }
   ],
   "intents": {
@@ -48,33 +53,33 @@
       },
       "deferred_questions": [],
       "human_questions": [],
-      "intent": "Preserve the case study edit, timing and audio; use logo-b.png in the final frame; synchronize actual case study data to the newly recorded Pi/Decapod run. Put the terminal proof video at #proof with links to the case study, independently observed GitHub PR and evidence. Keep raw capture private.",
+      "intent": "Publish actual Pi terminal capture at /#proofs, with expanded Decapod tool output and public receipts for fixture PR #6. Match the 56-second case study to the same run and retain its timing, AAC soundtrack and logo-b closing asset. Preserve the original homepage teaser.",
       "phases": [],
       "proof_hooks": [
-        "Real Pi event and native outcome binding, privacy allowlist and evidence checks, exact original soundtrack and duration, browser playback and published bytes, full native validation and publication."
+        "Verify observed terminal pixels and private redaction, exact independent fixture readback and receipt, all committed video and caption bytes, original teaser and soundtrack, required site guard, Chrome desktop/mobile playback and native exact-subject publication before public Pages verification."
       ],
       "schema_version": "1.1.0",
       "spec_reviews": [
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/ARCHITECTURE.md",
-          "reason": "Re-review final caption, renderer, source and evidence bytes after case study sound preservation and caption cleanup. Full native validation still required after accepted policy.",
-          "reviewed_code_fingerprint": "6bb69cf20cea9c4fb4b05f664140510f5a0e77c0268b6ca83830bcf67a52a004",
-          "spec_material_hash": "4ce7ae07e94314e541465848a3233db33c8f4d6158061a9c42f3fb4e6a33b35e"
+          "reason": "Reviewed the complete native terminal capture and matching witness digests, synchronized case study, original soundtrack and logo placement, desktop/mobile captions, and explicit admission boundary.",
+          "reviewed_code_fingerprint": "abfc871112e7bb630d611fdc4d681dd1f905dc47c665ba592e5fc97f95764a4d",
+          "spec_material_hash": "eb42f628ec315b0f7d6e7d3a79a3523288900604f1d66ed1c415cbf74b8fed0b"
         },
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/INTERFACES.md",
-          "reason": "Re-review final caption, renderer, source and evidence bytes after case study sound preservation and caption cleanup. Full native validation still required after accepted policy.",
-          "reviewed_code_fingerprint": "6bb69cf20cea9c4fb4b05f664140510f5a0e77c0268b6ca83830bcf67a52a004",
-          "spec_material_hash": "63a24cc499b970f9b25b5863a74f587153c7add89dc50f01d0e3972d7d71d738"
+          "reason": "Reviewed the complete native terminal capture and matching witness digests, synchronized case study, original soundtrack and logo placement, desktop/mobile captions, and explicit admission boundary.",
+          "reviewed_code_fingerprint": "abfc871112e7bb630d611fdc4d681dd1f905dc47c665ba592e5fc97f95764a4d",
+          "spec_material_hash": "e2fb528986c81930c42ba998bd6c50c47c4291e03106fab36e1df80858259c73"
         },
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/SECURITY.md",
-          "reason": "Re-review final caption, renderer, source and evidence bytes after case study sound preservation and caption cleanup. Full native validation still required after accepted policy.",
-          "reviewed_code_fingerprint": "6bb69cf20cea9c4fb4b05f664140510f5a0e77c0268b6ca83830bcf67a52a004",
-          "spec_material_hash": "39a6a43d32d1c4c809faddd90a8ac168cc6c68bc00f71ca1efa146c3a49aa5d3"
+          "reason": "Reviewed the complete native terminal capture and matching witness digests, synchronized case study, original soundtrack and logo placement, desktop/mobile captions, and explicit admission boundary.",
+          "reviewed_code_fingerprint": "abfc871112e7bb630d611fdc4d681dd1f905dc47c665ba592e5fc97f95764a4d",
+          "spec_material_hash": "8bcf582cf1684a76bb9570a673cac371e6f36c90840def82eff69b2e433a7a68"
         }
       ],
       "state": "APPROVED",
@@ -85,16 +90,28 @@
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1795003541Z"
+      "updated_at": "1795007105Z"
     },
     "trajectory": {
       "active_boundaries": [
         "Current claimed task and isolated work branch"
       ],
-      "artifact_hash": "sha256:d2a4812aa9aef52ce535b5aba2624d9d157251fdfe62290d12b7c0b58d5144fd",
+      "artifact_hash": "sha256:82ea2743308dacd39e16a76df2ca264fd46a0309701d4e3e987aa01847a45c86",
       "checks": [
         {
+          "name": "accepted-consumer-policy",
+          "status": "unavailable"
+        },
+        {
+          "name": "all-media-decode-and-original-audio",
+          "status": "passed"
+        },
+        {
           "name": "desktop-and-mobile-browser",
+          "status": "passed"
+        },
+        {
+          "name": "native-pi-viewport-and-independent-pr",
           "status": "passed"
         },
         {
@@ -107,6 +124,10 @@
         },
         {
           "name": "video-encoding-and-original-audio",
+          "status": "passed"
+        },
+        {
+          "name": "website-desktop-and-mobile-playback",
           "status": "passed"
         }
       ],
@@ -131,10 +152,17 @@
             "intent_id": "intent:change_01M7Q6TKKV1S9QF6E72V0NC5NA",
             "kind": "trajectory_step_recorded",
             "sequence": 4
+          },
+          {
+            "detail": "trajectory:branch_01M7Q6TKNA43XB87PD8JH0A800",
+            "event_id": "event:5",
+            "intent_id": "intent:change_01M7Q6TKKV1S9QF6E72V0NC5NA",
+            "kind": "trajectory_step_recorded",
+            "sequence": 5
           }
         ],
         "knowledge_candidates": [],
-        "next_sequence": 4,
+        "next_sequence": 5,
         "schema_version": "1.0.0",
         "trajectories": {
           "branch_01M7Q6TKNA43XB87PD8JH0A800": {
@@ -159,6 +187,24 @@
                 ],
                 "sequence": 4,
                 "validation_findings": []
+              },
+              {
+                "action": "trajectory.record",
+                "custody_event_id": "event:5",
+                "observations": [
+                  "Observed native TUI frames through Chromium, local media decoding and tests, Chrome playback on desktop and mobile, matching PR #6 receipt and GitHub endpoints. Separate acceptance of the reviewed target policy and exact native website publication before live Pages verification."
+                ],
+                "proof_refs": [
+                  "native-pi-viewport-and-independent-pr",
+                  "all-media-decode-and-original-audio",
+                  "website-desktop-and-mobile-playback",
+                  "accepted-consumer-policy"
+                ],
+                "scope": [
+                  "root"
+                ],
+                "sequence": 5,
+                "validation_findings": []
               }
             ]
           }
@@ -167,7 +213,8 @@
       "declared_commands": [],
       "destination": "pull request",
       "evidence": [
-        "Actual second Pi run 33 tools in 367.768 seconds, rejection and autonomous repair, 131 verified events, exact GitHub PR4 head and base. Terminal capture while Pi ran, private material omitted. Both films use that run, case study pacing and encoded soundtrack exact. Five media and captions verified; live website merge still depends on separately accepted source policy and fresh native proof."
+        "Actual second Pi run 33 tools in 367.768 seconds, rejection and autonomous repair, 131 verified events, exact GitHub PR4 head and base. Terminal capture while Pi ran, private material omitted. Both films use that run, case study pacing and encoded soundtrack exact. Five media and captions verified; live website merge still depends on separately accepted source policy and fresh native proof.",
+        "Observed native TUI frames through Chromium, local media decoding and tests, Chrome playback on desktop and mobile, matching PR #6 receipt and GitHub endpoints. Separate acceptance of the reviewed target policy and exact native website publication before live Pages verification."
       ],
       "inspected_files": [],
       "intent_id": "intent:change_01M7Q6TKKV1S9QF6E72V0NC5NA",

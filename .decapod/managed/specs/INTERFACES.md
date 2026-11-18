@@ -56,6 +56,10 @@ Only the existing workflow and Python evidence-test definitions changed among th
 
 The proof renderer accepts reviewed decapod.pi-terminal-excerpts.v1 data with actual tool starts, returned results, Pi and Decapod versions, capture offsets, and exact published head and base. Desktop and mobile H.264 outputs share ten WebVTT cues. The case-study variants preserve 56/12/56-second timing and the original audio tracks. The homepage links to the case study, recorded evidence, and the independently matched PR.
 
+## Native Pi terminal recording at /#proofs
+
+The proof uses one 1440 × 924 H.264 recording with native playback, ten WebVTT descriptions and a captured poster. The viewer can use fullscreen on a phone. The capture metadata, frame ledger, evidence and linked PR expose the same independently observed head and accepted base. The offline presentation guard checks the native witness chain and exact reviewed media bytes. The media workflow verifies the live footage by digest and renders the case-study cuts from the approved manifest.
+
 <!-- decapod:capability-overlay:public-api:start -->
 
 Generated capability obligations: `public-api` is declared for this project. These are decisions and proof requirements, not claims of implemented behavior. Resolve each against project source and tests; record unsupported or non-applicable mechanisms explicitly.
@@ -83,7 +87,7 @@ Generated capability obligations: `public-api` is declared for this project. The
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `6bb69cf20cea9c4fb4b05f664140510f5a0e77c0268b6ca83830bcf67a52a004`
-- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `evidence/` (2 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (8 files)
+- Repository signal fingerprint: `abfc871112e7bb630d611fdc4d681dd1f905dc47c665ba592e5fc97f95764a4d`
+- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `evidence/` (3 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->

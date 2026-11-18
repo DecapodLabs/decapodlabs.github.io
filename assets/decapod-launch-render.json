@@ -1,8 +1,8 @@
 {
   "schema": "decapod.launch-render.v1",
-  "run_id": "pi-1758-proof-video-03",
-  "manifest_sha256": "sha256:4e7f51412e82d2978a815d4b8919de1f480d085ee9aba7e2aef99d48337946e2",
-  "production_config_sha256": "sha256:487f8dcbd5d3f2ad799d7f0ef409af933b784ce89c263f51a30f1b545de6e9ac",
+  "run_id": "pi-1758-tui-05",
+  "manifest_sha256": "sha256:c57df249c2ff945b09bdcb914786068207eee918f79e4caa3d978960dfeb9e35",
+  "production_config_sha256": "sha256:20dad76389de6ae47d894c3969115d53f495cdd0b1fd3156ac1c5c2b15ea0d7c",
   "runtime": {
     "python": "3.12.15",
     "ffmpeg": "ffmpeg version 9.0.2 Copyright (c) 2000-2026 the FFmpeg developers",
@@ -36,11 +36,11 @@
             "detail": "Implement the repository-scoped read authorization described in README.md and publish a verified pull request.",
             "tag": "ONE ENGINEERING OBJECTIVE",
             "evidence": [
-              "sha256:593f4b5bef74270503d990cf05e8365fb48c848f655faf7409a607f2afc4c57c"
+              "sha256:488f65e38982396796e58fe0f28f5715bce017899f002ca7d3f99198b5eae8e5"
             ]
           },
           "observed_event_ids_or_control_digests": [
-            "sha256:593f4b5bef74270503d990cf05e8365fb48c848f655faf7409a607f2afc4c57c"
+            "sha256:488f65e38982396796e58fe0f28f5715bce017899f002ca7d3f99198b5eae8e5"
           ]
         },
         {
@@ -56,23 +56,23 @@
             "detail": "The agent discovers Decapod, claims its task and enters an isolated workspace.",
             "tag": "PI \u00b7 REAL MODEL \u00b7 REAL TOOLS",
             "evidence": [
-              "sha256:1d6d0a5d77035f88894b05c5cb581d8ed73ea3f05f466320e6533a06e565e36e",
-              "sha256:ae12b50a8f2b0e0ba30c6a7f1a29370ffe1463f28a5e513b1e9b468350437fe0",
-              "sha256:5900998131ed7dcabec67d79fb419f9a9b6c0d08a6b05ad018cbcab2af22736a",
-              "sha256:e3752e8a5071cafdbe68a0208adcdf003aabca79b90de7064a97de1813ff0216",
-              "sha256:f8bebe94bedf1d686f6f565ec0bceab004ebe943591355c989f235fa630e75e6",
-              "sha256:786933d165da4ef9136cdb56a0dd4e46b7beed049ddbf4bb4664448adad4b1ca",
-              "sha256:8457772c19acf3a9fda0227e295cabbd4d3c3e337b832fba4e169225d90a727e"
+              "sha256:b7cdcda6fd429a53ee4afddd84d07cb46b6b13da9485263a0d4beca5d8e20295",
+              "sha256:32fec6e2d0c6a23f38f5497253e51a7e08bbcdc76670bb4a0318908b3bf0f72a",
+              "sha256:89aff6089a581edf8eb5e493fc981dce2e6c6d8d1a876166a58bd3d495f20357",
+              "sha256:f816738bb41c9d93690b1126828147563acf15dad1b59b1df167cdd6229f8cc3",
+              "sha256:af689ec8e1d00374a59251b7b49db21693bbd7e58b3dc0e5f08c32b785364416",
+              "sha256:ef199e86d163a430c326ed6e6232dd9913fe1ca3f0133d36fad55cc4ae9094b3",
+              "sha256:ee95bf402c21a24668ad6a137b57b8f09e63576c4e08af65eff40b12b322099c"
             ]
           },
           "observed_event_ids_or_control_digests": [
-            "sha256:1d6d0a5d77035f88894b05c5cb581d8ed73ea3f05f466320e6533a06e565e36e",
-            "sha256:ae12b50a8f2b0e0ba30c6a7f1a29370ffe1463f28a5e513b1e9b468350437fe0",
-            "sha256:5900998131ed7dcabec67d79fb419f9a9b6c0d08a6b05ad018cbcab2af22736a",
-            "sha256:e3752e8a5071cafdbe68a0208adcdf003aabca79b90de7064a97de1813ff0216",
-            "sha256:f8bebe94bedf1d686f6f565ec0bceab004ebe943591355c989f235fa630e75e6",
-            "sha256:786933d165da4ef9136cdb56a0dd4e46b7beed049ddbf4bb4664448adad4b1ca",
-            "sha256:8457772c19acf3a9fda0227e295cabbd4d3c3e337b832fba4e169225d90a727e"
+            "sha256:b7cdcda6fd429a53ee4afddd84d07cb46b6b13da9485263a0d4beca5d8e20295",
+            "sha256:32fec6e2d0c6a23f38f5497253e51a7e08bbcdc76670bb4a0318908b3bf0f72a",
+            "sha256:89aff6089a581edf8eb5e493fc981dce2e6c6d8d1a876166a58bd3d495f20357",
+            "sha256:f816738bb41c9d93690b1126828147563acf15dad1b59b1df167cdd6229f8cc3",
+            "sha256:af689ec8e1d00374a59251b7b49db21693bbd7e58b3dc0e5f08c32b785364416",
+            "sha256:ef199e86d163a430c326ed6e6232dd9913fe1ca3f0133d36fad55cc4ae9094b3",
+            "sha256:ee95bf402c21a24668ad6a137b57b8f09e63576c4e08af65eff40b12b322099c"
           ]
         },
         {
@@ -90,11 +90,11 @@
             "tag": "EXPECTED FALSE / OBSERVED TRUE",
             "status": "REJECTED",
             "evidence": [
-              "sha256:4a3996713c0b5855bc73d21ae41df6596ade4b1b0d83b60ed08813c70d17b982"
+              "sha256:2d125658873c4539c90830e7cf997528a1263a5e259f78b61b0ff2e1955b5f51"
             ]
           },
           "observed_event_ids_or_control_digests": [
-            "sha256:4a3996713c0b5855bc73d21ae41df6596ade4b1b0d83b60ed08813c70d17b982"
+            "sha256:2d125658873c4539c90830e7cf997528a1263a5e259f78b61b0ff2e1955b5f51"
           ]
         },
         {
@@ -111,21 +111,25 @@
             "detail": "The agent reads the failure and repairs repository-scoped access. No human supplies the fix.",
             "tag": "READ FAILURE \u00b7 EDIT src/access.cjs \u00b7 REVALIDATE",
             "evidence": [
-              "sha256:9ee103c1b3a8dcc09c497c79b71c680607d57759bfeba1918493808f4e2ae831",
-              "sha256:a24e55d91bb94b62eb5de301cfb1290ea2f6c0b0cf3c3e4ecc792c07a96a6f3c",
-              "sha256:2920dca2ec4f4295149b80317e133ca183fdddfe9ae15c9aa2f0c18050483813",
-              "sha256:42a871278a0b23d80cbcc698332080dccfcfbb642c1767c8e16d7341a88ea4b5",
-              "sha256:b22c383fc54f0efc1b0844f3748c7c599dbb848846fc008419d0ac189bfd1ad7",
-              "sha256:003eb0754abaa300bc6ff516c657db4a1140af7a9046f9eaaa8253d8434a8e0e"
+              "sha256:13ca4eb208f1e9c1dd1bb175fd227b955105193ce6b85f1f2622acf65e7c0642",
+              "sha256:002c6cadbf4ff89b3c92c8b299f12308ed0c12352b4cf0da568307e21b29719f",
+              "sha256:22fd70c52b504c81696c6f1c3f5876b1c49e38b24f2cb070f13daea9408ba251",
+              "sha256:4f230bc55a6bde1d6855db3bf310820dbf88e9ffae39a426cbf4cf6dac703e1b",
+              "sha256:809a7c86be140edd3e0943da3324b9d5d75509e9e13bdf8ef3a1dc516b799dd8",
+              "sha256:5091f96b69175b6046e25b703ac054e0cf386903f13890b4f6919f653616ebf1",
+              "sha256:6bae1439541487f456c5d10dd732f84d2e6b968f0c801f6633aa2b201b3ba8f0",
+              "sha256:d4767443a221b546eeb073363983a27adfcfe39bba1875a0f0192af0d1106d62"
             ]
           },
           "observed_event_ids_or_control_digests": [
-            "sha256:9ee103c1b3a8dcc09c497c79b71c680607d57759bfeba1918493808f4e2ae831",
-            "sha256:a24e55d91bb94b62eb5de301cfb1290ea2f6c0b0cf3c3e4ecc792c07a96a6f3c",
-            "sha256:2920dca2ec4f4295149b80317e133ca183fdddfe9ae15c9aa2f0c18050483813",
-            "sha256:42a871278a0b23d80cbcc698332080dccfcfbb642c1767c8e16d7341a88ea4b5",
-            "sha256:b22c383fc54f0efc1b0844f3748c7c599dbb848846fc008419d0ac189bfd1ad7",
-            "sha256:003eb0754abaa300bc6ff516c657db4a1140af7a9046f9eaaa8253d8434a8e0e"
+            "sha256:13ca4eb208f1e9c1dd1bb175fd227b955105193ce6b85f1f2622acf65e7c0642",
+            "sha256:002c6cadbf4ff89b3c92c8b299f12308ed0c12352b4cf0da568307e21b29719f",
+            "sha256:22fd70c52b504c81696c6f1c3f5876b1c49e38b24f2cb070f13daea9408ba251",
+            "sha256:4f230bc55a6bde1d6855db3bf310820dbf88e9ffae39a426cbf4cf6dac703e1b",
+            "sha256:809a7c86be140edd3e0943da3324b9d5d75509e9e13bdf8ef3a1dc516b799dd8",
+            "sha256:5091f96b69175b6046e25b703ac054e0cf386903f13890b4f6919f653616ebf1",
+            "sha256:6bae1439541487f456c5d10dd732f84d2e6b968f0c801f6633aa2b201b3ba8f0",
+            "sha256:d4767443a221b546eeb073363983a27adfcfe39bba1875a0f0192af0d1106d62"
           ]
         },
         {
@@ -140,15 +144,15 @@
             ],
             "accent": 1,
             "detail": "10 access assertions. Independent source guard. Fresh execution, bound to the exact work.",
-            "tag": "HEAD a402d49d245b",
+            "tag": "HEAD 4cea13d000ed",
             "status": "CHECKS PASSED",
-            "receipt": "sha256:4ad28bd1a0408cf2aa0a7dd841d1beccf6e71906677db652d656a742860fd8a8",
+            "receipt": "sha256:a5009df673a890df88b2f17e766b86d40769c1e479f5047dd13429c48124f825",
             "evidence": [
-              "sha256:c6288c3e0025f6c7933153a40ca93bde902160f054ef6cbd6525da87136bbacd"
+              "sha256:d2d67b4eac62c1a3d127860e4e92f47dee3d966bbee201b77aecb15c785b4308"
             ]
           },
           "observed_event_ids_or_control_digests": [
-            "sha256:c6288c3e0025f6c7933153a40ca93bde902160f054ef6cbd6525da87136bbacd"
+            "sha256:d2d67b4eac62c1a3d127860e4e92f47dee3d966bbee201b77aecb15c785b4308"
           ]
         },
         {
@@ -162,15 +166,15 @@
               "Verified by Decapod."
             ],
             "accent": 1,
-            "detail": "PR #4 \u00b7 exact head and base independently read back on GitHub. Admission does not authorize merge.",
+            "detail": "PR #6 \u00b7 exact head and base independently read back on GitHub. Admission does not authorize merge.",
             "tag": "BASE ada3eb89c370",
             "status": "ADMITTED \u00b7 NOT MERGE AUTHORIZED",
             "evidence": [
-              "sha256:fcbb0e7e0b8880a0828f2fd0f4cc507fd0a61312bd5691f5c7d7e08f6a94d206"
+              "sha256:1d6a44f7b1646cf0c97cbaf85664d6df0727ca17aaa603dafbc899b07d8c35f0"
             ]
           },
           "observed_event_ids_or_control_digests": [
-            "sha256:fcbb0e7e0b8880a0828f2fd0f4cc507fd0a61312bd5691f5c7d7e08f6a94d206"
+            "sha256:1d6a44f7b1646cf0c97cbaf85664d6df0727ca17aaa603dafbc899b07d8c35f0"
           ]
         },
         {
@@ -214,9 +218,9 @@
           "observed_event_ids_or_control_digests": []
         }
       ],
-      "video_sha256": "sha256:38d17e6409c542fcc2b52bb66791522ed56a469ef8e3ed0bac233ba502d6228a",
-      "captions_sha256": "sha256:b6927451103249c0f0ff960a41d870ff6d5113c8573c4d99088c9eb96a8b20c5",
-      "original_audio_sha256": "sha256:4b552898d30fcfb9a2eb717b41db34036ac3c0a3a72f582c880264e79aff5c10"
+      "original_audio_sha256": "sha256:4b552898d30fcfb9a2eb717b41db34036ac3c0a3a72f582c880264e79aff5c10",
+      "video_sha256": "sha256:2efe241db272521d5a068d5bfbf11a4c3670f4f0ee119d37d377f8357e8d3fd5",
+      "captions_sha256": "sha256:5fefccb1714067a51bad9cb57ffda735a510192c2a3e81cfe830b122520b964f"
     },
     {
       "variant": "social",
@@ -239,11 +243,11 @@
             "detail": "Implement the repository-scoped read authorization described in README.md and publish a verified pull request.",
             "tag": "ONE ENGINEERING OBJECTIVE",
             "evidence": [
-              "sha256:593f4b5bef74270503d990cf05e8365fb48c848f655faf7409a607f2afc4c57c"
+              "sha256:488f65e38982396796e58fe0f28f5715bce017899f002ca7d3f99198b5eae8e5"
             ]
           },
           "observed_event_ids_or_control_digests": [
-            "sha256:593f4b5bef74270503d990cf05e8365fb48c848f655faf7409a607f2afc4c57c"
+            "sha256:488f65e38982396796e58fe0f28f5715bce017899f002ca7d3f99198b5eae8e5"
           ]
         },
         {
@@ -261,11 +265,11 @@
             "tag": "EXPECTED FALSE / OBSERVED TRUE",
             "status": "REJECTED",
             "evidence": [
-              "sha256:4a3996713c0b5855bc73d21ae41df6596ade4b1b0d83b60ed08813c70d17b982"
+              "sha256:2d125658873c4539c90830e7cf997528a1263a5e259f78b61b0ff2e1955b5f51"
             ]
           },
           "observed_event_ids_or_control_digests": [
-            "sha256:4a3996713c0b5855bc73d21ae41df6596ade4b1b0d83b60ed08813c70d17b982"
+            "sha256:2d125658873c4539c90830e7cf997528a1263a5e259f78b61b0ff2e1955b5f51"
           ]
         },
         {
@@ -280,15 +284,15 @@
             ],
             "accent": 1,
             "detail": "10 access assertions. Independent source guard. Fresh execution, bound to the exact work.",
-            "tag": "HEAD a402d49d245b",
+            "tag": "HEAD 4cea13d000ed",
             "status": "CHECKS PASSED",
-            "receipt": "sha256:4ad28bd1a0408cf2aa0a7dd841d1beccf6e71906677db652d656a742860fd8a8",
+            "receipt": "sha256:a5009df673a890df88b2f17e766b86d40769c1e479f5047dd13429c48124f825",
             "evidence": [
-              "sha256:c6288c3e0025f6c7933153a40ca93bde902160f054ef6cbd6525da87136bbacd"
+              "sha256:d2d67b4eac62c1a3d127860e4e92f47dee3d966bbee201b77aecb15c785b4308"
             ]
           },
           "observed_event_ids_or_control_digests": [
-            "sha256:c6288c3e0025f6c7933153a40ca93bde902160f054ef6cbd6525da87136bbacd"
+            "sha256:d2d67b4eac62c1a3d127860e4e92f47dee3d966bbee201b77aecb15c785b4308"
           ]
         },
         {
@@ -309,9 +313,9 @@
           "observed_event_ids_or_control_digests": []
         }
       ],
-      "video_sha256": "sha256:08b2c93ffefc062766e0ceb1c51ec9af1fc4261642ec5d3c1c11b689ca515775",
-      "captions_sha256": "sha256:3dc0bdd3c8ff6b09a6ec174ae5f4437ebf4aab85c58717339deba6db9863bef1",
-      "original_audio_sha256": "sha256:454b4a62535fbf1350d7c83943e99b7552ed8ae1da74e0d06a2939230fe3bbaf"
+      "original_audio_sha256": "sha256:454b4a62535fbf1350d7c83943e99b7552ed8ae1da74e0d06a2939230fe3bbaf",
+      "video_sha256": "sha256:d9a4091214f97ce1fec3bd78657bc1aa99e481a94b240418a412deaddc8cb6a0",
+      "captions_sha256": "sha256:3dc0bdd3c8ff6b09a6ec174ae5f4437ebf4aab85c58717339deba6db9863bef1"
     },
     {
       "variant": "mobile",
@@ -334,11 +338,11 @@
             "detail": "Implement the repository-scoped read authorization described in README.md and publish a verified pull request.",
             "tag": "ONE ENGINEERING OBJECTIVE",
             "evidence": [
-              "sha256:593f4b5bef74270503d990cf05e8365fb48c848f655faf7409a607f2afc4c57c"
+              "sha256:488f65e38982396796e58fe0f28f5715bce017899f002ca7d3f99198b5eae8e5"
             ]
           },
           "observed_event_ids_or_control_digests": [
-            "sha256:593f4b5bef74270503d990cf05e8365fb48c848f655faf7409a607f2afc4c57c"
+            "sha256:488f65e38982396796e58fe0f28f5715bce017899f002ca7d3f99198b5eae8e5"
           ]
         },
         {
@@ -354,23 +358,23 @@
             "detail": "The agent discovers Decapod, claims its task and enters an isolated workspace.",
             "tag": "PI \u00b7 REAL MODEL \u00b7 REAL TOOLS",
             "evidence": [
-              "sha256:1d6d0a5d77035f88894b05c5cb581d8ed73ea3f05f466320e6533a06e565e36e",
-              "sha256:ae12b50a8f2b0e0ba30c6a7f1a29370ffe1463f28a5e513b1e9b468350437fe0",
-              "sha256:5900998131ed7dcabec67d79fb419f9a9b6c0d08a6b05ad018cbcab2af22736a",
-              "sha256:e3752e8a5071cafdbe68a0208adcdf003aabca79b90de7064a97de1813ff0216",
-              "sha256:f8bebe94bedf1d686f6f565ec0bceab004ebe943591355c989f235fa630e75e6",
-              "sha256:786933d165da4ef9136cdb56a0dd4e46b7beed049ddbf4bb4664448adad4b1ca",
-              "sha256:8457772c19acf3a9fda0227e295cabbd4d3c3e337b832fba4e169225d90a727e"
+              "sha256:b7cdcda6fd429a53ee4afddd84d07cb46b6b13da9485263a0d4beca5d8e20295",
+              "sha256:32fec6e2d0c6a23f38f5497253e51a7e08bbcdc76670bb4a0318908b3bf0f72a",
+              "sha256:89aff6089a581edf8eb5e493fc981dce2e6c6d8d1a876166a58bd3d495f20357",
+              "sha256:f816738bb41c9d93690b1126828147563acf15dad1b59b1df167cdd6229f8cc3",
+              "sha256:af689ec8e1d00374a59251b7b49db21693bbd7e58b3dc0e5f08c32b785364416",
+              "sha256:ef199e86d163a430c326ed6e6232dd9913fe1ca3f0133d36fad55cc4ae9094b3",
+              "sha256:ee95bf402c21a24668ad6a137b57b8f09e63576c4e08af65eff40b12b322099c"
             ]
           },
           "observed_event_ids_or_control_digests": [
-            "sha256:1d6d0a5d77035f88894b05c5cb581d8ed73ea3f05f466320e6533a06e565e36e",
-            "sha256:ae12b50a8f2b0e0ba30c6a7f1a29370ffe1463f28a5e513b1e9b468350437fe0",
-            "sha256:5900998131ed7dcabec67d79fb419f9a9b6c0d08a6b05ad018cbcab2af22736a",
-            "sha256:e3752e8a5071cafdbe68a0208adcdf003aabca79b90de7064a97de1813ff0216",
-            "sha256:f8bebe94bedf1d686f6f565ec0bceab004ebe943591355c989f235fa630e75e6",
-            "sha256:786933d165da4ef9136cdb56a0dd4e46b7beed049ddbf4bb4664448adad4b1ca",
-            "sha256:8457772c19acf3a9fda0227e295cabbd4d3c3e337b832fba4e169225d90a727e"
+            "sha256:b7cdcda6fd429a53ee4afddd84d07cb46b6b13da9485263a0d4beca5d8e20295",
+            "sha256:32fec6e2d0c6a23f38f5497253e51a7e08bbcdc76670bb4a0318908b3bf0f72a",
+            "sha256:89aff6089a581edf8eb5e493fc981dce2e6c6d8d1a876166a58bd3d495f20357",
+            "sha256:f816738bb41c9d93690b1126828147563acf15dad1b59b1df167cdd6229f8cc3",
+            "sha256:af689ec8e1d00374a59251b7b49db21693bbd7e58b3dc0e5f08c32b785364416",
+            "sha256:ef199e86d163a430c326ed6e6232dd9913fe1ca3f0133d36fad55cc4ae9094b3",
+            "sha256:ee95bf402c21a24668ad6a137b57b8f09e63576c4e08af65eff40b12b322099c"
           ]
         },
         {
@@ -388,11 +392,11 @@
             "tag": "EXPECTED FALSE / OBSERVED TRUE",
             "status": "REJECTED",
             "evidence": [
-              "sha256:4a3996713c0b5855bc73d21ae41df6596ade4b1b0d83b60ed08813c70d17b982"
+              "sha256:2d125658873c4539c90830e7cf997528a1263a5e259f78b61b0ff2e1955b5f51"
             ]
           },
           "observed_event_ids_or_control_digests": [
-            "sha256:4a3996713c0b5855bc73d21ae41df6596ade4b1b0d83b60ed08813c70d17b982"
+            "sha256:2d125658873c4539c90830e7cf997528a1263a5e259f78b61b0ff2e1955b5f51"
           ]
         },
         {
@@ -409,21 +413,25 @@
             "detail": "The agent reads the failure and repairs repository-scoped access. No human supplies the fix.",
             "tag": "READ FAILURE \u00b7 EDIT src/access.cjs \u00b7 REVALIDATE",
             "evidence": [
-              "sha256:9ee103c1b3a8dcc09c497c79b71c680607d57759bfeba1918493808f4e2ae831",
-              "sha256:a24e55d91bb94b62eb5de301cfb1290ea2f6c0b0cf3c3e4ecc792c07a96a6f3c",
-              "sha256:2920dca2ec4f4295149b80317e133ca183fdddfe9ae15c9aa2f0c18050483813",
-              "sha256:42a871278a0b23d80cbcc698332080dccfcfbb642c1767c8e16d7341a88ea4b5",
-              "sha256:b22c383fc54f0efc1b0844f3748c7c599dbb848846fc008419d0ac189bfd1ad7",
-              "sha256:003eb0754abaa300bc6ff516c657db4a1140af7a9046f9eaaa8253d8434a8e0e"
+              "sha256:13ca4eb208f1e9c1dd1bb175fd227b955105193ce6b85f1f2622acf65e7c0642",
+              "sha256:002c6cadbf4ff89b3c92c8b299f12308ed0c12352b4cf0da568307e21b29719f",
+              "sha256:22fd70c52b504c81696c6f1c3f5876b1c49e38b24f2cb070f13daea9408ba251",
+              "sha256:4f230bc55a6bde1d6855db3bf310820dbf88e9ffae39a426cbf4cf6dac703e1b",
+              "sha256:809a7c86be140edd3e0943da3324b9d5d75509e9e13bdf8ef3a1dc516b799dd8",
+              "sha256:5091f96b69175b6046e25b703ac054e0cf386903f13890b4f6919f653616ebf1",
+              "sha256:6bae1439541487f456c5d10dd732f84d2e6b968f0c801f6633aa2b201b3ba8f0",
+              "sha256:d4767443a221b546eeb073363983a27adfcfe39bba1875a0f0192af0d1106d62"
             ]
           },
           "observed_event_ids_or_control_digests": [
-            "sha256:9ee103c1b3a8dcc09c497c79b71c680607d57759bfeba1918493808f4e2ae831",
-            "sha256:a24e55d91bb94b62eb5de301cfb1290ea2f6c0b0cf3c3e4ecc792c07a96a6f3c",
-            "sha256:2920dca2ec4f4295149b80317e133ca183fdddfe9ae15c9aa2f0c18050483813",
-            "sha256:42a871278a0b23d80cbcc698332080dccfcfbb642c1767c8e16d7341a88ea4b5",
-            "sha256:b22c383fc54f0efc1b0844f3748c7c599dbb848846fc008419d0ac189bfd1ad7",
-            "sha256:003eb0754abaa300bc6ff516c657db4a1140af7a9046f9eaaa8253d8434a8e0e"
+            "sha256:13ca4eb208f1e9c1dd1bb175fd227b955105193ce6b85f1f2622acf65e7c0642",
+            "sha256:002c6cadbf4ff89b3c92c8b299f12308ed0c12352b4cf0da568307e21b29719f",
+            "sha256:22fd70c52b504c81696c6f1c3f5876b1c49e38b24f2cb070f13daea9408ba251",
+            "sha256:4f230bc55a6bde1d6855db3bf310820dbf88e9ffae39a426cbf4cf6dac703e1b",
+            "sha256:809a7c86be140edd3e0943da3324b9d5d75509e9e13bdf8ef3a1dc516b799dd8",
+            "sha256:5091f96b69175b6046e25b703ac054e0cf386903f13890b4f6919f653616ebf1",
+            "sha256:6bae1439541487f456c5d10dd732f84d2e6b968f0c801f6633aa2b201b3ba8f0",
+            "sha256:d4767443a221b546eeb073363983a27adfcfe39bba1875a0f0192af0d1106d62"
           ]
         },
         {
@@ -438,15 +446,15 @@
             ],
             "accent": 1,
             "detail": "10 access assertions. Independent source guard. Fresh execution, bound to the exact work.",
-            "tag": "HEAD a402d49d245b",
+            "tag": "HEAD 4cea13d000ed",
             "status": "CHECKS PASSED",
-            "receipt": "sha256:4ad28bd1a0408cf2aa0a7dd841d1beccf6e71906677db652d656a742860fd8a8",
+            "receipt": "sha256:a5009df673a890df88b2f17e766b86d40769c1e479f5047dd13429c48124f825",
             "evidence": [
-              "sha256:c6288c3e0025f6c7933153a40ca93bde902160f054ef6cbd6525da87136bbacd"
+              "sha256:d2d67b4eac62c1a3d127860e4e92f47dee3d966bbee201b77aecb15c785b4308"
             ]
           },
           "observed_event_ids_or_control_digests": [
-            "sha256:c6288c3e0025f6c7933153a40ca93bde902160f054ef6cbd6525da87136bbacd"
+            "sha256:d2d67b4eac62c1a3d127860e4e92f47dee3d966bbee201b77aecb15c785b4308"
           ]
         },
         {
@@ -460,15 +468,15 @@
               "Verified by Decapod."
             ],
             "accent": 1,
-            "detail": "PR #4 \u00b7 exact head and base independently read back on GitHub. Admission does not authorize merge.",
+            "detail": "PR #6 \u00b7 exact head and base independently read back on GitHub. Admission does not authorize merge.",
             "tag": "BASE ada3eb89c370",
             "status": "ADMITTED \u00b7 NOT MERGE AUTHORIZED",
             "evidence": [
-              "sha256:fcbb0e7e0b8880a0828f2fd0f4cc507fd0a61312bd5691f5c7d7e08f6a94d206"
+              "sha256:1d6a44f7b1646cf0c97cbaf85664d6df0727ca17aaa603dafbc899b07d8c35f0"
             ]
           },
           "observed_event_ids_or_control_digests": [
-            "sha256:fcbb0e7e0b8880a0828f2fd0f4cc507fd0a61312bd5691f5c7d7e08f6a94d206"
+            "sha256:1d6a44f7b1646cf0c97cbaf85664d6df0727ca17aaa603dafbc899b07d8c35f0"
           ]
         },
         {
@@ -512,9 +520,9 @@
           "observed_event_ids_or_control_digests": []
         }
       ],
-      "video_sha256": "sha256:59f6b1d5f7e8b3c71b6aac3caa77706826163878d7f65915925e51f7070bc831",
-      "captions_sha256": "sha256:b6927451103249c0f0ff960a41d870ff6d5113c8573c4d99088c9eb96a8b20c5",
-      "original_audio_sha256": "sha256:4b552898d30fcfb9a2eb717b41db34036ac3c0a3a72f582c880264e79aff5c10"
+      "original_audio_sha256": "sha256:4b552898d30fcfb9a2eb717b41db34036ac3c0a3a72f582c880264e79aff5c10",
+      "video_sha256": "sha256:cc8b824ff561250caafe0bd21ee60e27633524c32faf2153e048c87abcea4bd0",
+      "captions_sha256": "sha256:5fefccb1714067a51bad9cb57ffda735a510192c2a3e81cfe830b122520b964f"
     }
   ]
 }
