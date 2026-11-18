@@ -100,7 +100,7 @@
       capacitySummary.textContent = extra === 0
         ? "All resources within included capacity"
         : extra + " resource " + (extra === 1 ? "category" : "categories") +
-          " above baseline — prepaid capacity required";
+          " above illustrative included baseline — actual excess would be billed by resource";
     }
   }
 
