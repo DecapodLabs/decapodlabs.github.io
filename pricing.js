@@ -1,55 +1,85 @@
 (() => {
   "use strict";
-  // Preview exposes team size and discount milestones, never unpublished prices.
-  // Stripe pricing and entitlements are always controlled by authenticated Propodus.
+  // This is an informational volume/term preview, never a Cloud price quote.
+  // Paid assignment edges, distinct identities, tier entitlement and billing remain server-authoritative.
   const byId = id => document.getElementById(id);
   const repositories = byId("repo-count");
-  const contributors = byId("seat-count");
-  if (!repositories || !contributors) return;
+  const assignmentsPerRepo = byId("seat-count");
+  const uniqueContributors = byId("unique-count");
+  if (!repositories || !assignmentsPerRepo || !uniqueContributors) return;
   const steps = Object.freeze({
-    repos: [[3,2],[6,4],[10,6]],
-    people: [[5,2],[10,4],[20,6]]
+    repos: [[3, 2], [6, 4], [10, 6]],
+    people: [[5, 2], [10, 4], [20, 6]]
   });
-  let annual = true;
-  const tier = (value, points) => points.reduce((v,[threshold,pct]) => value >= threshold ? pct : v, 0);
+  let annual = false;
+  const tier = (value, points) => points.reduce((v, [threshold, pct]) => value >= threshold ? pct : v, 0);
+  const change = (id, value, field = "textContent") => {
+    const node = byId(id);
+    if (node) node[field] = value;
+  };
+  const setFill = (slider, value) => {
+    const min = Number(slider.min);
+    const max = Number(slider.max);
+    const fraction = max > min ? (value - min) / (max - min) : 1;
+    slider.style.setProperty("--fill", (Math.max(0, Math.min(1, fraction)) * 100) + "%");
+  };
   function render() {
-    const repos = Math.max(1, Math.min(10, Number(repositories.value)||1));
-    const people = Math.max(1, Math.min(25, Number(contributors.value)||1));
-    const r = tier(repos,steps.repos), p = tier(people,steps.people);
-    const volume = r+p;
-    // Annual term is one month free; combined savings are capped at 20%.
-    const cumulative = Math.min(20, 100/12+volume);
-    const change = (id,value,field="textContent") => {const node=byId(id);if(node) node[field]=value;};
-    change("repo-count-value",String(repos),"value");
-    change("seat-count-value",String(people),"value");
-    change("assignment-count",String(repos*people));
-    change("assignment-formula",repos+" "+(repos===1?"repository":"repositories")+" × "+people+" "+(people===1?"contributor":"contributors")+" each");
-    change("repo-discount","+"+r+"%");
-    change("contributor-discount","+"+p+"%");
-    change("combined-discount",volume+"%");
-    change("annual-discount",(Number.isInteger(cumulative)?cumulative.toFixed(0):cumulative.toFixed(2))+"%");
-    change("estimate-period",annual?"/year":"/month");
-    for(const [slider,count,selector] of [[repositories,repos,"[data-repo-threshold]"],[contributors,people,"[data-contributor-threshold]"]]) {
-      const fraction=(count-Number(slider.min))/(Number(slider.max)-Number(slider.min));
-      slider.style.setProperty("--fill",(fraction*100)+"%");
-      for(const marker of document.querySelectorAll(selector)) {
-        const min=Number(marker.dataset.repoThreshold ?? marker.dataset.contributorThreshold);
-        marker.classList.toggle("is-reached",count>=min);
-      }
+    const repos = Math.max(1, Math.min(10, Number(repositories.value) || 1));
+    const perRepo = Math.max(1, Math.min(25, Number(assignmentsPerRepo.value) || 1));
+    const assignments = repos * perRepo;
+    // Unique people may overlap across repos, but cannot exceed paid assignment edges.
+    uniqueContributors.min = String(perRepo);
+    uniqueContributors.max = String(assignments);
+    const people = Math.max(perRepo, Math.min(assignments, Number(uniqueContributors.value) || perRepo));
+    uniqueContributors.value = String(people);
+    const r = tier(repos, steps.repos);
+    const p = tier(people, steps.people);
+    const volume = r + p;
+    // Annual includes 8⅓ percentage points from the undiscounted annualized list;
+    // volume and term savings are additive, capped at 20% on standard base licenses.
+    const cumulative = Math.min(20, 100 / 12 + volume);
+    change("repo-count-value", String(repos), "value");
+    change("seat-count-value", String(perRepo), "value");
+    change("unique-count-value", String(people), "value");
+    change("assignment-count", String(assignments));
+    change("assignment-formula", repos + " " + (repos === 1 ? "repository" : "repositories") + " × " + perRepo + " " + (perRepo === 1 ? "assignment" : "assignments") + " each");
+    change("repo-discount", "+" + r + "%");
+    change("contributor-discount", "+" + p + "%");
+    change("combined-discount", volume + "%");
+    change("annual-discount", Number.isInteger(cumulative) ? cumulative.toFixed(0) + "%" : cumulative.toFixed(2) + "%");
+    const annualDisclosure = byId("annual-savings");
+    if (annualDisclosure) annualDisclosure.hidden = !annual;
+
+    for (const [slider, count] of [[repositories, repos], [assignmentsPerRepo, perRepo], [uniqueContributors, people]]) {
+      setFill(slider, count);
+    }
+    for (const marker of document.querySelectorAll("[data-repo-threshold], [data-contributor-threshold]")) {
+      const min = Number(marker.dataset.repoThreshold ?? marker.dataset.contributorThreshold);
+      marker.classList.toggle("is-reached", (marker.dataset.repoThreshold ? repos : people) >= min);
+    }
+    // Marker positions reflect the available range of distinct paid humans in this example.
+    for (const marker of document.querySelectorAll("[data-contributor-threshold]")) {
+      const threshold = Number(marker.dataset.contributorThreshold);
+      const min = Number(uniqueContributors.min);
+      const max = Number(uniqueContributors.max);
+      const at = max > min ? (threshold - min) / (max - min) : 0;
+      marker.style.setProperty("--tier-at", (Math.max(0, Math.min(1, at)) * 100) + "%");
+      marker.hidden = threshold < min || threshold > max;
     }
   }
-  for(const button of document.querySelectorAll("[data-billing]")) {
-    button.addEventListener("click",()=>{
-      annual=button.dataset.billing==="year";
-      for(const option of document.querySelectorAll("[data-billing]")) {
-        const selected=option.dataset.billing===(annual?"year":"month");
-        option.classList.toggle("is-selected",selected);
-        option.setAttribute("aria-pressed",String(selected));
+  for (const button of document.querySelectorAll("[data-billing]")) {
+    button.addEventListener("click", () => {
+      annual = button.dataset.billing === "year";
+      for (const option of document.querySelectorAll("[data-billing]")) {
+        const selected = option.dataset.billing === (annual ? "year" : "month");
+        option.classList.toggle("is-selected", selected);
+        option.setAttribute("aria-pressed", String(selected));
       }
       render();
     });
   }
-  repositories.addEventListener("input",render);
-  contributors.addEventListener("input",render);
+  for (const slider of [repositories, assignmentsPerRepo, uniqueContributors]) {
+    slider.addEventListener("input", render);
+  }
   render();
 })();

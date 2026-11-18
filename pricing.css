@@ -384,3 +384,19 @@
 }
 .cloud-custom-contact>a:hover{background:#ffe9db;color:#743224;transform:translateY(-2px)}
 .cloud-custom-contact>a:focus-visible{outline:3px solid #f05b37;outline-offset:3px}
+
+/* Pricing clarity: distinct humans, assignment edges, and annual-only term savings. */
+.preview-unique-help{font-size:12px;line-height:1.55;color:#c9b5c2;margin:5px 0 0}
+.preview-volume-savings{display:flex;align-items:center;flex-wrap:wrap;gap:8px 13px;padding:14px 17px;border:1px solid #725660;border-radius:13px;background:#3a2b38}
+.preview-volume-savings>span{font-size:12px;font-weight:800;color:#f2d2c6}
+.preview-volume-savings strong{font:700 26px "Space Grotesk",sans-serif;letter-spacing:-.045em;color:#ffc08f}
+.preview-volume-savings small{font-size:11px;line-height:1.45;color:#c9b5c2;margin-left:auto}
+.preview-unique-control .preview-tier-marker[hidden]{display:none!important}
+.preview-annual-savings{padding:15px 17px;background:#fff3e4;border:1px solid #e8bba0;border-radius:12px;margin:1px 0 14px}
+.preview-annual-savings-total{display:flex;justify-content:space-between;align-items:center;gap:15px}
+.preview-annual-savings-total span{font-size:12px;line-height:1.45;font-weight:800;color:#6c5159;max-width:190px}
+.preview-annual-savings-total strong{font:700 29px "Space Grotesk",sans-serif;letter-spacing:-.05em;color:#35222b;white-space:nowrap}
+.preview-annual-savings p{font-size:12px;line-height:1.5;color:#76535c;margin:9px 0 0}
+.preview-annual-savings p strong{color:#613a30}
+@media(max-width:850px){.preview-volume-savings small{margin-left:0}}
+@media(max-width:650px){.preview-volume-savings{padding:12px 14px}.preview-annual-savings-total strong{font-size:26px}}
