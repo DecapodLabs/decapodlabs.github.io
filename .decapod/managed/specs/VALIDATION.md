@@ -52,6 +52,10 @@ New-task validation exposed missing commitment lineage for the actually imported
 
 Only the existing workflow and Python evidence-test definitions changed among the eight verification sources. The candidate inventory issha256:4e9f04d9ec00b3c9d93dbc1637340f04436f4a0acc53d7c522fe358c260b0499. Existing command/tool/argument/environment/timeout/coverage declarations are unchanged. Exact target-policy acceptance remains separate; prior7482 acceptance does not authorize this new source inventory. Native complete validation/publication and public teaser-byte readback remain required.
 
+## Maintainer acceptance of the media source policy
+
+The maintainer explicitly approved the exact inventory pin and the use of the existing SSH identity for the scoped workflow branch push. GitHub main commit `0a3de12e1024529ee6122b945b0d5cdaf4a5e506` changes one config line. This candidate integrates that accepted policy and still requires complete native validation, publication readback, and independent deployed-media verification.
+
 <!-- decapod:capability-overlay:background-processing:start -->
 
 Generated capability obligations: `background-processing` is declared for this project. These are decisions and proof requirements, not claims of implemented behavior. Resolve each against project source and tests; record unsupported or non-applicable mechanisms explicitly.

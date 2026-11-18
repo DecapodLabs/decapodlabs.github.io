@@ -18,6 +18,11 @@
       "id": "stable-film-inputs-and-original-teaser",
       "summary": "Checkpoint original teaser preservation and tested media-input selection; copy changes verify without re-encoding, unknown history regenerates safely; new source policy awaits separate acceptance",
       "input_digest": "sha256:d5c08f031975b92efd302ff519e8559d68f1f92302af56eed04043f970bd8abd"
+    },
+    {
+      "id": "accepted-media-guard-policy",
+      "summary": "Integrate maintainer-approved source digest and preserve all required checks before fresh validation",
+      "input_digest": "sha256:b15a3190f2f193ce0226cea272e5c079fe7a62dcea65bebde3644737b417a04a"
     }
   ],
   "intents": {
@@ -56,23 +61,23 @@
       "schema_version": "1.1.0",
       "spec_reviews": [
         {
-          "disposition": "updated",
+          "disposition": "unchanged_with_reason",
           "path": ".decapod/managed/specs/ARCHITECTURE.md",
-          "reason": "Five real shell/Git input-decision controls plus nine evidence guards pass; original teaser restored, committed movies remain immutable across copy changes, all assets always verified; truthful present-time transferred-task commitment recovery, new4e9 policy still requires independent acceptance",
+          "reason": "Explicit maintainer acceptance changes the exact inventory pin only. Preserve reviewed media input guard, original teaser restoration and required checks.",
           "reviewed_code_fingerprint": "088038b673519fa48b7887dcf303faa61e8a1e42e960d9ff057a63d878bac455",
           "spec_material_hash": "7592bf80f4960de83fa542f98c7ad5cd1959bce73a84978fd93206f3f385efa5"
         },
         {
-          "disposition": "updated",
+          "disposition": "unchanged_with_reason",
           "path": ".decapod/managed/specs/INTERFACES.md",
-          "reason": "Five real shell/Git input-decision controls plus nine evidence guards pass; original teaser restored, committed movies remain immutable across copy changes, all assets always verified; truthful present-time transferred-task commitment recovery, new4e9 policy still requires independent acceptance",
+          "reason": "Explicit maintainer acceptance changes the exact inventory pin only. Preserve reviewed media input guard, original teaser restoration and required checks.",
           "reviewed_code_fingerprint": "088038b673519fa48b7887dcf303faa61e8a1e42e960d9ff057a63d878bac455",
           "spec_material_hash": "57a2c4f03d6dea100a64bb54bc7954ff60640fb31a7edf7323bf1670b5ff9faa"
         },
         {
-          "disposition": "updated",
+          "disposition": "unchanged_with_reason",
           "path": ".decapod/managed/specs/SECURITY.md",
-          "reason": "Five real shell/Git input-decision controls plus nine evidence guards pass; original teaser restored, committed movies remain immutable across copy changes, all assets always verified; truthful present-time transferred-task commitment recovery, new4e9 policy still requires independent acceptance",
+          "reason": "Explicit maintainer acceptance changes the exact inventory pin only. Preserve reviewed media input guard, original teaser restoration and required checks.",
           "reviewed_code_fingerprint": "088038b673519fa48b7887dcf303faa61e8a1e42e960d9ff057a63d878bac455",
           "spec_material_hash": "7748872631971bd8f10e197a33d1e6c6bae81c28e1f9ba61bc62b36343a6900b"
         }
@@ -85,7 +90,7 @@
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1794998369Z"
+      "updated_at": "1795001024Z"
     },
     "trajectory": {
       "active_boundaries": [
