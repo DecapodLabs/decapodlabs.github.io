@@ -1,5 +1,18 @@
 # Validation
 
+## Current pricing page coverage
+
+The unchanged required static-source command now includes `pricing.html` as well
+as `index.html` and the legacy `offerings.html` redirect, and compiles both `main.js`
+and `pricing.js`. It preserves duplicate-ID, local-asset, fragment, URL-safety and
+accessibility checks. The actual public sources must pass the scoped privacy and
+closed-preview checks. Nine generated negative cases must reject sensitive-shaped
+values, an added numeric price, removed disabled attributes, a payment destination
+and a network effect. No live identifier or secret is used. Source qualification
+still cannot attest a hosted purchase, full secret-history audit or browser layout.
+The media workflow's existing `ci_only` limitation and full exact-candidate governance
+requirement remain unchanged; no accepted recipe, workflow or tool is replaced.
+
 Run required decapod validate against the exact committed candidate and accepted site main before PR publication. Stage authored work, record a cumulative checkpoint before the commit, and maintain living specs. A rebase changes candidate identity and requires renewed qualification. Do not substitute a shadow build or fabricate receipts.
 
 ## Proof Surfaces
@@ -80,7 +93,7 @@ Generated capability obligations: `public-api` is declared for this project. The
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `7ed87e3ea4dfbda9cc5c5bb6a1d41a1bf6458e6641b583cf8691a6a6c4c230fc`
-- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `main.js/` (1 files), `scripts/` (3 files)
+- Repository signal fingerprint: `d89a304b0ee71a412e228bbcdd654ef5f6c500603c9241116988da1fe9f10371`
+- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (3 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->

@@ -1,5 +1,17 @@
 # Security
 
+## Public preview privacy guard
+
+The existing offline Deno source check inspects public documents, linked local
+styles/scripts and both browser entrypoints for known credential, merchant/catalog
+identifier, private-key, credentialed database URI and machine-path shapes. Errors
+never print matched data. It rejects known payment-host destinations and requires
+no numeric price, placeholder money, Coming soon availability and disabled
+purchase controls in the current comparison. The preview script may not introduce
+network API calls. Generated synthetic rejection fixtures contain no real records.
+These are scoped source checks; they do not prove complete secret-history absence,
+rendered browser behavior, hosted payment or service authorization readiness.
+
 The homepage and offering comparison contain public static content only. Local is free without signup. Cloud is a Coming soon preview: its native-disabled button has no checkout target or handler. No price or claim of current hosted activation is displayed. Benefits are explicitly planned for launch.
 
 ## Authorization
@@ -39,7 +51,7 @@ Generated capability obligations: `public-api` is declared for this project. The
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `7ed87e3ea4dfbda9cc5c5bb6a1d41a1bf6458e6641b583cf8691a6a6c4c230fc`
-- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `main.js/` (1 files), `scripts/` (3 files)
+- Repository signal fingerprint: `d89a304b0ee71a412e228bbcdd654ef5f6c500603c9241116988da1fe9f10371`
+- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (3 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->
