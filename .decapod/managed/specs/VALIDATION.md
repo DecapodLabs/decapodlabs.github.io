@@ -3,13 +3,13 @@
 Run required decapod validate against the exact committed candidate and accepted site main before PR publication. Stage authored work, record a cumulative checkpoint before the commit, and maintain living specs. A rebase changes candidate identity and requires renewed qualification. Do not substitute a shadow build or fabricate receipts.
 
 ## Proof Surfaces
-The first-adoption repo.pr-readiness.v1 profile declares a Deno static-source command that compiles the actual homepage browser script and checks both public HTML documents for duplicate IDs, local assets, fragment targets, unsafe URLs and accessibility metadata. The existing main/manual media workflow remains explicitly ci_only, not locally passed. The historically uninstalled generated validation workflow remains an assurance limitation documented in docs/decisions/0002-workflow-installation-pending.md.
+The first-adoption repo.pr-readiness.v1 profile declares a Deno static-source command that compiles the actual homepage and pricing browser scripts and checks all four public HTML documents for duplicate IDs, local assets, fragment targets, unsafe URLs and accessibility metadata. The existing main/manual media workflow remains explicitly ci_only, not locally passed. The historically uninstalled generated validation workflow remains an assurance limitation documented in docs/decisions/0002-workflow-installation-pending.md.
 
 ## Evidence Artifacts
 Retain candidate/target identifiers and Decapod readiness proof. Use actual browser inspection at desktop and mobile sizes for visible content, overflow and disabled control behavior, then verify real published documents. Static proof does not establish hosted payment or cloud operation readiness.
 
 ## Promotion Gates
-Governed validation qualifies source publication. This preview can publish without live checkout because it exposes no purchase link, price or active Cloud control. Removing Coming soon or enabling purchasing requires independent service acceptance; local fixtures cannot establish it.
+Governed validation qualifies source publication. This preview can publish without live checkout because it exposes no purchase link, quoted price or active Cloud control. Removing Coming soon or enabling purchasing requires independent service acceptance; local fixtures cannot establish it.
 
 ## Regression Guardrails
 Preserve accepted hero/capabilities/closing, Cargo/Nix instructions, film controls, reduced-motion behavior, brand assets and workflow permissions. Keep exact quickstart navigation, free/no-signup local wording, planned Cloud benefits and disabled purchase status. No brittle test merely repeats marketing copy; browser review checks real interaction/layout.
@@ -86,7 +86,7 @@ Generated capability obligations: `public-api` is declared for this project. The
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `3e28ff6b991360283d8d9eb0055d52dea2db533970f5a6e5d4c82f5c1a54104c`
-- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `evidence/` (1 files), `main.js/` (1 files), `scripts/` (7 files)
+- Repository signal fingerprint: `09a50f9e16cb92823d2f39f8bf9563b25090e5e54439b21ba6972eb75ec4988a`
+- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `evidence/` (1 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->

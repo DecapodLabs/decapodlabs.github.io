@@ -1,6 +1,6 @@
 # Architecture
 
-GitHub Pages serves a static homepage and a dedicated offerings.html. Existing styles.css supplies branding and responsive layout; main.js retains film controls and install-selection/copy behavior on the homepage. The offerings page needs no browser script or application server. Website-owned media generation extends the existing renderer and main/manual workflow with verified real-agent launch assets.
+GitHub Pages serves a static homepage and a dedicated pricing.html preview. Existing styles.css supplies branding and responsive layout; main.js retains film controls and install-selection/copy behavior on the homepage. pricing.js updates illustrative assignment, discount and resource-capacity controls locally; no application server or payment authority is introduced. offerings.html redirects to pricing.html. Website-owned media generation extends the existing renderer and main/manual workflow with verified real-agent launch assets.
 
 ## Direction
 Keep this site static. Propodus owns business logic, Auth, permissions, billing and hosted database authority.
@@ -10,7 +10,7 @@ The homepage has only a navigation link and highlighted Local + Cloud entry adde
 
 ## Topology
 ```text
-Visitor -> GitHub Pages -> homepage -> offerings.html -> Decapod quickstart.
+Visitor -> GitHub Pages -> homepage -> pricing.html -> Decapod quickstart.
 Cloud is a Coming soon preview with no outbound purchase transition.
 ```
 
@@ -66,7 +66,7 @@ Generated capability obligations: `persistent-state` is declared for this projec
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `3e28ff6b991360283d8d9eb0055d52dea2db533970f5a6e5d4c82f5c1a54104c`
-- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `evidence/` (1 files), `main.js/` (1 files), `scripts/` (7 files)
+- Repository signal fingerprint: `09a50f9e16cb92823d2f39f8bf9563b25090e5e54439b21ba6972eb75ec4988a`
+- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `evidence/` (1 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->

@@ -1,12 +1,12 @@
 # Interfaces
 
-index.html links to offerings.html from navigation and its highlighted hero entry. The dedicated document loads shared styles and committed assets without an application script. Its Get started links go to https://decapodlabs.github.io/decapod/quickstart.html. Cloud uses a disabled native button with an accessible availability description and a decorative Coming soon sticker; no anchor, form, click handler or purchase API is attached.
+index.html links to pricing.html from navigation and its highlighted hero entry. The dedicated document loads shared styles, pricing.css and local pricing.js controls with illustrative $X values. offerings.html is a noindex redirect. Its Get started links go to https://decapodlabs.github.io/decapod/quickstart.html. Cloud uses a disabled native button with an accessible availability description and a decorative Coming soon sticker; no anchor, form, click handler or purchase API is attached.
 
 ## Inbound Contracts
 Public GET requests return static documents/assets. Existing homepage fragment and media/install controls remain intact. A future purchase integration requires a separate reviewed change and service acceptance.
 
 ## Outbound Dependencies
-Local onboarding uses the exact public quickstart URL. Documentation, GitHub and existing public font links remain ordinary navigation/assets. The offerings page calls no Auth, checkout or payment API.
+Local onboarding uses the exact public quickstart URL. Documentation, GitHub and existing public font links remain ordinary navigation/assets. The pricing preview calls no Auth, checkout or payment API.
 
 ## Data Ownership
 This repository owns presentation and brand media. Propodus owns identity, organizations, stable repositories, assigned seats, subscriptions and hosted Decapod database state. No customer state crosses this preview.
@@ -51,7 +51,7 @@ Generated capability obligations: `public-api` is declared for this project. The
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `3e28ff6b991360283d8d9eb0055d52dea2db533970f5a6e5d4c82f5c1a54104c`
-- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `evidence/` (1 files), `main.js/` (1 files), `scripts/` (7 files)
+- Repository signal fingerprint: `09a50f9e16cb92823d2f39f8bf9563b25090e5e54439b21ba6972eb75ec4988a`
+- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `evidence/` (1 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->
