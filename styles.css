@@ -307,3 +307,74 @@
 .offerings-footer a{text-decoration:none}
 @media(min-width:1600px){.offerings-page .wrap{max-width:1320px}}
 @media(max-width:760px){.offerings-intro{padding:50px 0 32px}.offerings-grid{grid-template-columns:1fr}.offering-card{padding:26px}.offering-state{min-height:0}.offering-description{min-height:0}.offerings-selection{padding-bottom:48px}.offering-topline{margin-bottom:28px}.offerings-page .nav-content{gap:12px}.offerings-page .nav-cta{padding:11px 15px;font-size:11px}}
+
+
+/* One persistent site-wide header: Features → Architecture → Install → Pricing. */
+html{scroll-padding-top:110px}
+.nav{
+  position:sticky;
+  top:0;
+  z-index:90;
+  background:rgba(255,249,240,.97);
+  border-bottom:1px solid rgba(46,23,23,.13);
+  box-shadow:0 7px 22px rgba(23,19,26,.065);
+  -webkit-backdrop-filter:blur(16px);
+  backdrop-filter:blur(16px);
+}
+.nav-links{min-width:0}
+.nav-links a{white-space:nowrap}
+.nav-links a[href="/pricing.html"]{
+  color:#853524;
+  background:rgba(240,91,55,.11);
+  padding:10px 15px;
+  border-radius:999px;
+  transition:background .18s,color .18s;
+}
+.nav-links a[href="/pricing.html"]:hover{background:rgba(240,91,55,.21);color:#66281c}
+.nav-links a[aria-current="page"],
+.nav-links a[aria-current="page"]:hover{color:#fff;background:var(--orange)}
+.nav-links a:focus-visible,.nav-cta:focus-visible,.nav .brand:focus-visible{
+  outline:3px solid var(--orange);
+  outline-offset:3px;
+}
+#kernel,#architecture,#install{scroll-margin-top:125px}
+@media(max-width:850px){
+ html{scroll-padding-top:128px}
+ .nav-content{
+   display:grid;
+   grid-template-columns:minmax(0,1fr) auto;
+   grid-template-rows:auto auto;
+   height:auto;
+   min-height:0;
+   padding:9px 0 10px;
+   column-gap:12px;
+   row-gap:8px;
+   align-items:center;
+ }
+ .nav-content>.brand{grid-column:1;grid-row:1;min-width:0}
+ .nav-content>.nav-cta{grid-column:2;grid-row:1;justify-self:end}
+ .nav-links{
+   grid-column:1/-1;
+   grid-row:2;
+   display:flex;
+   align-items:center;
+   justify-content:space-between;
+   min-width:0;
+   width:100%;
+   overflow-x:auto;
+   white-space:nowrap;
+   gap:clamp(9px,2vw,22px);
+   scrollbar-width:none;
+   -webkit-overflow-scrolling:touch;
+ }
+ .nav-links::-webkit-scrollbar{display:none}
+ .nav-links a{font-size:clamp(11px,2vw,13px);padding:7px 0;flex-shrink:0}
+ .nav-links a[href="/pricing.html"]{padding:7px 12px}
+}
+@media(max-width:390px){
+ .nav .brand .site-wordmark{width:145px}
+ .nav-cta{font-size:10px;padding:9px 11px}
+ .nav-links{gap:7px}
+ .nav-links a{font-size:11px}
+ .nav-links a[href="/pricing.html"]{padding:7px 8px}
+}
