@@ -43,6 +43,11 @@
       "id": "accepted-navigation-and-fragment-targets",
       "summary": "Preserve latest accepted pricing/header/footer and checkpoint correct cross-document fragment validation with four regression controls and actual desktop/mobile film playback; separate target-policy acceptance pending",
       "input_digest": "sha256:4c560e1a8b219eef46898eb48a1fea9ffe6dec6317a5fea92ae8c2bf68ea012e"
+    },
+    {
+      "id": "exact-accepted-pricing-target",
+      "summary": "Correct prose reference to actual fetched accepted target ecd713c4, including latest annual flyout; pricing files and logo remain byte-identical, source inventory and media unchanged",
+      "input_digest": "sha256:9f7d4ae72ad4b7f2d0e16693843d5cd8c845cfd48ca531f247b877164163f630"
     }
   ],
   "intents": {
