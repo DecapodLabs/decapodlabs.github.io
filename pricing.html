@@ -19,7 +19,7 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 <link rel="stylesheet" href="pricing.css">
-<script src="pricing.js" defer></script>
+<script src="pricing.js?v=20261117-hidden-v3" defer></script>
 <title>Pricing — Decapod Labs</title>
 </head>
 <body class="pricing-page">
@@ -27,8 +27,8 @@
 <header class="nav">
   <div class="wrap nav-content">
     <a href="/" class="brand" aria-label="Decapod Labs home"><img class="site-wordmark" src="assets/logo-a.png" alt="Decapod Labs" width="420" height="140"></a>
-    <nav class="nav-links" aria-label="Site navigation"><a href="/">Overview</a><a href="/pricing.html" aria-current="page">Pricing</a><a href="https://decapodlabs.github.io/decapod/">Documentation</a></nav>
-    <a class="nav-cta" href="https://decapodlabs.github.io/decapod/quickstart.html">Get started <span aria-hidden="true">↗</span></a>
+    <nav class="nav-links" aria-label="Site navigation"><a href="/#kernel">Features</a><a href="/#architecture">Architecture</a><a href="/#install">Install</a><a href="/pricing.html" aria-current="page">Pricing</a></nav>
+    <a class="nav-cta" href="https://github.com/DecapodLabs/decapod" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>
   </div>
 </header>
 <main id="main">
@@ -120,7 +120,7 @@
           <p class="preview-explainer">Each contributor assigned to a repository counts as one paid unit. The same contributor counts only once toward contributor-volume savings, regardless of repository count.</p>
         </div>
         <div class="preview-result">
-          <div class="preview-result-top"><span>YOUR SUBSCRIPTION ESTIMATE</span><span class="preview-dot" aria-hidden="true"></span></div>
+          <div class="preview-result-top"><span>YOUR TEAM CONFIGURATION</span><span class="preview-dot" aria-hidden="true"></span></div>
           <p class="preview-big" id="assignment-count">10</p>
           <p class="preview-big-subtitle">contributor–repository assignments</p>
           <p class="preview-formula" id="assignment-formula">2 repositories × 5 contributors each</p>
@@ -130,7 +130,7 @@
           </div>
           <p class="preview-discount-limit">Annual billing and volume savings combine for <strong>up to 20% cumulative savings.</strong></p>
           <fieldset class="preview-billing"><legend>Billing period</legend><div class="preview-billing-options"><button type="button" class="preview-billing-option" data-billing="month" aria-pressed="false">Monthly</button><button type="button" class="preview-billing-option is-selected" data-billing="year" aria-pressed="true">Annual <span>Save one month</span></button></div></fieldset>
-          <div class="preview-total"><span>Estimated subscription</span><strong><span id="estimated-price" class="estimated-price-concealed" aria-live="polite" aria-atomic="true">☁</span><small id="estimate-period">/year</small></strong></div>
+          <div class="preview-total"><span>Cloud pricing</span><strong class="preview-price-conceal"><span id="estimated-price" class="estimated-price-concealed" aria-label="Cloud subscription amount revealed at launch" aria-live="polite" aria-atomic="true">☁</span><small id="estimate-period">Annual plan</small></strong></div>
           <p class="preview-unit-price" id="estimate-unit">10 contributor–repository assignments</p>
           <p class="preview-saved" id="estimate-savings">See your cumulative subscription savings above.</p>
           <p class="preview-unpriced">Subscription amounts will be revealed at Cloud launch. Applicable taxes and separately metered usage will be disclosed before purchase.</p>
