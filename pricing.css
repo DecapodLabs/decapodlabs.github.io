@@ -1,6 +1,6 @@
 /* Decapod Local and Cloud pricing. The estimator is informational; purchasing remains server-authoritative. */
-.pricing-page{overflow-x:hidden;background:#fff9f0}
-.pricing-page .nav-links a[aria-current="page"]{color:var(--orange)}
+.pricing-page{overflow-x:clip;background:#fff9f0}
+.pricing-page .nav-links a[aria-current="page"]{color:#fff;background:var(--orange)}
 .pricing-page .nav-links a:focus-visible,.pricing-page button:focus-visible,.pricing-page a:focus-visible,.pricing-page summary:focus-visible,.pricing-page input:focus-visible{outline:3px solid var(--orange);outline-offset:4px}
 .pricing-page .site-wordmark{width:170px;height:auto;max-height:80px;object-fit:contain}
 .pricing-hero{background:radial-gradient(ellipse 55% 90% at 88% 20%,#ffdbb2,transparent 88%),#fff3e2;padding:76px 0 65px}
@@ -112,10 +112,6 @@
 }
 @media(max-width:650px){
  .pricing-page .wrap{width:calc(100% - 34px)}
- .pricing-page .nav-content{height:auto;min-height:85px;flex-wrap:wrap;justify-content:center;padding:12px 0;row-gap:10px}
- .pricing-page .nav-links{order:3;flex:0 0 100%;justify-content:center;gap:24px}
- .pricing-page .nav-cta{padding:9px 13px;font-size:11px}
- .pricing-page .site-wordmark{width:134px}
  .pricing-hero{padding:53px 0 49px}
  .pricing-hero h1{font-size:clamp(45px,12.2vw,74px)}
  .pricing-intro{font-size:16px}
