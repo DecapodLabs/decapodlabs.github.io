@@ -1,0 +1,267 @@
+{
+  "schema": "decapod.pi-terminal-excerpts.v1",
+  "run_id": "pi-1758-proof-video-03",
+  "pi_version": "0.73.1",
+  "kernel_version": "0.148.8",
+  "model": "gpt-6.1-sol",
+  "terminal_capture_sha256": "sha256:72f0c8d21748370de4920056ff32131a1af6dd607fcab422c004fc5202c8b403",
+  "manifest_sha256": "sha256:4e7f51412e82d2978a815d4b8919de1f480d085ee9aba7e2aef99d48337946e2",
+  "raw_event_sha256": "sha256:f1db5e431289421c2b21e38a3486cf1aeef4201545de9a14d0f058c709b736c4",
+  "head": "a402d49d245bed1b45a9282ef823aa152def96ce",
+  "base": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+  "pr_url": "https://github.com/alexhraber/decapod-admission-acceptance-20261117-1747-06/pull/4",
+  "failure_head": "dfc10cc945e33d36fa4ac17ac2fb82cc4a6520c9",
+  "elapsed_seconds": 367.768,
+  "tool_calls": 33,
+  "assistant_messages": 25,
+  "human_interventions": 0,
+  "merge_authorized": false,
+  "clips": [
+    {
+      "elapsed_ms": 0,
+      "label": "One engineering objective",
+      "seconds": 7,
+      "lines": [
+        "Implement the repository-scoped read authorization described in README.md and publish a verified pull request.",
+        "",
+        "Recorded during the real headless Pi process.",
+        "Tool results are excerpted and waits shortened."
+      ],
+      "source": {
+        "kind": "recorded_prompt",
+        "cast_line": 2
+      },
+      "caption": "The live recorder starts Pi with one engineering objective."
+    },
+    {
+      "elapsed_ms": 5619,
+      "label": "Pi reads Decapod’s contract",
+      "seconds": 7,
+      "command_line_count": 2,
+      "lines": [
+        "[02] Pi started bash",
+        "decapod docs ingest",
+        "",
+        "Decapod exit 0"
+      ],
+      "source": {
+        "kind": "live_tool",
+        "tool_call_id": "call_2aef125d53734149aba9bad22f4cb921|fc_0d4554fa372b56d1016afd8d5ade6887d0b645b18285cd6152",
+        "start_event": 75,
+        "result_event": 79,
+        "start_cast_line": 5,
+        "result_cast_line": 6,
+        "result_elapsed_ms": 5998,
+        "native_invocation_sha256": "sha256:d898348e4e088aafcdacf098e6554df734f25506d8993aad5b27824e65dc90b2"
+      },
+      "caption": "Pi consults Decapod's embedded operating contract."
+    },
+    {
+      "elapsed_ms": 32876,
+      "label": "Pi claims the task",
+      "seconds": 8,
+      "command_line_count": 2,
+      "lines": [
+        "[09] Pi started bash",
+        "decapod todo claim",
+        "",
+        "Decapod exit 0",
+        "status = \"ok\"",
+        "task = feat_01m7q70ywdd66fm8"
+      ],
+      "source": {
+        "kind": "live_tool",
+        "tool_call_id": "call_57896340d9024198baae3f7871392e76|fc_0d4554fa372b56d1016afd8d7497c487d0aaac981f53afde93",
+        "start_event": 369,
+        "result_event": 375,
+        "start_cast_line": 19,
+        "result_cast_line": 20,
+        "result_elapsed_ms": 39459,
+        "native_invocation_sha256": "sha256:3667d28878229dfa3018ae15db3ae9e6439ad59e6aeee1ced83569e38f916791"
+      },
+      "caption": "Decapod binds the task claim to this agent."
+    },
+    {
+      "elapsed_ms": 41973,
+      "label": "Pi enters its workspace",
+      "seconds": 8,
+      "command_line_count": 2,
+      "lines": [
+        "[10] Pi started bash",
+        "decapod workspace ensure",
+        "",
+        "Decapod exit 0",
+        "status = \"ok\"",
+        "can_work = true",
+        "branch = \"agent/pi-1758-run03/feat_01m7q70ywdd66fm8-repo-read\""
+      ],
+      "source": {
+        "kind": "live_tool",
+        "tool_call_id": "call_67c958809e8240edad7a7f5e76c71402|fc_0d4554fa372b56d1016afd8d7ebcfc87d0b2d1e8ccb85965a5",
+        "start_event": 422,
+        "result_event": 426,
+        "start_cast_line": 21,
+        "result_cast_line": 22,
+        "result_elapsed_ms": 46855,
+        "native_invocation_sha256": "sha256:b506cb9c14469ca7d997b2cc06c626466398cdce91f8f62d0af013ce27923ea2"
+      },
+      "caption": "Decapod authorizes an isolated workspace for the claimed task."
+    },
+    {
+      "elapsed_ms": 114430,
+      "label": "Required check rejected",
+      "seconds": 14,
+      "command_line_count": 2,
+      "lines": [
+        "[20] Pi started bash",
+        "decapod validate",
+        "",
+        "Decapod exit 1",
+        "authorization-contract: failure (exit 1)",
+        "HEAD dfc10cc945e33d36fa4ac17ac2fb82cc4a6520c9",
+        "NOT_READY",
+        "READINESS_BLOCKED",
+        "STATE_COMMIT"
+      ],
+      "source": {
+        "kind": "live_tool",
+        "tool_call_id": "call_9d9804ac2dc040758b8be92a6048ea5b|fc_0d4554fa372b56d1016afd8dc4536c87d0ab0247b435f44c08",
+        "start_event": 1447,
+        "result_event": 1453,
+        "start_cast_line": 41,
+        "result_cast_line": 42,
+        "result_elapsed_ms": 131298,
+        "native_invocation_sha256": "sha256:582fc83261537222c06ce57fe4f0db1967f5f27149ae5e2a5b45cb2fab770435"
+      },
+      "caption": "The required authorization check actually runs and fails. Decapod rejects the candidate."
+    },
+    {
+      "elapsed_ms": 138308,
+      "label": "Pi reads the failing assertion",
+      "seconds": 9,
+      "command_line_count": 2,
+      "lines": [
+        "[22] Pi started read",
+        "\"path\": \"[validation output]\"",
+        "",
+        "read returned",
+        "true !== false",
+        "actual: true,",
+        "expected: false,"
+      ],
+      "source": {
+        "kind": "live_tool",
+        "tool_call_id": "call_a8bdfda242834aa68490bdcfd62e02fe|fc_0d4554fa372b56d1016afd8ddeea5c87d09bcedf6e4ce19bc9",
+        "start_event": 1642,
+        "result_event": 1643,
+        "start_cast_line": 45,
+        "result_cast_line": 46,
+        "result_elapsed_ms": 138709
+      },
+      "caption": "Pi reads the actual Node assertion. The check expected false and observed true."
+    },
+    {
+      "elapsed_ms": 149958,
+      "label": "Pi edits the failed source",
+      "seconds": 10,
+      "command_line_count": 2,
+      "lines": [
+        "[23] Pi started edit",
+        "\"path\": \"src/access.cjs\"",
+        "",
+        "edit returned",
+        "// Ownership and grants are repository-scoped; neither bypasses membership.",
+        "exports.canRead = (actor, repository) => Boolean(",
+        "  actor && repository &&",
+        "  actor.active === true &&",
+        "  actor.organizationId === repository.organizationId &&",
+        "  (actor.id === repository.ownerId ||",
+        "    (Array.isArray(actor.repositoryIds) && actor.repositoryIds.includes(repository.id)))",
+        ");"
+      ],
+      "source": {
+        "kind": "live_tool",
+        "tool_call_id": "call_baf8c8934d2e4805978fbe0a142c96d9|fc_0d4554fa372b56d1016afd8deb445487d0b9ceccb3e45eeda9",
+        "start_event": 1892,
+        "result_event": 1893,
+        "start_cast_line": 47,
+        "result_cast_line": 48,
+        "result_elapsed_ms": 150389
+      },
+      "caption": "Pi requests a source edit after the failed check."
+    },
+    {
+      "elapsed_ms": 243910,
+      "label": "Fresh validation passes",
+      "seconds": 15,
+      "command_line_count": 2,
+      "lines": [
+        "[31] Pi started bash",
+        "decapod validate",
+        "",
+        "Decapod exit 0",
+        "authorization-contract: success (exit 0)",
+        "guard-contract: success (exit 0)",
+        "HEAD a402d49d245bed1b45a9282ef823aa152def96ce",
+        "receipt sha256:4ad28bd1a0408cf2aa0a7dd841d1beccf6e71906677db652d656a742860fd8a8"
+      ],
+      "source": {
+        "kind": "live_tool",
+        "tool_call_id": "call_7b6467a627b344379d20a23df114962e|fc_0d4554fa372b56d1016afd8e43b1a487d0ac87d6f65aefb275",
+        "start_event": 3411,
+        "result_event": 3419,
+        "start_cast_line": 63,
+        "result_cast_line": 64,
+        "result_elapsed_ms": 264717,
+        "native_invocation_sha256": "sha256:4db53210374efde33addc1462ac1641fc3b5ddb3b6690a3d194e813fc1799fce"
+      },
+      "caption": "Fresh validation reports both required checks passed for the repaired head."
+    },
+    {
+      "elapsed_ms": 271363,
+      "label": "Decapod publishes and verifies the PR",
+      "seconds": 16,
+      "command_line_count": 2,
+      "lines": [
+        "[32] Pi started bash",
+        "decapod workspace publish",
+        "",
+        "Decapod exit 0",
+        "pr_verified = true",
+        "remote_verified = true",
+        "https://github.com/alexhraber/decapod-admission-acceptance-20261117-1747-06/pull/4",
+        "HEAD a402d49d245bed1b45a9282ef823aa152def96ce",
+        "BASE ada3eb89c3707801a5b86265dccc899fdabe5e1c"
+      ],
+      "source": {
+        "kind": "live_tool",
+        "tool_call_id": "call_ce7f46b99f0a475b80e7f895ed59db40|fc_0d4554fa372b56d1016afd8e6026d887d0ae85f8f19670731e",
+        "start_event": 3680,
+        "result_event": 3684,
+        "start_cast_line": 65,
+        "result_cast_line": 66,
+        "result_elapsed_ms": 316080,
+        "native_invocation_sha256": "sha256:d0d249e313ae29e82b3417ef66a0ef620681e5698f99662ae750b4d8400e4cd3"
+      },
+      "caption": "Decapod publishes the actual pull request and verifies its head. Independent GitHub readback confirms head and target."
+    },
+    {
+      "elapsed_ms": 367768,
+      "label": "Independent GitHub readback",
+      "seconds": 9,
+      "lines": [
+        "Pi process exited 0",
+        "33 executed tool calls",
+        "No follow-up input",
+        "GitHub head a402d49d245bed1b45a9282ef823aa152def96ce",
+        "Live target ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+        "PR remains unmerged"
+      ],
+      "source": {
+        "kind": "independent_readback",
+        "sha256": "sha256:7c3db7940b1da63c1b70a5702b2ec4cd6958e1664abfbbac616ca76e3210d475"
+      },
+      "caption": "Pi exits after 33 tool calls. The published PR head and accepted target match the actual GitHub readback."
+    }
+  ]
+}

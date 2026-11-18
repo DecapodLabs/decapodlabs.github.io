@@ -52,6 +52,10 @@ New-task validation exposed missing commitment lineage for the actually imported
 
 Only the existing workflow and Python evidence-test definitions changed among the eight verification sources. The candidate inventory issha256:4e9f04d9ec00b3c9d93dbc1637340f04436f4a0acc53d7c522fe358c260b0499. Existing command/tool/argument/environment/timeout/coverage declarations are unchanged. Exact target-policy acceptance remains separate; prior7482 acceptance does not authorize this new source inventory. Native complete validation/publication and public teaser-byte readback remain required.
 
+## Live Pi recording and case study
+
+The proof renderer accepts reviewed decapod.pi-terminal-excerpts.v1 data with actual tool starts, returned results, Pi and Decapod versions, capture offsets, and exact published head and base. Desktop and mobile H.264 outputs share ten WebVTT cues. The case-study variants preserve 56/12/56-second timing and the original audio tracks. The homepage links to the case study, recorded evidence, and the independently matched PR.
+
 <!-- decapod:capability-overlay:public-api:start -->
 
 Generated capability obligations: `public-api` is declared for this project. These are decisions and proof requirements, not claims of implemented behavior. Resolve each against project source and tests; record unsupported or non-applicable mechanisms explicitly.
@@ -79,7 +83,7 @@ Generated capability obligations: `public-api` is declared for this project. The
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `088038b673519fa48b7887dcf303faa61e8a1e42e960d9ff057a63d878bac455`
-- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `evidence/` (1 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files)
+- Repository signal fingerprint: `6bb69cf20cea9c4fb4b05f664140510f5a0e77c0268b6ca83830bcf67a52a004`
+- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `evidence/` (2 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (8 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->

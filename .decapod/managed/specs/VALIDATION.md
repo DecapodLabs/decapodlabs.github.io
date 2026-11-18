@@ -56,6 +56,10 @@ Only the existing workflow and Python evidence-test definitions changed among th
 
 The maintainer explicitly approved the exact inventory pin and the use of the existing SSH identity for the scoped workflow branch push. GitHub main commit `0a3de12e1024529ee6122b945b0d5cdaf4a5e506` changes one config line. This candidate integrates that accepted policy and still requires complete native validation, publication readback, and independent deployed-media verification.
 
+## Live Pi recording and case study
+
+On the second successful recorded run, Pi executed 33 tools in 367.768 seconds with zero follow-up inputs. The authorization check rejected dfc10cc9, then Pi read the actual assertion, edited src/access.cjs and earned fresh matching PR #4 admission at a402d49d / ada3eb89. The observer matched all 131 events. Real desktop/mobile previews played and sought both videos, loaded all captions, and followed the case study and social links. FFmpeg verified all five encodes and exact original audio packets for the three case-study variants. Fourteen offline tests and the actual Deno presentation guard passed. Full native validation still requires separate acceptance of the exact candidate source inventory.
+
 <!-- decapod:capability-overlay:background-processing:start -->
 
 Generated capability obligations: `background-processing` is declared for this project. These are decisions and proof requirements, not claims of implemented behavior. Resolve each against project source and tests; record unsupported or non-applicable mechanisms explicitly.
@@ -122,7 +126,7 @@ Generated capability obligations: `public-api` is declared for this project. The
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `088038b673519fa48b7887dcf303faa61e8a1e42e960d9ff057a63d878bac455`
-- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `evidence/` (1 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files)
+- Repository signal fingerprint: `6bb69cf20cea9c4fb4b05f664140510f5a0e77c0268b6ca83830bcf67a52a004`
+- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `evidence/` (2 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (8 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->

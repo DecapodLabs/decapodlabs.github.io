@@ -11,6 +11,7 @@ on:
       - scripts/**
       - assets/mascot.svg
       - assets/fonts/**
+      - assets/logo-b.png
       - evidence/**
       - media/**
       - proof.html
@@ -51,7 +52,7 @@ jobs:
             if git diff --quiet "$BEFORE_REVISION" "$HEAD_REVISION" -- scripts/render-showcase.py scripts/generate-social.py assets/fonts/ assets/mascot.svg; then
               teaser=false
             fi
-            if git diff --quiet "$BEFORE_REVISION" "$HEAD_REVISION" -- scripts/render-launch.py scripts/render-showcase.py scripts/test-launch-evidence.py scripts/verify-launch.py media/ evidence/ assets/fonts/ assets/mascot.svg .github/workflows/site-bootstrap.yml; then
+            if git diff --quiet "$BEFORE_REVISION" "$HEAD_REVISION" -- scripts/render-launch.py scripts/render-proof-video.py scripts/render-showcase.py scripts/test-launch-evidence.py scripts/verify-launch.py media/ evidence/ assets/fonts/ assets/mascot.svg assets/logo-b.png .github/workflows/site-bootstrap.yml; then
               launch=false
             fi
           fi
@@ -123,6 +124,7 @@ jobs:
         run: |
           set -euo pipefail
           python3 scripts/render-launch.py --evidence evidence/pi-1758-20261117-01 --output "$RUNNER_TEMP/decapod-launch-render"
+          python3 scripts/render-proof-video.py --output "$RUNNER_TEMP/decapod-launch-render"
           python3 scripts/verify-launch.py --assets "$RUNNER_TEMP/decapod-launch-render"
 
       - name: Preserve independently verified launch build for review

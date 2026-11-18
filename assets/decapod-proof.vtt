@@ -1,0 +1,31 @@
+WEBVTT
+
+00:00:00.000 --> 00:00:07.000
+The live recorder starts Pi with one engineering objective.
+
+00:00:07.000 --> 00:00:14.000
+Pi consults Decapod's embedded operating contract.
+
+00:00:14.000 --> 00:00:22.000
+Decapod binds the task claim to this agent.
+
+00:00:22.000 --> 00:00:30.000
+Decapod authorizes an isolated workspace for the claimed task.
+
+00:00:30.000 --> 00:00:44.000
+The required authorization check actually runs and fails. Decapod rejects the candidate.
+
+00:00:44.000 --> 00:00:53.000
+Pi reads the actual Node assertion. The check expected false and observed true.
+
+00:00:53.000 --> 00:01:03.000
+Pi requests a source edit after the failed check.
+
+00:01:03.000 --> 00:01:18.000
+Fresh validation reports both required checks passed for the repaired head.
+
+00:01:18.000 --> 00:01:34.000
+Decapod publishes the actual pull request and verifies its head. Independent GitHub readback confirms head and target.
+
+00:01:34.000 --> 00:01:43.000
+Pi exits after 33 tool calls. The published PR head and accepted target match the actual GitHub readback.

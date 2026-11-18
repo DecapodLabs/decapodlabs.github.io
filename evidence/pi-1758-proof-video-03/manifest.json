@@ -1,0 +1,2324 @@
+{
+  "admission_observed": {
+    "base": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+    "head": "a402d49d245bed1b45a9282ef823aa152def96ce",
+    "merged": false,
+    "pr_url": "https://github.com/alexhraber/decapod-admission-acceptance-20261117-1747-06/pull/4"
+  },
+  "assurance": "Read-only correlation of trusted-host captures, kernel outputs and independent Git/forge readback. Digests bind bytes; they do not authenticate a producer. Arbitrary uncaptured host activity and semantic correctness remain unproven.",
+  "current_admission_applicable": true,
+  "events": [
+    {
+      "elapsed_ms": 0,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/0",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {},
+      "id": "sha256:593f4b5bef74270503d990cf05e8365fb48c848f655faf7409a607f2afc4c57c",
+      "kind": "objective_received",
+      "sequence": 1,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 2701,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/1",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "model": "gpt-6.1-sol",
+        "provider": "openai-codex"
+      },
+      "id": "sha256:f3d9558c46d61f94ee76c26f8410abfbb6156b9c97ad575b186da7b051e59803",
+      "kind": "model_observed",
+      "sequence": 2,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 2702,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/2",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "tool": "bash",
+        "tool_call_id": "call_32e8f544c45c41a8a676ea995f5cfabd|fc_0d4554fa372b56d1016afd8d57f11887d0b2cb9c8f1b5d577d"
+      },
+      "id": "sha256:3fa7c86a7f450adcf659e465a740447eaa2a4ca0af65f64024a3617f70a6ea7c",
+      "kind": "agent_tool_started",
+      "sequence": 3,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 3121,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/3",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "is_error": false,
+        "tool": "bash",
+        "tool_call_id": "call_32e8f544c45c41a8a676ea995f5cfabd|fc_0d4554fa372b56d1016afd8d57f11887d0b2cb9c8f1b5d577d"
+      },
+      "id": "sha256:cb8a4a02e18bf18a42d5502eb7ea870d1b7904df881d3021f80d8b065034519a",
+      "kind": "agent_tool_completed",
+      "sequence": 4,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 5079,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/4",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "model": "gpt-6.1-sol",
+        "provider": "openai-codex"
+      },
+      "id": "sha256:0eed8964c4dd6385698ee6e6a0fcebbabdae0bc0fb7ecf3502d65146afb087da",
+      "kind": "model_observed",
+      "sequence": 5,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 5079,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/5",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "tool": "bash",
+        "tool_call_id": "call_2aef125d53734149aba9bad22f4cb921|fc_0d4554fa372b56d1016afd8d5ade6887d0b645b18285cd6152"
+      },
+      "id": "sha256:956b76990ef5676a7d7b0c596f185ed835697d2da22f15be88092cf7ec9af5f8",
+      "kind": "agent_tool_started",
+      "sequence": 6,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 5280,
+      "evidence": {
+        "host_tool_call_id": "call_2aef125d53734149aba9bad22f4cb921|fc_0d4554fa372b56d1016afd8d5ade6887d0b645b18285cd6152",
+        "pointer": "/8",
+        "public_uri": null,
+        "sha256": "sha256:db4dd19c6569737c26132b2256e436999272ea46792f9eefe485e8e9ce05a270"
+      },
+      "facts": {},
+      "id": "sha256:1d6d0a5d77035f88894b05c5cb581d8ed73ea3f05f466320e6533a06e565e36e",
+      "kind": "context_consulted",
+      "sequence": 7,
+      "source": "kernel"
+    },
+    {
+      "elapsed_ms": 5457,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/6",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "is_error": false,
+        "tool": "bash",
+        "tool_call_id": "call_2aef125d53734149aba9bad22f4cb921|fc_0d4554fa372b56d1016afd8d5ade6887d0b645b18285cd6152"
+      },
+      "id": "sha256:680ee7ace4c21ca440f183e8ca41077a4e100667541fa5dc13c9bd4963bf7502",
+      "kind": "agent_tool_completed",
+      "sequence": 8,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 8745,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/7",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "model": "gpt-6.1-sol",
+        "provider": "openai-codex"
+      },
+      "id": "sha256:c88abbb6d1d51f57b30508c9e7501238960e0d06bf445f33b3a60b73e33ee896",
+      "kind": "model_observed",
+      "sequence": 9,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 8746,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/8",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "tool": "read",
+        "tool_call_id": "call_44cc14e8955e4579b68926b5a79dd27b|fc_0d4554fa372b56d1016afd8d5d11a087d08fe15f16a59f18d5"
+      },
+      "id": "sha256:95ec02383081054f797046e39322d9e7a5973d8626c7256012b73ef4e19cf599",
+      "kind": "agent_tool_started",
+      "sequence": 10,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 9014,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/9",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "is_error": false,
+        "tool": "read",
+        "tool_call_id": "call_44cc14e8955e4579b68926b5a79dd27b|fc_0d4554fa372b56d1016afd8d5d11a087d08fe15f16a59f18d5"
+      },
+      "id": "sha256:b6dfbceef5811bd2c1418dd26357ea1def8fbd905d01dfdc553b0e53a72cd3d5",
+      "kind": "agent_tool_completed",
+      "sequence": 11,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 13146,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/10",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "model": "gpt-6.1-sol",
+        "provider": "openai-codex"
+      },
+      "id": "sha256:bd91e8f7da1a8f9c676a72fb95c065191d5958716d3d723e4a0462b4733fc983",
+      "kind": "model_observed",
+      "sequence": 12,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 13146,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/11",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "tool": "read",
+        "tool_call_id": "call_db7261d091ed4c89aaa1ab3dc8bc0a59|fc_0d4554fa372b56d1016afd8d60814c87d0a00687323c395cfa"
+      },
+      "id": "sha256:de49486d5fae6178c1e0607f244571ae7065aa007f8ab0cc8243312ed4074234",
+      "kind": "agent_tool_started",
+      "sequence": 13,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 13317,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/12",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "tool": "read",
+        "tool_call_id": "call_988e95001fa741f89eb982f12342e2eb|fc_0d4554fa372b56d1016afd8d63255887d09107d71d701ecfba"
+      },
+      "id": "sha256:4153684117ad4409568a3573b81403e0123c119895858fefaeeada10fdad86a0",
+      "kind": "agent_tool_started",
+      "sequence": 14,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 13478,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/13",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "tool": "bash",
+        "tool_call_id": "call_6634d9a0674a4859b499d34049d5999d|fc_0d4554fa372b56d1016afd8d63255887d086bdf79faa40368c"
+      },
+      "id": "sha256:17f2663eb7108a3084a8adbcb36eee9ecf509135329b9f14915db0ba1d2403bb",
+      "kind": "agent_tool_started",
+      "sequence": 15,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 13638,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/14",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "tool": "read",
+        "tool_call_id": "call_4e515424942f4bed9984dca21d01db3c|fc_0d4554fa372b56d1016afd8d63255887d0b8eb16fc6f63258d"
+      },
+      "id": "sha256:5e98ea767c0ffa225fed7d438f3b912b0e0920e7e03ad8842c4284aeb0b9b6e0",
+      "kind": "agent_tool_started",
+      "sequence": 16,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 13953,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/15",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "is_error": false,
+        "tool": "read",
+        "tool_call_id": "call_db7261d091ed4c89aaa1ab3dc8bc0a59|fc_0d4554fa372b56d1016afd8d60814c87d0a00687323c395cfa"
+      },
+      "id": "sha256:c048e7ef5a9f9937df3707947a35ef18f9882c9575ebfa414320872ce9ae2f4e",
+      "kind": "agent_tool_completed",
+      "sequence": 17,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 14128,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/16",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "is_error": false,
+        "tool": "read",
+        "tool_call_id": "call_988e95001fa741f89eb982f12342e2eb|fc_0d4554fa372b56d1016afd8d63255887d09107d71d701ecfba"
+      },
+      "id": "sha256:33813b5b2e5290a03ddcc6106284282298739d515b7f6fe006f384ea49cb142a",
+      "kind": "agent_tool_completed",
+      "sequence": 18,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 14302,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/17",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "is_error": false,
+        "tool": "read",
+        "tool_call_id": "call_4e515424942f4bed9984dca21d01db3c|fc_0d4554fa372b56d1016afd8d63255887d0b8eb16fc6f63258d"
+      },
+      "id": "sha256:cb21722ff6460680aedf36ac4850a2272b6c39469965d8d69ffcbff8e2ac2df2",
+      "kind": "agent_tool_completed",
+      "sequence": 19,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 16778,
+      "evidence": {
+        "host_tool_call_id": "call_6634d9a0674a4859b499d34049d5999d|fc_0d4554fa372b56d1016afd8d63255887d086bdf79faa40368c",
+        "pointer": "/13",
+        "public_uri": null,
+        "sha256": "sha256:db4dd19c6569737c26132b2256e436999272ea46792f9eefe485e8e9ce05a270"
+      },
+      "facts": {},
+      "id": "sha256:ae12b50a8f2b0e0ba30c6a7f1a29370ffe1463f28a5e513b1e9b468350437fe0",
+      "kind": "context_consulted",
+      "sequence": 20,
+      "source": "kernel"
+    },
+    {
+      "elapsed_ms": 18709,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/18",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "is_error": false,
+        "tool": "bash",
+        "tool_call_id": "call_6634d9a0674a4859b499d34049d5999d|fc_0d4554fa372b56d1016afd8d63255887d086bdf79faa40368c"
+      },
+      "id": "sha256:097d22a09a0372e0c775398700c28386033eac0dac511d554ead00c4bab91ddb",
+      "kind": "agent_tool_completed",
+      "sequence": 21,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 23394,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/19",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "model": "gpt-6.1-sol",
+        "provider": "openai-codex"
+      },
+      "id": "sha256:2f2c0c949a401f1c9ba752b196a25d41bbde3598d3b87ae81853f476050c6130",
+      "kind": "model_observed",
+      "sequence": 22,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 23394,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/20",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "tool": "bash",
+        "tool_call_id": "call_716e4ab23b27425499a71dff3f0713f1|fc_0d4554fa372b56d1016afd8d6cab0487d0900942f1eb19b693"
+      },
+      "id": "sha256:8f05ad85c322f7801b9911b678e5143bf8b65b71b311e2b82c484be3622fddce",
+      "kind": "agent_tool_started",
+      "sequence": 23,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 28823,
+      "evidence": {
+        "host_tool_call_id": "call_716e4ab23b27425499a71dff3f0713f1|fc_0d4554fa372b56d1016afd8d6cab0487d0900942f1eb19b693",
+        "pointer": "/5",
+        "public_uri": null,
+        "sha256": "sha256:db4dd19c6569737c26132b2256e436999272ea46792f9eefe485e8e9ce05a270"
+      },
+      "facts": {},
+      "id": "sha256:5900998131ed7dcabec67d79fb419f9a9b6c0d08a6b05ad018cbcab2af22736a",
+      "kind": "context_consulted",
+      "sequence": 24,
+      "source": "kernel"
+    },
+    {
+      "elapsed_ms": 28983,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/21",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "is_error": false,
+        "tool": "bash",
+        "tool_call_id": "call_716e4ab23b27425499a71dff3f0713f1|fc_0d4554fa372b56d1016afd8d6cab0487d0900942f1eb19b693"
+      },
+      "id": "sha256:7f244442a2917bf3800d88f56367cb5a6e56cba4e5599dbd22877464b92d60d8",
+      "kind": "agent_tool_completed",
+      "sequence": 25,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 32336,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/22",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "model": "gpt-6.1-sol",
+        "provider": "openai-codex"
+      },
+      "id": "sha256:7906bd5e57f01f0a78b774981b117de0b26f115966df73625e81b17b799a323b",
+      "kind": "model_observed",
+      "sequence": 26,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 32336,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/23",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "tool": "bash",
+        "tool_call_id": "call_57896340d9024198baae3f7871392e76|fc_0d4554fa372b56d1016afd8d7497c487d0aaac981f53afde93"
+      },
+      "id": "sha256:f9bba5a3201ab8cd62e62568d6393120c83fff18cb1c1cf949d42a4e663feef4",
+      "kind": "agent_tool_started",
+      "sequence": 27,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 38595,
+      "evidence": {
+        "host_tool_call_id": "call_57896340d9024198baae3f7871392e76|fc_0d4554fa372b56d1016afd8d7497c487d0aaac981f53afde93",
+        "pointer": "/0",
+        "public_uri": null,
+        "sha256": "sha256:db4dd19c6569737c26132b2256e436999272ea46792f9eefe485e8e9ce05a270"
+      },
+      "facts": {
+        "lease_generation": 1,
+        "task_id": "feat_01m7q70ywdd66fm8"
+      },
+      "id": "sha256:e3752e8a5071cafdbe68a0208adcdf003aabca79b90de7064a97de1813ff0216",
+      "kind": "task_claimed",
+      "sequence": 28,
+      "source": "kernel"
+    },
+    {
+      "elapsed_ms": 38737,
+      "evidence": {
+        "host_tool_call_id": "call_57896340d9024198baae3f7871392e76|fc_0d4554fa372b56d1016afd8d7497c487d0aaac981f53afde93",
+        "pointer": "/10",
+        "public_uri": null,
+        "sha256": "sha256:db4dd19c6569737c26132b2256e436999272ea46792f9eefe485e8e9ce05a270"
+      },
+      "facts": {
+        "codes": [],
+        "exit_code": 1
+      },
+      "id": "sha256:6424f785222cbaea9e7172148ec62345ff0fcab4a7cb3f5027be2946d0c88494",
+      "kind": "kernel_rejection_observed",
+      "sequence": 29,
+      "source": "kernel"
+    },
+    {
+      "elapsed_ms": 38919,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/24",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "is_error": true,
+        "tool": "bash",
+        "tool_call_id": "call_57896340d9024198baae3f7871392e76|fc_0d4554fa372b56d1016afd8d7497c487d0aaac981f53afde93"
+      },
+      "id": "sha256:2a1ce7f383e323fc21087152fb401784c357c09e682ca37a4042c673f9b51c28",
+      "kind": "agent_tool_completed",
+      "sequence": 30,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 41433,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/25",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "model": "gpt-6.1-sol",
+        "provider": "openai-codex"
+      },
+      "id": "sha256:3214ed4d3173b4b20d5990add93b3d0dd6db28aba870b8e40790d2a44f5ae502",
+      "kind": "model_observed",
+      "sequence": 31,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 41434,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/26",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "tool": "bash",
+        "tool_call_id": "call_67c958809e8240edad7a7f5e76c71402|fc_0d4554fa372b56d1016afd8d7ebcfc87d0b2d1e8ccb85965a5"
+      },
+      "id": "sha256:4e3770351ff39627f60d80fad48e0a21b76e7eff3f9e93d2da83420910ec1dbc",
+      "kind": "agent_tool_started",
+      "sequence": 32,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 46056,
+      "evidence": {
+        "host_tool_call_id": "call_67c958809e8240edad7a7f5e76c71402|fc_0d4554fa372b56d1016afd8d7ebcfc87d0b2d1e8ccb85965a5",
+        "pointer": "/7",
+        "public_uri": null,
+        "sha256": "sha256:db4dd19c6569737c26132b2256e436999272ea46792f9eefe485e8e9ce05a270"
+      },
+      "facts": {
+        "branch": "agent/pi-1758-run03/feat_01m7q70ywdd66fm8-repo-read",
+        "task_id": "feat_01m7q70ywdd66fm8"
+      },
+      "id": "sha256:f8bebe94bedf1d686f6f565ec0bceab004ebe943591355c989f235fa630e75e6",
+      "kind": "workspace_bound",
+      "sequence": 33,
+      "source": "kernel"
+    },
+    {
+      "elapsed_ms": 46315,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/27",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "is_error": false,
+        "tool": "bash",
+        "tool_call_id": "call_67c958809e8240edad7a7f5e76c71402|fc_0d4554fa372b56d1016afd8d7ebcfc87d0b2d1e8ccb85965a5"
+      },
+      "id": "sha256:89fa7a9d827f7d1a44344826fa8775867aad052263e8e7c85e6200da59d72af9",
+      "kind": "agent_tool_completed",
+      "sequence": 34,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 46315,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/0",
+        "public_uri": null,
+        "sha256": "sha256:ac392fe08be3ec8e07233894c09a154a75d6c62fac26197911dbe2abb7b579ef"
+      },
+      "facts": {
+        "base": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+        "clean": false,
+        "head": "ada3eb89c3707801a5b86265dccc899fdabe5e1c"
+      },
+      "id": "sha256:b9d5e1abcaae835435c43e803c522e440e4b8f81d22ae17abc189fad2076665f",
+      "kind": "source_observed",
+      "sequence": 35,
+      "source": "git"
+    },
+    {
+      "elapsed_ms": 52253,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/28",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "model": "gpt-6.1-sol",
+        "provider": "openai-codex"
+      },
+      "id": "sha256:dce1bce05f48cb8bbc93a2682b465b3ed64b2561a5230989414197577af6d3ee",
+      "kind": "model_observed",
+      "sequence": 36,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 52253,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/29",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "tool": "bash",
+        "tool_call_id": "call_61fba5707cc24952baddfd523a9969fb|fc_0d4554fa372b56d1016afd8d85f5a487d0b86a93e0c8ba4a5b"
+      },
+      "id": "sha256:115abe201ca17cc4eb045e9360f55587793579f78580aeb64bfca787024a71dd",
+      "kind": "agent_tool_started",
+      "sequence": 37,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 54480,
+      "evidence": {
+        "host_tool_call_id": "call_61fba5707cc24952baddfd523a9969fb|fc_0d4554fa372b56d1016afd8d85f5a487d0b86a93e0c8ba4a5b",
+        "pointer": "/6",
+        "public_uri": null,
+        "sha256": "sha256:db4dd19c6569737c26132b2256e436999272ea46792f9eefe485e8e9ce05a270"
+      },
+      "facts": {},
+      "id": "sha256:786933d165da4ef9136cdb56a0dd4e46b7beed049ddbf4bb4664448adad4b1ca",
+      "kind": "context_consulted",
+      "sequence": 38,
+      "source": "kernel"
+    },
+    {
+      "elapsed_ms": 56156,
+      "evidence": {
+        "host_tool_call_id": "call_61fba5707cc24952baddfd523a9969fb|fc_0d4554fa372b56d1016afd8d85f5a487d0b86a93e0c8ba4a5b",
+        "pointer": "/12",
+        "public_uri": null,
+        "sha256": "sha256:db4dd19c6569737c26132b2256e436999272ea46792f9eefe485e8e9ce05a270"
+      },
+      "facts": {},
+      "id": "sha256:8457772c19acf3a9fda0227e295cabbd4d3c3e337b832fba4e169225d90a727e",
+      "kind": "context_consulted",
+      "sequence": 39,
+      "source": "kernel"
+    },
+    {
+      "elapsed_ms": 58553,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/30",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "is_error": true,
+        "tool": "bash",
+        "tool_call_id": "call_61fba5707cc24952baddfd523a9969fb|fc_0d4554fa372b56d1016afd8d85f5a487d0b86a93e0c8ba4a5b"
+      },
+      "id": "sha256:e2ae30f00364cad936d92c19e8421d1928f6549d4eff57b7885aa0d5f1eb5b1f",
+      "kind": "agent_tool_completed",
+      "sequence": 40,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 58553,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/1",
+        "public_uri": null,
+        "sha256": "sha256:ac392fe08be3ec8e07233894c09a154a75d6c62fac26197911dbe2abb7b579ef"
+      },
+      "facts": {
+        "base": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+        "clean": false,
+        "head": "ada3eb89c3707801a5b86265dccc899fdabe5e1c"
+      },
+      "id": "sha256:bd46cd425fb7660f71da7314c8e58ad5957d5d859e8c738be229e94f2ec7521d",
+      "kind": "source_observed",
+      "sequence": 41,
+      "source": "git"
+    },
+    {
+      "elapsed_ms": 62674,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/31",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "model": "gpt-6.1-sol",
+        "provider": "openai-codex"
+      },
+      "id": "sha256:3dcb33744d6009d4b4324ed891e3de419e6c64438cece98940bb4658283ed9aa",
+      "kind": "model_observed",
+      "sequence": 42,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 62674,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/32",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "tool": "bash",
+        "tool_call_id": "call_a8d35252f9be4e8a89ad0e8ec5755102|fc_0d4554fa372b56d1016afd8d92484487d099325b0760ba914b"
+      },
+      "id": "sha256:63d4d412322c018d55e5e4d6fca17d960d64d7d08a16282191dfa145a2410d1d",
+      "kind": "agent_tool_started",
+      "sequence": 43,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 65377,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/33",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "is_error": false,
+        "tool": "bash",
+        "tool_call_id": "call_a8d35252f9be4e8a89ad0e8ec5755102|fc_0d4554fa372b56d1016afd8d92484487d099325b0760ba914b"
+      },
+      "id": "sha256:6caa33aebdd2c721e8bda836d8d1429b482efc62099e04f97c34045c5564e065",
+      "kind": "agent_tool_completed",
+      "sequence": 44,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 65377,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/2",
+        "public_uri": null,
+        "sha256": "sha256:ac392fe08be3ec8e07233894c09a154a75d6c62fac26197911dbe2abb7b579ef"
+      },
+      "facts": {
+        "base": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+        "clean": false,
+        "head": "ada3eb89c3707801a5b86265dccc899fdabe5e1c"
+      },
+      "id": "sha256:3563339742ccb39b6cd4c3a71eeeb3c5c2f1ef5735a2ee4692ff62d4b007b50a",
+      "kind": "source_observed",
+      "sequence": 45,
+      "source": "git"
+    },
+    {
+      "elapsed_ms": 76538,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/34",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "model": "gpt-6.1-sol",
+        "provider": "openai-codex"
+      },
+      "id": "sha256:c0a5b1cd4b2fa3b6a8e67df3c381cdd8704df4d130548c114fc2115a29615157",
+      "kind": "model_observed",
+      "sequence": 46,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 76538,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/35",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "tool": "read",
+        "tool_call_id": "call_5edd5e1448a34ba4ae751b7804cecf02|fc_0d4554fa372b56d1016afd8d99125487d0b1d195b52c13f846"
+      },
+      "id": "sha256:8cadd897112774006b0f488038b8eb496401380da56e6847583af310af65e099",
+      "kind": "agent_tool_started",
+      "sequence": 47,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 76769,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/36",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "tool": "read",
+        "tool_call_id": "call_f1ae43a924f543068426d4affce6bd39|fc_0d4554fa372b56d1016afd8da2880487d0af2a4bd380eddc8e"
+      },
+      "id": "sha256:a873976aa124307ded0ca0a7858e6965923548804253dcd8052d44f9032b1e6f",
+      "kind": "agent_tool_started",
+      "sequence": 48,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 77001,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/37",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "tool": "read",
+        "tool_call_id": "call_3074bb01f6534a0b8198a1fcf20311ec|fc_0d4554fa372b56d1016afd8da2880887d08d9956bd068b634e"
+      },
+      "id": "sha256:05472f2285a7a9dbc511408dc8ee2b28b2f64c33444e0f4435a78b2787e54387",
+      "kind": "agent_tool_started",
+      "sequence": 49,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 77229,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/38",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "tool": "read",
+        "tool_call_id": "call_3f13c024e2344d51b544ac29564bfa39|fc_0d4554fa372b56d1016afd8da2880887d0afa4303c44554f0a"
+      },
+      "id": "sha256:e2729d1956cfffd00432d26f6ad162818032d188a01bea40a8fcc704378ff224",
+      "kind": "agent_tool_started",
+      "sequence": 50,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 77464,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/39",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "tool": "bash",
+        "tool_call_id": "call_fda175e778ae4144aa69453e0c010330|fc_0d4554fa372b56d1016afd8da2880887d080a29c271e795b09"
+      },
+      "id": "sha256:1fc7834a9b2baa5f52bfc63e694bb5c02bb73f0b72861b11dd137086a33a0770",
+      "kind": "agent_tool_started",
+      "sequence": 51,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 77930,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/40",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "is_error": false,
+        "tool": "read",
+        "tool_call_id": "call_f1ae43a924f543068426d4affce6bd39|fc_0d4554fa372b56d1016afd8da2880487d0af2a4bd380eddc8e"
+      },
+      "id": "sha256:1820cf63c9049c6677af7b205210bb18d95d5e5680ee3dff9c8460c8da90180c",
+      "kind": "agent_tool_completed",
+      "sequence": 52,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 77930,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/3",
+        "public_uri": null,
+        "sha256": "sha256:ac392fe08be3ec8e07233894c09a154a75d6c62fac26197911dbe2abb7b579ef"
+      },
+      "facts": {
+        "base": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+        "clean": false,
+        "head": "ada3eb89c3707801a5b86265dccc899fdabe5e1c"
+      },
+      "id": "sha256:8817a5161a8c6a95abfb7ca8cf43b6446e888563b3f73aac3f797992df2b1765",
+      "kind": "source_observed",
+      "sequence": 53,
+      "source": "git"
+    },
+    {
+      "elapsed_ms": 78155,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/41",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "is_error": false,
+        "tool": "read",
+        "tool_call_id": "call_3f13c024e2344d51b544ac29564bfa39|fc_0d4554fa372b56d1016afd8da2880887d0afa4303c44554f0a"
+      },
+      "id": "sha256:b25f8f83534302699ea2113154d731ee0cb7e627f1db0980b428231795af2f5f",
+      "kind": "agent_tool_completed",
+      "sequence": 54,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 78155,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/4",
+        "public_uri": null,
+        "sha256": "sha256:ac392fe08be3ec8e07233894c09a154a75d6c62fac26197911dbe2abb7b579ef"
+      },
+      "facts": {
+        "base": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+        "clean": false,
+        "head": "ada3eb89c3707801a5b86265dccc899fdabe5e1c"
+      },
+      "id": "sha256:238f38d719701ba73b12c7f29778e8e0e7f5a6510fb9b19aa92bfa040b3e21da",
+      "kind": "source_observed",
+      "sequence": 55,
+      "source": "git"
+    },
+    {
+      "elapsed_ms": 78386,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/42",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "is_error": false,
+        "tool": "read",
+        "tool_call_id": "call_5edd5e1448a34ba4ae751b7804cecf02|fc_0d4554fa372b56d1016afd8d99125487d0b1d195b52c13f846"
+      },
+      "id": "sha256:5cb10f2966d4ffa531ddc971fa2e50173c35b451787adbdabc3b5583d9d258b6",
+      "kind": "agent_tool_completed",
+      "sequence": 56,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 78386,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/5",
+        "public_uri": null,
+        "sha256": "sha256:ac392fe08be3ec8e07233894c09a154a75d6c62fac26197911dbe2abb7b579ef"
+      },
+      "facts": {
+        "base": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+        "clean": false,
+        "head": "ada3eb89c3707801a5b86265dccc899fdabe5e1c"
+      },
+      "id": "sha256:ddcfc6de47d4aca0a6ef2eb581655b8bc01040b9bdedd39dfb37892e57cecb78",
+      "kind": "source_observed",
+      "sequence": 57,
+      "source": "git"
+    },
+    {
+      "elapsed_ms": 78616,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/43",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "is_error": false,
+        "tool": "read",
+        "tool_call_id": "call_3074bb01f6534a0b8198a1fcf20311ec|fc_0d4554fa372b56d1016afd8da2880887d08d9956bd068b634e"
+      },
+      "id": "sha256:40af42fa5d92fde14c82e9bf26d8081f225fa015c2824562d7928235b855b550",
+      "kind": "agent_tool_completed",
+      "sequence": 58,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 78616,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/6",
+        "public_uri": null,
+        "sha256": "sha256:ac392fe08be3ec8e07233894c09a154a75d6c62fac26197911dbe2abb7b579ef"
+      },
+      "facts": {
+        "base": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+        "clean": false,
+        "head": "ada3eb89c3707801a5b86265dccc899fdabe5e1c"
+      },
+      "id": "sha256:d55ea8cbe47ad70340e5e0b3ea78ac30a7dac9b292d23db6ba19bd07968b150e",
+      "kind": "source_observed",
+      "sequence": 59,
+      "source": "git"
+    },
+    {
+      "elapsed_ms": 90848,
+      "evidence": {
+        "host_tool_call_id": "call_fda175e778ae4144aa69453e0c010330|fc_0d4554fa372b56d1016afd8da2880887d080a29c271e795b09",
+        "pointer": "/4",
+        "public_uri": null,
+        "sha256": "sha256:db4dd19c6569737c26132b2256e436999272ea46792f9eefe485e8e9ce05a270"
+      },
+      "facts": {
+        "codes": [
+          "READINESS_BLOCKED",
+          "STATE_COMMIT",
+          "UNSTAGED_GOVERNANCE_ARTIFACT"
+        ],
+        "exit_code": 1
+      },
+      "id": "sha256:cbaceab424efa467231f9a46eb7835dcd490330f072e0a646e62529bea6f8d4a",
+      "kind": "kernel_rejection_observed",
+      "sequence": 60,
+      "source": "kernel"
+    },
+    {
+      "elapsed_ms": 91133,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/44",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "is_error": true,
+        "tool": "bash",
+        "tool_call_id": "call_fda175e778ae4144aa69453e0c010330|fc_0d4554fa372b56d1016afd8da2880887d080a29c271e795b09"
+      },
+      "id": "sha256:72f3916537dcfe3fcf26ec931655df721757b8888baccaa065d0ebdbb78cc0ca",
+      "kind": "agent_tool_completed",
+      "sequence": 61,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 91133,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/7",
+        "public_uri": null,
+        "sha256": "sha256:ac392fe08be3ec8e07233894c09a154a75d6c62fac26197911dbe2abb7b579ef"
+      },
+      "facts": {
+        "base": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+        "clean": false,
+        "head": "ada3eb89c3707801a5b86265dccc899fdabe5e1c"
+      },
+      "id": "sha256:5bb553cef94065525cbf4c8980732c8372c9edd40fbcb6c382ea40c370db8ac0",
+      "kind": "source_observed",
+      "sequence": 62,
+      "source": "git"
+    },
+    {
+      "elapsed_ms": 101025,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/45",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "model": "gpt-6.1-sol",
+        "provider": "openai-codex"
+      },
+      "id": "sha256:852cee68f74523e732e46a8b57c7577c410b487d38dfdee2a41088c62ad6f32c",
+      "kind": "model_observed",
+      "sequence": 63,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 101026,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/46",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "tool": "edit",
+        "tool_call_id": "call_fb572077554e47a58201a923780e860d|fc_0d4554fa372b56d1016afd8db459ac87d0b0ef0d2126df99ee"
+      },
+      "id": "sha256:35e050f0a9e1c063a35e9688e2273a0415408611d636a70bd1968d1933bbd1b9",
+      "kind": "agent_tool_started",
+      "sequence": 64,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 101449,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/47",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "is_error": false,
+        "tool": "edit",
+        "tool_call_id": "call_fb572077554e47a58201a923780e860d|fc_0d4554fa372b56d1016afd8db459ac87d0b0ef0d2126df99ee"
+      },
+      "id": "sha256:e1e6de5cb44b7e00e76e1d4256c57c38338fe0d15dc9f22f234b08681b132546",
+      "kind": "agent_tool_completed",
+      "sequence": 65,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 101449,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/8",
+        "public_uri": null,
+        "sha256": "sha256:ac392fe08be3ec8e07233894c09a154a75d6c62fac26197911dbe2abb7b579ef"
+      },
+      "facts": {
+        "base": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+        "clean": false,
+        "head": "ada3eb89c3707801a5b86265dccc899fdabe5e1c"
+      },
+      "id": "sha256:64874a53ab93ea078eba0eca497d0c9af3421e5a72b60e0672c4e621425f3f9a",
+      "kind": "source_observed",
+      "sequence": 66,
+      "source": "git"
+    },
+    {
+      "elapsed_ms": 107145,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/48",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "model": "gpt-6.1-sol",
+        "provider": "openai-codex"
+      },
+      "id": "sha256:717bce764941f3a6b5760657b2d6fb69468ace40d680f6dce8ad24346bf9a931",
+      "kind": "model_observed",
+      "sequence": 67,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 107146,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/49",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "tool": "bash",
+        "tool_call_id": "call_0ef8c11f6b724d51b41742f512c25427|fc_0d4554fa372b56d1016afd8dbd30a087d0b34fbb67e933ba3d"
+      },
+      "id": "sha256:adff84e0a00900d183cf2395fddd9cfbd8b2f4efccdfba3c90970816081a490f",
+      "kind": "agent_tool_started",
+      "sequence": 68,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 108335,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/50",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "is_error": true,
+        "tool": "bash",
+        "tool_call_id": "call_0ef8c11f6b724d51b41742f512c25427|fc_0d4554fa372b56d1016afd8dbd30a087d0b34fbb67e933ba3d"
+      },
+      "id": "sha256:68d4f61db5952b3865f808c3c3bc12a655dd381b5ddba373c4a295f71fb0d08d",
+      "kind": "agent_tool_completed",
+      "sequence": 69,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 108335,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/9",
+        "public_uri": null,
+        "sha256": "sha256:ac392fe08be3ec8e07233894c09a154a75d6c62fac26197911dbe2abb7b579ef"
+      },
+      "facts": {
+        "base": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+        "clean": false,
+        "head": "ada3eb89c3707801a5b86265dccc899fdabe5e1c"
+      },
+      "id": "sha256:4d0ccf57ac56ab680f44872dfb648b2da2707d2b9907509d314b4d36cd797dbc",
+      "kind": "source_observed",
+      "sequence": 70,
+      "source": "git"
+    },
+    {
+      "elapsed_ms": 113890,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/51",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "model": "gpt-6.1-sol",
+        "provider": "openai-codex"
+      },
+      "id": "sha256:f71d4a3409a7ed83f76dfe7a312202a770d24c966d1d0c57d83dc8b02e90ca2f",
+      "kind": "model_observed",
+      "sequence": 71,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 113890,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/52",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "tool": "bash",
+        "tool_call_id": "call_9d9804ac2dc040758b8be92a6048ea5b|fc_0d4554fa372b56d1016afd8dc4536c87d0ab0247b435f44c08"
+      },
+      "id": "sha256:969d7522f9511dd4f3b30c204554332188d0b0977d039d868500fe1310f53385",
+      "kind": "agent_tool_started",
+      "sequence": 72,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 130495,
+      "evidence": {
+        "host_tool_call_id": "call_9d9804ac2dc040758b8be92a6048ea5b|fc_0d4554fa372b56d1016afd8dc4536c87d0ab0247b435f44c08",
+        "pointer": "/1",
+        "public_uri": null,
+        "sha256": "sha256:db4dd19c6569737c26132b2256e436999272ea46792f9eefe485e8e9ce05a270"
+      },
+      "facts": {
+        "codes": [
+          "NOT_READY",
+          "READINESS_BLOCKED",
+          "STATE_COMMIT"
+        ],
+        "exit_code": 1
+      },
+      "id": "sha256:4a3996713c0b5855bc73d21ae41df6596ade4b1b0d83b60ed08813c70d17b982",
+      "kind": "required_check_failed",
+      "sequence": 73,
+      "source": "kernel"
+    },
+    {
+      "elapsed_ms": 130758,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/53",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "is_error": false,
+        "tool": "bash",
+        "tool_call_id": "call_9d9804ac2dc040758b8be92a6048ea5b|fc_0d4554fa372b56d1016afd8dc4536c87d0ab0247b435f44c08"
+      },
+      "id": "sha256:5d006cc13f148bc683893a80bd544a95c3e0613811fa4b5b84ce9a258a0b0eb7",
+      "kind": "agent_tool_completed",
+      "sequence": 74,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 130758,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/10",
+        "public_uri": null,
+        "sha256": "sha256:ac392fe08be3ec8e07233894c09a154a75d6c62fac26197911dbe2abb7b579ef"
+      },
+      "facts": {
+        "base": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+        "clean": true,
+        "head": "dfc10cc945e33d36fa4ac17ac2fb82cc4a6520c9"
+      },
+      "id": "sha256:87b4465ec8333f9fc3a287bf2e44c1ce679295cd7e60733694c7c17a3909c1bc",
+      "kind": "source_observed",
+      "sequence": 75,
+      "source": "git"
+    },
+    {
+      "elapsed_ms": 134721,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/54",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "model": "gpt-6.1-sol",
+        "provider": "openai-codex"
+      },
+      "id": "sha256:637ddb754176c49082ab3f54fcd60176eb3518f8e78c552e6c15830d3e710fda",
+      "kind": "model_observed",
+      "sequence": 76,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 134721,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/55",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "tool": "bash",
+        "tool_call_id": "call_a5b9d2fff2f24cd6b1a3d092a70041dc|fc_0d4554fa372b56d1016afd8dda5da887d08713562cb36d494e"
+      },
+      "id": "sha256:39c2830d8501ef5c4c0c3a8532b8200e4e426df465a1a8fbaf84c9602380d806",
+      "kind": "agent_tool_started",
+      "sequence": 77,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 135288,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/56",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "is_error": false,
+        "tool": "bash",
+        "tool_call_id": "call_a5b9d2fff2f24cd6b1a3d092a70041dc|fc_0d4554fa372b56d1016afd8dda5da887d08713562cb36d494e"
+      },
+      "id": "sha256:4f883813243e718eff889d01be27448def6cdddbb6b44bb7967b24c4f9c5f2a1",
+      "kind": "agent_tool_completed",
+      "sequence": 78,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 135288,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/11",
+        "public_uri": null,
+        "sha256": "sha256:ac392fe08be3ec8e07233894c09a154a75d6c62fac26197911dbe2abb7b579ef"
+      },
+      "facts": {
+        "base": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+        "clean": true,
+        "head": "dfc10cc945e33d36fa4ac17ac2fb82cc4a6520c9"
+      },
+      "id": "sha256:ef0545a0ea380aec4d881c3a7edba481ef87ab96c55eca20316c21b8b4f43a93",
+      "kind": "source_observed",
+      "sequence": 79,
+      "source": "git"
+    },
+    {
+      "elapsed_ms": 137769,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/57",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "model": "gpt-6.1-sol",
+        "provider": "openai-codex"
+      },
+      "id": "sha256:955a94193d838d6738c553aca36ab5fc1d57695191f8182ee0e3b8f7f6467483",
+      "kind": "model_observed",
+      "sequence": 80,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 137769,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/58",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "tool": "read",
+        "tool_call_id": "call_a8bdfda242834aa68490bdcfd62e02fe|fc_0d4554fa372b56d1016afd8ddeea5c87d09bcedf6e4ce19bc9"
+      },
+      "id": "sha256:cb085210b47303af52a2a2bda6f467238544d3c835d6730c035867dc5d85fc96",
+      "kind": "agent_tool_started",
+      "sequence": 81,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 138170,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/59",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "is_error": false,
+        "tool": "read",
+        "tool_call_id": "call_a8bdfda242834aa68490bdcfd62e02fe|fc_0d4554fa372b56d1016afd8ddeea5c87d09bcedf6e4ce19bc9"
+      },
+      "id": "sha256:38d6d476b0384142c63b87345e1cfba7d4b99428e2e98a2cc16739d7f51f010f",
+      "kind": "agent_tool_completed",
+      "sequence": 82,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 138170,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/12",
+        "public_uri": null,
+        "sha256": "sha256:ac392fe08be3ec8e07233894c09a154a75d6c62fac26197911dbe2abb7b579ef"
+      },
+      "facts": {
+        "base": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+        "clean": true,
+        "head": "dfc10cc945e33d36fa4ac17ac2fb82cc4a6520c9"
+      },
+      "id": "sha256:86315b6d0ef3e0c862bfa5ef38a78e71156e986bdaaa2342322de4f5e99b8a52",
+      "kind": "source_observed",
+      "sequence": 83,
+      "source": "git"
+    },
+    {
+      "elapsed_ms": 149418,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/60",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "model": "gpt-6.1-sol",
+        "provider": "openai-codex"
+      },
+      "id": "sha256:247383e5ffc5075a38ef637220396dcc3a79823eadac77e938d0d880f9ca6153",
+      "kind": "model_observed",
+      "sequence": 84,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 149419,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/61",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "tool": "edit",
+        "tool_call_id": "call_baf8c8934d2e4805978fbe0a142c96d9|fc_0d4554fa372b56d1016afd8deb445487d0b9ceccb3e45eeda9"
+      },
+      "id": "sha256:ffeb51a85e9f0874dc491777d6a248af042979837370494613b1e0ea9ce192f9",
+      "kind": "agent_tool_started",
+      "sequence": 85,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 149850,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/62",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "is_error": false,
+        "tool": "edit",
+        "tool_call_id": "call_baf8c8934d2e4805978fbe0a142c96d9|fc_0d4554fa372b56d1016afd8deb445487d0b9ceccb3e45eeda9"
+      },
+      "id": "sha256:f04bc2194ea859b00c403f637c8796939ebaab956fd848f66c811a540889514a",
+      "kind": "agent_tool_completed",
+      "sequence": 86,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 149850,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/13",
+        "public_uri": null,
+        "sha256": "sha256:ac392fe08be3ec8e07233894c09a154a75d6c62fac26197911dbe2abb7b579ef"
+      },
+      "facts": {
+        "base": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+        "clean": false,
+        "head": "dfc10cc945e33d36fa4ac17ac2fb82cc4a6520c9"
+      },
+      "id": "sha256:9b8fe23bb1f8c76e81896214037d8e375f8f3d703d4a9f908a385097edb9b0c7",
+      "kind": "source_observed",
+      "sequence": 87,
+      "source": "git"
+    },
+    {
+      "elapsed_ms": 167599,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/63",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "model": "gpt-6.1-sol",
+        "provider": "openai-codex"
+      },
+      "id": "sha256:40a6cba2da8ba3b0ff83755d273a297ca495ff03933a0df4f053009b938fead2",
+      "kind": "model_observed",
+      "sequence": 88,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 167599,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/64",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "tool": "edit",
+        "tool_call_id": "call_e7c2078fb5954fda959ba1bef1e79065|fc_0d4554fa372b56d1016afd8dedcfec87d0ad5e6073a1cfd430"
+      },
+      "id": "sha256:3bc087213f147948977b2eaae3f7f11a36ce8cbc440dd55d93336cd3eb443a51",
+      "kind": "agent_tool_started",
+      "sequence": 89,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 167815,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/65",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "tool": "edit",
+        "tool_call_id": "call_9c1c255124324e6cb1ac89814017ab19|fc_0d4554fa372b56d1016afd8dfd97c087d08e449d7343114a7a"
+      },
+      "id": "sha256:53261a6dd0f6f17c155428161caaafdbca9ec2f095ceb5a11a9e99bb00da4b18",
+      "kind": "agent_tool_started",
+      "sequence": 90,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 168026,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/66",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "tool": "edit",
+        "tool_call_id": "call_36c7e9341c20442c8608aabb59fb85e6|fc_0d4554fa372b56d1016afd8dfd97c087d0a929d7a6114e6701"
+      },
+      "id": "sha256:07e039f3e8b4b39c8271674b18e2a13deda4fff226626338b1d19134fb8e985a",
+      "kind": "agent_tool_started",
+      "sequence": 91,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 168437,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/67",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "is_error": false,
+        "tool": "edit",
+        "tool_call_id": "call_36c7e9341c20442c8608aabb59fb85e6|fc_0d4554fa372b56d1016afd8dfd97c087d0a929d7a6114e6701"
+      },
+      "id": "sha256:d8cd7fc1d8d04e2ea403a8326693e9ff71b091cd3bf2a90484af5a7b30642eb5",
+      "kind": "agent_tool_completed",
+      "sequence": 92,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 168437,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/14",
+        "public_uri": null,
+        "sha256": "sha256:ac392fe08be3ec8e07233894c09a154a75d6c62fac26197911dbe2abb7b579ef"
+      },
+      "facts": {
+        "base": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+        "clean": false,
+        "head": "dfc10cc945e33d36fa4ac17ac2fb82cc4a6520c9"
+      },
+      "id": "sha256:52fbbc051ffde614a0b1967b30b56aa4bf539fb0039c8ae1f3f4a4694ae483fe",
+      "kind": "source_observed",
+      "sequence": 93,
+      "source": "git"
+    },
+    {
+      "elapsed_ms": 168636,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/68",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "is_error": false,
+        "tool": "edit",
+        "tool_call_id": "call_9c1c255124324e6cb1ac89814017ab19|fc_0d4554fa372b56d1016afd8dfd97c087d08e449d7343114a7a"
+      },
+      "id": "sha256:445cb4dbc06698b37c22941c7f888b13da8338e873fd38877045e47cee165fa4",
+      "kind": "agent_tool_completed",
+      "sequence": 94,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 168636,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/15",
+        "public_uri": null,
+        "sha256": "sha256:ac392fe08be3ec8e07233894c09a154a75d6c62fac26197911dbe2abb7b579ef"
+      },
+      "facts": {
+        "base": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+        "clean": false,
+        "head": "dfc10cc945e33d36fa4ac17ac2fb82cc4a6520c9"
+      },
+      "id": "sha256:9f583786aa35503a61dd48a118c7fe57fabe241da8807598f168b52c529d3303",
+      "kind": "source_observed",
+      "sequence": 95,
+      "source": "git"
+    },
+    {
+      "elapsed_ms": 168852,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/69",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "is_error": false,
+        "tool": "edit",
+        "tool_call_id": "call_e7c2078fb5954fda959ba1bef1e79065|fc_0d4554fa372b56d1016afd8dedcfec87d0ad5e6073a1cfd430"
+      },
+      "id": "sha256:1bed771d6a425e55eae2c22c1ad23f620cbce27d73b5f2fd63507c24702ff4e0",
+      "kind": "agent_tool_completed",
+      "sequence": 96,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 168852,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/16",
+        "public_uri": null,
+        "sha256": "sha256:ac392fe08be3ec8e07233894c09a154a75d6c62fac26197911dbe2abb7b579ef"
+      },
+      "facts": {
+        "base": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+        "clean": false,
+        "head": "dfc10cc945e33d36fa4ac17ac2fb82cc4a6520c9"
+      },
+      "id": "sha256:699883f4915c9acf335daba5d81c5a9a9f0893c42cc646f80ab7392d01664c30",
+      "kind": "source_observed",
+      "sequence": 97,
+      "source": "git"
+    },
+    {
+      "elapsed_ms": 181006,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/70",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "model": "gpt-6.1-sol",
+        "provider": "openai-codex"
+      },
+      "id": "sha256:4173683469c496db336deea5c3d29bb5237301813140bbd65e4634f1b607dd72",
+      "kind": "model_observed",
+      "sequence": 98,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 181006,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/71",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "tool": "bash",
+        "tool_call_id": "call_57b483b488124c4aa669cb1cf162c303|fc_0d4554fa372b56d1016afd8e0116e087d080ec87da59365db4"
+      },
+      "id": "sha256:872ed6cf03bdd8125aefcc8fcc316748a84fab045079a98005f079668e0238d0",
+      "kind": "agent_tool_started",
+      "sequence": 99,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 195653,
+      "evidence": {
+        "host_tool_call_id": "call_57b483b488124c4aa669cb1cf162c303|fc_0d4554fa372b56d1016afd8e0116e087d080ec87da59365db4",
+        "pointer": "/2",
+        "public_uri": null,
+        "sha256": "sha256:db4dd19c6569737c26132b2256e436999272ea46792f9eefe485e8e9ce05a270"
+      },
+      "facts": {
+        "codes": [
+          "READINESS_BLOCKED",
+          "SPEC_REVIEW_REQUIRED",
+          "STATE_COMMIT"
+        ],
+        "exit_code": 1
+      },
+      "id": "sha256:d91e2de960aca7dcbcd69e9645dd299f0dbeae61dd935e737a63bc3a19f388b0",
+      "kind": "kernel_rejection_observed",
+      "sequence": 100,
+      "source": "kernel"
+    },
+    {
+      "elapsed_ms": 195925,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/72",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "is_error": false,
+        "tool": "bash",
+        "tool_call_id": "call_57b483b488124c4aa669cb1cf162c303|fc_0d4554fa372b56d1016afd8e0116e087d080ec87da59365db4"
+      },
+      "id": "sha256:cbc5073815e4e364ce530159e20280e91b027b45ad7bbfefac130d069dc086b7",
+      "kind": "agent_tool_completed",
+      "sequence": 101,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 195925,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/17",
+        "public_uri": null,
+        "sha256": "sha256:ac392fe08be3ec8e07233894c09a154a75d6c62fac26197911dbe2abb7b579ef"
+      },
+      "facts": {
+        "base": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+        "clean": true,
+        "head": "757efe6554acff24ec20169babc74e904ff8534a"
+      },
+      "id": "sha256:9ee103c1b3a8dcc09c497c79b71c680607d57759bfeba1918493808f4e2ae831",
+      "kind": "agent_changed_failed_source",
+      "sequence": 102,
+      "source": "git"
+    },
+    {
+      "elapsed_ms": 204235,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/73",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "model": "gpt-6.1-sol",
+        "provider": "openai-codex"
+      },
+      "id": "sha256:11978f31986985e081b2fd6fb1e753f3d29a2f1749492ce0865954e4960edc1e",
+      "kind": "model_observed",
+      "sequence": 103,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 204236,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/74",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "tool": "bash",
+        "tool_call_id": "call_ce7b6ea8be174204b8b780b13a3bf056|fc_0d4554fa372b56d1016afd8e1cfa8487d0925acf7e7058afbc"
+      },
+      "id": "sha256:c334f7b92a1acc31d6b9b0ce8daf6e86778d017ae1389e67fd6b8b74929775a2",
+      "kind": "agent_tool_started",
+      "sequence": 104,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 218034,
+      "evidence": {
+        "host_tool_call_id": "call_ce7b6ea8be174204b8b780b13a3bf056|fc_0d4554fa372b56d1016afd8e1cfa8487d0925acf7e7058afbc",
+        "pointer": "/3",
+        "public_uri": null,
+        "sha256": "sha256:db4dd19c6569737c26132b2256e436999272ea46792f9eefe485e8e9ce05a270"
+      },
+      "facts": {
+        "codes": [
+          "READINESS_BLOCKED",
+          "SPEC_REVIEW_REQUIRED",
+          "STATE_COMMIT"
+        ],
+        "exit_code": 1
+      },
+      "id": "sha256:f80514c71b83174da9dfd871ebbed579a36763016d4d8dec3d414bc7daef36e7",
+      "kind": "kernel_rejection_observed",
+      "sequence": 105,
+      "source": "kernel"
+    },
+    {
+      "elapsed_ms": 218312,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/75",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "is_error": false,
+        "tool": "bash",
+        "tool_call_id": "call_ce7b6ea8be174204b8b780b13a3bf056|fc_0d4554fa372b56d1016afd8e1cfa8487d0925acf7e7058afbc"
+      },
+      "id": "sha256:15d5b8026cfab88febf471b446f49b67b639e3f6254a940a32f6657636ddb69d",
+      "kind": "agent_tool_completed",
+      "sequence": 106,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 218312,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/18",
+        "public_uri": null,
+        "sha256": "sha256:ac392fe08be3ec8e07233894c09a154a75d6c62fac26197911dbe2abb7b579ef"
+      },
+      "facts": {
+        "base": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+        "clean": true,
+        "head": "d28b6f8f0e445302e090ca3c7d3ec33d71efa02b"
+      },
+      "id": "sha256:a24e55d91bb94b62eb5de301cfb1290ea2f6c0b0cf3c3e4ecc792c07a96a6f3c",
+      "kind": "agent_changed_failed_source",
+      "sequence": 107,
+      "source": "git"
+    },
+    {
+      "elapsed_ms": 227356,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/76",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "model": "gpt-6.1-sol",
+        "provider": "openai-codex"
+      },
+      "id": "sha256:4c4a017daafdf488316a51bb63521a08a469abb328015722335c13fbe7da0bd6",
+      "kind": "model_observed",
+      "sequence": 108,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 227356,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/77",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "tool": "bash",
+        "tool_call_id": "call_023cc5d609504f8f850231dc699c5292|fc_0d4554fa372b56d1016afd8e32f6d487d0b9c01ebc9022e242"
+      },
+      "id": "sha256:fd55ced536d1bf4826b4d4d09025a3a2bde02915a3080fd0ecfaa3863f0da6c7",
+      "kind": "agent_tool_started",
+      "sequence": 109,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 232293,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/78",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "is_error": true,
+        "tool": "bash",
+        "tool_call_id": "call_023cc5d609504f8f850231dc699c5292|fc_0d4554fa372b56d1016afd8e32f6d487d0b9c01ebc9022e242"
+      },
+      "id": "sha256:2e362f16bb3a5b745512c474efeeac0845fc1852ec259553ad93e57a29f017c9",
+      "kind": "agent_tool_completed",
+      "sequence": 110,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 232293,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/19",
+        "public_uri": null,
+        "sha256": "sha256:ac392fe08be3ec8e07233894c09a154a75d6c62fac26197911dbe2abb7b579ef"
+      },
+      "facts": {
+        "base": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+        "clean": false,
+        "head": "d28b6f8f0e445302e090ca3c7d3ec33d71efa02b"
+      },
+      "id": "sha256:2920dca2ec4f4295149b80317e133ca183fdddfe9ae15c9aa2f0c18050483813",
+      "kind": "agent_changed_failed_source",
+      "sequence": 111,
+      "source": "git"
+    },
+    {
+      "elapsed_ms": 235323,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/79",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "model": "gpt-6.1-sol",
+        "provider": "openai-codex"
+      },
+      "id": "sha256:832ed905673deab270d6e14a862548376671496f73a5e6b82cda675b62e45f19",
+      "kind": "model_observed",
+      "sequence": 112,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 235323,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/80",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "tool": "read",
+        "tool_call_id": "call_af8f93e8b03f43679621f5e3bada5cc8|fc_0d4554fa372b56d1016afd8e40435087d0a4531ad6239f318b"
+      },
+      "id": "sha256:e8d2e92e10ee068131dfa6a0b64c9f217a897505b65efd606af38341d4edeed1",
+      "kind": "agent_tool_started",
+      "sequence": 113,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 235839,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/81",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "is_error": false,
+        "tool": "read",
+        "tool_call_id": "call_af8f93e8b03f43679621f5e3bada5cc8|fc_0d4554fa372b56d1016afd8e40435087d0a4531ad6239f318b"
+      },
+      "id": "sha256:6911af5ed938f80db206070429c1a5d77349273010040674c2f5bc76ebc42fb2",
+      "kind": "agent_tool_completed",
+      "sequence": 114,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 235839,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/20",
+        "public_uri": null,
+        "sha256": "sha256:ac392fe08be3ec8e07233894c09a154a75d6c62fac26197911dbe2abb7b579ef"
+      },
+      "facts": {
+        "base": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+        "clean": false,
+        "head": "d28b6f8f0e445302e090ca3c7d3ec33d71efa02b"
+      },
+      "id": "sha256:cb7dbc51c1abebe9405e5157e550efd47600ce07819785179d93969f80a13371",
+      "kind": "source_observed",
+      "sequence": 115,
+      "source": "git"
+    },
+    {
+      "elapsed_ms": 243371,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/82",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "model": "gpt-6.1-sol",
+        "provider": "openai-codex"
+      },
+      "id": "sha256:63a7c75a983002584d20aecd373de838520a96e0e6c864da31f2691711416360",
+      "kind": "model_observed",
+      "sequence": 116,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 243372,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/83",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "tool": "bash",
+        "tool_call_id": "call_7b6467a627b344379d20a23df114962e|fc_0d4554fa372b56d1016afd8e43b1a487d0ac87d6f65aefb275"
+      },
+      "id": "sha256:86169bef8514f42f7605dc1c340a26246149a75d95bc04c85a961739f2a5d478",
+      "kind": "agent_tool_started",
+      "sequence": 117,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 263870,
+      "evidence": {
+        "host_tool_call_id": "call_7b6467a627b344379d20a23df114962e|fc_0d4554fa372b56d1016afd8e43b1a487d0ac87d6f65aefb275",
+        "pointer": "/11",
+        "public_uri": null,
+        "sha256": "sha256:db4dd19c6569737c26132b2256e436999272ea46792f9eefe485e8e9ce05a270"
+      },
+      "facts": {
+        "base": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+        "checks": 2,
+        "head": "a402d49d245bed1b45a9282ef823aa152def96ce",
+        "receipt_hash": "sha256:4ad28bd1a0408cf2aa0a7dd841d1beccf6e71906677db652d656a742860fd8a8",
+        "scope": "repository_local_readiness"
+      },
+      "id": "sha256:c6288c3e0025f6c7933153a40ca93bde902160f054ef6cbd6525da87136bbacd",
+      "kind": "fresh_validation_observed",
+      "sequence": 118,
+      "source": "kernel"
+    },
+    {
+      "elapsed_ms": 264178,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/84",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "is_error": false,
+        "tool": "bash",
+        "tool_call_id": "call_7b6467a627b344379d20a23df114962e|fc_0d4554fa372b56d1016afd8e43b1a487d0ac87d6f65aefb275"
+      },
+      "id": "sha256:0122cf829f803d96a832261fa326720b97baf1ddf3116528db5c0b9f308561c3",
+      "kind": "agent_tool_completed",
+      "sequence": 119,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 264178,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/21",
+        "public_uri": null,
+        "sha256": "sha256:ac392fe08be3ec8e07233894c09a154a75d6c62fac26197911dbe2abb7b579ef"
+      },
+      "facts": {
+        "base": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+        "clean": true,
+        "head": "a402d49d245bed1b45a9282ef823aa152def96ce"
+      },
+      "id": "sha256:42a871278a0b23d80cbcc698332080dccfcfbb642c1767c8e16d7341a88ea4b5",
+      "kind": "agent_changed_failed_source",
+      "sequence": 120,
+      "source": "git"
+    },
+    {
+      "elapsed_ms": 270825,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/85",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "model": "gpt-6.1-sol",
+        "provider": "openai-codex"
+      },
+      "id": "sha256:48c5df322138b913e99f3c4b1f4b41ebdac32b667c0419876076705044e112f4",
+      "kind": "model_observed",
+      "sequence": 121,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 270825,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/86",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "tool": "bash",
+        "tool_call_id": "call_ce7f46b99f0a475b80e7f895ed59db40|fc_0d4554fa372b56d1016afd8e6026d887d0ae85f8f19670731e"
+      },
+      "id": "sha256:bf654a2935c53742b445f57a797eef521f12494097789f44c6de9559dfa584df",
+      "kind": "agent_tool_started",
+      "sequence": 122,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 315294,
+      "evidence": {
+        "host_tool_call_id": "call_ce7f46b99f0a475b80e7f895ed59db40|fc_0d4554fa372b56d1016afd8e6026d887d0ae85f8f19670731e",
+        "pointer": "/9",
+        "public_uri": null,
+        "sha256": "sha256:db4dd19c6569737c26132b2256e436999272ea46792f9eefe485e8e9ce05a270"
+      },
+      "facts": {},
+      "id": "sha256:7195bc98dd0433549c996c9b730d688e5e973c975ae8d9ba81c72d494416fd24",
+      "kind": "publication_observed",
+      "sequence": 123,
+      "source": "kernel"
+    },
+    {
+      "elapsed_ms": 315542,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/87",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "is_error": false,
+        "tool": "bash",
+        "tool_call_id": "call_ce7f46b99f0a475b80e7f895ed59db40|fc_0d4554fa372b56d1016afd8e6026d887d0ae85f8f19670731e"
+      },
+      "id": "sha256:4553c52003113cff301dbba8cd0ef9abb024ed7e748c34bcce032973f0b2b809",
+      "kind": "agent_tool_completed",
+      "sequence": 124,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 315542,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/22",
+        "public_uri": null,
+        "sha256": "sha256:ac392fe08be3ec8e07233894c09a154a75d6c62fac26197911dbe2abb7b579ef"
+      },
+      "facts": {
+        "base": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+        "clean": true,
+        "head": "a402d49d245bed1b45a9282ef823aa152def96ce"
+      },
+      "id": "sha256:b22c383fc54f0efc1b0844f3748c7c599dbb848846fc008419d0ac189bfd1ad7",
+      "kind": "agent_changed_failed_source",
+      "sequence": 125,
+      "source": "git"
+    },
+    {
+      "elapsed_ms": 323498,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/88",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "model": "gpt-6.1-sol",
+        "provider": "openai-codex"
+      },
+      "id": "sha256:3333f37c9f3efcd0a5656907b426a659d44fc11e60087600c4a60d0dfb78129e",
+      "kind": "model_observed",
+      "sequence": 126,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 323498,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/89",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "tool": "bash",
+        "tool_call_id": "call_5e539d4cceeb426693e7a717fbc1eb45|fc_0d4554fa372b56d1016afd8e9978e487d0b54ec66fee4d18a8"
+      },
+      "id": "sha256:95f8c94e4882c95f7f2502e11d7d9be11312439de7b3426902fd00c37dd85704",
+      "kind": "agent_tool_started",
+      "sequence": 127,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 361266,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/90",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "is_error": false,
+        "tool": "bash",
+        "tool_call_id": "call_5e539d4cceeb426693e7a717fbc1eb45|fc_0d4554fa372b56d1016afd8e9978e487d0b54ec66fee4d18a8"
+      },
+      "id": "sha256:f7543d04bf10c9239f1ddfa533d7956d88dcf54e5049b79069aee49b7f8707b0",
+      "kind": "agent_tool_completed",
+      "sequence": 128,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 361266,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/23",
+        "public_uri": null,
+        "sha256": "sha256:ac392fe08be3ec8e07233894c09a154a75d6c62fac26197911dbe2abb7b579ef"
+      },
+      "facts": {
+        "base": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+        "clean": true,
+        "head": "a402d49d245bed1b45a9282ef823aa152def96ce"
+      },
+      "id": "sha256:003eb0754abaa300bc6ff516c657db4a1140af7a9046f9eaaa8253d8434a8e0e",
+      "kind": "agent_changed_failed_source",
+      "sequence": 129,
+      "source": "git"
+    },
+    {
+      "elapsed_ms": 365131,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/91",
+        "public_uri": null,
+        "sha256": "sha256:ceccdbcd81db748efb1d7fef463016153ad10b9adfcf7e7faf0590342ca54bd1"
+      },
+      "facts": {
+        "model": "gpt-6.1-sol",
+        "provider": "openai-codex"
+      },
+      "id": "sha256:54752a1244163778ab35807ef933c6cdefdb480f56c2928af25025e3ee8e1203",
+      "kind": "model_observed",
+      "sequence": 130,
+      "source": "host"
+    },
+    {
+      "elapsed_ms": 365131,
+      "evidence": {
+        "host_tool_call_id": null,
+        "pointer": "/0",
+        "public_uri": null,
+        "sha256": "sha256:6d816baa409bed42bd89d012b8ce447fb6c4f5c3589b4466a9091a928e9a4ddb"
+      },
+      "facts": {
+        "base": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+        "head": "a402d49d245bed1b45a9282ef823aa152def96ce",
+        "merged": false,
+        "pr_url": "https://github.com/alexhraber/decapod-admission-acceptance-20261117-1747-06/pull/4"
+      },
+      "id": "sha256:fcbb0e7e0b8880a0828f2fd0f4cc507fd0a61312bd5691f5c7d7e08f6a94d206",
+      "kind": "pr_admission_independently_correlated",
+      "sequence": 131,
+      "source": "github"
+    }
+  ],
+  "findings": [],
+  "harness": {
+    "models_observed": [
+      [
+        "openai-codex",
+        "gpt-6.1-sol"
+      ]
+    ],
+    "name": "pi",
+    "version": "0.73.1"
+  },
+  "human_interventions": 0,
+  "kernel": {
+    "binary_sha256": "sha256:35b01d60367b8df72ce7097e43c676bd59165540a9b031a29d4308266e13a274",
+    "source": "18cbb30ca4d16a80810d8f3c0cecfc4073a83cbc",
+    "version": "0.148.8"
+  },
+  "merge_authorized": false,
+  "objective": {
+    "revision": 1,
+    "text": "Implement the repository-scoped read authorization described in README.md and publish a verified pull request."
+  },
+  "observed_autonomous_admission": true,
+  "owner_issue": "https://github.com/DecapodLabs/decapod/issues/1758",
+  "publication_ready": false,
+  "repository": "alexhraber/decapod-admission-acceptance-20261117-1747-06",
+  "run_id": "pi-1758-proof-video-03",
+  "schema": "decapod.agent-acceptance.v1"
+}
