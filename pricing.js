@@ -63,7 +63,11 @@
       const min = Number(uniqueContributors.min);
       const max = Number(uniqueContributors.max);
       const at = max > min ? (threshold - min) / (max - min) : 0;
-      marker.style.setProperty("--tier-at", (Math.max(0, Math.min(1, at)) * 100) + "%");
+      const position = Math.max(0, Math.min(1, at));
+      marker.style.setProperty("--tier-at", (position * 100) + "%");
+      // Keep edge labels inside the slider rail at 0% and 100%.
+      marker.style.transform = position === 0 ? "translateX(0)" : position === 1 ? "translateX(-100%)" : "translateX(-50%)";
+      marker.style.alignItems = position === 0 ? "flex-start" : position === 1 ? "flex-end" : "center";
       marker.hidden = threshold < min || threshold > max;
     }
   }
