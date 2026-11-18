@@ -13,6 +13,11 @@
       "id": "actual-pi-terminal-proof-and-case-study",
       "summary": "Checkpoint redacted live Pi terminal proof video and synchronized case-study films with original soundtrack and logo-b asset, verified browser/media and exact PR evidence.",
       "input_digest": "sha256:cfdf8001ddb1865281a8d011c9fbe33460d576e3fa4b9115691a155c07e6e1f8"
+    },
+    {
+      "id": "review-final-encoded-and-caption-bytes",
+      "summary": "Bind reviews to the exact finalized proof and case-study render, captions and evidence",
+      "input_digest": "sha256:1cc1e53ee2d2f67c5e9c51d356323745d50b9040475183bc3e2a54edca7fdac4"
     }
   ],
   "intents": {
@@ -53,22 +58,22 @@
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/ARCHITECTURE.md",
-          "reason": "Verified a real terminal capture and synchronized case-study data, preserving original audio and scene timing. Reviewed source and output receipts, witness digests and desktop/mobile accessibility.",
-          "reviewed_code_fingerprint": "f2c8eb190693d076cae084fac1ae6e5398687e1504146c498c4336baa970ad9c",
+          "reason": "Re-review final caption, renderer, source and evidence bytes after case study sound preservation and caption cleanup. Full native validation still required after accepted policy.",
+          "reviewed_code_fingerprint": "6bb69cf20cea9c4fb4b05f664140510f5a0e77c0268b6ca83830bcf67a52a004",
           "spec_material_hash": "4ce7ae07e94314e541465848a3233db33c8f4d6158061a9c42f3fb4e6a33b35e"
         },
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/INTERFACES.md",
-          "reason": "Verified a real terminal capture and synchronized case-study data, preserving original audio and scene timing. Reviewed source and output receipts, witness digests and desktop/mobile accessibility.",
-          "reviewed_code_fingerprint": "f2c8eb190693d076cae084fac1ae6e5398687e1504146c498c4336baa970ad9c",
+          "reason": "Re-review final caption, renderer, source and evidence bytes after case study sound preservation and caption cleanup. Full native validation still required after accepted policy.",
+          "reviewed_code_fingerprint": "6bb69cf20cea9c4fb4b05f664140510f5a0e77c0268b6ca83830bcf67a52a004",
           "spec_material_hash": "63a24cc499b970f9b25b5863a74f587153c7add89dc50f01d0e3972d7d71d738"
         },
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/SECURITY.md",
-          "reason": "Verified a real terminal capture and synchronized case-study data, preserving original audio and scene timing. Reviewed source and output receipts, witness digests and desktop/mobile accessibility.",
-          "reviewed_code_fingerprint": "f2c8eb190693d076cae084fac1ae6e5398687e1504146c498c4336baa970ad9c",
+          "reason": "Re-review final caption, renderer, source and evidence bytes after case study sound preservation and caption cleanup. Full native validation still required after accepted policy.",
+          "reviewed_code_fingerprint": "6bb69cf20cea9c4fb4b05f664140510f5a0e77c0268b6ca83830bcf67a52a004",
           "spec_material_hash": "39a6a43d32d1c4c809faddd90a8ac168cc6c68bc00f71ca1efa146c3a49aa5d3"
         }
       ],
@@ -80,7 +85,7 @@
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1795003404Z"
+      "updated_at": "1795003541Z"
     },
     "trajectory": {
       "active_boundaries": [
