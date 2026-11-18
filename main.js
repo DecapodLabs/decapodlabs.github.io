@@ -130,6 +130,18 @@
     }
   });
 
+  const proofVideo = document.getElementById("proofVideo");
+  for (const chapter of document.querySelectorAll("[data-proof-seek]")) {
+    chapter.addEventListener("click", event => {
+      if (!proofVideo || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      const seconds = Number(chapter.dataset.proofSeek);
+      if (!(seconds > 0)) return;
+      event.preventDefault();
+      proofVideo.currentTime = seconds;
+      proofVideo.scrollIntoView({block: "center"});
+      proofVideo.play().catch(() => {});
+    });
+  }
   const revealed = document.querySelectorAll("[data-reveal]");
   if ("IntersectionObserver" in window) {
     const observer = new IntersectionObserver(entries => {

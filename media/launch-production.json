@@ -25,14 +25,14 @@
   "audio": "Original synthesized score; no external samples",
   "scope": "Presentation of a reviewed actual-run export; this configuration grants no admission or merge authority",
   "approved_objective_provenance_sha256": "sha256:969081af362b9ffd09b0f86cf11713e5babb97816d3600250d0b86a5eb814570",
-  "recorded_evidence_directory": "evidence/pi-1758-tui-05",
-  "approved_recorded_manifest_sha256": "sha256:c57df249c2ff945b09bdcb914786068207eee918f79e4caa3d978960dfeb9e35",
-  "approved_recorded_capture_sha256": "sha256:f28317ec028ffd948627e688ad2839611e8f7e27e091ff1b93fe5e864c6fe063",
+  "recorded_evidence_directory": "evidence/pi-1758-tui-06",
+  "approved_recorded_manifest_sha256": "sha256:3b38ca4138d7f33ca8da0f28250f410c9b22f387f9b44794e89fa42d6caed75e",
+  "approved_recorded_capture_sha256": "sha256:5446d0c323f619cea304a9f6297b80a74e8c0158b1107d0accf672e2e5deaf73",
   "original_audio_revision": "8d302f0dbbe639d96e999253c3a4c9ff8c6c45e6",
   "original_audio_sha256": {
     "main": "sha256:4b552898d30fcfb9a2eb717b41db34036ac3c0a3a72f582c880264e79aff5c10",
     "mobile": "sha256:4b552898d30fcfb9a2eb717b41db34036ac3c0a3a72f582c880264e79aff5c10",
     "social": "sha256:454b4a62535fbf1350d7c83943e99b7552ed8ae1da74e0d06a2939230fe3bbaf"
   },
-  "approved_tui_capture_sha256": "sha256:f64f6c7ecc61b7a502f6c8750ad5cffa56f5115904c780870ef051d468e5be5d"
+  "approved_tui_capture_sha256": "sha256:83493835f6f67ed0f51ca1e6d28504f21e4d6216e712d467a993a9b1355bec89"
 }

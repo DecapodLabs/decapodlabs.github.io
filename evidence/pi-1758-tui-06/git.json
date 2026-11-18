@@ -1,0 +1,478 @@
+[
+  {
+    "base": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+    "branch": "agent/pi-1758-tui06/feat_01m7qdtqs007e42m-repo-read",
+    "clean": false,
+    "head": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+    "material_sha256": "sha256:0716cc0483c4bae041143f2eb64c4bdc6a4d3740c457e4a8e556ba435287615c",
+    "private_source": {
+      "scope": "bounded non-atomic tool-boundary Git sample",
+      "sha256": "sha256:9c26ba1c68ac5f58a16ef86038dbdcf24f4f1795f9497323b1fd2cd514f1f59a"
+    },
+    "repository": "alexhraber/decapod-admission-acceptance-20261117-1747-06",
+    "sampled_ns": 1795008882070684000,
+    "tool_call_id": "call_ffd4d1f5d22c48c7ba42d9c17182f29f|fc_0128df61c22bbb81016afda96519c887d0aa02b3c6db8bd9a2"
+  },
+  {
+    "base": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+    "branch": "agent/pi-1758-tui06/feat_01m7qdtqs007e42m-repo-read",
+    "clean": false,
+    "head": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+    "material_sha256": "sha256:0716cc0483c4bae041143f2eb64c4bdc6a4d3740c457e4a8e556ba435287615c",
+    "private_source": {
+      "scope": "bounded non-atomic tool-boundary Git sample",
+      "sha256": "sha256:ccefb88d336e57c50f7f36e312940365276585503a4b5a2947ecfedf3faf4120"
+    },
+    "repository": "alexhraber/decapod-admission-acceptance-20261117-1747-06",
+    "sampled_ns": 1795008913171386000,
+    "tool_call_id": "call_02405e8dd99a4573b018e9c9cccba696|fc_0128df61c22bbb81016afda974657c87d082e30a3c07f55aee"
+  },
+  {
+    "base": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+    "branch": "agent/pi-1758-tui06/feat_01m7qdtqs007e42m-repo-read",
+    "clean": false,
+    "head": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+    "material_sha256": "sha256:0716cc0483c4bae041143f2eb64c4bdc6a4d3740c457e4a8e556ba435287615c",
+    "private_source": {
+      "scope": "bounded non-atomic tool-boundary Git sample",
+      "sha256": "sha256:52a5ab8d299a20a53b6c8fe3348e9a83eae1a6e1a68683b33b3ecf825e7c6449"
+    },
+    "repository": "alexhraber/decapod-admission-acceptance-20261117-1747-06",
+    "sampled_ns": 1795008924280306000,
+    "tool_call_id": "call_ffd87227f38b4c3486b698ce05bf1120|fc_0128df61c22bbb81016afda994453487d0bc870dbec07d62fe"
+  },
+  {
+    "base": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+    "branch": "agent/pi-1758-tui06/feat_01m7qdtqs007e42m-repo-read",
+    "clean": false,
+    "head": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+    "material_sha256": "sha256:0716cc0483c4bae041143f2eb64c4bdc6a4d3740c457e4a8e556ba435287615c",
+    "private_source": {
+      "scope": "bounded non-atomic tool-boundary Git sample",
+      "sha256": "sha256:1494303887cf12b932480a619f8167e3f5ad67790161f02de2ccb0d7e162d3f5"
+    },
+    "repository": "alexhraber/decapod-admission-acceptance-20261117-1747-06",
+    "sampled_ns": 1795008925374838000,
+    "tool_call_id": "call_f5416ad18d82482abf29254e6cccb236|fc_0128df61c22bbb81016afda99835e487d0b1f2d75c31368171"
+  },
+  {
+    "base": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+    "branch": "agent/pi-1758-tui06/feat_01m7qdtqs007e42m-repo-read",
+    "clean": false,
+    "head": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+    "material_sha256": "sha256:0716cc0483c4bae041143f2eb64c4bdc6a4d3740c457e4a8e556ba435287615c",
+    "private_source": {
+      "scope": "bounded non-atomic tool-boundary Git sample",
+      "sha256": "sha256:262f178114f376c5cc70a0e144afd8d952cfbce8bfe7e54d28e2a35359d41830"
+    },
+    "repository": "alexhraber/decapod-admission-acceptance-20261117-1747-06",
+    "sampled_ns": 1795008926289474000,
+    "tool_call_id": "call_c6d35627bf76419eae93c70596d326b9|fc_0128df61c22bbb81016afda99835e487d0995692431d7d31b0"
+  },
+  {
+    "base": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+    "branch": "agent/pi-1758-tui06/feat_01m7qdtqs007e42m-repo-read",
+    "clean": false,
+    "head": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+    "material_sha256": "sha256:0716cc0483c4bae041143f2eb64c4bdc6a4d3740c457e4a8e556ba435287615c",
+    "private_source": {
+      "scope": "bounded non-atomic tool-boundary Git sample",
+      "sha256": "sha256:735f406c9e03bd518c855342bd780650d659fccabf5bed23f9d4c84d81c47d9c"
+    },
+    "repository": "alexhraber/decapod-admission-acceptance-20261117-1747-06",
+    "sampled_ns": 1795008931102575000,
+    "tool_call_id": "call_7f67f127113f4602a793015c2b0f8c2d|fc_0128df61c22bbb81016afda99835e487d0827be538426e27af"
+  },
+  {
+    "base": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+    "branch": "agent/pi-1758-tui06/feat_01m7qdtqs007e42m-repo-read",
+    "clean": false,
+    "head": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+    "material_sha256": "sha256:4bc6084914d8253ad5fd745b2507f4fb86f4c9b3779ea4d0410d69ea21bbe07e",
+    "private_source": {
+      "scope": "bounded non-atomic tool-boundary Git sample",
+      "sha256": "sha256:e50194d7b9b0d47488ea9c04f0ac081a5a55114580a4c6f4a776f8db0652e1fa"
+    },
+    "repository": "alexhraber/decapod-admission-acceptance-20261117-1747-06",
+    "sampled_ns": 1795008957491136000,
+    "tool_call_id": "call_e485f1a95db84192b27a82b7e5edf594|fc_0128df61c22bbb81016afda9a50b1c87d0892e17cf2663c953"
+  },
+  {
+    "base": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+    "branch": "agent/pi-1758-tui06/feat_01m7qdtqs007e42m-repo-read",
+    "clean": false,
+    "head": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+    "material_sha256": "sha256:19e19801218f01e733f77a087400a9ce9b26e00215002b8a9171f97cc05f3fa1",
+    "private_source": {
+      "scope": "bounded non-atomic tool-boundary Git sample",
+      "sha256": "sha256:06866b20a87456b7dc865d792ad54f42fa12bb5a7b6a8559c085aa0b4dceee3c"
+    },
+    "repository": "alexhraber/decapod-admission-acceptance-20261117-1747-06",
+    "sampled_ns": 1795009003426716000,
+    "tool_call_id": "call_f404066493bf4321af867996bbd47fad|fc_0128df61c22bbb81016afda9c1cfe087d0930c52a1174cdb92"
+  },
+  {
+    "base": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+    "branch": "agent/pi-1758-tui06/feat_01m7qdtqs007e42m-repo-read",
+    "clean": false,
+    "head": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+    "material_sha256": "sha256:19e19801218f01e733f77a087400a9ce9b26e00215002b8a9171f97cc05f3fa1",
+    "private_source": {
+      "scope": "bounded non-atomic tool-boundary Git sample",
+      "sha256": "sha256:4ef7d55c9710557e624ad033458d58c33e93da05463af16dee3c3c6a34e830e5"
+    },
+    "repository": "alexhraber/decapod-admission-acceptance-20261117-1747-06",
+    "sampled_ns": 1795009010411353000,
+    "tool_call_id": "call_21a9b628c35846fcaa42f04828f3e563|fc_0128df61c22bbb81016afda9f0258c87d0814916825b18a79e"
+  },
+  {
+    "base": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+    "branch": "agent/pi-1758-tui06/feat_01m7qdtqs007e42m-repo-read",
+    "clean": false,
+    "head": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+    "material_sha256": "sha256:19e19801218f01e733f77a087400a9ce9b26e00215002b8a9171f97cc05f3fa1",
+    "private_source": {
+      "scope": "bounded non-atomic tool-boundary Git sample",
+      "sha256": "sha256:1a432ffb0d4b4a0283ba2a767babfb64800ddc8d5e5621a14c5e95d6f3b05212"
+    },
+    "repository": "alexhraber/decapod-admission-acceptance-20261117-1747-06",
+    "sampled_ns": 1795009016525550000,
+    "tool_call_id": "call_81411a4459454d5fa6af9989b6c23ff2|fc_0128df61c22bbb81016afda9f4ebc087d09a15c8c745bb31fe"
+  },
+  {
+    "base": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+    "branch": "agent/pi-1758-tui06/feat_01m7qdtqs007e42m-repo-read",
+    "clean": true,
+    "head": "e8cee53957ccffc50d651a311a31569a2abb62b0",
+    "material_sha256": "sha256:25b25a107a2ff67085212d5629f591efc933712896060b8cf5775a2e72625d5f",
+    "private_source": {
+      "scope": "bounded non-atomic tool-boundary Git sample",
+      "sha256": "sha256:4708e7c77983711b765676f1bb800b0e0a63b107c19f3576662c111be79f1740"
+    },
+    "repository": "alexhraber/decapod-admission-acceptance-20261117-1747-06",
+    "sampled_ns": 1795009051698185000,
+    "tool_call_id": "call_a3df656da7ea4abcbc52e78d78eb8986|fc_0128df61c22bbb81016afda9fabab087d0862c2f09bd96e4d8"
+  },
+  {
+    "base": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+    "branch": "agent/pi-1758-tui06/feat_01m7qdtqs007e42m-repo-read",
+    "clean": true,
+    "head": "e8cee53957ccffc50d651a311a31569a2abb62b0",
+    "material_sha256": "sha256:25b25a107a2ff67085212d5629f591efc933712896060b8cf5775a2e72625d5f",
+    "private_source": {
+      "scope": "bounded non-atomic tool-boundary Git sample",
+      "sha256": "sha256:b0b1b273140b9dd202306b3b269a974942b4146730ca459cedec6fec40d2a7b3"
+    },
+    "repository": "alexhraber/decapod-admission-acceptance-20261117-1747-06",
+    "sampled_ns": 1795009056195293000,
+    "tool_call_id": "call_b06fb9d6b0394204a2e267c3a6927d0d|fc_0128df61c22bbb81016afdaa1e1ae087d0a187c29c13210189"
+  },
+  {
+    "base": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+    "branch": "agent/pi-1758-tui06/feat_01m7qdtqs007e42m-repo-read",
+    "clean": true,
+    "head": "e8cee53957ccffc50d651a311a31569a2abb62b0",
+    "material_sha256": "sha256:25b25a107a2ff67085212d5629f591efc933712896060b8cf5775a2e72625d5f",
+    "private_source": {
+      "scope": "bounded non-atomic tool-boundary Git sample",
+      "sha256": "sha256:59f85c0267fc392e47752b46f0c597705ffd0ce7313f48b163edfaba9662cdb8"
+    },
+    "repository": "alexhraber/decapod-admission-acceptance-20261117-1747-06",
+    "sampled_ns": 1795009060640742000,
+    "tool_call_id": "call_994f65833dd84e58b1281020d7ff754e|fc_0128df61c22bbb81016afdaa22866487d09a11b2a2214e7899"
+  },
+  {
+    "base": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+    "branch": "agent/pi-1758-tui06/feat_01m7qdtqs007e42m-repo-read",
+    "clean": false,
+    "head": "e8cee53957ccffc50d651a311a31569a2abb62b0",
+    "material_sha256": "sha256:c3b7916bf59ff46b34b2596e0ad6d6ef30b59f4a212504f44e75fc21ffce01bf",
+    "private_source": {
+      "scope": "bounded non-atomic tool-boundary Git sample",
+      "sha256": "sha256:1aa696c0edc3d901772a3c9d3a4460302e6bf90a73229b71e04e5d82b0d69597"
+    },
+    "repository": "alexhraber/decapod-admission-acceptance-20261117-1747-06",
+    "sampled_ns": 1795009069846320000,
+    "tool_call_id": "call_a5a3a963ce5b4c2ebb4dff8c30e4f74c|fc_0128df61c22bbb81016afdaa27ea0487d0b8fc711741526e1b"
+  },
+  {
+    "base": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+    "branch": "agent/pi-1758-tui06/feat_01m7qdtqs007e42m-repo-read",
+    "clean": true,
+    "head": "ed086de6691d92da623febfaa6b411514828440e",
+    "material_sha256": "sha256:25b25a107a2ff67085212d5629f591efc933712896060b8cf5775a2e72625d5f",
+    "private_source": {
+      "scope": "bounded non-atomic tool-boundary Git sample",
+      "sha256": "sha256:9baec1bee486f911e450a3775eb6942d32d53a668e72f0b0d73dba63af5edca9"
+    },
+    "repository": "alexhraber/decapod-admission-acceptance-20261117-1747-06",
+    "sampled_ns": 1795009136941316000,
+    "tool_call_id": "call_a94ed28c95764951b1bd82d59ab8c165|fc_0128df61c22bbb81016afdaa330f0087d0807c8c9dbd5fbd16"
+  },
+  {
+    "base": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+    "branch": "agent/pi-1758-tui06/feat_01m7qdtqs007e42m-repo-read",
+    "clean": true,
+    "head": "ed086de6691d92da623febfaa6b411514828440e",
+    "material_sha256": "sha256:25b25a107a2ff67085212d5629f591efc933712896060b8cf5775a2e72625d5f",
+    "private_source": {
+      "scope": "bounded non-atomic tool-boundary Git sample",
+      "sha256": "sha256:da753f3397f961e9e084585c34da4be2e32f2ceb0ca257be6199ad5a47bf0270"
+    },
+    "repository": "alexhraber/decapod-admission-acceptance-20261117-1747-06",
+    "sampled_ns": 1795009141522974000,
+    "tool_call_id": "call_1e5b838e3a7a47278e409db64bbb254c|fc_0128df61c22bbb81016afdaa7370c887d0b17347db80a7fc44"
+  },
+  {
+    "base": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+    "branch": "agent/pi-1758-tui06/feat_01m7qdtqs007e42m-repo-read",
+    "clean": true,
+    "head": "ed086de6691d92da623febfaa6b411514828440e",
+    "material_sha256": "sha256:25b25a107a2ff67085212d5629f591efc933712896060b8cf5775a2e72625d5f",
+    "private_source": {
+      "scope": "bounded non-atomic tool-boundary Git sample",
+      "sha256": "sha256:6d892d2c35d14cc2414795a3936639e89571c94600b8f6f569651fe94d782cf7"
+    },
+    "repository": "alexhraber/decapod-admission-acceptance-20261117-1747-06",
+    "sampled_ns": 1795009148113390000,
+    "tool_call_id": "call_551b0eb66b614e718b71678f35463a3d|fc_0128df61c22bbb81016afdaa7a213087d09cf8182b71d7f0b9"
+  },
+  {
+    "base": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+    "branch": "agent/pi-1758-tui06/feat_01m7qdtqs007e42m-repo-read",
+    "clean": true,
+    "head": "ed086de6691d92da623febfaa6b411514828440e",
+    "material_sha256": "sha256:25b25a107a2ff67085212d5629f591efc933712896060b8cf5775a2e72625d5f",
+    "private_source": {
+      "scope": "bounded non-atomic tool-boundary Git sample",
+      "sha256": "sha256:31fe235fb5dcfe17731b789a103b9298b3ac12ef6ef1cef3ac720b308208db89"
+    },
+    "repository": "alexhraber/decapod-admission-acceptance-20261117-1747-06",
+    "sampled_ns": 1795009155005900000,
+    "tool_call_id": "call_313476e8258649a58b55f43d20d5faa2|fc_0128df61c22bbb81016afdaa80c80c87d086b6daa6b9c655c7"
+  },
+  {
+    "base": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+    "branch": "agent/pi-1758-tui06/feat_01m7qdtqs007e42m-repo-read",
+    "clean": true,
+    "head": "ed086de6691d92da623febfaa6b411514828440e",
+    "material_sha256": "sha256:25b25a107a2ff67085212d5629f591efc933712896060b8cf5775a2e72625d5f",
+    "private_source": {
+      "scope": "bounded non-atomic tool-boundary Git sample",
+      "sha256": "sha256:c7569389ed1fcd99fec31aa5eb015afb85aa1576b1e1c4b725cbabea825123b8"
+    },
+    "repository": "alexhraber/decapod-admission-acceptance-20261117-1747-06",
+    "sampled_ns": 1795009164516520000,
+    "tool_call_id": "call_f17695d536fc45a991d26e138e3bc4eb|fc_0128df61c22bbb81016afdaa8ac4f087d0a6892ddb9b06364c"
+  },
+  {
+    "base": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+    "branch": "agent/pi-1758-tui06/feat_01m7qdtqs007e42m-repo-read",
+    "clean": true,
+    "head": "ed086de6691d92da623febfaa6b411514828440e",
+    "material_sha256": "sha256:25b25a107a2ff67085212d5629f591efc933712896060b8cf5775a2e72625d5f",
+    "private_source": {
+      "scope": "bounded non-atomic tool-boundary Git sample",
+      "sha256": "sha256:f88721807db13b51661ad68c5963098fad7277e02809d7e26ee62370aa18390f"
+    },
+    "repository": "alexhraber/decapod-admission-acceptance-20261117-1747-06",
+    "sampled_ns": 1795009165360709000,
+    "tool_call_id": "call_a8d0ed65ddd5457889b75509b15001ed|fc_0128df61c22bbb81016afdaa8acb0087d0a52e2ecae8e462c7"
+  },
+  {
+    "base": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+    "branch": "agent/pi-1758-tui06/feat_01m7qdtqs007e42m-repo-read",
+    "clean": false,
+    "head": "ed086de6691d92da623febfaa6b411514828440e",
+    "material_sha256": "sha256:8e6e93c16171dce9790735507c647fc1a29f905b605412d3a8f063b03cfe8b9e",
+    "private_source": {
+      "scope": "bounded non-atomic tool-boundary Git sample",
+      "sha256": "sha256:c4255fccd860ea851f57687aff5edbf08f32196bd402ddf5f1d6b42c55347801"
+    },
+    "repository": "alexhraber/decapod-admission-acceptance-20261117-1747-06",
+    "sampled_ns": 1795009172776245000,
+    "tool_call_id": "call_628899d2a3684f03a93e1e5ed01aae20|fc_0128df61c22bbb81016afdaa8fede887d0a028a1237f266850"
+  },
+  {
+    "base": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+    "branch": "agent/pi-1758-tui06/feat_01m7qdtqs007e42m-repo-read",
+    "clean": false,
+    "head": "ed086de6691d92da623febfaa6b411514828440e",
+    "material_sha256": "sha256:e21ac1659520d6613ae91965ac80be06a20f287c711816c1b8d8da38986c96d3",
+    "private_source": {
+      "scope": "bounded non-atomic tool-boundary Git sample",
+      "sha256": "sha256:e462436a6855f9baf1eea7f4dee4f430ddab78495672542046b18841fe48a1bb"
+    },
+    "repository": "alexhraber/decapod-admission-acceptance-20261117-1747-06",
+    "sampled_ns": 1795009190143613000,
+    "tool_call_id": "call_dabb093838ce4eb09ee89277b1439ff8|fc_0128df61c22bbb81016afdaaa32e4087d0a1a7f43f328acdcd"
+  },
+  {
+    "base": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+    "branch": "agent/pi-1758-tui06/feat_01m7qdtqs007e42m-repo-read",
+    "clean": false,
+    "head": "ed086de6691d92da623febfaa6b411514828440e",
+    "material_sha256": "sha256:e21ac1659520d6613ae91965ac80be06a20f287c711816c1b8d8da38986c96d3",
+    "private_source": {
+      "scope": "bounded non-atomic tool-boundary Git sample",
+      "sha256": "sha256:bf56e47b5a3af55e20356450a99b55d436ffec55479939ed4ff8a7e110b32157"
+    },
+    "repository": "alexhraber/decapod-admission-acceptance-20261117-1747-06",
+    "sampled_ns": 1795009191045691000,
+    "tool_call_id": "call_c30494ace1b94240bcbbbc96fc079436|fc_0128df61c22bbb81016afdaaa32e4087d0a904a6bd7c1e4e7f"
+  },
+  {
+    "base": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+    "branch": "agent/pi-1758-tui06/feat_01m7qdtqs007e42m-repo-read",
+    "clean": false,
+    "head": "ed086de6691d92da623febfaa6b411514828440e",
+    "material_sha256": "sha256:e21ac1659520d6613ae91965ac80be06a20f287c711816c1b8d8da38986c96d3",
+    "private_source": {
+      "scope": "bounded non-atomic tool-boundary Git sample",
+      "sha256": "sha256:180abe5dfcf0f9e1f348e52d6375dd86aa3f91be214006badea2d3656521a1d3"
+    },
+    "repository": "alexhraber/decapod-admission-acceptance-20261117-1747-06",
+    "sampled_ns": 1795009191844785000,
+    "tool_call_id": "call_1659c7e284ea4d1d834fa62a447fa774|fc_0128df61c22bbb81016afdaa97a91c87d0b43d099c704759b0"
+  },
+  {
+    "base": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+    "branch": "agent/pi-1758-tui06/feat_01m7qdtqs007e42m-repo-read",
+    "clean": true,
+    "head": "d2dafbe241283fc3ba1e11143c4fe5b48ccba0d6",
+    "material_sha256": "sha256:25b25a107a2ff67085212d5629f591efc933712896060b8cf5775a2e72625d5f",
+    "private_source": {
+      "scope": "bounded non-atomic tool-boundary Git sample",
+      "sha256": "sha256:28049018816877fa180a9d13d98d32786494a320d9bbcfcf129702257214db4d"
+    },
+    "repository": "alexhraber/decapod-admission-acceptance-20261117-1747-06",
+    "sampled_ns": 1795009240298903000,
+    "tool_call_id": "call_983633a0908844da9e70219d6f5861da|fc_0128df61c22bbb81016afdaaac737887d0bd81042ddbec22bd"
+  },
+  {
+    "base": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+    "branch": "agent/pi-1758-tui06/feat_01m7qdtqs007e42m-repo-read",
+    "clean": true,
+    "head": "d2dafbe241283fc3ba1e11143c4fe5b48ccba0d6",
+    "material_sha256": "sha256:25b25a107a2ff67085212d5629f591efc933712896060b8cf5775a2e72625d5f",
+    "private_source": {
+      "scope": "bounded non-atomic tool-boundary Git sample",
+      "sha256": "sha256:496c3a76b514c23fb4688906d425521ce91241dbff463fb995e12cb5b2f01251"
+    },
+    "repository": "alexhraber/decapod-admission-acceptance-20261117-1747-06",
+    "sampled_ns": 1795009244661653000,
+    "tool_call_id": "call_7439a16fbc854c60aac44ca6e9995e1a|fc_0128df61c22bbb81016afdaadaaa8c87d0ab763da3b8ae9cd4"
+  },
+  {
+    "base": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+    "branch": "agent/pi-1758-tui06/feat_01m7qdtqs007e42m-repo-read",
+    "clean": false,
+    "head": "d2dafbe241283fc3ba1e11143c4fe5b48ccba0d6",
+    "material_sha256": "sha256:a4dbf0662f6d6358c1c1881a794817263a741215e6377dc8bd9ed2d253680bd9",
+    "private_source": {
+      "scope": "bounded non-atomic tool-boundary Git sample",
+      "sha256": "sha256:167ea954d44b78eb2ceb5fae754269ad00710ef11bbea4149b15035c59a4e854"
+    },
+    "repository": "alexhraber/decapod-admission-acceptance-20261117-1747-06",
+    "sampled_ns": 1795009263878470000,
+    "tool_call_id": "call_f58a7855d2c643e5981e4a6d2aebcf59|fc_0128df61c22bbb81016afdaae0e6ec87d0ac5e577d1d5f5bee"
+  },
+  {
+    "base": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+    "branch": "agent/pi-1758-tui06/feat_01m7qdtqs007e42m-repo-read",
+    "clean": true,
+    "head": "6b12bb31b3830e579697f60f25e549dc16b71caa",
+    "material_sha256": "sha256:25b25a107a2ff67085212d5629f591efc933712896060b8cf5775a2e72625d5f",
+    "private_source": {
+      "scope": "bounded non-atomic tool-boundary Git sample",
+      "sha256": "sha256:fefad8c851e1d5c068deb2491752600a99f54311eccbb2a6e043c3b0f16d48ab"
+    },
+    "repository": "alexhraber/decapod-admission-acceptance-20261117-1747-06",
+    "sampled_ns": 1795009306616144000,
+    "tool_call_id": "call_bfd70fbc514c4459bb7ebb908440167c|fc_0128df61c22bbb81016afdaaf40a6487d0bdd71ea27f6c0163"
+  },
+  {
+    "base": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+    "branch": "agent/pi-1758-tui06/feat_01m7qdtqs007e42m-repo-read",
+    "clean": true,
+    "head": "6b12bb31b3830e579697f60f25e549dc16b71caa",
+    "material_sha256": "sha256:25b25a107a2ff67085212d5629f591efc933712896060b8cf5775a2e72625d5f",
+    "private_source": {
+      "scope": "bounded non-atomic tool-boundary Git sample",
+      "sha256": "sha256:a452c19586f34ed39cdcf86913521ca1331e090fef1518fcf705938521012088"
+    },
+    "repository": "alexhraber/decapod-admission-acceptance-20261117-1747-06",
+    "sampled_ns": 1795009310700864000,
+    "tool_call_id": "call_baac54e92fa8452186d554d75e6dcd08|fc_0128df61c22bbb81016afdab1d130487d0a5c8c6bc3a392b39"
+  },
+  {
+    "base": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+    "branch": "agent/pi-1758-tui06/feat_01m7qdtqs007e42m-repo-read",
+    "clean": true,
+    "head": "6b12bb31b3830e579697f60f25e549dc16b71caa",
+    "material_sha256": "sha256:25b25a107a2ff67085212d5629f591efc933712896060b8cf5775a2e72625d5f",
+    "private_source": {
+      "scope": "bounded non-atomic tool-boundary Git sample",
+      "sha256": "sha256:f7251dbd9498e46ef0e60aacdadf96efcbb99c770eb3d8a1d2c8fa63fd220618"
+    },
+    "repository": "alexhraber/decapod-admission-acceptance-20261117-1747-06",
+    "sampled_ns": 1795009314673333000,
+    "tool_call_id": "call_e5320f64fbd9481fa06c356bbef6d5b5|fc_0128df61c22bbb81016afdab20aed887d0b997cc527a64261a"
+  },
+  {
+    "base": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+    "branch": "agent/pi-1758-tui06/feat_01m7qdtqs007e42m-repo-read",
+    "clean": true,
+    "head": "a063de9040c458204eace1929d1e8536ad048a88",
+    "material_sha256": "sha256:25b25a107a2ff67085212d5629f591efc933712896060b8cf5775a2e72625d5f",
+    "private_source": {
+      "scope": "bounded non-atomic tool-boundary Git sample",
+      "sha256": "sha256:47619d05dabc03b8fb44d84881ade4c825241fb43030786f35b8490bfb6c92ea"
+    },
+    "repository": "alexhraber/decapod-admission-acceptance-20261117-1747-06",
+    "sampled_ns": 1795009371827622000,
+    "tool_call_id": "call_ab203f4c4a4b45b89c5687312888e0c9|fc_0128df61c22bbb81016afdab25a84087d09f787da440d29605"
+  },
+  {
+    "base": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+    "branch": "agent/pi-1758-tui06/feat_01m7qdtqs007e42m-repo-read",
+    "clean": true,
+    "head": "a063de9040c458204eace1929d1e8536ad048a88",
+    "material_sha256": "sha256:25b25a107a2ff67085212d5629f591efc933712896060b8cf5775a2e72625d5f",
+    "private_source": {
+      "scope": "bounded non-atomic tool-boundary Git sample",
+      "sha256": "sha256:70fc7c0722377e96b4ecc7d16096c8692847b24c5c5c29265f7b98d8390400c3"
+    },
+    "repository": "alexhraber/decapod-admission-acceptance-20261117-1747-06",
+    "sampled_ns": 1795009378038542000,
+    "tool_call_id": "call_0b12ffe45dd140dd993428a439923281|fc_0128df61c22bbb81016afdab5e870887d0b08e7ac220a06273"
+  },
+  {
+    "base": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+    "branch": "agent/pi-1758-tui06/feat_01m7qdtqs007e42m-repo-read",
+    "clean": true,
+    "head": "a063de9040c458204eace1929d1e8536ad048a88",
+    "material_sha256": "sha256:25b25a107a2ff67085212d5629f591efc933712896060b8cf5775a2e72625d5f",
+    "private_source": {
+      "scope": "bounded non-atomic tool-boundary Git sample",
+      "sha256": "sha256:f688ceb629aaea6392d7c1e6de9c206fac4df0bf31e96f372bc3df1ecd8c7901"
+    },
+    "repository": "alexhraber/decapod-admission-acceptance-20261117-1747-06",
+    "sampled_ns": 1795009516057345000,
+    "tool_call_id": "call_61759da8f02846f580be5d070fe97553|fc_0128df61c22bbb81016afdab65eac487d0a89d1e329579011a"
+  },
+  {
+    "base": "ada3eb89c3707801a5b86265dccc899fdabe5e1c",
+    "branch": "agent/pi-1758-tui06/feat_01m7qdtqs007e42m-repo-read",
+    "clean": true,
+    "head": "a063de9040c458204eace1929d1e8536ad048a88",
+    "material_sha256": "sha256:25b25a107a2ff67085212d5629f591efc933712896060b8cf5775a2e72625d5f",
+    "private_source": {
+      "scope": "bounded non-atomic tool-boundary Git sample",
+      "sha256": "sha256:f1440c35e088d8996b7d214371aa3a04b650713f2fd3ca78877beed1c9409cf8"
+    },
+    "repository": "alexhraber/decapod-admission-acceptance-20261117-1747-06",
+    "sampled_ns": 1795009519822910000,
+    "tool_call_id": "call_f109eafec0254902a9217cf230b80a23|fc_0128df61c22bbb81016afdabeebc0087d088e508f2ca710946"
+  }
+]

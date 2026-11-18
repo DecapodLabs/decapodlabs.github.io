@@ -389,4 +389,9 @@ html{scroll-padding-top:120px}
  .nav-links a[href="/pricing.html"]{padding:7px 8px}
 }
 
-.launch-player.proof-player video{aspect-ratio:120/77}
+.launch-player.proof-player video{aspect-ratio:48/29;background:#11151a}
+.proof-chapters{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:14px}
+.proof-chapters a{display:flex;align-items:center;gap:12px;min-height:48px;padding:10px 14px;border:1px solid #5e5059;border-radius:8px;color:#fff5eb;font-size:clamp(12px,1.35vw,16px);font-weight:700;text-decoration:none;background:#302731}
+.proof-chapters a:hover,.proof-chapters a:focus-visible{border-color:#ff9479;background:#3d303a}
+.proof-chapters time{color:#ffad98;font:inherit;font-variant-numeric:tabular-nums}
+@media(max-width:600px){.proof-chapters{grid-template-columns:1fr;gap:6px}.proof-chapters a{min-height:42px}}

@@ -72,6 +72,10 @@ The site owner authorized publication of the actual Pi TUI at /#proofs. The acce
 
 Decapod denied website readiness for the initial 22.8 MB proof MP4 with the snapshot Git output limit. The publishable movie encodes the same masked 1440 × 924 compositor frames with H.264 rate control. Timing, captions, case study, accepted inventory, and artifact identity evidence are unchanged. Decapod binds fresh website readiness to the final encoded bytes.
 
+## High-contrast Pi recording and chapter links
+
+The fresh Pi run made 43 real tool calls with one objective and zero follow-up inputs. The observer correlates 173 events. The rejected candidate ed086de6691d92da623febfaa6b411514828440e failed the real authorization assertion. Decapod and independent forge readback bind final PR #7 to the repaired commit and target. The offline gate validates the chronological clip ranges, matching receipt and release hashes. The maintainer-authorized accepted target pins the exact updated verification-source inventory at 6c85173a811c3670e5c18b0baabb7a80f009608d.
+
 <!-- decapod:capability-overlay:background-processing:start -->
 
 Generated capability obligations: `background-processing` is declared for this project. These are decisions and proof requirements, not claims of implemented behavior. Resolve each against project source and tests; record unsupported or non-applicable mechanisms explicitly.
@@ -138,7 +142,7 @@ Generated capability obligations: `public-api` is declared for this project. The
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `abfc871112e7bb630d611fdc4d681dd1f905dc47c665ba592e5fc97f95764a4d`
-- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `evidence/` (3 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files)
+- Repository signal fingerprint: `b388ed7433f724e836814b3825d99c3db7a53eb560635e8956698ee6989b31e4`
+- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->

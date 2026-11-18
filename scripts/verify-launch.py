@@ -72,7 +72,7 @@ def verify_proof_video(assets):
  poster = assets/'decapod-proof-poster.png'
  assert sha(captions) == report['captions_sha256'] and sha(poster) == report['poster_sha256']
  with Image.open(poster) as image:
-  assert image.size == (1440, 924) and image.mode == 'RGB'
+  assert image.size == (output['width'], output['height']) and image.mode == 'RGB'
  cues = re.findall(r'(\d\d:\d\d:\d\d\.\d{3}) --> (\d\d:\d\d:\d\d\.\d{3})', captions.read_text())
  assert captions.read_text().startswith('WEBVTT\n') and len(cues) >= 5
  previous = 0
@@ -80,11 +80,11 @@ def verify_proof_video(assets):
   assert seconds(begin) >= previous and seconds(end) > seconds(begin)
   previous = seconds(end)
  path = assets/output['file']
- assert sha(path) == output['sha256'] and 100_000 < path.stat().st_size < 80*1024*1024
+ assert sha(path) == output['sha256'] and 100_000 < path.stat().st_size < 16*1024*1024
  meta = json.loads(subprocess.check_output(['ffprobe','-v','error','-show_format','-show_streams','-of','json',str(path)]))
  video, = meta['streams']
  assert video['codec_type'] == 'video' and video['codec_name'] == 'h264' and video['pix_fmt'] == 'yuv420p'
- assert (video['width'], video['height']) == (1440, 924) == (output['width'], output['height'])
+ assert (video['width'], video['height']) == (1920, 1160) == (output['width'], output['height'])
  duration = float(meta['format']['duration'])
  assert abs(duration * 1000 - output['duration_ms']) < 100 and duration >= previous
  subprocess.run(['ffmpeg','-v','error','-i',str(path),'-f','null','-'],check=True)
