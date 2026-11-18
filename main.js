@@ -142,6 +142,89 @@
       proofVideo.play().catch(() => {});
     });
   }
+  // Three separate Ghostty / Antigravity CLI swarms, presented as an inspectable stack.
+  const swarm = document.querySelector("[data-swarm-carousel]");
+  if (swarm) {
+    const deck = swarm.querySelector(".swarm-deck");
+    const cards = Array.from(swarm.querySelectorAll("[data-swarm-slide]"));
+    const dots = Array.from(swarm.querySelectorAll("[data-swarm-go]"));
+    const counter = swarm.querySelector("[data-swarm-number]");
+    const label = swarm.querySelector("[data-swarm-label]");
+    const title = swarm.querySelector("[data-swarm-title]");
+    const body = swarm.querySelector("[data-swarm-body]");
+    const full = swarm.querySelector("[data-swarm-full]");
+    const slides = [
+      {label:"DECAPOD KERNEL",title:"Issues in motion.",body:"Parallel issue work, revalidation after upstream merges, and independent verification."},
+      {label:"DECAPOD DELIVERY",title:"Checks before merges.",body:"Review, governed publication, and merge coordination across multiple active issues."},
+      {label:"PROPODUS DELIVERY",title:"Product work ships.",body:"Billing, identity, limits, and deployment work moving in parallel with validation and review."}
+    ];
+    let current = 0;
+    let wheelAt = 0;
+    let touchStart = null;
+    let suppressClickUntil = 0;
+    function renderSwarm(next) {
+      current = (next + cards.length) % cards.length;
+      cards.forEach((card, i) => {
+        const position = (i - current + cards.length) % cards.length;
+        card.classList.toggle("is-active", position === 0);
+        card.classList.toggle("is-next", position === 1);
+        card.classList.toggle("is-prev", position === 2);
+        card.setAttribute("aria-hidden", String(position !== 0));
+        card.tabIndex = position === 0 ? 0 : -1;
+      });
+      dots.forEach((dot, i) => {
+        dot.classList.toggle("is-active", i === current);
+        dot.setAttribute("aria-pressed", String(i === current));
+      });
+      counter.textContent = String(current + 1).padStart(2, "0") + " / 03";
+      label.textContent = slides[current].label;
+      title.textContent = slides[current].title;
+      body.textContent = slides[current].body;
+      full.href = cards[current].href;
+    }
+    swarm.classList.add("is-enhanced");
+    renderSwarm(0);
+    swarm.querySelector("[data-swarm-prev]")?.addEventListener("click", () => renderSwarm(current - 1));
+    swarm.querySelector("[data-swarm-next]")?.addEventListener("click", () => renderSwarm(current + 1));
+    dots.forEach((dot, i) => dot.addEventListener("click", () => renderSwarm(i)));
+    cards.forEach((card, i) => card.addEventListener("click", event => {
+      if (Date.now() < suppressClickUntil || current !== i) {
+        event.preventDefault();
+        if (Date.now() >= suppressClickUntil) renderSwarm(i);
+      }
+    }));
+    deck.addEventListener("keydown", event => {
+      if (event.key === "ArrowRight") { event.preventDefault(); renderSwarm(current + 1); }
+      if (event.key === "ArrowLeft") { event.preventDefault(); renderSwarm(current - 1); }
+      if (event.key === "Home") { event.preventDefault(); renderSwarm(0); }
+      if (event.key === "End") { event.preventDefault(); renderSwarm(cards.length - 1); }
+    });
+    deck.addEventListener("wheel", event => {
+      if (Math.abs(event.deltaY) < 8 || Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;
+      const next = current + (event.deltaY > 0 ? 1 : -1);
+      // Release scrolling at either end; never trap the visitor inside the carousel.
+      if (next < 0 || next >= cards.length) return;
+      event.preventDefault();
+      const now = Date.now();
+      if (now - wheelAt < 480) return;
+      wheelAt = now;
+      renderSwarm(next);
+    }, {passive:false});
+    deck.addEventListener("touchstart", event => {
+      if (event.touches.length !== 1) return;
+      touchStart = {x:event.touches[0].clientX,y:event.touches[0].clientY};
+    }, {passive:true});
+    deck.addEventListener("touchend", event => {
+      if (!touchStart || !event.changedTouches.length) return;
+      const dx = event.changedTouches[0].clientX - touchStart.x;
+      const dy = event.changedTouches[0].clientY - touchStart.y;
+      touchStart = null;
+      if (Math.abs(dx) < 45 || Math.abs(dx) < Math.abs(dy) * 1.3) return;
+      suppressClickUntil = Date.now() + 380;
+      renderSwarm(current + (dx < 0 ? 1 : -1));
+    }, {passive:true});
+  }
+
   const revealed = document.querySelectorAll("[data-reveal]");
   if ("IntersectionObserver" in window) {
     const observer = new IntersectionObserver(entries => {

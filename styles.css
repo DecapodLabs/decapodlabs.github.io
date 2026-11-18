@@ -397,26 +397,39 @@ html{scroll-padding-top:120px}
 @media(max-width:600px){.proof-chapters{grid-template-columns:1fr;gap:6px}.proof-chapters a{min-height:42px}}
 
 
-/* Real, ongoing multi-agent work — three original Herdr board captures. */
+/* Concurrent Carbon/Hydrogen swarms — three actual Ghostty + Antigravity CLI sessions. */
 .swarm-section{padding:105px 0 110px;background:#211722;color:#fff8ed}
-.swarm-heading{display:grid;grid-template-columns:1.05fr .95fr;align-items:end;gap:70px;margin-bottom:42px}
+.swarm-heading{display:grid;grid-template-columns:1.05fr .95fr;align-items:end;gap:70px;margin-bottom:43px}
 .swarm-heading .capabilities-kicker{color:#ffae92}
 .swarm-heading h2{font-family:"Outfit",sans-serif;font-size:clamp(54px,6.5vw,94px);line-height:1.01;letter-spacing:-.065em;margin:16px 0 0}
 .swarm-heading h2 span{color:var(--orange2)}
-.swarm-intro p{font-size:18px;line-height:1.58;color:#e1d5d4;margin:0 0 14px;max-width:530px}
-.swarm-intro p:last-child{margin-bottom:3px;color:#ffbea7;font-weight:650}
-.swarm-gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
-.swarm-shot{min-width:0;margin:0;background:#302630;border:1px solid #5b4552;border-radius:18px;overflow:hidden;display:flex;flex-direction:column}
-.swarm-image-link{display:block;overflow:hidden;background:#101419;border-bottom:1px solid #5b4552}
-.swarm-image-link img{display:block;width:100%;height:auto;aspect-ratio:2048 / 1323;object-fit:contain;transition:transform .2s}
-.swarm-image-link:hover img{transform:scale(1.02)}
-.swarm-shot figcaption{display:flex;flex-direction:column;align-items:flex-start;flex:1;padding:22px 22px 24px}
-.swarm-index{color:#ffad94;font-size:11px;font-weight:800;letter-spacing:.13em}
-.swarm-shot h3{font-family:"Outfit",sans-serif;font-size:clamp(23px,2.3vw,30px);letter-spacing:-.045em;line-height:1.1;margin:12px 0 10px}
-.swarm-shot figcaption p{font-size:15px;line-height:1.55;color:#d6c6ce;margin:0 0 21px}
-.swarm-shot figcaption a{font-size:13px;font-weight:750;color:#ffd0b5;text-underline-offset:4px;margin-top:auto}
-.swarm-note{font-size:13px;line-height:1.6;color:#c0b2ba;margin:26px 0 0;max-width:1050px}
-.swarm-note a{color:#ffbe9e;font-weight:700;text-underline-offset:4px}
-.swarm-section a:focus-visible{outline:3px solid var(--orange2);outline-offset:4px}
-@media(max-width:1050px){.swarm-heading{grid-template-columns:1fr;gap:24px}.swarm-heading h2{font-size:clamp(54px,9vw,83px)}.swarm-intro p{max-width:780px}.swarm-gallery{grid-template-columns:1fr}.swarm-shot h3{font-size:28px}}
-@media(max-width:600px){.swarm-section{padding:68px 0 75px}.swarm-heading{margin-bottom:28px}.swarm-heading h2{font-size:clamp(43px,11vw,62px)}.swarm-intro p{font-size:16px}.swarm-shot figcaption{padding:20px}.swarm-note{font-size:12px}}
+.swarm-intro{font-size:19px;line-height:1.6;color:#e1d5d4;margin:0 0 4px;max-width:530px}
+.swarm-stage{position:relative;padding:0 clamp(36px,8vw,110px)}
+.swarm-deck{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.swarm-slide{display:block;background:#11161b;border:1px solid #67525d;border-radius:15px;overflow:hidden;box-shadow:0 20px 48px #0005}
+.swarm-slide img{display:block;width:100%;height:auto;aspect-ratio:2048/1323;object-fit:contain}
+.swarm-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:5;display:none;place-items:center;width:50px;height:50px;border:1px solid #685461;background:#302630;color:#fff8ed;border-radius:50%;font-size:25px;cursor:pointer;transition:background .15s}
+.swarm-arrow:hover{background:#493544}
+.swarm-prev{left:9px}.swarm-next{right:9px}
+.swarm-carousel.is-enhanced .swarm-arrow{display:grid}
+.swarm-carousel.is-enhanced .swarm-deck{display:block;position:relative;aspect-ratio:2048/1323;isolation:isolate;touch-action:pan-y}
+.swarm-carousel.is-enhanced .swarm-slide{position:absolute;inset:0;transform-origin:center;transition:transform .42s cubic-bezier(.2,.73,.22,1),opacity .42s,filter .42s;cursor:pointer}
+.swarm-carousel.is-enhanced .swarm-slide.is-active{z-index:3;transform:translate(0,0) scale(1);opacity:1;filter:none}
+.swarm-carousel.is-enhanced .swarm-slide.is-next{z-index:2;transform:translate(11%,12px) scale(.9);opacity:.88;filter:brightness(.74)}
+.swarm-carousel.is-enhanced .swarm-slide.is-prev{z-index:1;transform:translate(-12%,22px) scale(.88);opacity:.68;filter:brightness(.68)}
+.swarm-carousel.is-enhanced .swarm-slide:not(.is-active) img{pointer-events:none}
+.swarm-carousel.is-enhanced .swarm-slide img{width:100%;height:100%}
+.swarm-detail{display:flex;justify-content:space-between;align-items:end;gap:30px;max-width:1210px;margin:26px auto 0;padding:25px 28px;background:#302630;border:1px solid #5b4552;border-radius:16px}
+.swarm-detail-eyebrow{display:flex;gap:14px;flex-wrap:wrap;color:#ffad94;font-size:11px;font-weight:850;letter-spacing:.12em}
+.swarm-detail h3{font-family:"Outfit",sans-serif;font-size:clamp(27px,2.5vw,36px);letter-spacing:-.045em;line-height:1.12;margin:11px 0 10px}
+.swarm-detail p{font-size:16px;line-height:1.55;color:#d6c6ce;margin:0;max-width:790px}
+.swarm-detail-actions{display:flex;flex-direction:column;align-items:flex-end;gap:20px;flex-shrink:0}
+.swarm-dots{display:flex;align-items:center;gap:9px}
+.swarm-dots button{width:12px;height:12px;padding:0;border-radius:50%;border:1px solid #977e8d;background:#695764;cursor:pointer}
+.swarm-dots button.is-active{background:var(--orange2);border-color:var(--orange2)}
+.swarm-detail-actions a{font-size:13px;font-weight:800;color:#ffd0b5;text-underline-offset:4px;white-space:nowrap}
+.swarm-note{max-width:1050px;font-size:13px;line-height:1.6;color:#c0b2ba;margin:24px auto 0;text-align:center}
+.swarm-section a:focus-visible,.swarm-section button:focus-visible,.swarm-deck:focus-visible{outline:3px solid var(--orange2);outline-offset:5px}
+@media(max-width:900px){.swarm-heading{grid-template-columns:1fr;gap:21px}.swarm-heading h2{font-size:clamp(50px,9vw,78px)}.swarm-intro{max-width:720px}.swarm-stage{padding:0 54px}.swarm-detail{margin-top:19px}}
+@media(max-width:600px){.swarm-section{padding:68px 0 76px}.swarm-heading{margin-bottom:27px}.swarm-heading h2{font-size:clamp(43px,11vw,62px)}.swarm-intro{font-size:16px}.swarm-stage{padding:0 26px}.swarm-carousel.is-enhanced .swarm-arrow{display:none}.swarm-carousel.is-enhanced .swarm-slide.is-next{transform:translate(9%,7px) scale(.93)}.swarm-carousel.is-enhanced .swarm-slide.is-prev{transform:translate(-9%,13px) scale(.91)}.swarm-detail{flex-direction:column;align-items:stretch;gap:17px;padding:20px}.swarm-detail-actions{flex-direction:row;justify-content:space-between;align-items:center;width:100%}.swarm-detail-actions a{font-size:12px}.swarm-note{font-size:12px;text-align:left}}
+@media(prefers-reduced-motion:reduce){.swarm-carousel.is-enhanced .swarm-slide{transition:none}}
