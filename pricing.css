@@ -189,3 +189,86 @@
  .plan-annual{margin-top:0}
  .resource-billing-note{padding:19px}
 }
+
+/* Launch-ready product layout; reveal treatment is limited to unreleased pricing. */
+.pricing-hero-grid{grid-template-columns:minmax(0,1.65fr) minmax(250px,.65fr)}
+.mode-status{display:grid;gap:12px;border-top:1px solid #e0c6bb;padding-top:17px}
+.mode-status span{display:flex;align-items:center;gap:10px;color:#59464f;font-size:12px;font-weight:800}
+.mode-status i{display:inline-block;flex:0 0 9px;width:9px;height:9px;border-radius:50%;background:#39a575;box-shadow:0 0 0 4px #39a57526}
+.mode-status span:last-child i{background:#f0a457;box-shadow:0 0 0 4px #f0a4572a}
+.pricing-plan-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+.pricing-plan{padding:clamp(25px,2.7vw,39px)}
+.pricing-plan h2{font-size:clamp(27px,2.9vw,39px)}
+.pricing-plan-top{margin-bottom:28px}
+.pricing-plan-cloud{overflow:hidden}
+.pricing-plan-custom{background:#27202c;color:#fff7ef;border-color:#5b4654}
+.pricing-plan-custom .plan-index,.pricing-plan-custom .plan-subtitle,.pricing-plan-custom .plan-fineprint{color:#d2bcc9}
+.pricing-plan-custom .plan-bullets li::before{color:#ffb785}
+.custom-status{color:#542f2d;background:#ffdbaf}
+.custom-plan-mark{min-height:112px;display:flex;flex-direction:column;justify-content:center;border-radius:14px;margin:14px 0 25px;padding:20px 22px;background:linear-gradient(130deg,#3e3045,#29212f);border:1px solid #725967}
+.custom-plan-mark span{font-size:12px;letter-spacing:.13em;font-weight:900;color:#edb68d}
+.custom-plan-mark strong{font:700 clamp(28px,2.65vw,39px) "Space Grotesk",sans-serif;letter-spacing:-.05em}
+.plan-link-custom{background:#f6a474;color:#2c2027}
+.plan-link-custom:hover{background:#ffbd8f;color:#251923}
+.price-reveal,.preview-price-veil{position:relative;overflow:hidden;isolation:isolate;border:1px solid #dba797;border-radius:17px;background:linear-gradient(115deg,#f4c3a9 5%,#fff4de 55%,#edb8a4 100%);display:grid;place-items:center}
+.price-reveal{min-height:119px;margin:15px 0 25px}
+.preview-price-veil{min-height:104px;width:100%;margin:10px 0}
+.price-ghost{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:10px;opacity:.3;filter:blur(7px);transform:rotate(-3deg)}
+.price-ghost i{width:42px;height:46px;background:#8d6669;border-radius:9px}
+.price-ghost i:nth-child(2){width:19px}
+.price-ghost i:nth-child(3){width:33px}
+.price-sheet{z-index:1;display:flex;align-items:center;justify-content:center;gap:12px;padding:13px 20px;max-width:92%;min-width:0;border:1px dashed #b26e55;background:#fffaf1;border-radius:13px;box-shadow:0 5px 0 #e2a98d;transform:rotate(-2deg);position:relative}
+.price-sheet::after{content:"";position:absolute;right:-1px;top:-1px;width:18px;height:18px;border-radius:0 12px 0 4px;background:linear-gradient(135deg,#f9dfc3 50%,#fffaf1 50%)}
+.hat-art{flex:none;width:40px;height:40px;color:#dd6c41}
+.price-sheet strong{display:block;font:900 13px "Space Grotesk",sans-serif;letter-spacing:.08em;color:#3c2530;line-height:1.2}
+.price-sheet small{display:block;font-size:12px;font-weight:700;color:#9f624c;margin-top:4px}
+.pricing-page [hidden]{display:none!important}
+.preview-custom-trigger{display:inline-flex;gap:6px;align-self:start;align-items:center;cursor:pointer;font-size:12px;font-weight:700;line-height:1.5;background:none;border:0;color:#d9becb;padding:4px 0;text-align:left;margin:0}
+.preview-custom-trigger strong{color:#ffb98a}
+.preview-custom-trigger:hover strong{text-decoration:underline}
+.preview-custom-trigger[aria-pressed="true"] strong{color:#fff0df;text-decoration:underline}
+.preview-tier-markers{height:43px}
+.preview-discount-control .preview-control-label{margin-bottom:10px}
+.preview-total{display:flex;flex-direction:column;align-items:flex-start;gap:4px}
+.preview-total>span{font-size:13px}
+.preview-unit-price{font-size:13px;font-weight:800;color:#6f5861}
+.preview-saved{font-size:12px;font-weight:700;color:#9a513e}
+.custom-preview{padding-top:25px;border-top:1px solid #b9968f;margin-bottom:23px}
+.custom-kicker{font-size:10px;font-weight:900;letter-spacing:.14em;color:#a2523e}
+.custom-preview h3{font:700 clamp(29px,3.5vw,40px) "Space Grotesk",sans-serif;line-height:1.05;letter-spacing:-.05em;margin:10px 0}
+.custom-preview p{font-size:14px;line-height:1.6;color:#68505c;margin:0 0 20px}
+.custom-preview .plan-link{background:#29212d;color:#fff7ed}
+.custom-preview .plan-link:hover{background:#563748}
+.preview-custom-reset{display:block;background:transparent;border:0;color:#7d534f;font-size:13px;font-weight:800;text-decoration:underline;cursor:pointer;margin-top:15px;padding:8px 0}
+.pricing-faq{background:#fff9f0;padding:86px 0 94px}
+.faq-layout{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(35px,7vw,120px)}
+.faq-header h2{font:700 clamp(41px,5.3vw,70px) "Space Grotesk",sans-serif;line-height:1.02;letter-spacing:-.075em;margin:0 0 18px}
+.faq-header h2 span{color:#ee653d}
+.faq-header>p:last-child{max-width:340px;font-size:15px;line-height:1.6;color:#6c565f}
+.faq-items{border-top:1px solid #dbc5bd}
+.faq-items details{border-bottom:1px solid #dbc5bd}
+.faq-items summary{list-style:none;cursor:pointer;padding:21px 38px 21px 0;font-size:15px;font-weight:800;line-height:1.4;position:relative}
+.faq-items summary::-webkit-details-marker{display:none}
+.faq-items summary::after{content:"+";position:absolute;right:6px;top:17px;color:#d86542;font-size:22px}
+.faq-items details[open] summary::after{content:"−"}
+.faq-items details p{color:#6b5860;font-size:14px;line-height:1.7;margin:0 0 22px}
+@media(max-width:1180px){
+ .pricing-plan-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .pricing-plan-custom{grid-column:1/-1}
+ .custom-plan-mark{max-width:450px}
+}
+@media(max-width:850px){
+ .faq-layout{grid-template-columns:1fr;gap:22px}
+ .pricing-faq{padding:64px 0}
+}
+@media(max-width:650px){
+ .pricing-plan-grid{grid-template-columns:1fr}
+ .pricing-plan-custom{grid-column:auto}
+ .price-sheet{padding:12px 13px}
+ .price-sheet strong{font-size:12px}
+ .hat-art{width:35px;height:35px}
+ .preview-price-veil{min-height:98px}
+ .pricing-faq{padding:56px 0}
+ .faq-header h2{font-size:42px}
+}
+@media(prefers-reduced-motion:reduce){.price-sheet{transform:none}}
