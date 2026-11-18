@@ -28,18 +28,22 @@
     // More non-overlapping humans may increase the actual verified discount.
     const peopleDiscountFloor = tier(perRepo, steps.people);
     const volumeFloor = repoDiscount + peopleDiscountFloor;
-    const annualFloor = Math.min(20, 100 / 12 + volumeFloor);
+    const annualUncapped = 100 / 12 + volumeFloor;
+    const annualFloor = Math.min(20, annualUncapped);
 
     change("repo-count-value", String(repos), "value");
     change("seat-count-value", String(perRepo), "value");
     change("assignment-count", String(repos * perRepo));
     change("assignment-formula", repos + " " + (repos === 1 ? "repository" : "repositories") +
-      " × " + perRepo + " " + (perRepo === 1 ? "assignment" : "assignments") + " each");
+      " × " + perRepo + " " + (perRepo === 1 ? "contributor" : "contributors") + " each");
     change("repo-discount", "+" + repoDiscount + "%");
     change("contributor-discount", "+" + peopleDiscountFloor + "%");
     change("combined-discount", volumeFloor + "%");
+    change("annual-volume", volumeFloor + "% volume");
     change("annual-discount", (Number.isInteger(annualFloor) ?
       annualFloor.toFixed(0) : annualFloor.toFixed(2)) + "%");
+    const capNote = byId("annual-cap-note");
+    if (capNote) capNote.hidden = annualUncapped <= 20;
 
     const disclosure = byId("annual-savings");
     if (disclosure) disclosure.hidden = !annual || !showAnnualDetails;

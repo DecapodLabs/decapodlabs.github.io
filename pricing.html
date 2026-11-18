@@ -18,8 +18,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
-<link rel="stylesheet" href="pricing.css?v=20261118-overage-simple-v2">
-<script src="pricing.js?v=20261118-overage-simple-v2" defer></script>
+<link rel="stylesheet" href="pricing.css?v=20261118-annual-equation-v3">
+<script src="pricing.js?v=20261118-annual-equation-v3" defer></script>
 <title>Pricing — Decapod Labs</title>
 </head>
 <body class="pricing-page">
@@ -98,7 +98,7 @@
           <p class="pricing-eyebrow">TEAM PRICING</p>
           <h2 id="preview-heading">Built for your team.<br><span>Priced for your scope.</span></h2>
         </div>
-        <p>Explore repository coverage and contributor assignments. Agents do not add seats.</p>
+        <p>Choose your repositories and contributors. Agents don't count as seats.</p>
       </div>
       <div class="preview-panel">
         <div class="preview-controls">
@@ -126,26 +126,30 @@
               <span class="preview-tier-marker" data-contributor-threshold="20" style="--tier-at:79.1667%"><span>20+</span><strong>6%</strong></span>
             </div>
           </div>
-          <div class="preview-volume-savings" aria-live="polite">
-            <span>Volume savings from</span><strong id="combined-discount">2%</strong>
+          <p class="preview-explainer">Each person assigned to a repository is one paid assignment. Final savings depend on how many distinct people are on your team.</p>
+          <div class="preview-savings-row">
+            <div class="preview-volume-savings" aria-live="polite">
+              <span>Volume savings from</span><strong id="combined-discount">2%</strong>
+            </div>
+            <div class="preview-annual-savings" id="annual-savings" hidden role="status" aria-label="Annual savings breakdown">
+              <button type="button" class="preview-annual-dismiss" id="annual-dismiss" aria-label="Dismiss annual savings details">×</button>
+              <div class="preview-annual-equation"><span>8.33% annual</span><span aria-hidden="true">+</span><span id="annual-volume">2% volume</span></div>
+              <div class="preview-annual-total"><span aria-hidden="true">=</span><strong id="annual-discount">10.33%</strong><span>total savings</span></div>
+              <small id="annual-cap-note" hidden>20% cap applied</small>
+            </div>
           </div>
-          <p class="preview-explainer">Each person–repository assignment is a paid unit. Volume savings shown are a minimum; the final contributor tier uses distinct people across your team.</p>
         </div>
         <div class="preview-result">
           <div class="preview-result-top"><span>YOUR TEAM CONFIGURATION</span><span class="preview-dot" aria-hidden="true"></span></div>
           <p class="preview-big" id="assignment-count">10</p>
-          <p class="preview-big-subtitle">contributor–repository assignments in this example</p>
-          <p class="preview-formula" id="assignment-formula">2 repositories × 5 assignments each</p>
+          <p class="preview-big-subtitle">paid contributor–repository assignments</p>
+          <p class="preview-formula" id="assignment-formula">2 repositories × 5 contributors each</p>
           <fieldset class="preview-billing"><legend>Billing period</legend>
             <div class="preview-billing-options">
               <button type="button" class="preview-billing-option is-selected" data-billing="month" aria-pressed="true">Monthly</button>
               <button type="button" class="preview-billing-option" data-billing="year" aria-pressed="false" aria-controls="annual-savings" aria-expanded="false">Annual</button>
             </div>
-            <div class="preview-annual-savings" id="annual-savings" hidden role="status">
-              <button type="button" class="preview-annual-dismiss" id="annual-dismiss" aria-label="Dismiss annual savings details">×</button>
-              <div class="preview-annual-savings-total"><span>Cumulative annual savings from</span><strong id="annual-discount">10.33%</strong></div>
-              <p>Annual term + team volume: <strong>up to 20% cumulative savings.</strong></p>
-            </div>
+
           </fieldset>
           <div class="preview-total" id="standard-preview">
             <span>Cloud subscription</span>
@@ -198,7 +202,7 @@
 <details><summary>What is a contributor–repository assignment?</summary><p>One human assigned to one repository is one paid assignment. The same human assigned to two repositories uses two assignments. Contributor-volume savings count distinct people only once per customer.</p></details>
 <details><summary>Do coding agents count as seats?</summary><p>No. Agents, subagents, and worktrees are not additional human seats. Their Cloud activity still consumes measured resources.</p></details>
 <details><summary>How does workforce sign-in work?</summary><p>Sign in with Google or GitHub. A single person can belong to multiple organizations, with explicit repository-specific access and paid assignments. GitHub repository linking requires verification of the corresponding GitHub identity.</p></details>
-<details><summary>How are subscription savings calculated?</summary><p>Repository volume and distinct-contributor volume each contribute tier savings. The two-slider preview shows the minimum savings for the selected configuration, since each repository may have different people. Actual contributor tiers use verified distinct people once per customer. Monthly applies volume savings to the base subscription; select Annual to see cumulative term and volume savings against the same undiscounted annualized list price, up to 20%. Only admin-approved resource overages are billed separately without subscription discounts.</p></details>
+<details><summary>How are subscription savings calculated?</summary><p>More repositories and more distinct people unlock volume discounts. The preview shows the minimum for your selection; the final amount reflects the actual people assigned. Annual billing adds 8⅓ percentage points to volume savings, with a 20% cap on the base subscription. Separately authorized resource overages receive no discounts.</p></details>
 <details><summary>Will Cloud charge me automatically if I exceed a resource limit?</summary><p>No. Paid overages are disabled by default. Without your organization's authorized admin explicitly enabling them in Cloud Admin, new usage beyond included limits is throttled or declined with no overage charge. Admins can opt in after reviewing disclosed per-resource rates and setting a spending cap. Only authorized excess usage is billed, itemized by resource.</p></details>
 <details><summary>What if we're bigger than the sliders?</summary><p>Talk with sales for more than 10 repositories, more than 25 contributors per repository, or specialized deployment and capacity needs.</p></details>
 </div></div></section>
