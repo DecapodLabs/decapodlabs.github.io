@@ -53,6 +53,11 @@
       "id": "maintainer-accepted-verification-policy",
       "summary": "Checkpoint exactcd2c05 accepted source-policy and concurrent BYOA/pricing integration; explicit maintainer authority changes only the inventory pin, all required checks remain and fresh proof is required",
       "input_digest": "sha256:87ee3f02c284e4311315b5a33898cf0f7c61a67df5bd38d15a539c9752ee9934"
+    },
+    {
+      "id": "latest-accepted-buyer-copy",
+      "summary": "Checkpoint accepted f51d8e5b pricing copy integration after true stale-base rejection; no source/check/policy changes, require fresh native proof",
+      "input_digest": "sha256:47d2c8e53a46579eef5e07223fd05e10614386a69d6f38c3b0dbec6b16b1aeac"
     }
   ],
   "intents": {
@@ -98,9 +103,9 @@
           "spec_material_hash": "d60c3148e02eef943a55eedea31137386b4ebfeb72cbf16ff47b0972010db50b"
         },
         {
-          "disposition": "updated",
+          "disposition": "unchanged_with_reason",
           "path": ".decapod/managed/specs/INTERFACES.md",
-          "reason": "Explicit human-authorized one-line target source-policy transition accepted atcd2c05; preserve concurrent accepted BYOA/on-demand, resource alert and exact8-percent annual preview content, source hash7482 unchanged; require fresh full native validation",
+          "reason": "Accepted f51d8e5b pricing buyer-copy only; all launch interfaces, source policy and required check definitions unchanged, preserve accepted copy exactly",
           "reviewed_code_fingerprint": "7f8a37633988611464a345388608acaa44154d3ad49cc885a1e1970322e8ddf3",
           "spec_material_hash": "f7b41665e631169ad57b31f984ba9e7ac758c35a9293f3ee152eaf3deafe31f5"
         },
@@ -120,7 +125,7 @@
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1794995962Z"
+      "updated_at": "1794997004Z"
     },
     "trajectory": {
       "active_boundaries": [

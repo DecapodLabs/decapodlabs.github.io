@@ -36,6 +36,10 @@ On integrating accepted mainecd713c4, actual Deno execution reproduced missing_f
 
 The human maintainer authorized the exact025eee→7482eb verification-source transition in response to the concrete review request. GitHub commitcd2c05dfc70fe01fa374bd62110717fc4761b718 independently confirms only that one config line changed; concurrent accepted BYOA/on-demand invocation copy, Cloud limits/alerts and exact8-percent annual preview changes were preserved at its parent3e4b4ce4. The feature integrates the actual accepted target and retains its pricing bytes exactly. All eight verification-source definitions remain unchanged from reviewed759ba58b. This policy acceptance is separate from candidate proof; fresh full native validation and publication/readback remain mandatory. It is not a post-objective intervention in the archived Pi experiment.
 
+## Latest accepted buyer-copy target
+
+Fresh native validation at a1df097d rejected STALE_ACCEPTED_BASE before adapter preparation when main advanced to f51d8e5b002bb65aef0b3330098cb7158d858bb7. That commit changes pricing.html buyer-facing copy only. This merge preserves it exactly; policy7482 and all eight verification sources are unchanged. The rejected report remains archived and a fresh validation is required for the new head.
+
 <!-- decapod:capability-overlay:background-processing:start -->
 
 Generated capability obligations: `background-processing` is declared for this project. These are decisions and proof requirements, not claims of implemented behavior. Resolve each against project source and tests; record unsupported or non-applicable mechanisms explicitly.
