@@ -8,7 +8,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Decapod Labs">
 <meta property="og:title" content="Pricing — Decapod Labs">
-<meta property="og:description" content="Free local governance. Explore Decapod Cloud team pricing and cumulative savings. Cloud is coming soon.">
+<meta property="og:description" content="Free local governance and shared Cloud state for teams. Explore repository coverage and volume pricing. Cloud is coming soon.">
 <meta property="og:image" content="https://decapodlabs.github.io/assets/social-preview.png">
 <meta property="og:url" content="https://decapodlabs.github.io/pricing.html">
 <meta name="twitter:card" content="summary_large_image">
@@ -18,8 +18,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
-<link rel="stylesheet" href="pricing.css?v=20261118-tidy-v6">
-<script src="pricing.js?v=20261118-tidy-v6" defer></script>
+<link rel="stylesheet" href="pricing.css?v=20261118-cloud-clarity-v1">
+<script src="pricing.js?v=20261118-cloud-clarity-v1" defer></script>
 <title>Pricing — Decapod Labs</title>
 </head>
 <body class="pricing-page">
@@ -37,12 +37,12 @@
       <div>
         <p class="pricing-eyebrow">GOVERNED WORK. YOUR SCALE.</p>
         <h1 id="pricing-heading">Scale the work.<br><span>Keep the proof.</span></h1>
-        <p class="pricing-intro">A new way to manage your agentic engineering workflow, with sensible defaults from the global Constitution and proof-backed tasks. Run locally for free; add managed shared state as your team grows.</p>
+        <p class="pricing-intro">A new way to manage your agentic engineering workflow, with sensible defaults from the global Constitution and proof-backed tasks. Run locally for free, or use Cloud’s shared database so teammates and agents on different machines work from the same live repository state.</p>
       </div>
       <aside class="launch-notice" aria-label="Availability">
         <span class="launch-notice-mark" aria-hidden="true">✳</span>
         <strong>ONE KERNEL · TWO MODES</strong>
-        <p>Run locally today. Add managed shared state, verified access, and team administration with Cloud.</p>
+        <p>The same repo-native kernel in both modes. Local keeps its database on your machine; Cloud hosts a shared live database for your team.</p>
         <div class="mode-status"><span><i></i> Local available</span><span><i></i> Cloud coming soon</span></div>
       </aside>
     </div>
@@ -51,7 +51,7 @@
   <section class="pricing-plans" aria-label="Decapod plans">
     <div class="wrap pricing-plan-grid">
       <article class="pricing-plan" aria-labelledby="local-title">
-        <div class="pricing-plan-top"><span class="plan-index">01 / REPO-NATIVE</span><span class="plan-availability">Available now</span></div>
+        <div class="pricing-plan-top"><span class="plan-index">01 / LOCAL</span><span class="plan-availability">Available now</span></div>
         <h2 id="local-title">Decapod Local</h2>
         <p class="plan-price">Free <span>forever</span></p>
         <p class="plan-subtitle">One command. Your repo. Your agents.</p>
@@ -65,19 +65,20 @@
         <p class="plan-fineprint">No account, payment details, or Cloud subscription needed.</p>
       </article>
       <article class="pricing-plan pricing-plan-cloud" aria-labelledby="cloud-title">
-        <div class="pricing-plan-top"><span class="plan-index">02 / SHARED CLOUD</span><span class="plan-availability plan-soon">Coming soon</span></div>
+        <div class="pricing-plan-top"><span class="plan-index">02 / CLOUD</span><span class="plan-availability plan-soon">Coming soon</span></div>
         <h2 id="cloud-title">Decapod Cloud</h2>
         <div class="cloud-price-flag" aria-label="Cloud subscription prices will be revealed at launch">
           <span class="cloud-price-icon" aria-hidden="true">☁</span>
           <span class="cloud-price-message"><strong>UNDER WRAPS</strong><small>Cloud pricing reveal coming soon</small></span>
         </div>
-        <p class="plan-annual">Monthly and annual billing <strong>· annual commitment savings</strong></p>
-        <p class="plan-subtitle">Managed governance and shared repository state for engineering teams.</p>
+        <p class="plan-annual">Monthly or annual billing</p>
+        <p class="plan-subtitle">The same repo-native Decapod kernel, connected to a shared live database for your team.</p>
         <ul class="plan-bullets">
-          <li>Hosted, repository-scoped Decapod state</li>
-          <li>Verified identity and repository access</li>
-          <li>Team seats, invitations, and billing administration</li>
-          <li>Included resource allowances and itemized usage</li>
+          <li>Live repository state shared across computers, teammates, and agents</li>
+          <li>Concurrent governed work with durable context and commit-bound evidence</li>
+          <li>Workforce sign-in with Google or GitHub; verified GitHub linking for repositories</li>
+          <li>One identity across organizations, with repository-scoped access</li>
+          <li>Cloud Admin for team assignments, billing, and itemized resource usage</li>
         </ul>
         <button class="plan-link plan-link-disabled" type="button" disabled aria-describedby="cloud-fineprint">Cloud checkout opening soon <span aria-hidden="true">↗</span></button>
         <p class="plan-fineprint" id="cloud-fineprint">Team pricing and savings are previewed below. Cloud enrollment opens soon; resource usage charges are itemized separately.</p>
@@ -97,7 +98,7 @@
           <p class="pricing-eyebrow">TEAM PRICING</p>
           <h2 id="preview-heading">Built for your team.<br><span>Priced for your scope.</span></h2>
         </div>
-        <p>Move the sliders to explore team coverage and cumulative savings. Agents do not add seats.</p>
+        <p>Explore repository coverage, assigned capacity, and distinct contributors. Agents do not add seats.</p>
       </div>
       <div class="preview-panel">
         <div class="preview-controls">
@@ -113,31 +114,42 @@
               <span class="preview-tier-marker" data-repo-threshold="10" style="--tier-at:100%"><span>10</span><strong>6%</strong></span>
             </div>
           </div>
-          <div class="preview-control preview-discount-control">
+          <div class="preview-control">
             <div class="preview-control-label">
-              <label for="seat-count">Contributors per repository</label>
-              <div class="preview-live-value"><output id="seat-count-value" for="seat-count">5</output><span class="preview-live-discount" id="contributor-discount">+2%</span></div>
+              <label for="seat-count">Contributor assignments per repository</label>
+              <div class="preview-live-value"><output id="seat-count-value" for="seat-count">5</output></div>
             </div>
-            <input id="seat-count" type="range" min="1" max="25" step="1" value="5" aria-describedby="contributor-tiers">
-            <div class="preview-tier-markers" id="contributor-tiers" aria-label="Contributor discount milestones">
-              <span class="preview-tier-marker" data-contributor-threshold="5" style="--tier-at:16.6667%"><span>5+</span><strong>2%</strong></span>
-              <span class="preview-tier-marker" data-contributor-threshold="10" style="--tier-at:37.5%"><span>10+</span><strong>4%</strong></span>
-              <span class="preview-tier-marker" data-contributor-threshold="20" style="--tier-at:79.1667%"><span>20+</span><strong>6%</strong></span>
-            </div>
+            <input id="seat-count" type="range" min="1" max="25" step="1" value="5">
           </div>
-          <p class="preview-explainer">Each contributor assigned to a repository counts as one paid unit. The same contributor counts only once toward contributor-volume savings, regardless of repository count.</p>
+          <div class="preview-control preview-discount-control preview-unique-control">
+            <div class="preview-control-label">
+              <label for="unique-count">Distinct contributors across your team</label>
+              <div class="preview-live-value"><output id="unique-count-value" for="unique-count">5</output><span class="preview-live-discount" id="contributor-discount">+2%</span></div>
+            </div>
+            <input id="unique-count" type="range" min="5" max="10" step="1" value="5" aria-describedby="unique-help contributor-tiers">
+            <div class="preview-tier-markers" id="contributor-tiers" aria-label="Distinct contributor discount milestones">
+              <span class="preview-tier-marker" data-contributor-threshold="5" style="--tier-at:0%"><span>5+</span><strong>2%</strong></span>
+              <span class="preview-tier-marker" data-contributor-threshold="10" style="--tier-at:100%"><span>10+</span><strong>4%</strong></span>
+              <span class="preview-tier-marker" data-contributor-threshold="20" style="--tier-at:100%"><span>20+</span><strong>6%</strong></span>
+            </div>
+            <p class="preview-unique-help" id="unique-help">Each person counts once for this discount, even when assigned to multiple repositories.</p>
+          </div>
+          <div class="preview-volume-savings" aria-live="polite">
+            <span>Volume savings</span><strong id="combined-discount">2%</strong>
+            <small>Repository + distinct-contributor tiers</small>
+          </div>
+          <p class="preview-explainer">Each person–repository assignment is a paid unit. Agents and worktrees add no seats.</p>
         </div>
         <div class="preview-result">
           <div class="preview-result-top"><span>YOUR TEAM CONFIGURATION</span><span class="preview-dot" aria-hidden="true"></span></div>
           <p class="preview-big" id="assignment-count">10</p>
-          <p class="preview-big-subtitle">contributor–repository assignments</p>
-          <p class="preview-formula" id="assignment-formula">2 repositories × 5 contributors each</p>
-          <div class="preview-discount-summary" aria-label="Illustrative subscription savings">
-            <div><span>Volume savings</span><strong id="combined-discount" aria-live="polite">2%</strong></div>
-            <div><span>Cumulative annual savings</span><strong id="annual-discount" aria-live="polite">10.33%</strong></div>
+          <p class="preview-big-subtitle">contributor–repository assignments in this example</p>
+          <p class="preview-formula" id="assignment-formula">2 repositories × 5 assignments each</p>
+          <fieldset class="preview-billing"><legend>Billing period</legend><div class="preview-billing-options"><button type="button" class="preview-billing-option is-selected" data-billing="month" aria-pressed="true">Monthly</button><button type="button" class="preview-billing-option" data-billing="year" aria-pressed="false">Annual</button></div></fieldset>
+          <div class="preview-annual-savings" id="annual-savings" hidden aria-live="polite">
+            <div class="preview-annual-savings-total"><span>Cumulative annual savings on your base subscription</span><strong id="annual-discount">10.33%</strong></div>
+            <p>Annual term + team volume unlock <strong>up to 20% cumulative savings.</strong></p>
           </div>
-          <p class="preview-discount-limit">Annual commitment + team volume unlock <strong>up to 20% cumulative savings.</strong></p>
-          <fieldset class="preview-billing"><legend>Billing period</legend><div class="preview-billing-options"><button type="button" class="preview-billing-option" data-billing="month" aria-pressed="false">Monthly</button><button type="button" class="preview-billing-option is-selected" data-billing="year" aria-pressed="true">Annual <span>Save one month</span></button></div></fieldset>
           <div class="preview-total" id="standard-preview">
             <span>Cloud subscription</span>
             <div class="cloud-price-flag cloud-price-flag-quote" role="img" aria-label="Cloud pricing under wraps until launch">
@@ -149,7 +161,6 @@
           <button id="preview-checkout" type="button" disabled class="preview-checkout">Cloud checkout opening soon <span aria-hidden="true">↗</span></button>
         </div>
       </div>
-      <p class="preview-caveat">This preview assumes the same contributors across repositories. Cloud Admin will support different team sizes per repository.</p>
     </div>
   </section>
 
@@ -189,7 +200,8 @@
   <section class="pricing-faq" aria-labelledby="faq-heading"><div class="wrap faq-layout"><div class="faq-header"><p class="pricing-eyebrow">GOOD TO KNOW</p><h2 id="faq-heading">Clear terms.<br><span>Real control.</span></h2><p>Everything that matters when your team grows.</p></div><div class="faq-items">
 <details><summary>What is a contributor–repository assignment?</summary><p>One human assigned to one repository is one paid assignment. The same human assigned to two repositories uses two assignments. Contributor-volume savings count distinct people only once per customer.</p></details>
 <details><summary>Do coding agents count as seats?</summary><p>No. Agents, subagents, and worktrees are not additional human seats. Their Cloud activity still consumes measured resources.</p></details>
-<details><summary>How do annual and volume savings combine?</summary><p>Annual billing includes one month free. Repository and contributor savings combine for up to 20% cumulative savings on standard annual subscriptions.</p></details>
+<details><summary>How does workforce sign-in work?</summary><p>Sign in with Google or GitHub. A single person can belong to multiple organizations, with explicit repository-specific access and paid assignments. GitHub repository linking requires verification of the corresponding GitHub identity.</p></details>
+<details><summary>How are subscription savings calculated?</summary><p>Repository volume and distinct-contributor volume each contribute their own tier savings. Monthly applies volume savings to the base subscription. Select Annual to see its cumulative term and volume savings, measured from the same undiscounted annualized list price. Resource overages are billed separately without subscription discounts.</p></details>
 <details><summary>What happens when we use more resources?</summary><p>Cloud includes published resource allowances. Usage above an allowance is itemized only for that resource at its disclosed rate, subject to an agreed spending ceiling.</p></details>
 <details><summary>What if we're bigger than the sliders?</summary><p>Talk with sales for more than 10 repositories, more than 25 contributors per repository, or specialized deployment and capacity needs.</p></details>
 </div></div></section>
