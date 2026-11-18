@@ -400,3 +400,20 @@
 .preview-annual-savings p strong{color:#613a30}
 @media(max-width:850px){.preview-volume-savings small{margin-left:0}}
 @media(max-width:650px){.preview-volume-savings{padding:12px 14px}.preview-annual-savings-total strong{font-size:26px}}
+
+/* Two-slider estimate with a fixed-layout annual savings popover. */
+.preview-volume-savings{align-self:flex-start;display:inline-flex;align-items:center;gap:11px;padding:11px 16px;border:1px solid #725660;border-radius:999px;background:#3a2b38;flex-wrap:nowrap}
+.preview-volume-savings>span{font-size:12px;font-weight:800;color:#f2d2c6}
+.preview-volume-savings strong{font:700 24px "Space Grotesk",sans-serif;color:#ffc08f;letter-spacing:-.045em;white-space:nowrap}
+.preview-controls{gap:28px}
+.preview-explainer{font-size:12px;padding-top:16px}
+.preview-billing{position:relative;z-index:4;isolation:isolate}
+.preview-annual-savings{position:absolute;top:calc(100% + 12px);right:2px;width:min(344px,calc(100% - 4px));margin:0;padding:20px 18px 16px;background:#fff9ef;border:1px solid #eda679;border-radius:15px;box-shadow:0 17px 35px rgba(66,29,36,.24),0 3px 7px rgba(66,29,36,.09);z-index:5;transform-origin:top right;animation:annual-savings-pop .18s ease-out both}
+.preview-annual-savings::before{content:"";position:absolute;top:-8px;right:24%;width:14px;height:14px;background:#fff9ef;border-left:1px solid #eda679;border-top:1px solid #eda679;transform:rotate(45deg)}
+.preview-annual-savings .preview-annual-savings-total{padding-right:19px}
+.preview-annual-dismiss{position:absolute;top:9px;right:11px;width:27px;height:27px;display:grid;place-items:center;background:transparent;border:0;border-radius:8px;color:#905644;cursor:pointer;font-size:21px;line-height:1}
+.preview-annual-dismiss:hover{background:#f9e5d4}
+.preview-annual-dismiss:focus-visible{outline:3px solid #ea744e;outline-offset:2px}
+@keyframes annual-savings-pop{from{opacity:0;transform:translateY(-7px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+@media(max-width:650px){.preview-volume-savings{gap:8px;padding:10px 14px}.preview-volume-savings strong{font-size:22px}.preview-annual-savings{width:min(320px,calc(100% - 4px));padding:18px 15px 15px}}
+@media(prefers-reduced-motion:reduce){.preview-annual-savings{animation:none}}
