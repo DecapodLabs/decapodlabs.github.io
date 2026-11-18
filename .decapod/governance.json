@@ -13,6 +13,11 @@
       "id": "preserve-original-teaser-bytes",
       "summary": "Restore exact accepted original teaser after automated encoder drift; retain new verified launch films, all evidence and accepted site; source policy unchanged",
       "input_digest": "sha256:91f24692725c83d34d89abe67c73738fe12af08e3f2939c0dcadf38a5ed1a940"
+    },
+    {
+      "id": "stable-film-inputs-and-original-teaser",
+      "summary": "Checkpoint original teaser preservation and tested media-input selection; copy changes verify without re-encoding, unknown history regenerates safely; new source policy awaits separate acceptance",
+      "input_digest": "sha256:d5c08f031975b92efd302ff519e8559d68f1f92302af56eed04043f970bd8abd"
     }
   ],
   "intents": {
@@ -43,33 +48,33 @@
       },
       "deferred_questions": [],
       "human_questions": [],
-      "intent": "Preserve original accepted teaser bytes after successful automated launch rendering; all new launch media/evidence and latest accepted site unchanged",
+      "intent": "Preserve original accepted teaser bytes and prevent unrelated site changes from re-encoding media; always verify actual committed evidence/media, regenerate review cuts only from changed inputs; keep explicit policy and truthful present-time lineage boundaries",
       "phases": [],
       "proof_hooks": [
-        "Complete native exact-candidate validation/publication, byte-identical original teaser and independent public served-byte readback; no verification-source policy change"
+        "14 actual offline evidence/shell-Git controls, complete native exact-subject validation/publication after separate target-policy acceptance, public served original-teaser and unchanged-launch byte comparisons"
       ],
       "schema_version": "1.1.0",
       "spec_reviews": [
         {
-          "disposition": "unchanged_with_reason",
+          "disposition": "updated",
           "path": ".decapod/managed/specs/ARCHITECTURE.md",
-          "reason": "Restore only the already accepted original teaser file after CI encoder byte drift; architecture/interfaces/security and all launch/source-policy contracts are unchanged, provenance recorded materially in VALIDATION.md",
-          "reviewed_code_fingerprint": "7f8a37633988611464a345388608acaa44154d3ad49cc885a1e1970322e8ddf3",
-          "spec_material_hash": "d60c3148e02eef943a55eedea31137386b4ebfeb72cbf16ff47b0972010db50b"
+          "reason": "Five real shell/Git input-decision controls plus nine evidence guards pass; original teaser restored, committed movies remain immutable across copy changes, all assets always verified; truthful present-time transferred-task commitment recovery, new4e9 policy still requires independent acceptance",
+          "reviewed_code_fingerprint": "088038b673519fa48b7887dcf303faa61e8a1e42e960d9ff057a63d878bac455",
+          "spec_material_hash": "7592bf80f4960de83fa542f98c7ad5cd1959bce73a84978fd93206f3f385efa5"
         },
         {
-          "disposition": "unchanged_with_reason",
+          "disposition": "updated",
           "path": ".decapod/managed/specs/INTERFACES.md",
-          "reason": "Restore only the already accepted original teaser file after CI encoder byte drift; architecture/interfaces/security and all launch/source-policy contracts are unchanged, provenance recorded materially in VALIDATION.md",
-          "reviewed_code_fingerprint": "7f8a37633988611464a345388608acaa44154d3ad49cc885a1e1970322e8ddf3",
-          "spec_material_hash": "f7b41665e631169ad57b31f984ba9e7ac758c35a9293f3ee152eaf3deafe31f5"
+          "reason": "Five real shell/Git input-decision controls plus nine evidence guards pass; original teaser restored, committed movies remain immutable across copy changes, all assets always verified; truthful present-time transferred-task commitment recovery, new4e9 policy still requires independent acceptance",
+          "reviewed_code_fingerprint": "088038b673519fa48b7887dcf303faa61e8a1e42e960d9ff057a63d878bac455",
+          "spec_material_hash": "57a2c4f03d6dea100a64bb54bc7954ff60640fb31a7edf7323bf1670b5ff9faa"
         },
         {
-          "disposition": "unchanged_with_reason",
+          "disposition": "updated",
           "path": ".decapod/managed/specs/SECURITY.md",
-          "reason": "Restore only the already accepted original teaser file after CI encoder byte drift; architecture/interfaces/security and all launch/source-policy contracts are unchanged, provenance recorded materially in VALIDATION.md",
-          "reviewed_code_fingerprint": "7f8a37633988611464a345388608acaa44154d3ad49cc885a1e1970322e8ddf3",
-          "spec_material_hash": "3fba7abe9dd904ae032899a4bd6fe7c5bf9bd92312f632ef4b0a52cc057038dd"
+          "reason": "Five real shell/Git input-decision controls plus nine evidence guards pass; original teaser restored, committed movies remain immutable across copy changes, all assets always verified; truthful present-time transferred-task commitment recovery, new4e9 policy still requires independent acceptance",
+          "reviewed_code_fingerprint": "088038b673519fa48b7887dcf303faa61e8a1e42e960d9ff057a63d878bac455",
+          "spec_material_hash": "7748872631971bd8f10e197a33d1e6c6bae81c28e1f9ba61bc62b36343a6900b"
         }
       ],
       "state": "APPROVED",
@@ -80,21 +85,37 @@
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1794998043Z"
+      "updated_at": "1794998369Z"
     },
     "trajectory": {
       "active_boundaries": [
         "Current claimed task and isolated work branch"
       ],
-      "artifact_hash": "sha256:74ca92829c52cd3b42c027d88964e4ed20415d830155a8781dee20c9050ad694",
+      "artifact_hash": "sha256:cc91a7dc0055f96e377929a27c2a8b8568a66f76a1086db24ee35d05d34a7c1f",
       "checks": [
+        {
+          "name": "media-input-decision-and-evidence-controls",
+          "status": "passed"
+        },
+        {
+          "name": "new-target-policy-acceptance",
+          "status": "unavailable"
+        },
         {
           "name": "original-teaser-byte-preservation",
           "status": "partial"
         },
         {
+          "name": "present-time-lineage-recovery",
+          "status": "partial"
+        },
+        {
           "name": "public-launch-playback",
           "status": "passed"
+        },
+        {
+          "name": "transferred-task-lineage-before-recovery",
+          "status": "failed"
         }
       ],
       "current_phase": "intent",
@@ -118,10 +139,17 @@
             "intent_id": "intent:change_01M7Q3G9C0HM80DF9TM0BYZ36M",
             "kind": "trajectory_step_recorded",
             "sequence": 4
+          },
+          {
+            "detail": "trajectory:branch_01M7Q3G9DPRB7RNG1TY18P2RR4",
+            "event_id": "event:5",
+            "intent_id": "intent:change_01M7Q3G9C0HM80DF9TM0BYZ36M",
+            "kind": "trajectory_step_recorded",
+            "sequence": 5
           }
         ],
         "knowledge_candidates": [],
-        "next_sequence": 4,
+        "next_sequence": 5,
         "schema_version": "1.0.0",
         "trajectories": {
           "branch_01M7Q3G9DPRB7RNG1TY18P2RR4": {
@@ -144,6 +172,24 @@
                 ],
                 "sequence": 4,
                 "validation_findings": []
+              },
+              {
+                "action": "trajectory.record",
+                "custody_event_id": "event:5",
+                "observations": [
+                  "Actual14 Python tests pass, including five executed Bash/Git cases; original source-evidence Deno checks still pass. Workflow25afad87 and Python testca6c19d2 are the only changed verification definitions; source inventory4e9f04d9 explicitly reviewed, no check/tool/timeout/coverage removed. Prior native failure names missing transferred-task commitment. Existing decision/observation were observed, and a new imported commitment was recorded at present time through native federation with actual task/issue/commit provenance. No past event or receipt rewritten. New exact policy approval and full validation/publication remain required."
+                ],
+                "proof_refs": [
+                  "media-input-decision-and-evidence-controls",
+                  "transferred-task-lineage-before-recovery",
+                  "present-time-lineage-recovery",
+                  "new-target-policy-acceptance"
+                ],
+                "scope": [
+                  "root"
+                ],
+                "sequence": 5,
+                "validation_findings": []
               }
             ]
           }
@@ -152,6 +198,7 @@
       "declared_commands": [],
       "destination": "pull request",
       "evidence": [
+        "Actual14 Python tests pass, including five executed Bash/Git cases; original source-evidence Deno checks still pass. Workflow25afad87 and Python testca6c19d2 are the only changed verification definitions; source inventory4e9f04d9 explicitly reviewed, no check/tool/timeout/coverage removed. Prior native failure names missing transferred-task commitment. Existing decision/observation were observed, and a new imported commitment was recorded at present time through native federation with actual task/issue/commit provenance. No past event or receipt rewritten. New exact policy approval and full validation/publication remain required.",
         "Original launch PR36 merged5730ae; actual Pages desktop/mobile playback and24 byte comparisons passed; real render workflow44284325426 passed all regenerated cuts. Existing teaser encoder changed its bytes at5fd0476f. This isolated follow-up restores the exact accepted pre-launch MP4; no launch film, source checker, workflow or config changes. Native proof and served-file readback remain required."
       ],
       "inspected_files": [],

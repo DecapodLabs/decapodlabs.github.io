@@ -44,6 +44,14 @@ Fresh native validation at a1df097d rejected STALE_ACCEPTED_BASE before adapter 
 
 The existing main/manual workflow at44284325426 successfully regenerated and verified all new launch cuts in temporary review output. Its unchanged original-teaser step also re-encoded assets/decapod-showcase.mp4 and committed that result at5fd0476f. Preserve the accepted pre-launch teaser byte-for-byte from the admitted e4f72085 source, while retaining the new launch films, all24 independently verified public files and latest accepted marketing/pricing. This scoped asset restoration does not change any of the eight verification-source definitions, command contract or accepted policy7482. It does not trigger the path-filtered renderer. Full native proof and actual served teaser digest must be checked again before this preservation task is complete.
 
+## Stable media inputs and actual transfer-lineage recovery
+
+The existing main-triggered media workflow re-encoded the original teaser at5fd0476f even though its creative source was unchanged. The exact accepted pre-launch teaser is restored. The workflow now compares actual before/head Git objects: copy-only changes retain all film bytes; changed witnesses regenerate only the launch review; shared renderer/font/mascot changes regenerate applicable outputs; unknown history and explicit manual runs regenerate for review. Existing committed evidence/media are always verified, and generated launch revisions remain temporary artifacts. Five actual shell/Git decision cases plus nine evidence controls pass (14 total). No new package or service is introduced.
+
+New-task validation exposed missing commitment lineage for the actually imported launch task after its historical completion. Native federation search found its real decision and observation, but no transferred commitment. A present-time imported commitment was recorded through Decapod, explicitly labelled reconstruction with event/issue/accepted-commit sources; no node was backdated, no missing historic proof manufactured, and no validation outcome waived. The rejected report is retained.
+
+Only the existing workflow and Python evidence-test definitions changed among the eight verification sources. The candidate inventory issha256:4e9f04d9ec00b3c9d93dbc1637340f04436f4a0acc53d7c522fe358c260b0499. Existing command/tool/argument/environment/timeout/coverage declarations are unchanged. Exact target-policy acceptance remains separate; prior7482 acceptance does not authorize this new source inventory. Native complete validation/publication and public teaser-byte readback remain required.
+
 <!-- decapod:capability-overlay:background-processing:start -->
 
 Generated capability obligations: `background-processing` is declared for this project. These are decisions and proof requirements, not claims of implemented behavior. Resolve each against project source and tests; record unsupported or non-applicable mechanisms explicitly.
@@ -110,7 +118,7 @@ Generated capability obligations: `public-api` is declared for this project. The
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `7f8a37633988611464a345388608acaa44154d3ad49cc885a1e1970322e8ddf3`
+- Repository signal fingerprint: `088038b673519fa48b7887dcf303faa61e8a1e42e960d9ff057a63d878bac455`
 - Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `evidence/` (1 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->
