@@ -10,8 +10,8 @@
   },
   "claims": {
     "actual-launch-evidence": {
-      "statement": "The real Pi film retains the actual required failure, new model repair and exact-head historical admission; native publication evidence is pinned and false current authority or altered output is rejected; movie bytes remain unchanged",
-      "falsifier": "Different source witnesses, an altered native record admitted after rewritten wrapper hashes, false current authority, changed movie bytes or claimed public deployment without served playback refutes the corresponding claim",
+      "statement": "This edited film presents actual Pi failure, autonomous model repair and exact-artifact historical native admission; controller-selected task and original human mission are distinct, zero subsequent Pi input is observed, and operator staleness probes are labelled separately; media/source checks passed but website admission and deployment remain unproven",
+      "falsifier": "Changed or invented source witnesses, concealed task authorship, absent engineering failure/model repair, false current publication or merge authority, mismatched media bytes, or claiming served deployment from a local preview refutes the corresponding claim",
       "status": "supported",
       "proof_refs": [
         "https://github.com/alexhraber/decapod-admission-acceptance-20261117-1747-06/tree/3c6c373ea703144a2a096e7c3ad6b17c45fcdc38"
@@ -28,6 +28,11 @@
       "id": "native-evidence-presentation-binding",
       "summary": "Pin actual native record and receipt, cross-reference the Rust-verified publication plan and add two adversarial historical-proof presentation controls; await separate maintainer policy acceptance",
       "input_digest": "sha256:2c009095ba061fd29fd11b24183db8ac3e7a5672f4cd812570c1a313f3f54743"
+    },
+    {
+      "id": "explicit-objective-provenance-and-verified-film",
+      "summary": "Disclose original human mission versus controller-selected Pi task; rerender three films with actual runtime record; nine offline source controls and browser playback pass; accepted policy and public deployment still pending",
+      "input_digest": "sha256:70e7d389e9eb7b03b8dfb0587477fe2a4b16522c034086dd0103764a0e1ca919"
     }
   ],
   "intents": {
@@ -58,32 +63,32 @@
       },
       "deferred_questions": [],
       "human_questions": [],
-      "intent": "Publish verified actual Pi launch film with exact source provenance, accessible static playback and historical admission boundaries; preserve accepted pricing and original teaser; no Cloud purchase claim",
+      "intent": "Present the real unattended Pi failure/repair/fresh-proof/admitted-PR arc with exact evidence; distinguish the original human mission from the controller-selected engineering task; preserve immutable runtime/capture/manifest, old teaser and accepted pricing; no current admission/merge/Cloud purchase claim",
       "phases": [],
       "proof_hooks": [
-        "Full native container validation/publication, immutable source/media binding, actual decoded media and desktop/mobile/public browser readback"
+        "Nine offline media evidence controls; mandatory native Deno source/media guard including two altered-proof controls; actual decoded H264/AAC/captions and desktop/mobile playback; accepted target-policy decision plus fresh full native container validation/publication and served public playback still required"
       ],
       "schema_version": "1.1.0",
       "spec_reviews": [
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/ARCHITECTURE.md",
-          "reason": "Corrected generic-JSON versus Rust-typed digest confusion; native record/receipt pins and Rust-verified plan binding passed actual Linux Deno review with two adversarial controls; candidate pin awaits independent target-policy acceptance",
-          "reviewed_code_fingerprint": "09cfe0fce1b30b81eeb4d5b9b8bb76cabbadcf2912434ce676a3cd83cee8a646",
+          "reason": "Reviewed exact controller-selected objective and original human mission binding, nine evidence negatives, actual rerendered variants and two native-proof presentation negatives. Direct human authorship is not attested; observer cannot admit work; fixture forge bypass prevention is not claimed. Candidate inventory pin is a review proposal, pending independent accepted-target policy.",
+          "reviewed_code_fingerprint": "e792236e364797573369ad3d6c6500d8c208d5cc9548088db935b73a90984af2",
           "spec_material_hash": "5c7706b9b5433b1bf2410bfd7e4fbaf0ebada687abe4af6762e4161c04180bbf"
         },
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/INTERFACES.md",
-          "reason": "Corrected generic-JSON versus Rust-typed digest confusion; native record/receipt pins and Rust-verified plan binding passed actual Linux Deno review with two adversarial controls; candidate pin awaits independent target-policy acceptance",
-          "reviewed_code_fingerprint": "09cfe0fce1b30b81eeb4d5b9b8bb76cabbadcf2912434ce676a3cd83cee8a646",
-          "spec_material_hash": "0faa9a3d09f2f39e00901fa62fb72f77b9700c667423d93fa37e9c96609f68d4"
+          "reason": "Reviewed exact controller-selected objective and original human mission binding, nine evidence negatives, actual rerendered variants and two native-proof presentation negatives. Direct human authorship is not attested; observer cannot admit work; fixture forge bypass prevention is not claimed. Candidate inventory pin is a review proposal, pending independent accepted-target policy.",
+          "reviewed_code_fingerprint": "e792236e364797573369ad3d6c6500d8c208d5cc9548088db935b73a90984af2",
+          "spec_material_hash": "719e64a01bd86a251021c599a8bcb8c38b5cf0fb6698c938f151c85d7b570220"
         },
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/SECURITY.md",
-          "reason": "Corrected generic-JSON versus Rust-typed digest confusion; native record/receipt pins and Rust-verified plan binding passed actual Linux Deno review with two adversarial controls; candidate pin awaits independent target-policy acceptance",
-          "reviewed_code_fingerprint": "09cfe0fce1b30b81eeb4d5b9b8bb76cabbadcf2912434ce676a3cd83cee8a646",
+          "reason": "Reviewed exact controller-selected objective and original human mission binding, nine evidence negatives, actual rerendered variants and two native-proof presentation negatives. Direct human authorship is not attested; observer cannot admit work; fixture forge bypass prevention is not claimed. Candidate inventory pin is a review proposal, pending independent accepted-target policy.",
+          "reviewed_code_fingerprint": "e792236e364797573369ad3d6c6500d8c208d5cc9548088db935b73a90984af2",
           "spec_material_hash": "5771d917291340b4bb73a98d1022c433feb57b1462bf517fdaaf54a1ab6341b9"
         }
       ],
@@ -95,16 +100,20 @@
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1794979039Z"
+      "updated_at": "1794984170Z"
     },
     "trajectory": {
       "active_boundaries": [
         "Current claimed task and isolated work branch"
       ],
-      "artifact_hash": "sha256:7f93b35e92dfdf197445e339a2028aedfb34b2290f2ee2ca2cd09b10a7eeced2",
+      "artifact_hash": "sha256:a268c193eada5a56d84fab5c2fbb12d78ba71f2f10afb20b969871ca800d8117",
       "checks": [
         {
           "name": "actual-media-byte-readback",
+          "status": "passed"
+        },
+        {
+          "name": "actual-media-decode",
           "status": "passed"
         },
         {
@@ -114,6 +123,18 @@
         {
           "name": "native-presentation-review",
           "status": "passed"
+        },
+        {
+          "name": "native-proof-presentation",
+          "status": "passed"
+        },
+        {
+          "name": "objective-authorship-guard",
+          "status": "passed"
+        },
+        {
+          "name": "public-deployment",
+          "status": "unavailable"
         },
         {
           "name": "target-policy-acceptance",
@@ -148,10 +169,17 @@
             "intent_id": "intent:change_01M7P3MS42DDAPYYZZXH5XK89Q",
             "kind": "trajectory_step_recorded",
             "sequence": 5
+          },
+          {
+            "detail": "trajectory:branch_01M7P3MS5DCW110VK162809HWA",
+            "event_id": "event:6",
+            "intent_id": "intent:change_01M7P3MS42DDAPYYZZXH5XK89Q",
+            "kind": "trajectory_step_recorded",
+            "sequence": 6
           }
         ],
         "knowledge_candidates": [],
-        "next_sequence": 5,
+        "next_sequence": 6,
         "schema_version": "1.0.0",
         "trajectories": {
           "branch_01M7P3MS5DCW110VK162809HWA": {
@@ -190,6 +218,26 @@
                 ],
                 "sequence": 5,
                 "validation_findings": []
+              },
+              {
+                "action": "trajectory.record",
+                "custody_event_id": "event:6",
+                "observations": [
+                  "Actual Linux-container render and verification completed for56s1080p,12s720p and56svertical H264/AAC films; nine offline source controls pass plus two Deno native-proof negatives. Chrome desktop/mobile actual playback and captions passed on the final candidate bytes. Exact human mission and separate controller-selected task are preserved without rewriting the immutable run archive. This source inventory supersedes91c1c4fa; fresh native admission awaits explicit accepted-target policy. Local preview is not public deployment."
+                ],
+                "proof_refs": [
+                  "actual-media-decode",
+                  "objective-authorship-guard",
+                  "native-proof-presentation",
+                  "desktop-mobile-browser",
+                  "target-policy-acceptance",
+                  "public-deployment"
+                ],
+                "scope": [
+                  "scripts"
+                ],
+                "sequence": 6,
+                "validation_findings": []
               }
             ]
           }
@@ -199,6 +247,7 @@
       "destination": "pull request",
       "evidence": [
         "Actual Linux Deno presentation review passes original native publication record/receipt and two adversarial mutations after correcting typed-serialization digest confusion. Native full validation remains blocked by accepted source-policy transition. Original movie bytes and native evidence are unchanged; no admission inferred.",
+        "Actual Linux-container render and verification completed for56s1080p,12s720p and56svertical H264/AAC films; nine offline source controls pass plus two Deno native-proof negatives. Chrome desktop/mobile actual playback and captions passed on the final candidate bytes. Exact human mission and separate controller-selected task are preserved without rewriting the immutable run archive. This source inventory supersedes91c1c4fa; fresh native admission awaits explicit accepted-target policy. Local preview is not public deployment.",
         "Reauthor byte-identical reviewed0d7133d website source/media after explicit task transfer into fresh Linux tmpfs; original source branch, failed attempts and task history preserved. Independent public downloads matched all9 critical assets; Chrome desktop/mobile playback passed after accepted pricing merge. New native validation/publication required; no historical proof imported."
       ],
       "inspected_files": [],

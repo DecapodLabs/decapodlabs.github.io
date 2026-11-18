@@ -7,7 +7,7 @@ The website owns presentation through [#9](https://github.com/DecapodLabs/decapo
 
 ## Observed run
 
-Objective revision 1, supplied once:
+Objective revision 1, selected by the controller under the human-authorized launch mission and supplied once:
 
 > Implement the repository-scoped read authorization described in README.md and publish a verified pull request.
 
@@ -39,7 +39,7 @@ to 0.148.9 without changing the experiment binary.
 Seeded fixture baseline `4b7f3b05637120a2ac6d638c46a13288fa6d74ce` requires
 active organization membership AND repository ownership or an explicit repository
 grant. The defect and requirement to retain an unrepaired baseline were disclosed
-in README. Repository entrypoints introduce Decapod. The human objective does
+in README. Repository entrypoints introduce Decapod. The controller-selected engineering objective does
 not prescribe the repair or any Decapod command.
 
 The kernel's fixed literal Node command includes ten independent assertions;
@@ -142,7 +142,7 @@ a substitute for the model's real repair. Preserve unsuccessful attempts too.
 
 ## Reproduce the film
 
-Use Python 3.12, FFmpeg, and the existing renderer dependencies:
+Use Python 3.11 or newer, FFmpeg, and the existing renderer dependencies:
 
 ```sh
 python -m pip install Pillow==11.3.0 numpy==2.3.4 CairoSVG==2.7.1
@@ -181,7 +181,7 @@ also includes the complete post-archive operator ledger and archive-seal.json.
 ## Permanent presentation guard
 
 media/launch-production.json pins the independently reviewed actual manifest and
-control digests. python scripts/test-launch-evidence.py exercises seven offline
+control digests. python scripts/test-launch-evidence.py exercises nine offline
 controls, including changed heads, missing failures, path escape, altered
 witnesses and historical proof relabelled as present authority. The normal Deno
 site contract also checks these source bindings and actual movie/caption bytes.
@@ -203,3 +203,9 @@ wrapper grants neither publication nor merge authority. This supplement was
 read after the immutable archive was sealed, and is preserved by the website
 Git commit rather than rewriting that archive. Its fixture reads are included
 in the complete post-archive ledger.
+
+## Objective authorship disclosure
+
+The human supplied the launch mission and explicitly authorized selection of an ordinary engineering task for Pi. The controller selected the single task prompt above. The actual Pi run received that prompt once, with no later input or controller-written repair. `objective-provenance.json` is a separately labelled retrospective controller disclosure, pinned by the media configuration. It does not authenticate a human signer, relabel the prompt as direct human authorship, or modify the immutable original runtime/capture/manifest. The film says “ONE ENGINEERING OBJECTIVE.”
+
+The exact original human mission is preserved in [human-mission.txt](human-mission.txt), with SHA-25688caaf945f2e3923862a43d32c5e6e1d05f0a65a6cce138c75a7475fdd83e0ad. The separate controller-selected Pi objective retains revision1 and its original capture binding. These are distinct sources of intent; the disclosure grants no authority.

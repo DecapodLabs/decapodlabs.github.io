@@ -1,0 +1,510 @@
+within ~/src/decapod fethc origin main and install latest decapod. Then: # Mission: Prove Autonomous Engineering and Produce the Decapod Launch Film
+
+You are the lead engineering agent for Decapod Labs. Your assignment is to complete the autonomous-agent acceptance work, produce independently verifiable evidence, and turn the real execution into a polished, automatically generated Decapod launch video.
+
+**Execute the work. Do not stop at research, proposals, issue creation, mockups, or partially implemented tests.**
+
+Resolve routine technical decisions independently. Use the existing governance kernel, repositories, issues, tooling, and established conventions. Ask for human input only when a genuine authorization, credential, payment, or irreversible decision requires it.
+
+## 1. Mission and success criteria
+
+Demonstrate the following lifecycle using an actual autonomous coding agent:
+
+1. A human supplies one natural-language engineering objective.
+2. The agent independently discovers and uses Decapod.
+3. The agent encounters a genuinely failing required validation.
+4. Decapod rejects the work and provides actionable evidence.
+5. The agent diagnoses the failure without a human supplying the repair.
+6. The agent implements the correction.
+7. Decapod executes the required checks and produces fresh evidence.
+8. The agent publishes a real GitHub pull request through Decapod.
+9. Independent readback confirms the PR matches the validated artifact.
+10. Stale evidence, source mutation, and target-base advancement cannot authorize the wrong artifact.
+
+The result must be demonstrably autonomous.
+
+The implementation should then produce a professionally edited launch film using the actual execution events and Decapod's existing visual identity.
+
+**Definition of done:** A real autonomous run, correct rejection and recovery behavior, verifiable evidence, completed video assets, website integration, passing required validation, and published implementation PRs.
+
+A deterministic mock is useful for regression testing. It cannot substitute for the real-agent acceptance demonstration.
+
+## 2. Repositories and GitHub ownership
+
+Primary development workspace:
+
+`~/src/decapod`
+
+Relevant repositories:
+
+- `DecapodLabs/decapod` — Rust governance kernel, acceptance observer, event provenance, regression tests, and integration contracts.
+- `DecapodLabs/decapodlabs.github.io` — all marketing video source, automated rendering, film assets, website publication, and launch presentation.
+- `DecapodLabs/propodus` — Deno/TypeScript Decapod Cloud authentication, administration, onboarding, and billing integration where genuinely relevant.
+- `alexhraber/decapod-admission-acceptance-20261117-1747-06` — disposable external acceptance fixture.
+
+Existing issues:
+
+**Decapod**
+- #1757 — Headless agent acceptance: independent observer and issue-owned fixture provenance.
+- #1758 — Real headless Pi autonomous repair and proof-backed GitHub PR admission.
+- #880 — Real agent-host activation.
+- #1277 — Pi integration and native TypeScript binding.
+- #1726 — Evidence-backed completion reporting.
+- #1095 — Execution telemetry and measurable outcomes.
+- #1747 / #1748 — Completed publication proof and repair acceptance.
+- PR #1754 — Merged evidence-bound PR admission implementation.
+
+**Website**
+- #9 — Evidence-backed autonomous-agent launch film.
+
+**Propodus**
+- #34 — Actual browser-to-Decapod onboarding acceptance.
+- #136 — Minimal repository enrollment and purchasing interface.
+- #147 — Customer-facing Decapod Cloud Admin branding.
+
+Review these issues, the relevant linked PRs, related closed issues, and actual current source before implementing anything.
+
+Preserve existing implementation. Extend it rather than creating parallel architectures.
+
+### Critical fixture ownership requirement
+
+**EVERY action performed in the acceptance repository must be recorded against an issue in `DecapodLabs/decapod`.**
+
+This includes fixture configuration, branches, source mutations, commits, generated data, acceptance attempts, PRs, changes to target branches, cleanup operations, and archived evidence.
+
+Use #1757 for observer/fixture preparation and #1758 for the actual autonomous experiment. Create additional issues in `DecapodLabs/decapod` only for independently identified gaps that cannot reasonably be handled by the existing owners.
+
+Do not create issues in the acceptance repository.
+
+Preserve its original proof archive at:
+
+`ae15eeffd6812002fbda2a2adaca23b006de0ba6`
+
+Do not overwrite, force-push, delete, or merge its historical acceptance PR #1.
+
+Use isolated, issue-scoped refs and record exact Git identities before and after every mutation.
+
+## 3. Establish the true current implementation
+
+Before coding, inspect:
+
+- Decapod's complete current validation and publication paths.
+- The real-forge acceptance harness in `tests/acceptance/publication_admission.rs`.
+- Publication regression tests and the required core-test path.
+- Agent context, custody, task claims, trajectories, worktrees, completion evidence, and published PR contracts.
+- Current `decapod validate` behavior.
+- Existing CLI/RPC capabilities.
+- Existing Pi integration work and host integration contracts.
+- The website's media renderer and video workflow.
+- Propodus's current authenticated onboarding and Decapod Cloud Admin implementation.
+
+Identify exactly what is already proven, what remains unproven, and which existing implementation can be reused.
+
+Do not equate an agent's own completion statement with observed completion.
+
+Do not create a new governance engine, orchestrator, or agent framework.
+
+## 4. Implement the independent acceptance observer
+
+Complete Decapod #1757.
+
+Build the smallest reliable, Rust-native observation layer necessary to correlate a real agent's activity with Decapod's authoritative records.
+
+Capture:
+
+- Original human objective and its revision.
+- Agent harness and model version.
+- Actual agent tool invocations and results.
+- Decapod context consultation.
+- Task and workspace custody.
+- Source changes and Git commit identities.
+- Required validation plans and check execution.
+- Actual failed checks.
+- Decapod rejection codes and explanations.
+- Agent-initiated investigation and repair actions.
+- Fresh validation receipts.
+- Published PR URL, head SHA, accepted base SHA, and publication result.
+- Subsequent changes that make previous evidence stale.
+- Current PR admission applicability and separate merge authorization state.
+
+Every event must be associated with its actual observed source.
+
+Do not derive authoritative facts from model narration.
+
+Create a compact, versioned, machine-readable evidence manifest suitable for automated video production. Include stable event identifiers, timestamps or execution ordering, provenance references, evidence digests, and assurance classifications.
+
+Raw operational captures must remain private. Export only redacted evidence that is safe for public consumption.
+
+The observer is read-only. It has no authority to modify validation outcomes or admit work.
+
+### Required adversarial controls
+
+Ensure the observer correctly identifies false completion claims, missing Decapod invocation, direct Git/GitHub bypass, incomplete checks, stale receipts, wrong head/base bindings, and PR-created-but-not-admitted outcomes.
+
+Distinguish kernel enforcement from cooperative harness behavior and independently enforced GitHub policy.
+
+Add deterministic tests to the existing mandatory Decapod test path.
+
+## 5. Run the real autonomous Pi experiment
+
+Complete Decapod #1758.
+
+Use the existing Pi coding-agent harness in headless mode, with a real model/provider and actual tool execution.
+
+Inspect the installed Pi version and confirm the supported noninteractive JSON/RPC interfaces before choosing commands.
+
+**Do not use a virtual framebuffer unless a genuinely essential host capability makes it unavoidable.**
+
+Prefer the existing headless interface. The product demonstration should require no graphical interaction.
+
+Pin and record:
+
+- Pi version.
+- Decapod binary/source version.
+- Model/provider identity.
+- Fixture baseline.
+- Original prompt.
+- Required proof contract.
+- Runtime/tool versions.
+- Experiment budget and limits.
+
+Use an already authorized provider or available local model where feasible. Do not introduce a new paid service merely to complete the demonstration.
+
+### Actual autonomous behavior
+
+Give Pi an ordinary engineering objective.
+
+The agent must independently consult Decapod, establish appropriate task/workspace state, investigate a real failure, repair the code, obtain validation, and publish the PR.
+
+A seeded defect is acceptable if identified as seeded. The actual diagnosis and repair must be performed by the agent.
+
+No controller-written repair. No fabricated model responses. No scripted imitation of autonomous reasoning.
+
+A timeout, transport failure, or unavailable prerequisite does not count as a successful proof rejection.
+
+The rejection must result from the actual required engineering validation.
+
+Observe the entire agent execution.
+
+Count post-objective human interventions. The target is zero.
+
+### Publication and adversarial validation
+
+Demonstrate:
+
+- Failed work cannot earn admission.
+- Successful repair requires new evidence.
+- The evidence identifies the exact validated source.
+- Mutating source invalidates applicable historical proof.
+- Advancing the accepted target invalidates base-bound proof.
+- The actual published PR matches the validated head.
+- Post-creation proof failure produces a truthful non-admission result.
+- PR admission never implies merge authorization.
+
+Perform independent GitHub readback.
+
+Archive both successful and failed attempts without rewriting historical records.
+
+If a real agent bypasses Decapod, preserve the result and identify the exact boundary that failed. Do not artificially force the demonstration green by weakening governance.
+
+## 6. Make the autonomous run usable as launch-video source material
+
+The acceptance observer should produce a sanitized sequence of real events that a video renderer can consume.
+
+Example event categories:
+
+`objective_received`
+
+`context_consulted`
+
+`task_claimed`
+
+`source_changed`
+
+`validation_started`
+
+`validation_failed`
+
+`publication_rejected`
+
+`agent_investigated`
+
+`agent_repaired`
+
+`validation_passed`
+
+`proof_issued`
+
+`publication_started`
+
+`pr_verified`
+
+`evidence_became_stale`
+
+`run_completed`
+
+These are illustrative event names. Reuse existing Decapod terminology and schemas where possible.
+
+The event manifest must preserve provenance and distinguish observed actions from editorial descriptions.
+
+A renderer may transform the visual presentation of the evidence. It must never invent the evidence.
+
+An edited event timeline is acceptable. A fake terminal showing a fictional successful validation is not.
+
+## 7. Produce the actual launch video
+
+Complete `DecapodLabs/decapodlabs.github.io#9`.
+
+Start by examining the current homepage and existing teaser:
+
+https://decapodlabs.github.io/
+
+The website already contains:
+
+- `scripts/render-showcase.py`
+- `scripts/generate-social.py`
+- `.github/workflows/site-bootstrap.yml`
+- `assets/decapod-showcase.mp4`
+- `assets/decapod-poster.png`
+- The existing mascot, branding and animation assets.
+
+**Reuse this media system.**
+
+The website owns marketing production. Do not put video-rendering code into Decapod or Propodus.
+
+Preserve the current teaser and existing homepage identity.
+
+### Creative direction
+
+Produce a cinematic, sophisticated, technically credible launch film.
+
+The creative thesis:
+
+**Give your agent an objective. Walk away. Come back to receipts.**
+
+Build the story around what the agent actually did.
+
+Proposed narrative:
+
+**Act I — Intent**
+
+A human gives an agent an engineering objective.
+
+The interface becomes quiet. The agent begins working.
+
+**Act II — Failure**
+
+The agent makes progress, but a required validation fails.
+
+Decapod rejects the result.
+
+The rejection is meaningful, legible and authoritative.
+
+**Act III — Metacognition**
+
+The agent examines what failed, revisits the requirements, and changes its implementation.
+
+Show real observed investigation and correction activity.
+
+**Act IV — Proof**
+
+The agent executes fresh validation.
+
+Required checks pass.
+
+Show real evidence binding, exact artifact identity and verified completion.
+
+**Act V — Admission**
+
+The agent creates a real PR.
+
+Decapod verifies the actual published artifact.
+
+The final image communicates that this is governed autonomous engineering operating today.
+
+Close with:
+
+**DECAPOD**
+
+**HARNESS AI METACOGNITION.**
+
+https://decapodlabs.github.io/
+
+### Visual and editorial requirements
+
+Match the existing Decapod Labs identity: ivory, charcoal, coral, original crab mascot, strong typography, clean transitions and deliberate motion.
+
+Avoid generic AI imagery, fake dashboards, exaggerated science-fiction interfaces, invented agent thoughts, and dense terminal dumps.
+
+Use actual captured terminal/agent events where beneficial. Convert technical evidence into readable motion graphics, with enough original context to establish authenticity.
+
+Design for comprehension within seconds.
+
+The film should feel like a serious infrastructure product launch, with creative energy and restraint.
+
+### Deliverables
+
+Produce:
+
+- Main launch film, approximately 45–60 seconds, 1920×1080.
+- Short social version, approximately 10–15 seconds.
+- Captioned sound-off presentation.
+- Mobile-friendly version or crop where suitable.
+- Poster/thumbnail.
+- Original or appropriately licensed audio.
+- A reproducible automated rendering command and build workflow.
+- A public evidence link corresponding to the recorded demonstration.
+
+Use the existing Python/FFmpeg pipeline where practical.
+
+The source event manifest and media configuration should allow the film to be regenerated.
+
+A synthetic storyboard may be used privately during development, but the final public film must use verified real-agent evidence.
+
+## 8. Integrate the film into the website
+
+Preserve the current homepage's visual quality and layout.
+
+Do not replace the original teaser without a deliberate reason.
+
+Place the new demonstration where it improves product understanding, ideally near the existing film or as a focused proof-backed demonstration section.
+
+The viewer should understand what happened without reading a technical white paper.
+
+Provide a concise path to inspect the underlying GitHub PR and evidence.
+
+Support:
+
+- Desktop and mobile layouts.
+- Autoplay only where browser-safe.
+- Mute/unmute controls where appropriate.
+- Captions.
+- Reduced-motion preferences.
+- Poster fallback.
+- Accessible playback controls.
+- Correct video aspect ratios.
+- Reasonable file sizes and page performance.
+
+Preserve the existing static website architecture.
+
+Do not introduce an application backend for marketing.
+
+Validate the generated assets and the publicly served website.
+
+Do not present a successful local render as proof that the deployed website functions correctly.
+
+## 9. Propodus / Decapod Cloud coordination
+
+Update and complete relevant scoped work in:
+
+- `DecapodLabs/propodus#34`
+- `DecapodLabs/propodus#136`
+
+The primary film is about local-first autonomous engineering and **must not depend on a working cloud subscription**.
+
+If the existing protected onboarding environment is operational, produce a separately evidenced short clip showing:
+
+Decapod Cloud selection → Decapod Cloud Admin → authenticated repository selection → seat/pricing selection where applicable → authoritative backend authorization → return to Decapod.
+
+Use synthetic identities, test-mode payments where appropriate, and safe redacted recordings.
+
+Do not fabricate a completed hosted subscription or authorization state.
+
+All customer-facing terminology must be Decapod-branded, consistent with Propodus #147.
+
+Do not expand Propodus into a recording platform or marketing service.
+
+Propodus remains responsible for authentication, authorization, payment entitlements, and the hosted Decapod database.
+
+If real hosted onboarding is unproven, document the limitation and omit the Cloud segment from the film. Preserve its existing issue ownership rather than blocking the core launch.
+
+## 10. Tests and delivery discipline
+
+Use Decapod for the engineering work itself.
+
+Work in governed worktrees and branches.
+
+Do not weaken accepted validation requirements, bypass custody, manufacture receipts, or suppress failed tests.
+
+For every implementation repository:
+
+1. Inspect current master/main and related open PRs.
+2. Avoid duplicate work and stale branches.
+3. Make the smallest coherent changes.
+4. Add meaningful tests.
+5. Run required local validation.
+6. Run existing authoritative checks.
+7. Push changes through the normal governed workflow.
+8. Publish appropriately scoped GitHub PRs.
+9. Resolve failures and obtain green required checks.
+10. Update issues with exact implementation and acceptance evidence.
+
+Keep Decapod's core Rust-only implementation preference intact.
+
+All media-generation source belongs in the website repository.
+
+All new Propodus application implementation must follow its current Deno/TypeScript and Supabase architecture.
+
+No additional governance engine, paid infrastructure, or permanent background service.
+
+### Verification requirements
+
+Validate the real-agent lifecycle independently of its public presentation.
+
+Validate the film's source-event accuracy separately from its visual quality.
+
+Verify actual video files, codecs, dimensions, duration, captions, audio, poster, playback and output links.
+
+Use an actual browser check for the homepage and its responsive layout.
+
+Required Decapod tests should remain independent of network access, paid inference, GitHub mutations, video rendering and website availability.
+
+Live integration tests remain opt-in, with their exact execution results recorded.
+
+## 11. Final evidence and reporting
+
+When the implementation is complete, provide a concise delivery report covering:
+
+**Autonomous execution:** exact initial objective, pinned agent/model/kernel versions, what the agent actually did, first failed validation, rejection reason, how it repaired the work, actual checks executed, any human intervention, and the final completion state.
+
+**Publication:** exact head/base SHAs, GitHub PR URL, applicable receipts, publication acceptance, and merge-authorization status.
+
+**Adversarial evidence:** stale proof, mutated source, changed base, attempted bypasses, and any control that remained unproven.
+
+**Launch media:** source event manifest, render commands, primary film, short social cut, captions, poster, actual website preview/publication and verified playback.
+
+**GitHub:** all created or updated issues, PRs, checks, and exact merge state.
+
+**Fixture ledger:** every action performed in the acceptance repository, with its owning `DecapodLabs/decapod` issue, exact refs and outcomes.
+
+**Remaining limitations:** explicit distinctions between completed, partially proven and blocked work.
+
+Never describe incomplete work as completed.
+
+## 12. Execution priorities
+
+Follow this order:
+
+1. Audit the existing code, tools, issues and evidence.
+2. Complete #1757's smallest usable evidence observer.
+3. Execute #1758's real autonomous Pi acceptance.
+4. Fix only genuine gaps revealed by the experiment.
+5. Produce the verified event manifest.
+6. Generate and refine the launch film through website #9.
+7. Integrate and verify the film on the website.
+8. Complete relevant Propodus recording-safe acceptance work without blocking the primary launch.
+9. Publish PRs, obtain green checks, and update every relevant issue with exact evidence.
+
+Do not turn this into a large new platform, a generalized video editor, or a research-only exercise.
+
+Deliver one excellent, credible launch demonstration before expanding the scope.
+
+## Final governing principle
+
+Decapod is a repo-native metacognitive governance kernel for autonomous engineering.
+
+The agent performs the engineering work. Decapod governs its authority, boundaries, requirements, and evidence. The video makes that relationship understandable.
+
+**The launch must demonstrate a capability that actually exists. Every claim must survive inspection of the underlying evidence.**
+
+Do what must be done.

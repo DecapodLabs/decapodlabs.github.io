@@ -23,5 +23,6 @@
   "fps": 30,
   "typography": "assets/fonts/SOURCES.json",
   "audio": "Original synthesized score; no external samples",
-  "scope": "Presentation of a reviewed actual-run export; this configuration grants no admission or merge authority"
+  "scope": "Presentation of a reviewed actual-run export; this configuration grants no admission or merge authority",
+  "approved_objective_provenance_sha256": "sha256:969081af362b9ffd09b0f86cf11713e5babb97816d3600250d0b86a5eb814570"
 }

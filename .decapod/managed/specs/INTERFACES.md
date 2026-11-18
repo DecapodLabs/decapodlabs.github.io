@@ -32,6 +32,10 @@ The public evidence README links directly to the immutable fixture archive captu
 
 The offline presentation gate pins the independently observed T7sSlC native record digest and receipt hash. It compares the publication plan with the Rust-verified standalone plan and checks native suite/plan references, exact subject and publisher timing. Rust typed digests are not generic sorted-JSON digests; this website does not replace the kernel verifier. Two read-only adversarial controls reject an altered execution-output digest with recomputed wrapper hashes and false present authority. The unchanged original native record/receipt and movie assets remain retained. Presentation review is not native publication readiness; accepted verification-source policy still requires independent maintainer acceptance.
 
+## Launch objective authorship
+
+The controller selected the single Pi task under the human-authorized mission; direct human authorship of that prompt is not attested. The separately pinned retrospective objective-provenance disclosure preserves the original runtime/capture/manifest bytes. Rendered language says ONE ENGINEERING OBJECTIVE, and both presentation guards reject a substituted authorship claim. This correction requires rerendered media, source inventory review and fresh native admission; prior film/validation bytes cannot authorize it.
+
 <!-- decapod:capability-overlay:public-api:start -->
 
 Generated capability obligations: `public-api` is declared for this project. These are decisions and proof requirements, not claims of implemented behavior. Resolve each against project source and tests; record unsupported or non-applicable mechanisms explicitly.
@@ -59,7 +63,7 @@ Generated capability obligations: `public-api` is declared for this project. The
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `09cfe0fce1b30b81eeb4d5b9b8bb76cabbadcf2912434ce676a3cd83cee8a646`
+- Repository signal fingerprint: `e792236e364797573369ad3d6c6500d8c208d5cc9548088db935b73a90984af2`
 - Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `evidence/` (1 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->

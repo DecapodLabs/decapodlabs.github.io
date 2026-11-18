@@ -26,6 +26,10 @@ class ActualEvidenceGuard(unittest.TestCase):
         manifest,_=launch.evidence(self.directory)
         self.assertTrue(manifest['observed_autonomous_admission'])
         self.assertFalse(manifest['current_admission_applicable'])
+    def test_controller_selected_prompt_cannot_claim_direct_human_authorship(self):
+        self.change('objective-provenance.json',lambda p:p.update(selected_by='human',direct_human_authorship_attested=True));self.rejected()
+    def test_changed_human_mission_is_rejected(self):
+        p=self.directory/'human-mission.txt';p.write_text(p.read_text()+' changed');self.rejected()
     def test_different_head_cannot_borrow_the_story(self):
         self.change('manifest.json',lambda m:m['admission_observed'].update(head='0'*40));self.rejected()
     def test_historical_proof_cannot_become_present_authority(self):

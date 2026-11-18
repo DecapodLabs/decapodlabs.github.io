@@ -11,6 +11,7 @@ import argparse
 import hashlib
 from functools import lru_cache
 import importlib.util
+import importlib.metadata
 import json
 import math
 import os
@@ -56,6 +57,17 @@ def evidence(directory):
         raise ValueError('presentation must never grant authority or conceal intervention')
     if manifest['current_admission_applicable'] or manifest['objective']['text'] != capture['objective']:
         raise ValueError('historical admission and the original objective must remain truthful')
+    origin_path = directory / 'objective-provenance.json'
+    origin = json.loads(origin_path.read_text())
+    if (digest(origin_path.read_bytes()) != PRODUCTION['approved_objective_provenance_sha256']
+            or origin['run_id'] != manifest['run_id'] or origin['objective'] != capture['objective']
+            or origin['selected_by'] != 'controller_agent' or origin['direct_human_authorship_attested']
+            or origin['post_objective_input_count'] != 0
+            or origin['publication_ready'] or origin['merge_authorized']):
+        raise ValueError('controller-selected task provenance must remain explicit')
+    if (origin['human_mission_file'] != 'human-mission.txt'
+            or digest((directory / 'human-mission.txt').read_bytes()) != origin['human_mission_sha256']):
+        raise ValueError('original human mission binding changed')
     for artifact in capture['artifacts'].values():
         name = artifact['file']
         if Path(name).name != name or (directory / name).is_symlink():
@@ -103,7 +115,7 @@ def scenes(m, controls, social=False):
     source = [e['id'] for e in m['events'] if e['kind'] == 'agent_changed_failed_source']
     result = [
         dict(duration=6, act='01 / INTENT', title=['Give your agent', 'an objective.'], accent=1,
-             detail=m['objective']['text'], tag='ONE HUMAN OBJECTIVE', evidence=[m['events'][0]['id']]),
+             detail=m['objective']['text'], tag='ONE ENGINEERING OBJECTIVE', evidence=[m['events'][0]['id']]),
         dict(duration=6, act='02 / AUTONOMY', title=['Walk away.'], accent=0,
              detail='The agent discovers Decapod, claims its task and enters an isolated workspace.',
              tag='PI · REAL MODEL · REAL TOOLS', evidence=[e['id'] for e in m['events'] if e['kind'] in ['context_consulted','task_claimed','workspace_bound']]),
@@ -264,6 +276,7 @@ def main():
     outputs=[render(m,c,args.output,v) for v in variants]
     report={'schema':'decapod.launch-render.v1','run_id':m['run_id'],'manifest_sha256':digest((args.evidence/'manifest.json').read_bytes()),
             'production_config_sha256':digest((ROOT/'media/launch-production.json').read_bytes()),
+            'runtime':{'python':sys.version.split()[0], 'ffmpeg':subprocess.check_output(['ffmpeg','-version'],text=True).splitlines()[0], 'packages':{name:importlib.metadata.version(name) for name in ['Pillow','numpy','CairoSVG']}},
             'audio':'Original synthesized score by Decapod Labs; no external samples',
             'claim_scope':'Edited real-agent events; historical PR admission, never merge authorization. Controlled post-run probes are distinct from agent actions.',
             'outputs':outputs}

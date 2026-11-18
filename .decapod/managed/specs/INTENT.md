@@ -36,6 +36,10 @@ Preserve offline-first, bounded authority, current commit-specific proof,
 and the actual original film and mascot. Publication must be verified
 independently against the publicly served Pages URL.
 
+## Launch objective authorship
+
+The controller selected the single Pi task under the human-authorized mission; direct human authorship of that prompt is not attested. The separately pinned retrospective objective-provenance disclosure preserves the original runtime/capture/manifest bytes. Rendered language says ONE ENGINEERING OBJECTIVE, and both presentation guards reject a substituted authorship claim. This correction requires rerendered media, source inventory review and fresh native admission; prior film/validation bytes cannot authorize it.
+
 <!-- decapod:declared-capabilities:start -->
 
 ## Declared Capability Surfaces
@@ -55,7 +59,7 @@ These declarations select authoring and proof obligations; they do not attest im
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `09cfe0fce1b30b81eeb4d5b9b8bb76cabbadcf2912434ce676a3cd83cee8a646`
+- Repository signal fingerprint: `e792236e364797573369ad3d6c6500d8c208d5cc9548088db935b73a90984af2`
 - Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `evidence/` (1 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->

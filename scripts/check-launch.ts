@@ -42,6 +42,9 @@ export async function verifyLaunch() {
   assert(m.current_admission_applicable === false, 'historical_admission_required');
   assert(m.run_id === c.run_id && m.objective.text === c.objective, 'run_identity');
   assert(c.approved_objective_sha256 === await hash(bytes(c.objective)), 'objective_digest');
+  const origin = await read(root + 'objective-provenance.json');
+  assert(production.approved_objective_provenance_sha256 === await hash(await Deno.readFile(root + 'objective-provenance.json')) && origin.schema === 'decapod.launch-objective-provenance.v1' && origin.run_id === m.run_id && origin.objective === c.objective && origin.selected_by === 'controller_agent' && origin.direct_human_authorship_attested === false && origin.post_objective_input_count === 0 && origin.publication_ready === false && origin.merge_authorized === false, 'objective_provenance');
+  assert(origin.human_mission_file === 'human-mission.txt' && origin.human_mission_sha256 === await hash(await Deno.readFile(root + 'human-mission.txt')), 'human_mission_digest');
   const witnesses: Record<string, unknown[]> = {};
   for (const [name, value] of Object.entries(c.artifacts)) {
     const a = value as {file: string; sha256: string};
