@@ -1,89 +1,91 @@
 (() => {
   "use strict";
-  // This is an informational volume/term preview, never a Cloud price quote.
-  // Paid assignment edges, distinct identities, tier entitlement and billing remain server-authoritative.
+  // Marketing preview only: paid assignments and distinct-human volume tiers
+  // are server-verified at purchase. The second slider shows the minimum
+  // distinct people implied by equal-sized repository assignment counts.
   const byId = id => document.getElementById(id);
   const repositories = byId("repo-count");
-  const assignmentsPerRepo = byId("seat-count");
-  const uniqueContributors = byId("unique-count");
-  if (!repositories || !assignmentsPerRepo || !uniqueContributors) return;
+  const contributors = byId("seat-count");
+  if (!repositories || !contributors) return;
   const steps = Object.freeze({
     repos: [[3, 2], [6, 4], [10, 6]],
     people: [[5, 2], [10, 4], [20, 6]]
   });
   let annual = false;
-  const tier = (value, points) => points.reduce((v, [threshold, pct]) => value >= threshold ? pct : v, 0);
-  const change = (id, value, field = "textContent") => {
+  let showAnnualDetails = false;
+  const tier = (count, points) => points.reduce(
+    (amount, [minimum, discount]) => count >= minimum ? discount : amount, 0
+  );
+  const change = (id, value, property = "textContent") => {
     const node = byId(id);
-    if (node) node[field] = value;
-  };
-  const setFill = (slider, value) => {
-    const min = Number(slider.min);
-    const max = Number(slider.max);
-    const fraction = max > min ? (value - min) / (max - min) : 1;
-    slider.style.setProperty("--fill", (Math.max(0, Math.min(1, fraction)) * 100) + "%");
+    if (node) node[property] = value;
   };
   function render() {
     const repos = Math.max(1, Math.min(10, Number(repositories.value) || 1));
-    const perRepo = Math.max(1, Math.min(25, Number(assignmentsPerRepo.value) || 1));
-    const assignments = repos * perRepo;
-    // Unique people may overlap across repos, but cannot exceed paid assignment edges.
-    uniqueContributors.min = String(perRepo);
-    uniqueContributors.max = String(assignments);
-    const people = Math.max(perRepo, Math.min(assignments, Number(uniqueContributors.value) || perRepo));
-    uniqueContributors.value = String(people);
-    const r = tier(repos, steps.repos);
-    const p = tier(people, steps.people);
-    const volume = r + p;
-    // Annual includes 8⅓ percentage points from the undiscounted annualized list;
-    // volume and term savings are additive, capped at 20% on standard base licenses.
-    const cumulative = Math.min(20, 100 / 12 + volume);
+    const perRepo = Math.max(1, Math.min(25, Number(contributors.value) || 1));
+    const repoDiscount = tier(repos, steps.repos);
+    // Every repository with N people implies at least N distinct humans.
+    // More non-overlapping humans may increase the actual verified discount.
+    const peopleDiscountFloor = tier(perRepo, steps.people);
+    const volumeFloor = repoDiscount + peopleDiscountFloor;
+    const annualFloor = Math.min(20, 100 / 12 + volumeFloor);
+
     change("repo-count-value", String(repos), "value");
     change("seat-count-value", String(perRepo), "value");
-    change("unique-count-value", String(people), "value");
-    change("assignment-count", String(assignments));
-    change("assignment-formula", repos + " " + (repos === 1 ? "repository" : "repositories") + " × " + perRepo + " " + (perRepo === 1 ? "assignment" : "assignments") + " each");
-    change("repo-discount", "+" + r + "%");
-    change("contributor-discount", "+" + p + "%");
-    change("combined-discount", volume + "%");
-    change("annual-discount", Number.isInteger(cumulative) ? cumulative.toFixed(0) + "%" : cumulative.toFixed(2) + "%");
-    const annualDisclosure = byId("annual-savings");
-    if (annualDisclosure) annualDisclosure.hidden = !annual;
+    change("assignment-count", String(repos * perRepo));
+    change("assignment-formula", repos + " " + (repos === 1 ? "repository" : "repositories") +
+      " × " + perRepo + " " + (perRepo === 1 ? "assignment" : "assignments") + " each");
+    change("repo-discount", "+" + repoDiscount + "%");
+    change("contributor-discount", "+" + peopleDiscountFloor + "%");
+    change("combined-discount", volumeFloor + "%");
+    change("annual-discount", (Number.isInteger(annualFloor) ?
+      annualFloor.toFixed(0) : annualFloor.toFixed(2)) + "%");
 
-    for (const [slider, count] of [[repositories, repos], [assignmentsPerRepo, perRepo], [uniqueContributors, people]]) {
-      setFill(slider, count);
+    const disclosure = byId("annual-savings");
+    if (disclosure) disclosure.hidden = !annual || !showAnnualDetails;
+    for (const option of document.querySelectorAll("[data-billing]")) {
+      const selected = option.dataset.billing === (annual ? "year" : "month");
+      option.classList.toggle("is-selected", selected);
+      option.setAttribute("aria-pressed", String(selected));
+      if (option.dataset.billing === "year") {
+        option.setAttribute("aria-expanded", String(annual && showAnnualDetails));
+      }
     }
-    for (const marker of document.querySelectorAll("[data-repo-threshold], [data-contributor-threshold]")) {
-      const min = Number(marker.dataset.repoThreshold ?? marker.dataset.contributorThreshold);
-      marker.classList.toggle("is-reached", (marker.dataset.repoThreshold ? repos : people) >= min);
-    }
-    // Marker positions reflect the available range of distinct paid humans in this example.
-    for (const marker of document.querySelectorAll("[data-contributor-threshold]")) {
-      const threshold = Number(marker.dataset.contributorThreshold);
-      const min = Number(uniqueContributors.min);
-      const max = Number(uniqueContributors.max);
-      const at = max > min ? (threshold - min) / (max - min) : 0;
-      const position = Math.max(0, Math.min(1, at));
-      marker.style.setProperty("--tier-at", (position * 100) + "%");
-      // Keep edge labels inside the slider rail at 0% and 100%.
-      marker.style.transform = position === 0 ? "translateX(0)" : position === 1 ? "translateX(-100%)" : "translateX(-50%)";
-      marker.style.alignItems = position === 0 ? "flex-start" : position === 1 ? "flex-end" : "center";
-      marker.hidden = threshold < min || threshold > max;
+    for (const [slider, value, selector] of [
+      [repositories, repos, "[data-repo-threshold]"],
+      [contributors, perRepo, "[data-contributor-threshold]"]
+    ]) {
+      const fraction = (value - Number(slider.min)) / (Number(slider.max) - Number(slider.min));
+      slider.style.setProperty("--fill", (Math.max(0, Math.min(1, fraction)) * 100) + "%");
+      for (const marker of document.querySelectorAll(selector)) {
+        const threshold = Number(marker.dataset.repoThreshold ?? marker.dataset.contributorThreshold);
+        marker.classList.toggle("is-reached", value >= threshold);
+      }
     }
   }
-  for (const button of document.querySelectorAll("[data-billing]")) {
-    button.addEventListener("click", () => {
-      annual = button.dataset.billing === "year";
-      for (const option of document.querySelectorAll("[data-billing]")) {
-        const selected = option.dataset.billing === (annual ? "year" : "month");
-        option.classList.toggle("is-selected", selected);
-        option.setAttribute("aria-pressed", String(selected));
-      }
+  for (const option of document.querySelectorAll("[data-billing]")) {
+    option.addEventListener("click", () => {
+      annual = option.dataset.billing === "year";
+      showAnnualDetails = annual;
       render();
     });
   }
-  for (const slider of [repositories, assignmentsPerRepo, uniqueContributors]) {
-    slider.addEventListener("input", render);
-  }
+  const dismiss = byId("annual-dismiss");
+  if (dismiss) dismiss.addEventListener("click", () => {
+    showAnnualDetails = false;
+    render();
+  });
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape" && showAnnualDetails) {
+      showAnnualDetails = false;
+      render();
+      const annualButton = [...document.querySelectorAll("[data-billing]")].find(
+        button => button.dataset.billing === "year"
+      );
+      if (annualButton) annualButton.focus();
+    }
+  });
+  repositories.addEventListener("input", render);
+  contributors.addEventListener("input", render);
   render();
 })();
