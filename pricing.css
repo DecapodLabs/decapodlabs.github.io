@@ -410,14 +410,12 @@
 .preview-savings-row .preview-annual-savings::before{content:"";position:absolute;top:-6px;left:51px;width:10px;height:10px;transform:rotate(45deg);background:#46303f;border-top:1px solid #8f6675;border-left:1px solid #8f6675}
 .preview-annual-heading{display:flex;align-items:center;gap:8px;min-height:15px;padding-right:26px}
 .preview-annual-heading>span{font-size:10px;line-height:1.2;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:#ffba91}
-.preview-annual-heading small{font-size:10px;color:#ffdcad;font-weight:800}
 .preview-annual-equation{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:5px}
 .preview-annual-factor{display:flex;flex-direction:column;align-items:flex-start;gap:2px;min-width:0}
 .preview-annual-factor strong{font:700 clamp(19px,2vw,24px) "Space Grotesk",sans-serif;line-height:1;letter-spacing:-.06em;white-space:nowrap;color:#fff8ee}
 .preview-annual-factor small{font-size:10px;line-height:1.15;color:#cdb2bd}
 .preview-annual-factor.preview-annual-total strong{color:#ffc08f;font-size:clamp(22px,2.2vw,27px)}
 .preview-annual-factor.preview-annual-total small{color:#f1c8b4;font-weight:800}
-.preview-annual-operator{color:#d4aab5;font-size:16px;font-weight:800;align-self:center;line-height:1}
 .preview-savings-row .preview-annual-dismiss{position:absolute;top:7px;right:8px;width:25px;height:25px;border:0;border-radius:7px;background:transparent;color:#f0c3b8;cursor:pointer;display:grid;place-items:center;font-size:21px;line-height:1}
 .preview-annual-dismiss:hover{background:#715063;color:#fffaf0}
 .preview-annual-dismiss:focus-visible{outline:3px solid #ffad7e;outline-offset:2px}
