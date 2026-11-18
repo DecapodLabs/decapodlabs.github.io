@@ -28,6 +28,11 @@
       "id": "accepted-native-pi-proof-policy",
       "summary": "Integrate the accepted exact verification inventory and checkpoint the reviewed capture, case study and proofs page for native admission.",
       "input_digest": "sha256:c5371ab5b17fcb6cd49c4f9e396369f9f6f50da363128d56f25b0fa6541311f0"
+    },
+    {
+      "id": "native-pi-footage-web-encode",
+      "summary": "Checkpoint delivery-size proof encode, native frame ledger binding and rerun verification without altering any source policy or the case study.",
+      "input_digest": "sha256:1f4e585bf6584db15a2ca79e281f6e031ce18d5d3f04a2f8534a5abc5ade984e"
     }
   ],
   "intents": {
@@ -68,21 +73,21 @@
         {
           "disposition": "unchanged_with_reason",
           "path": ".decapod/managed/specs/ARCHITECTURE.md",
-          "reason": "Reconciled the separately accepted eight-source verification pin. The reviewed native Pi viewport, case-study data, tool provenance and public output digests are unchanged.",
+          "reason": "Bounded the H.264 proof movie size while preserving exact frame sources, dimensions, duration and redaction. Updated the published checksum and verified all media and desktop/mobile playback.",
           "reviewed_code_fingerprint": "abfc871112e7bb630d611fdc4d681dd1f905dc47c665ba592e5fc97f95764a4d",
           "spec_material_hash": "eb42f628ec315b0f7d6e7d3a79a3523288900604f1d66ed1c415cbf74b8fed0b"
         },
         {
           "disposition": "unchanged_with_reason",
           "path": ".decapod/managed/specs/INTERFACES.md",
-          "reason": "Reconciled the separately accepted eight-source verification pin. The reviewed native Pi viewport, case-study data, tool provenance and public output digests are unchanged.",
+          "reason": "Bounded the H.264 proof movie size while preserving exact frame sources, dimensions, duration and redaction. Updated the published checksum and verified all media and desktop/mobile playback.",
           "reviewed_code_fingerprint": "abfc871112e7bb630d611fdc4d681dd1f905dc47c665ba592e5fc97f95764a4d",
           "spec_material_hash": "e2fb528986c81930c42ba998bd6c50c47c4291e03106fab36e1df80858259c73"
         },
         {
           "disposition": "unchanged_with_reason",
           "path": ".decapod/managed/specs/SECURITY.md",
-          "reason": "Reconciled the separately accepted eight-source verification pin. The reviewed native Pi viewport, case-study data, tool provenance and public output digests are unchanged.",
+          "reason": "Bounded the H.264 proof movie size while preserving exact frame sources, dimensions, duration and redaction. Updated the published checksum and verified all media and desktop/mobile playback.",
           "reviewed_code_fingerprint": "abfc871112e7bb630d611fdc4d681dd1f905dc47c665ba592e5fc97f95764a4d",
           "spec_material_hash": "8bcf582cf1684a76bb9570a673cac371e6f36c90840def82eff69b2e433a7a68"
         }
@@ -95,13 +100,13 @@
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1795007203Z"
+      "updated_at": "1795007433Z"
     },
     "trajectory": {
       "active_boundaries": [
         "Current claimed task and isolated work branch"
       ],
-      "artifact_hash": "sha256:82ea2743308dacd39e16a76df2ca264fd46a0309701d4e3e987aa01847a45c86",
+      "artifact_hash": "sha256:8440f9438516ca26289c0759b67a6ad1d102e21d2374231c97048b82672f726e",
       "checks": [
         {
           "name": "accepted-consumer-policy",
@@ -124,6 +129,10 @@
           "status": "unavailable"
         },
         {
+          "name": "proof-movie-native-size-budget",
+          "status": "passed"
+        },
+        {
           "name": "recorded-real-pi-admission",
           "status": "passed"
         },
@@ -133,6 +142,10 @@
         },
         {
           "name": "website-desktop-and-mobile-playback",
+          "status": "passed"
+        },
+        {
+          "name": "website-playback-and-binding",
           "status": "passed"
         }
       ],
@@ -164,10 +177,17 @@
             "intent_id": "intent:change_01M7Q6TKKV1S9QF6E72V0NC5NA",
             "kind": "trajectory_step_recorded",
             "sequence": 5
+          },
+          {
+            "detail": "trajectory:branch_01M7Q6TKNA43XB87PD8JH0A800",
+            "event_id": "event:6",
+            "intent_id": "intent:change_01M7Q6TKKV1S9QF6E72V0NC5NA",
+            "kind": "trajectory_step_recorded",
+            "sequence": 6
           }
         ],
         "knowledge_candidates": [],
-        "next_sequence": 5,
+        "next_sequence": 6,
         "schema_version": "1.0.0",
         "trajectories": {
           "branch_01M7Q6TKNA43XB87PD8JH0A800": {
@@ -210,6 +230,22 @@
                 ],
                 "sequence": 5,
                 "validation_findings": []
+              },
+              {
+                "action": "trajectory.record",
+                "custody_event_id": "event:6",
+                "observations": [
+                  "Original 22.8 MB encoded file hit the native 16 MiB Git output bound. Re-encoded the same masked 1440 by 924 frames at 15 fps original speed, validated final media and tested both screen sizes. Reviewed verification-source pin unchanged."
+                ],
+                "proof_refs": [
+                  "proof-movie-native-size-budget",
+                  "website-playback-and-binding"
+                ],
+                "scope": [
+                  "root"
+                ],
+                "sequence": 6,
+                "validation_findings": []
               }
             ]
           }
@@ -219,7 +255,8 @@
       "destination": "pull request",
       "evidence": [
         "Actual second Pi run 33 tools in 367.768 seconds, rejection and autonomous repair, 131 verified events, exact GitHub PR4 head and base. Terminal capture while Pi ran, private material omitted. Both films use that run, case study pacing and encoded soundtrack exact. Five media and captions verified; live website merge still depends on separately accepted source policy and fresh native proof.",
-        "Observed native TUI frames through Chromium, local media decoding and tests, Chrome playback on desktop and mobile, matching PR #6 receipt and GitHub endpoints. Separate acceptance of the reviewed target policy and exact native website publication before live Pages verification."
+        "Observed native TUI frames through Chromium, local media decoding and tests, Chrome playback on desktop and mobile, matching PR #6 receipt and GitHub endpoints. Separate acceptance of the reviewed target policy and exact native website publication before live Pages verification.",
+        "Original 22.8 MB encoded file hit the native 16 MiB Git output bound. Re-encoded the same masked 1440 by 924 frames at 15 fps original speed, validated final media and tested both screen sizes. Reviewed verification-source pin unchanged."
       ],
       "inspected_files": [],
       "intent_id": "intent:change_01M7Q6TKKV1S9QF6E72V0NC5NA",

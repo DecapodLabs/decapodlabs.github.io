@@ -68,6 +68,10 @@ Recording pi-1758-tui-05 contains 2,193 distinct terminal frames and 142 indepen
 
 The site owner authorized publication of the actual Pi TUI at /#proofs. The accepted target at 6862ce73ff3ddadd23c8eaa25e4b0bddc0ad89a7 pins the eight reviewed verification sources for the real capture and case study. The native admission result still requires a fresh check of this exact candidate and GitHub readback.
 
+## Proof recording delivery size
+
+Decapod denied website readiness for the initial 22.8 MB proof MP4 with the snapshot Git output limit. The publishable movie encodes the same masked 1440 × 924 compositor frames with H.264 rate control. Timing, captions, case study, accepted inventory, and artifact identity evidence are unchanged. Decapod binds fresh website readiness to the final encoded bytes.
+
 <!-- decapod:capability-overlay:background-processing:start -->
 
 Generated capability obligations: `background-processing` is declared for this project. These are decisions and proof requirements, not claims of implemented behavior. Resolve each against project source and tests; record unsupported or non-applicable mechanisms explicitly.
