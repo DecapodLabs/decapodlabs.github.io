@@ -18,8 +18,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
-<link rel="stylesheet" href="pricing.css?v=20261118-annual-equation-v3">
-<script src="pricing.js?v=20261118-annual-equation-v3" defer></script>
+<link rel="stylesheet" href="pricing.css?v=20261118-annual-flyout-v4">
+<script src="pricing.js?v=20261118-annual-flyout-v4" defer></script>
 <title>Pricing — Decapod Labs</title>
 </head>
 <body class="pricing-page">
@@ -131,11 +131,17 @@
             <div class="preview-volume-savings" aria-live="polite">
               <span>Volume savings from</span><strong id="combined-discount">2%</strong>
             </div>
+            <a class="preview-custom-link" href="mailto:alexhraber@gmail.com?subject=Decapod%20Cloud%20Custom%20Plan&body=Hello%20Decapod%20Labs%2C%0A%0AWe%27d%20like%20to%20discuss%20a%20larger%20Cloud%20deployment.%0ARepositories%3A%0AContributors%3A%0ARequirements%3A">Custom pricing <span aria-hidden="true">↗</span></a>
             <div class="preview-annual-savings" id="annual-savings" hidden role="status" aria-label="Annual savings breakdown">
+              <div class="preview-annual-heading"><span>Annual savings</span><small id="annual-cap-note" hidden>20% cap applied</small></div>
               <button type="button" class="preview-annual-dismiss" id="annual-dismiss" aria-label="Dismiss annual savings details">×</button>
-              <div class="preview-annual-equation"><span>8.33% annual</span><span aria-hidden="true">+</span><span id="annual-volume">2% volume</span></div>
-              <div class="preview-annual-total"><span aria-hidden="true">=</span><strong id="annual-discount">10.33%</strong><span>total savings</span></div>
-              <small id="annual-cap-note" hidden>20% cap applied</small>
+              <div class="preview-annual-equation">
+                <div class="preview-annual-factor"><strong>8.33%</strong><small>Annual</small></div>
+                <span class="preview-annual-operator" aria-hidden="true">+</span>
+                <div class="preview-annual-factor"><strong id="annual-volume">2%</strong><small>Volume</small></div>
+                <span class="preview-annual-operator" aria-hidden="true">=</span>
+                <div class="preview-annual-factor preview-annual-total"><strong id="annual-discount">10.33%</strong><small>Total</small></div>
+              </div>
             </div>
           </div>
         </div>
