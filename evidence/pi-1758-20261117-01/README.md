@@ -198,8 +198,7 @@ workspace publisher produced T7sSlC; later validated task completion produced
 bBFwPo and D5Od54. Only T7sSlC falls inside the actual publisher child interval.
 publication-record.json retains that unchanged canonical record, and
 publication-receipt.json is the actual retained native receipt, not a recreated
-receipt. Their native digests, expected-plan/suite binding, exact head/base and
-publisher timing are checked by the permanent offline site gate. The readback
+receipt. The website pins the independently observed native record digest and receipt hash, then compares the publication plan with the Rust-verified standalone plan and cross-checks native suite/plan digest references. Rust typed plan/suite hashes depend on their serialization field order; the marketing check does not recompute them as generic sorted JSON or replace the Rust verifier. Two additional offline controls reject a rewritten execution-output digest even when its wrapper hashes are recomputed, and reject historical readback relabelled as present publication authority. The actual retained receipt's native receipt_hash is sha256:0bd96cd0bad9992a3ca1e475e9394573928254830900066f7b9c4bc24ec3e5eb; its original file-byte SHA256 is sha256:c2f5d9e209ae2fedc8a490ade9ee54db0cb80f7fe2cb1ad15405943182e0aaa8. Neither value grants new authority. The readback
 wrapper grants neither publication nor merge authority. This supplement was
 read after the immutable archive was sealed, and is preserved by the website
 Git commit rather than rewriting that archive. Its fixture reads are included

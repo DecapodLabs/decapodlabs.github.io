@@ -8,11 +8,26 @@
     "base_commit": "f9c804a7beb0da2a41af4eaaabd5ebe6043c942e",
     "target_base": "origin/main"
   },
+  "claims": {
+    "actual-launch-evidence": {
+      "statement": "The real Pi film retains the actual required failure, new model repair and exact-head historical admission; native publication evidence is pinned and false current authority or altered output is rejected; movie bytes remain unchanged",
+      "falsifier": "Different source witnesses, an altered native record admitted after rewritten wrapper hashes, false current authority, changed movie bytes or claimed public deployment without served playback refutes the corresponding claim",
+      "status": "supported",
+      "proof_refs": [
+        "https://github.com/alexhraber/decapod-admission-acceptance-20261117-1747-06/tree/3c6c373ea703144a2a096e7c3ad6b17c45fcdc38"
+      ]
+    }
+  },
   "checkpoints": [
     {
       "id": "actual-pi-launch-container-delivery",
       "summary": "Verified real Pi event-backed main/social/mobile film, immutable publication receipts, offline evidence/media guards and accessible static site; fresh native container custody with explicit task transfer",
       "input_digest": "sha256:9cb495ed4ff53e333b0bf92a0b9926f972c9ad8050b2316d11de5441e52616d6"
+    },
+    {
+      "id": "native-evidence-presentation-binding",
+      "summary": "Pin actual native record and receipt, cross-reference the Rust-verified publication plan and add two adversarial historical-proof presentation controls; await separate maintainer policy acceptance",
+      "input_digest": "sha256:2c009095ba061fd29fd11b24183db8ac3e7a5672f4cd812570c1a313f3f54743"
     }
   ],
   "intents": {
@@ -53,23 +68,23 @@
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/ARCHITECTURE.md",
-          "reason": "Current exact source from reviewed0d7133d reauthored in fresh native container custody; actual pricing and launch evidence boundary preserved, historical readiness never imported",
-          "reviewed_code_fingerprint": "09a50f9e16cb92823d2f39f8bf9563b25090e5e54439b21ba6972eb75ec4988a",
+          "reason": "Corrected generic-JSON versus Rust-typed digest confusion; native record/receipt pins and Rust-verified plan binding passed actual Linux Deno review with two adversarial controls; candidate pin awaits independent target-policy acceptance",
+          "reviewed_code_fingerprint": "09cfe0fce1b30b81eeb4d5b9b8bb76cabbadcf2912434ce676a3cd83cee8a646",
           "spec_material_hash": "5c7706b9b5433b1bf2410bfd7e4fbaf0ebada687abe4af6762e4161c04180bbf"
         },
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/INTERFACES.md",
-          "reason": "Current exact source from reviewed0d7133d reauthored in fresh native container custody; actual pricing and launch evidence boundary preserved, historical readiness never imported",
-          "reviewed_code_fingerprint": "09a50f9e16cb92823d2f39f8bf9563b25090e5e54439b21ba6972eb75ec4988a",
-          "spec_material_hash": "566b597381d921819f2160f3c419d289e2d1b5305f609e5f370de161bc7e0ff6"
+          "reason": "Corrected generic-JSON versus Rust-typed digest confusion; native record/receipt pins and Rust-verified plan binding passed actual Linux Deno review with two adversarial controls; candidate pin awaits independent target-policy acceptance",
+          "reviewed_code_fingerprint": "09cfe0fce1b30b81eeb4d5b9b8bb76cabbadcf2912434ce676a3cd83cee8a646",
+          "spec_material_hash": "0faa9a3d09f2f39e00901fa62fb72f77b9700c667423d93fa37e9c96609f68d4"
         },
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/SECURITY.md",
-          "reason": "Current exact source from reviewed0d7133d reauthored in fresh native container custody; actual pricing and launch evidence boundary preserved, historical readiness never imported",
-          "reviewed_code_fingerprint": "09a50f9e16cb92823d2f39f8bf9563b25090e5e54439b21ba6972eb75ec4988a",
-          "spec_material_hash": "2411ec6f1be1084eba2a657d3993b31847b9f6cf6f7e84179419200b9cd96939"
+          "reason": "Corrected generic-JSON versus Rust-typed digest confusion; native record/receipt pins and Rust-verified plan binding passed actual Linux Deno review with two adversarial controls; candidate pin awaits independent target-policy acceptance",
+          "reviewed_code_fingerprint": "09cfe0fce1b30b81eeb4d5b9b8bb76cabbadcf2912434ce676a3cd83cee8a646",
+          "spec_material_hash": "5771d917291340b4bb73a98d1022c433feb57b1462bf517fdaaf54a1ab6341b9"
         }
       ],
       "state": "APPROVED",
@@ -80,13 +95,13 @@
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1794964796Z"
+      "updated_at": "1794979039Z"
     },
     "trajectory": {
       "active_boundaries": [
         "Current claimed task and isolated work branch"
       ],
-      "artifact_hash": "sha256:53449bdd6e36875c799976d230e785b72fa9f9b5dd5f27653442597a8d6e0e7e",
+      "artifact_hash": "sha256:7f93b35e92dfdf197445e339a2028aedfb34b2290f2ee2ca2cd09b10a7eeced2",
       "checks": [
         {
           "name": "actual-media-byte-readback",
@@ -95,6 +110,14 @@
         {
           "name": "desktop-mobile-browser",
           "status": "passed"
+        },
+        {
+          "name": "native-presentation-review",
+          "status": "passed"
+        },
+        {
+          "name": "target-policy-acceptance",
+          "status": "unavailable"
         }
       ],
       "current_phase": "intent",
@@ -118,10 +141,17 @@
             "intent_id": "intent:change_01M7P3MS42DDAPYYZZXH5XK89Q",
             "kind": "trajectory_step_recorded",
             "sequence": 4
+          },
+          {
+            "detail": "trajectory:branch_01M7P3MS5DCW110VK162809HWA",
+            "event_id": "event:5",
+            "intent_id": "intent:change_01M7P3MS42DDAPYYZZXH5XK89Q",
+            "kind": "trajectory_step_recorded",
+            "sequence": 5
           }
         ],
         "knowledge_candidates": [],
-        "next_sequence": 4,
+        "next_sequence": 5,
         "schema_version": "1.0.0",
         "trajectories": {
           "branch_01M7P3MS5DCW110VK162809HWA": {
@@ -144,6 +174,22 @@
                 ],
                 "sequence": 4,
                 "validation_findings": []
+              },
+              {
+                "action": "trajectory.record",
+                "custody_event_id": "event:5",
+                "observations": [
+                  "Actual Linux Deno presentation review passes original native publication record/receipt and two adversarial mutations after correcting typed-serialization digest confusion. Native full validation remains blocked by accepted source-policy transition. Original movie bytes and native evidence are unchanged; no admission inferred."
+                ],
+                "proof_refs": [
+                  "native-presentation-review",
+                  "target-policy-acceptance"
+                ],
+                "scope": [
+                  "scripts"
+                ],
+                "sequence": 5,
+                "validation_findings": []
               }
             ]
           }
@@ -152,6 +198,7 @@
       "declared_commands": [],
       "destination": "pull request",
       "evidence": [
+        "Actual Linux Deno presentation review passes original native publication record/receipt and two adversarial mutations after correcting typed-serialization digest confusion. Native full validation remains blocked by accepted source-policy transition. Original movie bytes and native evidence are unchanged; no admission inferred.",
         "Reauthor byte-identical reviewed0d7133d website source/media after explicit task transfer into fresh Linux tmpfs; original source branch, failed attempts and task history preserved. Independent public downloads matched all9 critical assets; Chrome desktop/mobile playback passed after accepted pricing merge. New native validation/publication required; no historical proof imported."
       ],
       "inspected_files": [],

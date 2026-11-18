@@ -33,6 +33,10 @@ The public supplement preserves the actual retained native receipt and unchanged
 
 The website retains its accepted container isolation requirement. A host-only validation correctly fails custody and grants no publication authority. Native workspace preparation uses a private tmpfs database fork; ignored target snapshots and temporary credential environments remain private. Official checksum-verified Linux tools preserve the accepted logical program path and are measured inside the actual proof container. No host environment marker substitutes for container execution, and no container database is copied back as authoritative host state.
 
+## Native publication evidence presentation
+
+The offline presentation gate pins the independently observed T7sSlC native record digest and receipt hash. It compares the publication plan with the Rust-verified standalone plan and checks native suite/plan references, exact subject and publisher timing. Rust typed digests are not generic sorted-JSON digests; this website does not replace the kernel verifier. Two read-only adversarial controls reject an altered execution-output digest with recomputed wrapper hashes and false present authority. The unchanged original native record/receipt and movie assets remain retained. Presentation review is not native publication readiness; accepted verification-source policy still requires independent maintainer acceptance.
+
 <!-- decapod:capability-overlay:public-api:start -->
 
 Generated capability obligations: `public-api` is declared for this project. These are decisions and proof requirements, not claims of implemented behavior. Resolve each against project source and tests; record unsupported or non-applicable mechanisms explicitly.
@@ -59,7 +63,7 @@ Generated capability obligations: `public-api` is declared for this project. The
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `09a50f9e16cb92823d2f39f8bf9563b25090e5e54439b21ba6972eb75ec4988a`
+- Repository signal fingerprint: `09cfe0fce1b30b81eeb4d5b9b8bb76cabbadcf2912434ce676a3cd83cee8a646`
 - Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `evidence/` (1 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->
