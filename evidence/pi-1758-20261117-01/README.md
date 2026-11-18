@@ -164,7 +164,7 @@ This is one seeded task, not a comparison study, universal agent reliability,
 OS sandbox, hosted CI attestation, Cloud subscription or merge authorization.
 
 Portable derivatives of the actual host capture and projection adapters, with an
-executable reproduction command, are in [capture-tools/README.md](capture-tools/README.md).
+executable reproduction command, are in [the immutable archive’s capture-tools/README.md](https://github.com/alexhraber/decapod-admission-acceptance-20261117-1747-06/blob/3c6c373ea703144a2a096e7c3ad6b17c45fcdc38/capture-tools/README.md).
 The portable projection reproduced all five actual witness files byte-for-byte.
 The original executed adapter hashes and portable derivative hashes are separately
 recorded in runtime.json; they must not be confused.

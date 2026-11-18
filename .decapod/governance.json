@@ -41,6 +41,11 @@
       "id": "accepted-pricing-main-integration",
       "summary": "Merge accepted main pricing preview without replacing launch assets; include actual pricing HTML and JavaScript in offline qualification and refresh current-content specs",
       "input_digest": "sha256:3fa44cd1ba07c37cd9a5aa4481056f9d3d6aa09e8881b09a6d66cb34d239b228"
+    },
+    {
+      "id": "immutable-reproduction-link",
+      "summary": "Link portable reproduction adapters directly to the exact immutable evidence archive rather than an absent website directory",
+      "input_digest": "sha256:cf69cbf39bbcadccdee0f2bd8ef6cd66fc8009789c3bff08c3bcc533e43947cf"
     }
   ],
   "intents": {
@@ -81,21 +86,21 @@
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/ARCHITECTURE.md",
-          "reason": "Current accepted main pricing preview preserved; actual pricing document/script included in the unchanged offline static-source command alongside evidence film and native container custody",
+          "reason": "Reviewed accepted pricing integration and direct immutable reproduction-source link; exact current source and public historical proof boundary",
           "reviewed_code_fingerprint": "09a50f9e16cb92823d2f39f8bf9563b25090e5e54439b21ba6972eb75ec4988a",
           "spec_material_hash": "5c7706b9b5433b1bf2410bfd7e4fbaf0ebada687abe4af6762e4161c04180bbf"
         },
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/INTERFACES.md",
-          "reason": "Current accepted main pricing preview preserved; actual pricing document/script included in the unchanged offline static-source command alongside evidence film and native container custody",
+          "reason": "Reviewed accepted pricing integration and direct immutable reproduction-source link; exact current source and public historical proof boundary",
           "reviewed_code_fingerprint": "09a50f9e16cb92823d2f39f8bf9563b25090e5e54439b21ba6972eb75ec4988a",
-          "spec_material_hash": "337e71da656d4ffecd38a8483b754cc29145ba2053c097b1d7617bd2fa5984dc"
+          "spec_material_hash": "566b597381d921819f2160f3c419d289e2d1b5305f609e5f370de161bc7e0ff6"
         },
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/SECURITY.md",
-          "reason": "Current accepted main pricing preview preserved; actual pricing document/script included in the unchanged offline static-source command alongside evidence film and native container custody",
+          "reason": "Reviewed accepted pricing integration and direct immutable reproduction-source link; exact current source and public historical proof boundary",
           "reviewed_code_fingerprint": "09a50f9e16cb92823d2f39f8bf9563b25090e5e54439b21ba6972eb75ec4988a",
           "spec_material_hash": "2411ec6f1be1084eba2a657d3993b31847b9f6cf6f7e84179419200b9cd96939"
         }
@@ -108,7 +113,7 @@
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1794963069Z"
+      "updated_at": "1794963149Z"
     },
     "trajectory": {
       "active_boundaries": [

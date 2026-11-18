@@ -24,6 +24,10 @@ The renderer requires an actually correlated autonomous arc and rejects missing 
 
 proof.html links directly to the actual retained publication-time native receipt, unchanged canonical completion record and historical readback wrapper in the evidence directory. Readers can distinguish these from the standalone validation shown before publication in the film. The supplement exposes digest and subject verification without importing live admission or merge authority.
 
+## Reproduction source link
+
+The public evidence README links directly to the immutable fixture archive capture-tools directory. Those opt-in experiment adapters remain separately identified as portable derivatives; the website does not claim to host a second executable observer or silently substitute their bytes for the original run.
+
 <!-- decapod:capability-overlay:public-api:start -->
 
 Generated capability obligations: `public-api` is declared for this project. These are decisions and proof requirements, not claims of implemented behavior. Resolve each against project source and tests; record unsupported or non-applicable mechanisms explicitly.
