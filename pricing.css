@@ -401,19 +401,42 @@
 @media(max-width:850px){.preview-volume-savings small{margin-left:0}}
 @media(max-width:650px){.preview-volume-savings{padding:12px 14px}.preview-annual-savings-total strong{font-size:26px}}
 
-/* Two-slider estimate with a fixed-layout annual savings popover. */
+/* Two sliders, one simple annual equation. Float inside the dark panel, clear of prices. */
 .preview-volume-savings{align-self:flex-start;display:inline-flex;align-items:center;gap:11px;padding:11px 16px;border:1px solid #725660;border-radius:999px;background:#3a2b38;flex-wrap:nowrap}
 .preview-volume-savings>span{font-size:12px;font-weight:800;color:#f2d2c6}
 .preview-volume-savings strong{font:700 24px "Space Grotesk",sans-serif;color:#ffc08f;letter-spacing:-.045em;white-space:nowrap}
-.preview-controls{gap:28px}
-.preview-explainer{font-size:12px;padding-top:16px}
-.preview-billing{position:relative;z-index:4;isolation:isolate}
-.preview-annual-savings{position:absolute;top:calc(100% + 12px);right:2px;width:min(344px,calc(100% - 4px));margin:0;padding:20px 18px 16px;background:#fff9ef;border:1px solid #eda679;border-radius:15px;box-shadow:0 17px 35px rgba(66,29,36,.24),0 3px 7px rgba(66,29,36,.09);z-index:5;transform-origin:top right;animation:annual-savings-pop .18s ease-out both}
-.preview-annual-savings::before{content:"";position:absolute;top:-8px;right:24%;width:14px;height:14px;background:#fff9ef;border-left:1px solid #eda679;border-top:1px solid #eda679;transform:rotate(45deg)}
-.preview-annual-savings .preview-annual-savings-total{padding-right:19px}
-.preview-annual-dismiss{position:absolute;top:9px;right:11px;width:27px;height:27px;display:grid;place-items:center;background:transparent;border:0;border-radius:8px;color:#905644;cursor:pointer;font-size:21px;line-height:1}
-.preview-annual-dismiss:hover{background:#f9e5d4}
+.preview-controls{gap:27px}
+.preview-explainer{font-size:12px;padding-top:17px;line-height:1.6}
+.preview-savings-row{display:flex;align-items:center;position:relative;min-height:47px;width:100%;min-width:0}
+.preview-billing{position:relative;z-index:auto;isolation:auto}
+.preview-savings-row .preview-annual-savings{
+  position:absolute;top:50%;left:155px;right:0;width:auto;
+  margin:0;padding:11px 13px 10px;
+  border-radius:12px;border:1px solid #eaaa86;
+  background:#fff5e8;color:#30202a;
+  box-shadow:0 8px 20px #130a1350,0 2px 3px #130a1324;
+  z-index:3;transform:translateY(-50%);transform-origin:left center;
+  animation:annual-equation-appear .18s ease-out both;
+}
+.preview-savings-row .preview-annual-savings::before{content:none}
+.preview-annual-equation{display:flex;align-items:center;flex-wrap:wrap;gap:5px;font-size:11px;line-height:1.25;color:#785057;font-weight:800;padding-right:3px}
+.preview-annual-equation span:nth-child(2){color:#b6654c}
+.preview-annual-total{display:flex;align-items:baseline;gap:7px;margin-top:4px;white-space:nowrap}
+.preview-annual-total>span:first-child{font-size:13px;color:#a45f49}
+.preview-annual-total strong{font:700 26px "Space Grotesk",sans-serif;letter-spacing:-.065em;color:#2e2029}
+.preview-annual-total>span:last-child{font-size:10px;color:#805c5d;font-weight:800;white-space:normal}
+#annual-cap-note{display:block;margin-top:2px;font-size:10px;font-weight:700;color:#9b5a48}
+.preview-savings-row .preview-annual-dismiss{position:absolute;top:-8px;right:-8px;width:23px;height:23px;display:grid;place-items:center;background:#fffaf2;border:1px solid #eaaa86;border-radius:100%;box-shadow:0 2px 4px #130a1329;color:#905644;cursor:pointer;font-size:18px;line-height:1}
+.preview-annual-dismiss:hover{background:#ffe7d5}
 .preview-annual-dismiss:focus-visible{outline:3px solid #ea744e;outline-offset:2px}
-@keyframes annual-savings-pop{from{opacity:0;transform:translateY(-7px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
-@media(max-width:650px){.preview-volume-savings{gap:8px;padding:10px 14px}.preview-volume-savings strong{font-size:22px}.preview-annual-savings{width:min(320px,calc(100% - 4px));padding:18px 15px 15px}}
-@media(prefers-reduced-motion:reduce){.preview-annual-savings{animation:none}}
+@keyframes annual-equation-appear{from{opacity:0;transform:translate(-7px,-50%) scale(.97)}to{opacity:1;transform:translate(0,-50%) scale(1)}}
+@media(max-width:700px){
+  .preview-savings-row .preview-annual-savings{
+    top:auto;bottom:calc(100% + 10px);left:0;right:auto;
+    width:min(290px,100%);transform:none;transform-origin:bottom left;
+    animation:annual-equation-appear-mobile .18s ease-out both;
+  }
+}
+@keyframes annual-equation-appear-mobile{from{opacity:0;transform:translateY(7px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+@media(max-width:650px){.preview-volume-savings{gap:8px;padding:10px 14px}.preview-volume-savings strong{font-size:22px}.preview-savings-row .preview-annual-savings{padding:12px 14px}.preview-annual-total strong{font-size:25px}}
+@media(prefers-reduced-motion:reduce){.preview-savings-row .preview-annual-savings{animation:none}}
