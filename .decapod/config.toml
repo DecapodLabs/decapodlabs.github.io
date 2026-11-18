@@ -58,7 +58,7 @@ source = ".github/workflows/site-bootstrap.yml"
 
 [proof.required_profile]
 id = "repo.pr-readiness.v1"
-reviewed_sources_digest = "sha256:025eee5d26f59c346a3cc52832eeea95fe5f6a5b8bb3eb6a885657c7317e988c"
+reviewed_sources_digest = "sha256:7482eb071e87380ec683e8a29188e8345a7539f49b65a890ab84f92b4842e630"
 
 [repo]
 architecture_direction = "Architecture is not established by repository shape; inspect entrypoints, components, and their interactions."
