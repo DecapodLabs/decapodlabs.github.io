@@ -29,6 +29,10 @@ media/launch-production.json pins the independently reviewed immutable event man
 
 The public supplement preserves the actual retained native receipt and unchanged canonical completion created inside the observed publisher invocation, separately from standalone validation and later task-completion records. The offline site gate checks native record/receipt digests, expected-plan/suite binding, exact admitted head/base and the observed publisher interval. This is historical verification with publication_ready=false and merge_authorized=false; it never reauthorizes the changed target.
 
+## Container custody and private snapshots
+
+The website retains its accepted container isolation requirement. A host-only validation correctly fails custody and grants no publication authority. Native workspace preparation uses a private tmpfs database fork; ignored target snapshots and temporary credential environments remain private. Official checksum-verified Linux tools preserve the accepted logical program path and are measured inside the actual proof container. No host environment marker substitutes for container execution, and no container database is copied back as authoritative host state.
+
 <!-- decapod:capability-overlay:public-api:start -->
 
 Generated capability obligations: `public-api` is declared for this project. These are decisions and proof requirements, not claims of implemented behavior. Resolve each against project source and tests; record unsupported or non-applicable mechanisms explicitly.

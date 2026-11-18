@@ -31,6 +31,11 @@
       "id": "expose-publication-proof-links",
       "summary": "Expose exact publication receipt and canonical record on the public proof page with current-content interface review",
       "input_digest": "sha256:583d6aa0f81f23c87c089b63c0daf350ec5cb52b019e954040c53a9576b03b95"
+    },
+    {
+      "id": "container-custody-delivery",
+      "summary": "Native release9 projections, ignored private snapshots and explicit unchanged container proof contract; final validation and publication execute inside prepared Linux workspace",
+      "input_digest": "sha256:ed3069062d1f3b28554f207cddd7b3f9fbce8a1690092adc3016a763386e80f6"
     }
   ],
   "intents": {
@@ -85,9 +90,9 @@
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/SECURITY.md",
-          "reason": "Pinned reviewed real-run manifest and exact publication-time receipt; preserve historical/current authority separation and render review artifacts without silent asset replacement",
+          "reason": "Keep accepted container custody and private snapshot boundary; Linux tools preserve the declared command and proof measures actual binaries",
           "reviewed_code_fingerprint": "3e28ff6b991360283d8d9eb0055d52dea2db533970f5a6e5d4c82f5c1a54104c",
-          "spec_material_hash": "7d86a5e851bdd61ba42def8012c2ee005b7f7d7fbceada003b63235743b3bb7f"
+          "spec_material_hash": "bb23f11659f50868861bbcd5c3e2360cc851a9be963f835b4df11e619a0f12e3"
         }
       ],
       "state": "APPROVED",
@@ -98,14 +103,14 @@
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1794959448Z"
+      "updated_at": "1794961851Z"
     },
     "trajectory": {
       "active_boundaries": [
         "Current claimed task and isolated work branch",
         "Preserve teaser and static architecture; no cloud-success claim or fabricated terminal"
       ],
-      "artifact_hash": "sha256:1616beaf70237b43f6dcf6103e609705354a68064d2cbb15d59906dadda50d20",
+      "artifact_hash": "sha256:f2b2c4351bf433c18faed0ce43bb0614e6053cfeafe97aeb79ab4ce15cef3a9c",
       "checks": [
         {
           "name": "actual-delivery-media",
@@ -118,6 +123,10 @@
         {
           "name": "desktop-mobile-browser",
           "status": "passed"
+        },
+        {
+          "name": "host-container-custody",
+          "status": "failed"
         },
         {
           "name": "production-negative-controls",
@@ -167,10 +176,17 @@
             "intent_id": "intent:change_01M7NPRYFTCC0HJ7RVTM267T25",
             "kind": "trajectory_step_recorded",
             "sequence": 6
+          },
+          {
+            "detail": "trajectory:branch_01M7NPRYJD5MRKGEDF4JW8NFA7",
+            "event_id": "event:7",
+            "intent_id": "intent:change_01M7NPRYFTCC0HJ7RVTM267T25",
+            "kind": "trajectory_step_recorded",
+            "sequence": 7
           }
         ],
         "knowledge_candidates": [],
-        "next_sequence": 6,
+        "next_sequence": 7,
         "schema_version": "1.0.0",
         "trajectories": {
           "branch_01M7NPRYJD5MRKGEDF4JW8NFA7": {
@@ -230,6 +246,23 @@
                 ],
                 "sequence": 6,
                 "validation_findings": []
+              },
+              {
+                "action": "trajectory.record",
+                "custody_event_id": "event:7",
+                "observations": [
+                  "Host validation rejected container_workspace_required; native workspace ensure prepared Linux image and private snapshot launcher. Preserve policy and execute final proof in actual container."
+                ],
+                "proof_refs": [
+                  "host-container-custody"
+                ],
+                "scope": [
+                  "index.html styles.css scripts assets evidence .github/workflows",
+                  "media evidence scripts assets static homepage and existing workflow",
+                  "scripts"
+                ],
+                "sequence": 7,
+                "validation_findings": []
               }
             ]
           }
@@ -239,6 +272,7 @@
       "destination": "pull request",
       "evidence": [
         "Actual H264/AAC56/12/56 sec files decoded, dimensions/audio/caption timing/poster verified. Chrome155 desktop/mobile played/seeks correct1920x1080 and1080x1920 sources with eight optional cues and reduced-motion paused defaults. Public deployment must be separately checked after publication. GitHub immutable archive3c6c373 independently read back, original refs unchanged.",
+        "Host validation rejected container_workspace_required; native workspace ensure prepared Linux image and private snapshot launcher. Preserve policy and execute final proof in actual container.",
         "Real Pi PR2 independently read back at f3a7a1609 against4b7f3b056; source observer verification pending, no success film export until correlated manifest exists.",
         "Seven offline guard tests pass. Final56/12/56-second H264/AAC files decoded, audio/captions/poster checked. Publication-time T7sSlC native receipt and unchanged canonical record were independently read and matched to the observed publisher interval, separate from R1 and later task completion. Current applicability remains false after actual target advance."
       ],

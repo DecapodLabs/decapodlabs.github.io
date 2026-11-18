@@ -19,6 +19,10 @@ Install the existing pinned renderer dependencies in an isolated Python environm
 
 Commit authored specs, native projections, reviewed source inventory and governance checkpoint before normal decapod validate and workspace publish. Preserve the accepted static-source command and CI-only coverage row. Existing main/manual media automation regenerates marketing assets only; it cannot authorize kernel work or hosted purchase. After publication, verify real public HTML, media responses and browser playback. Keep all operational captures and credentials outside Git.
 
+## Container proof execution
+
+The accepted custody policy requires the native prepared Linux container, including a private database snapshot mounted into tmpfs. Keep `target/` ignored before creating that snapshot. Install the official Linux ARM64 Deno 2.9.8 at the accepted static-source program path; preserve the declared command, arguments, empty environment and timeout. Native proof measures the actual execution binary rather than borrowing a host result. Run validation and publication in the same container custody; export receipts, never import its mutable private database into the host. Existing GitHub credentials are forwarded only through the process environment and remain outside Git. Stop the owned container and remove its snapshot after delivery.
+
 <!-- decapod:capability-overlay:background-processing:start -->
 
 Generated capability obligations: `background-processing` is declared for this project. These are decisions and proof requirements, not claims of implemented behavior. Resolve each against project source and tests; record unsupported or non-applicable mechanisms explicitly.
