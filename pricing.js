@@ -11,7 +11,6 @@
     people: [[5,2],[10,4],[20,6]]
   });
   let annual = true;
-  let customAxis = null;
   const tier = (value, points) => points.reduce((v,[threshold,pct]) => value >= threshold ? pct : v, 0);
   function render() {
     const repos = Math.max(1, Math.min(10, Number(repositories.value)||1));
@@ -33,32 +32,6 @@
     change("estimate-unit",String(repos*people)+" contributor–repository assignments");
     change("estimate-savings",annual?"Annual commitment and volume savings are cumulative.":"Volume savings grow with your team.");
     change("estimated-price","☁");
-    const custom = Boolean(customAxis);
-    const panel = byId("custom-preview");
-    const standard = byId("standard-preview");
-    const checkout = byId("preview-checkout");
-    if(panel) panel.hidden = !custom;
-    if(standard) standard.hidden = custom;
-    if(checkout) checkout.hidden = custom;
-    for(const button of document.querySelectorAll("[data-custom-trigger]")) {
-      button.setAttribute("aria-pressed",String(button.dataset.customTrigger===customAxis));
-    }
-    for(const id of ["estimate-unit","estimate-savings"]) {
-      const node = byId(id);
-      if(node) node.hidden = custom;
-    }
-    if(custom) {
-      const subject = "Decapod Cloud — Custom plan inquiry";
-      const scope = customAxis==="repositories"
-        ? "more than 10 repositories" : "more than 25 contributors per repository";
-      change("custom-preview-description","Planning for "+scope+"? Tell us about the size of your team and your deployment requirements.");
-      const link=byId("custom-preview-contact");
-      if(link) {
-        const body = "Hello Decapod Labs,\n\nWe would like to discuss a custom Cloud plan.\n\nOur needs: "+
-          scope+"\nCurrent preview: "+repos+" repositories, "+people+" contributors per repository.\nOther requirements: ";
-        link.href="mailto:alexhraber@gmail.com?subject="+encodeURIComponent(subject)+"&body="+encodeURIComponent(body);
-      }
-    }
     for(const [slider,count,selector] of [[repositories,repos,"[data-repo-threshold]"],[contributors,people,"[data-contributor-threshold]"]]) {
       const fraction=(count-Number(slider.min))/(Number(slider.max)-Number(slider.min));
       slider.style.setProperty("--fill",(fraction*100)+"%");
@@ -79,14 +52,7 @@
       render();
     });
   }
-  for(const button of document.querySelectorAll("[data-custom-trigger]")) {
-    button.addEventListener("click",()=>{
-      customAxis=button.dataset.customTrigger;
-      render();
-    });
-  }
-  byId("preview-custom-reset")?.addEventListener("click",()=>{customAxis=null;render();});
-  repositories.addEventListener("input",()=>{customAxis=null;render();});
-  contributors.addEventListener("input",()=>{customAxis=null;render();});
+  repositories.addEventListener("input",render);
+  contributors.addEventListener("input",render);
   render();
 })();
