@@ -78,7 +78,7 @@
           <li>Concurrent governed work with durable context and commit-bound evidence</li>
           <li>Workforce sign-in with Google or GitHub; verified GitHub linking for repositories</li>
           <li>One identity across organizations, with repository-scoped access</li>
-          <li>Cloud Admin for team assignments, billing, and itemized resource usage</li>
+          <li>Cloud Admin for team access, usage limits, alerts, and billing</li>
         </ul>
         <button class="plan-link plan-link-disabled" type="button" disabled aria-describedby="cloud-fineprint">Cloud checkout opening soon <span aria-hidden="true">↗</span></button>
         <p class="plan-fineprint" id="cloud-fineprint">Team pricing and savings are previewed below. Cloud enrollment opens soon. Paid overages are off by default; an authorized admin must enable them in Cloud Admin. Approved excess usage is itemized by resource.</p>
@@ -176,26 +176,26 @@
           <p class="pricing-eyebrow">CLOUD CAPACITY</p>
           <h2 id="resource-heading">Usage you can see.<br>Costs you can trace.</h2>
         </div>
-        <p>Every Cloud subscription includes published resource allowances. Paid overages are disabled by default. New usage that exceeds an included limit is throttled or declined without extra charges unless an authorized admin opts in through Cloud Admin and sets a spending cap.</p>
+        <p>Monitor Cloud usage in four categories: network transfer, compute, retained data, and request pressure. Set your own limits and alerts for each, so you know when storage is filling up or workloads approach a threshold. Included allowances and service safety limits remain enforced. Paid overages stay off unless an authorized admin opts in with a spending cap.</p>
       </div>
       <div class="resource-highlights" aria-label="Cloud capacity commitments">
         <div><span aria-hidden="true">01</span><strong>Included by default</strong><p>Every subscription includes defined cloud resources.</p></div>
-        <div><span aria-hidden="true">02</span><strong>Measured by resource</strong><p>See your usage, limits, and charges in Cloud Admin.</p></div>
+        <div><span aria-hidden="true">02</span><strong>Limits &amp; alerts</strong><p>Set limits and early warnings for every resource category in Cloud Admin.</p></div>
         <div><span aria-hidden="true">03</span><strong>Overages are opt-in</strong><p>An authorized admin chooses whether to pay for excess usage, with a spending cap.</p></div>
       </div>
       <details class="resources-advanced">
         <summary><span>What counts as cloud usage?</span><span class="advanced-arrow" aria-hidden="true">+</span></summary>
         <div class="advanced-content">
-          <p class="advanced-intro">Cloud meters each resource independently. Included allowances and excess-use rates will be published before enrollment. Overages stay off until an authorized admin enables them and sets a spending cap in Cloud Admin.</p>
+          <p class="advanced-intro">All four categories support configurable usage alerts and operating limits in Cloud Admin. Alerts notify before thresholds are reached; customer-set limits cannot override included allowances or service safety controls. Paid overages remain disabled until explicitly approved with a spending cap.</p>
           <div class="advanced-grid">
-            <div class="resource-type"><span class="resource-type-icon" aria-hidden="true">⇄</span><h3>Network transfer</h3><p>Measured outbound transfer, including large exports and responses.</p><small>Measured transfer · published allowance at launch</small></div>
-            <div class="resource-type"><span class="resource-type-icon" aria-hidden="true">⌘</span><h3>Compute &amp; operations</h3><p>Measured request processing and database work.</p><small>Monthly consumption · allowance TBD</small></div>
-            <div class="resource-type"><span class="resource-type-icon" aria-hidden="true">▤</span><h3>Retained data</h3><p>Retained database and evidence storage measured over time.</p><small>Retained storage · measured over time</small></div>
-            <div class="resource-type"><span class="resource-type-icon" aria-hidden="true">⟐</span><h3>Request pressure</h3><p>Request rate and concurrency controls protect shared service availability.</p><small>Safety limits · independent of billing</small></div>
+            <div class="resource-type"><span class="resource-type-icon" aria-hidden="true">⇄</span><h3>Network transfer</h3><p>Set transfer limits and alerts for outbound usage, including exports and large responses.</p><small>Measured transfer · included allowance at launch</small></div>
+            <div class="resource-type"><span class="resource-type-icon" aria-hidden="true">⌘</span><h3>Compute &amp; operations</h3><p>Set workload limits and alerts for database operations and request processing.</p><small>Measured work · included allowance at launch</small></div>
+            <div class="resource-type"><span class="resource-type-icon" aria-hidden="true">▤</span><h3>Retained data</h3><p>Get alerts as your database or evidence storage fills, and set retention-related usage limits.</p><small>Retained storage · measured over time</small></div>
+            <div class="resource-type"><span class="resource-type-icon" aria-hidden="true">⟐</span><h3>Request pressure</h3><p>Set rate and concurrency alerts and stricter limits; service safety controls still apply.</p><small>Protective limits · independent of billing</small></div>
           </div>
           <div class="resource-billing-note">
             <strong>No surprise overage charges.</strong>
-            <p>Cloud Admin shows your included limits, measured usage and published excess-use rates. Paid overages start disabled. An authorized admin must explicitly enable them and set a spending cap before additional usage can be billed. Otherwise, new usage beyond an included limit is throttled or declined. Approved excess use is itemized by resource, and spending cannot exceed the authorized cap.</p>
+            <p>Cloud Admin lets authorized administrators set alerts and stricter operating limits across all four categories. Alerts do not approve charges. Paid overages start disabled and require separate admin opt-in with a spending cap. Without approval, new usage above included allowances is throttled or declined without extra charges. Approved excess use is itemized by resource and remains within the authorized cap.</p>
           </div>
           <p class="advanced-footnote">Resource allowances and overage rates will be published before billing opens. Monthly consumption and retained storage have different measurement periods.</p>
         </div>
@@ -207,6 +207,7 @@
 <details><summary>Do coding agents count as seats?</summary><p>No. Agents, subagents, and worktrees are not additional human seats. Their Cloud activity still consumes measured resources.</p></details>
 <details><summary>How does workforce sign-in work?</summary><p>Sign in with Google or GitHub. A single person can belong to multiple organizations, with explicit repository-specific access and paid assignments. GitHub repository linking requires verification of the corresponding GitHub identity.</p></details>
 <details><summary>How are subscription savings calculated?</summary><p>More repositories and more distinct people unlock volume discounts. The preview shows the minimum for your selection; the final amount reflects the actual people assigned. Annual billing adds 8⅓ percentage points to volume savings, with a 20% cap on the base subscription. Separately authorized resource overages receive no discounts.</p></details>
+<details><summary>Can we set limits and alerts for each resource?</summary><p>Yes. Cloud Admin supports configurable limits and warnings for network transfer, compute and operations, retained database/evidence storage, and request pressure. These settings can warn you early or restrict your own usage; they cannot raise included allowances or bypass platform safety limits. Alerts never authorize billing.</p></details>
 <details><summary>Will Cloud charge me automatically if I exceed a resource limit?</summary><p>No. Paid overages are disabled by default. Without your organization's authorized admin explicitly enabling them in Cloud Admin, new usage beyond included limits is throttled or declined with no overage charge. Admins can opt in after reviewing disclosed per-resource rates and setting a spending cap. Only authorized excess usage is billed, itemized by resource.</p></details>
 <details><summary>What if we're bigger than the sliders?</summary><p>Talk with sales for more than 10 repositories, more than 25 contributors per repository, or specialized deployment and capacity needs.</p></details>
 </div></div></section>
