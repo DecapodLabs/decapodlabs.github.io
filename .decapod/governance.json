@@ -23,6 +23,11 @@
       "id": "native-pi-recording-proofs",
       "summary": "Checkpoint the actual Pi terminal movie, matching case study, output digests, exact eight-source policy diff and tested #proofs website integration.",
       "input_digest": "sha256:2a88b67b73e53ce58a95dec92f382d77b5209af4d198997a661fff7b97ca53e5"
+    },
+    {
+      "id": "accepted-native-pi-proof-policy",
+      "summary": "Integrate the accepted exact verification inventory and checkpoint the reviewed capture, case study and proofs page for native admission.",
+      "input_digest": "sha256:c5371ab5b17fcb6cd49c4f9e396369f9f6f50da363128d56f25b0fa6541311f0"
     }
   ],
   "intents": {
@@ -61,23 +66,23 @@
       "schema_version": "1.1.0",
       "spec_reviews": [
         {
-          "disposition": "updated",
+          "disposition": "unchanged_with_reason",
           "path": ".decapod/managed/specs/ARCHITECTURE.md",
-          "reason": "Reviewed the complete native terminal capture and matching witness digests, synchronized case study, original soundtrack and logo placement, desktop/mobile captions, and explicit admission boundary.",
+          "reason": "Reconciled the separately accepted eight-source verification pin. The reviewed native Pi viewport, case-study data, tool provenance and public output digests are unchanged.",
           "reviewed_code_fingerprint": "abfc871112e7bb630d611fdc4d681dd1f905dc47c665ba592e5fc97f95764a4d",
           "spec_material_hash": "eb42f628ec315b0f7d6e7d3a79a3523288900604f1d66ed1c415cbf74b8fed0b"
         },
         {
-          "disposition": "updated",
+          "disposition": "unchanged_with_reason",
           "path": ".decapod/managed/specs/INTERFACES.md",
-          "reason": "Reviewed the complete native terminal capture and matching witness digests, synchronized case study, original soundtrack and logo placement, desktop/mobile captions, and explicit admission boundary.",
+          "reason": "Reconciled the separately accepted eight-source verification pin. The reviewed native Pi viewport, case-study data, tool provenance and public output digests are unchanged.",
           "reviewed_code_fingerprint": "abfc871112e7bb630d611fdc4d681dd1f905dc47c665ba592e5fc97f95764a4d",
           "spec_material_hash": "e2fb528986c81930c42ba998bd6c50c47c4291e03106fab36e1df80858259c73"
         },
         {
-          "disposition": "updated",
+          "disposition": "unchanged_with_reason",
           "path": ".decapod/managed/specs/SECURITY.md",
-          "reason": "Reviewed the complete native terminal capture and matching witness digests, synchronized case study, original soundtrack and logo placement, desktop/mobile captions, and explicit admission boundary.",
+          "reason": "Reconciled the separately accepted eight-source verification pin. The reviewed native Pi viewport, case-study data, tool provenance and public output digests are unchanged.",
           "reviewed_code_fingerprint": "abfc871112e7bb630d611fdc4d681dd1f905dc47c665ba592e5fc97f95764a4d",
           "spec_material_hash": "8bcf582cf1684a76bb9570a673cac371e6f36c90840def82eff69b2e433a7a68"
         }
@@ -90,7 +95,7 @@
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1795007105Z"
+      "updated_at": "1795007203Z"
     },
     "trajectory": {
       "active_boundaries": [
