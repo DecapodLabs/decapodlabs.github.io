@@ -395,3 +395,28 @@ html{scroll-padding-top:120px}
 .proof-chapters a:hover,.proof-chapters a:focus-visible{border-color:#ff9479;background:#3d303a}
 .proof-chapters time{color:#ffad98;font:inherit;font-variant-numeric:tabular-nums}
 @media(max-width:600px){.proof-chapters{grid-template-columns:1fr;gap:6px}.proof-chapters a{min-height:42px}}
+
+
+/* Real, ongoing multi-agent work — three original Herdr board captures. */
+.swarm-section{padding:105px 0 110px;background:#211722;color:#fff8ed}
+.swarm-heading{display:grid;grid-template-columns:1.05fr .95fr;align-items:end;gap:70px;margin-bottom:42px}
+.swarm-heading .capabilities-kicker{color:#ffae92}
+.swarm-heading h2{font-family:"Outfit",sans-serif;font-size:clamp(54px,6.5vw,94px);line-height:1.01;letter-spacing:-.065em;margin:16px 0 0}
+.swarm-heading h2 span{color:var(--orange2)}
+.swarm-intro p{font-size:18px;line-height:1.58;color:#e1d5d4;margin:0 0 14px;max-width:530px}
+.swarm-intro p:last-child{margin-bottom:3px;color:#ffbea7;font-weight:650}
+.swarm-gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.swarm-shot{min-width:0;margin:0;background:#302630;border:1px solid #5b4552;border-radius:18px;overflow:hidden;display:flex;flex-direction:column}
+.swarm-image-link{display:block;overflow:hidden;background:#101419;border-bottom:1px solid #5b4552}
+.swarm-image-link img{display:block;width:100%;height:auto;aspect-ratio:2048 / 1323;object-fit:contain;transition:transform .2s}
+.swarm-image-link:hover img{transform:scale(1.02)}
+.swarm-shot figcaption{display:flex;flex-direction:column;align-items:flex-start;flex:1;padding:22px 22px 24px}
+.swarm-index{color:#ffad94;font-size:11px;font-weight:800;letter-spacing:.13em}
+.swarm-shot h3{font-family:"Outfit",sans-serif;font-size:clamp(23px,2.3vw,30px);letter-spacing:-.045em;line-height:1.1;margin:12px 0 10px}
+.swarm-shot figcaption p{font-size:15px;line-height:1.55;color:#d6c6ce;margin:0 0 21px}
+.swarm-shot figcaption a{font-size:13px;font-weight:750;color:#ffd0b5;text-underline-offset:4px;margin-top:auto}
+.swarm-note{font-size:13px;line-height:1.6;color:#c0b2ba;margin:26px 0 0;max-width:1050px}
+.swarm-note a{color:#ffbe9e;font-weight:700;text-underline-offset:4px}
+.swarm-section a:focus-visible{outline:3px solid var(--orange2);outline-offset:4px}
+@media(max-width:1050px){.swarm-heading{grid-template-columns:1fr;gap:24px}.swarm-heading h2{font-size:clamp(54px,9vw,83px)}.swarm-intro p{max-width:780px}.swarm-gallery{grid-template-columns:1fr}.swarm-shot h3{font-size:28px}}
+@media(max-width:600px){.swarm-section{padding:68px 0 75px}.swarm-heading{margin-bottom:28px}.swarm-heading h2{font-size:clamp(43px,11vw,62px)}.swarm-intro p{font-size:16px}.swarm-shot figcaption{padding:20px}.swarm-note{font-size:12px}}
