@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#fff5e9">
-<meta name="description" content="Decapod pricing preview. Local is free. Explore the planned Decapod Cloud subscription with interactive repository and contributor sliders. Cloud is coming soon.">
+<meta name="description" content="A new way to manage your agentic engineering workflow. Decapod Local is free, with sensible defaults from its global Constitution. Cloud team pricing preview and custom plans.">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Decapod Labs">
 <meta property="og:title" content="Pricing — Decapod Labs">
-<meta property="og:description" content="Local is free. Decapod Cloud is coming soon. Explore the pricing experience without a checkout.">
+<meta property="og:description" content="Free local governance and shared Cloud state for teams. Explore repository coverage and volume pricing. Cloud is coming soon.">
 <meta property="og:image" content="https://decapodlabs.github.io/assets/social-preview.png">
 <meta property="og:url" content="https://decapodlabs.github.io/pricing.html">
 <meta name="twitter:card" content="summary_large_image">
@@ -18,8 +18,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
-<link rel="stylesheet" href="pricing.css">
-<script src="pricing.js" defer></script>
+<link rel="stylesheet" href="pricing.css?v=20261118-annual-flyout-v4">
+<script src="pricing.js?v=20261118-annual-flyout-v4" defer></script>
 <title>Pricing — Decapod Labs</title>
 </head>
 <body class="pricing-page">
@@ -27,23 +27,23 @@
 <header class="nav">
   <div class="wrap nav-content">
     <a href="/" class="brand" aria-label="Decapod Labs home"><img class="site-wordmark" src="assets/logo-a.png" alt="Decapod Labs" width="420" height="140"></a>
-    <nav class="nav-links" aria-label="Site navigation"><a href="/">Overview</a><a href="/pricing.html" aria-current="page">Pricing</a><a href="https://decapodlabs.github.io/decapod/">Documentation</a></nav>
-    <a class="nav-cta" href="https://decapodlabs.github.io/decapod/quickstart.html">Get started <span aria-hidden="true">↗</span></a>
+    <nav class="nav-links" aria-label="Site navigation"><a href="/#kernel">Features</a><a href="/#architecture">Architecture</a><a href="/#install">Install</a><a href="/pricing.html" aria-current="page">Pricing</a></nav>
+    <a class="nav-cta" href="https://github.com/DecapodLabs/decapod" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>
   </div>
 </header>
 <main id="main">
   <section class="pricing-hero" aria-labelledby="pricing-heading">
     <div class="wrap pricing-hero-grid">
       <div>
-        <p class="pricing-eyebrow">LOCAL TODAY. CLOUD COMING SOON.</p>
+        <p class="pricing-eyebrow">GOVERNED WORK. YOUR SCALE.</p>
         <h1 id="pricing-heading">Scale the work.<br><span>Keep the proof.</span></h1>
-        <p class="pricing-intro">Decapod is free on your machine. When Cloud launches, your team will be able to share governed repository state with predictable, bounded capacity.</p>
+        <p class="pricing-intro">A new way to manage your agentic engineering workflow, with sensible defaults from the global Constitution and proof-backed tasks. Run locally for free, or use Cloud’s shared database so teammates and agents on different machines work from the same live repository state.</p>
       </div>
       <aside class="launch-notice" aria-label="Availability">
         <span class="launch-notice-mark" aria-hidden="true">✳</span>
-        <strong>EARLY LOOK</strong>
-        <p>Explore how Cloud pricing will work. Prices and included allowances are not announced. Purchases are closed.</p>
-        <span class="launch-pill">COMING SOON</span>
+        <strong>ONE KERNEL · TWO MODES</strong>
+        <p>The same repo-native kernel in both modes. Local keeps its database on your machine; Cloud hosts a shared live database for your team.</p>
+        <div class="mode-status"><span><i></i> Local available</span><span><i></i> Cloud coming soon</span></div>
       </aside>
     </div>
   </section>
@@ -51,33 +51,43 @@
   <section class="pricing-plans" aria-label="Decapod plans">
     <div class="wrap pricing-plan-grid">
       <article class="pricing-plan" aria-labelledby="local-title">
-        <div class="pricing-plan-top"><span class="plan-index">01 / REPO-NATIVE</span><span class="plan-availability">Available now</span></div>
+        <div class="pricing-plan-top"><span class="plan-index">01 / LOCAL</span><span class="plan-availability">Available now</span></div>
         <h2 id="local-title">Decapod Local</h2>
         <p class="plan-price">Free <span>forever</span></p>
         <p class="plan-subtitle">One command. Your repo. Your agents.</p>
         <ul class="plan-bullets">
-          <li>Local repository database, offline by default</li>
+          <li>Repo-native governance with a local database</li>
           <li>Governed tasks, boundaries, and durable context</li>
-          <li>Engineering Constitution and agent-accessible guidance</li>
+          <li>Global engineering Constitution with sensible defaults</li>
           <li>Workspaces, handoffs, and commit-bound evidence</li>
         </ul>
         <a class="plan-link plan-link-active" href="https://decapodlabs.github.io/decapod/quickstart.html">Install for free <span aria-hidden="true">↗</span></a>
         <p class="plan-fineprint">No account, payment details, or Cloud subscription needed.</p>
       </article>
       <article class="pricing-plan pricing-plan-cloud" aria-labelledby="cloud-title">
-        <div class="pricing-plan-top"><span class="plan-index">02 / SHARED CLOUD</span><span class="plan-availability plan-soon">Coming soon</span></div>
+        <div class="pricing-plan-top"><span class="plan-index">02 / CLOUD</span><span class="plan-availability plan-soon">Coming soon</span></div>
         <h2 id="cloud-title">Decapod Cloud</h2>
-        <p class="plan-price">$X <span>/ contributor · repository · month</span></p>
-        <p class="plan-subtitle">Shared, governed state for engineering teams.</p>
+        <div class="cloud-price-flag" aria-label="Cloud subscription prices will be revealed at launch">
+          <span class="cloud-price-icon" aria-hidden="true">☁</span>
+          <span class="cloud-price-message"><strong>UNDER WRAPS</strong><small>Cloud pricing reveal coming soon</small></span>
+        </div>
+        <p class="plan-annual">Monthly or annual billing</p>
+        <p class="plan-subtitle">The same repo-native Decapod kernel, connected to a shared live database for your team.</p>
         <ul class="plan-bullets">
-          <li>Planned hosted Decapod repository database</li>
-          <li>Managed authentication and repository access</li>
-          <li>Human contributor seats with team administration</li>
-          <li>Included cloud capacity with clear usage boundaries</li>
+          <li>Live repository state shared across computers, teammates, and agents</li>
+          <li>Concurrent governed work with durable context and commit-bound evidence</li>
+          <li>Workforce sign-in with Google or GitHub; verified GitHub linking for repositories</li>
+          <li>One identity across organizations, with repository-scoped access</li>
+          <li>Cloud Admin for team assignments, billing, and itemized resource usage</li>
         </ul>
-        <button class="plan-link plan-link-disabled" type="button" disabled aria-describedby="cloud-fineprint">Cloud coming soon <span aria-hidden="true">↗</span></button>
-        <p class="plan-fineprint" id="cloud-fineprint">A preview only. No checkout, live quote, or public price is available.</p>
+        <button class="plan-link plan-link-disabled" type="button" disabled aria-describedby="cloud-fineprint">Cloud checkout opening soon <span aria-hidden="true">↗</span></button>
+        <p class="plan-fineprint" id="cloud-fineprint">Team pricing and savings are previewed below. Cloud enrollment opens soon. Paid overages are off by default; an authorized admin must enable them in Cloud Admin. Approved excess usage is itemized by resource.</p>
+        <div class="cloud-custom-contact">
+          <span>Beyond 10 repositories or 25 contributors?</span>
+          <a href="mailto:alexhraber@gmail.com?subject=Decapod%20Cloud%20Custom%20Plan&body=Hello%20Decapod%20Labs%2C%0A%0AWe%27d%20like%20to%20discuss%20a%20larger%20Cloud%20deployment.%0ARepositories%3A%0AContributors%3A%0ARequirements%3A">Custom pricing <span aria-hidden="true">↗</span></a>
+        </div>
       </article>
+
     </div>
   </section>
 
@@ -85,10 +95,10 @@
     <div class="wrap">
       <div class="preview-heading-row">
         <div>
-          <p class="pricing-eyebrow">EXPLORE THE MODEL</p>
-          <h2 id="preview-heading">Your team.<br><span>Your repositories.</span></h2>
+          <p class="pricing-eyebrow">TEAM PRICING</p>
+          <h2 id="preview-heading">Built for your team.<br><span>Priced for your scope.</span></h2>
         </div>
-        <p>Move each bar to preview paid assignments and unlock volume savings. Agents don't require extra seats.</p>
+        <p>Choose your repositories and contributors. Agents don't count as seats.</p>
       </div>
       <div class="preview-panel">
         <div class="preview-controls">
@@ -101,7 +111,7 @@
             <div class="preview-tier-markers" id="repo-tiers" aria-label="Repository discount milestones">
               <span class="preview-tier-marker" data-repo-threshold="3" style="--tier-at:22.2222%"><span>3+</span><strong>2%</strong></span>
               <span class="preview-tier-marker" data-repo-threshold="6" style="--tier-at:55.5556%"><span>6+</span><strong>4%</strong></span>
-              <span class="preview-tier-marker" data-repo-threshold="10" style="--tier-at:100%"><span>10+</span><strong>6%</strong></span>
+              <span class="preview-tier-marker" data-repo-threshold="10" style="--tier-at:100%"><span>10</span><strong>6%</strong></span>
             </div>
           </div>
           <div class="preview-control preview-discount-control">
@@ -116,24 +126,46 @@
               <span class="preview-tier-marker" data-contributor-threshold="20" style="--tier-at:79.1667%"><span>20+</span><strong>6%</strong></span>
             </div>
           </div>
-          <p class="preview-explainer">Discounts unlock as your team grows. Each human–repository assignment is billable; the same human counts only once toward contributor volume savings. Agents require no additional seats.</p>
+          <p class="preview-explainer">Each person assigned to a repository is one paid assignment. Final savings depend on how many distinct people are on your team.</p>
+          <div class="preview-savings-row">
+            <div class="preview-volume-savings" aria-live="polite">
+              <span>Volume savings from</span><strong id="combined-discount">2%</strong>
+            </div>
+            <a class="preview-custom-link" href="mailto:alexhraber@gmail.com?subject=Decapod%20Cloud%20Custom%20Plan&body=Hello%20Decapod%20Labs%2C%0A%0AWe%27d%20like%20to%20discuss%20a%20larger%20Cloud%20deployment.%0ARepositories%3A%0AContributors%3A%0ARequirements%3A">Custom pricing <span aria-hidden="true">↗</span></a>
+            <div class="preview-annual-savings" id="annual-savings" hidden role="status" aria-label="Annual savings breakdown">
+              <div class="preview-annual-heading"><span>Annual savings</span></div>
+              <button type="button" class="preview-annual-dismiss" id="annual-dismiss" aria-label="Dismiss annual savings details">×</button>
+              <div class="preview-annual-equation">
+                <div class="preview-annual-factor"><strong>8.33%</strong><small>Annual</small></div>
+                <div class="preview-annual-factor"><strong id="annual-volume">2%</strong><small>Volume</small></div>
+                <div class="preview-annual-factor preview-annual-total"><strong id="annual-discount">10.33%</strong><small>Total</small></div>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="preview-result">
-          <div class="preview-result-top"><span>ILLUSTRATIVE CONFIGURATION</span><span class="preview-dot" aria-hidden="true"></span></div>
-          <p class="preview-big" id="assignment-count" aria-live="polite" aria-atomic="true">10</p>
-          <p class="preview-big-subtitle">contributor–repository assignments</p>
+          <div class="preview-result-top"><span>YOUR TEAM CONFIGURATION</span><span class="preview-dot" aria-hidden="true"></span></div>
+          <p class="preview-big" id="assignment-count">10</p>
+          <p class="preview-big-subtitle">paid contributor–repository assignments</p>
           <p class="preview-formula" id="assignment-formula">2 repositories × 5 contributors each</p>
-          <div class="preview-discount-summary" aria-label="Illustrative subscription savings">
-            <div><span>Volume savings</span><strong id="combined-discount" aria-live="polite">2%</strong></div>
-            <div><span>With annual commitment</span><strong id="annual-discount" aria-live="polite">10.33%</strong></div>
+          <fieldset class="preview-billing"><legend>Billing period</legend>
+            <div class="preview-billing-options">
+              <button type="button" class="preview-billing-option is-selected" data-billing="month" aria-pressed="true">Monthly</button>
+              <button type="button" class="preview-billing-option" data-billing="year" aria-pressed="false" aria-controls="annual-savings" aria-expanded="false">Annual</button>
+            </div>
+
+          </fieldset>
+          <div class="preview-total" id="standard-preview">
+            <span>Cloud subscription</span>
+            <div class="cloud-price-flag cloud-price-flag-quote" role="img" aria-label="Cloud pricing under wraps until launch">
+              <span class="cloud-price-icon" aria-hidden="true">☁</span>
+              <span class="cloud-price-message"><strong>UNDER WRAPS</strong><small>Price reveal at launch</small></span>
+            </div>
           </div>
-          <p class="preview-discount-limit">Annual billing and volume discounts combine for up to 20% cumulative savings.</p>
-          <div class="preview-total"><span>Estimated monthly subscription</span><strong>$X<span>/mo</span></strong></div>
-          <p class="preview-unpriced">Price withheld until launch. <strong>$X is a placeholder</strong>, not a calculated quote.</p>
-          <button type="button" disabled class="preview-checkout">Coming soon <span aria-hidden="true">↗</span></button>
+          <p class="preview-unpriced">Prices are revealed at launch. Included resource limits apply by default; paid overages require explicit admin approval in Cloud Admin.</p>
+          <button id="preview-checkout" type="button" disabled class="preview-checkout">Cloud checkout opening soon <span aria-hidden="true">↗</span></button>
         </div>
       </div>
-      <p class="preview-caveat">This illustration assumes the same people across repositories. The future Admin will support different contributor counts per repository. Exact eligibility is verified server-side at checkout.</p>
     </div>
   </section>
 
@@ -142,65 +174,49 @@
       <div class="resources-intro">
         <div>
           <p class="pricing-eyebrow">CLOUD CAPACITY</p>
-          <h2 id="resource-heading">No usage homework.</h2>
+          <h2 id="resource-heading">Usage you can see.<br>Costs you can trace.</h2>
         </div>
-        <p>Cloud will include a defined resource allowance. We’ll measure what the service uses and show the limits plainly before paid access opens. You won’t need to predict how many requests your agents will make.</p>
+        <p>Every Cloud subscription includes published resource allowances. Paid overages are disabled by default. New usage that exceeds an included limit is throttled or declined without extra charges unless an authorized admin opts in through Cloud Admin and sets a spending cap.</p>
       </div>
       <div class="resource-highlights" aria-label="Cloud capacity commitments">
-        <div><span aria-hidden="true">01</span><strong>Capacity included</strong><p>Usage within published limits is part of the subscription.</p></div>
-        <div><span aria-hidden="true">02</span><strong>Measured automatically</strong><p>Actual cloud consumption is tracked under your account.</p></div>
-        <div><span aria-hidden="true">03</span><strong>Clear resource billing</strong><p>Excess measured usage is itemized at published rates, within the agreed billing ceiling.</p></div>
+        <div><span aria-hidden="true">01</span><strong>Included by default</strong><p>Every subscription includes defined cloud resources.</p></div>
+        <div><span aria-hidden="true">02</span><strong>Measured by resource</strong><p>See your usage, limits, and charges in Cloud Admin.</p></div>
+        <div><span aria-hidden="true">03</span><strong>Overages are opt-in</strong><p>An authorized admin chooses whether to pay for excess usage, with a spending cap.</p></div>
       </div>
       <details class="resources-advanced">
-        <summary><span>Advanced: how Cloud usage will work</span><span class="advanced-arrow" aria-hidden="true">+</span></summary>
+        <summary><span>What counts as cloud usage?</span><span class="advanced-arrow" aria-hidden="true">+</span></summary>
         <div class="advanced-content">
-          <p class="advanced-intro">These are the resource dimensions we intend to meter separately. Included allowances and per-unit overage rates will be published after workload testing.</p>
+          <p class="advanced-intro">Cloud meters each resource independently. Included allowances and excess-use rates will be published before enrollment. Overages stay off until an authorized admin enables them and sets a spending cap in Cloud Admin.</p>
           <div class="advanced-grid">
-            <div class="resource-type"><span class="resource-type-icon" aria-hidden="true">⇄</span><h3>Network transfer</h3><p>Data entering and leaving the service, including large exports and repeated requests.</p><small>Monthly consumption · allowance TBD</small></div>
-            <div class="resource-type"><span class="resource-type-icon" aria-hidden="true">⌘</span><h3>Compute &amp; operations</h3><p>Service work needed for agent requests, database queries, and coordination.</p><small>Monthly consumption · allowance TBD</small></div>
-            <div class="resource-type"><span class="resource-type-icon" aria-hidden="true">▤</span><h3>Retained data</h3><p>Stored database records, events, and retained proof. Storage persists between months.</p><small>Retained capacity · allowance TBD</small></div>
-            <div class="resource-type"><span class="resource-type-icon" aria-hidden="true">⟐</span><h3>Request pressure</h3><p>Burst and concurrency protection to keep one workload from degrading another.</p><small>Fair-use controls · limits TBD</small></div>
+            <div class="resource-type"><span class="resource-type-icon" aria-hidden="true">⇄</span><h3>Network transfer</h3><p>Measured outbound transfer, including large exports and responses.</p><small>Measured transfer · published allowance at launch</small></div>
+            <div class="resource-type"><span class="resource-type-icon" aria-hidden="true">⌘</span><h3>Compute &amp; operations</h3><p>Measured request processing and database work.</p><small>Monthly consumption · allowance TBD</small></div>
+            <div class="resource-type"><span class="resource-type-icon" aria-hidden="true">▤</span><h3>Retained data</h3><p>Retained database and evidence storage measured over time.</p><small>Retained storage · measured over time</small></div>
+            <div class="resource-type"><span class="resource-type-icon" aria-hidden="true">⟐</span><h3>Request pressure</h3><p>Request rate and concurrency controls protect shared service availability.</p><small>Safety limits · independent of billing</small></div>
           </div>
-          <div class="capacity-lab" aria-label="Illustrative expected cloud resource consumption">
-            <div class="capacity-lab-heading">
-              <div><span class="capacity-kicker">USAGE ESTIMATE</span><h3>What might you use?</h3></div>
-              <p>Estimate potential demand. These sliders do not purchase capacity or set your actual limits; the service measures consumption and itemizes any excess at published resource-specific rates.</p>
-            </div>
-            <div class="capacity-sliders">
-              <div class="capacity-control">
-                <div class="capacity-control-heading"><label for="network-capacity">Network transfer</label><output id="network-capacity-value" for="network-capacity">Included</output></div>
-                <input type="range" id="network-capacity" min="100" max="300" step="25" value="100" aria-describedby="capacity-note">
-                <p>Ingress, egress and exports</p>
-              </div>
-              <div class="capacity-control">
-                <div class="capacity-control-heading"><label for="compute-capacity">Compute &amp; operations</label><output id="compute-capacity-value" for="compute-capacity">Included</output></div>
-                <input type="range" id="compute-capacity" min="100" max="300" step="25" value="100" aria-describedby="capacity-note">
-                <p>Requests, query work and execution</p>
-              </div>
-              <div class="capacity-control">
-                <div class="capacity-control-heading"><label for="storage-capacity">Retained database &amp; evidence</label><output id="storage-capacity-value" for="storage-capacity">Included</output></div>
-                <input type="range" id="storage-capacity" min="100" max="300" step="25" value="100" aria-describedby="capacity-note">
-                <p>Persistent stock across billing periods</p>
-              </div>
-            </div>
-            <div class="capacity-estimate">
-              <div><strong id="capacity-summary" aria-live="polite">All resources within included capacity</strong><p>Illustrative usage only · not a quote</p></div>
-              <span class="capacity-price">$X</span>
-            </div>
-            <p class="capacity-note" id="capacity-note">100% represents an unspecified included baseline. Higher slider settings are nonbinding usage estimates; actual excess is measured by the service and billed per resource under the published rates and your agreed maximum exposure. No charges are generated by this preview.</p>
+          <div class="resource-billing-note">
+            <strong>No surprise overage charges.</strong>
+            <p>Cloud Admin shows your included limits, measured usage and published excess-use rates. Paid overages start disabled. An authorized admin must explicitly enable them and set a spending cap before additional usage can be billed. Otherwise, new usage beyond an included limit is throttled or declined. Approved excess use is itemized by resource, and spending cannot exceed the authorized cap.</p>
           </div>
-          <p class="advanced-footnote">Monthly flows and retained data have different billing units and reset rules. Your actual resource overages are itemized separately from the licensed subscription; no numerical resource limits or service commitments are published yet.</p>
+          <p class="advanced-footnote">Resource allowances and overage rates will be published before billing opens. Monthly consumption and retained storage have different measurement periods.</p>
         </div>
       </details>
     </div>
   </section>
-  <section class="pricing-ending" aria-labelledby="ending-heading">
+  <section class="pricing-faq" aria-labelledby="faq-heading"><div class="wrap faq-layout"><div class="faq-header"><p class="pricing-eyebrow">GOOD TO KNOW</p><h2 id="faq-heading">Clear terms.<br><span>Real control.</span></h2><p>Everything that matters when your team grows.</p></div><div class="faq-items">
+<details><summary>What is a contributor–repository assignment?</summary><p>One human assigned to one repository is one paid assignment. The same human assigned to two repositories uses two assignments. Contributor-volume savings count distinct people only once per customer.</p></details>
+<details><summary>Do coding agents count as seats?</summary><p>No. Agents, subagents, and worktrees are not additional human seats. Their Cloud activity still consumes measured resources.</p></details>
+<details><summary>How does workforce sign-in work?</summary><p>Sign in with Google or GitHub. A single person can belong to multiple organizations, with explicit repository-specific access and paid assignments. GitHub repository linking requires verification of the corresponding GitHub identity.</p></details>
+<details><summary>How are subscription savings calculated?</summary><p>More repositories and more distinct people unlock volume discounts. The preview shows the minimum for your selection; the final amount reflects the actual people assigned. Annual billing adds 8⅓ percentage points to volume savings, with a 20% cap on the base subscription. Separately authorized resource overages receive no discounts.</p></details>
+<details><summary>Will Cloud charge me automatically if I exceed a resource limit?</summary><p>No. Paid overages are disabled by default. Without your organization's authorized admin explicitly enabling them in Cloud Admin, new usage beyond included limits is throttled or declined with no overage charge. Admins can opt in after reviewing disclosed per-resource rates and setting a spending cap. Only authorized excess usage is billed, itemized by resource.</p></details>
+<details><summary>What if we're bigger than the sliders?</summary><p>Talk with sales for more than 10 repositories, more than 25 contributors per repository, or specialized deployment and capacity needs.</p></details>
+</div></div></section>
+<section class="pricing-ending" aria-labelledby="ending-heading">
     <div class="wrap pricing-ending-layout">
-      <div><p class="pricing-eyebrow">SAME AGENTS. CLEAR BOUNDARIES.</p><h2 id="ending-heading">Get started locally.<br><span>Cloud can wait.</span></h2></div>
-      <div><p>Decapod's kernel runs in your repository today. When Cloud is ready, it will add managed shared state—not a new agent harness.</p><a class="plan-link plan-link-active" href="https://decapodlabs.github.io/decapod/quickstart.html">Read the quickstart <span aria-hidden="true">↗</span></a></div>
+      <div><p class="pricing-eyebrow">SAME AGENTS. CLEAR BOUNDARIES.</p><h2 id="ending-heading">Start locally.<br><span>Grow with Cloud.</span></h2></div>
+      <div><p>The kernel works in your repository today. Cloud extends governed state across your team when you're ready.</p><a class="plan-link plan-link-active" href="https://decapodlabs.github.io/decapod/quickstart.html">Read the quickstart <span aria-hidden="true">↗</span></a></div>
     </div>
   </section>
 </main>
-<footer class="offerings-footer"><div class="wrap"><a href="/">Decapod Labs</a><nav aria-label="Footer navigation"><a href="/pricing.html">Pricing</a><a href="https://decapodlabs.github.io/decapod/">Documentation</a><a href="https://github.com/DecapodLabs/decapod">GitHub <span aria-hidden="true">↗</span></a></nav></div></footer>
+<footer class="footer"><div class="wrap footer-grid"><a href="/" class="footer-brand" aria-label="Decapod Labs home"><img class="site-wordmark" src="assets/logo-c.png?v=20261118-footer" alt="Decapod Labs" width="420" height="140"></a><span>© 2026 Decapod Labs</span><div><a href="pricing.html">Pricing ↗</a><a href="https://github.com/DecapodLabs/decapod">GitHub ↗</a><a href="https://decapodlabs.github.io/decapod/">Read the docs ↗</a></div></div></footer>
 </body>
 </html>

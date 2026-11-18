@@ -38,6 +38,11 @@
       "id": "preserve-current-accepted-pricing",
       "summary": "Checkpoint exact integration of latest accepted pricing without altering film, immutable source evidence or required proof contract",
       "input_digest": "sha256:609d6d63c71d017993b31f597652183c5ac58400024bd155358ca9d449a73e70"
+    },
+    {
+      "id": "accepted-navigation-and-fragment-targets",
+      "summary": "Preserve latest accepted pricing/header/footer and checkpoint correct cross-document fragment validation with four regression controls and actual desktop/mobile film playback; separate target-policy acceptance pending",
+      "input_digest": "sha256:4c560e1a8b219eef46898eb48a1fea9ffe6dec6317a5fea92ae8c2bf68ea012e"
     }
   ],
   "intents": {
@@ -78,23 +83,23 @@
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/ARCHITECTURE.md",
-          "reason": "Preserve accepted mainbbbdaf95 pricing.html/pricing.css/pricing.js cumulative savings and itemized resource preview, without altering these accepted files or the exact source/media evidence. Required command declarations remain identical; current candidate still awaits separate maintainer source-policy acceptance.",
-          "reviewed_code_fingerprint": "65adac1cae047fa4978bd0af6a804731c6bf4bfd2ab2098716586d55fff18271",
-          "spec_material_hash": "5c7706b9b5433b1bf2410bfd7e4fbaf0ebada687abe4af6762e4161c04180bbf"
+          "reason": "Preserve accepted main3e350 pricing/header/footer and additive real-evidence film; reproduce and repair target-document fragment validation with four controls; actual desktop/mobile playback passed; exact candidate source policy still needs separate maintainer acceptance",
+          "reviewed_code_fingerprint": "2da8ed8bd174bf53df5cdb00b4a907c54f68c3f902bd9acfde8b49affeac21ca",
+          "spec_material_hash": "cb0b09fff6db47c8b7a0b2101635e66d982ae7ca7f4549deb7eacdee5f3bcfab"
         },
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/INTERFACES.md",
-          "reason": "Preserve accepted mainbbbdaf95 pricing.html/pricing.css/pricing.js cumulative savings and itemized resource preview, without altering these accepted files or the exact source/media evidence. Required command declarations remain identical; current candidate still awaits separate maintainer source-policy acceptance.",
-          "reviewed_code_fingerprint": "65adac1cae047fa4978bd0af6a804731c6bf4bfd2ab2098716586d55fff18271",
-          "spec_material_hash": "719e64a01bd86a251021c599a8bcb8c38b5cf0fb6698c938f151c85d7b570220"
+          "reason": "Preserve accepted main3e350 pricing/header/footer and additive real-evidence film; reproduce and repair target-document fragment validation with four controls; actual desktop/mobile playback passed; exact candidate source policy still needs separate maintainer acceptance",
+          "reviewed_code_fingerprint": "2da8ed8bd174bf53df5cdb00b4a907c54f68c3f902bd9acfde8b49affeac21ca",
+          "spec_material_hash": "463225e9e32d8b5f520e9d3de29aef10040d9f07b29e2028d1e510ccafa0dd48"
         },
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/SECURITY.md",
-          "reason": "Preserve accepted mainbbbdaf95 pricing.html/pricing.css/pricing.js cumulative savings and itemized resource preview, without altering these accepted files or the exact source/media evidence. Required command declarations remain identical; current candidate still awaits separate maintainer source-policy acceptance.",
-          "reviewed_code_fingerprint": "65adac1cae047fa4978bd0af6a804731c6bf4bfd2ab2098716586d55fff18271",
-          "spec_material_hash": "5771d917291340b4bb73a98d1022c433feb57b1462bf517fdaaf54a1ab6341b9"
+          "reason": "Preserve accepted main3e350 pricing/header/footer and additive real-evidence film; reproduce and repair target-document fragment validation with four controls; actual desktop/mobile playback passed; exact candidate source policy still needs separate maintainer acceptance",
+          "reviewed_code_fingerprint": "2da8ed8bd174bf53df5cdb00b4a907c54f68c3f902bd9acfde8b49affeac21ca",
+          "spec_material_hash": "52f9ae644c57714850d5077bffefe2a836d9fa195eadd1fac01b76a51728e735"
         }
       ],
       "state": "APPROVED",
@@ -105,16 +110,28 @@
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1794984239Z"
+      "updated_at": "1794993684Z"
     },
     "trajectory": {
       "active_boundaries": [
         "Current claimed task and isolated work branch"
       ],
-      "artifact_hash": "sha256:bec8e7b4481957a466201fb56c0d7e65f022c9b6f17f94410bf0f14894e6e52c",
+      "artifact_hash": "sha256:54ab9c010254d0e088db246d7796a7af3cc047a6e14ef7548290ad7bf56ee33f",
       "checks": [
         {
           "name": "accepted-pricing-integration",
+          "status": "passed"
+        },
+        {
+          "name": "accepted-root-navigation-before-repair",
+          "status": "failed"
+        },
+        {
+          "name": "accepted-target-policy",
+          "status": "unavailable"
+        },
+        {
+          "name": "actual-desktop-mobile-playback",
           "status": "passed"
         },
         {
@@ -144,6 +161,10 @@
         {
           "name": "public-deployment",
           "status": "unavailable"
+        },
+        {
+          "name": "resolved-document-fragment-controls",
+          "status": "passed"
         },
         {
           "name": "target-policy-acceptance",
@@ -192,10 +213,17 @@
             "intent_id": "intent:change_01M7P3MS42DDAPYYZZXH5XK89Q",
             "kind": "trajectory_step_recorded",
             "sequence": 7
+          },
+          {
+            "detail": "trajectory:branch_01M7P3MS5DCW110VK162809HWA",
+            "event_id": "event:8",
+            "intent_id": "intent:change_01M7P3MS42DDAPYYZZXH5XK89Q",
+            "kind": "trajectory_step_recorded",
+            "sequence": 8
           }
         ],
         "knowledge_candidates": [],
-        "next_sequence": 7,
+        "next_sequence": 8,
         "schema_version": "1.0.0",
         "trajectories": {
           "branch_01M7P3MS5DCW110VK162809HWA": {
@@ -269,6 +297,24 @@
                 ],
                 "sequence": 7,
                 "validation_findings": []
+              },
+              {
+                "action": "trajectory.record",
+                "custody_event_id": "event:8",
+                "observations": [
+                  "Accepted website main3e350 integrated without auto-commit. Actual Deno failure and corrected full static/evidence review preserved privately. Four resolution controls distinguish homepage/root links from local pricing fragments; candidate policy7482 remains unaccepted. Pricing HTML/CSS/JS and footer logo compare byte-identical to accepted main. Chrome155 actual desktop/mobile playback passes unchanged film and captions with reduced-motion. No public deployment or readiness claimed."
+                ],
+                "proof_refs": [
+                  "accepted-root-navigation-before-repair",
+                  "resolved-document-fragment-controls",
+                  "actual-desktop-mobile-playback",
+                  "accepted-target-policy"
+                ],
+                "scope": [
+                  "scripts"
+                ],
+                "sequence": 8,
+                "validation_findings": []
               }
             ]
           }
@@ -278,6 +324,7 @@
       "destination": "pull request",
       "evidence": [
         "Accepted website main advanced fromf9c804a tobbbdaf95 through three pricing-only commits. Exact accepted pricing HTML/CSS/JS are preserved by normal no-commit merge, then native checkpoint before commit. The final rendered films, source witnesses and eight verification-source definitions are unchanged. Browser verification covered launch section and proof page; public deployment and native admission remain unavailable until independent policy acceptance.",
+        "Accepted website main3e350 integrated without auto-commit. Actual Deno failure and corrected full static/evidence review preserved privately. Four resolution controls distinguish homepage/root links from local pricing fragments; candidate policy7482 remains unaccepted. Pricing HTML/CSS/JS and footer logo compare byte-identical to accepted main. Chrome155 actual desktop/mobile playback passes unchanged film and captions with reduced-motion. No public deployment or readiness claimed.",
         "Actual Linux Deno presentation review passes original native publication record/receipt and two adversarial mutations after correcting typed-serialization digest confusion. Native full validation remains blocked by accepted source-policy transition. Original movie bytes and native evidence are unchanged; no admission inferred.",
         "Actual Linux-container render and verification completed for56s1080p,12s720p and56svertical H264/AAC films; nine offline source controls pass plus two Deno native-proof negatives. Chrome desktop/mobile actual playback and captions passed on the final candidate bytes. Exact human mission and separate controller-selected task are preserved without rewriting the immutable run archive. This source inventory supersedes91c1c4fa; fresh native admission awaits explicit accepted-target policy. Local preview is not public deployment.",
         "Reauthor byte-identical reviewed0d7133d website source/media after explicit task transfer into fresh Linux tmpfs; original source branch, failed attempts and task history preserved. Independent public downloads matched all9 critical assets; Chrome desktop/mobile playback passed after accepted pricing merge. New native validation/publication required; no historical proof imported."

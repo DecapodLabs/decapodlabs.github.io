@@ -36,6 +36,10 @@ The offline presentation gate pins the independently observed T7sSlC native reco
 
 The controller selected the single Pi task under the human-authorized mission; direct human authorship of that prompt is not attested. The separately pinned retrospective objective-provenance disclosure preserves the original runtime/capture/manifest bytes. Rendered language says ONE ENGINEERING OBJECTIVE, and both presentation guards reject a substituted authorship claim. This correction requires rerendered media, source inventory review and fresh native admission; prior film/validation bytes cannot authorize it.
 
+## Cross-document navigation contract
+
+The static-source checker resolves every reference relative to its referring document. A root-relative /#kernel link from pricing.html targets index.html; #main targets pricing.html itself. Fragment existence is checked against the resolved target document, not the referring page. Four controls cover both valid cases and swapped-document false positives. Accepted pricing now conceals actual currency amounts and provides repository/contributor volume and annual-savings previews; all purchasing remains disabled.
+
 <!-- decapod:capability-overlay:public-api:start -->
 
 Generated capability obligations: `public-api` is declared for this project. These are decisions and proof requirements, not claims of implemented behavior. Resolve each against project source and tests; record unsupported or non-applicable mechanisms explicitly.
@@ -63,7 +67,7 @@ Generated capability obligations: `public-api` is declared for this project. The
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `65adac1cae047fa4978bd0af6a804731c6bf4bfd2ab2098716586d55fff18271`
+- Repository signal fingerprint: `2da8ed8bd174bf53df5cdb00b4a907c54f68c3f902bd9acfde8b49affeac21ca`
 - Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `evidence/` (1 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->

@@ -40,6 +40,10 @@ The render manifest binds actual movie/caption digests, event identifiers, timin
 
 index.html retains its teaser and adds a native controlled video with responsive source selection, poster, optional caption track and evidence links. proof.html provides inspectable scope and limitations. The existing main/manual media workflow regenerates the film and verifies encoded media. Existing initialized governance is preserved; the historical bootstrap installer runs only when project configuration is absent.
 
+## Current accepted presentation integration
+
+Accepted main3e350d8d supplies the persistent responsive header, homepage Constitution copy, corrected footer logo and pricing preview with concealed dollar prices, repository/contributor controls and annual savings. Those accepted pricing and logo bytes are preserved exactly. The evidence-backed film is an additive homepage section beside the retained original teaser; its styles are scoped to launch/proof presentation. No application backend or Cloud enrollment authority is introduced.
+
 <!-- decapod:capability-overlay:persistent-state:start -->
 
 Generated capability obligations: `persistent-state` is declared for this project. These are decisions and proof requirements, not claims of implemented behavior. Resolve each against project source and tests; record unsupported or non-applicable mechanisms explicitly.
@@ -66,7 +70,7 @@ Generated capability obligations: `persistent-state` is declared for this projec
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `65adac1cae047fa4978bd0af6a804731c6bf4bfd2ab2098716586d55fff18271`
+- Repository signal fingerprint: `2da8ed8bd174bf53df5cdb00b4a907c54f68c3f902bd9acfde8b49affeac21ca`
 - Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `evidence/` (1 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->

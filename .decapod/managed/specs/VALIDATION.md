@@ -28,6 +28,10 @@ The offline presentation gate pins the independently observed T7sSlC native reco
 
 The controller selected the single Pi task under the human-authorized mission; direct human authorship of that prompt is not attested. The separately pinned retrospective objective-provenance disclosure preserves the original runtime/capture/manifest bytes. Rendered language says ONE ENGINEERING OBJECTIVE, and both presentation guards reject a substituted authorship claim. This correction requires rerendered media, source inventory review and fresh native admission; prior film/validation bytes cannot authorize it.
 
+## Accepted navigation regression and source-policy transition
+
+On integrating accepted main3e350d8d, actual Deno execution reproduced missing_fragment_target for Pricing navigation to homepage anchors. The checker was repaired to resolve URLs from the referring document and inspect the resolved target IDs. Two positive and two negative resolution controls now pass along with all four real documents,58 local references,12 fragments and the real167-event evidence/media accuracy checks. Actual Chrome155 desktop1440x1000 and mobile390x844 playback decoded the unchanged56-second films, loaded all8 captions, sought to32 seconds and found no overflow or page errors under reduced-motion preferences. These presentation checks do not substitute for full native validation or public Pages readback. The eight-source candidate inventory is sha256:7482eb071e87380ec683e8a29188e8345a7539f49b65a890ab84f92b4842e630; the prior ad3 proposal is superseded and no maintainer policy approval is assumed.
+
 <!-- decapod:capability-overlay:background-processing:start -->
 
 Generated capability obligations: `background-processing` is declared for this project. These are decisions and proof requirements, not claims of implemented behavior. Resolve each against project source and tests; record unsupported or non-applicable mechanisms explicitly.
@@ -94,7 +98,7 @@ Generated capability obligations: `public-api` is declared for this project. The
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `65adac1cae047fa4978bd0af6a804731c6bf4bfd2ab2098716586d55fff18271`
+- Repository signal fingerprint: `2da8ed8bd174bf53df5cdb00b4a907c54f68c3f902bd9acfde8b49affeac21ca`
 - Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `evidence/` (1 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->

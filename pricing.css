@@ -1,6 +1,6 @@
-/* Decapod pricing preview. Scoped to the public, non-transactional pricing page. */
-.pricing-page{overflow-x:hidden;background:#fff9f0}
-.pricing-page .nav-links a[aria-current="page"]{color:var(--orange)}
+/* Decapod Local and Cloud pricing. The estimator is informational; purchasing remains server-authoritative. */
+.pricing-page{overflow-x:clip;background:#fff9f0}
+.pricing-page .nav-links a[aria-current="page"]{color:#fff;background:var(--orange)}
 .pricing-page .nav-links a:focus-visible,.pricing-page button:focus-visible,.pricing-page a:focus-visible,.pricing-page summary:focus-visible,.pricing-page input:focus-visible{outline:3px solid var(--orange);outline-offset:4px}
 .pricing-page .site-wordmark{width:170px;height:auto;max-height:80px;object-fit:contain}
 .pricing-hero{background:radial-gradient(ellipse 55% 90% at 88% 20%,#ffdbb2,transparent 88%),#fff3e2;padding:76px 0 65px}
@@ -56,12 +56,12 @@
 .preview-dot{width:9px;height:9px;border-radius:50%;background:#f0653e}
 .preview-big{font-family:"Space Grotesk",sans-serif;font-size:clamp(76px,9vw,142px);line-height:1;font-weight:700;letter-spacing:-.09em;margin:36px 0 0}
 .preview-big-subtitle{font-weight:800;font-size:15px;margin:0 0 11px;line-height:1.4}
-.preview-formula{font-size:13px;line-height:1.5;color:#71545b;margin:0 0 38px}
-.preview-total{border-top:1px solid #b9968f;padding:20px 0 12px;display:flex;justify-content:space-between;align-items:end;gap:20px}
+.preview-formula{font-size:13px;line-height:1.5;color:#71545b;margin:0 0 22px}
+.preview-total{border-top:1px solid #b9968f;padding:20px 0 8px;display:flex;flex-direction:column;align-items:flex-start;gap:6px}
 .preview-total>span{font-size:13px;line-height:1.45;color:#57464b;font-weight:700;max-width:180px}
-.preview-total strong{font-family:"Space Grotesk",sans-serif;font-size:clamp(43px,5vw,66px);font-weight:700;letter-spacing:-.07em;white-space:nowrap}
+.preview-total strong{font-family:"Space Grotesk",sans-serif;font-size:clamp(38px,4.7vw,62px);font-weight:700;letter-spacing:-.07em;white-space:nowrap;max-width:100%}
 .preview-total strong span{font:700 13px "DM Sans",sans-serif;letter-spacing:0;color:#695159}
-.preview-unpriced{font-size:12px;line-height:1.5;color:#73545f;margin:8px 0 25px}
+.preview-unpriced{font-size:12px;line-height:1.55;color:#73545f;margin:13px 0 25px}
 .preview-checkout{width:100%;padding:18px 20px;text-align:left;border:0;border-radius:11px;background:#bdada4;color:#665359;display:flex;justify-content:space-between;gap:15px;text-transform:uppercase;font-size:12px;font-weight:900;letter-spacing:.02em;cursor:not-allowed}
 .preview-checkout span{font-size:18px}
 .preview-caveat{font-size:12px;color:#cfbcca;line-height:1.6;margin:17px 0 0}
@@ -112,10 +112,6 @@
 }
 @media(max-width:650px){
  .pricing-page .wrap{width:calc(100% - 34px)}
- .pricing-page .nav-content{height:auto;min-height:85px;flex-wrap:wrap;justify-content:center;padding:12px 0;row-gap:10px}
- .pricing-page .nav-links{order:3;flex:0 0 100%;justify-content:center;gap:24px}
- .pricing-page .nav-cta{padding:9px 13px;font-size:11px}
- .pricing-page .site-wordmark{width:134px}
  .pricing-hero{padding:53px 0 49px}
  .pricing-hero h1{font-size:clamp(45px,12.2vw,74px)}
  .pricing-intro{font-size:16px}
@@ -127,7 +123,7 @@
  .preview-heading-row>p{margin:23px 0 0}
  .pricing-preview{padding:65px 0}
  .preview-controls,.preview-result{padding:26px}
- .preview-result .preview-big{font-size:86px}
+ .preview-result .preview-big{font-size:76px}
  .preview-total strong{font-size:48px}
  .pricing-resources{padding:67px 0}
  .pricing-ending{padding:66px 0}
@@ -155,7 +151,7 @@
 .preview-discount-summary>div{padding:15px 0 0;border-top:1px solid #b9968f;display:flex;flex-direction:column;align-items:flex-start;gap:6px}
 .preview-discount-summary span{color:#66535a;font-size:12px;line-height:1.4;font-weight:700}
 .preview-discount-summary strong{font:700 31px "Space Grotesk",sans-serif;letter-spacing:-.06em;color:#34202b;white-space:nowrap}
-.preview-discount-limit{color:#73545f;font-size:11px;line-height:1.55;margin:0 0 22px}
+.preview-discount-limit{color:#73545f;font-size:12px;line-height:1.55;margin:0 0 22px}
 @media(max-width:650px){
  .preview-live-value{gap:8px}
  .preview-live-discount{padding:6px 9px;font-size:13px;min-width:48px}
@@ -164,15 +160,278 @@
  .preview-tier-markers{height:44px}
 }
 
-.capacity-control input[type="range"]{-webkit-appearance:none;appearance:none;display:block;width:100%;height:8px;border:0;border-radius:999px;background:linear-gradient(to right,#ed693f 0%,#ed693f var(--fill,0%),#e3cbbd var(--fill,0%),#e3cbbd 100%);cursor:pointer;margin:0 0 16px}
-.capacity-control input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;height:20px;width:20px;border:4px solid #d85736;border-radius:50%;background:#fff5e8;box-shadow:0 0 0 4px #e9653530}
-.capacity-control input[type="range"]::-moz-range-thumb{height:16px;width:16px;border:4px solid #d85736;border-radius:50%;background:#fff5e8;box-shadow:0 0 0 4px #e9653530}
-.capacity-control>p{margin:0;color:#876f78;font-size:11px;line-height:1.5}
-.capacity-estimate{display:flex;align-items:center;justify-content:space-between;gap:18px;border-top:1px solid #deb9a5;margin-top:22px;padding-top:19px}
-.capacity-estimate>div{min-width:0}
-.capacity-estimate strong{font-size:14px;line-height:1.4}
-.capacity-estimate p{font-size:12px;color:#78616c;margin:6px 0 0;line-height:1.5}
-.capacity-price{font:700 clamp(28px,4vw,44px) "Space Grotesk",sans-serif;letter-spacing:-.07em;white-space:nowrap}
-.capacity-note{color:#836e75;font-size:11px;line-height:1.7;margin:15px 0 0}
-@media(max-width:1000px){.capacity-lab-heading{display:block}.capacity-lab-heading>p{margin-top:13px}.capacity-sliders{grid-template-columns:1fr}.capacity-control-heading{align-items:center;margin-bottom:16px}.capacity-control{padding:20px}}
-@media(max-width:650px){.capacity-lab{padding:17px}.capacity-estimate{align-items:flex-start}.capacity-price{font-size:35px}}
+
+/* Price transparency: contracted unit prices, never client-side purchase authority. */
+.plan-annual{font-size:14px;line-height:1.6;color:#674b55;margin:-5px 0 22px}
+.plan-annual strong{color:#a34f2e}
+.preview-billing{border:0;margin:0 0 18px;padding:0;min-width:0}
+.preview-billing legend{font-size:12px;font-weight:800;color:#5b4b51;margin:0 0 10px}
+.preview-billing-options{display:flex;align-items:stretch;gap:7px;padding:5px;border:1px solid #d9afa2;background:#f9e9d5;border-radius:13px}
+.preview-billing-option{min-width:0;flex:1;padding:11px 10px;border:1px solid transparent;background:transparent;color:#735b62;border-radius:9px;cursor:pointer;font-size:13px;font-weight:800;line-height:1.3}
+.preview-billing-option span{font-size:10px;font-weight:800;display:block;color:inherit;opacity:.8;margin-top:3px}
+.preview-billing-option.is-selected{color:#271920;background:white;border-color:#e6bba2;box-shadow:0 3px 8px #62352112}
+.preview-billing-option:hover:not(.is-selected){background:#ffe9cb}
+.preview-total strong small{font-family:"DM Sans",sans-serif;font-size:14px;font-weight:700;letter-spacing:0;color:#695159;margin-left:7px}
+.preview-total strong>span{font:inherit;color:inherit;letter-spacing:inherit}
+.preview-unit-price{font-size:13px;color:#67505b;font-weight:700;margin:2px 0 0}
+.preview-saved{font-size:12px;line-height:1.45;font-weight:800;color:#8f3d2b;margin:8px 0 0}
+.preview-discount-limit strong{color:#512c26}
+.resource-billing-note{background:#fff4e5;border:1px solid #eac7ab;border-radius:14px;padding:22px 24px;margin-top:18px}
+.resource-billing-note strong{font:700 19px "Space Grotesk",sans-serif;letter-spacing:-.02em}
+.resource-billing-note p{font-size:14px;color:#6d5963;line-height:1.65;margin:8px 0 0}
+@media(max-width:650px){
+ .preview-total strong{font-size:clamp(36px,9vw,50px)}
+ .preview-billing-option{font-size:12px;padding:10px 8px}
+ .plan-annual{margin-top:0}
+ .resource-billing-note{padding:19px}
+}
+
+/* Launch-ready product layout; reveal treatment is limited to unreleased pricing. */
+.pricing-hero-grid{grid-template-columns:minmax(0,1.65fr) minmax(250px,.65fr)}
+.mode-status{display:grid;gap:12px;border-top:1px solid #e0c6bb;padding-top:17px}
+.mode-status span{display:flex;align-items:center;gap:10px;color:#59464f;font-size:12px;font-weight:800}
+.mode-status i{display:inline-block;flex:0 0 9px;width:9px;height:9px;border-radius:50%;background:#39a575;box-shadow:0 0 0 4px #39a57526}
+.mode-status span:last-child i{background:#f0a457;box-shadow:0 0 0 4px #f0a4572a}
+.pricing-plan-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.pricing-plan{padding:clamp(25px,2.7vw,39px)}
+.pricing-plan h2{font-size:clamp(27px,2.9vw,39px)}
+.pricing-plan-top{margin-bottom:28px}
+.pricing-plan-cloud{overflow:hidden}
+.pricing-plan-custom{background:#27202c;color:#fff7ef;border-color:#5b4654}
+.pricing-plan-custom .plan-index,.pricing-plan-custom .plan-subtitle,.pricing-plan-custom .plan-fineprint{color:#d2bcc9}
+.pricing-plan-custom .plan-bullets li::before{color:#ffb785}
+.custom-status{color:#542f2d;background:#ffdbaf}
+.custom-plan-mark{min-height:112px;display:flex;flex-direction:column;justify-content:center;border-radius:14px;margin:14px 0 25px;padding:20px 22px;background:linear-gradient(130deg,#3e3045,#29212f);border:1px solid #725967}
+.custom-plan-mark span{font-size:12px;letter-spacing:.13em;font-weight:900;color:#edb68d}
+.custom-plan-mark strong{font:700 clamp(28px,2.65vw,39px) "Space Grotesk",sans-serif;letter-spacing:-.05em}
+.plan-link-custom{background:#f6a474;color:#2c2027}
+.plan-link-custom:hover{background:#ffbd8f;color:#251923}
+.price-reveal,.preview-price-veil{position:relative;overflow:hidden;isolation:isolate;border:1px solid #dba797;border-radius:17px;background:linear-gradient(115deg,#f4c3a9 5%,#fff4de 55%,#edb8a4 100%);display:grid;place-items:center}
+.price-reveal{min-height:119px;margin:15px 0 25px}
+.preview-price-veil{min-height:104px;width:100%;margin:10px 0}
+.price-ghost{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:10px;opacity:.3;filter:blur(7px);transform:rotate(-3deg)}
+.price-ghost i{width:42px;height:46px;background:#8d6669;border-radius:9px}
+.price-ghost i:nth-child(2){width:19px}
+.price-ghost i:nth-child(3){width:33px}
+.price-sheet{z-index:1;display:flex;align-items:center;justify-content:center;gap:12px;padding:13px 20px;max-width:92%;min-width:0;border:1px dashed #b26e55;background:#fffaf1;border-radius:13px;box-shadow:0 5px 0 #e2a98d;transform:rotate(-2deg);position:relative}
+.price-sheet::after{content:"";position:absolute;right:-1px;top:-1px;width:18px;height:18px;border-radius:0 12px 0 4px;background:linear-gradient(135deg,#f9dfc3 50%,#fffaf1 50%)}
+.hat-art{flex:none;width:40px;height:40px;color:#dd6c41}
+.price-sheet strong{display:block;font:900 13px "Space Grotesk",sans-serif;letter-spacing:.08em;color:#3c2530;line-height:1.2}
+.price-sheet small{display:block;font-size:12px;font-weight:700;color:#9f624c;margin-top:4px}
+.pricing-page [hidden]{display:none!important}
+.preview-custom-trigger{display:inline-flex;gap:6px;align-self:start;align-items:center;cursor:pointer;font-size:12px;font-weight:700;line-height:1.5;background:none;border:0;color:#d9becb;padding:4px 0;text-align:left;margin:0}
+.preview-custom-trigger strong{color:#ffb98a}
+.preview-custom-trigger:hover strong{text-decoration:underline}
+.preview-custom-trigger[aria-pressed="true"] strong{color:#fff0df;text-decoration:underline}
+.preview-tier-markers{height:43px}
+.preview-discount-control .preview-control-label{margin-bottom:10px}
+.preview-total{display:flex;flex-direction:column;align-items:flex-start;gap:4px}
+.preview-total>span{font-size:13px}
+.preview-unit-price{font-size:13px;font-weight:800;color:#6f5861}
+.preview-saved{font-size:12px;font-weight:700;color:#9a513e}
+.custom-preview{padding-top:25px;border-top:1px solid #b9968f;margin-bottom:23px}
+.custom-kicker{font-size:10px;font-weight:900;letter-spacing:.14em;color:#a2523e}
+.custom-preview h3{font:700 clamp(29px,3.5vw,40px) "Space Grotesk",sans-serif;line-height:1.05;letter-spacing:-.05em;margin:10px 0}
+.custom-preview p{font-size:14px;line-height:1.6;color:#68505c;margin:0 0 20px}
+.custom-preview .plan-link{background:#29212d;color:#fff7ed}
+.custom-preview .plan-link:hover{background:#563748}
+.preview-custom-reset{display:block;background:transparent;border:0;color:#7d534f;font-size:13px;font-weight:800;text-decoration:underline;cursor:pointer;margin-top:15px;padding:8px 0}
+.pricing-faq{background:#fff9f0;padding:86px 0 94px}
+.faq-layout{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(35px,7vw,120px)}
+.faq-header h2{font:700 clamp(41px,5.3vw,70px) "Space Grotesk",sans-serif;line-height:1.02;letter-spacing:-.075em;margin:0 0 18px}
+.faq-header h2 span{color:#ee653d}
+.faq-header>p:last-child{max-width:340px;font-size:15px;line-height:1.6;color:#6c565f}
+.faq-items{border-top:1px solid #dbc5bd}
+.faq-items details{border-bottom:1px solid #dbc5bd}
+.faq-items summary{list-style:none;cursor:pointer;padding:21px 38px 21px 0;font-size:15px;font-weight:800;line-height:1.4;position:relative}
+.faq-items summary::-webkit-details-marker{display:none}
+.faq-items summary::after{content:"+";position:absolute;right:6px;top:17px;color:#d86542;font-size:22px}
+.faq-items details[open] summary::after{content:"−"}
+.faq-items details p{color:#6b5860;font-size:14px;line-height:1.7;margin:0 0 22px}
+@media(max-width:1180px){
+ .pricing-plan-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .pricing-plan-custom{grid-column:1/-1}
+ .custom-plan-mark{max-width:450px}
+}
+@media(max-width:850px){
+ .faq-layout{grid-template-columns:1fr;gap:22px}
+ .pricing-faq{padding:64px 0}
+}
+@media(max-width:650px){
+ .pricing-plan-grid{grid-template-columns:1fr}
+ .pricing-plan-custom{grid-column:auto}
+ .price-sheet{padding:12px 13px}
+ .price-sheet strong{font-size:12px}
+ .hat-art{width:35px;height:35px}
+ .preview-price-veil{min-height:98px}
+ .pricing-faq{padding:56px 0}
+ .faq-header h2{font-size:42px}
+}
+@media(prefers-reduced-motion:reduce){.price-sheet{transform:none}}
+
+/* Tidy SaaS price cards: two plans, one subtle masked price and a single Custom link. */
+.pricing-plans{padding:46px 0 76px}
+.pricing-plan-grid{grid-template-columns:repeat(2,minmax(0,1fr));align-items:stretch;max-width:1190px;margin-inline:auto;gap:24px}
+.pricing-plan{padding:clamp(28px,3vw,42px);border-radius:23px;min-height:0}
+.pricing-plan-cloud{background:linear-gradient(135deg,#fff0dd,#ffe6d0 65%,#ffe7e8)}
+.pricing-plan h2{font-size:clamp(30px,3.1vw,44px)}
+.pricing-plan-top{margin-bottom:26px}
+.pricing-plan .plan-bullets{margin-bottom:30px}
+.pricing-plan .plan-bullets li{font-size:15px}
+.cloud-price-flag{
+  display:flex;align-items:center;gap:15px;
+  width:min(100%,420px);min-height:86px;
+  padding:15px 18px;margin:11px 0 20px;
+  background:linear-gradient(120deg,#fffdf4 0%,#fff3e5 100%);
+  border:1px solid #dfb49b;border-radius:15px;
+  box-shadow:inset 0 1px 0 #fff;
+}
+.cloud-price-icon{font-size:48px;line-height:1;flex:none;display:block;color:#ea845c;filter:drop-shadow(0 4px 1px #d8896c20)}
+.cloud-price-message{display:flex;flex-direction:column;gap:5px;min-width:0}
+.cloud-price-message strong{font-family:"Space Grotesk",sans-serif;letter-spacing:.1em;font-size:16px;line-height:1.1;color:#31232b}
+.cloud-price-message small{font-size:12px;font-weight:600;color:#865b50;line-height:1.5}
+.cloud-custom-contact{display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap;margin-top:24px;border-top:1px solid #e3baab;padding-top:18px}
+.cloud-custom-contact>span{color:#71535d;font-size:12px;line-height:1.5}
+.cloud-custom-contact>a{font-size:12px;font-weight:900;text-decoration:none;color:#9f402f;border-bottom:1px solid currentColor;line-height:1.5}
+.cloud-custom-contact>a:hover{color:#d24c33}
+.pricing-preview{padding:77px 0 78px}
+.preview-heading-row{margin-bottom:29px}
+.preview-panel{grid-template-columns:minmax(0,1.12fr) minmax(0,.88fr);max-width:1190px;margin-inline:auto;border-radius:20px}
+.preview-controls{padding:clamp(27px,3vw,43px);gap:24px}
+.preview-result{padding:clamp(28px,3vw,42px);justify-content:flex-start}
+.preview-big{font-size:clamp(72px,6.5vw,100px);margin:17px 0 0}
+.preview-big-subtitle{font-size:14px;margin-bottom:7px}
+.preview-formula{margin:0 0 19px}
+.preview-discount-summary{gap:14px;margin-bottom:5px}
+.preview-discount-summary strong{font-size:clamp(23px,2.5vw,32px)}
+.preview-discount-limit{margin-bottom:18px}
+.preview-billing{margin-bottom:12px}
+.preview-total{margin-top:2px;padding:16px 0 6px}
+.preview-total>span{font-size:12px;color:#69505a;font-weight:800}
+.cloud-price-flag-quote{width:100%;min-height:78px;margin:10px 0 2px;border-color:#dfb49b;background:#fff8eb;box-shadow:none}
+.cloud-price-flag-quote .cloud-price-icon{font-size:41px}
+.cloud-price-flag-quote .cloud-price-message strong{font-size:15px}
+.preview-unpriced{margin:11px 0 19px}
+.preview-checkout{min-height:52px;padding:14px 19px}
+.preview-custom-trigger,.custom-preview,.price-reveal,.price-sheet,.price-ghost,.preview-price-veil,.hat-art{display:none!important}
+@media(max-width:850px){
+ .pricing-plan-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .preview-panel{grid-template-columns:1fr}
+ .preview-controls,.preview-result{padding:28px}
+ .preview-big{font-size:86px}
+}
+@media(max-width:700px){
+ .pricing-plan-grid{grid-template-columns:1fr}
+ .pricing-plans{padding:30px 0 56px}
+ .pricing-plan{padding:25px}
+ .cloud-custom-contact{align-items:flex-start;flex-direction:column;gap:6px}
+ .preview-big{font-size:76px}
+ .preview-discount-summary strong{font-size:26px}
+}
+
+/* Final layout calibration: balanced cards, restrained rhythm, correct mobile hero. */
+.pricing-plan-top{margin-bottom:18px}
+.pricing-plan .plan-subtitle{margin-bottom:19px}
+.pricing-plan .plan-bullets{margin-bottom:20px}
+.pricing-plan .plan-bullets li{line-height:1.49}
+.pricing-plan .plan-bullets li+li{margin-top:8px}
+.pricing-plan .plan-link{min-height:53px;padding:14px 19px}
+.pricing-plan .plan-fineprint{margin-top:13px}
+.pricing-plan .cloud-price-flag{min-height:76px;margin:8px 0 14px;padding:12px 16px}
+.pricing-plan .cloud-price-icon{font-size:42px}
+.pricing-plan .plan-annual{margin:-2px 0 15px;font-size:13px}
+.pricing-plan .cloud-custom-contact{margin-top:16px;padding-top:13px}
+@media(max-width:850px){
+ .pricing-page .pricing-hero-grid{
+   grid-template-columns:minmax(0,1fr);
+   gap:25px;
+ }
+ .pricing-page .launch-notice{width:100%;max-width:100%;justify-self:stretch}
+ .pricing-page .pricing-hero h1{font-size:clamp(45px,8.7vw,67px)}
+ .pricing-page .pricing-intro{max-width:650px}
+}
+@media(max-width:650px){
+ .pricing-page .pricing-hero-grid{gap:18px}
+ .pricing-page .launch-notice{padding:20px 22px;box-shadow:5px 5px 0 #ffc05d}
+ .pricing-page .launch-notice-mark{margin-bottom:10px}
+ .pricing-page .launch-notice p{margin:9px 0 14px}
+ .pricing-plan .plan-bullets{margin-bottom:18px}
+ .pricing-plan .plan-subtitle{margin-bottom:15px}
+ .pricing-plan .plan-bullets li{font-size:14px}
+ .pricing-page .pricing-plan-grid{gap:16px}
+ .pricing-page .pricing-hero{padding:38px 0 35px}
+}
+
+/* Compact Custom action stays in the Cloud plan; never a third pricing card. */
+.cloud-custom-contact>a{
+ display:inline-flex;
+ align-items:center;
+ justify-content:center;
+ gap:9px;
+ min-height:35px;
+ padding:8px 13px;
+ background:rgba(255,253,247,.92);
+ border:1px solid #d99b7e;
+ border-radius:999px;
+ color:#88452f;
+ font-size:12px;
+ font-weight:900;
+ line-height:1.15;
+ text-decoration:none;
+ box-shadow:0 2px 0 rgba(217,155,126,.13);
+ transition:background .18s,transform .18s;
+ white-space:nowrap;
+}
+.cloud-custom-contact>a:hover{background:#ffe9db;color:#743224;transform:translateY(-2px)}
+.cloud-custom-contact>a:focus-visible{outline:3px solid #f05b37;outline-offset:3px}
+
+/* Volume savings and Custom pricing share a deliberate row.
+   The annual summary opens UNDER the row, clear of the buttons and price card. */
+.preview-controls{gap:27px}
+.preview-explainer{font-size:12px;padding-top:17px;line-height:1.6}
+.preview-savings-row{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;position:relative;min-height:44px;width:100%;min-width:0}
+.preview-volume-savings{display:inline-flex;align-items:center;gap:9px;padding:10px 13px;border:1px solid #725660;border-radius:100px;background:#3a2b38;white-space:nowrap}
+.preview-volume-savings>span{font-size:12px;line-height:1.3;font-weight:800;color:#f2d2c6}
+.preview-volume-savings strong{font:700 23px "Space Grotesk",sans-serif;letter-spacing:-.05em;color:#ffc08f}
+.preview-custom-link{display:inline-flex;justify-content:center;align-items:center;gap:7px;min-height:38px;padding:8px 13px;background:#45313f;border:1px solid #a77c7e;border-radius:100px;color:#ffe1c5;font-size:12px;line-height:1.2;font-weight:800;text-decoration:none;white-space:nowrap;transition:background .15s,border-color .15s}
+.preview-custom-link span{font-size:15px;line-height:1}
+.preview-custom-link:hover{background:#604252;border-color:#edac88;color:#fff7ef}
+.preview-custom-link:focus-visible{outline:3px solid #ffad7e;outline-offset:3px}
+
+/* Compact annual flyout sits below the two CTAs in unused dark-panel space.
+   No flow re-layout on selection; the right-side price placeholder stays visible. */
+.preview-savings-row .preview-annual-savings{
+  position:absolute;top:calc(100% + 10px);left:0;right:auto;width:min(100%,390px);
+  margin:0;padding:11px 15px 13px;border:1px solid #8f6675;border-radius:13px;
+  background:linear-gradient(135deg,#46303f,#332635 88%);color:#fff7eb;
+  box-shadow:0 10px 26px rgba(14,8,18,.32);z-index:3;
+  transform-origin:top left;animation:annual-flyout-open .17s ease-out both;
+}
+.preview-savings-row .preview-annual-savings::before{content:"";position:absolute;top:-6px;left:51px;width:10px;height:10px;transform:rotate(45deg);background:#46303f;border-top:1px solid #8f6675;border-left:1px solid #8f6675}
+.preview-annual-heading{display:flex;align-items:center;gap:8px;min-height:15px;padding-right:26px}
+.preview-annual-heading>span{font-size:10px;line-height:1.2;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:#ffba91}
+.preview-annual-equation{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:5px}
+.preview-annual-factor{display:flex;flex-direction:column;align-items:flex-start;gap:2px;min-width:0}
+.preview-annual-factor strong{font:700 clamp(19px,2vw,24px) "Space Grotesk",sans-serif;line-height:1;letter-spacing:-.06em;white-space:nowrap;color:#fff8ee}
+.preview-annual-factor small{font-size:10px;line-height:1.15;color:#cdb2bd}
+.preview-annual-factor.preview-annual-total strong{color:#ffc08f;font-size:clamp(22px,2.2vw,27px)}
+.preview-annual-factor.preview-annual-total small{color:#f1c8b4;font-weight:800}
+.preview-savings-row .preview-annual-dismiss{position:absolute;top:7px;right:8px;width:25px;height:25px;border:0;border-radius:7px;background:transparent;color:#f0c3b8;cursor:pointer;display:grid;place-items:center;font-size:21px;line-height:1}
+.preview-annual-dismiss:hover{background:#715063;color:#fffaf0}
+.preview-annual-dismiss:focus-visible{outline:3px solid #ffad7e;outline-offset:2px}
+@keyframes annual-flyout-open{from{opacity:0;transform:translateY(-7px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}
+@media(max-width:850px){
+  /* The stacked layout keeps a reserved flyout pocket in both billing modes. */
+  .preview-controls{padding-bottom:120px}
+}
+@media(max-width:650px){
+  .preview-volume-savings{padding:9px 11px}
+  .preview-volume-savings>span{font-size:11px}
+  .preview-volume-savings strong{font-size:21px}
+  .preview-custom-link{min-height:37px;padding:8px 11px;font-size:11px}
+  .preview-savings-row .preview-annual-savings{padding:12px 13px;width:100%}
+  .preview-annual-factor strong{font-size:19px}
+  .preview-annual-factor.preview-annual-total strong{font-size:23px}
+}
+@media(max-width:400px){.preview-savings-row{column-gap:6px}.preview-annual-equation{gap:4px}}
+@media(prefers-reduced-motion:reduce){.preview-savings-row .preview-annual-savings{animation:none}}

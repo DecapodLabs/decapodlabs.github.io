@@ -37,6 +37,10 @@ The website retains its accepted container isolation requirement. A host-only va
 
 The offline presentation gate pins the independently observed T7sSlC native record digest and receipt hash. It compares the publication plan with the Rust-verified standalone plan and checks native suite/plan references, exact subject and publisher timing. Rust typed digests are not generic sorted-JSON digests; this website does not replace the kernel verifier. Two read-only adversarial controls reject an altered execution-output digest with recomputed wrapper hashes and false present authority. The unchanged original native record/receipt and movie assets remain retained. Presentation review is not native publication readiness; accepted verification-source policy still requires independent maintainer acceptance.
 
+## Navigation validation boundary
+
+Resolving links to the actual target document closes both false rejection of accepted root-relative navigation and false acceptance of a fragment that exists only on the referring page. Unsafe protocols, credentials, missing/empty local assets and duplicate target IDs still fail. This source check grants no hosted service, payment, publication or merge authority. The separately accepted verification-source policy remains required before this candidate can earn readiness.
+
 <!-- decapod:capability-overlay:public-api:start -->
 
 Generated capability obligations: `public-api` is declared for this project. These are decisions and proof requirements, not claims of implemented behavior. Resolve each against project source and tests; record unsupported or non-applicable mechanisms explicitly.
@@ -63,7 +67,7 @@ Generated capability obligations: `public-api` is declared for this project. The
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `65adac1cae047fa4978bd0af6a804731c6bf4bfd2ab2098716586d55fff18271`
+- Repository signal fingerprint: `2da8ed8bd174bf53df5cdb00b4a907c54f68c3f902bd9acfde8b49affeac21ca`
 - Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `evidence/` (1 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->
