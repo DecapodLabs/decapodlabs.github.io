@@ -48,6 +48,14 @@ Accepted mainecd713c4 supplies the persistent responsive header, homepage Consti
 
 The human maintainer authorized the exact025eee→7482eb verification-source transition in response to the concrete review request. GitHub commitcd2c05dfc70fe01fa374bd62110717fc4761b718 independently confirms only that one config line changed; concurrent accepted BYOA/on-demand invocation copy, Cloud limits/alerts and exact8-percent annual preview changes were preserved at its parent3e4b4ce4. The feature integrates the actual accepted target and retains its pricing bytes exactly. All eight verification-source definitions remain unchanged from reviewed759ba58b. This policy acceptance is separate from candidate proof; fresh full native validation and publication/readback remain mandatory. It is not a post-objective intervention in the archived Pi experiment.
 
+## Stable media inputs and actual transfer-lineage recovery
+
+The existing main-triggered media workflow re-encoded the original teaser at5fd0476f even though its creative source was unchanged. The exact accepted pre-launch teaser is restored. The workflow now compares actual before/head Git objects: copy-only changes retain all film bytes; changed witnesses regenerate only the launch review; shared renderer/font/mascot changes regenerate applicable outputs; unknown history and explicit manual runs regenerate for review. Existing committed evidence/media are always verified, and generated launch revisions remain temporary artifacts. Five actual shell/Git decision cases plus nine evidence controls pass (14 total). No new package or service is introduced.
+
+New-task validation exposed missing commitment lineage for the actually imported launch task after its historical completion. Native federation search found its real decision and observation, but no transferred commitment. A present-time imported commitment was recorded through Decapod, explicitly labelled reconstruction with event/issue/accepted-commit sources; no node was backdated, no missing historic proof manufactured, and no validation outcome waived. The rejected report is retained.
+
+Only the existing workflow and Python evidence-test definitions changed among the eight verification sources. The candidate inventory issha256:4e9f04d9ec00b3c9d93dbc1637340f04436f4a0acc53d7c522fe358c260b0499. Existing command/tool/argument/environment/timeout/coverage declarations are unchanged. Exact target-policy acceptance remains separate; prior7482 acceptance does not authorize this new source inventory. Native complete validation/publication and public teaser-byte readback remain required.
+
 <!-- decapod:capability-overlay:persistent-state:start -->
 
 Generated capability obligations: `persistent-state` is declared for this project. These are decisions and proof requirements, not claims of implemented behavior. Resolve each against project source and tests; record unsupported or non-applicable mechanisms explicitly.
@@ -74,7 +82,7 @@ Generated capability obligations: `persistent-state` is declared for this projec
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `7f8a37633988611464a345388608acaa44154d3ad49cc885a1e1970322e8ddf3`
+- Repository signal fingerprint: `088038b673519fa48b7887dcf303faa61e8a1e42e960d9ff057a63d878bac455`
 - Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `evidence/` (1 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->

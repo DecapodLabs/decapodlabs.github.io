@@ -32,18 +32,49 @@ jobs:
       - uses: actions/checkout@v4
         with:
           persist-credentials: true
+          fetch-depth: 0
 
-      - name: Render website-owned Decapod mascot and product media
+      - name: Select media generation from changed inputs
+        id: media-inputs
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BEFORE_REVISION: ${{ github.event.before }}
+          HEAD_REVISION: ${{ github.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          teaser=true
+          launch=true
+          # Unknown history and explicit manual runs regenerate for review.
+          # Routine copy/layout changes verify committed assets without replacing them.
+          if [[ "$EVENT_NAME" == push && "$BEFORE_REVISION" =~ ^[0-9a-f]{40}$ && "$HEAD_REVISION" =~ ^[0-9a-f]{40}$ ]] && git cat-file -e "$BEFORE_REVISION^{commit}" 2>/dev/null; then
+            if git diff --quiet "$BEFORE_REVISION" "$HEAD_REVISION" -- scripts/render-showcase.py scripts/generate-social.py assets/fonts/ assets/mascot.svg; then
+              teaser=false
+            fi
+            if git diff --quiet "$BEFORE_REVISION" "$HEAD_REVISION" -- scripts/render-launch.py scripts/render-showcase.py scripts/test-launch-evidence.py scripts/verify-launch.py media/ evidence/ assets/fonts/ assets/mascot.svg .github/workflows/site-bootstrap.yml; then
+              launch=false
+            fi
+          fi
+          echo "teaser=$teaser" >> "$GITHUB_OUTPUT"
+          echo "launch=$launch" >> "$GITHUB_OUTPUT"
+
+      - name: Prepare media verification tools
         shell: bash
         run: |
           set -euo pipefail
           sudo apt-get update -q
           sudo apt-get install -y ffmpeg fonts-lato libcairo2 fonts-dejavu-core
           python3 -m pip install 'Pillow==11.3.0' 'numpy==2.3.4' 'CairoSVG==2.7.1'
+
+      - name: Render original teaser only when its inputs change
+        if: steps.media-inputs.outputs.teaser == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
           python3 scripts/render-showcase.py
           python3 scripts/generate-social.py
 
-      - name: Verify generated visual artifacts
+      - name: Verify original teaser and brand artifacts
         shell: bash
         run: |
           python3 - <<'PY'
@@ -79,15 +110,23 @@ jobs:
           print("Verified website-owned film, mascot exports, poster and social media.")
           PY
 
-      - name: Regenerate the actual-agent launch film and verify encoded media
+      - name: Verify committed real-agent evidence and launch media
         shell: bash
         run: |
           set -euo pipefail
           python3 scripts/test-launch-evidence.py
+          python3 scripts/verify-launch.py
+
+      - name: Regenerate the actual-agent launch film and verify encoded media
+        if: steps.media-inputs.outputs.launch == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
           python3 scripts/render-launch.py --evidence evidence/pi-1758-20261117-01 --output "$RUNNER_TEMP/decapod-launch-render"
           python3 scripts/verify-launch.py --assets "$RUNNER_TEMP/decapod-launch-render"
 
       - name: Preserve independently verified launch build for review
+        if: steps.media-inputs.outputs.launch == 'true'
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: decapod-verified-launch-film
