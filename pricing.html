@@ -67,7 +67,10 @@
       <article class="pricing-plan pricing-plan-cloud" aria-labelledby="cloud-title">
         <div class="pricing-plan-top"><span class="plan-index">02 / SHARED CLOUD</span><span class="plan-availability plan-soon">Coming soon</span></div>
         <h2 id="cloud-title">Decapod Cloud</h2>
-        <div class="price-reveal" role="img" aria-label="Cloud price hidden until launch"><div class="price-ghost" aria-hidden="true"><i></i><i></i><i></i></div><div class="price-sheet" aria-hidden="true"><svg class="hat-art" viewBox="0 0 48 48" aria-hidden="true" focusable="false" fill="none"><path d="M10 29v-5c0-7 5-12 11-14V7h6v3c7 2 11 7 11 14v5" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/><path d="M6 29h36v7H6z" fill="currentColor"/><path d="M24 11v15" stroke="currentColor" stroke-width="3"/></svg><span><strong>PRICE REVEAL</strong><small>Under construction</small></span></div></div>
+        <div class="cloud-price-flag" aria-label="Cloud subscription prices will be revealed at launch">
+          <span class="cloud-price-icon" aria-hidden="true">☁</span>
+          <span class="cloud-price-message"><strong>UNDER WRAPS</strong><small>Cloud pricing reveal coming soon</small></span>
+        </div>
         <p class="plan-annual">Monthly and annual billing <strong>· annual commitment savings</strong></p>
         <p class="plan-subtitle">Managed governance and shared repository state for engineering teams.</p>
         <ul class="plan-bullets">
@@ -78,16 +81,12 @@
         </ul>
         <button class="plan-link plan-link-disabled" type="button" disabled aria-describedby="cloud-fineprint">Cloud checkout opening soon <span aria-hidden="true">↗</span></button>
         <p class="plan-fineprint" id="cloud-fineprint">Team pricing and savings are previewed below. Cloud enrollment opens soon; resource usage charges are itemized separately.</p>
+        <div class="cloud-custom-contact">
+          <span>Beyond 10 repositories or 25 contributors?</span>
+          <a href="mailto:alexhraber@gmail.com?subject=Decapod%20Cloud%20Custom%20Plan&body=Hello%20Decapod%20Labs%2C%0A%0AWe%27d%20like%20to%20discuss%20a%20larger%20Cloud%20deployment.%0ARepositories%3A%0AContributors%3A%0ARequirements%3A">Explore custom pricing <span aria-hidden="true">↗</span></a>
+        </div>
       </article>
-      <article class="pricing-plan pricing-plan-custom" aria-labelledby="custom-title">
-  <div class="pricing-plan-top"><span class="plan-index">03 / CUSTOM SCALE</span><span class="plan-availability custom-status">Talk to us</span></div>
-  <h2 id="custom-title">Custom</h2>
-  <div class="custom-plan-mark"><span>YOUR SCALE.</span><strong>YOUR TERMS.</strong></div>
-  <p class="plan-subtitle">For larger organizations and specialized deployments.</p>
-  <ul class="plan-bullets"><li>More than 10 repositories or 25 contributors per repository</li><li>Large multi-repository team rollouts</li><li>Specialized capacity or deployment requirements</li><li>Tailored commercial terms and rollout planning</li></ul>
-  <a class="plan-link plan-link-custom" href="mailto:alexhraber@gmail.com?subject=Decapod%20Cloud%20Custom%20Plan&body=Hello%20Decapod%20Labs%2C%0A%0AWe%27re%20interested%20in%20a%20custom%20plan.%0ARepositories%3A%0AContributors%3A%0ARequirements%3A">Discuss a custom plan <span aria-hidden="true">↗</span></a>
-  <p class="plan-fineprint">Tell us about the scale of your team and your workload.</p>
-</article>
+
     </div>
   </section>
 
@@ -113,7 +112,6 @@
               <span class="preview-tier-marker" data-repo-threshold="6" style="--tier-at:55.5556%"><span>6+</span><strong>4%</strong></span>
               <span class="preview-tier-marker" data-repo-threshold="10" style="--tier-at:100%"><span>10</span><strong>6%</strong></span>
             </div>
- <button type="button" class="preview-custom-trigger" data-custom-trigger="repositories" aria-controls="custom-preview">More than 10 repositories? <strong>Custom ↗</strong></button>
           </div>
           <div class="preview-control preview-discount-control">
             <div class="preview-control-label">
@@ -126,7 +124,6 @@
               <span class="preview-tier-marker" data-contributor-threshold="10" style="--tier-at:37.5%"><span>10+</span><strong>4%</strong></span>
               <span class="preview-tier-marker" data-contributor-threshold="20" style="--tier-at:79.1667%"><span>20+</span><strong>6%</strong></span>
             </div>
- <button type="button" class="preview-custom-trigger" data-custom-trigger="contributors" aria-controls="custom-preview">More than 25 contributors? <strong>Custom ↗</strong></button>
           </div>
           <p class="preview-explainer">Each contributor assigned to a repository counts as one paid unit. The same contributor counts only once toward contributor-volume savings, regardless of repository count.</p>
         </div>
@@ -141,15 +138,18 @@
           </div>
           <p class="preview-discount-limit">Annual commitment + team volume unlock <strong>up to 20% cumulative savings.</strong></p>
           <fieldset class="preview-billing"><legend>Billing period</legend><div class="preview-billing-options"><button type="button" class="preview-billing-option" data-billing="month" aria-pressed="false">Monthly</button><button type="button" class="preview-billing-option is-selected" data-billing="year" aria-pressed="true">Annual <span>Save one month</span></button></div></fieldset>
-          <div class="custom-preview" id="custom-preview" hidden><span class="custom-kicker">BEYOND SELF-SERVICE</span><h3>Let's build your plan.</h3><p id="custom-preview-description">Larger teams deserve a tailored conversation.</p><a class="plan-link plan-link-custom" id="custom-preview-contact" href="mailto:alexhraber@gmail.com?subject=Decapod%20Cloud%20Custom%20Plan">Contact sales <span aria-hidden="true">↗</span></a><button class="preview-custom-reset" id="preview-custom-reset" type="button">Back to standard plans</button></div>
- <div class="preview-total" id="standard-preview"><span>Subscription pricing</span><div class="preview-price-veil" role="img" aria-label="Price concealed until Cloud launches"><div class="price-ghost" aria-hidden="true"><i></i><i></i><i></i></div><div class="price-sheet" aria-hidden="true"><svg class="hat-art" viewBox="0 0 48 48" aria-hidden="true" focusable="false" fill="none"><path d="M10 29v-5c0-7 5-12 11-14V7h6v3c7 2 11 7 11 14v5" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/><path d="M6 29h36v7H6z" fill="currentColor"/><path d="M24 11v15" stroke="currentColor" stroke-width="3"/></svg><span><strong>UNDER WRAPS</strong><small>The reveal is coming</small></span></div></div></div>
-          <p class="preview-unit-price" id="estimate-unit">10 contributor–repository assignments</p>
-          <p class="preview-saved" id="estimate-savings">See your cumulative subscription savings above.</p>
-          <p class="preview-unpriced">Cloud pricing is revealed at launch. Resource overages remain itemized at disclosed rates.</p>
+          <div class="preview-total" id="standard-preview">
+            <span>Cloud subscription</span>
+            <div class="cloud-price-flag cloud-price-flag-quote" role="img" aria-label="Cloud pricing under wraps until launch">
+              <span class="cloud-price-icon" aria-hidden="true">☁</span>
+              <span class="cloud-price-message"><strong>UNDER WRAPS</strong><small>Price reveal at launch</small></span>
+            </div>
+          </div>
+          <p class="preview-unpriced">Prices are revealed at launch. Resource overages will be itemized separately at published rates.</p>
           <button id="preview-checkout" type="button" disabled class="preview-checkout">Cloud checkout opening soon <span aria-hidden="true">↗</span></button>
         </div>
       </div>
-      <p class="preview-caveat">This estimate assumes the same contributors work in every selected repository. In Cloud Admin, repositories can have different contributor counts; billed assignments and discounts are verified at checkout.</p>
+      <p class="preview-caveat">This preview assumes the same contributors across repositories. Cloud Admin will support different team sizes per repository.</p>
     </div>
   </section>
 
