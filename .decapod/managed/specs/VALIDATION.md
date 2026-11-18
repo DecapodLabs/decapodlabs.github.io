@@ -40,6 +40,10 @@ The human maintainer authorized the exact025eee→7482eb verification-source tra
 
 Fresh native validation at a1df097d rejected STALE_ACCEPTED_BASE before adapter preparation when main advanced to f51d8e5b002bb65aef0b3330098cb7158d858bb7. That commit changes pricing.html buyer-facing copy only. This merge preserves it exactly; policy7482 and all eight verification sources are unchanged. The rejected report remains archived and a fresh validation is required for the new head.
 
+## Original teaser preservation after launch rendering
+
+The existing main/manual workflow at44284325426 successfully regenerated and verified all new launch cuts in temporary review output. Its unchanged original-teaser step also re-encoded assets/decapod-showcase.mp4 and committed that result at5fd0476f. Preserve the accepted pre-launch teaser byte-for-byte from the admitted e4f72085 source, while retaining the new launch films, all24 independently verified public files and latest accepted marketing/pricing. This scoped asset restoration does not change any of the eight verification-source definitions, command contract or accepted policy7482. It does not trigger the path-filtered renderer. Full native proof and actual served teaser digest must be checked again before this preservation task is complete.
+
 <!-- decapod:capability-overlay:background-processing:start -->
 
 Generated capability obligations: `background-processing` is declared for this project. These are decisions and proof requirements, not claims of implemented behavior. Resolve each against project source and tests; record unsupported or non-applicable mechanisms explicitly.

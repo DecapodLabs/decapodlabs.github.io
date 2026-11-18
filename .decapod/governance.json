@@ -1,81 +1,36 @@
 {
   "schema_version": "1.0.0",
   "baseline": {
-    "accepted_commit": "f9c804a7beb0da2a41af4eaaabd5ebe6043c942e"
+    "accepted_commit": "5fd0476f3606b9fa75293e3977e3669d7cb42abb"
   },
   "change": {
-    "id": "change_01M7P3MS42DDAPYYZZXH5XK89Q",
-    "base_commit": "f9c804a7beb0da2a41af4eaaabd5ebe6043c942e",
+    "id": "change_01M7Q3G9C0HM80DF9TM0BYZ36M",
+    "base_commit": "5fd0476f3606b9fa75293e3977e3669d7cb42abb",
     "target_base": "origin/main"
-  },
-  "claims": {
-    "actual-launch-evidence": {
-      "statement": "This edited film presents actual Pi failure, autonomous model repair and exact-artifact historical native admission; controller-selected task and original human mission are distinct, zero subsequent Pi input is observed, and operator staleness probes are labelled separately; media/source checks passed but website admission and deployment remain unproven",
-      "falsifier": "Changed or invented source witnesses, concealed task authorship, absent engineering failure/model repair, false current publication or merge authority, mismatched media bytes, or claiming served deployment from a local preview refutes the corresponding claim",
-      "status": "supported",
-      "proof_refs": [
-        "https://github.com/alexhraber/decapod-admission-acceptance-20261117-1747-06/tree/3c6c373ea703144a2a096e7c3ad6b17c45fcdc38"
-      ]
-    }
   },
   "checkpoints": [
     {
-      "id": "actual-pi-launch-container-delivery",
-      "summary": "Verified real Pi event-backed main/social/mobile film, immutable publication receipts, offline evidence/media guards and accessible static site; fresh native container custody with explicit task transfer",
-      "input_digest": "sha256:9cb495ed4ff53e333b0bf92a0b9926f972c9ad8050b2316d11de5441e52616d6"
-    },
-    {
-      "id": "native-evidence-presentation-binding",
-      "summary": "Pin actual native record and receipt, cross-reference the Rust-verified publication plan and add two adversarial historical-proof presentation controls; await separate maintainer policy acceptance",
-      "input_digest": "sha256:2c009095ba061fd29fd11b24183db8ac3e7a5672f4cd812570c1a313f3f54743"
-    },
-    {
-      "id": "explicit-objective-provenance-and-verified-film",
-      "summary": "Disclose original human mission versus controller-selected Pi task; rerender three films with actual runtime record; nine offline source controls and browser playback pass; accepted policy and public deployment still pending",
-      "input_digest": "sha256:70e7d389e9eb7b03b8dfb0587477fe2a4b16522c034086dd0103764a0e1ca919"
-    },
-    {
-      "id": "preserve-current-accepted-pricing",
-      "summary": "Checkpoint exact integration of latest accepted pricing without altering film, immutable source evidence or required proof contract",
-      "input_digest": "sha256:609d6d63c71d017993b31f597652183c5ac58400024bd155358ca9d449a73e70"
-    },
-    {
-      "id": "accepted-navigation-and-fragment-targets",
-      "summary": "Preserve latest accepted pricing/header/footer and checkpoint correct cross-document fragment validation with four regression controls and actual desktop/mobile film playback; separate target-policy acceptance pending",
-      "input_digest": "sha256:4c560e1a8b219eef46898eb48a1fea9ffe6dec6317a5fea92ae8c2bf68ea012e"
-    },
-    {
-      "id": "exact-accepted-pricing-target",
-      "summary": "Correct prose reference to actual fetched accepted target ecd713c4, including latest annual flyout; pricing files and logo remain byte-identical, source inventory and media unchanged",
-      "input_digest": "sha256:9f7d4ae72ad4b7f2d0e16693843d5cd8c845cfd48ca531f247b877164163f630"
-    },
-    {
-      "id": "maintainer-accepted-verification-policy",
-      "summary": "Checkpoint exactcd2c05 accepted source-policy and concurrent BYOA/pricing integration; explicit maintainer authority changes only the inventory pin, all required checks remain and fresh proof is required",
-      "input_digest": "sha256:87ee3f02c284e4311315b5a33898cf0f7c61a67df5bd38d15a539c9752ee9934"
-    },
-    {
-      "id": "latest-accepted-buyer-copy",
-      "summary": "Checkpoint accepted f51d8e5b pricing copy integration after true stale-base rejection; no source/check/policy changes, require fresh native proof",
-      "input_digest": "sha256:47d2c8e53a46579eef5e07223fd05e10614386a69d6f38c3b0dbec6b16b1aeac"
+      "id": "preserve-original-teaser-bytes",
+      "summary": "Restore exact accepted original teaser after automated encoder drift; retain new verified launch films, all evidence and accepted site; source policy unchanged",
+      "input_digest": "sha256:91f24692725c83d34d89abe67c73738fe12af08e3f2939c0dcadf38a5ed1a940"
     }
   ],
   "intents": {
-    "intent:change_01M7P3MS42DDAPYYZZXH5XK89Q": {
+    "intent:change_01M7Q3G9C0HM80DF9TM0BYZ36M": {
       "acceptance_criteria": [],
       "assumptions": [],
       "boundaries": [
         "Current claimed task and isolated work branch"
       ],
       "constraints": [
-        "scripts"
+        "root"
       ],
       "created_sequence": 1,
-      "id": "intent:change_01M7P3MS42DDAPYYZZXH5XK89Q",
+      "id": "intent:change_01M7Q3G9C0HM80DF9TM0BYZ36M",
       "out_of_scope": [],
       "proof_requirements": [],
-      "raw_intent": "Produce verified autonomous engineering launch film and website integration (#9)\n\nUse actual independently observed Pi rejection/repair/admission evidence only. Reuse website Python/FFmpeg renderer, original mascot and teaser. Deliver primary/social/mobile cuts, captions, original audio, poster, deterministic rendering, accessible integration and real browser playback verification.",
-      "refined_intent": "Produce verified autonomous engineering launch film and website integration (#9)\n\nUse actual independently observed Pi rejection/repair/admission evidence only. Reuse website Python/FFmpeg renderer, original mascot and teaser. Deliver primary/social/mobile cuts, captions, original audio, poster, deterministic rendering, accessible integration and real browser playback verification.",
+      "raw_intent": "Preserve original teaser bytes after automated launch rendering (#9)",
+      "refined_intent": "Preserve original teaser bytes after automated launch rendering (#9)",
       "status": "refined",
       "updated_sequence": 3
     }
@@ -83,115 +38,63 @@
   "sections": {
     "plan": {
       "constraints": {
-        "file_touch_budget": 90,
+        "file_touch_budget": 20,
         "forbidden_paths": []
       },
       "deferred_questions": [],
       "human_questions": [],
-      "intent": "Present the real unattended Pi failure/repair/fresh-proof/admitted-PR arc with exact evidence; distinguish the original human mission from the controller-selected engineering task; preserve immutable runtime/capture/manifest, old teaser and accepted pricing; no current admission/merge/Cloud purchase claim",
+      "intent": "Preserve original accepted teaser bytes after successful automated launch rendering; all new launch media/evidence and latest accepted site unchanged",
       "phases": [],
       "proof_hooks": [
-        "Nine offline media evidence controls; mandatory native Deno source/media guard including two altered-proof controls; actual decoded H264/AAC/captions and desktop/mobile playback; accepted target-policy decision plus fresh full native container validation/publication and served public playback still required"
+        "Complete native exact-candidate validation/publication, byte-identical original teaser and independent public served-byte readback; no verification-source policy change"
       ],
       "schema_version": "1.1.0",
       "spec_reviews": [
         {
-          "disposition": "updated",
+          "disposition": "unchanged_with_reason",
           "path": ".decapod/managed/specs/ARCHITECTURE.md",
-          "reason": "Explicit human-authorized one-line target source-policy transition accepted atcd2c05; preserve concurrent accepted BYOA/on-demand, resource alert and exact8-percent annual preview content, source hash7482 unchanged; require fresh full native validation",
+          "reason": "Restore only the already accepted original teaser file after CI encoder byte drift; architecture/interfaces/security and all launch/source-policy contracts are unchanged, provenance recorded materially in VALIDATION.md",
           "reviewed_code_fingerprint": "7f8a37633988611464a345388608acaa44154d3ad49cc885a1e1970322e8ddf3",
           "spec_material_hash": "d60c3148e02eef943a55eedea31137386b4ebfeb72cbf16ff47b0972010db50b"
         },
         {
           "disposition": "unchanged_with_reason",
           "path": ".decapod/managed/specs/INTERFACES.md",
-          "reason": "Accepted f51d8e5b pricing buyer-copy only; all launch interfaces, source policy and required check definitions unchanged, preserve accepted copy exactly",
+          "reason": "Restore only the already accepted original teaser file after CI encoder byte drift; architecture/interfaces/security and all launch/source-policy contracts are unchanged, provenance recorded materially in VALIDATION.md",
           "reviewed_code_fingerprint": "7f8a37633988611464a345388608acaa44154d3ad49cc885a1e1970322e8ddf3",
           "spec_material_hash": "f7b41665e631169ad57b31f984ba9e7ac758c35a9293f3ee152eaf3deafe31f5"
         },
         {
-          "disposition": "updated",
+          "disposition": "unchanged_with_reason",
           "path": ".decapod/managed/specs/SECURITY.md",
-          "reason": "Explicit human-authorized one-line target source-policy transition accepted atcd2c05; preserve concurrent accepted BYOA/on-demand, resource alert and exact8-percent annual preview content, source hash7482 unchanged; require fresh full native validation",
+          "reason": "Restore only the already accepted original teaser file after CI encoder byte drift; architecture/interfaces/security and all launch/source-policy contracts are unchanged, provenance recorded materially in VALIDATION.md",
           "reviewed_code_fingerprint": "7f8a37633988611464a345388608acaa44154d3ad49cc885a1e1970322e8ddf3",
           "spec_material_hash": "3fba7abe9dd904ae032899a4bd6fe7c5bf9bd92312f632ef4b0a52cc057038dd"
         }
       ],
       "state": "APPROVED",
       "stop_conditions": [],
-      "title": "Produce verified autonomous engineering launch film and website integration (#9)",
+      "title": "Preserve original teaser bytes after automated launch rendering (#9)",
       "todo_ids": [
-        "test_01m7nnw95n2ff7d8"
+        "code_01m7q3ehb6rzpp7w"
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1794997004Z"
+      "updated_at": "1794998043Z"
     },
     "trajectory": {
       "active_boundaries": [
         "Current claimed task and isolated work branch"
       ],
-      "artifact_hash": "sha256:655e0964b5129235a96e8c4f9bcd966e2f81559b6cd8567ed035e94ef3667a00",
+      "artifact_hash": "sha256:74ca92829c52cd3b42c027d88964e4ed20415d830155a8781dee20c9050ad694",
       "checks": [
         {
-          "name": "accepted-pricing-integration",
+          "name": "original-teaser-byte-preservation",
+          "status": "partial"
+        },
+        {
+          "name": "public-launch-playback",
           "status": "passed"
-        },
-        {
-          "name": "accepted-root-navigation-before-repair",
-          "status": "failed"
-        },
-        {
-          "name": "accepted-target-policy",
-          "status": "unavailable"
-        },
-        {
-          "name": "actual-desktop-mobile-playback",
-          "status": "passed"
-        },
-        {
-          "name": "actual-media-byte-readback",
-          "status": "passed"
-        },
-        {
-          "name": "actual-media-decode",
-          "status": "passed"
-        },
-        {
-          "name": "desktop-mobile-browser",
-          "status": "passed"
-        },
-        {
-          "name": "explicit-maintainer-policy-acceptance",
-          "status": "passed"
-        },
-        {
-          "name": "fresh-native-readiness",
-          "status": "unavailable"
-        },
-        {
-          "name": "native-presentation-review",
-          "status": "passed"
-        },
-        {
-          "name": "native-proof-presentation",
-          "status": "passed"
-        },
-        {
-          "name": "objective-authorship-guard",
-          "status": "passed"
-        },
-        {
-          "name": "public-deployment",
-          "status": "unavailable"
-        },
-        {
-          "name": "resolved-document-fragment-controls",
-          "status": "passed"
-        },
-        {
-          "name": "target-policy-acceptance",
-          "status": "unavailable"
         }
       ],
       "current_phase": "intent",
@@ -199,167 +102,47 @@
         "events": [
           {
             "event_id": "event:2",
-            "intent_id": "intent:change_01M7P3MS42DDAPYYZZXH5XK89Q",
+            "intent_id": "intent:change_01M7Q3G9C0HM80DF9TM0BYZ36M",
             "kind": "created",
             "sequence": 2
           },
           {
             "event_id": "event:3",
-            "intent_id": "intent:change_01M7P3MS42DDAPYYZZXH5XK89Q",
+            "intent_id": "intent:change_01M7Q3G9C0HM80DF9TM0BYZ36M",
             "kind": "refined",
             "sequence": 3
           },
           {
-            "detail": "trajectory:branch_01M7P3MS5DCW110VK162809HWA",
+            "detail": "trajectory:branch_01M7Q3G9DPRB7RNG1TY18P2RR4",
             "event_id": "event:4",
-            "intent_id": "intent:change_01M7P3MS42DDAPYYZZXH5XK89Q",
+            "intent_id": "intent:change_01M7Q3G9C0HM80DF9TM0BYZ36M",
             "kind": "trajectory_step_recorded",
             "sequence": 4
-          },
-          {
-            "detail": "trajectory:branch_01M7P3MS5DCW110VK162809HWA",
-            "event_id": "event:5",
-            "intent_id": "intent:change_01M7P3MS42DDAPYYZZXH5XK89Q",
-            "kind": "trajectory_step_recorded",
-            "sequence": 5
-          },
-          {
-            "detail": "trajectory:branch_01M7P3MS5DCW110VK162809HWA",
-            "event_id": "event:6",
-            "intent_id": "intent:change_01M7P3MS42DDAPYYZZXH5XK89Q",
-            "kind": "trajectory_step_recorded",
-            "sequence": 6
-          },
-          {
-            "detail": "trajectory:branch_01M7P3MS5DCW110VK162809HWA",
-            "event_id": "event:7",
-            "intent_id": "intent:change_01M7P3MS42DDAPYYZZXH5XK89Q",
-            "kind": "trajectory_step_recorded",
-            "sequence": 7
-          },
-          {
-            "detail": "trajectory:branch_01M7P3MS5DCW110VK162809HWA",
-            "event_id": "event:8",
-            "intent_id": "intent:change_01M7P3MS42DDAPYYZZXH5XK89Q",
-            "kind": "trajectory_step_recorded",
-            "sequence": 8
-          },
-          {
-            "detail": "trajectory:branch_01M7P3MS5DCW110VK162809HWA",
-            "event_id": "event:9",
-            "intent_id": "intent:change_01M7P3MS42DDAPYYZZXH5XK89Q",
-            "kind": "trajectory_step_recorded",
-            "sequence": 9
           }
         ],
         "knowledge_candidates": [],
-        "next_sequence": 9,
+        "next_sequence": 4,
         "schema_version": "1.0.0",
         "trajectories": {
-          "branch_01M7P3MS5DCW110VK162809HWA": {
+          "branch_01M7Q3G9DPRB7RNG1TY18P2RR4": {
             "evidence_only": true,
-            "id": "branch_01M7P3MS5DCW110VK162809HWA",
-            "intent_id": "intent:change_01M7P3MS42DDAPYYZZXH5XK89Q",
+            "id": "branch_01M7Q3G9DPRB7RNG1TY18P2RR4",
+            "intent_id": "intent:change_01M7Q3G9C0HM80DF9TM0BYZ36M",
             "steps": [
               {
                 "action": "trajectory.record",
                 "custody_event_id": "event:4",
                 "observations": [
-                  "Reauthor byte-identical reviewed0d7133d website source/media after explicit task transfer into fresh Linux tmpfs; original source branch, failed attempts and task history preserved. Independent public downloads matched all9 critical assets; Chrome desktop/mobile playback passed after accepted pricing merge. New native validation/publication required; no historical proof imported."
+                  "Original launch PR36 merged5730ae; actual Pages desktop/mobile playback and24 byte comparisons passed; real render workflow44284325426 passed all regenerated cuts. Existing teaser encoder changed its bytes at5fd0476f. This isolated follow-up restores the exact accepted pre-launch MP4; no launch film, source checker, workflow or config changes. Native proof and served-file readback remain required."
                 ],
                 "proof_refs": [
-                  "actual-media-byte-readback",
-                  "desktop-mobile-browser"
+                  "public-launch-playback",
+                  "original-teaser-byte-preservation"
                 ],
                 "scope": [
-                  "scripts"
+                  "root"
                 ],
                 "sequence": 4,
-                "validation_findings": []
-              },
-              {
-                "action": "trajectory.record",
-                "custody_event_id": "event:5",
-                "observations": [
-                  "Actual Linux Deno presentation review passes original native publication record/receipt and two adversarial mutations after correcting typed-serialization digest confusion. Native full validation remains blocked by accepted source-policy transition. Original movie bytes and native evidence are unchanged; no admission inferred."
-                ],
-                "proof_refs": [
-                  "native-presentation-review",
-                  "target-policy-acceptance"
-                ],
-                "scope": [
-                  "scripts"
-                ],
-                "sequence": 5,
-                "validation_findings": []
-              },
-              {
-                "action": "trajectory.record",
-                "custody_event_id": "event:6",
-                "observations": [
-                  "Actual Linux-container render and verification completed for56s1080p,12s720p and56svertical H264/AAC films; nine offline source controls pass plus two Deno native-proof negatives. Chrome desktop/mobile actual playback and captions passed on the final candidate bytes. Exact human mission and separate controller-selected task are preserved without rewriting the immutable run archive. This source inventory supersedes91c1c4fa; fresh native admission awaits explicit accepted-target policy. Local preview is not public deployment."
-                ],
-                "proof_refs": [
-                  "actual-media-decode",
-                  "objective-authorship-guard",
-                  "native-proof-presentation",
-                  "desktop-mobile-browser",
-                  "target-policy-acceptance",
-                  "public-deployment"
-                ],
-                "scope": [
-                  "scripts"
-                ],
-                "sequence": 6,
-                "validation_findings": []
-              },
-              {
-                "action": "trajectory.record",
-                "custody_event_id": "event:7",
-                "observations": [
-                  "Accepted website main advanced fromf9c804a tobbbdaf95 through three pricing-only commits. Exact accepted pricing HTML/CSS/JS are preserved by normal no-commit merge, then native checkpoint before commit. The final rendered films, source witnesses and eight verification-source definitions are unchanged. Browser verification covered launch section and proof page; public deployment and native admission remain unavailable until independent policy acceptance."
-                ],
-                "proof_refs": [
-                  "accepted-pricing-integration"
-                ],
-                "scope": [
-                  "scripts"
-                ],
-                "sequence": 7,
-                "validation_findings": []
-              },
-              {
-                "action": "trajectory.record",
-                "custody_event_id": "event:8",
-                "observations": [
-                  "Accepted website main3e350 integrated without auto-commit. Actual Deno failure and corrected full static/evidence review preserved privately. Four resolution controls distinguish homepage/root links from local pricing fragments; candidate policy7482 remains unaccepted. Pricing HTML/CSS/JS and footer logo compare byte-identical to accepted main. Chrome155 actual desktop/mobile playback passes unchanged film and captions with reduced-motion. No public deployment or readiness claimed."
-                ],
-                "proof_refs": [
-                  "accepted-root-navigation-before-repair",
-                  "resolved-document-fragment-controls",
-                  "actual-desktop-mobile-playback",
-                  "accepted-target-policy"
-                ],
-                "scope": [
-                  "scripts"
-                ],
-                "sequence": 8,
-                "validation_findings": []
-              },
-              {
-                "action": "trajectory.record",
-                "custody_event_id": "event:9",
-                "observations": [
-                  "Human approved exact config025eee→7482eb; independent GitHub commitcd2c05 shows only one config line changed on concurrent accepted parent3e4b4ce4. Fetch/merge without auto-commit preserves all accepted marketing/pricing source. Conflict is generated specs manifest only, repaired by native refresh. No agent entrypoints manually changed, no fixture actions, no historical proof reused. Fresh full native validation is next."
-                ],
-                "proof_refs": [
-                  "explicit-maintainer-policy-acceptance",
-                  "fresh-native-readiness"
-                ],
-                "scope": [
-                  "scripts"
-                ],
-                "sequence": 9,
                 "validation_findings": []
               }
             ]
@@ -369,26 +152,21 @@
       "declared_commands": [],
       "destination": "pull request",
       "evidence": [
-        "Accepted website main advanced fromf9c804a tobbbdaf95 through three pricing-only commits. Exact accepted pricing HTML/CSS/JS are preserved by normal no-commit merge, then native checkpoint before commit. The final rendered films, source witnesses and eight verification-source definitions are unchanged. Browser verification covered launch section and proof page; public deployment and native admission remain unavailable until independent policy acceptance.",
-        "Accepted website main3e350 integrated without auto-commit. Actual Deno failure and corrected full static/evidence review preserved privately. Four resolution controls distinguish homepage/root links from local pricing fragments; candidate policy7482 remains unaccepted. Pricing HTML/CSS/JS and footer logo compare byte-identical to accepted main. Chrome155 actual desktop/mobile playback passes unchanged film and captions with reduced-motion. No public deployment or readiness claimed.",
-        "Actual Linux Deno presentation review passes original native publication record/receipt and two adversarial mutations after correcting typed-serialization digest confusion. Native full validation remains blocked by accepted source-policy transition. Original movie bytes and native evidence are unchanged; no admission inferred.",
-        "Actual Linux-container render and verification completed for56s1080p,12s720p and56svertical H264/AAC films; nine offline source controls pass plus two Deno native-proof negatives. Chrome desktop/mobile actual playback and captions passed on the final candidate bytes. Exact human mission and separate controller-selected task are preserved without rewriting the immutable run archive. This source inventory supersedes91c1c4fa; fresh native admission awaits explicit accepted-target policy. Local preview is not public deployment.",
-        "Human approved exact config025eee→7482eb; independent GitHub commitcd2c05 shows only one config line changed on concurrent accepted parent3e4b4ce4. Fetch/merge without auto-commit preserves all accepted marketing/pricing source. Conflict is generated specs manifest only, repaired by native refresh. No agent entrypoints manually changed, no fixture actions, no historical proof reused. Fresh full native validation is next.",
-        "Reauthor byte-identical reviewed0d7133d website source/media after explicit task transfer into fresh Linux tmpfs; original source branch, failed attempts and task history preserved. Independent public downloads matched all9 critical assets; Chrome desktop/mobile playback passed after accepted pricing merge. New native validation/publication required; no historical proof imported."
+        "Original launch PR36 merged5730ae; actual Pages desktop/mobile playback and24 byte comparisons passed; real render workflow44284325426 passed all regenerated cuts. Existing teaser encoder changed its bytes at5fd0476f. This isolated follow-up restores the exact accepted pre-launch MP4; no launch film, source checker, workflow or config changes. Native proof and served-file readback remain required."
       ],
       "inspected_files": [],
-      "intent_id": "intent:change_01M7P3MS42DDAPYYZZXH5XK89Q",
+      "intent_id": "intent:change_01M7Q3G9C0HM80DF9TM0BYZ36M",
       "modified_files": [],
       "next_transitions": [
         "Refine plan and declare falsifiable checks"
       ],
       "repo_scope": [
-        "scripts"
+        "root"
       ],
-      "run_id": "branch_01M7P3MS5DCW110VK162809HWA",
+      "run_id": "branch_01M7Q3G9DPRB7RNG1TY18P2RR4",
       "schema_version": "1.1.0",
       "shortcut_risk_signals": [],
-      "task_id": "test_01m7nnw95n2ff7d8",
+      "task_id": "code_01m7q3ehb6rzpp7w",
       "tool_calls": [],
       "unresolved_assumptions": []
     }
