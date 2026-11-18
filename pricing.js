@@ -28,7 +28,7 @@
     change("contributor-discount","+"+p+"%");
     change("combined-discount",volume+"%");
     change("annual-discount",(Number.isInteger(cumulative)?cumulative.toFixed(0):cumulative.toFixed(2))+"%");
-    change("estimate-period",annual?"/year":"/month");
+    change("estimate-period",annual?"Annual plan":"Monthly plan");
     change("estimate-unit",String(repos*people)+" contributor–repository assignments");
     change("estimate-savings",annual?"Annual commitment and volume savings are cumulative.":"Volume savings grow with your team.");
     change("estimated-price","☁");
