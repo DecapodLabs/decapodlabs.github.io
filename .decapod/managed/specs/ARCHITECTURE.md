@@ -44,6 +44,10 @@ index.html retains its teaser and adds a native controlled video with responsive
 
 Accepted mainecd713c4 supplies the persistent responsive header, homepage Constitution copy, corrected footer logo and pricing preview with concealed dollar prices, repository/contributor controls and annual savings. Those accepted pricing and logo bytes are preserved exactly. The evidence-backed film is an additive homepage section beside the retained original teaser; its styles are scoped to launch/proof presentation. No application backend or Cloud enrollment authority is introduced.
 
+## Explicit maintainer source-policy acceptance
+
+The human maintainer authorized the exact025eee→7482eb verification-source transition in response to the concrete review request. GitHub commitcd2c05dfc70fe01fa374bd62110717fc4761b718 independently confirms only that one config line changed; concurrent accepted BYOA/on-demand invocation copy, Cloud limits/alerts and exact8-percent annual preview changes were preserved at its parent3e4b4ce4. The feature integrates the actual accepted target and retains its pricing bytes exactly. All eight verification-source definitions remain unchanged from reviewed759ba58b. This policy acceptance is separate from candidate proof; fresh full native validation and publication/readback remain mandatory. It is not a post-objective intervention in the archived Pi experiment.
+
 <!-- decapod:capability-overlay:persistent-state:start -->
 
 Generated capability obligations: `persistent-state` is declared for this project. These are decisions and proof requirements, not claims of implemented behavior. Resolve each against project source and tests; record unsupported or non-applicable mechanisms explicitly.
@@ -70,7 +74,7 @@ Generated capability obligations: `persistent-state` is declared for this projec
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `2da8ed8bd174bf53df5cdb00b4a907c54f68c3f902bd9acfde8b49affeac21ca`
+- Repository signal fingerprint: `7f8a37633988611464a345388608acaa44154d3ad49cc885a1e1970322e8ddf3`
 - Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `evidence/` (1 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->

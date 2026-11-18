@@ -48,6 +48,11 @@
       "id": "exact-accepted-pricing-target",
       "summary": "Correct prose reference to actual fetched accepted target ecd713c4, including latest annual flyout; pricing files and logo remain byte-identical, source inventory and media unchanged",
       "input_digest": "sha256:9f7d4ae72ad4b7f2d0e16693843d5cd8c845cfd48ca531f247b877164163f630"
+    },
+    {
+      "id": "maintainer-accepted-verification-policy",
+      "summary": "Checkpoint exactcd2c05 accepted source-policy and concurrent BYOA/pricing integration; explicit maintainer authority changes only the inventory pin, all required checks remain and fresh proof is required",
+      "input_digest": "sha256:87ee3f02c284e4311315b5a33898cf0f7c61a67df5bd38d15a539c9752ee9934"
     }
   ],
   "intents": {
@@ -88,23 +93,23 @@
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/ARCHITECTURE.md",
-          "reason": "Preserve accepted main3e350 pricing/header/footer and additive real-evidence film; reproduce and repair target-document fragment validation with four controls; actual desktop/mobile playback passed; exact candidate source policy still needs separate maintainer acceptance",
-          "reviewed_code_fingerprint": "2da8ed8bd174bf53df5cdb00b4a907c54f68c3f902bd9acfde8b49affeac21ca",
-          "spec_material_hash": "cb0b09fff6db47c8b7a0b2101635e66d982ae7ca7f4549deb7eacdee5f3bcfab"
+          "reason": "Explicit human-authorized one-line target source-policy transition accepted atcd2c05; preserve concurrent accepted BYOA/on-demand, resource alert and exact8-percent annual preview content, source hash7482 unchanged; require fresh full native validation",
+          "reviewed_code_fingerprint": "7f8a37633988611464a345388608acaa44154d3ad49cc885a1e1970322e8ddf3",
+          "spec_material_hash": "d60c3148e02eef943a55eedea31137386b4ebfeb72cbf16ff47b0972010db50b"
         },
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/INTERFACES.md",
-          "reason": "Preserve accepted main3e350 pricing/header/footer and additive real-evidence film; reproduce and repair target-document fragment validation with four controls; actual desktop/mobile playback passed; exact candidate source policy still needs separate maintainer acceptance",
-          "reviewed_code_fingerprint": "2da8ed8bd174bf53df5cdb00b4a907c54f68c3f902bd9acfde8b49affeac21ca",
-          "spec_material_hash": "463225e9e32d8b5f520e9d3de29aef10040d9f07b29e2028d1e510ccafa0dd48"
+          "reason": "Explicit human-authorized one-line target source-policy transition accepted atcd2c05; preserve concurrent accepted BYOA/on-demand, resource alert and exact8-percent annual preview content, source hash7482 unchanged; require fresh full native validation",
+          "reviewed_code_fingerprint": "7f8a37633988611464a345388608acaa44154d3ad49cc885a1e1970322e8ddf3",
+          "spec_material_hash": "f7b41665e631169ad57b31f984ba9e7ac758c35a9293f3ee152eaf3deafe31f5"
         },
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/SECURITY.md",
-          "reason": "Preserve accepted main3e350 pricing/header/footer and additive real-evidence film; reproduce and repair target-document fragment validation with four controls; actual desktop/mobile playback passed; exact candidate source policy still needs separate maintainer acceptance",
-          "reviewed_code_fingerprint": "2da8ed8bd174bf53df5cdb00b4a907c54f68c3f902bd9acfde8b49affeac21ca",
-          "spec_material_hash": "52f9ae644c57714850d5077bffefe2a836d9fa195eadd1fac01b76a51728e735"
+          "reason": "Explicit human-authorized one-line target source-policy transition accepted atcd2c05; preserve concurrent accepted BYOA/on-demand, resource alert and exact8-percent annual preview content, source hash7482 unchanged; require fresh full native validation",
+          "reviewed_code_fingerprint": "7f8a37633988611464a345388608acaa44154d3ad49cc885a1e1970322e8ddf3",
+          "spec_material_hash": "3fba7abe9dd904ae032899a4bd6fe7c5bf9bd92312f632ef4b0a52cc057038dd"
         }
       ],
       "state": "APPROVED",
@@ -115,13 +120,13 @@
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1794993684Z"
+      "updated_at": "1794995962Z"
     },
     "trajectory": {
       "active_boundaries": [
         "Current claimed task and isolated work branch"
       ],
-      "artifact_hash": "sha256:54ab9c010254d0e088db246d7796a7af3cc047a6e14ef7548290ad7bf56ee33f",
+      "artifact_hash": "sha256:655e0964b5129235a96e8c4f9bcd966e2f81559b6cd8567ed035e94ef3667a00",
       "checks": [
         {
           "name": "accepted-pricing-integration",
@@ -150,6 +155,14 @@
         {
           "name": "desktop-mobile-browser",
           "status": "passed"
+        },
+        {
+          "name": "explicit-maintainer-policy-acceptance",
+          "status": "passed"
+        },
+        {
+          "name": "fresh-native-readiness",
+          "status": "unavailable"
         },
         {
           "name": "native-presentation-review",
@@ -225,10 +238,17 @@
             "intent_id": "intent:change_01M7P3MS42DDAPYYZZXH5XK89Q",
             "kind": "trajectory_step_recorded",
             "sequence": 8
+          },
+          {
+            "detail": "trajectory:branch_01M7P3MS5DCW110VK162809HWA",
+            "event_id": "event:9",
+            "intent_id": "intent:change_01M7P3MS42DDAPYYZZXH5XK89Q",
+            "kind": "trajectory_step_recorded",
+            "sequence": 9
           }
         ],
         "knowledge_candidates": [],
-        "next_sequence": 8,
+        "next_sequence": 9,
         "schema_version": "1.0.0",
         "trajectories": {
           "branch_01M7P3MS5DCW110VK162809HWA": {
@@ -320,6 +340,22 @@
                 ],
                 "sequence": 8,
                 "validation_findings": []
+              },
+              {
+                "action": "trajectory.record",
+                "custody_event_id": "event:9",
+                "observations": [
+                  "Human approved exact config025eee→7482eb; independent GitHub commitcd2c05 shows only one config line changed on concurrent accepted parent3e4b4ce4. Fetch/merge without auto-commit preserves all accepted marketing/pricing source. Conflict is generated specs manifest only, repaired by native refresh. No agent entrypoints manually changed, no fixture actions, no historical proof reused. Fresh full native validation is next."
+                ],
+                "proof_refs": [
+                  "explicit-maintainer-policy-acceptance",
+                  "fresh-native-readiness"
+                ],
+                "scope": [
+                  "scripts"
+                ],
+                "sequence": 9,
+                "validation_findings": []
               }
             ]
           }
@@ -332,6 +368,7 @@
         "Accepted website main3e350 integrated without auto-commit. Actual Deno failure and corrected full static/evidence review preserved privately. Four resolution controls distinguish homepage/root links from local pricing fragments; candidate policy7482 remains unaccepted. Pricing HTML/CSS/JS and footer logo compare byte-identical to accepted main. Chrome155 actual desktop/mobile playback passes unchanged film and captions with reduced-motion. No public deployment or readiness claimed.",
         "Actual Linux Deno presentation review passes original native publication record/receipt and two adversarial mutations after correcting typed-serialization digest confusion. Native full validation remains blocked by accepted source-policy transition. Original movie bytes and native evidence are unchanged; no admission inferred.",
         "Actual Linux-container render and verification completed for56s1080p,12s720p and56svertical H264/AAC films; nine offline source controls pass plus two Deno native-proof negatives. Chrome desktop/mobile actual playback and captions passed on the final candidate bytes. Exact human mission and separate controller-selected task are preserved without rewriting the immutable run archive. This source inventory supersedes91c1c4fa; fresh native admission awaits explicit accepted-target policy. Local preview is not public deployment.",
+        "Human approved exact config025eee→7482eb; independent GitHub commitcd2c05 shows only one config line changed on concurrent accepted parent3e4b4ce4. Fetch/merge without auto-commit preserves all accepted marketing/pricing source. Conflict is generated specs manifest only, repaired by native refresh. No agent entrypoints manually changed, no fixture actions, no historical proof reused. Fresh full native validation is next.",
         "Reauthor byte-identical reviewed0d7133d website source/media after explicit task transfer into fresh Linux tmpfs; original source branch, failed attempts and task history preserved. Independent public downloads matched all9 critical assets; Chrome desktop/mobile playback passed after accepted pricing merge. New native validation/publication required; no historical proof imported."
       ],
       "inspected_files": [],

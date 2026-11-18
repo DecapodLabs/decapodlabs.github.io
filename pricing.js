@@ -28,7 +28,7 @@
     // More non-overlapping humans may increase the actual verified discount.
     const peopleDiscountFloor = tier(perRepo, steps.people);
     const volumeFloor = repoDiscount + peopleDiscountFloor;
-    const annualUncapped = 100 / 12 + volumeFloor;
+    const annualUncapped = 8 + volumeFloor;
     const annualFloor = Math.min(20, annualUncapped);
 
     change("repo-count-value", String(repos), "value");
@@ -40,8 +40,7 @@
     change("contributor-discount", "+" + peopleDiscountFloor + "%");
     change("combined-discount", volumeFloor + "%");
     change("annual-volume", volumeFloor + "%");
-    change("annual-discount", (Number.isInteger(annualFloor) ?
-      annualFloor.toFixed(0) : annualFloor.toFixed(2)) + "%");
+    change("annual-discount", annualFloor + "%");
 
     const disclosure = byId("annual-savings");
     if (disclosure) disclosure.hidden = !annual || !showAnnualDetails;

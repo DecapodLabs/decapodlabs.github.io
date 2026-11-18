@@ -41,6 +41,10 @@ The offline presentation gate pins the independently observed T7sSlC native reco
 
 Resolving links to the actual target document closes both false rejection of accepted root-relative navigation and false acceptance of a fragment that exists only on the referring page. Unsafe protocols, credentials, missing/empty local assets and duplicate target IDs still fail. This source check grants no hosted service, payment, publication or merge authority. The separately accepted verification-source policy remains required before this candidate can earn readiness.
 
+## Explicit maintainer source-policy acceptance
+
+The human maintainer authorized the exact025eee→7482eb verification-source transition in response to the concrete review request. GitHub commitcd2c05dfc70fe01fa374bd62110717fc4761b718 independently confirms only that one config line changed; concurrent accepted BYOA/on-demand invocation copy, Cloud limits/alerts and exact8-percent annual preview changes were preserved at its parent3e4b4ce4. The feature integrates the actual accepted target and retains its pricing bytes exactly. All eight verification-source definitions remain unchanged from reviewed759ba58b. This policy acceptance is separate from candidate proof; fresh full native validation and publication/readback remain mandatory. It is not a post-objective intervention in the archived Pi experiment.
+
 <!-- decapod:capability-overlay:public-api:start -->
 
 Generated capability obligations: `public-api` is declared for this project. These are decisions and proof requirements, not claims of implemented behavior. Resolve each against project source and tests; record unsupported or non-applicable mechanisms explicitly.
@@ -67,7 +71,7 @@ Generated capability obligations: `public-api` is declared for this project. The
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `2da8ed8bd174bf53df5cdb00b4a907c54f68c3f902bd9acfde8b49affeac21ca`
+- Repository signal fingerprint: `7f8a37633988611464a345388608acaa44154d3ad49cc885a1e1970322e8ddf3`
 - Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `evidence/` (1 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->

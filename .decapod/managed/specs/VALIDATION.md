@@ -32,6 +32,10 @@ The controller selected the single Pi task under the human-authorized mission; d
 
 On integrating accepted mainecd713c4, actual Deno execution reproduced missing_fragment_target for Pricing navigation to homepage anchors. The checker was repaired to resolve URLs from the referring document and inspect the resolved target IDs. Two positive and two negative resolution controls now pass along with all four real documents,58 local references,12 fragments and the real167-event evidence/media accuracy checks. Actual Chrome155 desktop1440x1000 and mobile390x844 playback decoded the unchanged56-second films, loaded all8 captions, sought to32 seconds and found no overflow or page errors under reduced-motion preferences. These presentation checks do not substitute for full native validation or public Pages readback. The eight-source candidate inventory is sha256:7482eb071e87380ec683e8a29188e8345a7539f49b65a890ab84f92b4842e630; the prior ad3 proposal is superseded and no maintainer policy approval is assumed.
 
+## Explicit maintainer source-policy acceptance
+
+The human maintainer authorized the exact025eee→7482eb verification-source transition in response to the concrete review request. GitHub commitcd2c05dfc70fe01fa374bd62110717fc4761b718 independently confirms only that one config line changed; concurrent accepted BYOA/on-demand invocation copy, Cloud limits/alerts and exact8-percent annual preview changes were preserved at its parent3e4b4ce4. The feature integrates the actual accepted target and retains its pricing bytes exactly. All eight verification-source definitions remain unchanged from reviewed759ba58b. This policy acceptance is separate from candidate proof; fresh full native validation and publication/readback remain mandatory. It is not a post-objective intervention in the archived Pi experiment.
+
 <!-- decapod:capability-overlay:background-processing:start -->
 
 Generated capability obligations: `background-processing` is declared for this project. These are decisions and proof requirements, not claims of implemented behavior. Resolve each against project source and tests; record unsupported or non-applicable mechanisms explicitly.
@@ -98,7 +102,7 @@ Generated capability obligations: `public-api` is declared for this project. The
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `2da8ed8bd174bf53df5cdb00b4a907c54f68c3f902bd9acfde8b49affeac21ca`
+- Repository signal fingerprint: `7f8a37633988611464a345388608acaa44154d3ad49cc885a1e1970322e8ddf3`
 - Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `evidence/` (1 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->
