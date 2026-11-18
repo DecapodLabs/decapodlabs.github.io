@@ -33,6 +33,11 @@
       "id": "explicit-objective-provenance-and-verified-film",
       "summary": "Disclose original human mission versus controller-selected Pi task; rerender three films with actual runtime record; nine offline source controls and browser playback pass; accepted policy and public deployment still pending",
       "input_digest": "sha256:70e7d389e9eb7b03b8dfb0587477fe2a4b16522c034086dd0103764a0e1ca919"
+    },
+    {
+      "id": "preserve-current-accepted-pricing",
+      "summary": "Checkpoint exact integration of latest accepted pricing without altering film, immutable source evidence or required proof contract",
+      "input_digest": "sha256:609d6d63c71d017993b31f597652183c5ac58400024bd155358ca9d449a73e70"
     }
   ],
   "intents": {
@@ -73,22 +78,22 @@
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/ARCHITECTURE.md",
-          "reason": "Reviewed exact controller-selected objective and original human mission binding, nine evidence negatives, actual rerendered variants and two native-proof presentation negatives. Direct human authorship is not attested; observer cannot admit work; fixture forge bypass prevention is not claimed. Candidate inventory pin is a review proposal, pending independent accepted-target policy.",
-          "reviewed_code_fingerprint": "e792236e364797573369ad3d6c6500d8c208d5cc9548088db935b73a90984af2",
+          "reason": "Preserve accepted mainbbbdaf95 pricing.html/pricing.css/pricing.js cumulative savings and itemized resource preview, without altering these accepted files or the exact source/media evidence. Required command declarations remain identical; current candidate still awaits separate maintainer source-policy acceptance.",
+          "reviewed_code_fingerprint": "65adac1cae047fa4978bd0af6a804731c6bf4bfd2ab2098716586d55fff18271",
           "spec_material_hash": "5c7706b9b5433b1bf2410bfd7e4fbaf0ebada687abe4af6762e4161c04180bbf"
         },
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/INTERFACES.md",
-          "reason": "Reviewed exact controller-selected objective and original human mission binding, nine evidence negatives, actual rerendered variants and two native-proof presentation negatives. Direct human authorship is not attested; observer cannot admit work; fixture forge bypass prevention is not claimed. Candidate inventory pin is a review proposal, pending independent accepted-target policy.",
-          "reviewed_code_fingerprint": "e792236e364797573369ad3d6c6500d8c208d5cc9548088db935b73a90984af2",
+          "reason": "Preserve accepted mainbbbdaf95 pricing.html/pricing.css/pricing.js cumulative savings and itemized resource preview, without altering these accepted files or the exact source/media evidence. Required command declarations remain identical; current candidate still awaits separate maintainer source-policy acceptance.",
+          "reviewed_code_fingerprint": "65adac1cae047fa4978bd0af6a804731c6bf4bfd2ab2098716586d55fff18271",
           "spec_material_hash": "719e64a01bd86a251021c599a8bcb8c38b5cf0fb6698c938f151c85d7b570220"
         },
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/SECURITY.md",
-          "reason": "Reviewed exact controller-selected objective and original human mission binding, nine evidence negatives, actual rerendered variants and two native-proof presentation negatives. Direct human authorship is not attested; observer cannot admit work; fixture forge bypass prevention is not claimed. Candidate inventory pin is a review proposal, pending independent accepted-target policy.",
-          "reviewed_code_fingerprint": "e792236e364797573369ad3d6c6500d8c208d5cc9548088db935b73a90984af2",
+          "reason": "Preserve accepted mainbbbdaf95 pricing.html/pricing.css/pricing.js cumulative savings and itemized resource preview, without altering these accepted files or the exact source/media evidence. Required command declarations remain identical; current candidate still awaits separate maintainer source-policy acceptance.",
+          "reviewed_code_fingerprint": "65adac1cae047fa4978bd0af6a804731c6bf4bfd2ab2098716586d55fff18271",
           "spec_material_hash": "5771d917291340b4bb73a98d1022c433feb57b1462bf517fdaaf54a1ab6341b9"
         }
       ],
@@ -100,14 +105,18 @@
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1794984170Z"
+      "updated_at": "1794984239Z"
     },
     "trajectory": {
       "active_boundaries": [
         "Current claimed task and isolated work branch"
       ],
-      "artifact_hash": "sha256:a268c193eada5a56d84fab5c2fbb12d78ba71f2f10afb20b969871ca800d8117",
+      "artifact_hash": "sha256:bec8e7b4481957a466201fb56c0d7e65f022c9b6f17f94410bf0f14894e6e52c",
       "checks": [
+        {
+          "name": "accepted-pricing-integration",
+          "status": "passed"
+        },
         {
           "name": "actual-media-byte-readback",
           "status": "passed"
@@ -176,10 +185,17 @@
             "intent_id": "intent:change_01M7P3MS42DDAPYYZZXH5XK89Q",
             "kind": "trajectory_step_recorded",
             "sequence": 6
+          },
+          {
+            "detail": "trajectory:branch_01M7P3MS5DCW110VK162809HWA",
+            "event_id": "event:7",
+            "intent_id": "intent:change_01M7P3MS42DDAPYYZZXH5XK89Q",
+            "kind": "trajectory_step_recorded",
+            "sequence": 7
           }
         ],
         "knowledge_candidates": [],
-        "next_sequence": 6,
+        "next_sequence": 7,
         "schema_version": "1.0.0",
         "trajectories": {
           "branch_01M7P3MS5DCW110VK162809HWA": {
@@ -238,6 +254,21 @@
                 ],
                 "sequence": 6,
                 "validation_findings": []
+              },
+              {
+                "action": "trajectory.record",
+                "custody_event_id": "event:7",
+                "observations": [
+                  "Accepted website main advanced fromf9c804a tobbbdaf95 through three pricing-only commits. Exact accepted pricing HTML/CSS/JS are preserved by normal no-commit merge, then native checkpoint before commit. The final rendered films, source witnesses and eight verification-source definitions are unchanged. Browser verification covered launch section and proof page; public deployment and native admission remain unavailable until independent policy acceptance."
+                ],
+                "proof_refs": [
+                  "accepted-pricing-integration"
+                ],
+                "scope": [
+                  "scripts"
+                ],
+                "sequence": 7,
+                "validation_findings": []
               }
             ]
           }
@@ -246,6 +277,7 @@
       "declared_commands": [],
       "destination": "pull request",
       "evidence": [
+        "Accepted website main advanced fromf9c804a tobbbdaf95 through three pricing-only commits. Exact accepted pricing HTML/CSS/JS are preserved by normal no-commit merge, then native checkpoint before commit. The final rendered films, source witnesses and eight verification-source definitions are unchanged. Browser verification covered launch section and proof page; public deployment and native admission remain unavailable until independent policy acceptance.",
         "Actual Linux Deno presentation review passes original native publication record/receipt and two adversarial mutations after correcting typed-serialization digest confusion. Native full validation remains blocked by accepted source-policy transition. Original movie bytes and native evidence are unchanged; no admission inferred.",
         "Actual Linux-container render and verification completed for56s1080p,12s720p and56svertical H264/AAC films; nine offline source controls pass plus two Deno native-proof negatives. Chrome desktop/mobile actual playback and captions passed on the final candidate bytes. Exact human mission and separate controller-selected task are preserved without rewriting the immutable run archive. This source inventory supersedes91c1c4fa; fresh native admission awaits explicit accepted-target policy. Local preview is not public deployment.",
         "Reauthor byte-identical reviewed0d7133d website source/media after explicit task transfer into fresh Linux tmpfs; original source branch, failed attempts and task history preserved. Independent public downloads matched all9 critical assets; Chrome desktop/mobile playback passed after accepted pricing merge. New native validation/publication required; no historical proof imported."

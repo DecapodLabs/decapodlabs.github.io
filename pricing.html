@@ -88,47 +88,52 @@
           <p class="pricing-eyebrow">EXPLORE THE MODEL</p>
           <h2 id="preview-heading">Your team.<br><span>Your repositories.</span></h2>
         </div>
-        <p>Adjust the sliders to preview how human assignments would be counted. Your agents don't require additional human seats.</p>
+        <p>Move each bar to preview paid assignments and unlock volume savings. Agents don't require extra seats.</p>
       </div>
       <div class="preview-panel">
         <div class="preview-controls">
-          <div class="preview-control">
-            <div class="preview-control-label"><label for="repo-count">Repositories</label><output id="repo-count-value" for="repo-count">2</output></div>
-            <input id="repo-count" type="range" min="1" max="10" step="1" value="2">
-            <div class="preview-range-labels"><span>1 repository</span><span>10 repositories</span></div>
+          <div class="preview-control preview-discount-control">
+            <div class="preview-control-label">
+              <label for="repo-count">Repositories</label>
+              <div class="preview-live-value"><output id="repo-count-value" for="repo-count">2</output><span class="preview-live-discount" id="repo-discount">+0%</span></div>
+            </div>
+            <input id="repo-count" type="range" min="1" max="10" step="1" value="2" aria-describedby="repo-tiers">
+            <div class="preview-tier-markers" id="repo-tiers" aria-label="Repository discount milestones">
+              <span class="preview-tier-marker" data-repo-threshold="3" style="--tier-at:22.2222%"><span>3+</span><strong>2%</strong></span>
+              <span class="preview-tier-marker" data-repo-threshold="6" style="--tier-at:55.5556%"><span>6+</span><strong>4%</strong></span>
+              <span class="preview-tier-marker" data-repo-threshold="10" style="--tier-at:100%"><span>10+</span><strong>6%</strong></span>
+            </div>
           </div>
-          <div class="preview-control">
-            <div class="preview-control-label"><label for="seat-count">Contributors per repository</label><output id="seat-count-value" for="seat-count">5</output></div>
-            <input id="seat-count" type="range" min="1" max="25" step="1" value="5">
-            <div class="preview-range-labels"><span>1 contributor</span><span>25 contributors</span></div>
+          <div class="preview-control preview-discount-control">
+            <div class="preview-control-label">
+              <label for="seat-count">Contributors per repository</label>
+              <div class="preview-live-value"><output id="seat-count-value" for="seat-count">5</output><span class="preview-live-discount" id="contributor-discount">+2%</span></div>
+            </div>
+            <input id="seat-count" type="range" min="1" max="25" step="1" value="5" aria-describedby="contributor-tiers">
+            <div class="preview-tier-markers" id="contributor-tiers" aria-label="Contributor discount milestones">
+              <span class="preview-tier-marker" data-contributor-threshold="5" style="--tier-at:16.6667%"><span>5+</span><strong>2%</strong></span>
+              <span class="preview-tier-marker" data-contributor-threshold="10" style="--tier-at:37.5%"><span>10+</span><strong>4%</strong></span>
+              <span class="preview-tier-marker" data-contributor-threshold="20" style="--tier-at:79.1667%"><span>20+</span><strong>6%</strong></span>
+            </div>
           </div>
-          <p class="preview-explainer">Each assigned human on a repository counts once. The same person assigned to two repositories uses two contributor–repository assignments. Agents and worktrees add no human seats.</p>
-      <section class="preview-savings" aria-label="Illustrative volume discount tiers">
-        <div class="savings-heading"><h3>Volume savings</h3><span>ILLUSTRATIVE</span></div>
-        <p>Small discounts that stack as your paid team and repository count grow.</p>
-        <div class="savings-axis">
-          <div class="savings-axis-heading"><span>Paid repositories</span><strong id="repo-discount">0%</strong></div>
-          <div class="savings-steps" aria-label="Repository discount milestones"><span data-repo-threshold="3">3+ · 1%</span><span data-repo-threshold="6">6+ · 2%</span><span data-repo-threshold="10">10+ · 3%</span></div>
-        </div>
-        <div class="savings-axis">
-          <div class="savings-axis-heading"><span>Distinct paid contributors</span><strong id="contributor-discount">0%</strong></div>
-          <div class="savings-steps" aria-label="Contributor discount milestones"><span data-contributor-threshold="5">5+ · 1%</span><span data-contributor-threshold="10">10+ · 2%</span><span data-contributor-threshold="20">20+ · 3%</span></div>
-        </div>
-        <div class="savings-total"><span>Combined volume discount preview</span><strong id="combined-discount" aria-live="polite" aria-atomic="true">0%</strong></div>
-        <p class="savings-footnote">Illustrative rates only, subject to change before launch. Discounts never add free users or repositories, and amounts remain $X.</p>
-      </section>
+          <p class="preview-explainer">Discounts unlock as your team grows. Each human–repository assignment is billable; the same human counts only once toward contributor volume savings. Agents require no additional seats.</p>
         </div>
         <div class="preview-result">
           <div class="preview-result-top"><span>ILLUSTRATIVE CONFIGURATION</span><span class="preview-dot" aria-hidden="true"></span></div>
           <p class="preview-big" id="assignment-count" aria-live="polite" aria-atomic="true">10</p>
           <p class="preview-big-subtitle">contributor–repository assignments</p>
           <p class="preview-formula" id="assignment-formula">2 repositories × 5 contributors each</p>
+          <div class="preview-discount-summary" aria-label="Illustrative subscription savings">
+            <div><span>Volume savings</span><strong id="combined-discount" aria-live="polite">2%</strong></div>
+            <div><span>With annual commitment</span><strong id="annual-discount" aria-live="polite">10.33%</strong></div>
+          </div>
+          <p class="preview-discount-limit">Annual billing and volume discounts combine for up to 20% cumulative savings.</p>
           <div class="preview-total"><span>Estimated monthly subscription</span><strong>$X<span>/mo</span></strong></div>
           <p class="preview-unpriced">Price withheld until launch. <strong>$X is a placeholder</strong>, not a calculated quote.</p>
           <button type="button" disabled class="preview-checkout">Coming soon <span aria-hidden="true">↗</span></button>
         </div>
       </div>
-      <p class="preview-caveat">This example assumes the same distinct group of contributors on every repository. Each assignment is billed separately; volume savings count unique paid humans only once within a customer. The future Admin will support unequal contributor counts per repository.</p>
+      <p class="preview-caveat">This illustration assumes the same people across repositories. The future Admin will support different contributor counts per repository. Exact eligibility is verified server-side at checkout.</p>
     </div>
   </section>
 
@@ -144,22 +149,22 @@
       <div class="resource-highlights" aria-label="Cloud capacity commitments">
         <div><span aria-hidden="true">01</span><strong>Capacity included</strong><p>Usage within published limits is part of the subscription.</p></div>
         <div><span aria-hidden="true">02</span><strong>Measured automatically</strong><p>Actual cloud consumption is tracked under your account.</p></div>
-        <div><span aria-hidden="true">03</span><strong>No surprise overages</strong><p>Additional paid capacity requires explicit approval.</p></div>
+        <div><span aria-hidden="true">03</span><strong>Clear resource billing</strong><p>Excess measured usage is itemized at published rates, within the agreed billing ceiling.</p></div>
       </div>
       <details class="resources-advanced">
         <summary><span>Advanced: how Cloud usage will work</span><span class="advanced-arrow" aria-hidden="true">+</span></summary>
         <div class="advanced-content">
-          <p class="advanced-intro">These are the resource dimensions we intend to measure. Exact included quantities, limits, and expansion prices will be published after workload testing.</p>
+          <p class="advanced-intro">These are the resource dimensions we intend to meter separately. Included allowances and per-unit overage rates will be published after workload testing.</p>
           <div class="advanced-grid">
             <div class="resource-type"><span class="resource-type-icon" aria-hidden="true">⇄</span><h3>Network transfer</h3><p>Data entering and leaving the service, including large exports and repeated requests.</p><small>Monthly consumption · allowance TBD</small></div>
             <div class="resource-type"><span class="resource-type-icon" aria-hidden="true">⌘</span><h3>Compute &amp; operations</h3><p>Service work needed for agent requests, database queries, and coordination.</p><small>Monthly consumption · allowance TBD</small></div>
             <div class="resource-type"><span class="resource-type-icon" aria-hidden="true">▤</span><h3>Retained data</h3><p>Stored database records, events, and retained proof. Storage persists between months.</p><small>Retained capacity · allowance TBD</small></div>
             <div class="resource-type"><span class="resource-type-icon" aria-hidden="true">⟐</span><h3>Request pressure</h3><p>Burst and concurrency protection to keep one workload from degrading another.</p><small>Fair-use controls · limits TBD</small></div>
           </div>
-          <div class="capacity-lab" aria-label="Illustrative additional cloud capacity">
+          <div class="capacity-lab" aria-label="Illustrative expected cloud resource consumption">
             <div class="capacity-lab-heading">
-              <div><span class="capacity-kicker">CAPACITY PREVIEW</span><h3>Need more room?</h3></div>
-              <p>Included capacity is the starting point. Preview additional capacity only when you need it. Real limits and prices will be published after testing.</p>
+              <div><span class="capacity-kicker">USAGE ESTIMATE</span><h3>What might you use?</h3></div>
+              <p>Estimate potential demand. These sliders do not purchase capacity or set your actual limits; the service measures consumption and itemizes any excess at published resource-specific rates.</p>
             </div>
             <div class="capacity-sliders">
               <div class="capacity-control">
@@ -179,12 +184,12 @@
               </div>
             </div>
             <div class="capacity-estimate">
-              <div><strong id="capacity-summary" aria-live="polite">All resources within included capacity</strong><p>Indicative prepaid expansion · not a quote</p></div>
+              <div><strong id="capacity-summary" aria-live="polite">All resources within included capacity</strong><p>Illustrative usage only · not a quote</p></div>
               <span class="capacity-price">$X</span>
             </div>
-            <p class="capacity-note" id="capacity-note">100% means the included baseline, not a published quantity. Higher settings illustrate usage above that baseline; they do not activate an upgrade. No surprise automatic overage invoices.</p>
+            <p class="capacity-note" id="capacity-note">100% represents an unspecified included baseline. Higher slider settings are nonbinding usage estimates; actual excess is measured by the service and billed per resource under the published rates and your agreed maximum exposure. No charges are generated by this preview.</p>
           </div>
-          <p class="advanced-footnote">Monthly consumable limits and longer-lived retained data have different rules. Higher capacity would require a confirmed purchase. Nothing here constitutes a usage commitment or SLA yet.</p>
+          <p class="advanced-footnote">Monthly flows and retained data have different billing units and reset rules. Your actual resource overages are itemized separately from the licensed subscription; no numerical resource limits or service commitments are published yet.</p>
         </div>
       </details>
     </div>

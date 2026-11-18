@@ -12,6 +12,7 @@
   const repositoryDiscount = byId("repo-discount");
   const contributorDiscount = byId("contributor-discount");
   const combinedDiscount = byId("combined-discount");
+  const annualDiscount = byId("annual-discount");
   const resourceInputs = [
     ["network-capacity", "network-capacity-value"],
     ["compute-capacity", "compute-capacity-value"],
@@ -22,10 +23,10 @@
   if (!repositories || !contributors || !repositoryValue || !contributorValue ||
       !assignmentValue || !assignmentFormula) return;
 
-  // Illustrative 1/2/3 percent discounts on each independently selected axis.
+  // Illustrative 2/4/6-point discounts on each independently selected axis.
   // The service will own all actual eligibility, cost validation, and invoice math.
-  const repositorySteps = Object.freeze([[3, 1], [6, 2], [10, 3]]);
-  const contributorSteps = Object.freeze([[5, 1], [10, 2], [20, 3]]);
+  const repositorySteps = Object.freeze([[3, 2], [6, 4], [10, 6]]);
+  const contributorSteps = Object.freeze([[5, 2], [10, 4], [20, 6]]);
 
   function stepPercent(count, steps) {
     let percent = 0;
@@ -67,9 +68,15 @@
     // We count these humans once for the contributor-volume axis, NOT repos * humans.
     const repoPercent = stepPercent(repos, repositorySteps);
     const peoplePercent = stepPercent(people, contributorSteps);
-    if (repositoryDiscount) repositoryDiscount.textContent = repoPercent + "%";
-    if (contributorDiscount) contributorDiscount.textContent = peoplePercent + "%";
-    if (combinedDiscount) combinedDiscount.textContent = Math.min(6, repoPercent + peoplePercent) + "%";
+    const volume = repoPercent + peoplePercent;
+    // Annual $550 base saves one month from the unmodified $600 annualized list.
+    // Add volume percentage points against that same list, capped at 20%.
+    const annualTotal = Math.min(20, 100 / 12 + volume);
+    if (repositoryDiscount) repositoryDiscount.textContent = "+" + repoPercent + "%";
+    if (contributorDiscount) contributorDiscount.textContent = "+" + peoplePercent + "%";
+    if (combinedDiscount) combinedDiscount.textContent = volume + "%";
+    if (annualDiscount) annualDiscount.textContent =
+      (Number.isInteger(annualTotal) ? annualTotal.toFixed(0) : annualTotal.toFixed(2)) + "%";
 
     paintMilestones("[data-repo-threshold]", repos);
     paintMilestones("[data-contributor-threshold]", people);
@@ -93,7 +100,7 @@
       capacitySummary.textContent = extra === 0
         ? "All resources within included capacity"
         : extra + " resource " + (extra === 1 ? "category" : "categories") +
-          " above baseline — prepaid capacity required";
+          " above illustrative included baseline — actual excess would be billed by resource";
     }
   }
 
