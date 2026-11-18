@@ -39,11 +39,9 @@
     change("repo-discount", "+" + repoDiscount + "%");
     change("contributor-discount", "+" + peopleDiscountFloor + "%");
     change("combined-discount", volumeFloor + "%");
-    change("annual-volume", volumeFloor + "% volume");
+    change("annual-volume", volumeFloor + "%");
     change("annual-discount", (Number.isInteger(annualFloor) ?
       annualFloor.toFixed(0) : annualFloor.toFixed(2)) + "%");
-    const capNote = byId("annual-cap-note");
-    if (capNote) capNote.hidden = annualUncapped <= 20;
 
     const disclosure = byId("annual-savings");
     if (disclosure) disclosure.hidden = !annual || !showAnnualDetails;

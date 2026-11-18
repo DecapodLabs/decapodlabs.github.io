@@ -385,58 +385,53 @@
 .cloud-custom-contact>a:hover{background:#ffe9db;color:#743224;transform:translateY(-2px)}
 .cloud-custom-contact>a:focus-visible{outline:3px solid #f05b37;outline-offset:3px}
 
-/* Pricing clarity: distinct humans, assignment edges, and annual-only term savings. */
-.preview-unique-help{font-size:12px;line-height:1.55;color:#c9b5c2;margin:5px 0 0}
-.preview-volume-savings{display:flex;align-items:center;flex-wrap:wrap;gap:8px 13px;padding:14px 17px;border:1px solid #725660;border-radius:13px;background:#3a2b38}
-.preview-volume-savings>span{font-size:12px;font-weight:800;color:#f2d2c6}
-.preview-volume-savings strong{font:700 26px "Space Grotesk",sans-serif;letter-spacing:-.045em;color:#ffc08f}
-.preview-volume-savings small{font-size:11px;line-height:1.45;color:#c9b5c2;margin-left:auto}
-.preview-unique-control .preview-tier-marker[hidden]{display:none!important}
-.preview-annual-savings{padding:15px 17px;background:#fff3e4;border:1px solid #e8bba0;border-radius:12px;margin:1px 0 14px}
-.preview-annual-savings-total{display:flex;justify-content:space-between;align-items:center;gap:15px}
-.preview-annual-savings-total span{font-size:12px;line-height:1.45;font-weight:800;color:#6c5159;max-width:190px}
-.preview-annual-savings-total strong{font:700 29px "Space Grotesk",sans-serif;letter-spacing:-.05em;color:#35222b;white-space:nowrap}
-.preview-annual-savings p{font-size:12px;line-height:1.5;color:#76535c;margin:9px 0 0}
-.preview-annual-savings p strong{color:#613a30}
-@media(max-width:850px){.preview-volume-savings small{margin-left:0}}
-@media(max-width:650px){.preview-volume-savings{padding:12px 14px}.preview-annual-savings-total strong{font-size:26px}}
-
-/* Two sliders, one simple annual equation. Float inside the dark panel, clear of prices. */
-.preview-volume-savings{align-self:flex-start;display:inline-flex;align-items:center;gap:11px;padding:11px 16px;border:1px solid #725660;border-radius:999px;background:#3a2b38;flex-wrap:nowrap}
-.preview-volume-savings>span{font-size:12px;font-weight:800;color:#f2d2c6}
-.preview-volume-savings strong{font:700 24px "Space Grotesk",sans-serif;color:#ffc08f;letter-spacing:-.045em;white-space:nowrap}
+/* Volume savings and Custom pricing share a deliberate row.
+   The annual summary opens UNDER the row, clear of the buttons and price card. */
 .preview-controls{gap:27px}
 .preview-explainer{font-size:12px;padding-top:17px;line-height:1.6}
-.preview-savings-row{display:flex;align-items:center;position:relative;min-height:47px;width:100%;min-width:0}
-.preview-billing{position:relative;z-index:auto;isolation:auto}
+.preview-savings-row{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;position:relative;min-height:44px;width:100%;min-width:0}
+.preview-volume-savings{display:inline-flex;align-items:center;gap:9px;padding:10px 13px;border:1px solid #725660;border-radius:100px;background:#3a2b38;white-space:nowrap}
+.preview-volume-savings>span{font-size:12px;line-height:1.3;font-weight:800;color:#f2d2c6}
+.preview-volume-savings strong{font:700 23px "Space Grotesk",sans-serif;letter-spacing:-.05em;color:#ffc08f}
+.preview-custom-link{display:inline-flex;justify-content:center;align-items:center;gap:7px;min-height:38px;padding:8px 13px;background:#45313f;border:1px solid #a77c7e;border-radius:100px;color:#ffe1c5;font-size:12px;line-height:1.2;font-weight:800;text-decoration:none;white-space:nowrap;transition:background .15s,border-color .15s}
+.preview-custom-link span{font-size:15px;line-height:1}
+.preview-custom-link:hover{background:#604252;border-color:#edac88;color:#fff7ef}
+.preview-custom-link:focus-visible{outline:3px solid #ffad7e;outline-offset:3px}
+
+/* Compact annual flyout sits below the two CTAs in unused dark-panel space.
+   No flow re-layout on selection; the right-side price placeholder stays visible. */
 .preview-savings-row .preview-annual-savings{
-  position:absolute;top:50%;left:155px;right:0;width:auto;
-  margin:0;padding:11px 13px 10px;
-  border-radius:12px;border:1px solid #eaaa86;
-  background:#fff5e8;color:#30202a;
-  box-shadow:0 8px 20px #130a1350,0 2px 3px #130a1324;
-  z-index:3;transform:translateY(-50%);transform-origin:left center;
-  animation:annual-equation-appear .18s ease-out both;
+  position:absolute;top:calc(100% + 10px);left:0;right:auto;width:min(100%,390px);
+  margin:0;padding:11px 15px 13px;border:1px solid #8f6675;border-radius:13px;
+  background:linear-gradient(135deg,#46303f,#332635 88%);color:#fff7eb;
+  box-shadow:0 10px 26px rgba(14,8,18,.32);z-index:3;
+  transform-origin:top left;animation:annual-flyout-open .17s ease-out both;
 }
-.preview-savings-row .preview-annual-savings::before{content:none}
-.preview-annual-equation{display:flex;align-items:center;flex-wrap:wrap;gap:5px;font-size:11px;line-height:1.25;color:#785057;font-weight:800;padding-right:3px}
-.preview-annual-equation span:nth-child(2){color:#b6654c}
-.preview-annual-total{display:flex;align-items:baseline;gap:7px;margin-top:4px;white-space:nowrap}
-.preview-annual-total>span:first-child{font-size:13px;color:#a45f49}
-.preview-annual-total strong{font:700 26px "Space Grotesk",sans-serif;letter-spacing:-.065em;color:#2e2029}
-.preview-annual-total>span:last-child{font-size:10px;color:#805c5d;font-weight:800;white-space:normal}
-#annual-cap-note{display:block;margin-top:2px;font-size:10px;font-weight:700;color:#9b5a48}
-.preview-savings-row .preview-annual-dismiss{position:absolute;top:-8px;right:-8px;width:23px;height:23px;display:grid;place-items:center;background:#fffaf2;border:1px solid #eaaa86;border-radius:100%;box-shadow:0 2px 4px #130a1329;color:#905644;cursor:pointer;font-size:18px;line-height:1}
-.preview-annual-dismiss:hover{background:#ffe7d5}
-.preview-annual-dismiss:focus-visible{outline:3px solid #ea744e;outline-offset:2px}
-@keyframes annual-equation-appear{from{opacity:0;transform:translate(-7px,-50%) scale(.97)}to{opacity:1;transform:translate(0,-50%) scale(1)}}
-@media(max-width:700px){
-  .preview-savings-row .preview-annual-savings{
-    top:auto;bottom:calc(100% + 10px);left:0;right:auto;
-    width:min(290px,100%);transform:none;transform-origin:bottom left;
-    animation:annual-equation-appear-mobile .18s ease-out both;
-  }
+.preview-savings-row .preview-annual-savings::before{content:"";position:absolute;top:-6px;left:51px;width:10px;height:10px;transform:rotate(45deg);background:#46303f;border-top:1px solid #8f6675;border-left:1px solid #8f6675}
+.preview-annual-heading{display:flex;align-items:center;gap:8px;min-height:15px;padding-right:26px}
+.preview-annual-heading>span{font-size:10px;line-height:1.2;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:#ffba91}
+.preview-annual-equation{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:5px}
+.preview-annual-factor{display:flex;flex-direction:column;align-items:flex-start;gap:2px;min-width:0}
+.preview-annual-factor strong{font:700 clamp(19px,2vw,24px) "Space Grotesk",sans-serif;line-height:1;letter-spacing:-.06em;white-space:nowrap;color:#fff8ee}
+.preview-annual-factor small{font-size:10px;line-height:1.15;color:#cdb2bd}
+.preview-annual-factor.preview-annual-total strong{color:#ffc08f;font-size:clamp(22px,2.2vw,27px)}
+.preview-annual-factor.preview-annual-total small{color:#f1c8b4;font-weight:800}
+.preview-savings-row .preview-annual-dismiss{position:absolute;top:7px;right:8px;width:25px;height:25px;border:0;border-radius:7px;background:transparent;color:#f0c3b8;cursor:pointer;display:grid;place-items:center;font-size:21px;line-height:1}
+.preview-annual-dismiss:hover{background:#715063;color:#fffaf0}
+.preview-annual-dismiss:focus-visible{outline:3px solid #ffad7e;outline-offset:2px}
+@keyframes annual-flyout-open{from{opacity:0;transform:translateY(-7px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}
+@media(max-width:850px){
+  /* The stacked layout keeps a reserved flyout pocket in both billing modes. */
+  .preview-controls{padding-bottom:120px}
 }
-@keyframes annual-equation-appear-mobile{from{opacity:0;transform:translateY(7px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
-@media(max-width:650px){.preview-volume-savings{gap:8px;padding:10px 14px}.preview-volume-savings strong{font-size:22px}.preview-savings-row .preview-annual-savings{padding:12px 14px}.preview-annual-total strong{font-size:25px}}
+@media(max-width:650px){
+  .preview-volume-savings{padding:9px 11px}
+  .preview-volume-savings>span{font-size:11px}
+  .preview-volume-savings strong{font-size:21px}
+  .preview-custom-link{min-height:37px;padding:8px 11px;font-size:11px}
+  .preview-savings-row .preview-annual-savings{padding:12px 13px;width:100%}
+  .preview-annual-factor strong{font-size:19px}
+  .preview-annual-factor.preview-annual-total strong{font-size:23px}
+}
+@media(max-width:400px){.preview-savings-row{column-gap:6px}.preview-annual-equation{gap:4px}}
 @media(prefers-reduced-motion:reduce){.preview-savings-row .preview-annual-savings{animation:none}}
