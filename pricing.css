@@ -328,3 +328,36 @@
  .preview-big{font-size:76px}
  .preview-discount-summary strong{font-size:26px}
 }
+
+/* Final layout calibration: balanced cards, restrained rhythm, correct mobile hero. */
+.pricing-plan-top{margin-bottom:18px}
+.pricing-plan .plan-subtitle{margin-bottom:19px}
+.pricing-plan .plan-bullets{margin-bottom:20px}
+.pricing-plan .plan-bullets li{line-height:1.49}
+.pricing-plan .plan-bullets li+li{margin-top:8px}
+.pricing-plan .plan-link{min-height:53px;padding:14px 19px}
+.pricing-plan .plan-fineprint{margin-top:13px}
+.pricing-plan .cloud-price-flag{min-height:76px;margin:8px 0 14px;padding:12px 16px}
+.pricing-plan .cloud-price-icon{font-size:42px}
+.pricing-plan .plan-annual{margin:-2px 0 15px;font-size:13px}
+.pricing-plan .cloud-custom-contact{margin-top:16px;padding-top:13px}
+@media(max-width:850px){
+ .pricing-page .pricing-hero-grid{
+   grid-template-columns:minmax(0,1fr);
+   gap:25px;
+ }
+ .pricing-page .launch-notice{width:100%;max-width:100%;justify-self:stretch}
+ .pricing-page .pricing-hero h1{font-size:clamp(45px,8.7vw,67px)}
+ .pricing-page .pricing-intro{max-width:650px}
+}
+@media(max-width:650px){
+ .pricing-page .pricing-hero-grid{gap:18px}
+ .pricing-page .launch-notice{padding:20px 22px;box-shadow:5px 5px 0 #ffc05d}
+ .pricing-page .launch-notice-mark{margin-bottom:10px}
+ .pricing-page .launch-notice p{margin:9px 0 14px}
+ .pricing-plan .plan-bullets{margin-bottom:18px}
+ .pricing-plan .plan-subtitle{margin-bottom:15px}
+ .pricing-plan .plan-bullets li{font-size:14px}
+ .pricing-page .pricing-plan-grid{gap:16px}
+ .pricing-page .pricing-hero{padding:38px 0 35px}
+}
