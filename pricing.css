@@ -192,7 +192,7 @@
 .mode-status span{display:flex;align-items:center;gap:10px;color:#59464f;font-size:12px;font-weight:800}
 .mode-status i{display:inline-block;flex:0 0 9px;width:9px;height:9px;border-radius:50%;background:#39a575;box-shadow:0 0 0 4px #39a57526}
 .mode-status span:last-child i{background:#f0a457;box-shadow:0 0 0 4px #f0a4572a}
-.pricing-plan-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+.pricing-plan-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 .pricing-plan{padding:clamp(25px,2.7vw,39px)}
 .pricing-plan h2{font-size:clamp(27px,2.9vw,39px)}
 .pricing-plan-top{margin-bottom:28px}
@@ -361,3 +361,26 @@
  .pricing-page .pricing-plan-grid{gap:16px}
  .pricing-page .pricing-hero{padding:38px 0 35px}
 }
+
+/* Compact Custom action stays in the Cloud plan; never a third pricing card. */
+.cloud-custom-contact>a{
+ display:inline-flex;
+ align-items:center;
+ justify-content:center;
+ gap:9px;
+ min-height:35px;
+ padding:8px 13px;
+ background:rgba(255,253,247,.92);
+ border:1px solid #d99b7e;
+ border-radius:999px;
+ color:#88452f;
+ font-size:12px;
+ font-weight:900;
+ line-height:1.15;
+ text-decoration:none;
+ box-shadow:0 2px 0 rgba(217,155,126,.13);
+ transition:background .18s,transform .18s;
+ white-space:nowrap;
+}
+.cloud-custom-contact>a:hover{background:#ffe9db;color:#743224;transform:translateY(-2px)}
+.cloud-custom-contact>a:focus-visible{outline:3px solid #f05b37;outline-offset:3px}
