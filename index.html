@@ -20,7 +20,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261118-swarm-stack">
+<link rel="stylesheet" href="styles.css?v=20261118-waystead-usecase">
 <script src="main.js?v=20261118-swarm-stack" defer></script>
 <title>Decapod Labs -- Harness AI Metacognition</title>
 </head>
@@ -46,6 +46,7 @@
         <a class="btn btn-dark" href="#install">Install Decapod <span aria-hidden="true">↗</span></a>
         <a class="btn btn-offerings" href="pricing.html">Explore Pricing <span aria-hidden="true">↗</span></a>
       </div>
+      <a class="hero-usecase-link" href="#waystead">See the game-development use case <span aria-hidden="true">↗</span></a>
     </div>
     <div class="hero-showcase" aria-hidden="true">
       <div class="sunburst"></div>
@@ -67,81 +68,6 @@
     </div>
   </div>
 </section>
-<section class="launch-proof" id="proofs" aria-labelledby="proofHeading">
-  <span id="proof" aria-hidden="true"></span>
-  <div class="wrap">
-    <div class="launch-heading">
-      <div><p class="capabilities-kicker">OBSERVED AUTONOMOUS ENGINEERING</p>
-        <h2 id="proofHeading">Watch Pi<br><span>use Decapod.</span></h2>
-      </div>
-      <p>Watch the native Pi terminal as it calls Decapod, investigates a rejected check, repairs the code, and publishes the verified pull request.</p>
-    </div>
-    <div class="launch-player proof-player">
-      <video id="proofVideo" controls playsinline preload="none" poster="assets/decapod-proof-poster.png" aria-label="Pi and Decapod terminal proof recording" aria-describedby="proofDescription">
-        <source src="assets/decapod-proof.mp4" type="video/mp4">
-        <track kind="captions" src="assets/decapod-proof.vtt" srclang="en" label="English">
-        <p><a href="assets/decapod-proof.mp4">Download the proof video</a>.</p>
-      </video>
-    </div>
-    <nav class="proof-chapters" aria-label="Proof video chapters">
-      <a href="#proofVideo" data-proof-seek="52"><time datetime="PT52S">0:52</time>First failed check</a>
-      <a href="#proofVideo" data-proof-seek="108"><time datetime="PT108S">1:48</time>Fresh validation</a>
-      <a href="#proofVideo" data-proof-seek="140"><time datetime="PT140S">2:20</time>Verified publication</a>
-    </nav>
-    <div class="launch-foot">
-      <p id="proofDescription">Selected moments from one recorded Pi session. Tool calls play at original speed. On a phone, use landscape fullscreen for the largest text.</p>
-      <nav aria-label="Inspect the demonstration">
-        <a href="proof.html#case-study">Watch the 56-second case study ↗</a>
-        <a href="https://github.com/alexhraber/decapod-admission-acceptance-20261117-1747-06/pull/7">View GitHub PR #7 ↗</a>
-        <a href="proof.html#recorded-run">Inspect the evidence ↗</a>
-      </nav>
-    </div>
-  </div>
-</section>
-<section class="swarm-section" id="swarms" aria-labelledby="swarmHeading">
-  <div class="wrap">
-    <div class="swarm-heading">
-      <div>
-        <p class="capabilities-kicker">AUTONOMOUS ENGINEERING / IN PROGRESS</p>
-        <h2 id="swarmHeading">Get the<br><span>work done.</span></h2>
-      </div>
-      <p class="swarm-intro">Tell the agents what needs doing. They work through issues, checks, reviews, and handoffs. Decapod governs the boundaries.</p>
-    </div>
-    <div class="swarm-carousel" data-swarm-carousel aria-label="Three concurrent engineering swarms">
-      <div class="swarm-stage">
-        <button class="swarm-arrow swarm-prev" type="button" aria-label="Previous swarm screenshot" data-swarm-prev>←</button>
-        <div class="swarm-deck" role="region" aria-roledescription="carousel" aria-label="Carbon/Hydrogen swarm screenshots" tabindex="0">
-          <a class="swarm-slide is-active" data-swarm-slide="0" href="assets/swarm-decapod-wog.webp" target="_blank" rel="noopener noreferrer" aria-label="Open full-resolution screenshot of Decapod kernel swarm">
-            <img src="assets/swarm-decapod-wog.webp" width="2048" height="1323" loading="lazy" decoding="async" alt="Ghostty terminal with an Antigravity CLI Carbon/Hydrogen swarm handling Decapod issues, revalidation, and verifier checkpoints.">
-          </a>
-          <a class="swarm-slide" data-swarm-slide="1" href="assets/swarm-decapod-p0s.webp" target="_blank" rel="noopener noreferrer" aria-label="Open full-resolution screenshot of Decapod delivery swarm">
-            <img src="assets/swarm-decapod-p0s.webp" width="2048" height="1323" loading="lazy" decoding="async" alt="A separate Ghostty Antigravity CLI Carbon/Hydrogen swarm coordinating Decapod reviews, publication, and merges.">
-          </a>
-          <a class="swarm-slide" data-swarm-slide="2" href="assets/swarm-propodus-delivery.webp" target="_blank" rel="noopener noreferrer" aria-label="Open full-resolution screenshot of Propodus delivery swarm">
-            <img src="assets/swarm-propodus-delivery.webp" width="2048" height="1323" loading="lazy" decoding="async" alt="A third Ghostty Antigravity CLI Carbon/Hydrogen swarm coordinating Propodus billing, identity, limits, and deployment work.">
-          </a>
-        </div>
-        <button class="swarm-arrow swarm-next" type="button" aria-label="Next swarm screenshot" data-swarm-next>→</button>
-      </div>
-      <div class="swarm-detail">
-        <div class="swarm-detail-copy" aria-live="polite" aria-atomic="true">
-          <div class="swarm-detail-eyebrow"><span data-swarm-number>01 / 03</span><span data-swarm-label>DECAPOD KERNEL</span></div>
-          <h3 data-swarm-title>Issues in motion.</h3>
-          <p data-swarm-body>Parallel issue work, revalidation after upstream merges, and independent verification.</p>
-        </div>
-        <div class="swarm-detail-actions">
-          <div class="swarm-dots" role="group" aria-label="Choose a swarm screenshot">
-            <button type="button" data-swarm-go="0" class="is-active" aria-pressed="true" aria-label="View Decapod kernel swarm"></button>
-            <button type="button" data-swarm-go="1" aria-pressed="false" aria-label="View Decapod delivery swarm"></button>
-            <button type="button" data-swarm-go="2" aria-pressed="false" aria-label="View Propodus delivery swarm"></button>
-          </div>
-          <a href="assets/swarm-decapod-wog.webp" data-swarm-full target="_blank" rel="noopener noreferrer">View full screenshot ↗</a>
-        </div>
-      </div>
-    </div>
-    <p class="swarm-note">November 18, 2026 — three Ghostty terminals, three separate Antigravity CLI instances, each running its own Carbon/Hydrogen swarm.</p>
-  </div>
-</section>
 <section class="statement" aria-labelledby="statementHeading">
   <div class="wrap"><h2 id="statementHeading">The agent can write code.<br>Who makes sure the work <em>holds?</em></h2></div>
 </section>
@@ -153,6 +79,29 @@
       <article class="feature-card feature-cream" data-reveal><span class="feature-symbol" aria-hidden="true">⬡</span><h3>Enforced<br>Boundaries.</h3><p>Authority stays bounded.</p></article>
       <article class="feature-card feature-ink" data-reveal><span class="feature-symbol" aria-hidden="true">✓</span><h3>Commit-Bound<br>Proof.</h3><p>Evidence tied to exact commits.</p></article>
       <article class="feature-card feature-pink" data-reveal><span class="feature-symbol" aria-hidden="true">↗</span><h3>Bring Your<br>Own Agents.</h3><p>Use different coding agents in one governed project.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="waystead-section" id="waystead" aria-labelledby="waysteadHeading">
+  <div class="wrap waystead-layout">
+    <div class="waystead-copy">
+      <p class="capabilities-kicker">IN PRACTICE / GAME DEVELOPMENT</p>
+      <h2 id="waysteadHeading">Build worlds.<br><span>Govern the work.</span></h2>
+      <p class="waystead-lead"><strong>WAYSTEAD</strong> is an in-development, open-world survival RPG with a playable Godot implementation and an experimental WebGPU/WASM desktop path hosted in Electron.</p>
+      <p>Procedural terrain, persistent simulation, gameplay, rendering, and releases create real engineering work. Decapod coordinates agent tasks, custody, boundaries, and evidence throughout that development.</p>
+      <a class="waystead-link" href="#install">Bring Decapod into your game project <span aria-hidden="true">↗</span></a>
+    </div>
+    <div class="waystead-stage" aria-label="Waystead engine and experimental desktop delivery stack">
+      <div class="waystead-stage-topline"><span>ABAXI / IN DEVELOPMENT</span><span>GAME ENGINEERING</span></div>
+      <p class="waystead-stage-wordmark">WAYSTEAD<span>.</span></p>
+      <p class="waystead-stage-subtitle">A living world. An unwritten history.</p>
+      <div class="waystead-runtime" aria-label="Waystead technology stack">
+        <div><small>GAME + SIMULATION</small><strong>Godot</strong></div>
+        <div><small>WEB RUNTIME / EXPERIMENTAL</small><strong>WASM + WebGPU</strong></div>
+        <div><small>DESKTOP HOST</small><strong>Electron</strong></div>
+      </div>
+      <p class="waystead-stage-note">Godot remains the game authority. The WebGPU/WASM delivery path is under evaluation.</p>
     </div>
   </div>
 </section>
@@ -254,6 +203,50 @@
     <a class="capabilities-all" href="https://decapodlabs.github.io/decapod/">Explore the complete documentation <span aria-hidden="true">↗</span></a>
   </div>
 </section>
+<section class="swarm-section" id="swarms" aria-labelledby="swarmHeading">
+  <div class="wrap">
+    <div class="swarm-heading">
+      <div>
+        <p class="capabilities-kicker">AUTONOMOUS ENGINEERING / IN PROGRESS</p>
+        <h2 id="swarmHeading">Get the<br><span>work done.</span></h2>
+      </div>
+      <p class="swarm-intro">Tell the agents what needs doing. They work through issues, checks, reviews, and handoffs. Decapod governs the boundaries.</p>
+    </div>
+    <div class="swarm-carousel" data-swarm-carousel aria-label="Three concurrent engineering swarms">
+      <div class="swarm-stage">
+        <button class="swarm-arrow swarm-prev" type="button" aria-label="Previous swarm screenshot" data-swarm-prev>←</button>
+        <div class="swarm-deck" role="region" aria-roledescription="carousel" aria-label="Carbon/Hydrogen swarm screenshots" tabindex="0">
+          <a class="swarm-slide is-active" data-swarm-slide="0" href="assets/swarm-decapod-wog.webp" target="_blank" rel="noopener noreferrer" aria-label="Open full-resolution screenshot of Decapod kernel swarm">
+            <img src="assets/swarm-decapod-wog.webp" width="2048" height="1323" loading="lazy" decoding="async" alt="Ghostty terminal with an Antigravity CLI Carbon/Hydrogen swarm handling Decapod issues, revalidation, and verifier checkpoints.">
+          </a>
+          <a class="swarm-slide" data-swarm-slide="1" href="assets/swarm-decapod-p0s.webp" target="_blank" rel="noopener noreferrer" aria-label="Open full-resolution screenshot of Decapod delivery swarm">
+            <img src="assets/swarm-decapod-p0s.webp" width="2048" height="1323" loading="lazy" decoding="async" alt="A separate Ghostty Antigravity CLI Carbon/Hydrogen swarm coordinating Decapod reviews, publication, and merges.">
+          </a>
+          <a class="swarm-slide" data-swarm-slide="2" href="assets/swarm-propodus-delivery.webp" target="_blank" rel="noopener noreferrer" aria-label="Open full-resolution screenshot of Propodus delivery swarm">
+            <img src="assets/swarm-propodus-delivery.webp" width="2048" height="1323" loading="lazy" decoding="async" alt="A third Ghostty Antigravity CLI Carbon/Hydrogen swarm coordinating Propodus billing, identity, limits, and deployment work.">
+          </a>
+        </div>
+        <button class="swarm-arrow swarm-next" type="button" aria-label="Next swarm screenshot" data-swarm-next>→</button>
+      </div>
+      <div class="swarm-detail">
+        <div class="swarm-detail-copy" aria-live="polite" aria-atomic="true">
+          <div class="swarm-detail-eyebrow"><span data-swarm-number>01 / 03</span><span data-swarm-label>DECAPOD KERNEL</span></div>
+          <h3 data-swarm-title>Issues in motion.</h3>
+          <p data-swarm-body>Parallel issue work, revalidation after upstream merges, and independent verification.</p>
+        </div>
+        <div class="swarm-detail-actions">
+          <div class="swarm-dots" role="group" aria-label="Choose a swarm screenshot">
+            <button type="button" data-swarm-go="0" class="is-active" aria-pressed="true" aria-label="View Decapod kernel swarm"></button>
+            <button type="button" data-swarm-go="1" aria-pressed="false" aria-label="View Decapod delivery swarm"></button>
+            <button type="button" data-swarm-go="2" aria-pressed="false" aria-label="View Propodus delivery swarm"></button>
+          </div>
+          <a href="assets/swarm-decapod-wog.webp" data-swarm-full target="_blank" rel="noopener noreferrer">View full screenshot ↗</a>
+        </div>
+      </div>
+    </div>
+    <p class="swarm-note">November 18, 2026 — three Ghostty terminals, three separate Antigravity CLI instances, each running its own Carbon/Hydrogen swarm.</p>
+  </div>
+</section>
 <section class="flow-section" id="architecture" aria-labelledby="flowHeading">
   <div class="wrap flow-grid">
     <div>
@@ -266,6 +259,37 @@
       <div class="diagram-unit"><span class="diagram-symbol" aria-hidden="true">⌘</span><div><b>Your coding agents</b></div></div>
       <div class="diagram-arrow">↓</div>
       <div class="diagram-unit diagram-hot"><img src="assets/mascot.svg" alt="" width="31" height="31"><div><b>Decapod</b></div></div>
+    </div>
+  </div>
+</section>
+<section class="launch-proof" id="proofs" aria-labelledby="proofHeading">
+  <span id="proof" aria-hidden="true"></span>
+  <div class="wrap">
+    <div class="launch-heading">
+      <div><p class="capabilities-kicker">OBSERVED AUTONOMOUS ENGINEERING</p>
+        <h2 id="proofHeading">Watch Pi<br><span>use Decapod.</span></h2>
+      </div>
+      <p>Watch the native Pi terminal as it calls Decapod, investigates a rejected check, repairs the code, and publishes the verified pull request.</p>
+    </div>
+    <div class="launch-player proof-player">
+      <video id="proofVideo" controls playsinline preload="none" poster="assets/decapod-proof-poster.png" aria-label="Pi and Decapod terminal proof recording" aria-describedby="proofDescription">
+        <source src="assets/decapod-proof.mp4" type="video/mp4">
+        <track kind="captions" src="assets/decapod-proof.vtt" srclang="en" label="English">
+        <p><a href="assets/decapod-proof.mp4">Download the proof video</a>.</p>
+      </video>
+    </div>
+    <nav class="proof-chapters" aria-label="Proof video chapters">
+      <a href="#proofVideo" data-proof-seek="52"><time datetime="PT52S">0:52</time>First failed check</a>
+      <a href="#proofVideo" data-proof-seek="108"><time datetime="PT108S">1:48</time>Fresh validation</a>
+      <a href="#proofVideo" data-proof-seek="140"><time datetime="PT140S">2:20</time>Verified publication</a>
+    </nav>
+    <div class="launch-foot">
+      <p id="proofDescription">Selected moments from one recorded Pi session. Tool calls play at original speed. On a phone, use landscape fullscreen for the largest text.</p>
+      <nav aria-label="Inspect the demonstration">
+        <a href="proof.html#case-study">Watch the 56-second case study ↗</a>
+        <a href="https://github.com/alexhraber/decapod-admission-acceptance-20261117-1747-06/pull/7">View GitHub PR #7 ↗</a>
+        <a href="proof.html#recorded-run">Inspect the evidence ↗</a>
+      </nav>
     </div>
   </div>
 </section>
