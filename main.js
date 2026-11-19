@@ -234,6 +234,7 @@
     const details = [
       ["A character of your own.", "Character creation, appearance, identity, and the start of a personal journey."],
       ["A world to explore.", "Playable terrain, vegetation, camera movement, and a persistent character."],
+      ["By the water.", "A playable character among trees, grasses, and water in the developing world."],
       ["Geography with depth.", "Procedurally realized environments viewed at multiple scales."],
       ["History worth keeping.", "Observation and discovery become lasting records in the player's journal."],
       ["Survive. Build. Continue.", "Survival systems, resource constraints, and construction options."]
@@ -244,7 +245,7 @@
     const counter = showcase.querySelector("[data-showcase-count]");
     const topline = showcase.querySelector(".showcase-gallery-topline span:last-child");
     const fullImageLink = showcase.querySelector("[data-showcase-full]");
-    const imageFiles = ["character", "exploration", "landscape", "journal", "construction"];
+    const imageFiles = ["character", "exploration", "waterside", "landscape", "journal", "construction"];
     let current = 0;
     function choose(index) {
       current = (index + slides.length) % slides.length;
@@ -257,7 +258,7 @@
         dot.classList.toggle("is-active", i === current);
         dot.setAttribute("aria-pressed", String(i === current));
       });
-      const number = String(current + 1).padStart(2, "0") + " / 05";
+      const number = String(current + 1).padStart(2, "0") + " / " + String(slides.length).padStart(2, "0");
       if (counter) counter.textContent = number + " · IN DEVELOPMENT";
       if (topline) topline.textContent = number;
       if (title) title.textContent = details[current][0];
