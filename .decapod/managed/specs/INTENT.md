@@ -97,3 +97,6 @@ The featured 1672×941 Waystead illustration must remain fully visible at deskto
 ## Waystead external waitlist link (November 19, 2026)
 
 The complete featured Waystead artwork card in the homepage Showcase—ABAXI mark, transparent WAYSTEAD logo, concept art, and caption—must be one semantic, keyboard-focusable anchor to the user-supplied exact URL `https://whop.com/abaxi-studios/waystead-waitlist/`. Provide visible “Join the waitlist” affordance and an accessible external-link label while retaining the existing visual language, correct 1672×941 full artwork display, seven screenshots in the separate gallery, and the rest of the Showcase and site unchanged. Do not insert nested buttons/anchors inside the card; do not modify the hosted Cloud pricing or Decapod kernel.
+
+## Waystead inline link and heading-color continuity
+The first textual mention of Waystead in the Showcase's game-development paragraph uses the same warm accent (`#9b513a`) as “Across disciplines.” and points directly to the official Waystead waitlist at `https://whop.com/abaxi-studios/waystead-waitlist/`. Preserve the full-card waitlist link, logo/art treatment, gameplay gallery, and all other product claims and page sections unchanged. The inline text link is independent of the adjacent linked artwork card and remains keyboard-accessible.
