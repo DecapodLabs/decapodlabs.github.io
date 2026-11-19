@@ -1,4 +1,4 @@
-/* The founder's letter is a publication, not a product landing page. */
+/* A restrained publication, separate from the product landing page. */
 body.tecr-page{background:#fcfbf8;color:#211e20}
 .tecr-page .nav{background:#fcfbf8;box-shadow:none;border-bottom:1px solid #dedbd6;-webkit-backdrop-filter:none;backdrop-filter:none}
 .tecr-page .nav-links a[aria-current="page"],.tecr-page .nav-links a[aria-current="page"]:hover{background:transparent;border-radius:0;color:#211e20;box-shadow:inset 0 -1px currentColor}
@@ -6,37 +6,26 @@ body.tecr-page{background:#fcfbf8;color:#211e20}
 .tecr-page .nav-cta:hover{box-shadow:none}
 .letter{background:#fcfbf8}
 .letter-inner{width:min(760px,calc(100% - 48px));margin-inline:auto;padding:clamp(58px,7.5vw,104px) 0 105px}
-.letter-masthead{display:flex;align-items:center;justify-content:space-between;gap:24px;padding-bottom:15px;border-bottom:1px solid #bcb8b3;font-family:"Space Grotesk",sans-serif;font-size:11px;letter-spacing:.15em;font-weight:700;color:#565154}
-.letter-header h1{max-width:720px;font-family:Georgia,Cambria,"Times New Roman",serif;font-size:clamp(44px,5.1vw,70px);font-weight:700;letter-spacing:-.046em;line-height:1.1;margin:52px 0 19px;text-wrap:balance}
+.letter-header h1{max-width:720px;font-family:Georgia,Cambria,"Times New Roman",serif;font-size:clamp(44px,5.1vw,70px);font-weight:700;letter-spacing:-.046em;line-height:1.1;margin:0 0 19px;text-wrap:balance}
 .letter-date{font-family:"DM Sans",sans-serif;font-size:13px;letter-spacing:.02em;color:#76716e;margin:0 0 51px}
 .letter-body{font-family:Georgia,Cambria,"Times New Roman",serif;font-size:20px;line-height:1.72;letter-spacing:-.006em}
 .letter-body p{margin:0 0 30px}
 .letter-body p:last-child{margin-bottom:0}
 .letter-body strong{font-weight:700;color:#171316}
-.letter-closing{border-top:1px solid #d0cbc6;margin-top:57px;padding-top:23px}
-.letter-closing>p:first-child{font-family:Georgia,Cambria,"Times New Roman",serif;font-size:19px;line-height:1.55;margin:0}
-.letter-closing a{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
-.letter-closing a:hover{color:#a44632}
-.letter-closing .letter-tags{font:400 11px/1.9 "DM Sans",system-ui,sans-serif;color:#797471;overflow-wrap:anywhere;margin:45px 0 0}
-.letter-site-footer{background:#fcfbf8;border-top:1px solid #dedbd6}
-.letter-footer-inner{width:min(760px,calc(100% - 48px));margin-inline:auto;padding:24px 0 32px;display:flex;align-items:center;justify-content:space-between;gap:16px;font:600 12px/1.5 "DM Sans",sans-serif;color:#77716f}
-.letter-footer-inner a{text-decoration:none;color:#393436}
-.letter-footer-inner a:hover{text-decoration:underline;text-underline-offset:3px}
+.letter-closing{margin-top:51px;padding:0}
+.letter-signoff{font:400 18px/1.6 Georgia,Cambria,"Times New Roman",serif;margin:0}
+.letter-signoff span{display:block}
 @media(max-width:650px){
   .letter-inner{width:calc(100% - 40px);padding:44px 0 68px}
-  .letter-masthead{font-size:9px;gap:14px}
-  .letter-header h1{font-size:clamp(38px,10vw,54px);line-height:1.1;margin:42px 0 17px}
+  .letter-header h1{font-size:clamp(38px,10vw,54px);line-height:1.1;margin:0 0 17px}
   .letter-date{margin-bottom:35px}
   .letter-body{font-size:18px;line-height:1.67;letter-spacing:0}
   .letter-body p{margin-bottom:24px}
   .letter-closing{margin-top:43px}
-  .letter-closing>p:first-child{font-size:17px}
-  .letter-footer-inner{width:calc(100% - 40px)}
 }
 @media print{
-  .tecr-page .nav,.letter-site-footer{display:none}
+  .tecr-page .nav,.tecr-page .footer{display:none}
   .letter-inner{padding:0}
   .letter-body{font-size:12pt;line-height:1.5}
   .letter-header h1{font-size:32pt}
-  .letter-closing .letter-tags{color:#333}
 }
