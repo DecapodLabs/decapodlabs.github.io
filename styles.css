@@ -580,3 +580,7 @@ html{scroll-padding-top:120px}
 .showcase-case-link:hover .showcase-card-action{text-decoration:underline;text-underline-offset:4px}
 @media(max-width:600px){.showcase-case-media figcaption .showcase-card-action{margin-left:0;width:100%;font-size:11px}}
 @media(prefers-reduced-motion:reduce){.showcase-case-link .showcase-case-media{transition:none}}
+/* Inline Waystead name shares the exact Showcase heading accent and points to its waitlist. */
+.showcase-case-copy>p strong .showcase-waystead-inline{color:#9b513a;text-decoration:underline;text-decoration-thickness:1px;text-decoration-color:rgba(155,81,58,.5);text-underline-offset:3px}
+.showcase-case-copy>p strong .showcase-waystead-inline:hover{text-decoration-color:currentColor}
+.showcase-case-copy>p strong .showcase-waystead-inline:focus-visible{outline:3px solid var(--orange);outline-offset:3px}
