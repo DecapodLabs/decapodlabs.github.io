@@ -243,6 +243,8 @@
     const caption = showcase.querySelector("[data-showcase-description]");
     const counter = showcase.querySelector("[data-showcase-count]");
     const topline = showcase.querySelector(".showcase-gallery-topline span:last-child");
+    const fullImageLink = showcase.querySelector("[data-showcase-full]");
+    const imageFiles = ["character", "exploration", "landscape", "journal", "construction"];
     let current = 0;
     function choose(index) {
       current = (index + slides.length) % slides.length;
@@ -260,6 +262,7 @@
       if (topline) topline.textContent = number;
       if (title) title.textContent = details[current][0];
       if (caption) caption.textContent = details[current][1];
+      if (fullImageLink) fullImageLink.href = "assets/waystead-" + imageFiles[current] + ".webp";
     }
     showcase.querySelector("[data-showcase-prev]")?.addEventListener("click", () => choose(current - 1));
     showcase.querySelector("[data-showcase-next]")?.addEventListener("click", () => choose(current + 1));
