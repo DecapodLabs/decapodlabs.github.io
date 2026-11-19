@@ -435,23 +435,23 @@ html{scroll-padding-top:120px}
 @media(prefers-reduced-motion:reduce){.swarm-carousel.is-enhanced .swarm-slide{transition:none}}
 
 /* Showcase demonstrates infrastructure applied across domains; Waystead is one real engineering example. */
-.waystead-section{padding:78px 0 91px;background:#eef2ec;border-top:1px solid #dbe3db}
+.waystead-section{padding:78px 0 91px;background:#fff5e9;border-top:1px solid #efdfcc}
 .waystead-link{display:inline-flex;align-items:center;gap:9px;font-size:14px;font-weight:850;text-underline-offset:5px}
-.waystead-link:hover{color:#245d5a}
-.showcase-case{display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);align-items:center;gap:clamp(32px,5vw,76px);border-top:1px solid #cfddd4;padding-top:32px}
+.waystead-link:hover{color:#9b513a}
+.showcase-case{display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);align-items:center;gap:clamp(32px,5vw,76px);border-top:1px solid #e7d5c4;padding-top:32px}
 .showcase-case-copy{max-width:600px}
-.showcase-case-index{margin:0 0 16px;color:#276962;font-size:11px;line-height:1.4;letter-spacing:.15em;font-weight:900}
+.showcase-case-index{margin:0 0 16px;color:#9b513a;font-size:11px;line-height:1.4;letter-spacing:.15em;font-weight:900}
 .showcase-case-copy h3{font-family:"Space Grotesk",sans-serif;font-size:clamp(34px,3.5vw,56px);line-height:1.03;letter-spacing:-.07em;font-weight:750;margin:0 0 19px;color:#211d24}
-.showcase-case-copy>p:not(.showcase-case-index){font-size:clamp(15px,1.1vw,17px);line-height:1.57;max-width:555px;color:#46514e;margin:0 0 15px}
-.showcase-case-copy>p strong{color:#1c2928}
+.showcase-case-copy>p:not(.showcase-case-index){font-size:clamp(15px,1.1vw,17px);line-height:1.57;max-width:555px;color:#584b50;margin:0 0 15px}
+.showcase-case-copy>p strong{color:#241b25}
 .showcase-case-copy .waystead-link{margin-top:5px}
-.showcase-case-media{margin:0;padding:14px 14px 12px;background:#171d20;border:1px solid #3d4e4d;border-radius:15px;box-shadow:0 15px 38px rgba(28,53,48,.13);overflow:hidden}
+.showcase-case-media{margin:0;padding:14px 14px 12px;background:#1d1820;border:1px solid #574351;border-radius:15px;box-shadow:0 15px 38px rgba(52,31,39,.14);overflow:hidden}
 .showcase-brandmarks{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:0 8px 12px;min-height:51px}
 .showcase-brandmarks img{display:block;object-fit:contain;max-width:100%;height:auto}
 .showcase-abaxi-mark{width:105px;max-height:41px}
 .showcase-waystead-mark{width:189px;max-height:40px;border-radius:3px}
 .showcase-case-still{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:8px;background:#242a28}
-.showcase-case-media figcaption{display:flex;flex-wrap:wrap;align-items:center;gap:9px;color:#b7c9c2;letter-spacing:.09em;font-weight:800;font-size:10px;line-height:1.45;padding:12px 6px 2px}
+.showcase-case-media figcaption{display:flex;flex-wrap:wrap;align-items:center;gap:9px;color:#dec9c5;letter-spacing:.09em;font-weight:800;font-size:10px;line-height:1.45;padding:12px 6px 2px}
 .showcase-case-media figcaption span{color:#e7c9a2}
 @media(max-width:950px){.showcase-case{grid-template-columns:1fr;gap:24px}.showcase-case-copy{max-width:760px}.showcase-case-media{max-width:760px;width:100%}}
 @media(max-width:600px){.waystead-section{padding:59px 0 68px}.showcase-case{padding-top:25px}.showcase-case-copy h3{font-size:clamp(33px,9vw,48px)}.showcase-case-copy>p:not(.showcase-case-index){font-size:16px}.showcase-case-media{padding:10px}.showcase-brandmarks{padding:2px 6px 10px;gap:9px}.showcase-abaxi-mark{width:79px}.showcase-waystead-mark{width:150px}.showcase-case-media figcaption{font-size:9px}}
@@ -465,7 +465,7 @@ html{scroll-padding-top:120px}
 .showcase-intro{display:grid;grid-template-columns:1fr 1fr;gap:16px 48px;align-items:end;margin-bottom:50px}
 .showcase-intro>.capabilities-kicker{grid-column:1/-1;margin:0}
 .showcase-intro h2{font-family:"Space Grotesk",sans-serif;letter-spacing:-.075em;line-height:.97;font-size:clamp(52px,5.8vw,88px);font-weight:750;margin:0}
-.showcase-intro h2 span{color:#27645e}
+.showcase-intro h2 span{color:#9b513a}
 .showcase-intro>p:last-child{font-size:18px;line-height:1.53;max-width:480px;color:#564850;margin:0 0 4px}
 .waystead-stage-wordmark{font-size:clamp(53px,5.5vw,91px)}
 .waystead-runtime strong{font-size:clamp(14px,1.4vw,20px)}
@@ -535,9 +535,9 @@ html{scroll-padding-top:120px}
 /* Editorial-scale showcase and a hero that fits at ordinary 100% desktop zoom. */
 .showcase-intro{margin-bottom:32px;gap:12px 42px}
 .showcase-intro h2{font-size:clamp(43px,4.7vw,70px);letter-spacing:-.071em;line-height:1.03}
-.showcase-intro>p:last-child{font-size:16px;line-height:1.58;color:#53605b;max-width:430px}
+.showcase-intro>p:last-child{font-size:16px;line-height:1.58;color:#605256;max-width:430px}
 .showcase-gallery{margin-top:43px}
-.showcase-gallery-detail{border-color:#ceddd2;background:#fbfaf5}
+.showcase-gallery-detail{border-color:#ecd6c5;background:#fffaf4}
 @media(min-width:851px){
   .hero-grid{min-height:min(640px,calc(100svh - 78px));grid-template-columns:minmax(0,54%) minmax(0,46%)}
   .hero-text{padding:29px 0 35px}
@@ -564,3 +564,8 @@ html{scroll-padding-top:120px}
 }
 @media(max-width:850px){.showcase-intro h2{font-size:clamp(41px,8vw,63px)}}
 @media(max-width:600px){.showcase-intro{margin-bottom:29px}.showcase-intro h2{font-size:clamp(39px,10vw,53px)}.showcase-intro>p:last-child{font-size:16px}}
+
+/* Authentic transparent Waystead logotype and distinct 16:9 concept illustration. */
+.showcase-waystead-mark{width:195px;height:43px;object-fit:contain;max-height:none;border:0;background:transparent;border-radius:0}
+.showcase-case-still{aspect-ratio:1672/941;object-fit:cover}
+@media(max-width:600px){.showcase-waystead-mark{width:155px;height:35px}}

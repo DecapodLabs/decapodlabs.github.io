@@ -232,12 +232,13 @@
     const slides = [...showcase.querySelectorAll("[data-showcase-slide]")];
     const dots = [...showcase.querySelectorAll("[data-showcase-go]")];
     const details = [
-      ["A character of your own.", "Character creation, appearance, identity, and the start of a personal journey."],
-      ["A world to explore.", "Playable terrain, vegetation, camera movement, and a persistent character."],
-      ["By the water.", "A playable character among trees, grasses, and water in the developing world."],
-      ["Geography with depth.", "Procedurally realized environments viewed at multiple scales."],
-      ["History worth keeping.", "Observation and discovery become lasting records in the player's journal."],
-      ["Survive. Build. Continue.", "Survival systems, resource constraints, and construction options."]
+      ["A character of your own.","Character creation, appearance, identity, and the start of a personal journey."],
+      ["A world to explore.","Playable terrain, vegetation, camera movement, and a persistent character."],
+      ["Geography with depth.","Procedurally realized environments viewed at multiple scales."],
+      ["History worth keeping.","Observation and discovery become lasting records in the player's journal."],
+      ["Survive. Build. Continue.","Survival systems, resource constraints, and construction options."],
+      ["A connected survival system.","Equipment, inventory, resources, and crafting belong to one persistent simulation."],
+      ["By the water.","A playable character among trees, grasses, and water in the developing world."]
     ];
     const stage = showcase.querySelector(".showcase-gallery-stage");
     const title = showcase.querySelector("[data-showcase-title]");
@@ -245,7 +246,7 @@
     const counter = showcase.querySelector("[data-showcase-count]");
     const topline = showcase.querySelector(".showcase-gallery-topline span:last-child");
     const fullImageLink = showcase.querySelector("[data-showcase-full]");
-    const imageFiles = ["character", "exploration", "waterside", "landscape", "journal", "construction"];
+    const imageFiles = ["character","exploration","landscape","journal","construction","inventory","waterside"];
     let current = 0;
     function choose(index) {
       current = (index + slides.length) % slides.length;
