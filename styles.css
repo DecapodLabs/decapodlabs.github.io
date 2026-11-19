@@ -570,3 +570,13 @@ html{scroll-padding-top:120px}
 /* Preserve the natural 16:9 artwork ratio: HTML height=941 is only a layout hint. */
 .showcase-case-still{width:100%;height:auto;aspect-ratio:1672/941;object-fit:contain}
 @media(max-width:600px){.showcase-waystead-mark{width:155px;height:35px}}
+
+/* The entire featured Waystead application card is a semantic external link. */
+.showcase-case-link{display:block;min-width:0;width:100%;text-decoration:none;color:inherit;border-radius:15px;cursor:pointer}
+.showcase-case-link .showcase-case-media{transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease}
+.showcase-case-link:hover .showcase-case-media{transform:translateY(-3px);border-color:#f1a283;box-shadow:0 20px 44px rgba(52,31,39,.2)}
+.showcase-case-link:focus-visible{outline:3px solid var(--orange);outline-offset:5px}
+.showcase-case-media figcaption .showcase-card-action{margin-left:auto;color:#ffc2a3;white-space:nowrap;font-weight:900;font-size:11px;letter-spacing:.04em}
+.showcase-case-link:hover .showcase-card-action{text-decoration:underline;text-underline-offset:4px}
+@media(max-width:600px){.showcase-case-media figcaption .showcase-card-action{margin-left:0;width:100%;font-size:11px}}
+@media(prefers-reduced-motion:reduce){.showcase-case-link .showcase-case-media{transition:none}}

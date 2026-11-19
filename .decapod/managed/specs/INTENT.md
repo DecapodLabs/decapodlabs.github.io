@@ -93,3 +93,7 @@ The public hero says coding agents can work together in the same repository on t
 ## Waystead key-art aspect-ratio repair (November 19, 2026)
 
 The featured 1672×941 Waystead illustration must remain fully visible at desktop and mobile widths, without cover cropping or inherited fixed-height stretching. The HTML image's intrinsic width/height attributes reserve its layout ratio; CSS must explicitly override the fixed height with `height: auto` and preserve the full composition using `object-fit: contain`. The existing authentic transparent Waystead logo, ABAXI logo, seven-slide gameplay gallery, screen-reader alt text, and all other homepage sections remain unchanged. Publication must invalidate cached CSS and inspect the rendered proportions instead of relying solely on source syntax.
+
+## Waystead external waitlist link (November 19, 2026)
+
+The complete featured Waystead artwork card in the homepage Showcase—ABAXI mark, transparent WAYSTEAD logo, concept art, and caption—must be one semantic, keyboard-focusable anchor to the user-supplied exact URL `https://whop.com/abaxi-studios/waystead-waitlist/`. Provide visible “Join the waitlist” affordance and an accessible external-link label while retaining the existing visual language, correct 1672×941 full artwork display, seven screenshots in the separate gallery, and the rest of the Showcase and site unchanged. Do not insert nested buttons/anchors inside the card; do not modify the hosted Cloud pricing or Decapod kernel.
