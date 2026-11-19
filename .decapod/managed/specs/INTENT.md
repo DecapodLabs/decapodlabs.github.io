@@ -70,3 +70,9 @@ These declarations select authoring and proof obligations; they do not attest im
 - Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->
+
+## Showcase: Waystead application and gameplay imagery
+
+Give the homepage an industry-agnostic `Showcase` navigation entry and canonical public `/#showcase` fragment. Explain how the repo-native Decapod kernel can govern agentic software delivery in many domains, then lead with Waystead as one actual early-stage application rather than as finished proof. The site's game copy centers on the ambitious procedurally generated planet-scale survival RPG and dungeon-crawler vision, with its existing playable Godot implementation, accelerated agent development, and firm distinction between completed work and in-progress world ambitions. Electron/WebGPU/WASM experiments do not become claims of production readiness.
+
+Use the user's real development screenshots directly below the existing Waystead introduction in a keyboard-operable, arrow/dot/swipe-controlled five-shot gallery with candid scene captions and responsive layout. Keep the supplied screenshot source imagery in repository-controlled assets, with no third-party screenshot service. Provide accessible names and alt text. The install section ends with a brief, highly visible reminder: “Now just tell your agent what you want.” No Cloud purchase/pricing changes.
