@@ -584,3 +584,28 @@ html{scroll-padding-top:120px}
 .showcase-case-copy>p strong .showcase-waystead-inline{color:#9b513a;text-decoration:underline;text-decoration-thickness:1px;text-decoration-color:rgba(155,81,58,.5);text-underline-offset:3px}
 .showcase-case-copy>p strong .showcase-waystead-inline:hover{text-decoration-color:currentColor}
 .showcase-case-copy>p strong .showcase-waystead-inline:focus-visible{outline:3px solid var(--orange);outline-offset:3px}
+
+
+/* Keep the shared footer visible without covering the last content on any page. */
+.site-footer-pinned{
+  --site-footer-reserve:124px;
+  padding-bottom:calc(var(--site-footer-reserve) + env(safe-area-inset-bottom, 0px));
+}
+.site-footer-pinned > .footer{
+  position:fixed;
+  inset-inline:0;
+  bottom:0;
+  z-index:80;
+  width:100%;
+  padding-bottom:calc(21px + env(safe-area-inset-bottom, 0px));
+}
+@media(max-width:850px){
+  .site-footer-pinned{--site-footer-reserve:160px}
+}
+@media(max-width:560px){
+  .site-footer-pinned{--site-footer-reserve:190px}
+}
+@media print{
+  .site-footer-pinned{padding-bottom:0}
+  .site-footer-pinned > .footer{position:static}
+}
