@@ -567,5 +567,6 @@ html{scroll-padding-top:120px}
 
 /* Authentic transparent Waystead logotype and distinct 16:9 concept illustration. */
 .showcase-waystead-mark{width:195px;height:43px;object-fit:contain;max-height:none;border:0;background:transparent;border-radius:0}
-.showcase-case-still{aspect-ratio:1672/941;object-fit:cover}
+/* Preserve the natural 16:9 artwork ratio: HTML height=941 is only a layout hint. */
+.showcase-case-still{width:100%;height:auto;aspect-ratio:1672/941;object-fit:contain}
 @media(max-width:600px){.showcase-waystead-mark{width:155px;height:35px}}
