@@ -461,3 +461,45 @@ html{scroll-padding-top:120px}
 .launch-proof{padding:86px 0 91px}
 .launch-proof .launch-player,.launch-proof .proof-chapters,.launch-proof .launch-foot{max-width:1020px;margin-left:auto;margin-right:auto}
 @media(max-width:760px){.launch-proof{padding:62px 0 70px}}
+
+/* Global showcase: applications across any engineering discipline. */
+#showcase{scroll-margin-top:110px}
+.showcase-intro{display:grid;grid-template-columns:1fr 1fr;gap:16px 48px;align-items:end;margin-bottom:50px}
+.showcase-intro>.capabilities-kicker{grid-column:1/-1;margin:0}
+.showcase-intro h2{font-family:"Space Grotesk",sans-serif;letter-spacing:-.075em;line-height:.97;font-size:clamp(52px,5.8vw,88px);font-weight:750;margin:0}
+.showcase-intro h2 span{color:var(--orange)}
+.showcase-intro>p:last-child{font-size:18px;line-height:1.53;max-width:480px;color:#564850;margin:0 0 4px}
+.waystead-section .waystead-copy h3{font-family:"Space Grotesk",sans-serif;font-size:clamp(43px,4.3vw,68px);font-weight:750;line-height:.98;letter-spacing:-.076em;margin:0 0 25px}
+.waystead-section .waystead-copy h3 span{color:var(--orange)}
+.waystead-section .waystead-copy>p:not(.capabilities-kicker):not(.waystead-lead){margin-bottom:17px}
+.waystead-section .waystead-copy>p:nth-last-of-type(1){margin-bottom:26px}
+.waystead-stage-wordmark{font-size:clamp(53px,5.5vw,91px)}
+.waystead-runtime strong{font-size:clamp(14px,1.4vw,20px)}
+.showcase-gallery{max-width:1180px;margin-top:70px}
+.showcase-gallery-topline{display:flex;justify-content:space-between;gap:16px;margin-bottom:17px;color:#9b513a;font-size:11px;letter-spacing:.15em;font-weight:850}
+.showcase-gallery-stage{position:relative;overflow:hidden;background:#171b1d;border:1px solid #584b52;border-radius:17px;aspect-ratio:2048/1323;box-shadow:0 16px 40px rgba(37,21,26,.14);outline-offset:5px}
+.showcase-gallery-slide{position:absolute;inset:0;margin:0;display:block;opacity:0;pointer-events:none;transition:opacity .28s ease}
+.showcase-gallery-slide[hidden]{display:none}
+.showcase-gallery-slide.is-active{opacity:1;pointer-events:auto}
+.showcase-gallery-slide img{display:block;width:100%;height:100%;object-fit:contain}
+.showcase-gallery-arrow{position:absolute;z-index:4;top:50%;transform:translateY(-50%);display:grid;place-items:center;width:49px;height:49px;border-radius:50%;border:1px solid #f3dbcc8c;background:#271e28d9;color:white;font-size:25px;cursor:pointer}
+.showcase-gallery-arrow:hover,.showcase-gallery-arrow:focus-visible{background:var(--orange);color:var(--ink)}
+.showcase-gallery-prev{left:17px}.showcase-gallery-next{right:17px}
+.showcase-gallery-detail{display:flex;justify-content:space-between;align-items:center;gap:24px;border:1px solid #eacfb9;border-radius:0 0 15px 15px;background:#fff9f0;padding:23px 26px 24px}
+.showcase-gallery-caption{max-width:700px}
+.showcase-gallery-index{font-size:11px;letter-spacing:.13em;font-weight:850;color:#ad4f37;margin:0 0 7px}
+.showcase-gallery-caption h3{font-family:"Outfit",sans-serif;font-size:clamp(25px,2.3vw,33px);line-height:1.05;letter-spacing:-.046em;margin:0 0 7px}
+.showcase-gallery-caption p:last-child{font-size:15px;color:#594d53;line-height:1.45;margin:0}
+.showcase-gallery-dots{display:flex;gap:9px;flex-shrink:0}
+.showcase-gallery-dots button{width:13px;height:13px;border-radius:50%;border:1px solid #b99790;background:#e8d4c5;padding:0;cursor:pointer}
+.showcase-gallery-dots button.is-active{background:var(--orange);border-color:var(--orange)}
+.showcase-gallery-dots button:focus-visible{outline:3px solid var(--orange);outline-offset:4px}
+.install-finish{background:#ffe1b2;padding:27px 0 35px;border-top:1px solid #f4c890}
+.install-finish p{font-family:"Space Grotesk",sans-serif;font-size:clamp(27px,3vw,43px);font-weight:750;letter-spacing:-.06em;line-height:1.16;text-align:center;margin:0}
+.install-finish strong{font-weight:inherit;color:#df4e2e}
+@media(max-width:950px){.showcase-intro{grid-template-columns:1fr;gap:18px}.showcase-intro>.capabilities-kicker{grid-column:auto}.showcase-intro>p:last-child{max-width:700px}.waystead-section .waystead-copy h3{font-size:clamp(45px,8vw,72px)}}
+@media(max-width:600px){.showcase-intro{margin-bottom:37px}.showcase-intro h2{font-size:clamp(41px,10vw,57px)}.showcase-intro>p:last-child{font-size:16px}.showcase-gallery{margin-top:46px}.showcase-gallery-stage{border-radius:11px}.showcase-gallery-arrow{height:34px;width:34px;font-size:19px}.showcase-gallery-prev{left:7px}.showcase-gallery-next{right:7px}.showcase-gallery-detail{padding:19px 17px;flex-direction:column;align-items:flex-start;gap:18px}.showcase-gallery-caption h3{font-size:25px}.showcase-gallery-caption p:last-child{font-size:14px}.waystead-section .waystead-copy h3{font-size:clamp(40px,9vw,56px)}.install-finish{padding:29px 0 33px}.install-finish p{text-align:left;font-size:clamp(29px,8vw,42px)}}
+@media(prefers-reduced-motion:reduce){.showcase-gallery-slide{transition:none}}
+
+.showcase-gallery-full{font-size:13px;font-weight:850;white-space:nowrap;text-underline-offset:4px;color:#a43c2a}.showcase-gallery-full:hover{color:var(--ink)}
+@media(max-width:600px){.showcase-gallery-full{font-size:12px}}

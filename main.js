@@ -225,6 +225,67 @@
     }, {passive:true});
   }
 
+
+  // Source screenshots from the WAYSTEAD development build. No external carousel dependency.
+  const showcase = document.querySelector("[data-showcase-carousel]");
+  if (showcase) {
+    const slides = [...showcase.querySelectorAll("[data-showcase-slide]")];
+    const dots = [...showcase.querySelectorAll("[data-showcase-go]")];
+    const details = [
+      ["A character of your own.", "Character creation, appearance, identity, and the start of a personal journey."],
+      ["A world to explore.", "Playable terrain, vegetation, camera movement, and a persistent character."],
+      ["Geography with depth.", "Procedurally realized environments viewed at multiple scales."],
+      ["History worth keeping.", "Observation and discovery become lasting records in the player's journal."],
+      ["Survive. Build. Continue.", "Survival systems, resource constraints, and construction options."]
+    ];
+    const stage = showcase.querySelector(".showcase-gallery-stage");
+    const title = showcase.querySelector("[data-showcase-title]");
+    const caption = showcase.querySelector("[data-showcase-description]");
+    const counter = showcase.querySelector("[data-showcase-count]");
+    const topline = showcase.querySelector(".showcase-gallery-topline span:last-child");
+    const fullImageLink = showcase.querySelector("[data-showcase-full]");
+    const imageFiles = ["character", "exploration", "landscape", "journal", "construction"];
+    let current = 0;
+    function choose(index) {
+      current = (index + slides.length) % slides.length;
+      slides.forEach((slide, i) => {
+        const active = i === current;
+        slide.hidden = !active;
+        slide.classList.toggle("is-active", active);
+      });
+      dots.forEach((dot, i) => {
+        dot.classList.toggle("is-active", i === current);
+        dot.setAttribute("aria-pressed", String(i === current));
+      });
+      const number = String(current + 1).padStart(2, "0") + " / 05";
+      if (counter) counter.textContent = number + " · IN DEVELOPMENT";
+      if (topline) topline.textContent = number;
+      if (title) title.textContent = details[current][0];
+      if (caption) caption.textContent = details[current][1];
+      if (fullImageLink) fullImageLink.href = "assets/waystead-" + imageFiles[current] + ".webp";
+    }
+    showcase.querySelector("[data-showcase-prev]")?.addEventListener("click", () => choose(current - 1));
+    showcase.querySelector("[data-showcase-next]")?.addEventListener("click", () => choose(current + 1));
+    dots.forEach((dot, i) => dot.addEventListener("click", () => choose(i)));
+    stage?.addEventListener("keydown", event => {
+      if (event.key === "ArrowLeft") { event.preventDefault(); choose(current - 1); }
+      if (event.key === "ArrowRight") { event.preventDefault(); choose(current + 1); }
+      if (event.key === "Home") { event.preventDefault(); choose(0); }
+      if (event.key === "End") { event.preventDefault(); choose(slides.length - 1); }
+    });
+    let touchX = null;
+    stage?.addEventListener("touchstart", event => {
+      if (event.touches.length === 1) touchX = event.touches[0].clientX;
+    }, {passive:true});
+    stage?.addEventListener("touchend", event => {
+      if (touchX === null || !event.changedTouches.length) return;
+      const delta = event.changedTouches[0].clientX - touchX;
+      touchX = null;
+      if (Math.abs(delta) > 48) choose(current + (delta < 0 ? 1 : -1));
+    }, {passive:true});
+    choose(0);
+  }
+
   const revealed = document.querySelectorAll("[data-reveal]");
   if ("IntersectionObserver" in window) {
     const observer = new IntersectionObserver(entries => {
