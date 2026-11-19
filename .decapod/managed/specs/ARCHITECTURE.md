@@ -68,6 +68,13 @@ The homepage proof section at /#proofs plays a native Pi terminal recording. Its
 
 The proof player uses a crisp 1920 × 1160 rendering of a timed real Pi PTY stream. Its 2:30 edit preserves the actual prompt, rejected validation, autonomous repair, fresh checks and exact PR admission. The matching case-study cuts retain the previous timing, soundtrack and logo. Static chapter links and captions support browser playback.
 
+
+## Waystead homepage case study and hierarchy (November 18, 2026)
+
+This is a static presentation change in `index.html` and `styles.css`: hero and teaser film → kernel value and features → Waystead game-development use case → capability catalog and active-agent screenshots → architecture → lower-page recorded proof → installation and closing. The case study is semantic HTML with responsive CSS and a typography/stack illustration, not fabricated gameplay media. Its engine stack is grounded in Waystead's maintained project README and `experiments/webgpu/README.md` (private source, no public source link).
+
+The Godot game remains the simulation authority; WebGPU/WASM and Electron describe an experimental desktop deployment path, not a proved production renderer. The site adds no JavaScript, API, trackers, new runtime dependencies, or private repository assets. Reordering preserves existing IDs, video sources, chapter seek controls and carousel hooks. Publication requires Decapod validation and public GitHub Pages readback.
+
 <!-- decapod:capability-overlay:persistent-state:start -->
 
 Generated capability obligations: `persistent-state` is declared for this project. These are decisions and proof requirements, not claims of implemented behavior. Resolve each against project source and tests; record unsupported or non-applicable mechanisms explicitly.
