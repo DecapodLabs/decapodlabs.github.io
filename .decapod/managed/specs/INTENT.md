@@ -40,6 +40,13 @@ independently against the publicly served Pages URL.
 
 The controller selected the single Pi task under the human-authorized mission; direct human authorship of that prompt is not attested. The separately pinned retrospective objective-provenance disclosure preserves the original runtime/capture/manifest bytes. Rendered language says ONE ENGINEERING OBJECTIVE, and both presentation guards reject a substituted authorship claim. This correction requires rerendered media, source inventory review and fresh native admission; prior film/validation bytes cannot authorize it.
 
+
+## Waystead game-development use case and proof placement (November 18, 2026)
+
+Show Waystead as a legitimate in-progress game-development workload for the free local Decapod kernel. The source project has playable Godot gameplay and an experimental WebAssembly/WebGPU desktop path in Electron. Its design targets, incomplete runtime experiments, and the game’s unpublished source must not be represented as shipped capabilities or public access. Decapod governs the AI-assisted engineering activity—task ownership, authority boundaries, durable project context, and evidence—rather than generating the game itself.
+
+The homepage puts this use case after the kernel capabilities and gives it a direct discovery link near the main call to action. Move the native Pi proof recording below the project/workflow sections and above installation, preserving the existing player, chapters, evidence links, and fragment identifiers `#proof` and `#proofs`. Keep the recording within a restrained readable width. Existing pricing copy, purchase status, branding, and original media are out of scope. Browser layout, fragment navigation, and exact-candidate validation remain acceptance gates.
+
 <!-- decapod:declared-capabilities:start -->
 
 ## Declared Capability Surfaces
