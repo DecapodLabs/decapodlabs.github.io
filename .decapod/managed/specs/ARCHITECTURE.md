@@ -105,3 +105,7 @@ Generated capability obligations: `persistent-state` is declared for this projec
 - Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->
+
+## Public showcase gallery and first application
+
+The homepage adds a named `#showcase` section linked from the sticky navigation and hero; Waystead is its first specific application. The case study remains editorial and static, using actual development-build screenshots under `assets/waystead-*.webp`. `main.js` owns isolated carousel controls with keyboard, arrow, dot, and touch interactions, no automatic playback or new dependencies. The existing swarm carousel, Pi proof footage, mobile header and import-free GitHub Pages deployment remain intact. A post-install callout emphasizes natural-language agent instructions. Acceptance requires existing-site static validation plus loaded image asset checks and manual cross-device layout inspection.
