@@ -503,3 +503,37 @@ html{scroll-padding-top:120px}
 
 .showcase-gallery-full{font-size:13px;font-weight:850;white-space:nowrap;text-underline-offset:4px;color:#a43c2a}.showcase-gallery-full:hover{color:var(--ink)}
 @media(max-width:600px){.showcase-gallery-full{font-size:12px}}
+
+/* Site hierarchy: showcase first, then the four essentials and 14 detailed feature cards. */
+#features,#quickstart,#waystead{scroll-margin-top:115px}
+.feature-eyebrow{font-size:11px;letter-spacing:.17em;font-weight:900;text-align:center;color:#351b21;margin:0 0 20px}
+.showcase-suite{background:#211722}
+.swarm-section .swarm-heading .capabilities-kicker{color:#ffae92}
+/* Replace the standalone install chapter with a compact, fully functional hero quickstart. */
+.hero-text{padding:53px 0 52px}
+.hero h1{margin-bottom:20px}
+.hero-lead{margin-bottom:12px}
+.hero-body{font-size:clamp(15px,1.15vw,17px);line-height:1.44}
+.hero-quickstart{max-width:575px;margin-top:23px;padding:13px 15px 14px;background:#241b29;color:#fffaf3;border:1px solid #4e3b4c;border-radius:14px;box-shadow:5px 5px 0 rgba(240,91,55,.19)}
+.hero-quickstart-heading{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:8px}
+.hero-quickstart-heading>span{font-size:10px;font-weight:900;letter-spacing:.11em;color:#ffba96}
+.hero-quickstart .install-methods{display:flex;gap:5px}
+.hero-quickstart .install-method{padding:6px 10px;min-height:29px;background:#3a2c3d;border:1px solid #715363;border-radius:6px;color:#e5d0dc;cursor:pointer;font-size:11px;font-weight:800}
+.hero-quickstart .install-method.is-active{background:#f05b37;border-color:#f05b37;color:#fff}
+.hero-quickstart .install-method:focus-visible{outline:3px solid #ffc65b;outline-offset:2px}
+.hero-quickstart .install-shell{display:flex;align-items:center;min-height:0;padding:10px 11px;border-radius:8px;background:#382a3a;gap:10px}
+.hero-quickstart .install-shell>span{font-size:17px;line-height:1.25}
+.hero-quickstart .install-shell code{flex:1;min-width:0;font-size:clamp(11px,1vw,14px);line-height:1.38;white-space:pre-wrap;overflow-wrap:anywhere}
+.hero-quickstart .install-shell button{font-size:10px;padding:9px 11px;min-width:58px}
+.hero-quickstart .hero-install-promise{font-size:11px;line-height:1.35;color:#c7b6c5;margin:8px 0 6px}
+.hero-quickstart .hero-install-finish{font-family:"Space Grotesk",sans-serif;font-size:clamp(17px,1.6vw,23px);line-height:1.16;letter-spacing:-.038em;font-weight:700;margin:0 0 10px}
+.hero-quickstart .hero-install-finish strong{color:#ff885a;font-weight:inherit}
+.hero-install-links{display:flex;align-items:center;gap:13px;flex-wrap:wrap}
+.hero-install-links a{font-size:11px;color:#ffd79e;font-weight:800;text-decoration:none}
+.hero-install-links a:hover{text-decoration:underline}
+.hero-install-links a.hero-pricing{margin-left:auto;border:1px solid #ffc3a7;border-radius:7px;color:#181016;background:linear-gradient(115deg,#ffc65b,#ffb4c8);padding:7px 12px}
+.hero-install-links a.hero-pricing:hover{background:linear-gradient(115deg,#ffd388,#ffc9d5);text-decoration:none}
+.hero-quickstart:focus-within{border-color:#e78b71}
+@media(max-width:1100px){.hero-grid{grid-template-columns:56% 44%}.hero-text{padding:43px 0 45px}.hero h1{font-size:clamp(64px,8vw,98px)}.hero-quickstart{margin-top:18px}.hero-showcase{height:460px}}
+@media(max-width:850px){.hero-grid{grid-template-columns:1fr}.hero-text{padding:45px 0 10px}.hero-showcase{height:345px}.hero-quickstart{max-width:100%}.hero h1{font-size:clamp(57px,10vw,88px)}}
+@media(max-width:600px){.hero-text{padding-top:37px}.hero h1{font-size:clamp(49px,12vw,69px);margin-bottom:17px}.hero-lead{font-size:clamp(24px,7vw,32px)}.hero-body{font-size:15px}.hero-quickstart{margin-top:19px;padding:12px}.hero-quickstart .install-shell{gap:7px}.hero-quickstart .install-shell code{font-size:11px}.hero-quickstart .hero-install-finish{font-size:21px}.hero-install-links{gap:9px}.hero-install-links a{font-size:10px}.hero-install-links a.hero-pricing{padding:7px 9px}}
