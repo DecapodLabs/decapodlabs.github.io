@@ -73,6 +73,7 @@
     function setStatus(text, isError) {
       var el = byId("signup-status");
       if (!el) return;
+      el.hidden = !text;
       el.textContent = text;
       el.classList.toggle("is-error", Boolean(isError));
     }
@@ -362,6 +363,7 @@
       renderAccountBar();
       var card = byId("step-state");
       if (!card) return;
+      setStatus("", false);
       byId("state-kicker").textContent = kicker;
       byId("state-heading").textContent = heading;
       byId("state-message").textContent = message;
@@ -416,6 +418,7 @@
       }
       if (hint) hint.textContent = note || "";
       panel.hidden = false;
+      setStatus("", false);
     }
 
     async function runPendingFulfillmentPoll(projectId) {
