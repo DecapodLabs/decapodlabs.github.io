@@ -887,6 +887,10 @@ Deno.test('static site documents, classic scripts, UNDER WRAPS posture, and publ
   };
   const signupMarkup = await Deno.readTextFile('signup/index.html');
   assert(signupMarkup.includes('/assets/mascot.png'), 'Clack replaces the security callout');
+  assert(signupMarkup.includes('alt="Clack, the Decapod Labs mascot"'), 'Clack is the accessible hero illustration');
+  const signupStyles = await Deno.readTextFile('signup/signup.css');
+  assert(!signupStyles.includes('.signup-guardrail-card'), 'removed callout has no remaining styling');
+  assert(!signupStyles.includes('.signup-hero-mascot::before'), 'Clack PNG stands alone without badge or halo');
   assert(signupMarkup.includes('signup-verified'), 'GitHub verified chip present');
   assert(!signupMarkup.includes('FAIL-CLOSED AUTHORIZATION'), 'no extraneous security callout');
   assert(!signupMarkup.includes('site-footer-pinned'), 'signup footer cannot overlay form');
