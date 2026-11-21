@@ -55,9 +55,8 @@
   color:#5d4d54;
   margin:0;
 }
-.signup-hero-mascot{position:relative;display:grid;place-items:center;justify-self:center;width:min(100%,205px);isolation:isolate}
-.signup-hero-mascot::before{content:"";position:absolute;width:78%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,#ffd096 0%,#ffd9ac 48%,transparent 72%);z-index:-1}
-.signup-hero-mascot img{display:block;width:100%;height:auto;filter:drop-shadow(0 11px 13px rgba(114,59,34,.13))}
+.signup-hero-mascot{display:grid;place-items:center;justify-self:center;width:min(100%,205px)}
+.signup-hero-mascot img{display:block;width:100%;height:auto;object-fit:contain;filter:drop-shadow(0 11px 13px rgba(114,59,34,.13))}
 
 .signup-app-section{padding:16px 0 24px}
 .signup-shell{
