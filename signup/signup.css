@@ -1,7 +1,8 @@
 /* Authenticated Decapod Cloud signup application styles. */
 .signup-page{overflow-x:clip;background:#fff9f0;min-height:100svh;display:flex;flex-direction:column}
 .signup-page main{flex:1 0 auto}
-.signup-page .footer{margin-top:auto}
+.signup-page .footer{margin-top:auto;padding:13px 0}
+.signup-page .nav-content{height:72px}
 .signup-page .site-wordmark{width:170px;height:auto;max-height:80px;object-fit:contain}
 .signup-page .nav-links a[href="/pricing"]{
   background:rgba(240,91,55,.11);
@@ -19,7 +20,7 @@
 
 .signup-hero{
   background:radial-gradient(ellipse 55% 90% at 88% 20%,#ffdbb2,transparent 88%),#fff3e2;
-  padding:27px 0 25px;
+  padding:21px 0 18px;
   border-bottom:1px solid #edd4be;
 }
 .signup-hero-grid{
@@ -40,7 +41,7 @@
 }
 .signup-hero h1{
   font-family:"Space Grotesk",sans-serif;
-  font-size:clamp(43px,4.6vw,65px);
+  font-size:clamp(42px,4.3vw,59px);
   letter-spacing:-.075em;
   line-height:.96;
   font-weight:700;
@@ -49,21 +50,21 @@
 .signup-hero h1 span{color:var(--orange)}
 .signup-intro{
   max-width:650px;
-  font-size:15px;
+  font-size:14px;
   line-height:1.5;
   color:#5d4d54;
   margin:0;
 }
-.signup-hero-mascot{position:relative;display:grid;place-items:center;justify-self:center;width:min(100%,235px);isolation:isolate}
+.signup-hero-mascot{position:relative;display:grid;place-items:center;justify-self:center;width:min(100%,205px);isolation:isolate}
 .signup-hero-mascot::before{content:"";position:absolute;width:78%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,#ffd096 0%,#ffd9ac 48%,transparent 72%);z-index:-1}
 .signup-hero-mascot img{display:block;width:100%;height:auto;filter:drop-shadow(0 11px 13px rgba(114,59,34,.13))}
 
-.signup-app-section{padding:20px 0 32px}
+.signup-app-section{padding:16px 0 24px}
 .signup-shell{
   max-width:720px;
   margin-inline:auto;
   display:grid;
-  gap:12px;
+  gap:10px;
 }
 .signup-banner{
   padding:14px 18px;
@@ -98,7 +99,7 @@
   background:#fffdfa;
   border:1px solid #dbc6ba;
   border-radius:18px;
-  padding:clamp(18px,2.3vw,26px);
+  padding:clamp(17px,2vw,23px);
 }
 .signup-card h2{
   font-family:"Space Grotesk",sans-serif;
