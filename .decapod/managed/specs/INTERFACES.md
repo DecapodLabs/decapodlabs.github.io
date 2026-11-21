@@ -80,7 +80,7 @@ The proof ledger binds visible terminal states to ordered byte offsets and the s
 
 ### Simplified signup presentation and handoff
 
-- `GET /signup?repo=<owner%2Frepo>` accepts a valid repository navigation hint, immediately scrubs URL state, and prefills the sole `repo-input` once authenticated. Pricing and CLI-provided intent can also persist in same-tab session storage through a PKCE redirect; all values are parsed by `parseRepoSlug` and treated as unverified until server enrollment.
+- `GET /signup?repo=<owner%2Frepo>` accepts a valid repository navigation hint, immediately scrubs URL state, and prefills the sole `repo-input` once authenticated. Pricing or a previously visited same-origin signup tab can persist validated intent in same-tab session storage through a website-initiated PKCE redirect. Native Dactyl/Propodus callbacks do not currently supply the slug to signup; that separate handoff is tracked in Propodus #216; all values are parsed by `parseRepoSlug` and treated as unverified until server enrollment.
 - Authenticated UI exposes a provider mark and check only after a GitHub identity has been linked and account registration is not awaiting provider confirmation. It never renders a raw user UUID as a session label.
 - The only repository form submission is Verify. When an in-memory GitHub OAuth provider token is absent, Verify initiates consent on the trusted identity provider; the server still checks repository ownership, organizational authority and entitlements before quoting or charging. No client GitHub org/repo enumeration endpoints are invoked.
 - Checkout and CLI-ready panels retain server-bound authorization and payment checks. Hiding signout from signup is presentation only: expired or revoked sessions still fail closed.
