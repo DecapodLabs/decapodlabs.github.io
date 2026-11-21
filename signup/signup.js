@@ -30,8 +30,6 @@
     var quotePayloadKey = null;
     var enrollRequestId = null;
     var enrollRepoSlug = null;
-    var githubReposCache = [];
-    var githubOrgsCache = [];
     var pollGeneration = 0;
     var busy = false;
 
@@ -106,12 +104,6 @@
       hideAllProtectedPanels();
       var summary = byId("account-summary");
       if (summary) summary.textContent = "";
-      var orgSelect = byId("org-select");
-      if (orgSelect) orgSelect.replaceChildren();
-      var repoSelect = byId("repo-select");
-      if (repoSelect) repoSelect.replaceChildren();
-      var orgBlock = byId("org-picker-block");
-      if (orgBlock) orgBlock.hidden = true;
       var quoteSummary = byId("quote-summary");
       if (quoteSummary) quoteSummary.hidden = true;
       var checkoutBtn = byId("checkout-btn");
@@ -324,13 +316,17 @@
     function renderAccountBar() {
       var bar = byId("account-bar");
       var summary = byId("account-summary");
-      if (!bar || !summary || !currentUser) return;
-      var providers = flow.listVerifiedProviders(currentUser).map(function (p) {
-        return p === "github" ? "GitHub" : p === "google" ? "Google" : p;
-      });
-      summary.textContent = "Account " + currentUser.id +
-        (providers.length ? " · Linked: " + providers.join(", ") : " · No code host linked");
-      bar.hidden = false;
+      if (!bar || !summary) return;
+      // A linked provider alone is not evidence of confirmed account authority.
+      var verified = currentUser &&
+        flow.hasVerifiedProvider(currentUser, "github") &&
+        accountSnapshot &&
+        accountSnapshot.status !== "provider_link_stepup_required" &&
+        accountSnapshot.identity_state !== "stepup_required" &&
+        (!Array.isArray(accountSnapshot.confirmed_providers) ||
+          accountSnapshot.confirmed_providers.includes("github"));
+      bar.hidden = !verified;
+      if (verified) summary.textContent = "GitHub connected";
     }
 
     function showIdentityPanel(mode, pendingProvider) {
@@ -384,10 +380,10 @@
       var summary = byId("ready-summary");
       if (!card || !summary) return;
       var roleLabel = accessStatus.admin ? "workspace administrator" : "assigned repository contributor";
-      summary.textContent = "Repository " + (accessStatus.project_id || projectId) +
-        " is active and server-authorized (" + roleLabel + ").";
+      summary.textContent = "Cloud access is active for " + (preselectedRepo || "your repository") +
+        " as a " + roleLabel + ".";
       card.hidden = false;
-      setStatus("Ready: backend_authorized=true for " + (accessStatus.project_id || projectId) + ".", false);
+      setStatus("Access confirmed. Return to your Decapod terminal.", false);
     }
 
     function isOrgAdmin(orgId) {
@@ -408,103 +404,6 @@
       }) || null;
     }
 
-    function populateRepoDropdown(orgLogin) {
-      var repoSelect = byId("repo-select");
-      var repoInput = byId("repo-input");
-      if (!repoSelect) return;
-      repoSelect.replaceChildren();
-      var filtered = githubReposCache.filter(function (r) {
-        return !orgLogin || (r.owner && r.owner.login === orgLogin);
-      });
-      var placeholder = doc.createElement("option");
-      placeholder.value = "";
-      placeholder.textContent = filtered.length ? "Select a repository…" : "No admin repositories found in this owner";
-      repoSelect.appendChild(placeholder);
-      for (var i = 0; i < filtered.length; i++) {
-        var opt = doc.createElement("option");
-        opt.value = filtered[i].full_name;
-        opt.textContent = filtered[i].full_name + (filtered[i].private ? " (private)" : "");
-        repoSelect.appendChild(opt);
-      }
-      if (preselectedRepo && filtered.some(function (r) { return r.full_name.toLowerCase() === preselectedRepo.toLowerCase(); })) {
-        var match = filtered.find(function (r) { return r.full_name.toLowerCase() === preselectedRepo.toLowerCase(); });
-        repoSelect.value = match.full_name;
-        if (repoInput) repoInput.value = match.full_name;
-      }
-    }
-
-    async function loadGitHubOrgsAndRepos() {
-      var orgBlock = byId("org-picker-block");
-      var orgSelect = byId("org-select");
-      var authBtn = byId("authorize-github-repos-btn");
-      if (!inMemoryProviderToken) {
-        if (orgBlock) orgBlock.hidden = true;
-        if (authBtn) authBtn.hidden = false;
-        return;
-      }
-      if (authBtn) authBtn.hidden = true;
-      try {
-        var headers = {
-          Authorization: "Bearer " + inMemoryProviderToken,
-          Accept: "application/vnd.github+json"
-        };
-        var userRes = await fetchFn("https://api.github.com/user", {
-          method: "GET",
-          redirect: "error",
-          headers: headers
-        });
-        var orgsRes = await fetchFn("https://api.github.com/user/orgs?per_page=100", {
-          method: "GET",
-          redirect: "error",
-          headers: headers
-        });
-        var reposRes = await fetchFn("https://api.github.com/user/repos?per_page=100&affiliation=owner,organization_member", {
-          method: "GET",
-          redirect: "error",
-          headers: headers
-        });
-        if (!userRes.ok || !reposRes.ok) {
-          if (authBtn) authBtn.hidden = false;
-          return;
-        }
-        var ghUser = await userRes.json();
-        var ghOrgs = orgsRes.ok ? await orgsRes.json() : [];
-        var ghRepos = await reposRes.json();
-        githubOrgsCache = [];
-        if (ghUser && typeof ghUser.login === "string") {
-          githubOrgsCache.push({ login: ghUser.login, label: ghUser.login + " (personal)" });
-        }
-        if (Array.isArray(ghOrgs)) {
-          for (var i = 0; i < ghOrgs.length; i++) {
-            if (ghOrgs[i] && typeof ghOrgs[i].login === "string") {
-              githubOrgsCache.push({ login: ghOrgs[i].login, label: ghOrgs[i].login + " (organization)" });
-            }
-          }
-        }
-        githubReposCache = Array.isArray(ghRepos)
-          ? ghRepos.filter(function (r) { return r && typeof r.full_name === "string" && r.permissions && r.permissions.admin === true; })
-          : [];
-        if (orgSelect && githubOrgsCache.length) {
-          orgSelect.replaceChildren();
-          for (var j = 0; j < githubOrgsCache.length; j++) {
-            var opt = doc.createElement("option");
-            opt.value = githubOrgsCache[j].login;
-            opt.textContent = githubOrgsCache[j].label;
-            orgSelect.appendChild(opt);
-          }
-          if (preselectedRepo) {
-            var preOwner = preselectedRepo.split("/")[0];
-            var matchingOrg = githubOrgsCache.find(function (o) { return o.login.toLowerCase() === preOwner.toLowerCase(); });
-            if (matchingOrg) orgSelect.value = matchingOrg.login;
-          }
-          populateRepoDropdown(orgSelect.value);
-          if (orgBlock) orgBlock.hidden = false;
-        }
-      } catch (_) {
-        if (authBtn) authBtn.hidden = false;
-      }
-    }
-
     async function showOrgRepoPicker(note) {
       hideAllProtectedPanels();
       renderAccountBar();
@@ -517,7 +416,6 @@
       }
       if (hint) hint.textContent = note || "";
       panel.hidden = false;
-      await loadGitHubOrgsAndRepos();
     }
 
     async function runPendingFulfillmentPoll(projectId) {
@@ -600,7 +498,7 @@
       if (!card) return;
 
       if (label) {
-        label.textContent = "Verified repository: " + (repoLabel || projectId) + " · Organization " + orgId;
+        label.textContent = "Verified GitHub repository: " + (repoLabel || preselectedRepo || "selected repository");
       }
       if (quoteSummary) quoteSummary.hidden = true;
       if (checkoutBtn) checkoutBtn.disabled = true;
@@ -736,11 +634,8 @@
       }
 
       if (!inMemoryProviderToken) {
-        if (hint) {
-          hint.textContent = "GitHub repository verification requires an active GitHub OAuth session with repository permissions. Click Authorize GitHub repository lookup.";
-        }
-        var authBtn = byId("authorize-github-repos-btn");
-        if (authBtn) authBtn.hidden = false;
+        if (hint) hint.textContent = "Connecting GitHub to confirm repository access…";
+        await beginAuth("github", "sign_in", true);
         return;
       }
 
@@ -817,11 +712,10 @@
         }
         if (code === "repository_verification_required") {
           if (hint) {
-            hint.textContent = "GitHub admin verification failed for " + parsed.slug +
-              ". Ensure you administer this repository and click Authorize GitHub repository lookup.";
+            hint.textContent = "GitHub could not verify administrator access to " + parsed.slug +
+              ". Check the repository slug and try again.";
           }
-          var authBtn2 = byId("authorize-github-repos-btn");
-          if (authBtn2) authBtn2.hidden = false;
+          inMemoryProviderToken = null;
           return;
         }
         if (code === "repository_identity_mismatch") {
@@ -954,8 +848,8 @@
       }
       await showOrgRepoPicker(
         preselectedRepo
-          ? "Verify GitHub administration for " + preselectedRepo + " to continue."
-          : "Select an organization and repository to enroll or check access."
+          ? "Confirm the repository below to continue."
+          : "Enter the GitHub repository you want to enroll."
       );
     }
 
@@ -968,10 +862,11 @@
       var repoCheck = flow.parseRepoSearch(query);
       if (repoCheck.status === "valid") {
         preselectedRepo = repoCheck.slug;
+        storeSet("pending-repo", repoCheck.slug);
         try {
           if (storage) storage.setItem("decapod:pending-repo-intent", repoCheck.slug);
         } catch (_) {}
-        setBanner("valid", "Repository intent: " + repoCheck.slug, "Unverified intent until GitHub ownership is checked after sign-in.");
+        setBanner(null, "", "");
       } else if (repoCheck.status === "invalid") {
         preselectedRepo = null;
         try {
@@ -981,11 +876,8 @@
       } else {
         try {
           var savedRepo = storage ? storage.getItem("decapod:pending-repo-intent") : null;
-          var parsedSaved = flow.parseRepoSlug(savedRepo);
-          if (parsedSaved) {
-            preselectedRepo = parsedSaved.slug;
-            setBanner("valid", "Repository intent: " + parsedSaved.slug, "Unverified intent until GitHub ownership is checked.");
-          }
+          var parsedSaved = flow.parseRepoSlug(storeGet("pending-repo", 256)) || flow.parseRepoSlug(savedRepo);
+          if (parsedSaved) preselectedRepo = parsedSaved.slug;
         } catch (_) {}
       }
 
@@ -1144,22 +1036,6 @@
       if (googleBtn) googleBtn.onclick = function () { beginAuth("google", "sign_in", false).catch(function (e) { setStatus("Sign-in error: " + e.message, true); }); };
       var cancelBtn = byId("cancel-auth-btn");
       if (cancelBtn) cancelBtn.onclick = function () { storeRemove("flow"); syncAuthGateUi(); setStatus("Pending sign-in canceled.", false); };
-      var signOutBtn = byId("sign-out-btn");
-      if (signOutBtn) {
-        signOutBtn.onclick = function () {
-          pollGeneration++;
-          storeRemove("flow");
-          storeRemove("session");
-          session = null;
-          currentUser = null;
-          accountSnapshot = null;
-          inMemoryProviderToken = null;
-          syncAuthGateUi();
-          setStatus("Signed out. Authenticate to continue.", false);
-        };
-      }
-      var refreshBtn = byId("refresh-account-btn");
-      if (refreshBtn) refreshBtn.onclick = function () { loadAuthenticatedAccount().catch(function (e) { setStatus("Refresh failed: " + e.message, true); }); };
       var linkGhBtn = byId("link-github-btn");
       if (linkGhBtn) linkGhBtn.onclick = function () { beginAuth("github", "link", true).catch(function (e) { setStatus("GitHub linking failed: " + e.message, true); }); };
       var confirmProvBtn = byId("confirm-provider-btn");
@@ -1186,19 +1062,8 @@
             .catch(function (e) { setStatus("Provider revocation failed: " + e.message, true); });
         };
       }
-      var orgSelect = byId("org-select");
-      if (orgSelect) orgSelect.onchange = function () { populateRepoDropdown(orgSelect.value); };
-      var repoSelect = byId("repo-select");
-      if (repoSelect) {
-        repoSelect.onchange = function () {
-          var input = byId("repo-input");
-          if (input && repoSelect.value) input.value = repoSelect.value;
-        };
-      }
       var verifyRepoBtn = byId("verify-repo-btn");
       if (verifyRepoBtn) verifyRepoBtn.onclick = function () { handleVerifyAndEnrollRepo().catch(function (e) { setStatus("Verification error: " + e.message, true); }); };
-      var authReposBtn = byId("authorize-github-repos-btn");
-      if (authReposBtn) authReposBtn.onclick = function () { beginAuth("github", "sign_in", true).catch(function (e) { setStatus("GitHub authorization error: " + e.message, true); }); };
       var stateRetryBtn = byId("state-retry-btn");
       if (stateRetryBtn) {
         stateRetryBtn.onclick = function () {
