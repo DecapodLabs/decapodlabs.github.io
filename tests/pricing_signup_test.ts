@@ -789,6 +789,7 @@ Deno.test('discoverRuntimeConfig uses trusted API fallback and signup accepts a 
   assertEq(githubEnumerationCalls, 0, 'no GitHub repository enumeration');
   assertEq(doc.getElementById('account-bar')!.hidden, false, 'verified GitHub indicator shown');
   assertEq(doc.getElementById('account-summary')!.textContent, 'GitHub connected', 'no internal account identifier displayed');
+  assertEq(doc.getElementById('signup-status')!.hidden, true, 'stale sign-in loading message hidden after verified enrollment');
   assert(!doc.getElementById('account-summary')!.textContent.includes(accountId), 'UUID not shown to customers');
 });
 
