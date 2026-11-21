@@ -78,6 +78,13 @@ The proof ledger binds visible terminal states to ordered byte offsets and the s
   - Public `/pricing` remains `'UNDER WRAPS'` with disabled Pay controls unless server discovery explicitly signals live sales and billing are enabled.
   - `/signup` fails closed on `billing_not_configured` / `live_sale_disabled`, `organization_already_enrolled`, `repository_already_enrolled`, `admin_approval_required`, `code_host_link_required`, `provider_link_stepup_required`, and bounded `pending_fulfillment` polling (12 checks max before manual retry), unlocking CLI-ready instructions only when server `account-status` returns `backend_authorized: true`.
 
+### Simplified signup presentation and handoff
+
+- `GET /signup?repo=<owner%2Frepo>` accepts a valid repository navigation hint, immediately scrubs URL state, and prefills the sole `repo-input` once authenticated. Pricing and CLI-provided intent can also persist in same-tab session storage through a PKCE redirect; all values are parsed by `parseRepoSlug` and treated as unverified until server enrollment.
+- Authenticated UI exposes a provider mark and check only after a GitHub identity has been linked and account registration is not awaiting provider confirmation. It never renders a raw user UUID as a session label.
+- The only repository form submission is Verify. When an in-memory GitHub OAuth provider token is absent, Verify initiates consent on the trusted identity provider; the server still checks repository ownership, organizational authority and entitlements before quoting or charging. No client GitHub org/repo enumeration endpoints are invoked.
+- Checkout and CLI-ready panels retain server-bound authorization and payment checks. Hiding signout from signup is presentation only: expired or revoked sessions still fail closed.
+
 ## Authenticated `/admin/<org>` Organization Admin Route Interfaces (November 21, 2026)
 
 - **Inbound Browser Routes**:
