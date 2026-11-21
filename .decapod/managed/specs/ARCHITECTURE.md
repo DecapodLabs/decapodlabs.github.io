@@ -68,7 +68,6 @@ The homepage proof section at /#proofs plays a native Pi terminal recording. Its
 
 The proof player uses a crisp 1920 × 1160 rendering of a timed real Pi PTY stream. Its 2:30 edit preserves the actual prompt, rejected validation, autonomous repair, fresh checks and exact PR admission. The matching case-study cuts retain the previous timing, soundtrack and logo. Static chapter links and captions support browser playback.
 
-
 ## Waystead homepage case study and hierarchy (November 18, 2026)
 
 This is a static presentation change in `index.html` and `styles.css`: hero and teaser film → kernel value and features → Waystead game-development use case → capability catalog and active-agent screenshots → architecture → lower-page recorded proof → installation and closing. The case study is semantic HTML with responsive CSS and a typography/stack illustration, not fabricated gameplay media. Its engine stack is grounded in Waystead's maintained project README and `experiments/webgpu/README.md` (private source, no public source link).
@@ -101,8 +100,8 @@ Generated capability obligations: `persistent-state` is declared for this projec
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `b388ed7433f724e836814b3825d99c3db7a53eb560635e8956698ee6989b31e4`
-- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files)
+- Repository signal fingerprint: `24a67cb7c145141509292618f4778c94248f43d936ef5bdaf8f79d1cd79007fc`
+- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (1 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->
 
@@ -113,6 +112,7 @@ The homepage adds a named `#showcase` section linked from the sticky navigation 
 ## Homepage structure and runtime (November 18, 2026)
 
 The single `index.html` remains GitHub Pages static HTML: hero with the existing `main.js` Cargo/Nix install/copy controls and a lightweight action prompt, teaser, Showcase group (Waystead introduction with six screenshot states plus the startup engineering swarm), Features group (four principle cards and the 14-capability catalog), Architecture with mental-model link, secondary Pi proof, closing and footer. Existing fragment aliases are retained for `#install`, `#kernel`, `#capabilities`, and `#proof`. The screenshot `assets/waystead-waterside.webp` was derived from the user's actual captured Godot runtime, not generated marketing art. A six-item carousel is controlled by the existing `main.js` logic; no JS dependencies are introduced. Validate image presence, hash references, browser interactions and responsive hero layout before release.
+
 ## Source-grounded showcase design and desktop hero sizing
 
 The Homepage Showcase continues to contain two independent applications under the same `#showcase` anchor: Waystead's game-engineering case and the three recorded startup-software agent swarms. The Waystead display composes the existing in-game waterside image with two user-supplied static image files, `assets/waystead-logo.png` and `assets/abaxi-logo.png`, stored directly in Git; text remains semantic HTML. CSS scopes the case layout, tonal hierarchy and responsive image placement without new runtime dependencies. The Waystead development carousel contains seven images and retains its arrow, dot, keyboard, touch and full-resolution controls.
@@ -121,3 +121,11 @@ At desktop widths, the landing hero tightens its typographic scale, whitespace a
 
 ## Seven-slide image gallery and illustrated application art — November 19, 2026
 Static site assets `assets/waystead-key-art.webp`, `assets/waystead-wordmark-transparent.webp` and `assets/waystead-inventory.webp` are part of this change. The first is a clearly labeled conceptual illustration, the second a transparent identity asset, and the third an actual in-game screenshot. The founder-provided playable waterside image is moved to seventh/last in the screenshot carousel. `main.js` maps each slide and caption to its matching image, with a derived count instead of an assumed six. Public hero copy explicitly includes coordinated agents on the same machine. No additional runtime, hosted service, model API or payment dependency is introduced. Publication still requires governed validation and live-site readback.
+
+## P0 Pricing and Authenticated Signup Client Architecture — November 21, 2026
+Static GitHub Pages hosting serves `pricing/index.html` at `/pricing` (preserving `pricing.html`), `signup/index.html` at `/signup`, shared classic script `cloud-flow.js`, `pricing.js`, and `signup/signup.js`. Root-relative asset paths keep `/pricing` and `/signup` functional with or without trailing slashes.
+
+1. **Shared Pure Flow Layer (`cloud-flow.js`)**: Exposes `DecapodCloudFlow` with strict `parseRepoSlug` / `parseRepoSearch`, same-origin `sanitizeReturnUrl` / `parseSafeReturnParam`, `buildAuthAuthorizeUrl`, `isAllowedCheckoutUrl`, `validateSessionRecord`, `classifyAccessState`, `createBoundedPoller`, and `discoverRuntimeConfig` (probing `https://api.decapodlabs.ai` first and falling back to `https://goyxpcmxetztjlrrcwew.supabase.co/functions/v1/decapod-onboarding` when custom-domain routing is unavailable).
+2. **Public Pricing (`pricing/index.html`, `pricing.html`, `pricing.js`, `pricing.css`)**: Retains the Local/Cloud comparison, sliders, annual savings flyout, and `'UNDER WRAPS'` disabled Pay controls by default. Displays validated `?repo=` intent via `#pricing-repo-banner` (`textContent` only) and gates Pay handoffs behind server-discovered `liveSaleEnabled` and PKCE auth initiation.
+3. **Authenticated Signup (`signup/index.html`, `signup/signup.js`, `signup/signup.css`)**: `DecapodSignupApp.createSignupController` scrubs URL callback parameters/fragments immediately via `history.replaceState`, rejects implicit fragment tokens, holds bearer session metadata only in `sessionStorage` and ephemeral provider tokens only in JS memory, enforces provider-link/quarantine step-up, verifies GitHub org/repo enrollment via the hosted onboarding API, enforces fail-closed outcomes (`organization_already_enrolled`, `admin_approval_required`, `pending_fulfillment` bounded polling, `billing_not_configured` / `live_sale_disabled`), and invokes server-quoted Checkout before confirming `backend_authorized=true` for CLI resumption.
+4. **Verification (`scripts/check-site.ts`, `tests/pricing_signup_test.ts`)**: `scripts/check-site.ts` compiles all classic browser scripts, verifies 7 HTML documents, resolves `/pricing` and `/signup` directory routes, and checks DOM injection safety and public-repo confidentiality across authored files; `tests/pricing_signup_test.ts` exercises `?repo=` parsing, hostile-return rejection, auth-before-checkout gating, and state transitions offline via Deno.

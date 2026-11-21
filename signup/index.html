@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#fff5e9">
+<meta name="robots" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer">
+<meta name="description" content="Authenticated Decapod Cloud repository verification and subscription activation.">
+<link rel="canonical" href="https://decapodlabs.ai/signup">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css?v=20261119-fixed-footer">
+<link rel="stylesheet" href="/signup/signup.css?v=20261121-p0">
+<script src="/cloud-flow.js?v=20261121-p0" defer></script>
+<script src="/signup/signup.js?v=20261121-p0" defer></script>
+<title>Cloud Signup — Decapod Labs</title>
+</head>
+<body class="signup-page site-footer-pinned">
+<a class="skip" href="#main">Skip to content</a>
+<header class="nav">
+  <div class="wrap nav-content">
+    <a href="/" class="brand" aria-label="Decapod Labs home"><img class="site-wordmark" src="/assets/logo-a.png" alt="Decapod Labs" width="420" height="140"></a>
+    <nav class="nav-links" aria-label="Site navigation"><a href="/#showcase">Showcase</a><a href="/#features">Features</a><a href="/#architecture">Architecture</a><a href="/tecr.html">Rework</a><a href="/pricing">Pricing</a></nav>
+    <a class="nav-cta" href="https://github.com/DecapodLabs/decapod" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>
+  </div>
+</header>
+<main id="main">
+  <section class="signup-hero" aria-labelledby="signup-heading">
+    <div class="wrap signup-hero-grid">
+      <div>
+        <p class="signup-eyebrow">DECAPOD CLOUD · AUTHENTICATED ENROLLMENT</p>
+        <h1 id="signup-heading">Verify your repo.<br><span>Activate Cloud.</span></h1>
+        <p class="signup-intro">Sign in to verify your GitHub organization and repository authority, review a server-issued subscription quote, and activate your team's Cloud seat.</p>
+      </div>
+      <aside class="signup-guardrail-card" aria-label="Security boundary">
+        <strong>FAIL-CLOSED AUTHORIZATION</strong>
+        <p>Signing in never creates a charge. Organization claims, repository ownership, quotes, and seat activation are verified server-side before Checkout or CLI access is enabled.</p>
+      </aside>
+    </div>
+  </section>
+
+  <section class="signup-app-section" id="signup-app" aria-label="Authenticated Cloud signup">
+    <div class="wrap signup-shell">
+      <div class="signup-banner" id="signup-repo-banner" role="status" hidden>
+        <strong id="signup-repo-banner-title"></strong>
+        <span id="signup-repo-banner-note"></span>
+      </div>
+
+      <div class="signup-status-line" id="signup-status" role="status" aria-live="polite">Checking managed authentication status…</div>
+
+      <div class="signup-card" id="account-bar" hidden>
+        <div class="account-bar-grid">
+          <div>
+            <span class="signup-kicker">AUTHENTICATED SESSION</span>
+            <p class="account-summary" id="account-summary"></p>
+          </div>
+          <div class="account-actions">
+            <button type="button" class="signup-btn signup-btn-secondary" id="refresh-account-btn">Refresh status</button>
+            <button type="button" class="signup-btn signup-btn-ghost" id="sign-out-btn">Sign out</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="signup-card" id="auth-gate">
+        <span class="signup-kicker">STEP 01 · SIGN IN REQUIRED</span>
+        <h2>Authenticate to continue</h2>
+        <p class="signup-copy">Organization, repository, and billing details stay locked until you sign in with a managed identity provider.</p>
+        <div class="auth-actions">
+          <button type="button" class="signup-btn signup-btn-primary" id="auth-github">Sign in with GitHub <span aria-hidden="true">↗</span></button>
+          <button type="button" class="signup-btn signup-btn-secondary" id="auth-google">Sign in with Google <span aria-hidden="true">↗</span></button>
+          <button type="button" class="signup-btn signup-btn-ghost" id="cancel-auth-btn" hidden>Cancel pending sign-in</button>
+        </div>
+        <p class="signup-hint" id="auth-provider-note" role="status"></p>
+      </div>
+
+      <div class="signup-card" id="step-identity" hidden>
+        <span class="signup-kicker">STEP 02 · IDENTITY VERIFICATION</span>
+        <h2 id="identity-heading">Connect a verified GitHub identity</h2>
+        <p class="signup-copy" id="identity-message"></p>
+        <div class="signup-actions" id="identity-link-actions" hidden>
+          <button type="button" class="signup-btn signup-btn-primary" id="link-github-btn">Link verified GitHub account <span aria-hidden="true">↗</span></button>
+        </div>
+        <div class="signup-actions" id="identity-quarantine-actions" hidden>
+          <button type="button" class="signup-btn signup-btn-primary" id="confirm-provider-btn">Confirm attached provider</button>
+          <button type="button" class="signup-btn signup-btn-danger" id="revoke-provider-btn">Revoke unexpected provider</button>
+        </div>
+      </div>
+
+      <div class="signup-card" id="step-org-repo" hidden>
+        <span class="signup-kicker">STEP 02 · ORGANIZATION &amp; REPOSITORY</span>
+        <h2>Select and verify your repository</h2>
+        <p class="signup-copy" id="org-repo-copy">Choose an organization and repository you administer on GitHub. Your repository slug is verified against immutable provider records before any quote is generated.</p>
+
+        <div class="org-picker-block" id="org-picker-block" hidden>
+          <div class="signup-field">
+            <label for="org-select">Verified GitHub organization or owner</label>
+            <select id="org-select"></select>
+          </div>
+          <div class="signup-field">
+            <label for="repo-select">Repository in selected organization</label>
+            <select id="repo-select"></select>
+          </div>
+        </div>
+
+        <div class="signup-field">
+          <label for="repo-input">Repository slug (<code>owner/repo</code>)</label>
+          <input id="repo-input" type="text" autocomplete="off" spellcheck="false" placeholder="DecapodLabs/decapod" maxlength="201">
+        </div>
+
+        <div class="signup-actions">
+          <button type="button" class="signup-btn signup-btn-primary" id="verify-repo-btn">Verify repository &amp; continue <span aria-hidden="true">↗</span></button>
+          <button type="button" class="signup-btn signup-btn-secondary" id="authorize-github-repos-btn" hidden>Authorize GitHub repository lookup <span aria-hidden="true">↗</span></button>
+        </div>
+        <p class="signup-hint" id="org-repo-hint" role="status"></p>
+      </div>
+
+      <div class="signup-card signup-card-state" id="step-state" hidden>
+        <span class="signup-kicker" id="state-kicker">STATUS</span>
+        <h2 id="state-heading"></h2>
+        <p class="signup-copy" id="state-message"></p>
+        <p class="signup-hint" id="state-detail" role="status"></p>
+        <div class="signup-actions">
+          <button type="button" class="signup-btn signup-btn-primary" id="state-retry-btn" hidden>Check status now</button>
+          <button type="button" class="signup-btn signup-btn-secondary" id="state-change-repo-btn">Choose another repository</button>
+        </div>
+      </div>
+
+      <div class="signup-card" id="step-checkout" hidden>
+        <span class="signup-kicker">STEP 03 · SERVER-QUOTED CHECKOUT</span>
+        <h2>Review subscription quote</h2>
+        <p class="signup-copy" id="checkout-target-label"></p>
+
+        <div class="billing-closed-box" id="billing-closed-notice" hidden>
+          <div class="cloud-price-flag-inline">
+            <span aria-hidden="true">☁</span>
+            <div>
+              <strong>UNDER WRAPS</strong>
+              <small>Live Cloud purchasing is not enabled for this deployment yet.</small>
+            </div>
+          </div>
+          <p class="signup-hint">Your account and repository verification are preserved. Purchasing will open here once billing is enabled on the server.</p>
+        </div>
+
+        <div id="billing-quote-controls" hidden>
+          <div class="signup-form-row">
+            <div class="signup-field">
+              <label for="billing-cadence">Billing period</label>
+              <select id="billing-cadence">
+                <option value="month">Monthly</option>
+                <option value="year">Annual (12 months upfront)</option>
+              </select>
+            </div>
+            <div class="signup-field">
+              <label for="seat-quantity">Human seats for this repository</label>
+              <input id="seat-quantity" type="number" min="1" max="1000" step="1" value="1">
+            </div>
+          </div>
+          <div class="signup-actions">
+            <button type="button" class="signup-btn signup-btn-secondary" id="quote-btn">Get server quote</button>
+          </div>
+          <div class="quote-summary" id="quote-summary" hidden>
+            <div class="quote-row"><span>Authoritative quote</span><strong id="quote-amount"></strong></div>
+            <p class="quote-details" id="quote-details"></p>
+            <p class="quote-commitment" id="quote-commitment"></p>
+            <div class="signup-actions">
+              <button type="button" class="signup-btn signup-btn-primary" id="checkout-btn" disabled>Proceed to Stripe Checkout <span aria-hidden="true">↗</span></button>
+            </div>
+          </div>
+        </div>
+        <div class="signup-actions">
+          <button type="button" class="signup-btn signup-btn-ghost" id="checkout-back-btn">Change repository</button>
+        </div>
+      </div>
+
+      <div class="signup-card signup-card-ready" id="step-ready" hidden>
+        <span class="signup-kicker">AUTHORIZED · BACKEND_AUTHORIZED=TRUE</span>
+        <h2>Cloud repository access is active</h2>
+        <p class="signup-copy" id="ready-summary"></p>
+        <div class="cli-resume-box">
+          <strong>Return to your Decapod CLI</strong>
+          <p>Your repository seat and cloud authorization are confirmed on the server. Return to the terminal where <code>decapod init --backend cloud</code> or <code>decapod cloud login</code> is running, or verify status locally:</p>
+          <pre><code>decapod cloud status</code></pre>
+          <small>No session tokens or payment credentials are transferred through browser query parameters or logs.</small>
+        </div>
+        <div class="signup-actions">
+          <a class="signup-btn signup-btn-secondary" href="https://decapodlabs.github.io/decapod/quickstart.html">Read Cloud docs <span aria-hidden="true">↗</span></a>
+          <button type="button" class="signup-btn signup-btn-ghost" id="ready-another-btn">Check another repository</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+<footer class="footer"><div class="wrap footer-grid"><a href="/" class="footer-brand" aria-label="Decapod Labs home"><img class="site-wordmark" src="/assets/logo-c.png?v=20261118-footer" alt="Decapod Labs" width="420" height="140"></a><span>© 2026 Decapod Labs</span><div><a href="/pricing">Pricing ↗</a><a href="https://github.com/DecapodLabs/decapod">GitHub ↗</a><a href="https://decapodlabs.github.io/decapod/">Read the docs ↗</a></div></div></footer>
+</body>
+</html>

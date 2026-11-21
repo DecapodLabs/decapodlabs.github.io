@@ -40,7 +40,6 @@ independently against the publicly served Pages URL.
 
 The controller selected the single Pi task under the human-authorized mission; direct human authorship of that prompt is not attested. The separately pinned retrospective objective-provenance disclosure preserves the original runtime/capture/manifest bytes. Rendered language says ONE ENGINEERING OBJECTIVE, and both presentation guards reject a substituted authorship claim. This correction requires rerendered media, source inventory review and fresh native admission; prior film/validation bytes cannot authorize it.
 
-
 ## Waystead game-development use case and proof placement (November 18, 2026)
 
 Show Waystead as a legitimate in-progress game-development workload for the free local Decapod kernel. The source project has playable Godot gameplay and an experimental WebAssembly/WebGPU desktop path in Electron. Its design targets, incomplete runtime experiments, and the game’s unpublished source must not be represented as shipped capabilities or public access. Decapod governs the AI-assisted engineering activity—task ownership, authority boundaries, durable project context, and evidence—rather than generating the game itself.
@@ -66,8 +65,8 @@ These declarations select authoring and proof obligations; they do not attest im
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `b388ed7433f724e836814b3825d99c3db7a53eb560635e8956698ee6989b31e4`
-- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files)
+- Repository signal fingerprint: `24a67cb7c145141509292618f4778c94248f43d936ef5bdaf8f79d1cd79007fc`
+- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (1 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->
 
@@ -100,3 +99,10 @@ The complete featured Waystead artwork card in the homepage Showcase—ABAXI mar
 
 ## Waystead inline link and heading-color continuity
 The first textual mention of Waystead in the Showcase's game-development paragraph uses the same warm accent (`#9b513a`) as “Across disciplines.” and points directly to the official Waystead waitlist at `https://whop.com/abaxi-studios/waystead-waitlist/`. Preserve the full-card waitlist link, logo/art treatment, gameplay gallery, and all other product claims and page sections unchanged. The inline text link is independent of the adjacent linked artwork card and remains keyboard-accessible.
+
+## P0 Pricing (`/pricing`) and Authenticated Cloud Signup (`/signup`) — November 21, 2026
+Deliver the canonical public `/pricing` route (`pricing/index.html`) alongside compatible `pricing.html` and the authenticated Cloud purchasing sub-application at `/signup` (`signup/index.html`, `signup/signup.js`, `signup/signup.css`, backed by pure helpers in `cloud-flow.js`).
+
+Public `/pricing` safely parses optional `?repo=<percent-encoded-org%2Frepo>` preselection intent (strictly validating `owner/repo` syntax via `DecapodCloudFlow.parseRepoSearch`, rendering solely through `textContent`, and ignoring invalid or hostile inputs). While server-side live sales remain disabled, both Cloud Pay actions (`#cloud-pay-cta` and `#preview-checkout`) stay visibly disabled under the `'UNDER WRAPS'` disclosure with zero fabricated prices or Checkout URLs; once server configuration enables live sales, Pay routes unauthenticated visitors through managed PKCE authentication (`https://api.decapodlabs.ai/auth`, with automatic fallback discovery to the hosted onboarding endpoint) before entering `/signup`.
+
+Direct visits to `/signup` enforce an authentication gate before showing any organization, repository, or billing details. After PKCE sign-in (including GitHub provider-link step-up for Google-signed-in users), `/signup` verifies or collects the target GitHub organization and repository, enforces fail-closed states (`organization_already_enrolled`, `admin_approval_required`, `pending_fulfillment`, `billing_disabled`), invokes server-quoted Checkout only when authenticated, repo-verified, and server-enabled, and displays return-to-CLI instructions once server authorization confirms `backend_authorized=true`.
