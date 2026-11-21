@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#fff5e9">
+<meta name="robots" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer">
+<meta name="description" content="Authenticated Decapod Cloud organization administration: members, invitations, repository assignments, resource limits, spend caps, devices, and billing.">
+<link rel="canonical" href="https://decapodlabs.ai/admin/">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css?v=20261119-fixed-footer">
+<link rel="stylesheet" href="/admin/admin.css?v=20261121-w2">
+<script src="/cloud-flow.js?v=20261121-w2" defer></script>
+<script src="/admin/admin.js?v=20261121-w2" defer></script>
+<title>Cloud Organization Admin — Decapod Labs</title>
+</head>
+<body class="admin-page site-footer-pinned">
+<a class="skip" href="#main">Skip to content</a>
+<header class="nav">
+  <div class="wrap nav-content">
+    <a href="/" class="brand" aria-label="Decapod Labs home"><img class="site-wordmark" src="/assets/logo-a.png" alt="Decapod Labs" width="420" height="140"></a>
+    <nav class="nav-links" aria-label="Site navigation"><a href="/#showcase">Showcase</a><a href="/#features">Features</a><a href="/#architecture">Architecture</a><a href="/tecr.html">Rework</a><a href="/pricing">Pricing</a></nav>
+    <a class="nav-cta" href="https://github.com/DecapodLabs/decapod" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>
+  </div>
+</header>
+<main id="main">
+  <section class="admin-hero" aria-labelledby="admin-heading">
+    <div class="wrap admin-hero-grid">
+      <div>
+        <p class="admin-eyebrow">DECAPOD CLOUD · ORGANIZATION ADMIN</p>
+        <h1 id="admin-heading">Organization Admin.<br><span>Scoped &amp; orthogonal.</span></h1>
+        <p class="admin-intro">Administer one verified Cloud organization at a time. URL slugs are untrusted navigation hints resolved server-side to your organization's immutable Cloud UUID.</p>
+      </div>
+      <aside class="admin-guardrail-card" aria-label="Authorization boundary">
+        <strong>ZERO-SEAT ORTHOGONAL AUTHORITY</strong>
+        <p>Organization administration never grants or requires repository governance-data access. Admins manage members, delegation, policies, limits, devices, and billing without reading repository tasks, events, or evidence.</p>
+      </aside>
+    </div>
+  </section>
+
+  <section class="admin-app-section" id="admin-app" aria-label="Authenticated organization administration">
+    <div class="wrap admin-shell">
+      <div class="admin-banner" id="admin-route-banner" role="status" hidden>
+        <strong id="admin-route-banner-title"></strong>
+        <span id="admin-route-banner-note"></span>
+      </div>
+
+      <div class="admin-status-line" id="admin-status" role="status" aria-live="polite">Checking managed authentication status…</div>
+
+      <div class="admin-card" id="admin-account-bar" hidden>
+        <div class="admin-account-grid">
+          <div>
+            <span class="admin-kicker">AUTHENTICATED OPERATOR SESSION</span>
+            <p class="admin-account-summary" id="admin-account-summary"></p>
+          </div>
+          <div class="admin-org-switcher" id="admin-org-switcher-wrap" hidden>
+            <label for="admin-org-select">Administered organization</label>
+            <select id="admin-org-select"></select>
+            <span class="admin-org-badge" id="admin-org-uuid-badge"></span>
+          </div>
+          <div class="admin-account-actions">
+            <button type="button" class="admin-btn admin-btn-secondary" id="admin-refresh-btn">Refresh organization</button>
+            <button type="button" class="admin-btn admin-btn-ghost" id="admin-sign-out-btn">Sign out</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="admin-card" id="admin-auth-gate">
+        <span class="admin-kicker">STEP 01 · AUTHENTICATION REQUIRED</span>
+        <h2>Sign in to administer an organization</h2>
+        <p class="admin-copy">Organization settings, membership directories, billing controls, spend caps, and device inventories stay locked until managed PKCE authentication completes and server-side administrator authority is confirmed.</p>
+        <div class="admin-actions">
+          <button type="button" class="admin-btn admin-btn-primary" id="admin-auth-github">Sign in with GitHub <span aria-hidden="true">↗</span></button>
+          <button type="button" class="admin-btn admin-btn-secondary" id="admin-auth-google">Sign in with Google <span aria-hidden="true">↗</span></button>
+          <button type="button" class="admin-btn admin-btn-ghost" id="admin-cancel-auth-btn" hidden>Cancel pending sign-in</button>
+        </div>
+        <p class="admin-hint" id="admin-auth-provider-note" role="status"></p>
+      </div>
+
+      <div class="admin-card" id="admin-identity-panel" hidden>
+        <span class="admin-kicker">STEP 02 · IDENTITY VERIFICATION</span>
+        <h2 id="admin-identity-heading">Connect a verified GitHub identity</h2>
+        <p class="admin-copy" id="admin-identity-message"></p>
+        <div class="admin-actions" id="admin-identity-link-actions" hidden>
+          <button type="button" class="admin-btn admin-btn-primary" id="admin-link-github-btn">Link verified GitHub account <span aria-hidden="true">↗</span></button>
+        </div>
+        <div class="admin-actions" id="admin-identity-quarantine-actions" hidden>
+          <button type="button" class="admin-btn admin-btn-primary" id="admin-confirm-provider-btn">Confirm attached provider</button>
+          <button type="button" class="admin-btn admin-btn-danger" id="admin-revoke-provider-btn">Revoke unexpected provider</button>
+        </div>
+      </div>
+
+      <div class="admin-card admin-card-denied" id="admin-denied-panel" hidden>
+        <span class="admin-kicker" id="admin-denied-kicker">ACCESS DENIED</span>
+        <h2 id="admin-denied-heading">Organization administration unavailable</h2>
+        <p class="admin-copy" id="admin-denied-message"></p>
+        <p class="admin-hint" id="admin-denied-detail" role="status"></p>
+        <div class="admin-actions" id="admin-denied-actions">
+          <button type="button" class="admin-btn admin-btn-primary" id="admin-open-authorized-org-btn" hidden>Switch to an administered organization</button>
+          <a class="admin-btn admin-btn-secondary" href="/pricing">View Cloud plans <span aria-hidden="true">↗</span></a>
+          <a class="admin-btn admin-btn-ghost" href="/signup">Go to Cloud signup <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+
+      <div class="admin-workspace" id="admin-workspace" hidden>
+        <section class="admin-card admin-context-card" aria-labelledby="admin-context-heading">
+          <div class="admin-context-header">
+            <div>
+              <span class="admin-kicker">CANONICAL ORGANIZATION CONTEXT</span>
+              <h2 id="admin-context-heading">Verified organization scope</h2>
+            </div>
+            <span class="admin-pill" id="admin-orthogonality-pill">ZERO-SEAT ADMIN · NO REPO DATA ACCESS</span>
+          </div>
+          <dl class="admin-context-meta">
+            <div><dt>Canonical Cloud Org UUID</dt><dd id="admin-active-org-uuid"></dd></div>
+            <div><dt>Resolved Slug</dt><dd id="admin-active-org-slug"></dd></div>
+            <div><dt>Source Provider</dt><dd id="admin-active-org-provider"></dd></div>
+            <div><dt>Governance-Data Isolation</dt><dd id="admin-orthogonality-summary"></dd></div>
+          </dl>
+          <p class="admin-hint" id="admin-route-mode-note"></p>
+        </section>
+
+        <section class="admin-card" id="admin-repos-section" aria-labelledby="admin-repos-heading">
+          <span class="admin-kicker">REPOSITORIES &amp; PAID SEAT ASSIGNMENTS</span>
+          <h2 id="admin-repos-heading">Repository registry &amp; explicit seat grants</h2>
+          <p class="admin-copy">Org admins can enroll repositories, rename display settings, and assign purchased seats without holding a contributor seat themselves. Repository tasks, events, and evidence remain inaccessible from Admin.</p>
+
+          <div class="admin-table-wrap">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th scope="col">Repository</th>
+                  <th scope="col">Canonical ID</th>
+                  <th scope="col">Paid capacity</th>
+                  <th scope="col">Your repo data access</th>
+                </tr>
+              </thead>
+              <tbody id="admin-repos-list"></tbody>
+            </table>
+          </div>
+          <p class="admin-hint" id="admin-repos-empty" hidden>No active repositories enrolled in this organization yet.</p>
+
+          <div class="admin-subgrid">
+            <div class="admin-subcard">
+              <h3>Enroll verified GitHub repository</h3>
+              <div class="admin-field">
+                <label for="admin-enroll-repo-input">Repository slug (<code>owner/repo</code>)</label>
+                <input id="admin-enroll-repo-input" type="text" autocomplete="off" spellcheck="false" placeholder="DecapodLabs/decapod" maxlength="201">
+              </div>
+              <div class="admin-actions">
+                <button type="button" class="admin-btn admin-btn-primary" id="admin-enroll-repo-btn">Verify &amp; enroll repository</button>
+                <button type="button" class="admin-btn admin-btn-secondary" id="admin-authorize-github-btn" hidden>Authorize GitHub repo lookup <span aria-hidden="true">↗</span></button>
+              </div>
+              <p class="admin-hint" id="admin-enroll-status" role="status"></p>
+            </div>
+
+            <div class="admin-subcard">
+              <h3>Rename repository display label</h3>
+              <div class="admin-field">
+                <label for="admin-settings-project-select">Target repository</label>
+                <select id="admin-settings-project-select"></select>
+              </div>
+              <div class="admin-field">
+                <label for="admin-settings-project-name">Display name</label>
+                <input id="admin-settings-project-name" type="text" maxlength="200" autocomplete="off">
+              </div>
+              <div class="admin-actions">
+                <button type="button" class="admin-btn admin-btn-secondary" id="admin-save-project-btn">Save display name</button>
+              </div>
+              <p class="admin-hint" id="admin-project-settings-status" role="status"></p>
+            </div>
+          </div>
+
+          <div class="admin-subcard admin-seat-assign-card">
+            <h3>Assign or revoke paid repository seat</h3>
+            <p class="admin-hint">Assigning a seat grants that member access only to the chosen repository. Removing an admin's paid seat preserves their organization Admin role.</p>
+            <div class="admin-form-row">
+              <div class="admin-field">
+                <label for="admin-assign-project-select">Repository</label>
+                <select id="admin-assign-project-select"></select>
+              </div>
+              <div class="admin-field">
+                <label for="admin-assign-member-select">Seated member</label>
+                <select id="admin-assign-member-select"></select>
+              </div>
+            </div>
+            <div class="admin-actions">
+              <button type="button" class="admin-btn admin-btn-primary" id="admin-assign-seat-btn">Assign paid seat</button>
+              <button type="button" class="admin-btn admin-btn-danger" id="admin-revoke-seat-btn">Revoke paid seat</button>
+              <button type="button" class="admin-btn admin-btn-ghost" id="admin-more-billing-members-btn" hidden>Load more eligible members</button>
+            </div>
+            <p class="admin-hint" id="admin-seat-assign-status" role="status"></p>
+          </div>
+        </section>
+
+        <section class="admin-card" id="admin-members-section" aria-labelledby="admin-members-heading">
+          <span class="admin-kicker">MEMBERS, INVITATIONS &amp; DELEGATION</span>
+          <h2 id="admin-members-heading">Organization directory &amp; admin delegation</h2>
+          <p class="admin-copy">Invite teammates by verified account UUID, manage seated members, delegate administrator authority independently of repository seats, and transfer primary ownership.</p>
+
+          <div class="admin-subgrid">
+            <div class="admin-subcard">
+              <h3>Seated workspace members</h3>
+              <ul class="admin-list" id="admin-members-list"></ul>
+              <div class="admin-actions">
+                <button type="button" class="admin-btn admin-btn-secondary" id="admin-refresh-members-btn">Refresh members</button>
+                <button type="button" class="admin-btn admin-btn-ghost" id="admin-next-members-btn" hidden>Load more members</button>
+              </div>
+              <p class="admin-hint" id="admin-members-status" role="status"></p>
+            </div>
+
+            <div class="admin-subcard">
+              <h3>Invite teammate (membership only)</h3>
+              <p class="admin-hint">Invitations bind to a verified Decapod Cloud account UUID. Acceptance grants organization membership only; repository data access requires an explicit seat assignment.</p>
+              <div class="admin-field">
+                <label for="admin-invite-recipient">Recipient Cloud Account UUID</label>
+                <input id="admin-invite-recipient" type="text" autocomplete="off" spellcheck="false" placeholder="00000000-0000-4000-8000-000000000000" maxlength="36">
+              </div>
+              <div class="admin-actions">
+                <button type="button" class="admin-btn admin-btn-primary" id="admin-invite-btn">Create invitation</button>
+                <button type="button" class="admin-btn admin-btn-secondary" id="admin-refresh-invitations-btn">Refresh invitations</button>
+                <button type="button" class="admin-btn admin-btn-ghost" id="admin-more-invitations-btn" hidden>Load more invitations</button>
+              </div>
+              <div class="admin-invite-copy-box" id="admin-invitation-copy-box" hidden>
+                <label for="admin-invitation-link">Single-use invitation URL</label>
+                <input id="admin-invitation-link" type="text" readonly>
+                <button type="button" class="admin-btn admin-btn-secondary" id="admin-copy-invitation-btn">Copy invitation URL</button>
+              </div>
+              <ul class="admin-list" id="admin-invitations-list"></ul>
+              <p class="admin-hint" id="admin-invitations-status" role="status"></p>
+            </div>
+          </div>
+
+          <div class="admin-subcard" id="admin-delegation-box">
+            <h3>Administrator delegation &amp; continuity</h3>
+            <p class="admin-hint" id="admin-delegation-note">Delegated organization administrators manage members, billing, repositories, policies, and limits without automatic repository governance-data grants. The last active administrator cannot be removed.</p>
+            <p class="admin-hint" id="admin-delegation-meta"></p>
+            <ul class="admin-list" id="admin-delegation-list"></ul>
+            <ul class="admin-list" id="admin-delegation-invites-list"></ul>
+            <div class="admin-form-row">
+              <div class="admin-field">
+                <label for="admin-delegate-account">Target member Account UUID</label>
+                <input id="admin-delegate-account" type="text" autocomplete="off" spellcheck="false" placeholder="00000000-0000-4000-8000-000000000000" maxlength="36">
+              </div>
+              <div class="admin-field">
+                <label for="admin-delegate-action-note">Expected policy role</label>
+                <input id="admin-delegate-action-note" type="text" readonly value="admin (orthogonal to repo seats)">
+              </div>
+            </div>
+            <div class="admin-actions">
+              <button type="button" class="admin-btn admin-btn-primary" id="admin-grant-admin-btn">Grant org admin</button>
+              <button type="button" class="admin-btn admin-btn-secondary" id="admin-invite-admin-btn">Invite org admin</button>
+              <button type="button" class="admin-btn admin-btn-danger" id="admin-revoke-admin-btn">Revoke org admin</button>
+              <button type="button" class="admin-btn admin-btn-secondary" id="admin-transfer-owner-btn">Transfer primary ownership</button>
+            </div>
+            <p class="admin-hint" id="admin-delegation-status" role="status"></p>
+          </div>
+        </section>
+
+        <section class="admin-card" id="admin-templates-section" aria-labelledby="admin-templates-heading">
+          <span class="admin-kicker">CROSS-ORGANIZATION POLICY TEMPLATES</span>
+          <h2 id="admin-templates-heading">Export &amp; import repository access-policy templates</h2>
+          <p class="admin-copy">When you administer multiple organizations, export bounded repository policy templates (tier, repair-approval, TTL) into another organization you administer without copying seats, grants, billing, or governance data.</p>
+          <div class="admin-form-row">
+            <div class="admin-field">
+              <label for="admin-template-source-project">Source repository (current org)</label>
+              <select id="admin-template-source-project"></select>
+            </div>
+            <div class="admin-field">
+              <label for="admin-template-target-org">Destination administered organization</label>
+              <select id="admin-template-target-org"></select>
+            </div>
+            <div class="admin-field">
+              <label for="admin-template-target-project">Target repository ID/slug (on destination)</label>
+              <input id="admin-template-target-project" type="text" autocomplete="off" spellcheck="false" placeholder="TargetOrg/repo" maxlength="201">
+            </div>
+          </div>
+          <div class="admin-actions">
+            <button type="button" class="admin-btn admin-btn-secondary" id="admin-export-template-btn">Export policy template</button>
+            <button type="button" class="admin-btn admin-btn-secondary" id="admin-preview-template-btn" disabled>Preview in target</button>
+            <button type="button" class="admin-btn admin-btn-primary" id="admin-import-template-btn" disabled>Apply policy template</button>
+          </div>
+          <p class="admin-hint" id="admin-template-status" role="status"></p>
+          <ul class="admin-list" id="admin-template-audit-list"></ul>
+        </section>
+
+        <section class="admin-card" id="admin-limits-section" aria-labelledby="admin-limits-heading">
+          <span class="admin-kicker">SPEND CAPS, OPERATING LIMITS &amp; ALERTS</span>
+          <h2 id="admin-limits-heading">Resource limits &amp; paid overage spend cap</h2>
+          <p class="admin-copy">Paid overages remain OFF by default ($0 exposure). Configure operating limits and warning/critical alerts per resource category, or opt in explicitly with a finite monthly USD spend cap.</p>
+
+          <div class="admin-overage-box">
+            <p class="admin-status-inline" id="admin-overage-status">Loading spend-cap policy…</p>
+            <p class="admin-hint" id="admin-overage-receipt"></p>
+            <div class="admin-form-row">
+              <div class="admin-field">
+                <label for="admin-overage-cap-usd">Monthly paid overage spend cap (USD)</label>
+                <input id="admin-overage-cap-usd" type="number" min="1" max="1000000" step="0.01" placeholder="25.00">
+              </div>
+              <div class="admin-field admin-checkbox-field">
+                <label><input id="admin-overage-terms-check" type="checkbox"> Acknowledge published V7 per-resource overage terms (request pressure excluded)</label>
+              </div>
+            </div>
+            <div class="admin-actions">
+              <button type="button" class="admin-btn admin-btn-primary" id="admin-overages-enable-btn">Enable paid overages with cap</button>
+              <button type="button" class="admin-btn admin-btn-secondary" id="admin-overages-update-btn" hidden>Update monthly spend cap</button>
+              <button type="button" class="admin-btn admin-btn-danger" id="admin-overages-revoke-btn" hidden>Revoke paid overages</button>
+            </div>
+            <p class="admin-hint" id="admin-overage-save-status" role="status"></p>
+            <ul class="admin-list" id="admin-overage-ledger-list"></ul>
+          </div>
+
+          <div class="admin-resource-grid" id="admin-resource-cards"></div>
+
+          <div class="admin-subcard">
+            <h3>Adjust category operating limit</h3>
+            <div class="admin-form-row">
+              <div class="admin-field">
+                <label for="admin-limit-metric">Resource metric</label>
+                <select id="admin-limit-metric"></select>
+              </div>
+              <div class="admin-field">
+                <label for="admin-limit-cap">Operating limit (blank = default ceiling)</label>
+                <input id="admin-limit-cap" type="number" min="1" step="1" placeholder="Default ceiling">
+              </div>
+              <div class="admin-field">
+                <label for="admin-limit-warn">Warning threshold (%)</label>
+                <input id="admin-limit-warn" type="number" min="1" max="99" step="1" value="80">
+              </div>
+              <div class="admin-field">
+                <label for="admin-limit-crit">Critical threshold (%)</label>
+                <input id="admin-limit-crit" type="number" min="2" max="100" step="1" value="95">
+              </div>
+              <div class="admin-field">
+                <label for="admin-limit-notify">Notify channel flags (0–7)</label>
+                <input id="admin-limit-notify" type="number" min="0" max="7" step="1" value="1">
+              </div>
+            </div>
+            <div class="admin-actions">
+              <button type="button" class="admin-btn admin-btn-primary" id="admin-save-limit-btn">Save operating limit</button>
+              <button type="button" class="admin-btn admin-btn-secondary" id="admin-reset-limit-btn">Reset to default ceiling</button>
+              <button type="button" class="admin-btn admin-btn-ghost" id="admin-refresh-limits-btn">Refresh limits &amp; alerts</button>
+            </div>
+            <p class="admin-hint" id="admin-limit-save-status" role="status"></p>
+          </div>
+
+          <div class="admin-subcard">
+            <h3>Active resource &amp; spend alerts</h3>
+            <ul class="admin-list" id="admin-resource-alerts"></ul>
+          </div>
+        </section>
+
+        <section class="admin-card" id="admin-billing-section" aria-labelledby="admin-billing-heading">
+          <span class="admin-kicker">BILLING &amp; SUBSCRIPTION PORTAL</span>
+          <h2 id="admin-billing-heading">Subscription status &amp; Stripe Billing Portal</h2>
+          <p class="admin-status-inline" id="admin-billing-status">Checking billing state…</p>
+          <div class="admin-subcard" id="admin-pending-order-box" hidden>
+            <p class="admin-hint" id="admin-pending-order-summary"></p>
+            <div class="admin-actions">
+              <button type="button" class="admin-btn admin-btn-danger" id="admin-cancel-order-btn">Cancel pending billing change</button>
+            </div>
+          </div>
+          <div class="admin-actions">
+            <button type="button" class="admin-btn admin-btn-primary" id="admin-billing-portal-btn">Open Stripe Billing Portal <span aria-hidden="true">↗</span></button>
+            <a class="admin-btn admin-btn-secondary" id="admin-add-capacity-link" href="/signup">Purchase or add repo capacity <span aria-hidden="true">↗</span></a>
+          </div>
+          <p class="admin-hint" id="admin-billing-detail" role="status"></p>
+        </section>
+
+        <section class="admin-card" id="admin-devices-section" aria-labelledby="admin-devices-heading">
+          <span class="admin-kicker">ENROLLED DEVICES &amp; KEY REVOCATION</span>
+          <h2 id="admin-devices-heading">Enrolled CLI device inventory</h2>
+          <p class="admin-copy">Inspect enrolled DPoP device keys (JWK thumbprint, enrollment timestamp, last-seen timestamp, and MFA step-up assurance) and revoke keys immediately.</p>
+          <div class="admin-actions">
+            <button type="button" class="admin-btn admin-btn-secondary" id="admin-refresh-devices-btn">Refresh enrolled devices</button>
+          </div>
+          <p class="admin-hint" id="admin-devices-status" role="status"></p>
+          <ul class="admin-list" id="admin-devices-list"></ul>
+        </section>
+
+        <section class="admin-card" id="admin-recovery-section" aria-labelledby="admin-recovery-heading">
+          <span class="admin-kicker">CONTINUITY &amp; RECOVERY</span>
+          <h2 id="admin-recovery-heading">Organization recovery contact &amp; orphan recovery</h2>
+          <p class="admin-copy">Designate a secondary recovery contact or inspect high-assurance dual-proof organization recovery without database credentials, SQL access, or impersonating departed users.</p>
+          <p class="admin-status-inline" id="admin-recovery-contact-summary">Loading designated recovery contact…</p>
+          <div class="admin-form-row">
+            <div class="admin-field">
+              <label for="admin-recovery-contact-input">Designated recovery contact Account UUID</label>
+              <input id="admin-recovery-contact-input" type="text" autocomplete="off" spellcheck="false" placeholder="00000000-0000-4000-8000-000000000000" maxlength="36">
+            </div>
+          </div>
+          <div class="admin-actions">
+            <button type="button" class="admin-btn admin-btn-primary" id="admin-set-recovery-contact-btn">Set recovery contact</button>
+            <button type="button" class="admin-btn admin-btn-danger" id="admin-clear-recovery-contact-btn">Clear recovery contact</button>
+            <button type="button" class="admin-btn admin-btn-secondary" id="admin-refresh-recovery-btn">Refresh recovery status</button>
+          </div>
+          <p class="admin-hint" id="admin-recovery-status" role="status">Orphaned organization recovery requires fresh authentication and two independent verified corporate proofs.</p>
+        </section>
+      </div>
+    </div>
+  </section>
+</main>
+<footer class="footer"><div class="wrap footer-grid"><a href="/" class="footer-brand" aria-label="Decapod Labs home"><img class="site-wordmark" src="/assets/logo-c.png?v=20261118-footer" alt="Decapod Labs" width="420" height="140"></a><span>© 2026 Decapod Labs</span><div><a href="/pricing">Pricing ↗</a><a href="/signup">Cloud Signup ↗</a><a href="https://github.com/DecapodLabs/decapod">GitHub ↗</a><a href="https://decapodlabs.github.io/decapod/">Read the docs ↗</a></div></div></footer>
+</body>
+</html>

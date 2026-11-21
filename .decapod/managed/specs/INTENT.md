@@ -65,8 +65,8 @@ These declarations select authoring and proof obligations; they do not attest im
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `6aa74538bbb498691befaeb648d2b45b16c856604fb366ee5ba36a9df57a06cf`
-- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (1 files)
+- Repository signal fingerprint: `6cec0ed061c3e917e38aed51236040a3c2b6ea6284e9c4c78b883439035cab5f`
+- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (2 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->
 
@@ -106,3 +106,8 @@ Deliver the canonical public `/pricing` route (`pricing/index.html`) alongside c
 Public `/pricing` safely parses optional `?repo=<percent-encoded-org%2Frepo>` preselection intent (strictly validating `owner/repo` syntax via `DecapodCloudFlow.parseRepoSearch`, rendering solely through `textContent`, and ignoring invalid or hostile inputs). While server-side live sales remain disabled, both Cloud Pay actions (`#cloud-pay-cta` and `#preview-checkout`) stay visibly disabled under the `'UNDER WRAPS'` disclosure with zero fabricated prices or Checkout URLs; once server configuration enables live sales, Pay routes unauthenticated visitors through managed PKCE authentication (`https://api.decapodlabs.ai/auth`, with automatic fallback discovery to the hosted onboarding endpoint) before entering `/signup`.
 
 Direct visits to `/signup` enforce an authentication gate before showing any organization, repository, or billing details. After PKCE sign-in (including GitHub provider-link step-up for Google-signed-in users), `/signup` verifies or collects the target GitHub organization and repository, enforces fail-closed states (`organization_already_enrolled`, `admin_approval_required`, `pending_fulfillment`, `billing_disabled`), invokes server-quoted Checkout only when authenticated, repo-verified, and server-enabled, and displays return-to-CLI instructions once server authorization confirms `backend_authorized=true`.
+
+## Authenticated Organization-Scoped Admin UI (`/admin/<org>`) — November 21, 2026
+Deliver the authenticated organization-scoped Cloud Admin surface (`admin/index.html`, `admin/admin.js`, `admin/admin.css`, extended `cloud-flow.js` route/org-resolution helpers, and `docs/decisions/0010-admin-route-hosting.md`) compatible with GitHub Pages (`/admin/` and `/admin/?org=<org>`) and optional edge subpath routing (`/admin/<org>`), without altering existing public home, pricing, signup, proof, or documentation routes.
+
+An unauthenticated visitor fails closed behind the PKCE sign-in gate before rendering or invoking organization APIs. After sign-in, untrusted `<org>` path or query locators are resolved solely through Propodus to an immutable canonical `cloud_org_id` UUID and verified server-side against current administrator grants; unaffiliated, non-admin, ambiguous, and malformed routes fail closed independent of client URLs. Verified organization administrators operate orthogonally with zero paid repository seats—managing repositories, seat assignments, members, invitations, admin delegation, resource limits, spend-cap policies, enrolled devices, recovery contacts, cross-org policy templates, and Stripe Billing Portal deep-links without accessing repository task, event, or evidence payloads.

@@ -78,6 +78,17 @@ The proof ledger binds visible terminal states to ordered byte offsets and the s
   - Public `/pricing` remains `'UNDER WRAPS'` with disabled Pay controls unless server discovery explicitly signals live sales and billing are enabled.
   - `/signup` fails closed on `billing_not_configured` / `live_sale_disabled`, `organization_already_enrolled`, `repository_already_enrolled`, `admin_approval_required`, `code_host_link_required`, `provider_link_stepup_required`, and bounded `pending_fulfillment` polling (12 checks max before manual retry), unlocking CLI-ready instructions only when server `account-status` returns `backend_authorized: true`.
 
+## Authenticated `/admin/<org>` Organization Admin Route Interfaces (November 21, 2026)
+
+- **Inbound Browser Routes**:
+  - `GET /admin/` (`admin/index.html`, supporting `/admin/?org=<org>` natively on GitHub Pages and `/admin/<org>` when paired with an optional edge subpath router documented in `docs/decisions/0010-admin-route-hosting.md`): Authenticated organization-scoped Admin UI (`noindex,nofollow`, `referrer=no-referrer`). Accepts optional OAuth PKCE callback parameters (`?code=...&login_nonce=...`), immediately scrubbing query and fragment state via `history.replaceState` and failing closed on malformed routes or fragment tokens.
+- **Outbound Managed Auth & Admin Edge Interfaces**:
+  - Reuses `DecapodCloudFlow.discoverRuntimeConfig` (`https://api.decapodlabs.ai`, fallback `https://goyxpcmxetztjlrrcwew.supabase.co/functions/v1/decapod-onboarding`) and initiates PKCE S256 sign-in via `buildAdminAuthAuthorizeUrl` with same-origin validated `return_to` (`/admin/`).
+  - After PKCE authentication and server-side `account-register` verification for the resolved immutable `cloud_org_id`, communicates over HTTPS (`redirect: 'error'`, `credentials: 'omit'`) with `/functions/v1/decapod-onboarding/{account-register,account-status,repository-enroll,billing-manage,billing-portal,billing-overage-policy,resource-limits,device-keys,device-revoke,org-admins,org-recovery,policy-templates}`.
+  - Never calls repository governance-data query/batch endpoints (`/decapod/<org>/<repo>/{query,batch}`, `cloud-query`, `cloud-batch`).
+- **Failure & Isolation Semantics**:
+  - Unaffiliated, non-admin, ambiguous, and malformed `<org>` routes render no organization data and dispatch zero org-scoped API requests; switching organizations increments `renderGeneration`, wipes prior-org DOM state before loading, and drops stale out-of-order responses; `401` clears session state to the auth gate and `403 admin_required` immediately closes the active admin workspace. Stripe Billing Portal redirects are accepted only on HTTPS `billing.stripe.com`, `checkout.stripe.com`, or `invoice.stripe.com`.
+
 <!-- decapod:capability-overlay:public-api:start -->
 
 Generated capability obligations: `public-api` is declared for this project. These are decisions and proof requirements, not claims of implemented behavior. Resolve each against project source and tests; record unsupported or non-applicable mechanisms explicitly.
@@ -105,7 +116,7 @@ Generated capability obligations: `public-api` is declared for this project. The
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `6aa74538bbb498691befaeb648d2b45b16c856604fb366ee5ba36a9df57a06cf`
-- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (1 files)
+- Repository signal fingerprint: `6cec0ed061c3e917e38aed51236040a3c2b6ea6284e9c4c78b883439035cab5f`
+- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (2 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->

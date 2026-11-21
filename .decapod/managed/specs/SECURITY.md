@@ -72,6 +72,13 @@ Private ANSI bytes and cursor-state captures stay private. The public media uses
 - **Credential isolation and URL scrubbing**: `signup/signup.js` scrubs all query and fragment parameters immediately via `history.replaceState`, rejects implicit URL fragment tokens (`access_token`, `refresh_token`, `provider_token`), stores active bearer tokens only in per-tab `sessionStorage`, keeps ephemeral provider tokens only in JS memory, and never transmits credentials in URLs or logs.
 - **Public-repo confidentiality**: `tests/pricing_signup_test.ts` scans authored website HTML/JS/CSS/TS artifacts and living specs to block Stripe object/secret IDs, private migration filenames, internal RPC symbols, and private backend file paths.
 
+## Organization Admin (`/admin/<org>`) Security Boundary (November 21, 2026)
+
+- **Navigation vs. Authority Separation**: `<org>` path and query locators are treated purely as untrusted navigation hints. `DecapodCloudFlow.resolveAdminOrganization` resolves locators solely against authenticated server `organizations` records to immutable `cloud_org_id` UUIDs, followed by an explicit server-side `account-register` authorization check on that `cloud_org_id` before rendering any workspace panel.
+- **Zero-Seat Orthogonality & Repo Data Isolation**: Admin UI never requests or renders repository task, event, or evidence payloads, operating strictly through bounded organization-administration endpoints even when the signed-in admin holds zero paid repository seats.
+- **Multi-Org Scope & Revocation Safety**: Organization switching resets all previous-org DOM containers and increments `renderGeneration` so delayed cross-org responses cannot bleed across views. Any `401` (`invalid_token`) clears session storage back to the auth gate and any `403` (`admin_required`) immediately closes the admin workspace.
+- **XSS, Redirect & Confidentiality Guardrails**: `admin/admin.js` updates DOM solely via `textContent` and `createElement`/`replaceChildren` (zero `innerHTML`/`outerHTML`/`insertAdjacentHTML`/`document.write`), `sanitizeAdminReturnUrl` restricts OAuth returns to HTTPS same-origin `/admin` routes without userinfo or fragments, Stripe Billing Portal URLs are allowlisted identically to Checkout URLs, and `tests/admin_test.ts` enforces public-repo confidentiality across all authored Admin files and living specs.
+
 <!-- decapod:capability-overlay:public-api:start -->
 
 Generated capability obligations: `public-api` is declared for this project. These are decisions and proof requirements, not claims of implemented behavior. Resolve each against project source and tests; record unsupported or non-applicable mechanisms explicitly.
@@ -98,7 +105,7 @@ Generated capability obligations: `public-api` is declared for this project. The
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `6aa74538bbb498691befaeb648d2b45b16c856604fb366ee5ba36a9df57a06cf`
-- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (1 files)
+- Repository signal fingerprint: `6cec0ed061c3e917e38aed51236040a3c2b6ea6284e9c4c78b883439035cab5f`
+- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (2 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->
