@@ -44,6 +44,15 @@
         "scripts/check-site.ts",
         "tests/pricing_signup_test.ts"
       ]
+    },
+    {
+      "id": "p0-pricing-signup-r2",
+      "summary": "Restore origin/main scripts/check-site.ts to preserve reviewed_sources_digest; run expanded 7/7 checks in tests/pricing_signup_test.ts and update living specs.",
+      "input_digest": "sha256:208d24f2643bf6745b282a6a0303ae47f624f44d6ef69f37224e63bd2e816ca7",
+      "proof_refs": [
+        "scripts/check-site.ts",
+        "tests/pricing_signup_test.ts"
+      ]
     }
   ],
   "intents": {
@@ -87,23 +96,23 @@
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/ARCHITECTURE.md",
-          "reason": "Documented cloud-flow.js, /pricing, /signup, and Deno static/unit test architecture.",
-          "reviewed_code_fingerprint": "24a67cb7c145141509292618f4778c94248f43d936ef5bdaf8f79d1cd79007fc",
-          "spec_material_hash": "394e3cc484a8f6e6ccbec3518d601571c25ab0fb4661a230f875de52f9d552d7"
+          "reason": "Documented cloud-flow.js, /pricing, /signup, and tests/pricing_signup_test.ts verification.",
+          "reviewed_code_fingerprint": "6aa74538bbb498691befaeb648d2b45b16c856604fb366ee5ba36a9df57a06cf",
+          "spec_material_hash": "898c16f678841f2edc4a6a79300f665f6e95edcb0576975d3dcaf9b73f7bb124"
         },
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/INTERFACES.md",
           "reason": "Documented /pricing, /signup, PKCE /auth, Edge onboarding, and Stripe Checkout URL boundaries.",
-          "reviewed_code_fingerprint": "24a67cb7c145141509292618f4778c94248f43d936ef5bdaf8f79d1cd79007fc",
+          "reviewed_code_fingerprint": "6aa74538bbb498691befaeb648d2b45b16c856604fb366ee5ba36a9df57a06cf",
           "spec_material_hash": "7f57247fa092518739231b09dfee429a7d3e25ccff6e14da40f7882d57aa24b2"
         },
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/SECURITY.md",
-          "reason": "Documented PKCE auth gate, ?repo=/return_to XSS/redirect guards, URL token scrubbing, and public-repo confidentiality enforcement.",
-          "reviewed_code_fingerprint": "24a67cb7c145141509292618f4778c94248f43d936ef5bdaf8f79d1cd79007fc",
-          "spec_material_hash": "1e0870603dc65d0be1be99a4debdecd8610e94a53d9b1d8af5941ed98cc9cd7c"
+          "reason": "Documented PKCE auth gate, ?repo=/return_to XSS/redirect guards, URL token scrubbing, and confidentiality tests.",
+          "reviewed_code_fingerprint": "6aa74538bbb498691befaeb648d2b45b16c856604fb366ee5ba36a9df57a06cf",
+          "spec_material_hash": "1763c9033e3530d4f9f4aab9e97018934a529f4a7714320f5d56ae22aa9ef0cd"
         }
       ],
       "state": "APPROVED",
@@ -114,13 +123,13 @@
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1795262686Z"
+      "updated_at": "1795262841Z"
     },
     "trajectory": {
       "active_boundaries": [
         "Current claimed task and isolated work branch"
       ],
-      "artifact_hash": "sha256:08665a9a220ff0450d0943278d2830f1154f3257ec334b1a87af224ce7a1d583",
+      "artifact_hash": "sha256:c7a73c9ffeb8d5f04e0d2c056b7de3a2167beb1b9080e40e3351218593576872",
       "checks": [
         {
           "name": "deno-unit-tests",
@@ -152,10 +161,17 @@
             "intent_id": "intent:change_01M7YZ2H1JMNS8TRE1R3W3XNJ1",
             "kind": "trajectory_step_recorded",
             "sequence": 4
+          },
+          {
+            "detail": "trajectory:branch_01M7YZ2H4QEGDVFE5AHV8REXFQ",
+            "event_id": "event:5",
+            "intent_id": "intent:change_01M7YZ2H1JMNS8TRE1R3W3XNJ1",
+            "kind": "trajectory_step_recorded",
+            "sequence": 5
           }
         ],
         "knowledge_candidates": [],
-        "next_sequence": 4,
+        "next_sequence": 5,
         "schema_version": "1.1.0",
         "trajectories": {
           "branch_01M7YZ2H4QEGDVFE5AHV8REXFQ": {
@@ -176,6 +192,20 @@
                 ],
                 "sequence": 4,
                 "validation_findings": []
+              },
+              {
+                "action": "loop:deno-checks:2",
+                "custody_event_id": "event:5",
+                "observations": [],
+                "proof_refs": [
+                  "deno run --no-remote --no-npm --allow-read=. scripts/check-site.ts",
+                  "deno test --no-remote --no-npm --allow-read=. tests/pricing_signup_test.ts"
+                ],
+                "scope": [
+                  "root"
+                ],
+                "sequence": 5,
+                "validation_findings": []
               }
             ]
           }
@@ -187,6 +217,7 @@
       ],
       "destination": "pull request",
       "evidence": [
+        "Restored scripts/check-site.ts to origin/main contract; expanded tests/pricing_signup_test.ts passes 7/7 tests including all 7 HTML docs, 4 JS scripts, DOM sink safety, and confidentiality.",
         "check-site.ts passed across 7 HTML docs, 140 local assets, 30 fragment links, 4 compiled scripts, and 11 confidentiality-checked files.",
         "deno test tests/pricing_signup_test.ts passed 6/6 tests (0 failed)."
       ],
@@ -205,6 +236,22 @@
         {
           "attempt": 1,
           "custody_event_id": "event:4",
+          "grader_result": "pass",
+          "intent_id": "intent:change_01M7YZ2H1JMNS8TRE1R3W3XNJ1",
+          "loop_id": "deno-checks",
+          "loop_type": "verification",
+          "mutation_proposal": "none",
+          "proof_refs": [
+            "deno run --no-remote --no-npm --allow-read=. scripts/check-site.ts",
+            "deno test --no-remote --no-npm --allow-read=. tests/pricing_signup_test.ts"
+          ],
+          "status": "passed",
+          "trajectory_id": "branch_01M7YZ2H4QEGDVFE5AHV8REXFQ",
+          "trigger": "agent"
+        },
+        {
+          "attempt": 2,
+          "custody_event_id": "event:5",
           "grader_result": "pass",
           "intent_id": "intent:change_01M7YZ2H1JMNS8TRE1R3W3XNJ1",
           "loop_id": "deno-checks",

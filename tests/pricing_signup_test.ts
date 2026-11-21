@@ -802,3 +802,76 @@ Deno.test('discoverRuntimeConfig handles api.decapodlabs.ai primary and fallback
   assertEq(repoSelect.children.length, 2, 'placeholder + admin-only DecapodLabs/decapod listed (readonly excluded)');
   assertEq(repoSelect.children[1].value, 'DecapodLabs/decapod', 'admin repo listed');
 });
+
+Deno.test('static site documents, classic scripts, UNDER WRAPS posture, and public-repo confidentiality pass', async () => {
+  const siteOrigin = 'https://site.invalid';
+  const docIds = new Map<string, string[]>();
+  const resolveTarget = (url: URL) => {
+    if (url.pathname === '/') return 'index.html';
+    if (url.pathname === '/pricing' || url.pathname === '/pricing/') return 'pricing/index.html';
+    if (url.pathname === '/signup' || url.pathname === '/signup/') return 'signup/index.html';
+    return decodeURIComponent(url.pathname.slice(1));
+  };
+  const getIds = async (path: string) => {
+    if (!docIds.has(path)) {
+      const html = await Deno.readTextFile(path);
+      const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map(x => x[1]);
+      assertEq(new Set(ids).size, ids.length, 'unique IDs in ' + path);
+      docIds.set(path, ids);
+    }
+    return docIds.get(path)!;
+  };
+  for (const docPath of ['index.html', 'offerings.html', 'pricing.html', 'pricing/index.html', 'signup/index.html', 'proof.html', 'tecr.html']) {
+    const html = await Deno.readTextFile(docPath);
+    assert(html.includes('lang="en"') && /<meta\s+name="viewport"/i.test(html), 'accessibility baseline: ' + docPath);
+    await getIds(docPath);
+    for (const m of html.matchAll(/\b(?:href|src|poster)="([^"]+)"/g)) {
+      const url = new URL(m[1], new URL(docPath, siteOrigin + '/'));
+      assert(!url.username && !url.password && ['https:', 'mailto:'].includes(url.protocol), 'safe protocol in ' + docPath);
+      if (url.origin !== siteOrigin) continue;
+      const target = resolveTarget(url);
+      const info = await Deno.stat(target);
+      assert(info.isFile && info.size > 0, 'existing local asset ' + target + ' from ' + docPath);
+      if (url.hash) {
+        const targetIds = await getIds(target);
+        assert(targetIds.includes(decodeURIComponent(url.hash.slice(1))), 'valid fragment ' + url.hash + ' in ' + target);
+      }
+    }
+  }
+  for (const scriptPath of ['main.js', 'cloud-flow.js', 'pricing.js', 'signup/signup.js']) {
+    new Function(await Deno.readTextFile(scriptPath));
+  }
+  for (const scriptPath of ['cloud-flow.js', 'pricing.js', 'signup/signup.js']) {
+    const src = await Deno.readTextFile(scriptPath);
+    assert(!/\b(?:innerHTML|outerHTML|insertAdjacentHTML|document\.write)\b/.test(src), 'no unsafe DOM sink in ' + scriptPath);
+  }
+  for (const pricingDoc of ['pricing.html', 'pricing/index.html']) {
+    const html = await Deno.readTextFile(pricingDoc);
+    assert(html.includes('UNDER WRAPS'), 'UNDER WRAPS preserved in ' + pricingDoc);
+    assert(/id="cloud-pay-cta"[^>]*\bdisabled\b/.test(html), 'cloud-pay-cta disabled by default in ' + pricingDoc);
+    assert(/id="preview-checkout"[^>]*\bdisabled\b/.test(html), 'preview-checkout disabled by default in ' + pricingDoc);
+  }
+  const forbidden: [string, RegExp][] = [
+    ['stripe_object_id', /\b(?:price|prod|acct|bpc)_[A-Za-z0-9]{10,}\b/],
+    ['stripe_secret_key', /\b(?:rk|sk)_(?:live|test)_[A-Za-z0-9]{8,}\b/],
+    ['stripe_webhook_secret', /\bwhsec_[A-Za-z0-9]{8,}\b/],
+    ['private_migration_file', /\b0\d{2}_[a-z0-9_]+\.sql\b/],
+    ['private_rpc_name', /\bpropodus_[a-z_]+_v\d+\b/],
+    ['private_schema_symbol', /\bpropodus\.[a-z_]+\b/],
+    ['private_internal_path', /\binternal\/backend\b/],
+  ];
+  for (const file of [
+    'pricing.html', 'pricing/index.html', 'pricing.js', 'pricing.css',
+    'cloud-flow.js', 'signup/index.html', 'signup/signup.js', 'signup/signup.css',
+    'tests/pricing_signup_test.ts',
+    '.decapod/managed/specs/INTENT.md',
+    '.decapod/managed/specs/ARCHITECTURE.md',
+    '.decapod/managed/specs/INTERFACES.md',
+    '.decapod/managed/specs/SECURITY.md',
+  ]) {
+    const content = await Deno.readTextFile(file);
+    for (const [label, pattern] of forbidden) {
+      assert(!pattern.test(content), 'confidentiality clean (' + label + ') in ' + file);
+    }
+  }
+});
