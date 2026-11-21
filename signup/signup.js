@@ -914,6 +914,7 @@
         setStatus("Cloud authentication configuration is currently unavailable.", true);
         return;
       }
+      if (repoCheck.status === "invalid") storeRemove("pending-repo");
 
       if (invId && invSecret && flow.UUID_PATTERN.test(invId) && flow.PKCE_HASH_PATTERN.test(invSecret)) {
         storeSet("invitation", { id: invId, secret: invSecret });
