@@ -435,3 +435,70 @@
 }
 @media(max-width:400px){.preview-savings-row{column-gap:6px}.preview-annual-equation{gap:4px}}
 @media(prefers-reduced-motion:reduce){.preview-savings-row .preview-annual-savings{animation:none}}
+
+/* Canonical /pricing route navigation + safe repository intent banner. */
+.pricing-page .nav-links a[href="/pricing"],
+.pricing-page .nav-links a[href="/pricing.html"]{
+  background:rgba(240,91,55,.11);
+  color:#853524;
+  padding:10px 15px;
+  border-radius:999px;
+  transition:background .18s,color .18s;
+}
+.pricing-page .nav-links a[href="/pricing"][aria-current="page"],
+.pricing-page .nav-links a[href="/pricing.html"][aria-current="page"]{
+  color:#fff;
+  background:var(--orange);
+}
+@media(max-width:850px){
+  .pricing-page .nav-links a[href="/pricing"],
+  .pricing-page .nav-links a[href="/pricing.html"]{padding:7px 12px}
+}
+@media(max-width:390px){
+  .pricing-page .nav-links a[href="/pricing"],
+  .pricing-page .nav-links a[href="/pricing.html"]{padding:7px 8px}
+}
+.pricing-repo-banner{
+  max-width:1190px;
+  margin:0 auto 22px;
+  padding:14px 18px;
+  border:1px solid #e2b89b;
+  border-radius:14px;
+  background:#fff6ea;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  flex-wrap:wrap;
+  font-size:13px;
+  line-height:1.5;
+  color:#4f3c42;
+}
+.pricing-repo-banner.is-invalid{
+  border-color:#d8a196;
+  background:#fff2ee;
+  color:#6c3228;
+}
+.pricing-repo-banner strong{
+  font-family:"Space Grotesk",sans-serif;
+  font-size:14px;
+  color:#241821;
+}
+.pricing-repo-banner span{
+  color:#6d545b;
+  font-size:12px;
+}
+.plan-link-ready{
+  cursor:pointer;
+  background:var(--ink);
+  color:#fff;
+  transition:transform .2s,background-color .2s;
+}
+.plan-link-ready:hover{transform:translateY(-3px);background:#412c39}
+.preview-checkout-ready{
+  cursor:pointer;
+  background:#211a25;
+  color:#fff7ee;
+  transition:background-color .18s,transform .18s;
+}
+.preview-checkout-ready:hover{background:#3a2b3c;transform:translateY(-2px)}

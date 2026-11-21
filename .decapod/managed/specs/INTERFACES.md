@@ -64,6 +64,20 @@ The proof uses one 1440 × 924 H.264 recording with native playback, ten WebVTT 
 
 The proof ledger binds visible terminal states to ordered byte offsets and the selected original-speed footage ranges. Three accessible chapter links point to failure, fresh validation and publication. The proof page and case study use the same observed fixture PR #7, with head a063de9040c458204eace1929d1e8536ad048a88 and accepted base ada3eb89c3707801a5b86265dccc899fdabe5e1c.
 
+## Public `/pricing` and Authenticated `/signup` Route Interfaces (November 21, 2026)
+
+- **Inbound Browser Routes**:
+  - `GET /pricing` (`pricing/index.html`) and `GET /pricing.html` (`pricing.html`): Publicly readable plan comparison and team estimator accepting optional `?repo=<percent-encoded-owner%2Frepo>`. Rejects invalid/hostile `?repo=` or `?return_to=` values without DOM HTML injection.
+  - `GET /signup` (`signup/index.html`): Authenticated Cloud purchasing sub-application (`noindex,nofollow`, `referrer=no-referrer`). Accepts optional `?repo=<owner%2Frepo>` preselection intent and OAuth PKCE callback parameters (`?code=...&login_nonce=...`), immediately scrubbing query and fragment state via `history.replaceState` and rejecting URL fragment tokens (`access_token`, `refresh_token`, `provider_token`).
+- **Outbound Managed Auth & Edge Onboarding Interfaces**:
+  - Runtime discovery probes `GET /functions/v1/decapod-onboarding/config?include_auth_providers=true` on trusted origins (`https://api.decapodlabs.ai`, fallback `https://goyxpcmxetztjlrrcwew.supabase.co`) and validates `project_origin` and `publishable_key`.
+  - Unauthenticated sign-in initiates PKCE S256 via `https://api.decapodlabs.ai/auth` (or discovered `/functions/v1/decapod-onboarding/auth`) with strictly same-origin validated `return_to` (`/signup`).
+  - Authenticated `/signup` communicates exclusively via HTTPS (`redirect: 'error'`, `credentials: 'omit'`) with `/auth/v1/token?grant_type=pkce`, `/auth/v1/user`, `/auth/v1/user/identities/authorize`, `/auth/v1/authorize`, and `/functions/v1/decapod-onboarding/{account-register,account-status,repository-enroll,billing-manage,billing-quote,billing-checkout}`, plus read-only `https://api.github.com/{user,user/orgs,user/repos}` when an in-memory GitHub provider token is present.
+  - Stripe Checkout redirects are accepted only for `https:` URLs on `checkout.stripe.com`, `invoice.stripe.com`, or `billing.stripe.com`, strictly after server-side quote generation; client slider math never authorizes quotes or charges.
+- **Failure & State Semantics**:
+  - Public `/pricing` remains `'UNDER WRAPS'` with disabled Pay controls unless server discovery explicitly signals live sales and billing are enabled.
+  - `/signup` fails closed on `billing_not_configured` / `live_sale_disabled`, `organization_already_enrolled`, `repository_already_enrolled`, `admin_approval_required`, `code_host_link_required`, `provider_link_stepup_required`, and bounded `pending_fulfillment` polling (12 checks max before manual retry), unlocking CLI-ready instructions only when server `account-status` returns `backend_authorized: true`.
+
 <!-- decapod:capability-overlay:public-api:start -->
 
 Generated capability obligations: `public-api` is declared for this project. These are decisions and proof requirements, not claims of implemented behavior. Resolve each against project source and tests; record unsupported or non-applicable mechanisms explicitly.
@@ -91,7 +105,7 @@ Generated capability obligations: `public-api` is declared for this project. The
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `b388ed7433f724e836814b3825d99c3db7a53eb560635e8956698ee6989b31e4`
-- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files)
+- Repository signal fingerprint: `6aa74538bbb498691befaeb648d2b45b16c856604fb366ee5ba36a9df57a06cf`
+- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (1 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->

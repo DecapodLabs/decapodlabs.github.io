@@ -65,6 +65,13 @@ Private raw viewports, terminal streams, tool logs and credentials remain privat
 
 Private ANSI bytes and cursor-state captures stay private. The public media uses opaque masks for credentials and private paths, with a distinct OCR review of the redacted footage. The observer correlates each native operation with the captured bash interval and command arguments. The publisher and independent forge readback remain distinct observations.
 
+## Pricing and Authenticated Signup Security Boundary (November 21, 2026)
+
+- **Auth-before-checkout and fail-closed commercial gate**: Public `/pricing` keeps `'UNDER WRAPS'` and disabled Pay controls unless server discovery explicitly signals live billing and live sales; even when enabled, Pricing routes through managed PKCE authentication (`https://api.decapodlabs.ai/auth`, fallback `https://goyxpcmxetztjlrrcwew.supabase.co/functions/v1/decapod-onboarding/auth`) to `/signup` and never opens Stripe Checkout directly. `/signup` renders zero organization, repository, or billing state prior to valid PKCE authentication.
+- **Input, XSS, and redirect validation**: `cloud-flow.js` validates `?repo=owner/repo` strictly against ASCII owner/repo allowlists, `pricing.js` and `signup/signup.js` update DOM exclusively through `textContent` (zero `innerHTML`/`outerHTML`/`insertAdjacentHTML`/`document.write`), `sanitizeReturnUrl` enforces same-origin HTTPS `/signup` or `/pricing` return targets, and `isAllowedCheckoutUrl` permits only HTTPS Stripe Checkout/Billing hosts.
+- **Credential isolation and URL scrubbing**: `signup/signup.js` scrubs all query and fragment parameters immediately via `history.replaceState`, rejects implicit URL fragment tokens (`access_token`, `refresh_token`, `provider_token`), stores active bearer tokens only in per-tab `sessionStorage`, keeps ephemeral provider tokens only in JS memory, and never transmits credentials in URLs or logs.
+- **Public-repo confidentiality**: `tests/pricing_signup_test.ts` scans authored website HTML/JS/CSS/TS artifacts and living specs to block Stripe object/secret IDs, private migration filenames, internal RPC symbols, and private backend file paths.
+
 <!-- decapod:capability-overlay:public-api:start -->
 
 Generated capability obligations: `public-api` is declared for this project. These are decisions and proof requirements, not claims of implemented behavior. Resolve each against project source and tests; record unsupported or non-applicable mechanisms explicitly.
@@ -91,7 +98,7 @@ Generated capability obligations: `public-api` is declared for this project. The
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `b388ed7433f724e836814b3825d99c3db7a53eb560635e8956698ee6989b31e4`
-- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files)
+- Repository signal fingerprint: `6aa74538bbb498691befaeb648d2b45b16c856604fb366ee5ba36a9df57a06cf`
+- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (1 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->

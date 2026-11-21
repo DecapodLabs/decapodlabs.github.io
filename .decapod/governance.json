@@ -1,22 +1,62 @@
 {
   "schema_version": "1.0.0",
   "baseline": {
-    "accepted_commit": "040cad94bb8c285d553b6510fc793ed188c55cb3"
+    "accepted_commit": "45a882621ee7890f95b1f16ce4e900211f33c9f7"
   },
   "change": {
-    "id": "change_01M7QE155R26Y9SY0Y6QD25HNP",
-    "base_commit": "040cad94bb8c285d553b6510fc793ed188c55cb3",
+    "id": "change_01M7YZ2H1JMNS8TRE1R3W3XNJ1",
+    "base_commit": "45a882621ee7890f95b1f16ce4e900211f33c9f7",
     "target_base": "origin/main"
+  },
+  "claims": {
+    "claim-pricing-under-wraps": {
+      "statement": "Canonical /pricing and /pricing.html preserve UNDER WRAPS disabled Pay controls when billing is disabled, safely validate ?repo= slugs without HTML injection, and route enabled Pay actions through managed PKCE auth to /signup.",
+      "falsifier": "Any unauthenticated Checkout navigation from Pricing, enabled Pay while billing is disabled, or unescaped XSS rendering of ?repo= in DOM.",
+      "status": "supported",
+      "proof_refs": [
+        "scripts/check-site.ts",
+        "tests/pricing_signup_test.ts"
+      ]
+    },
+    "claim-public-confidentiality": {
+      "statement": "All public website changes and living specs omit private backend filenames, migration numbers, internal database symbols, and Stripe price/product/account IDs.",
+      "falsifier": "Any match against private backend symbols or Stripe object/secret patterns in authored files or specs.",
+      "status": "supported",
+      "proof_refs": [
+        "scripts/check-site.ts"
+      ]
+    },
+    "claim-signup-auth-and-states": {
+      "statement": "Authenticated /signup enforces PKCE auth before showing org/repo/billing data, rejects hostile return URLs and URL tokens, supports Google->GitHub step-up and repo selection, and surfaces fail-closed states plus server-quoted Checkout and ready CLI guidance.",
+      "falsifier": "Any unauthenticated org/billing API request, accepted external return_to redirect, client-computed checkout quote, or bypassed organization_already_enrolled/admin_approval_required/pending_fulfillment guard.",
+      "status": "supported",
+      "proof_refs": [
+        "tests/pricing_signup_test.ts"
+      ]
+    }
   },
   "checkpoints": [
     {
-      "id": "high-contrast-pi-proof-and-case-study",
-      "summary": "Checkpoint readable actual Pi proof, matching receipts, original-audio case study and accessible chapter navigation.",
-      "input_digest": "sha256:39c72d540cb3360f8522a81244fed67af639926850bdf3da588a4452419f8ecd"
+      "id": "p0-pricing-signup",
+      "summary": "Implement canonical /pricing (#54) and authenticated /signup (#56) with safe ?repo= handling, PKCE auth gate, fail-closed states, Deno checks/tests, and refreshed living specs.",
+      "input_digest": "sha256:06af0dc3a699aecb157b7805ef0cb8452d3bcf21663b8f37196a720703e55e6d",
+      "proof_refs": [
+        "scripts/check-site.ts",
+        "tests/pricing_signup_test.ts"
+      ]
+    },
+    {
+      "id": "p0-pricing-signup-r2",
+      "summary": "Restore origin/main scripts/check-site.ts to preserve reviewed_sources_digest; run expanded 7/7 checks in tests/pricing_signup_test.ts and update living specs.",
+      "input_digest": "sha256:208d24f2643bf6745b282a6a0303ae47f624f44d6ef69f37224e63bd2e816ca7",
+      "proof_refs": [
+        "scripts/check-site.ts",
+        "tests/pricing_signup_test.ts"
+      ]
     }
   ],
   "intents": {
-    "intent:change_01M7QE155R26Y9SY0Y6QD25HNP": {
+    "intent:change_01M7YZ2H1JMNS8TRE1R3W3XNJ1": {
       "acceptance_criteria": [],
       "assumptions": [],
       "boundaries": [
@@ -26,11 +66,14 @@
         "root"
       ],
       "created_sequence": 1,
-      "id": "intent:change_01M7QE155R26Y9SY0Y6QD25HNP",
+      "id": "intent:change_01M7YZ2H1JMNS8TRE1R3W3XNJ1",
+      "instruction_origin": {
+        "source_ref": "caller:unverified"
+      },
       "out_of_scope": [],
       "proof_requirements": [],
-      "raw_intent": "Improve native Pi proof readability and sync the case study\n\nReplace the hard-to-read screen encode with a high-contrast render of a fresh actual native Pi terminal run; update /#proofs and case study to independently verified evidence; publish and verify.",
-      "refined_intent": "Improve native Pi proof readability and sync the case study\n\nReplace the hard-to-read screen encode with a high-contrast render of a fresh actual native Pi terminal run; update /#proofs and case study to independently verified evidence; publish and verify.",
+      "raw_intent": "Implement P0 Pricing (#54) and authenticated Signup (#56)\n\nImplement canonical /pricing route and authenticated /signup purchasing app with safe ?repo= intent handling, managed auth gate, verified GitHub org/repo selection, fail-closed states, Deno checks/tests, and living specs.",
+      "refined_intent": "Implement P0 Pricing (#54) and authenticated Signup (#56)\n\nImplement canonical /pricing route and authenticated /signup purchasing app with safe ?repo= intent handling, managed auth gate, verified GitHub org/repo selection, fail-closed states, Deno checks/tests, and living specs.",
       "status": "refined",
       "updated_sequence": 3
     }
@@ -43,135 +86,208 @@
       },
       "deferred_questions": [],
       "human_questions": [],
-      "intent": "Publish a readable, high-contrast proof video drawn from a new recording of actual Pi terminal output. Keep the matching case study edit and audio, update the real fixture PR and evidence, and provide chapter links at /#proofs.",
+      "intent": "Implement P0 Pricing (#54) and authenticated Signup (#56)\n\nImplement canonical /pricing route and authenticated /signup purchasing app with safe ?repo= intent handling, managed auth gate, verified GitHub org/repo selection, fail-closed states, Deno checks/tests, and living specs.",
       "phases": [],
       "proof_hooks": [
-        "Check the chronological PTY excerpt and file digests, redacted text, exact independent PR7 readback, offline required contracts, actual desktop/mobile playback and chapters, native website admission, and deployed Pages bytes."
+        "decapod validate"
       ],
       "schema_version": "1.1.0",
       "spec_reviews": [
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/ARCHITECTURE.md",
-          "reason": "Verified new native terminal capture and contrast, selected footage timing, privacy masks, exact PR #7 evidence, original soundtrack and desktop/mobile chapters.",
-          "reviewed_code_fingerprint": "b388ed7433f724e836814b3825d99c3db7a53eb560635e8956698ee6989b31e4",
-          "spec_material_hash": "77ef18847db8cf7badad2c351ecc9ac9f24f026ed8850a745b25bf43486ee4f2"
+          "reason": "Documented cloud-flow.js, /pricing, /signup, and tests/pricing_signup_test.ts verification.",
+          "reviewed_code_fingerprint": "6aa74538bbb498691befaeb648d2b45b16c856604fb366ee5ba36a9df57a06cf",
+          "spec_material_hash": "898c16f678841f2edc4a6a79300f665f6e95edcb0576975d3dcaf9b73f7bb124"
         },
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/INTERFACES.md",
-          "reason": "Verified new native terminal capture and contrast, selected footage timing, privacy masks, exact PR #7 evidence, original soundtrack and desktop/mobile chapters.",
-          "reviewed_code_fingerprint": "b388ed7433f724e836814b3825d99c3db7a53eb560635e8956698ee6989b31e4",
-          "spec_material_hash": "cb3fd2ea398257f43ed23b65bdc9cc288571ce03f8f61a44f329cd4ed1abd078"
+          "reason": "Documented /pricing, /signup, PKCE /auth, Edge onboarding, and Stripe Checkout URL boundaries.",
+          "reviewed_code_fingerprint": "6aa74538bbb498691befaeb648d2b45b16c856604fb366ee5ba36a9df57a06cf",
+          "spec_material_hash": "7f57247fa092518739231b09dfee429a7d3e25ccff6e14da40f7882d57aa24b2"
         },
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/SECURITY.md",
-          "reason": "Verified new native terminal capture and contrast, selected footage timing, privacy masks, exact PR #7 evidence, original soundtrack and desktop/mobile chapters.",
-          "reviewed_code_fingerprint": "b388ed7433f724e836814b3825d99c3db7a53eb560635e8956698ee6989b31e4",
-          "spec_material_hash": "7cedb190ff919824ef00d59167e9f3ceb4c957e24177d58d85b6c7e6711e8820"
+          "reason": "Documented PKCE auth gate, ?repo=/return_to XSS/redirect guards, URL token scrubbing, and confidentiality tests.",
+          "reviewed_code_fingerprint": "6aa74538bbb498691befaeb648d2b45b16c856604fb366ee5ba36a9df57a06cf",
+          "spec_material_hash": "1763c9033e3530d4f9f4aab9e97018934a529f4a7714320f5d56ae22aa9ef0cd"
         }
       ],
       "state": "APPROVED",
       "stop_conditions": [],
-      "title": "Improve native Pi proof readability and sync the case study",
+      "title": "Implement P0 Pricing (#54) and authenticated Signup (#56)",
       "todo_ids": [
-        "refa_01m7qdw5kpsv74qp"
+        "feat_01m7yz1vxy4w323q"
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1795011153Z"
+      "updated_at": "1795262841Z"
     },
     "trajectory": {
       "active_boundaries": [
         "Current claimed task and isolated work branch"
       ],
-      "artifact_hash": "sha256:73e2781fe08e393f129ed3e5266b8e291492171dd481773da0236203c45e7265",
+      "artifact_hash": "sha256:c7a73c9ffeb8d5f04e0d2c056b7de3a2167beb1b9080e40e3351218593576872",
       "checks": [
         {
-          "name": "deployed-pages",
-          "status": "unavailable"
-        },
-        {
-          "name": "independent-real-pi-admission",
+          "name": "deno-unit-tests",
           "status": "passed"
         },
         {
-          "name": "readable-proof-and-accessible-chapters",
+          "name": "static-source",
           "status": "passed"
         }
       ],
-      "current_phase": "intent",
+      "current_phase": "verification",
       "custody": {
         "events": [
           {
             "event_id": "event:2",
-            "intent_id": "intent:change_01M7QE155R26Y9SY0Y6QD25HNP",
+            "intent_id": "intent:change_01M7YZ2H1JMNS8TRE1R3W3XNJ1",
             "kind": "created",
             "sequence": 2
           },
           {
             "event_id": "event:3",
-            "intent_id": "intent:change_01M7QE155R26Y9SY0Y6QD25HNP",
+            "intent_id": "intent:change_01M7YZ2H1JMNS8TRE1R3W3XNJ1",
             "kind": "refined",
             "sequence": 3
           },
           {
-            "detail": "trajectory:branch_01M7QE162XCRSQ8CG8153TTBEA",
+            "detail": "trajectory:branch_01M7YZ2H4QEGDVFE5AHV8REXFQ",
             "event_id": "event:4",
-            "intent_id": "intent:change_01M7QE155R26Y9SY0Y6QD25HNP",
+            "intent_id": "intent:change_01M7YZ2H1JMNS8TRE1R3W3XNJ1",
             "kind": "trajectory_step_recorded",
             "sequence": 4
+          },
+          {
+            "detail": "trajectory:branch_01M7YZ2H4QEGDVFE5AHV8REXFQ",
+            "event_id": "event:5",
+            "intent_id": "intent:change_01M7YZ2H1JMNS8TRE1R3W3XNJ1",
+            "kind": "trajectory_step_recorded",
+            "sequence": 5
           }
         ],
         "knowledge_candidates": [],
-        "next_sequence": 4,
-        "schema_version": "1.0.0",
+        "next_sequence": 5,
+        "schema_version": "1.1.0",
         "trajectories": {
-          "branch_01M7QE162XCRSQ8CG8153TTBEA": {
+          "branch_01M7YZ2H4QEGDVFE5AHV8REXFQ": {
             "evidence_only": true,
-            "id": "branch_01M7QE162XCRSQ8CG8153TTBEA",
-            "intent_id": "intent:change_01M7QE155R26Y9SY0Y6QD25HNP",
+            "id": "branch_01M7YZ2H4QEGDVFE5AHV8REXFQ",
+            "intent_id": "intent:change_01M7YZ2H1JMNS8TRE1R3W3XNJ1",
             "steps": [
               {
-                "action": "trajectory.record",
+                "action": "loop:deno-checks:1",
                 "custody_event_id": "event:4",
-                "observations": [
-                  "Independent fixture PR7 exact subject readback, required access failure and repair, chronological high-contrast selected footage, offline Deno and offline media tests, end-to-end Chrome preview and retained original case-study audio. Public check follows native publication and Pages."
-                ],
+                "observations": [],
                 "proof_refs": [
-                  "independent-real-pi-admission",
-                  "readable-proof-and-accessible-chapters",
-                  "deployed-pages"
+                  "deno run --no-remote --no-npm --allow-read=. scripts/check-site.ts",
+                  "deno test --no-remote --no-npm --allow-read=. tests/pricing_signup_test.ts"
                 ],
                 "scope": [
                   "root"
                 ],
                 "sequence": 4,
                 "validation_findings": []
+              },
+              {
+                "action": "loop:deno-checks:2",
+                "custody_event_id": "event:5",
+                "observations": [],
+                "proof_refs": [
+                  "deno run --no-remote --no-npm --allow-read=. scripts/check-site.ts",
+                  "deno test --no-remote --no-npm --allow-read=. tests/pricing_signup_test.ts"
+                ],
+                "scope": [
+                  "root"
+                ],
+                "sequence": 5,
+                "validation_findings": []
               }
             ]
           }
         }
       },
-      "declared_commands": [],
+      "declared_commands": [
+        "deno run --no-remote --no-npm --allow-read=. scripts/check-site.ts",
+        "deno test --no-remote --no-npm --allow-read=. tests/pricing_signup_test.ts"
+      ],
       "destination": "pull request",
       "evidence": [
-        "Independent fixture PR7 exact subject readback, required access failure and repair, chronological high-contrast selected footage, offline Deno and offline media tests, end-to-end Chrome preview and retained original case-study audio. Public check follows native publication and Pages."
+        "Restored scripts/check-site.ts to origin/main contract; expanded tests/pricing_signup_test.ts passes 7/7 tests including all 7 HTML docs, 4 JS scripts, DOM sink safety, and confidentiality.",
+        "check-site.ts passed across 7 HTML docs, 140 local assets, 30 fragment links, 4 compiled scripts, and 11 confidentiality-checked files.",
+        "deno test tests/pricing_signup_test.ts passed 6/6 tests (0 failed)."
       ],
-      "inspected_files": [],
-      "intent_id": "intent:change_01M7QE155R26Y9SY0Y6QD25HNP",
-      "modified_files": [],
+      "inspected_files": [
+        ".decapod/config.toml",
+        "CNAME",
+        "main.js",
+        "pricing.css",
+        "pricing.html",
+        "pricing.js",
+        "scripts/check-site.ts",
+        "styles.css"
+      ],
+      "intent_id": "intent:change_01M7YZ2H1JMNS8TRE1R3W3XNJ1",
+      "loops": [
+        {
+          "attempt": 1,
+          "custody_event_id": "event:4",
+          "grader_result": "pass",
+          "intent_id": "intent:change_01M7YZ2H1JMNS8TRE1R3W3XNJ1",
+          "loop_id": "deno-checks",
+          "loop_type": "verification",
+          "mutation_proposal": "none",
+          "proof_refs": [
+            "deno run --no-remote --no-npm --allow-read=. scripts/check-site.ts",
+            "deno test --no-remote --no-npm --allow-read=. tests/pricing_signup_test.ts"
+          ],
+          "status": "passed",
+          "trajectory_id": "branch_01M7YZ2H4QEGDVFE5AHV8REXFQ",
+          "trigger": "agent"
+        },
+        {
+          "attempt": 2,
+          "custody_event_id": "event:5",
+          "grader_result": "pass",
+          "intent_id": "intent:change_01M7YZ2H1JMNS8TRE1R3W3XNJ1",
+          "loop_id": "deno-checks",
+          "loop_type": "verification",
+          "mutation_proposal": "none",
+          "proof_refs": [
+            "deno run --no-remote --no-npm --allow-read=. scripts/check-site.ts",
+            "deno test --no-remote --no-npm --allow-read=. tests/pricing_signup_test.ts"
+          ],
+          "status": "passed",
+          "trajectory_id": "branch_01M7YZ2H4QEGDVFE5AHV8REXFQ",
+          "trigger": "agent"
+        }
+      ],
+      "modified_files": [
+        "cloud-flow.js",
+        "pricing.css",
+        "pricing.html",
+        "pricing.js",
+        "pricing/index.html",
+        "scripts/check-site.ts",
+        "signup/index.html",
+        "signup/signup.css",
+        "signup/signup.js",
+        "tests/pricing_signup_test.ts"
+      ],
       "next_transitions": [
         "Refine plan and declare falsifiable checks"
       ],
       "repo_scope": [
         "root"
       ],
-      "run_id": "branch_01M7QE162XCRSQ8CG8153TTBEA",
+      "run_id": "branch_01M7YZ2H4QEGDVFE5AHV8REXFQ",
       "schema_version": "1.1.0",
       "shortcut_risk_signals": [],
-      "task_id": "refa_01m7qdw5kpsv74qp",
+      "task_id": "feat_01m7yz1vxy4w323q",
       "tool_calls": [],
       "unresolved_assumptions": []
     }

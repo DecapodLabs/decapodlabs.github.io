@@ -9,17 +9,18 @@
 <meta property="og:site_name" content="Decapod Labs">
 <meta property="og:title" content="Pricing — Decapod Labs">
 <meta property="og:description" content="Keep your coding agents and control Cloud costs. Explore repository-based licensing, volume savings, included usage, and admin-approved overages.">
-<meta property="og:image" content="https://decapodlabs.github.io/assets/social-preview.png">
-<meta property="og:url" content="https://decapodlabs.github.io/pricing.html">
+<meta property="og:image" content="https://decapodlabs.ai/assets/social-preview.png">
+<meta property="og:url" content="https://decapodlabs.ai/pricing">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="canonical" href="https://decapodlabs.github.io/pricing.html">
+<link rel="canonical" href="https://decapodlabs.ai/pricing">
 <link rel="icon" type="image/png" href="assets/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css?v=20261119-fixed-footer">
-<link rel="stylesheet" href="pricing.css?v=20261118-annual-flyout-v4">
-<script src="pricing.js?v=20261118-annual8-v5" defer></script>
+<link rel="stylesheet" href="pricing.css?v=20261121-p0">
+<script src="cloud-flow.js?v=20261121-p0" defer></script>
+<script src="pricing.js?v=20261121-p0" defer></script>
 <title>Pricing — Decapod Labs</title>
 </head>
 <body class="pricing-page site-footer-pinned">
@@ -49,6 +50,12 @@
   </section>
 
   <section class="pricing-plans" aria-label="Decapod plans">
+    <div class="wrap">
+      <div class="pricing-repo-banner" id="pricing-repo-banner" role="status" hidden>
+        <strong id="pricing-repo-slug"></strong>
+        <span id="pricing-repo-note"></span>
+      </div>
+    </div>
     <div class="wrap pricing-plan-grid">
       <article class="pricing-plan" aria-labelledby="local-title">
         <div class="pricing-plan-top"><span class="plan-index">01 / LOCAL</span><span class="plan-availability">Available now</span></div>
@@ -80,7 +87,7 @@
           <li>One identity across organizations, with repository-specific access</li>
           <li>Cloud Admin for team access, spending controls, usage alerts, and billing</li>
         </ul>
-        <button class="plan-link plan-link-disabled" type="button" disabled aria-describedby="cloud-fineprint">Cloud checkout opening soon <span aria-hidden="true">↗</span></button>
+        <button id="cloud-pay-cta" class="plan-link plan-link-disabled" type="button" disabled aria-describedby="cloud-fineprint">Cloud checkout opening soon <span aria-hidden="true">↗</span></button>
         <p class="plan-fineprint" id="cloud-fineprint">Cloud enrollment opens soon. Prices and included allowances will be disclosed before purchase. Paid overages are off by default and require separate admin approval and a spending cap.</p>
         <div class="cloud-custom-contact">
           <span>Beyond 10 repositories or 25 contributors?</span>
