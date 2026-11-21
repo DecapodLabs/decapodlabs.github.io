@@ -28,6 +28,173 @@
     return /[\s\u0000-\u001f\u007f]/.test(value);
   }
 
+  function parseOrgSlug(raw) {
+    if (typeof raw !== "string") return null;
+    var trimmed = raw.trim();
+    if (!trimmed || trimmed.length > 100 || hasControlOrSpace(trimmed)) return null;
+    if (trimmed === "." || trimmed === "..") return null;
+    if (trimmed.includes("%") || trimmed.includes("?") || trimmed.includes("#") ||
+        trimmed.includes("\\") || trimmed.includes("/") || trimmed.includes("..") ||
+        trimmed.includes("<") || trimmed.includes(">") || trimmed.includes("\"") ||
+        trimmed.includes("'")) {
+      return null;
+    }
+    if (trimmed.endsWith(".git")) return null;
+    if (UUID_PATTERN.test(trimmed)) {
+      return { slug: trimmed.toLowerCase(), isUuid: true };
+    }
+    if (!OWNER_PATTERN.test(trimmed)) return null;
+    return { slug: trimmed, isUuid: false };
+  }
+
+  function parseAdminRoute(pathname, search) {
+    if (typeof pathname !== "string" || !pathname || pathname.length > 512 || hasControlOrSpace(pathname)) {
+      return { status: "invalid", reason: "invalid_route", org: null, isUuid: false, source: "none", valid: false };
+    }
+    if (pathname.includes("\\") || pathname.includes("?") || pathname.includes("#") ||
+        pathname.includes("<") || pathname.includes(">") || pathname.includes("//")) {
+      return { status: "invalid", reason: "malformed_route", org: null, isUuid: false, source: "none", valid: false };
+    }
+    var params = search instanceof URLSearchParams
+      ? search
+      : new URLSearchParams(typeof search === "string" ? search : "");
+
+    if (pathname === "/admin" || pathname === "/admin/") {
+      var orgValues = params.getAll("org");
+      if (orgValues.length === 0) {
+        return { status: "absent", reason: null, org: null, isUuid: false, source: "none", valid: false };
+      }
+      if (orgValues.length > 1) {
+        return { status: "invalid", reason: "duplicate_org", org: null, isUuid: false, source: "query", valid: false };
+      }
+      var queryOrg = parseOrgSlug(orgValues[0]);
+      if (!queryOrg) {
+        return { status: "invalid", reason: "invalid_org", org: null, isUuid: false, source: "query", valid: false };
+      }
+      return { status: "valid", reason: null, org: queryOrg.slug, isUuid: queryOrg.isUuid, source: "query", valid: true };
+    }
+
+    if (!pathname.startsWith("/admin/")) {
+      return { status: "invalid", reason: "invalid_route", org: null, isUuid: false, source: "none", valid: false };
+    }
+
+    var rest = pathname.slice("/admin/".length);
+    if (rest.endsWith("/")) rest = rest.slice(0, -1);
+    if (!rest || rest.includes("/")) {
+      return { status: "invalid", reason: "malformed_route", org: null, isUuid: false, source: "path", valid: false };
+    }
+    if (/%2e|%2f|%5c|%00|%3c|%3e/i.test(rest)) {
+      return { status: "invalid", reason: "invalid_org", org: null, isUuid: false, source: "path", valid: false };
+    }
+    var decoded;
+    try {
+      decoded = decodeURIComponent(rest);
+    } catch (_) {
+      return { status: "invalid", reason: "invalid_org", org: null, isUuid: false, source: "path", valid: false };
+    }
+    var pathOrg = parseOrgSlug(decoded);
+    if (!pathOrg) {
+      return { status: "invalid", reason: "invalid_org", org: null, isUuid: false, source: "path", valid: false };
+    }
+    if (params.has("org")) {
+      var qVals = params.getAll("org");
+      if (qVals.length !== 1) {
+        return { status: "invalid", reason: "conflicting_org", org: null, isUuid: false, source: "path", valid: false };
+      }
+      var qMatch = parseOrgSlug(qVals[0]);
+      if (!qMatch || qMatch.slug.toLowerCase() !== pathOrg.slug.toLowerCase()) {
+        return { status: "invalid", reason: "conflicting_org", org: null, isUuid: false, source: "path", valid: false };
+      }
+    }
+    return { status: "valid", reason: null, org: pathOrg.slug, isUuid: pathOrg.isUuid, source: "path", valid: true };
+  }
+
+  function isAllowedAdminPathname(pathname) {
+    var parsed = parseAdminRoute(pathname, "");
+    return parsed.status === "absent" || parsed.status === "valid";
+  }
+
+  function buildAdminBrowserPath(currentPathname, orgSlug) {
+    var parsed = parseOrgSlug(orgSlug);
+    if (!parsed) return "/admin/";
+    var isSubpathMode = typeof currentPathname === "string" &&
+      currentPathname.startsWith("/admin/") &&
+      currentPathname !== "/admin/";
+    if (isSubpathMode) {
+      return "/admin/" + encodeURIComponent(parsed.slug);
+    }
+    return "/admin/?org=" + encodeURIComponent(parsed.slug);
+  }
+
+  function listAdminOrganizations(organizations) {
+    if (!Array.isArray(organizations)) return [];
+    var out = [];
+    for (var i = 0; i < organizations.length; i++) {
+      var item = organizations[i];
+      if (!item || typeof item !== "object" || Array.isArray(item)) continue;
+      if (item.admin !== true) continue;
+      if (typeof item.id !== "string" || !item.id || item.id.length > 512) continue;
+      if (typeof item.cloud_org_id !== "string" || !UUID_PATTERN.test(item.cloud_org_id)) continue;
+      out.push({
+        id: item.id,
+        cloud_org_id: item.cloud_org_id.toLowerCase(),
+        scm_provider: typeof item.scm_provider === "string" ? item.scm_provider : null,
+        scm_owner_id: typeof item.scm_owner_id === "string" ? item.scm_owner_id : null,
+        scm_owner_slug: typeof item.scm_owner_slug === "string" ? item.scm_owner_slug : null,
+        admin: true
+      });
+    }
+    return out;
+  }
+
+  function resolveAdminOrganization(organizations, requestedOrg) {
+    if (!Array.isArray(organizations)) {
+      return { status: "denied", reason: "organization_access_denied", org: null };
+    }
+    var parsed = parseOrgSlug(requestedOrg);
+    if (!parsed) {
+      return { status: "denied", reason: "invalid_org", org: null };
+    }
+    var targetLower = parsed.slug.toLowerCase();
+    var matches = [];
+    for (var i = 0; i < organizations.length; i++) {
+      var item = organizations[i];
+      if (!item || typeof item !== "object" || Array.isArray(item)) continue;
+      var matchesUuid = typeof item.cloud_org_id === "string" && item.cloud_org_id.toLowerCase() === targetLower;
+      var matchesId = typeof item.id === "string" && item.id === parsed.slug;
+      var matchesSlug = typeof item.scm_owner_slug === "string" && item.scm_owner_slug.toLowerCase() === targetLower;
+      if (matchesUuid || matchesId || matchesSlug) {
+        matches.push(item);
+      }
+    }
+    if (matches.length === 0) {
+      return { status: "denied", reason: "organization_access_denied", org: null };
+    }
+    if (matches.length > 1) {
+      return { status: "denied", reason: "ambiguous_organization", org: null };
+    }
+    var match = matches[0];
+    if (match.admin !== true) {
+      return { status: "denied", reason: "admin_required", org: null };
+    }
+    if (typeof match.id !== "string" || !match.id || match.id.length > 512 ||
+        typeof match.cloud_org_id !== "string" || !UUID_PATTERN.test(match.cloud_org_id)) {
+      return { status: "denied", reason: "invalid_org_identity", org: null };
+    }
+    return {
+      status: "authorized",
+      reason: null,
+      org: {
+        id: match.id,
+        cloud_org_id: match.cloud_org_id.toLowerCase(),
+        scm_provider: typeof match.scm_provider === "string" ? match.scm_provider : null,
+        scm_owner_id: typeof match.scm_owner_id === "string" ? match.scm_owner_id : null,
+        scm_owner_slug: typeof match.scm_owner_slug === "string" ? match.scm_owner_slug : null,
+        admin: true
+      }
+    };
+  }
+
   function parseRepoSlug(raw) {
     if (typeof raw !== "string") return null;
     var trimmed = raw.trim();
@@ -165,6 +332,79 @@
       opts.returnTo || (expectedOrigin + "/signup"),
       expectedOrigin,
       ["/signup", "/signup/"]
+    );
+    if (!safeReturn) {
+      throw new Error("hostile_return_url");
+    }
+    var url = new URL(authBaseUrl);
+    var params = new URLSearchParams({
+      provider: provider,
+      return_to: safeReturn
+    });
+    if (opts.codeChallenge !== undefined && opts.codeChallenge !== null) {
+      if (typeof opts.codeChallenge !== "string" || !PKCE_HASH_PATTERN.test(opts.codeChallenge)) {
+        throw new Error("invalid_pkce_challenge");
+      }
+      params.set("code_challenge", opts.codeChallenge);
+      params.set("code_challenge_method", "s256");
+    }
+    url.search = params.toString();
+    return url.href;
+  }
+
+  function sanitizeAdminReturnUrl(rawUrl, expectedOrigin) {
+    if (typeof rawUrl !== "string" || !rawUrl || rawUrl.length > 2048 || hasControlOrSpace(rawUrl)) {
+      return null;
+    }
+    var target;
+    try {
+      target = new URL(rawUrl);
+    } catch (_) {
+      return null;
+    }
+    if (target.protocol !== "https:") return null;
+    if (target.username || target.password || target.hash) return null;
+    var originToMatch = typeof expectedOrigin === "string" && expectedOrigin
+      ? expectedOrigin
+      : CANONICAL_SITE_ORIGIN;
+    if (target.origin !== originToMatch) return null;
+    var parsedRoute = parseAdminRoute(target.pathname, target.search);
+    if (parsedRoute.status === "invalid") return null;
+    return target.href;
+  }
+
+  function parseSafeAdminReturnParam(search, expectedOrigin) {
+    var params = search instanceof URLSearchParams
+      ? search
+      : new URLSearchParams(typeof search === "string" ? search : "");
+    var rawValues = params.getAll("return_to").concat(params.getAll("redirect_to"));
+    if (rawValues.length === 0) {
+      return { status: "absent", url: null, valid: false };
+    }
+    if (rawValues.length !== 1) {
+      return { status: "rejected", url: null, valid: false };
+    }
+    var safe = sanitizeAdminReturnUrl(rawValues[0], expectedOrigin);
+    if (!safe) {
+      return { status: "rejected", url: null, valid: false };
+    }
+    return { status: "valid", url: safe, valid: true };
+  }
+
+  function buildAdminAuthAuthorizeUrl(options) {
+    var opts = options || {};
+    var authBaseUrl = opts.authBaseUrl || (CANONICAL_AUTH_ORIGIN + "/auth");
+    if (!isTrustedAuthUrl(authBaseUrl)) {
+      throw new Error("untrusted_auth_origin");
+    }
+    var provider = opts.provider || "github";
+    if (!["github", "google", "gitlab"].includes(provider)) {
+      throw new Error("invalid_provider");
+    }
+    var expectedOrigin = opts.expectedOrigin || CANONICAL_SITE_ORIGIN;
+    var safeReturn = sanitizeAdminReturnUrl(
+      opts.returnTo || (expectedOrigin + "/admin/"),
+      expectedOrigin
     );
     if (!safeReturn) {
       throw new Error("hostile_return_url");
@@ -421,6 +661,15 @@
     CANONICAL_ONBOARDING_PREFIX: CANONICAL_ONBOARDING_PREFIX,
     UUID_PATTERN: UUID_PATTERN,
     PKCE_HASH_PATTERN: PKCE_HASH_PATTERN,
+    parseOrgSlug: parseOrgSlug,
+    parseAdminRoute: parseAdminRoute,
+    isAllowedAdminPathname: isAllowedAdminPathname,
+    buildAdminBrowserPath: buildAdminBrowserPath,
+    listAdminOrganizations: listAdminOrganizations,
+    resolveAdminOrganization: resolveAdminOrganization,
+    sanitizeAdminReturnUrl: sanitizeAdminReturnUrl,
+    parseSafeAdminReturnParam: parseSafeAdminReturnParam,
+    buildAdminAuthAuthorizeUrl: buildAdminAuthAuthorizeUrl,
     parseRepoSlug: parseRepoSlug,
     parseRepoSearch: parseRepoSearch,
     isAllowedSiteOrigin: isAllowedSiteOrigin,
