@@ -110,12 +110,11 @@ function createSignupDom() {
   const doc = new MockDocument();
   const ids = [
     'signup-app', 'signup-repo-banner', 'signup-repo-banner-title', 'signup-repo-banner-note',
-    'signup-status', 'account-bar', 'account-summary', 'refresh-account-btn', 'sign-out-btn',
+    'signup-status', 'account-bar', 'account-summary',
     'auth-gate', 'auth-github', 'auth-google', 'cancel-auth-btn', 'auth-provider-note',
     'step-identity', 'identity-heading', 'identity-message', 'identity-link-actions',
     'link-github-btn', 'identity-quarantine-actions', 'confirm-provider-btn', 'revoke-provider-btn',
-    'step-org-repo', 'org-repo-copy', 'org-picker-block', 'org-select', 'repo-select',
-    'repo-input', 'verify-repo-btn', 'authorize-github-repos-btn', 'org-repo-hint',
+    'step-org-repo', 'org-repo-copy', 'repo-input', 'verify-repo-btn', 'org-repo-hint',
     'step-state', 'state-kicker', 'state-heading', 'state-message', 'state-detail',
     'state-retry-btn', 'state-change-repo-btn',
     'step-checkout', 'checkout-target-label', 'billing-closed-notice', 'billing-quote-controls',
@@ -715,7 +714,7 @@ Deno.test('Signup handles Google->GitHub step-up, org_already_enrolled, admin_ap
   }
 });
 
-Deno.test('discoverRuntimeConfig handles api.decapodlabs.ai primary and fallback, and no-repo Signup lists verified GitHub orgs/repos safely', async () => {
+Deno.test('discoverRuntimeConfig uses trusted API fallback and signup accepts a single repository slug', async () => {
   const primaryProfile = await flow.discoverRuntimeConfig((url: string) => {
     if (url.startsWith('https://api.decapodlabs.ai/')) {
       return Promise.resolve(new Response(JSON.stringify({
@@ -748,7 +747,7 @@ Deno.test('discoverRuntimeConfig handles api.decapodlabs.ai primary and fallback
   assertEq(fallbackProfile.apiOrigin, 'https://goyxpcmxetztjlrrcwew.supabase.co', 'falls back to Edge origin when api subdomain returns 403');
   assertEq(fallbackProfile.authBaseUrl, 'https://goyxpcmxetztjlrrcwew.supabase.co/functions/v1/decapod-onboarding/auth', 'falls back to Edge /auth');
 
-  // Post-login with NO ?repo= populates GitHub orgs/repos (admin-only) safely via textContent.
+  // Without an inbound repo intent, show the single slug input without querying GitHub repositories.
   const doc = createSignupDom();
   const storage = makeStorage();
   const now = Math.floor(Date.now() / 1000);
@@ -758,6 +757,7 @@ Deno.test('discoverRuntimeConfig handles api.decapodlabs.ai primary and fallback
     version: 1, kind: 'sign_in', provider: 'github', verifier: 'v'.repeat(43),
     nonce, expires: now + 600, phase: 'pending', project: TEST_PROFILE.projectOrigin,
   }));
+  let githubEnumerationCalls = 0;
   const ctrl = signupApp.createSignupController({
     document: doc,
     sessionStorage: storage,
@@ -775,32 +775,95 @@ Deno.test('discoverRuntimeConfig handles api.decapodlabs.ai primary and fallback
       if (url.pathname.endsWith('/account-register')) {
         return Promise.resolve(new Response(JSON.stringify({ account_id: accountId, status: 'registered', organizations: [], projects: [] }), { status: 200 }));
       }
-      if (url.href === 'https://api.github.com/user') {
-        return Promise.resolve(new Response(JSON.stringify({ login: 'octocat' }), { status: 200 }));
-      }
-      if (url.href.startsWith('https://api.github.com/user/orgs')) {
-        return Promise.resolve(new Response(JSON.stringify([{ login: 'DecapodLabs' }]), { status: 200 }));
-      }
-      if (url.href.startsWith('https://api.github.com/user/repos')) {
-        return Promise.resolve(new Response(JSON.stringify([
-          { full_name: 'DecapodLabs/decapod', owner: { login: 'DecapodLabs' }, private: false, permissions: { admin: true } },
-          { full_name: 'DecapodLabs/readonly', owner: { login: 'DecapodLabs' }, private: true, permissions: { admin: false } },
-        ]), { status: 200 }));
+      if (url.origin === 'https://api.github.com') {
+        githubEnumerationCalls++;
+        return Promise.resolve(new Response('{}', { status: 500 }));
       }
       return Promise.resolve(new Response('{}', { status: 404 }));
     },
     navigateFn: () => {},
   });
   await ctrl.init();
-  assertEq(doc.getElementById('step-org-repo')!.hidden, false, 'org/repo picker shown when ?repo= absent');
-  assertEq(doc.getElementById('org-picker-block')!.hidden, false, 'GitHub org/repo dropdown visible');
-  const orgSelect = doc.getElementById('org-select')!;
-  assertEq(orgSelect.children.length, 2, 'personal + org owner listed');
-  orgSelect.value = 'DecapodLabs';
-  orgSelect.onchange!();
-  const repoSelect = doc.getElementById('repo-select')!;
-  assertEq(repoSelect.children.length, 2, 'placeholder + admin-only DecapodLabs/decapod listed (readonly excluded)');
-  assertEq(repoSelect.children[1].value, 'DecapodLabs/decapod', 'admin repo listed');
+  assertEq(doc.getElementById('step-org-repo')!.hidden, false, 'single repository input shown after sign-in');
+  assertEq(doc.getElementById('repo-input')!.value, '', 'manual entry blank without a handoff');
+  assertEq(githubEnumerationCalls, 0, 'no GitHub repository enumeration');
+  assertEq(doc.getElementById('account-bar')!.hidden, false, 'verified GitHub indicator shown');
+  assertEq(doc.getElementById('account-summary')!.textContent, 'GitHub connected', 'no internal account identifier displayed');
+  assert(!doc.getElementById('account-summary')!.textContent.includes(accountId), 'UUID not shown to customers');
+});
+
+Deno.test('Signup retains repository intent across GitHub reauthorization', async () => {
+  const doc = createSignupDom();
+  const storage = makeStorage();
+  const accountId = '10000000-0000-4000-8000-000000000001';
+  const now = Math.floor(Date.now() / 1000);
+  const sessionKey = 'decapod-portal:' + TEST_PROFILE.projectOrigin + ':session';
+  const flowKey = 'decapod-portal:' + TEST_PROFILE.projectOrigin + ':flow';
+  const navigations: string[] = [];
+  const githubRequests: string[] = [];
+  const fetchMock = (input: string) => {
+    const url = new URL(input);
+    if (url.origin === 'https://api.github.com') {
+      githubRequests.push(input);
+      return Promise.resolve(new Response('{}', { status: 500 }));
+    }
+    if (url.pathname === '/auth/v1/user') {
+      return Promise.resolve(new Response(JSON.stringify({
+        id: accountId,
+        identities: [{ provider: 'github', user_id: accountId, id: '42' }],
+      }), { status: 200 }));
+    }
+    if (url.pathname === '/auth/v1/token') {
+      return Promise.resolve(new Response(JSON.stringify({
+        access_token: 'jwt-gh-new', expires_in: 3600, provider_token: 'gho_in_memory',
+      }), { status: 200 }));
+    }
+    if (url.pathname.endsWith('/account-register')) {
+      return Promise.resolve(new Response(JSON.stringify({
+        account_id: accountId, status: 'registered', organizations: [], projects: [],
+      }), { status: 200 }));
+    }
+    return Promise.resolve(new Response('{}', { status: 404 }));
+  };
+  storage.setItem(sessionKey, JSON.stringify({
+    access_token: 'jwt-gh-old',
+    expires_at: now + 3600,
+    origin: TEST_PROFILE.projectOrigin,
+  }));
+
+  const ctrl = signupApp.createSignupController({
+    document: doc,
+    sessionStorage: storage,
+    initialProfile: TEST_PROFILE,
+    location: { origin: 'https://decapodlabs.ai', href: 'https://decapodlabs.ai/signup?repo=DecapodLabs%2Fdactyl' },
+    history: { replaceState: () => {} },
+    fetch: fetchMock,
+    navigateFn: (url: string) => navigations.push(url),
+  });
+  await ctrl.init();
+  assertEq(doc.getElementById('repo-input')!.value, 'DecapodLabs/dactyl', 'CLI handoff prefills the slug');
+  await ctrl.verifyRepo();
+  assertEq(navigations.length, 1, 'Verify starts GitHub reauthorization when the provider token is unavailable');
+  assertEq(new URL(navigations[0]).pathname, '/auth/v1/authorize', 'trusted GitHub authorization path used');
+  const pending = JSON.parse(storage.getItem(flowKey)!);
+
+  const resumedDoc = createSignupDom();
+  const returned = signupApp.createSignupController({
+    document: resumedDoc,
+    sessionStorage: storage,
+    initialProfile: TEST_PROFILE,
+    location: {
+      origin: 'https://decapodlabs.ai',
+      href: 'https://decapodlabs.ai/signup?code=callback&login_nonce=' + pending.nonce,
+    },
+    history: { replaceState: () => {} },
+    fetch: fetchMock,
+    navigateFn: () => {},
+  });
+  await returned.init();
+  assertEq(returned.getState().preselectedRepo, 'DecapodLabs/dactyl', 'repo intent restored from session on callback');
+  assertEq(resumedDoc.getElementById('repo-input')!.value, 'DecapodLabs/dactyl', 'single input remains prefilled');
+  assertEq(githubRequests.length, 0, 'no client-side repository enumeration');
 });
 
 Deno.test('static site documents, classic scripts, UNDER WRAPS posture, and public-repo confidentiality pass', async () => {
@@ -821,6 +884,13 @@ Deno.test('static site documents, classic scripts, UNDER WRAPS posture, and publ
     }
     return docIds.get(path)!;
   };
+  const signupMarkup = await Deno.readTextFile('signup/index.html');
+  assert(signupMarkup.includes('/assets/mascot.png'), 'Clack replaces the security callout');
+  assert(signupMarkup.includes('signup-verified'), 'GitHub verified chip present');
+  assert(!signupMarkup.includes('FAIL-CLOSED AUTHORIZATION'), 'no extraneous security callout');
+  assert(!signupMarkup.includes('site-footer-pinned'), 'signup footer cannot overlay form');
+  assert(!signupMarkup.includes('sign-out-btn'), 'no signout control on checkout page');
+  assert(!signupMarkup.includes('org-select') && !signupMarkup.includes('repo-select'), 'no redundant org/repo dropdowns');
   for (const docPath of ['index.html', 'offerings.html', 'pricing.html', 'pricing/index.html', 'signup/index.html', 'proof.html', 'tecr.html']) {
     const html = await Deno.readTextFile(docPath);
     assert(html.includes('lang="en"') && /<meta\s+name="viewport"/i.test(html), 'accessibility baseline: ' + docPath);
