@@ -100,6 +100,10 @@ The complete featured Waystead artwork card in the homepage Showcase—ABAXI mar
 ## Waystead inline link and heading-color continuity
 The first textual mention of Waystead in the Showcase's game-development paragraph uses the same warm accent (`#9b513a`) as “Across disciplines.” and points directly to the official Waystead waitlist at `https://whop.com/abaxi-studios/waystead-waitlist/`. Preserve the full-card waitlist link, logo/art treatment, gameplay gallery, and all other product claims and page sections unchanged. The inline text link is independent of the adjacent linked artwork card and remains keyboard-accessible.
 
+## Cloud signup simplification — November 21, 2026
+
+The authenticated `/signup` page asks for one `owner/repo` slug, accepts a validated `?repo=` handoff from Decapod/Dactyl and pricing, and preserves that intent across a GitHub PKCE reauthorization callback. The customer does not need to browse fetched organization/repository lists or see an internal account UUID. Replace the hero's fail-closed authorization card with the existing Clack mascot PNG; show only a compact GitHub-connected mark with a verified check when account registration and linked GitHub identity permit it. Omit sign-out/refresh controls from this purchase flow and keep the footer in document flow. The primary desktop signup state should fit at normal 100% browser zoom without covering the repository field or CTA. Preserve all server-issued verification, entitlement, quote, checkout, and fail-closed boundaries.
+
 ## P0 Pricing (`/pricing`) and Authenticated Cloud Signup (`/signup`) — November 21, 2026
 Deliver the canonical public `/pricing` route (`pricing/index.html`) alongside compatible `pricing.html` and the authenticated Cloud purchasing sub-application at `/signup` (`signup/index.html`, `signup/signup.js`, `signup/signup.css`, backed by pure helpers in `cloud-flow.js`).
 
