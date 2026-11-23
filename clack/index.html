@@ -4,9 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#081d25">
-  <meta name="description" content="Download Clack for Mac. Meet your AI crew in Siltwick, a deep-sea town where you can work on projects and play between replies.">
+  <meta name="description" content="Clack is a macOS coding workspace set in a playable deep-sea town. Send your AI crew a project, review their edits, and explore Siltwick while they work.">
   <meta property="og:title" content="Clack for macOS · Decapod Labs">
-  <meta property="og:description" content="Your AI crew lives under the sea. Make yourself at home in Siltwick.">
+  <meta property="og:description" content="Give a Siltwick resident a real coding task, review the proposed changes, and explore the town while your crew works.">
   <meta property="og:image" content="https://decapodlabs.ai/clack/siltwick.webp">
   <meta property="og:image:alt" content="Illustration of a crab lifting one claw in the underwater town of Siltwick">
   <link rel="canonical" href="https://decapodlabs.ai/clack/">
@@ -14,8 +14,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/styles.css?v=20261123-site-nav">
-  <link rel="stylesheet" href="/clack/clack.css?v=3">
+  <link rel="stylesheet" href="/styles.css?v=20261123-clack-nav">
+  <link rel="stylesheet" href="/clack/clack.css?v=4">
   <title>Clack for macOS · Decapod Labs</title>
 </head>
 <body>
@@ -25,7 +25,7 @@
     <a href="/" class="brand" aria-label="Decapod Labs home"><img class="site-wordmark" src="/assets/logo-a.png" alt="Decapod Labs" width="420" height="140"></a>
     <nav class="nav-links" aria-label="Site navigation">
       <a href="/#showcase">Showcase</a>
-      <a href="/clack/index.html" aria-current="page">Clack</a>
+      <a class="nav-clack" href="/clack/index.html" aria-current="page">Clack</a>
       <a href="/#features">Features</a>
       <a href="/#architecture">Architecture</a>
       <a href="/tecr.html">Rework</a>
@@ -38,10 +38,10 @@
     <section class="clack-hero" aria-labelledby="clack-title">
       <div class="wrap clack-hero-grid">
         <div class="clack-hero-copy">
-          <p class="clack-kicker">A macOS game and AI workspace</p>
+          <p class="clack-kicker">An AI coding workspace for Mac</p>
           <h1 id="clack-title">Clack<span aria-hidden="true">.</span></h1>
-          <p class="clack-lead">Your AI crew lives<br class="clack-break"> under the sea.</p>
-          <p class="clack-intro">Make yourself at home in Siltwick. Give your crab crew a project, then dive into the mines or take on the arena while they work.</p>
+          <p class="clack-lead">Your coding crew lives under the sea.</p>
+          <p class="clack-intro">Open a project on your Mac, give a resident a task, and review what comes back. While your crew works, there’s a whole town to explore.</p>
           <a class="clack-download" href="/clack/downloads/Clack-0.9.14-macOS-arm64.dmg" download>
             <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M12 3v12m-4-4 4 4 4-4M4 16v4h16v-4"/>
@@ -50,6 +50,7 @@
             <span>DMG</span>
           </a>
           <p class="clack-requirements">v0.9.14 · Apple silicon · macOS 14+</p>
+          <a class="clack-tour-link" href="#agents">See Clack in use <span aria-hidden="true">↓</span></a>
         </div>
         <figure class="clack-key-art">
           <img src="/clack/siltwick.webp" alt="A red crab waves on a stone quay beneath teal water and warm lanterns" width="1448" height="1086" fetchpriority="high">
@@ -57,25 +58,43 @@
         </figure>
       </div>
     </section>
+    <section class="wrap clack-workflow" id="agents" aria-labelledby="agents-title">
+      <div class="clack-section-heading">
+        <h2 id="agents-title">From a note to a code change</h2>
+        <p>Press <kbd>Q</kbd> to open Agents Mode. Pick a resident from the roster to see their conversation, project folder, and coding agent in one place.</p>
+      </div>
+      <div class="clack-example">
+        <figure>
+          <img src="/clack/agents-mode.webp" alt="Clack’s Agents Mode over Siltwick, with Mira selected, OpenAI · Codex in her settings, and one proposed edit ready to review" width="1200" height="848" loading="lazy">
+          <figcaption>
+            Agents Mode in Clack for macOS, shown with a sample project.
+            <a href="/clack/agents-mode.webp">View full-size screenshot</a>
+          </figcaption>
+        </figure>
+        <div>
+          <h3>Give Mira a small, specific task</h3>
+          <blockquote>Add an empty state to the status list so people know what to do when there are no checks.</blockquote>
+          <p>In this example, Mira is set to <strong>OpenAI · Codex</strong>. She proposes one edit and explains what it changes. You can open the diff before deciding whether to apply it.</p>
+        </div>
+      </div>
+      <ol class="clack-workflow-steps">
+        <li>
+          <h3>Pick a project</h3>
+          <p>Choose a local folder with <kbd>⌘</kbd><kbd>O</kbd>. Residents remember their working folders for follow-up requests.</p>
+        </li>
+        <li>
+          <h3>Give each resident a role</h3>
+          <p>Ask Mira to implement a change and Quinn to review it. Each resident can use a different coding agent or local model.</p>
+        </li>
+        <li>
+          <h3>Review the work</h3>
+          <p>Find replies from across your projects in the Journal. Inspect proposed edits, then apply them and run a check when you’re ready.</p>
+        </li>
+      </ol>
+    </section>
     <section class="wrap clack-world" aria-labelledby="world-title">
-      <div class="clack-world-heading">
-        <h2 id="world-title">A town full of coworkers.</h2>
-        <p>Your Mac’s home folder becomes your house. Step outside and meet the crew in the streets, shops and workrooms of Siltwick.</p>
-      </div>
-      <div class="clack-world-grid">
-        <article>
-          <h3>Leave a note.</h3>
-          <p>Send a resident a project and a request. Read their reply in your Journal and review proposed edits before they reach your files.</p>
-        </article>
-        <article>
-          <h3>Bring your tools.</h3>
-          <p>Open the built-in browser or terminal when you need it. Choose local models or supported cloud coding agents for your crew.</p>
-        </article>
-        <article>
-          <h3>Take the deep route.</h3>
-          <p>Head to the mines, forge better gear, or test it in the Pearl Ring while your crew gets on with their work.</p>
-        </article>
-      </div>
+      <h2 id="world-title">Take the long way home</h2>
+      <p>Your Mac’s home folder becomes your house in Siltwick. Step outside to visit a resident, mine ore and forge gear, or fight in the Pearl Ring while replies come in.</p>
     </section>
     <section class="wrap clack-install" aria-labelledby="install-title">
       <img src="/clack/icon.png" alt="" width="128" height="128" loading="lazy">

@@ -61,7 +61,7 @@
 }
 
 .clack-intro {
-  max-width: 34ch;
+  max-width: 39ch;
   margin: 0 0 1.75rem;
   color: var(--clack-muted);
   font-size: clamp(1rem, 1.4vw, 1.2rem);
@@ -103,6 +103,16 @@
   font-size: .875rem;
 }
 
+.clack-tour-link {
+  display: inline-block;
+  margin-top: 1.125rem;
+  color: var(--clack-text);
+  font-weight: 700;
+  text-underline-offset: .25em;
+}
+
+.clack-tour-link:hover { color: var(--clack-seaglass); }
+
 .clack-key-art {
   position: relative;
   margin: 0;
@@ -126,16 +136,17 @@
   font-size: .8125rem;
 }
 
-.clack-world { padding-block: clamp(3rem, 7vw, 6.5rem); }
+.clack-workflow { padding-block: clamp(3rem, 7vw, 6.5rem); }
 
-.clack-world-heading {
+.clack-section-heading {
   display: flex;
   justify-content: space-between;
   align-items: end;
   gap: 1.25rem 3rem;
-  margin-bottom: 1.75rem;
+  margin-bottom: clamp(1.5rem, 4vw, 3rem);
 }
 
+.clack-section-heading h2,
 .clack-world h2,
 .clack-install h2 {
   margin: 0;
@@ -143,35 +154,115 @@
   line-height: 1;
 }
 
-.clack-world-heading p {
+.clack-section-heading p {
   max-width: 43ch;
   margin: 0;
   color: var(--clack-muted);
   line-height: 1.6;
 }
 
-.clack-world-grid {
+.clack-page kbd {
+  padding: .1em .35em;
+  border: 1px solid #67858d;
+  border-radius: .25rem;
+  color: var(--clack-text);
+  font-size: .9em;
+}
+
+.clack-page kbd + kbd { margin-left: .2em; }
+
+.clack-example {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 2fr) minmax(16rem, 1fr);
+  align-items: center;
+  gap: clamp(1.5rem, 4vw, 3rem);
+  padding: clamp(1rem, 2.5vw, 2rem);
   border: 1px solid var(--clack-line);
   border-radius: 1rem;
   background: var(--clack-surface);
 }
 
-.clack-world-grid article { padding: clamp(1.25rem, 3vw, 2.25rem); }
-.clack-world-grid article + article { border-left: 1px solid var(--clack-line); }
+.clack-example figure { margin: 0; }
 
-.clack-world-grid h3 {
-  margin: 0 0 .625rem;
-  color: var(--clack-seaglass);
-  font-size: clamp(1.4rem, 2.3vw, 2rem);
+.clack-example figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid #49717b;
+  border-radius: .75rem;
 }
 
-.clack-world-grid p {
+.clack-example figure figcaption {
+  margin-top: .75rem;
+  color: var(--clack-muted);
+  font-size: .875rem;
+  line-height: 1.5;
+}
+
+.clack-example figcaption a {
+  color: var(--clack-seaglass);
+  white-space: nowrap;
+  text-underline-offset: .2em;
+}
+
+.clack-example h3,
+.clack-workflow-steps h3 {
+  margin: 0 0 .625rem;
+  color: var(--clack-seaglass);
+  font-size: clamp(1.35rem, 2.3vw, 2rem);
+  line-height: 1.12;
+}
+
+.clack-example blockquote {
+  margin: 1rem 0;
+  padding: .25rem 0 .25rem 1rem;
+  border-left: 2px solid var(--clack-coral);
+  font-size: clamp(1rem, 1.6vw, 1.25rem);
+  line-height: 1.5;
+}
+
+.clack-example p,
+.clack-workflow-steps p,
+.clack-world p {
   margin: 0;
   color: var(--clack-muted);
   line-height: 1.6;
 }
+
+.clack-example strong { color: var(--clack-text); }
+
+.clack-workflow-steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem clamp(1.5rem, 4vw, 3rem);
+  margin: clamp(1.5rem, 4vw, 3rem) 0 0;
+  padding: 0;
+  list-style-position: inside;
+}
+
+.clack-workflow-steps li {
+  padding: 1rem 0 0;
+  border-top: 1px solid var(--clack-line);
+}
+
+.clack-workflow-steps li::marker {
+  color: var(--clack-coral);
+  font-weight: 700;
+}
+
+.clack-workflow-steps h3 { margin-top: .5rem; }
+
+.clack-world {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 1rem 3rem;
+  padding-block: clamp(1.5rem, 4vw, 3rem);
+  margin-bottom: clamp(1.5rem, 4vw, 3rem);
+  border-block: 1px solid var(--clack-line);
+}
+
+.clack-world p { max-width: 54ch; }
 
 .clack-install {
   display: grid;
@@ -206,7 +297,7 @@
 
 @media (max-width: 900px) {
   .clack-hero-grid { grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); }
-  .clack-break { display: none; }
+  .clack-example { grid-template-columns: 1fr; }
   .clack-install { grid-template-columns: auto minmax(0, 1fr); }
   .clack-powered { grid-column: 2; }
 }
@@ -214,9 +305,9 @@
 @media (max-width: 700px) {
   .clack-hero-grid { grid-template-columns: 1fr; }
   .clack-hero h1 { font-size: clamp(5rem, 17vw, 8rem); }
-  .clack-world-heading { flex-direction: column; align-items: start; }
-  .clack-world-grid { grid-template-columns: 1fr; }
-  .clack-world-grid article + article { border-left: 0; border-top: 1px solid var(--clack-line); }
+  .clack-section-heading { flex-direction: column; align-items: start; }
+  .clack-workflow-steps,
+  .clack-world { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 430px) {
