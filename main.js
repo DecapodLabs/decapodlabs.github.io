@@ -1,6 +1,20 @@
 (() => {
   "use strict";
 
+  const sectionLinks = document.querySelectorAll('.nav-links a[href^="/#"]');
+  function syncCurrentSection() {
+    const currentSection = "/" + window.location.hash;
+    for (const link of sectionLinks) {
+      if (link.getAttribute("href") === currentSection) {
+        link.setAttribute("aria-current", "location");
+      } else {
+        link.removeAttribute("aria-current");
+      }
+    }
+  }
+  syncCurrentSection();
+  window.addEventListener("hashchange", syncCurrentSection);
+
   const film = document.getElementById("filmVideo");
   const replay = document.getElementById("soundBtn");
   const replayLabel = document.getElementById("soundLabel");

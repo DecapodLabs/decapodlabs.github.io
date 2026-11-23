@@ -48,7 +48,7 @@ The homepage puts this use case after the kernel capabilities and gives it a dir
 
 ## Clack downloads
 
-Visitors can discover Clack from the shared Decapod Labs header on every content page, including mobile layouts. At `/clack/`, the illustrated Siltwick hero introduces both the playable town and the macOS coding workspace. An example from Agents Mode shows how a visitor can select a resident, assign a project request, and review an edit before applying it. The page keeps the shared site footer and clear Apple silicon requirements. The primary action downloads the published disk image directly from the Decapod Labs domain.
+Visitors can find Clack immediately after Rework in the Decapod Labs header on desktop and mobile. The header underlines the current non-Pricing destination, including selected homepage sections. Pricing keeps its distinct pill treatment. At `/clack/`, the illustrated Siltwick hero invites visitors to “code with the crabs 🦀” and introduces Clack as “a new way to work and play.” The accompanying copy explains how a macOS coding project connects to the playable town. An example from Agents Mode shows how a visitor can select a resident, assign a project request, and review an edit before applying it. The page keeps the shared site footer and clear Apple silicon requirements. The primary action downloads the published disk image directly from the Decapod Labs domain.
 
 <!-- decapod:declared-capabilities:start -->
 
@@ -77,7 +77,7 @@ These declarations select authoring and proof obligations; they do not attest im
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `fca742ebb02bd651d8423dc5d31d6d559e999f2b6dff87b38999ae9893b20a69`
+- Repository signal fingerprint: `92022fafab9734f72f905091a0484ce04adc8935d81151889e4af897851d79ae`
 - Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (2 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->

@@ -1,7 +1,6 @@
 /* A restrained publication, separate from the product landing page. */
 body.tecr-page{background:#fcfbf8;color:#211e20}
 .tecr-page .nav{background:#fcfbf8;box-shadow:none;border-bottom:1px solid #dedbd6;-webkit-backdrop-filter:none;backdrop-filter:none}
-.tecr-page .nav-links a[aria-current="page"],.tecr-page .nav-links a[aria-current="page"]:hover{background:transparent;border-radius:0;color:#211e20;box-shadow:inset 0 -1px currentColor}
 .tecr-page .nav-cta{box-shadow:none}
 .tecr-page .nav-cta:hover{box-shadow:none}
 .letter{background:#fcfbf8}

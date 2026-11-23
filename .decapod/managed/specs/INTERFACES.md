@@ -124,7 +124,7 @@ Generated capability obligations: `public-api` is declared for this project. The
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `fca742ebb02bd651d8423dc5d31d6d559e999f2b6dff87b38999ae9893b20a69`
+- Repository signal fingerprint: `92022fafab9734f72f905091a0484ce04adc8935d81151889e4af897851d79ae`
 - Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (2 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->
@@ -133,4 +133,4 @@ Generated capability obligations: `public-api` is declared for this project. The
 
 The canonical Clack page is `/clack/`. The shared navigation links to the equivalent static index at `/clack/index.html` so the existing source verifier can check the target file. The Download for Mac link uses the HTML `download` attribute and points to `/clack/downloads/Clack-0.9.14-macOS-arm64.dmg`. The matching `.dmg.sha256` file is also served by Pages. Release notes and source code remain on GitHub. The download page identifies the exact release, architecture, and minimum macOS version.
 
-The hero’s “See Clack in use” link jumps to `#agents`. That section provides the example request and its review flow as text and links the screenshot to its full-size image. Clack marks its own header link with `aria-current="page"` and uses the same selected pill treatment as Pricing.
+The hero displays “code with the crabs 🦀” and “a new way to work and play” ahead of Download for Mac. The hero’s “See Clack in use” link jumps to `#agents`. That section provides the example request and its review flow as text and links the screenshot to its full-size image. Clack and Rework mark their own header links with `aria-current="page"`. On the homepage, `#showcase`, `#features`, and `#architecture` select their corresponding header link with `aria-current="location"`. Loading the bare homepage or a different fragment leaves those links unselected.

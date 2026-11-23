@@ -1,35 +1,59 @@
 {
   "schema_version": "1.0.0",
   "baseline": {
-    "accepted_commit": "f57408fd4a80c2ae3b6cbf7fb0955223a61003cb"
+    "accepted_commit": "b6521cd9988981fdaf0f3ca65536e8e5b0267515"
   },
   "change": {
-    "id": "change_01M854XGGJ39NN5E12CSNPXZ1G",
-    "base_commit": "f57408fd4a80c2ae3b6cbf7fb0955223a61003cb",
+    "id": "change_01M855WP9V90WA0TT6P1JSGVS8",
+    "base_commit": "b6521cd9988981fdaf0f3ca65536e8e5b0267515",
     "target_base": "origin/main"
   },
   "claims": {
-    "clack-tour": {
-      "statement": "Clack uses the selected Pricing treatment and shows its project workflow in Agents Mode",
-      "falsifier": "Selected pill styles differ, or the example fails to identify the request, resident, coding agent, and review step",
+    "clack-hero-copy": {
+      "statement": "The Clack hero displays both approved lines above the direct macOS download action at desktop and mobile sizes.",
+      "falsifier": "Either line is absent, hidden, clipped, or below the download action.",
       "status": "supported",
       "proof_refs": [
-        "chrome-responsive-nav-and-footer sha256:0e79c20ce8ab5ff60cef769327fee7ca547218fb69d707a98ef1c6f6a658f177"
+        "Headless Chrome /tmp/clack-pr63-copy-browser.mjs: exact visible text above download at 1440, 951, 950, 820, 541, 540, 390, and 320 CSS pixels."
+      ]
+    },
+    "labs-nav-active": {
+      "statement": "Clack follows Rework in all eight headers and the active non-Pricing links use the Rework underline while Pricing uses a pill",
+      "falsifier": "Any header differs in order, or Clack, Rework or a selected homepage section has an incorrect current marker or computed style at desktop or mobile width",
+      "status": "supported",
+      "proof_refs": [
+        "Headless Chrome navigation and computed styles across 8 site headers at widths 320, 390, 820, 950 and 1440"
       ]
     }
   },
   "checkpoints": [
     {
-      "id": "clack-product-tour",
-      "summary": "Show a real Clack app capture with sample project data and give Clack and Pricing the same accessible selected pill appearance.",
-      "input_digest": "sha256:1efcce472aec1152a89895bf97dac5b49fb871ded24ac9ad0c1b3c6e95d09b54",
+      "id": "labs-nav-candidate",
+      "summary": "Apply the Rework current-link underline across the Labs navigation and place Clack after Rework",
+      "input_digest": "sha256:13629cd5fc93b741c75a2c9421c3a5f2f41013d9968092720a5ebae621ffd701",
       "proof_refs": [
-        "chrome-responsive-nav-and-footer sha256:0e79c20ce8ab5ff60cef769327fee7ca547218fb69d707a98ef1c6f6a658f177"
+        "Headless Chrome navigation, footer and same-origin DMG verification at desktop and mobile widths"
+      ]
+    },
+    {
+      "id": "labs-nav-reviewed-candidate",
+      "summary": "Checkpoint the navigation changes with content-bound publication spec reviews",
+      "input_digest": "sha256:2d2a2136ff578d6fe19ab325f6b927e17c37322e5e16d041d312ba5d2ca36885",
+      "proof_refs": [
+        "Headless Chrome navigation, footer and same-origin DMG verification at desktop and mobile widths"
+      ]
+    },
+    {
+      "id": "labs-nav-clack-hero-copy",
+      "summary": "Add approved Clack hero lines and verify the combined PR 63 navigation and direct download",
+      "input_digest": "sha256:823a39d2da8a6507abaab51b5c55e0202fe2486442b5707c5a3f80bdaece5dc7",
+      "proof_refs": [
+        "Headless Chrome /tmp/clack-pr63-copy-browser.mjs verified eight routes at eight viewport widths and the direct DMG digest"
       ]
     }
   ],
   "intents": {
-    "intent:change_01M854XGGJ39NN5E12CSNPXZ1G": {
+    "intent:change_01M855WP9V90WA0TT6P1JSGVS8": {
       "acceptance_criteria": [],
       "assumptions": [],
       "boundaries": [
@@ -39,14 +63,14 @@
         "root"
       ],
       "created_sequence": 1,
-      "id": "intent:change_01M854XGGJ39NN5E12CSNPXZ1G",
+      "id": "intent:change_01M855WP9V90WA0TT6P1JSGVS8",
       "instruction_origin": {
         "source_ref": "caller:unverified"
       },
       "out_of_scope": [],
       "proof_requirements": [],
-      "raw_intent": "Show Clack in use on the Labs site\n\nMatch Clack selected header treatment to Pricing, demonstrate a project workflow, and verify responsive navigation, shared footer and direct DMG download before a governed PR and safe merge.",
-      "refined_intent": "Show Clack in use on the Labs site\n\nMatch Clack selected header treatment to Pricing, demonstrate a project workflow, and verify responsive navigation, shared footer and direct DMG download before a governed PR and safe merge.",
+      "raw_intent": "Align active Labs navigation and move Clack after Rework\n\nUnderline current non-Pricing navigation links, retain the Pricing pill, and put Clack immediately after Rework sitewide. Verify desktop and mobile navigation, shared footer, and direct DMG before publishing.",
+      "refined_intent": "Align active Labs navigation and move Clack after Rework\n\nUnderline current non-Pricing navigation links, retain the Pricing pill, and put Clack immediately after Rework sitewide. Verify desktop and mobile navigation, shared footer, and direct DMG before publishing.",
       "status": "refined",
       "updated_sequence": 3
     }
@@ -59,59 +83,78 @@
       },
       "deferred_questions": [],
       "human_questions": [],
-      "intent": "Show Clack in use on the Labs site\n\nMatch Clack selected header treatment to Pricing, demonstrate a project workflow, and verify responsive navigation, shared footer and direct DMG download before a governed PR and safe merge.",
+      "intent": "Show the exact player-provided lines “code with the crabs 🦀” and “a new way to work and play” in the Clack hero. Put Clack immediately after Rework across the site, underline selected non-Pricing links, and retain the Pricing pill. Verify desktop and mobile navigation, the shared footer, and the direct DMG download before updating and merging PR #63.",
       "phases": [],
       "proof_hooks": [
-        "Compare selected Clack and Pricing styles and click through shared navigation at desktop and mobile widths",
-        "Verify shared footer and click the direct browser download, then compare SHA-256"
+        "decapod validate against exact candidate and accepted main",
+        "Headless Chrome verifies both hero lines, all eight headers, homepage fragment states, footer, and a direct DMG download at desktop and mobile sizes"
       ],
       "schema_version": "1.1.0",
       "spec_reviews": [
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/ARCHITECTURE.md",
-          "reason": "The screenshot and shared responsive styles are part of the static site assets.",
-          "reviewed_code_fingerprint": "fca742ebb02bd651d8423dc5d31d6d559e999f2b6dff87b38999ae9893b20a69",
-          "spec_material_hash": "c74ffe3e81d221755f34fd599f1d8d7c397c21f4e8350f470581ff500c881917"
+          "reason": "The site keeps one static hero template and scoped responsive type styling alongside the shared navigation.",
+          "reviewed_code_fingerprint": "92022fafab9734f72f905091a0484ce04adc8935d81151889e4af897851d79ae",
+          "spec_material_hash": "2fbfb47ecc938bfdd0fbb8ddb7bec509577bc6506d9af39c60d254c577c0ca18"
         },
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/INTERFACES.md",
-          "reason": "The hero adds the Agents Mode anchor, the screenshot link, and the selected navigation semantics.",
-          "reviewed_code_fingerprint": "fca742ebb02bd651d8423dc5d31d6d559e999f2b6dff87b38999ae9893b20a69",
-          "spec_material_hash": "55ce7bb777f3beea6daa250665674f7d9e56337f84c2126ef0e3fb37172ea486"
+          "reason": "The Clack page presents the requested hero copy ahead of the same-origin download, and header state remains tied to page and fragment location.",
+          "reviewed_code_fingerprint": "92022fafab9734f72f905091a0484ce04adc8935d81151889e4af897851d79ae",
+          "spec_material_hash": "33dae656d95fafa7e86fb32ee10344675d2eebd210c126a84060168c6041ee46"
+        },
+        {
+          "disposition": "unchanged_with_reason",
+          "path": ".decapod/managed/specs/SECURITY.md",
+          "reason": "The added copy and scoped typography preserve existing trust boundaries. The homepage hash handler only selects fixed local targets and updates aria-current.",
+          "reviewed_code_fingerprint": "92022fafab9734f72f905091a0484ce04adc8935d81151889e4af897851d79ae",
+          "spec_material_hash": "5701fbd6ef9c15fff62b23319b803fb8427a25b5ad76f4b5ed6b1ab83278d60e"
         }
       ],
       "state": "APPROVED",
       "stop_conditions": [],
-      "title": "Show Clack in use on the Labs site",
+      "title": "Refine Clack landing copy and align Labs navigation",
       "todo_ids": [
-        "code_01m854wwhe7t6yb1"
+        "code_01m855w7qppangf4"
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1795469786Z"
+      "updated_at": "1795475257Z"
     },
     "trajectory": {
       "active_boundaries": [
         "Current claimed task and isolated work branch"
       ],
-      "artifact_hash": "sha256:bcfe44c98c5adda33bfecea8afd60b102be61918d18efe663e7d2eff821c2686",
+      "artifact_hash": "sha256:98ec7174416b722b9d4f1083cdba88e231b5ffa4818c440c48e54bb39eeef8c6",
       "checks": [
         {
-          "name": "chrome-dmg-download",
+          "name": "browser hero and sitewide responsive navigation",
           "status": "passed"
         },
         {
-          "name": "chrome-responsive-nav-and-footer",
+          "name": "browser_footer_and_download",
           "status": "passed"
         },
         {
-          "name": "chrome-sample-asset",
+          "name": "browser_navigation",
           "status": "passed"
         },
         {
-          "name": "public-dmg-bytes",
+          "name": "current main and PR head",
+          "status": "passed"
+        },
+        {
+          "name": "direct DMG download and checksum",
+          "status": "passed"
+        },
+        {
+          "name": "git diff --check",
+          "status": "passed"
+        },
+        {
+          "name": "git_diff_check",
           "status": "passed"
         }
       ],
@@ -120,99 +163,152 @@
         "events": [
           {
             "event_id": "event:2",
-            "intent_id": "intent:change_01M854XGGJ39NN5E12CSNPXZ1G",
+            "intent_id": "intent:change_01M855WP9V90WA0TT6P1JSGVS8",
             "kind": "created",
             "sequence": 2
           },
           {
             "event_id": "event:3",
-            "intent_id": "intent:change_01M854XGGJ39NN5E12CSNPXZ1G",
+            "intent_id": "intent:change_01M855WP9V90WA0TT6P1JSGVS8",
             "kind": "refined",
             "sequence": 3
           },
           {
-            "detail": "trajectory:branch_01M854XGKPF6YTXZQN7E2B10BJ",
+            "detail": "trajectory:branch_01M855WPCCA08S9NGF5K8JWBF7",
             "event_id": "event:4",
-            "intent_id": "intent:change_01M854XGGJ39NN5E12CSNPXZ1G",
+            "intent_id": "intent:change_01M855WP9V90WA0TT6P1JSGVS8",
             "kind": "trajectory_step_recorded",
             "sequence": 4
+          },
+          {
+            "detail": "trajectory:branch_01M855WPCCA08S9NGF5K8JWBF7",
+            "event_id": "event:5",
+            "intent_id": "intent:change_01M855WP9V90WA0TT6P1JSGVS8",
+            "kind": "trajectory_step_recorded",
+            "sequence": 5
+          },
+          {
+            "detail": "trajectory:branch_01M855WPCCA08S9NGF5K8JWBF7",
+            "event_id": "event:6",
+            "intent_id": "intent:change_01M855WP9V90WA0TT6P1JSGVS8",
+            "kind": "trajectory_step_recorded",
+            "sequence": 6
           }
         ],
         "knowledge_candidates": [],
-        "next_sequence": 4,
+        "next_sequence": 6,
         "schema_version": "1.1.0",
         "trajectories": {
-          "branch_01M854XGKPF6YTXZQN7E2B10BJ": {
+          "branch_01M855WPCCA08S9NGF5K8JWBF7": {
             "evidence_only": true,
-            "id": "branch_01M854XGKPF6YTXZQN7E2B10BJ",
-            "intent_id": "intent:change_01M854XGGJ39NN5E12CSNPXZ1G",
+            "id": "branch_01M855WPCCA08S9NGF5K8JWBF7",
+            "intent_id": "intent:change_01M855WP9V90WA0TT6P1JSGVS8",
             "steps": [
               {
                 "action": "verification",
+                "command": "Headless Chrome navigation checks at 320, 390, 820, 950, and 1440 pixels",
                 "custody_event_id": "event:4",
                 "observations": [
-                  "scripts/check-site.ts",
-                  "clack/index.html",
-                  "pricing.css",
                   "styles.css",
+                  "tecr.css",
+                  "main.js",
                   "clack/index.html",
-                  "clack/clack.css",
-                  "clack/agents-mode.webp",
-                  "pricing.css",
-                  "pricing.html",
-                  "pricing/index.html",
-                  "Headless Chrome at 1440, 768, 390, 320 CSS px. SHA-256 of check transcript is 0e79c20ce8ab5ff60cef769327fee7ca547218fb69d707a98ef1c6f6a658f177.",
-                  "Preview download and production DMG matched the versioned checksum 8df5da4613b7da022644f6fd41704c45d76140d2066217fd4275c6a49a85e480",
-                  "Captured Clack v0.9.14 with an isolated sample ledger. The displayed conversation is illustrative."
+                  "Headless Chrome verified eight header variants at five widths, active state and computed style, homepage fragment selection, and successful Clack navigation clicks at desktop and mobile widths.",
+                  "The shared Clack footer rendered and Chrome saved the same-origin DMG. SHA-256 matched 8df5da4613b7da022644f6fd41704c45d76140d2066217fd4275c6a49a85e480."
                 ],
                 "proof_refs": [
-                  "chrome-responsive-nav-and-footer",
-                  "chrome-sample-asset",
-                  "chrome-dmg-download",
-                  "public-dmg-bytes"
+                  "browser_navigation",
+                  "browser_footer_and_download",
+                  "git_diff_check"
                 ],
                 "scope": [
                   "root"
                 ],
                 "sequence": 4,
                 "validation_findings": []
+              },
+              {
+                "action": "implementation",
+                "custody_event_id": "event:5",
+                "observations": [
+                  "clack/index.html",
+                  "styles.css",
+                  "main.js",
+                  "GitHub showed PR #63 open at e7ff9d8c with accepted main b6521cd9. The isolated website worktree matched both refs and main is an ancestor of HEAD."
+                ],
+                "proof_refs": [
+                  "current main and PR head"
+                ],
+                "scope": [
+                  "root"
+                ],
+                "sequence": 5,
+                "validation_findings": []
+              },
+              {
+                "action": "verification",
+                "command": "node /tmp/clack-pr63-copy-browser.mjs .",
+                "custody_event_id": "event:6",
+                "observations": [
+                  "clack/index.html",
+                  "clack/clack.css",
+                  ".decapod/managed/specs/INTENT.md",
+                  ".decapod/managed/specs/ARCHITECTURE.md",
+                  ".decapod/managed/specs/INTERFACES.md",
+                  "Headless Chrome checked all eight route headers and homepage fragment states at eight widths, both hero lines above the CTA, shared footer, Clack navigation clicks, and native same-origin DMG download with matching SHA-256 8df5da4613b7da022644f6fd41704c45d76140d2066217fd4275c6a49a85e480."
+                ],
+                "proof_refs": [
+                  "browser hero and sitewide responsive navigation",
+                  "direct DMG download and checksum",
+                  "git diff --check"
+                ],
+                "scope": [
+                  "Clack hero copy and scoped styling; existing sitewide header fix in PR #63; proofs and living specs",
+                  "root"
+                ],
+                "sequence": 6,
+                "validation_findings": []
               }
             ]
           }
         }
       },
-      "declared_commands": [],
+      "declared_commands": [
+        "Headless Chrome navigation checks at 320, 390, 820, 950, and 1440 pixels",
+        "node /tmp/clack-pr63-copy-browser.mjs ."
+      ],
       "destination": "pull request",
       "evidence": [
-        "Captured Clack v0.9.14 with an isolated sample ledger. The displayed conversation is illustrative.",
-        "Headless Chrome at 1440, 768, 390, 320 CSS px. SHA-256 of check transcript is 0e79c20ce8ab5ff60cef769327fee7ca547218fb69d707a98ef1c6f6a658f177.",
-        "Preview download and production DMG matched the versioned checksum 8df5da4613b7da022644f6fd41704c45d76140d2066217fd4275c6a49a85e480"
+        "GitHub showed PR #63 open at e7ff9d8c with accepted main b6521cd9. The isolated website worktree matched both refs and main is an ancestor of HEAD.",
+        "Headless Chrome checked all eight route headers and homepage fragment states at eight widths, both hero lines above the CTA, shared footer, Clack navigation clicks, and native same-origin DMG download with matching SHA-256 8df5da4613b7da022644f6fd41704c45d76140d2066217fd4275c6a49a85e480.",
+        "Headless Chrome verified eight header variants at five widths, active state and computed style, homepage fragment selection, and successful Clack navigation clicks at desktop and mobile widths.",
+        "The shared Clack footer rendered and Chrome saved the same-origin DMG. SHA-256 matched 8df5da4613b7da022644f6fd41704c45d76140d2066217fd4275c6a49a85e480."
       ],
       "inspected_files": [
         "clack/index.html",
-        "pricing.css",
-        "scripts/check-site.ts"
+        "main.js",
+        "styles.css",
+        "tecr.css"
       ],
-      "intent_id": "intent:change_01M854XGGJ39NN5E12CSNPXZ1G",
+      "intent_id": "intent:change_01M855WP9V90WA0TT6P1JSGVS8",
       "modified_files": [
-        "clack/agents-mode.webp",
+        ".decapod/managed/specs/ARCHITECTURE.md",
+        ".decapod/managed/specs/INTENT.md",
+        ".decapod/managed/specs/INTERFACES.md",
         "clack/clack.css",
-        "clack/index.html",
-        "pricing.css",
-        "pricing.html",
-        "pricing/index.html",
-        "styles.css"
+        "clack/index.html"
       ],
       "next_transitions": [
         "Refine plan and declare falsifiable checks"
       ],
       "repo_scope": [
+        "Clack hero copy and scoped styling; existing sitewide header fix in PR #63; proofs and living specs",
         "root"
       ],
-      "run_id": "branch_01M854XGKPF6YTXZQN7E2B10BJ",
+      "run_id": "branch_01M855WPCCA08S9NGF5K8JWBF7",
       "schema_version": "1.1.0",
       "shortcut_risk_signals": [],
-      "task_id": "code_01m854wwhe7t6yb1",
+      "task_id": "code_01m855w7qppangf4",
       "tool_calls": [],
       "unresolved_assumptions": []
     }
