@@ -123,4 +123,4 @@ Generated capability obligations: `public-api` is declared for this project. The
 
 ## Clack download
 
-The homepage navigation links to /clack/. The Clack page lists the Apple silicon and macOS requirements and provides separate links for the disk image, checksum, and release notes.
+The homepage and Clack headers both link to Clack immediately before Pricing. The canonical Clack page is /clack/ and its reusable logo is served at /clack/logo.png. The Clack page lists the Apple silicon and macOS requirements and provides separate links for the disk image, checksum, and release notes.

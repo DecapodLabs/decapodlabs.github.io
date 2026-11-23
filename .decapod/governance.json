@@ -1,37 +1,22 @@
 {
   "schema_version": "1.0.0",
   "baseline": {
-    "accepted_commit": "f04d6fa14d2eeed749721a5c3ea133cc66ac063a"
+    "accepted_commit": "a41a5deb910d41c2491722e39e7c1ec8d4e8f337"
   },
   "change": {
-    "id": "change_01M839T78QSJRGAMSCGJ122Z52",
-    "base_commit": "f04d6fa14d2eeed749721a5c3ea133cc66ac063a",
+    "id": "change_01M83BET8YMPM24N8CXX0693E1",
+    "base_commit": "a41a5deb910d41c2491722e39e7c1ec8d4e8f337",
     "target_base": "origin/main"
   },
   "checkpoints": [
     {
-      "id": "clack-download-page",
-      "summary": "Link the dedicated Clack landing page and verified Mac disk image.",
-      "input_digest": "sha256:59bb622ff0be1e68f6193bafadea4703f6d470a2c176201a0711aab8e48698ee"
-    },
-    {
-      "id": "clack-entrypoint-refresh",
-      "summary": "Bring generated site entrypoints up to the installed Decapod release.",
-      "input_digest": "sha256:280a6b3680932c245663c6abe8fdd6bac8f64167920d0dd26a02e9312c8aa401"
-    },
-    {
-      "id": "clack-existing-proof-contract",
-      "summary": "Use the existing approved static-site proof contract for the Clack landing page.",
-      "input_digest": "sha256:32b8deefce762145ab08f7e9e4be3221db652c6bbcd0e8c8c31fcbaa95359ec5"
-    },
-    {
-      "id": "clack-site-attestations",
-      "summary": "Commit the regenerated specification attestations for the final site source.",
-      "input_digest": "sha256:26fcb6207aed1b79a0119b03b6d5054c97c754aae7d0d76279a19b4f93b3eff0"
+      "id": "clack-brand-update",
+      "summary": "Match the Decapod Labs header and use a Clack mascot wordmark",
+      "input_digest": "sha256:0a05737c8935d196724496815828c281f05687ba77545582f9aa2dc2a1f343e4"
     }
   ],
   "intents": {
-    "intent:change_01M839T78QSJRGAMSCGJ122Z52": {
+    "intent:change_01M83BET8YMPM24N8CXX0693E1": {
       "acceptance_criteria": [],
       "assumptions": [],
       "boundaries": [
@@ -41,14 +26,14 @@
         "root"
       ],
       "created_sequence": 1,
-      "id": "intent:change_01M839T78QSJRGAMSCGJ122Z52",
+      "id": "intent:change_01M83BET8YMPM24N8CXX0693E1",
       "instruction_origin": {
         "source_ref": "caller:unverified"
       },
       "out_of_scope": [],
       "proof_requirements": [],
-      "raw_intent": "Publish the Clack download page\n\nAdd the Decapod Labs /clack landing page and point visitors to the verified Apple Silicon disk image.",
-      "refined_intent": "Publish the Clack download page\n\nAdd the Decapod Labs /clack landing page and point visitors to the verified Apple Silicon disk image.",
+      "raw_intent": "Align Clack with Decapod Labs branding\n\nCreate a Clack wordmark, reuse the main website header on /clack, and place Clack directly before Pricing.",
+      "refined_intent": "Align Clack with Decapod Labs branding\n\nCreate a Clack wordmark, reuse the main website header on /clack, and place Clack directly before Pricing.",
       "status": "refined",
       "updated_sequence": 3
     }
@@ -61,7 +46,7 @@
       },
       "deferred_questions": [],
       "human_questions": [],
-      "intent": "Publish the Clack download page\n\nAdd the Decapod Labs /clack landing page and point visitors to the verified Apple Silicon disk image.",
+      "intent": "Align Clack with Decapod Labs branding\n\nCreate a Clack wordmark, reuse the main website header on /clack, and place Clack directly before Pricing.",
       "phases": [],
       "proof_hooks": [
         "decapod validate"
@@ -71,96 +56,87 @@
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/ARCHITECTURE.md",
-          "reason": "Record static Pages hosting and the checked GitHub release artifacts.",
-          "reviewed_code_fingerprint": "4b4f46db991ac5089f058fcd17b07e1ee6549b26c056d0b44f59261ab1c01e02",
-          "spec_material_hash": "c4302454b4442b26e98ebfcb8320f1ff57dec8c5f5c8230c4cdd9aaac4aae735"
+          "reason": "Documents the shared brand stylesheet and logo assets.",
+          "reviewed_code_fingerprint": "fca742ebb02bd651d8423dc5d31d6d559e999f2b6dff87b38999ae9893b20a69",
+          "spec_material_hash": "dbdb28739c98b2657a813ea1ddf249e16d5be18ff5a28b4d2f9262488690a7d1"
         },
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/INTERFACES.md",
-          "reason": "Specify the download route, release links, and macOS package requirements.",
-          "reviewed_code_fingerprint": "4b4f46db991ac5089f058fcd17b07e1ee6549b26c056d0b44f59261ab1c01e02",
-          "spec_material_hash": "f6e4f4d02f8fee070fe1c83a90f0b17f0696c5ea03fbc9d66ed5e69e0fcf393f"
+          "reason": "Documents matching navigation order and the public logo.",
+          "reviewed_code_fingerprint": "fca742ebb02bd651d8423dc5d31d6d559e999f2b6dff87b38999ae9893b20a69",
+          "spec_material_hash": "73f6db1cc7d6715c75c0401cba51a074f5a822e812aa9e6b1c01374530866e30"
         },
         {
           "disposition": "unchanged_with_reason",
           "path": ".decapod/managed/specs/SECURITY.md",
-          "reason": "Static HTML links to verified public release assets and does not introduce authentication, sensitive inputs, or a site-side executable download service.",
-          "reviewed_code_fingerprint": "4b4f46db991ac5089f058fcd17b07e1ee6549b26c056d0b44f59261ab1c01e02",
+          "reason": "The page remains static and distribution uses the existing verified release links.",
+          "reviewed_code_fingerprint": "fca742ebb02bd651d8423dc5d31d6d559e999f2b6dff87b38999ae9893b20a69",
           "spec_material_hash": "5701fbd6ef9c15fff62b23319b803fb8427a25b5ad76f4b5ed6b1ab83278d60e"
         }
       ],
       "state": "APPROVED",
       "stop_conditions": [],
-      "title": "Publish the Clack download page",
+      "title": "Align Clack with Decapod Labs branding",
       "todo_ids": [
-        "code_01m83960jt4h0ccx"
+        "code_01m83bcb05qdcz2h"
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1795407875Z"
+      "updated_at": "1795409291Z"
     },
     "trajectory": {
       "active_boundaries": [
         "Current claimed task and isolated work branch"
       ],
-      "artifact_hash": "sha256:cad414d72331a89a161b8fa7482dc8161a1b517dcbc0592c9e9295bde8c229c1",
+      "artifact_hash": "sha256:fb0724eb4884f79442f6e034e1c9d33be7b1b3631a340467eafa1d7f1470e6f4",
       "checks": [],
-      "current_phase": "verification",
+      "current_phase": "implementation",
       "custody": {
         "events": [
           {
             "event_id": "event:2",
-            "intent_id": "intent:change_01M839T78QSJRGAMSCGJ122Z52",
+            "intent_id": "intent:change_01M83BET8YMPM24N8CXX0693E1",
             "kind": "created",
             "sequence": 2
           },
           {
             "event_id": "event:3",
-            "intent_id": "intent:change_01M839T78QSJRGAMSCGJ122Z52",
+            "intent_id": "intent:change_01M83BET8YMPM24N8CXX0693E1",
             "kind": "refined",
             "sequence": 3
           },
           {
-            "detail": "trajectory:branch_01M839T7CE7R06T6V9VDQ35QZB",
+            "detail": "trajectory:branch_01M83BETCERXW7KH473AXBBHPZ",
             "event_id": "event:4",
-            "intent_id": "intent:change_01M839T78QSJRGAMSCGJ122Z52",
+            "intent_id": "intent:change_01M83BET8YMPM24N8CXX0693E1",
             "kind": "trajectory_step_recorded",
             "sequence": 4
           },
           {
-            "detail": "trajectory:branch_01M839T7CE7R06T6V9VDQ35QZB",
+            "detail": "trajectory:branch_01M83BETCERXW7KH473AXBBHPZ",
             "event_id": "event:5",
-            "intent_id": "intent:change_01M839T78QSJRGAMSCGJ122Z52",
+            "intent_id": "intent:change_01M83BET8YMPM24N8CXX0693E1",
             "kind": "trajectory_step_recorded",
             "sequence": 5
-          },
-          {
-            "detail": "trajectory:branch_01M839T7CE7R06T6V9VDQ35QZB",
-            "event_id": "event:6",
-            "intent_id": "intent:change_01M839T78QSJRGAMSCGJ122Z52",
-            "kind": "trajectory_step_recorded",
-            "sequence": 6
           }
         ],
         "knowledge_candidates": [],
-        "next_sequence": 6,
+        "next_sequence": 5,
         "schema_version": "1.1.0",
         "trajectories": {
-          "branch_01M839T7CE7R06T6V9VDQ35QZB": {
+          "branch_01M83BETCERXW7KH473AXBBHPZ": {
             "evidence_only": true,
-            "id": "branch_01M839T7CE7R06T6V9VDQ35QZB",
-            "intent_id": "intent:change_01M839T78QSJRGAMSCGJ122Z52",
+            "id": "branch_01M83BETCERXW7KH473AXBBHPZ",
+            "intent_id": "intent:change_01M83BET8YMPM24N8CXX0693E1",
             "steps": [
               {
                 "action": "implementation",
                 "custody_event_id": "event:4",
                 "observations": [
-                  "clack/index.html",
-                  "clack/clack.css",
                   "index.html",
-                  "scripts/check-site.ts",
-                  "Verified the published Clack 0.9.14 ZIP checksum and signature. The same arm64 application was packaged into a verified DMG and uploaded with its checksum to the existing release."
+                  "clack/index.html",
+                  "styles.css"
                 ],
                 "proof_refs": [],
                 "scope": [
@@ -170,34 +146,20 @@
                 "validation_findings": []
               },
               {
-                "action": "verification",
+                "action": "implementation",
                 "custody_event_id": "event:5",
                 "observations": [
-                  "AGENTS.md",
-                  "CLAUDE.md",
-                  "CODEX.md",
-                  "GEMINI.md",
-                  "Refreshed the generated agent entrypoints to the installed Decapod release after the publication currency check identified the older version."
+                  "index.html",
+                  "clack/index.html",
+                  "clack/clack.css",
+                  "clack/logo.png",
+                  "clack/icon.png"
                 ],
                 "proof_refs": [],
                 "scope": [
                   "root"
                 ],
                 "sequence": 5,
-                "validation_findings": []
-              },
-              {
-                "action": "verification",
-                "custody_event_id": "event:6",
-                "observations": [
-                  "index.html",
-                  "Kept the accepted static-site proof script intact. The site navigation points to the directory index so the existing validator verifies the target as a file. The /clack directory route remains the canonical page."
-                ],
-                "proof_refs": [],
-                "scope": [
-                  "root"
-                ],
-                "sequence": 6,
                 "validation_findings": []
               }
             ]
@@ -206,22 +168,19 @@
       },
       "declared_commands": [],
       "destination": "pull request",
-      "evidence": [
-        "Kept the accepted static-site proof script intact. The site navigation points to the directory index so the existing validator verifies the target as a file. The /clack directory route remains the canonical page.",
-        "Refreshed the generated agent entrypoints to the installed Decapod release after the publication currency check identified the older version.",
-        "Verified the published Clack 0.9.14 ZIP checksum and signature. The same arm64 application was packaged into a verified DMG and uploaded with its checksum to the existing release."
-      ],
-      "inspected_files": [],
-      "intent_id": "intent:change_01M839T78QSJRGAMSCGJ122Z52",
-      "modified_files": [
-        "AGENTS.md",
-        "CLAUDE.md",
-        "CODEX.md",
-        "GEMINI.md",
-        "clack/clack.css",
+      "evidence": [],
+      "inspected_files": [
         "clack/index.html",
         "index.html",
-        "scripts/check-site.ts"
+        "styles.css"
+      ],
+      "intent_id": "intent:change_01M83BET8YMPM24N8CXX0693E1",
+      "modified_files": [
+        "clack/clack.css",
+        "clack/icon.png",
+        "clack/index.html",
+        "clack/logo.png",
+        "index.html"
       ],
       "next_transitions": [
         "Refine plan and declare falsifiable checks"
@@ -229,10 +188,10 @@
       "repo_scope": [
         "root"
       ],
-      "run_id": "branch_01M839T7CE7R06T6V9VDQ35QZB",
+      "run_id": "branch_01M83BETCERXW7KH473AXBBHPZ",
       "schema_version": "1.1.0",
       "shortcut_risk_signals": [],
-      "task_id": "code_01m83960jt4h0ccx",
+      "task_id": "code_01m83bcb05qdcz2h",
       "tool_calls": [],
       "unresolved_assumptions": []
     }
