@@ -26,6 +26,10 @@
   color: var(--clack-seaglass);
 }
 
+.clack-site .nav-links a[aria-current="page"] {
+  color: var(--clack-text);
+}
+
 .clack-page {
   color: var(--clack-text);
   background: var(--clack-ink);
@@ -87,6 +91,12 @@
   color: var(--clack-muted);
   font-size: clamp(1rem, 1.4vw, 1.2rem);
   line-height: 1.6;
+}
+
+.clack-intro strong {
+  display: block;
+  margin-bottom: .375rem;
+  color: var(--clack-text);
 }
 
 .clack-download {

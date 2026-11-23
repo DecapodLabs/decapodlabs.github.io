@@ -23,6 +23,11 @@
       "id": "clack-header",
       "summary": "Match the Clack header to its page color and verify responsive navigation in Chrome.",
       "input_digest": "sha256:73140db0446dd2566bfdd49e32ab74342748c7d3ec69ea7abba280845ea1f139"
+    },
+    {
+      "id": "clack-header-current-main",
+      "summary": "Integrate the current site navigation and keep the Clack header theme compatible with its active-link underline.",
+      "input_digest": "sha256:c2c4b792c38178b090609bc91101b1d85c9392182c4f6232de274056ff1ea429"
     }
   ],
   "intents": {
@@ -78,10 +83,14 @@
         "Current claimed task and isolated work branch",
         "The existing public page’s solid dark teal is the color reference. Deliver through the website repository’s PR flow."
       ],
-      "artifact_hash": "sha256:98eeace1e8f58e6d6d75a7be90e3f041b411c842e29aa613515b0ecde01fe529",
+      "artifact_hash": "sha256:77ccac88046282783fda29db4a429a2588d220e398990560105fe660d924eaa7",
       "checks": [
         {
           "name": "clack-header-browser",
+          "status": "passed"
+        },
+        {
+          "name": "clack-header-browser-current-main",
           "status": "passed"
         },
         {
@@ -117,10 +126,17 @@
             "intent_id": "intent:change_01M85AN1BQYZ0S5F4ZEV5XDW4F",
             "kind": "trajectory_step_recorded",
             "sequence": 5
+          },
+          {
+            "detail": "trajectory:branch_01M85AN1EF3C9W5GS3QF6DPB4T",
+            "event_id": "event:6",
+            "intent_id": "intent:change_01M85AN1BQYZ0S5F4ZEV5XDW4F",
+            "kind": "trajectory_step_recorded",
+            "sequence": 6
           }
         ],
         "knowledge_candidates": [],
-        "next_sequence": 5,
+        "next_sequence": 6,
         "schema_version": "1.1.0",
         "trajectories": {
           "branch_01M85AN1EF3C9W5GS3QF6DPB4T": {
@@ -164,6 +180,22 @@
                 ],
                 "sequence": 5,
                 "validation_findings": []
+              },
+              {
+                "action": "verification",
+                "custody_event_id": "event:6",
+                "observations": [
+                  "After merging origin/main at e805794, repeated Chrome checks at 1440, 768, 390 and 320 CSS pixels. Exact #081d25 header and page match before and after scrolling, all seven nav links fit, minimum text contrast 14.10:1, and the root header color and wordmark match the new base."
+                ],
+                "proof_refs": [
+                  "clack-header-browser-current-main"
+                ],
+                "scope": [
+                  "Clack website header under /clack/",
+                  "root"
+                ],
+                "sequence": 6,
+                "validation_findings": []
               }
             ]
           }
@@ -172,6 +204,7 @@
       "declared_commands": [],
       "destination": "pull request",
       "evidence": [
+        "After merging origin/main at e805794, repeated Chrome checks at 1440, 768, 390 and 320 CSS pixels. Exact #081d25 header and page match before and after scrolling, all seven nav links fit, minimum text contrast 14.10:1, and the root header color and wordmark match the new base.",
         "Headless Chrome rendered /clack/ at 1440, 768, 390 and 320 CSS pixels. Header and main both resolved to rgb(8, 29, 37) before and after scrolling. Seven navigation links fit at each width, minimum text contrast 6.84:1, logo loaded. The root-page header matched the accepted base."
       ],
       "inspected_files": [

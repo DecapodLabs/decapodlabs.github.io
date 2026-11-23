@@ -348,15 +348,19 @@ html{scroll-padding-top:120px}
  white-space:nowrap;
  border-radius:6px;
 }
-.nav-links a[aria-current="page"]{padding:8px 10px}
-.nav-links a:is(.nav-pricing,.nav-clack){
+.nav-links a.nav-pricing{
  padding:10px 15px;
  border-radius:999px;
  transition:background .18s,color .18s;
 }
 .nav-links a.nav-pricing{background:rgba(240,91,55,.11);color:#853524}
 .nav-links a.nav-pricing:hover{background:rgba(240,91,55,.21);color:#66281c}
-.nav-links a[aria-current="page"],.nav-links a[aria-current="page"]:hover{background:#9b3c27;color:#fff}
+.nav-links a.nav-pricing[aria-current="page"]{background:#9b3c27;color:#fff}
+.nav-links a:is([aria-current="page"],[aria-current="location"]):not(.nav-pricing){
+ border-radius:0;
+ color:#211e20;
+ box-shadow:inset 0 -1px currentColor;
+}
 .nav-links a:focus-visible,.nav-cta:focus-visible,.nav .brand:focus-visible{outline:3px solid var(--orange);outline-offset:3px}
 #kernel,#architecture,#install{scroll-margin-top:125px}
 @media(max-width:950px){
@@ -383,14 +387,14 @@ html{scroll-padding-top:120px}
    gap:clamp(8px,2vw,22px);
  }
  .nav-links a{font-size:.875rem}
- .nav-links a:is(.nav-pricing,.nav-clack){padding:8px 12px}
+ .nav-links a.nav-pricing{padding:8px 12px}
 }
 @media(max-width:540px){
  html{scroll-padding-top:152px}
  .nav .brand .site-wordmark{width:min(100%, 156px)}
  .nav-cta{padding:8px 12px}
  .nav-links{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px}
- .nav-links a,.nav-links a:is(.nav-pricing,.nav-clack),.nav-links a[aria-current="page"]{
+ .nav-links a,.nav-links a.nav-pricing{
    padding:8px 4px;
    text-align:center;
  }

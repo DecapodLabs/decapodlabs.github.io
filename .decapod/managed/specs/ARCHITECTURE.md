@@ -109,7 +109,7 @@ Generated capability obligations: `persistent-state` is declared for this projec
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `fca742ebb02bd651d8423dc5d31d6d559e999f2b6dff87b38999ae9893b20a69`
+- Repository signal fingerprint: `92022fafab9734f72f905091a0484ce04adc8935d81151889e4af897851d79ae`
 - Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (2 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->
@@ -148,4 +148,6 @@ GitHub Pages serves `admin/index.html` at `/admin/` alongside `admin/admin.css`,
 
 ## Clack distribution page
 
-GitHub Pages serves `clack/index.html`, its scoped stylesheet, the illustrated Siltwick key art, a native Agents Mode screenshot, and the release files in `clack/downloads/` from the same origin. The screenshot in `clack/agents-mode.webp` shows the shipped app with a sample project and conversation. The versioned disk image and companion checksum are copied from the official GitHub release and verified before publication. Each content page uses the same static header link order. The shared rules in `styles.css` provide responsive navigation layout and the selected pill treatment. In `clack/clack.css`, the `.clack-site` class makes `--clack-ink` available to both the header and main content. The header uses an opaque fill so it retains that color as visitors scroll. The Clack page uses the shared footer in normal document flow, leaving the install section fully visible on narrow screens.
+In `clack/clack.css`, the `.clack-site` class supplies `--clack-ink` to both `.nav` and `.clack-page`. The header uses an opaque fill so it retains that color as visitors scroll. The route retains the layout and active-link cues from the shared stylesheet.
+
+GitHub Pages serves `clack/index.html`, its scoped stylesheet, the illustrated Siltwick key art, a native Agents Mode screenshot, and the release files in `clack/downloads/` from the same origin. The copy and download action live in the hero markup in `clack/index.html`. The scoped `clack/clack.css` keeps the lead and supporting line visually distinct as the hero adapts to narrow viewports. The screenshot in `clack/agents-mode.webp` shows the shipped app with a sample project and conversation. The versioned disk image and companion checksum are copied from the official GitHub release and verified before publication. Each content page uses the same static header link order. Shared rules in `styles.css` render a one-pixel underline on current non-Pricing destinations and a filled pill on current Pricing. The homepage’s `main.js` sets the location marker for its section links on initial load and when the URL fragment changes. Clack and Rework declare their page markers in their static documents. The Clack page uses the shared footer in normal document flow, leaving the install section fully visible on narrow screens.
