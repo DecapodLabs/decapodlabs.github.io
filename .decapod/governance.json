@@ -23,6 +23,11 @@
       "id": "clack-existing-proof-contract",
       "summary": "Use the existing approved static-site proof contract for the Clack landing page.",
       "input_digest": "sha256:32b8deefce762145ab08f7e9e4be3221db652c6bbcd0e8c8c31fcbaa95359ec5"
+    },
+    {
+      "id": "clack-site-attestations",
+      "summary": "Commit the regenerated specification attestations for the final site source.",
+      "input_digest": "sha256:26fcb6207aed1b79a0119b03b6d5054c97c754aae7d0d76279a19b4f93b3eff0"
     }
   ],
   "intents": {
