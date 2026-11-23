@@ -18,6 +18,11 @@
       "id": "clack-entrypoint-refresh",
       "summary": "Bring generated site entrypoints up to the installed Decapod release.",
       "input_digest": "sha256:280a6b3680932c245663c6abe8fdd6bac8f64167920d0dd26a02e9312c8aa401"
+    },
+    {
+      "id": "clack-existing-proof-contract",
+      "summary": "Use the existing approved static-site proof contract for the Clack landing page.",
+      "input_digest": "sha256:32b8deefce762145ab08f7e9e4be3221db652c6bbcd0e8c8c31fcbaa95359ec5"
     }
   ],
   "intents": {
@@ -94,7 +99,7 @@
       "active_boundaries": [
         "Current claimed task and isolated work branch"
       ],
-      "artifact_hash": "sha256:43ed1fd2b70c3e80b6b97c48c147186fa6d59ddc1ec99945d1e5a7e776e6e0bc",
+      "artifact_hash": "sha256:cad414d72331a89a161b8fa7482dc8161a1b517dcbc0592c9e9295bde8c229c1",
       "checks": [],
       "current_phase": "verification",
       "custody": {
@@ -124,10 +129,17 @@
             "intent_id": "intent:change_01M839T78QSJRGAMSCGJ122Z52",
             "kind": "trajectory_step_recorded",
             "sequence": 5
+          },
+          {
+            "detail": "trajectory:branch_01M839T7CE7R06T6V9VDQ35QZB",
+            "event_id": "event:6",
+            "intent_id": "intent:change_01M839T78QSJRGAMSCGJ122Z52",
+            "kind": "trajectory_step_recorded",
+            "sequence": 6
           }
         ],
         "knowledge_candidates": [],
-        "next_sequence": 5,
+        "next_sequence": 6,
         "schema_version": "1.1.0",
         "trajectories": {
           "branch_01M839T7CE7R06T6V9VDQ35QZB": {
@@ -168,6 +180,20 @@
                 ],
                 "sequence": 5,
                 "validation_findings": []
+              },
+              {
+                "action": "verification",
+                "custody_event_id": "event:6",
+                "observations": [
+                  "index.html",
+                  "Kept the accepted static-site proof script intact. The site navigation points to the directory index so the existing validator verifies the target as a file. The /clack directory route remains the canonical page."
+                ],
+                "proof_refs": [],
+                "scope": [
+                  "root"
+                ],
+                "sequence": 6,
+                "validation_findings": []
               }
             ]
           }
@@ -176,6 +202,7 @@
       "declared_commands": [],
       "destination": "pull request",
       "evidence": [
+        "Kept the accepted static-site proof script intact. The site navigation points to the directory index so the existing validator verifies the target as a file. The /clack directory route remains the canonical page.",
         "Refreshed the generated agent entrypoints to the installed Decapod release after the publication currency check identified the older version.",
         "Verified the published Clack 0.9.14 ZIP checksum and signature. The same arm64 application was packaged into a verified DMG and uploaded with its checksum to the existing release."
       ],
