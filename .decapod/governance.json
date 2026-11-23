@@ -16,6 +16,14 @@
       "proof_refs": [
         "Headless Chrome evaluated computed styles, actual Tab focus, and layout on eight page routes at eight viewport widths; verified download SHA-256 8df5da4613b7da022644f6fd41704c45d76140d2066217fd4275c6a49a85e480."
       ]
+    },
+    "clack-header-ink": {
+      "statement": "The Clack header, main content and shared footer use the same opaque ink background at desktop and mobile widths.",
+      "falsifier": "Headless Chrome computes a different background for any of the three regions across the tested widths.",
+      "status": "supported",
+      "proof_refs": [
+        "headless Chrome computed backgrounds at 1440, 951, 950, 820, 541, 540, 390 and 320 px"
+      ]
     }
   },
   "checkpoints": [
@@ -23,6 +31,14 @@
       "id": "clack-footer-palette",
       "summary": "Match the shared footer to the Clack landing page palette and preserve its links and layout",
       "input_digest": "sha256:26403c6ee71f1d81be1917b52cdc7352d917664aebf91269f8bd64ea4cb2d879"
+    },
+    {
+      "id": "clack-chrome-palette",
+      "summary": "Match the Clack header and footer to the page palette",
+      "input_digest": "sha256:1c617f98566988e4f37b30c73bdb0c5133ed92cba7b50bf35a68ed6e12fe8952",
+      "proof_refs": [
+        "Headless Chrome checked 8 headers at 8 widths, matching footer and header colors, keyboard focus, and a checksum-verified DMG."
+      ]
     }
   ],
   "intents": {
@@ -40,12 +56,27 @@
       "instruction_origin": {
         "source_ref": "caller:unverified"
       },
+      "instruction_revisions": [
+        {
+          "derived_intent": "Deliver Clack’s matching header and shared footer in dark ink, keeping both visible taglines, shared active-navigation rules and the working direct download.",
+          "instruction": "Apply the Clack page color matching to the footer as well.",
+          "kind": "clarification",
+          "preceding_refinement": "Match the Clack landing page footer with its header and page colors",
+          "predecessor_revision": "sha256:d28990027cc4f97a4df48418fd452404692f36a97272925990a9d1b7e90cd4fc",
+          "revision_id": "clack-footer-color-match",
+          "sequence": 1,
+          "source_claim": {
+            "source_ref": "conversation:latest-player-note"
+          },
+          "supersedes": []
+        }
+      ],
       "out_of_scope": [],
       "proof_requirements": [],
       "raw_intent": "Match the Clack landing page footer with its header and page colors",
-      "refined_intent": "Match the Clack landing page footer with its header and page colors",
+      "refined_intent": "Deliver Clack’s matching header and shared footer in dark ink, keeping both visible taglines, shared active-navigation rules and the working direct download.",
       "status": "refined",
-      "updated_sequence": 3
+      "updated_sequence": 6
     }
   },
   "sections": {
@@ -56,7 +87,7 @@
       },
       "deferred_questions": [],
       "human_questions": [],
-      "intent": "Give the existing shared footer on /clack/ the same dark ink, high-contrast text, and seaglass interaction colors used by the Clack page. Preserve the taglines, navigation ordering and selected states from PR #63, and the direct Mac download.",
+      "intent": "Use the Clack page’s dark ink palette for its shared header and footer, including readable links and a visible footer focus indicator. Keep both Clack taglines, Clack after Rework, underlines for selected non-Pricing links, Pricing’s selected pill, and the same-origin disk image.",
       "phases": [],
       "proof_hooks": [
         "decapod validate",
@@ -67,43 +98,51 @@
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/ARCHITECTURE.md",
-          "reason": "Records page-level palette scope and the normal-flow shared footer.",
+          "reason": "The Clack route scopes the same ink token to its header, content and footer. The header uses an opaque fill while it sticks during scrolling.",
           "reviewed_code_fingerprint": "92022fafab9734f72f905091a0484ce04adc8935d81151889e4af897851d79ae",
-          "spec_material_hash": "78ec7ed75e82a91bfc4d9b6b0b0676d26d9046b38c9bd3749f77e43d42eacb04"
+          "spec_material_hash": "28a53fa4e4f0bc985a2631cf0ba5f7c42cbfe589650cbfdf8817cda3a4ea3c1c"
         },
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/INTERFACES.md",
-          "reason": "Records shared footer content and Clack theme interaction states.",
+          "reason": "The matching Clack header and footer use the existing dark-surface wordmark and the footer adds a visible keyboard focus indicator. The existing layout, links and download contract stay in place.",
           "reviewed_code_fingerprint": "92022fafab9734f72f905091a0484ce04adc8935d81151889e4af897851d79ae",
-          "spec_material_hash": "32d17b732756b9fbeb6e85914746e83a7c7dfc44d5dee16767c2234185506fbc"
+          "spec_material_hash": "6a42ec683288d789161f4ab8bbd280910be4dc5899c5be04aa80edce6519795b"
         },
         {
           "disposition": "unchanged_with_reason",
           "path": ".decapod/managed/specs/SECURITY.md",
-          "reason": "Scoped visual changes preserve all navigation and download targets and leave trust boundaries untouched.",
+          "reason": "The changes alter route-scoped colors and the local wordmark asset reference. The headers, footer links and same-origin disk image retain their existing trust boundaries.",
           "reviewed_code_fingerprint": "92022fafab9734f72f905091a0484ce04adc8935d81151889e4af897851d79ae",
           "spec_material_hash": "5701fbd6ef9c15fff62b23319b803fb8427a25b5ad76f4b5ed6b1ab83278d60e"
         }
       ],
       "state": "APPROVED",
       "stop_conditions": [],
-      "title": "Match the Clack landing page footer to its color palette",
+      "title": "Match the Clack landing page header and footer to its color palette",
       "todo_ids": [
         "code_01m85b1fnzwqdmr2"
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1795475996Z"
+      "updated_at": "1795476625Z"
     },
     "trajectory": {
       "active_boundaries": [
         "Current claimed task and isolated work branch"
       ],
-      "artifact_hash": "sha256:23769542ff3eb3b71b3bd75f0de3f99337dc936d455a202c5933e0c6168f0f09",
+      "artifact_hash": "sha256:729caab12ec64c83a1f8dd01399160091e547950bb551f356397b3fdeb628edf",
       "checks": [
         {
+          "name": "combined-browser",
+          "status": "passed"
+        },
+        {
           "name": "diff-check",
+          "status": "passed"
+        },
+        {
+          "name": "git-diff-check",
           "status": "passed"
         },
         {
@@ -139,10 +178,24 @@
             "intent_id": "intent:change_01M85B1YWMNFE0MTWKEPFQKRZF",
             "kind": "trajectory_step_recorded",
             "sequence": 5
+          },
+          {
+            "detail": "{\"instruction_revision\":\"sha256:c37bf5f4bdf1cf83471e4972cdf2bea3422498c67ceefe5b3e484d7ce4a81d9c\",\"revision_id\":\"clack-footer-color-match\",\"source_confidence\":\"agent_reported\"}",
+            "event_id": "event:6",
+            "intent_id": "intent:change_01M85B1YWMNFE0MTWKEPFQKRZF",
+            "kind": "instruction_recorded",
+            "sequence": 6
+          },
+          {
+            "detail": "trajectory:branch_01M85B1YZHR129N7T8TGMC3XB6",
+            "event_id": "event:7",
+            "intent_id": "intent:change_01M85B1YWMNFE0MTWKEPFQKRZF",
+            "kind": "trajectory_step_recorded",
+            "sequence": 7
           }
         ],
         "knowledge_candidates": [],
-        "next_sequence": 5,
+        "next_sequence": 7,
         "schema_version": "1.1.0",
         "trajectories": {
           "branch_01M85B1YZHR129N7T8TGMC3XB6": {
@@ -187,6 +240,27 @@
                 ],
                 "sequence": 5,
                 "validation_findings": []
+              },
+              {
+                "action": "validation",
+                "custody_event_id": "event:7",
+                "observations": [
+                  "clack/index.html",
+                  "clack/clack.css",
+                  "clack/index.html",
+                  "clack/clack.css",
+                  "PR 64 head acfe2d656d65655baef9c0b5c51f32fd122a2248 and footer commit 7076234d7f67bf350190206d6a11240f02156ddb were combined at the source level. Decapod declined a direct merge of the two active governance journals, so the original PR and both worktrees were preserved.",
+                  "Headless Chrome verified matching header, main and footer colors, footer keyboard focus, 8 headers at 8 widths, both taglines, navigation order and active states, and the same-origin DMG with published SHA-256 8df5da4613b7da022644f6fd41704c45d76140d2066217fd4275c6a49a85e480."
+                ],
+                "proof_refs": [
+                  "combined-browser",
+                  "git-diff-check"
+                ],
+                "scope": [
+                  "root"
+                ],
+                "sequence": 7,
+                "validation_findings": []
               }
             ]
           }
@@ -198,7 +272,9 @@
       "destination": "pull request",
       "evidence": [
         "Headless Chrome verified footer palette, shared links and keyboard Tab focus, eight headers at eight widths, both taglines and a direct Mac download with matching checksum.",
-        "PR #63 is merged at e805794, live taglines and navigation are present. PR #64 covers the header theme. The shared footer adopts the existing Clack palette on the Clack page only."
+        "Headless Chrome verified matching header, main and footer colors, footer keyboard focus, 8 headers at 8 widths, both taglines, navigation order and active states, and the same-origin DMG with published SHA-256 8df5da4613b7da022644f6fd41704c45d76140d2066217fd4275c6a49a85e480.",
+        "PR #63 is merged at e805794, live taglines and navigation are present. PR #64 covers the header theme. The shared footer adopts the existing Clack palette on the Clack page only.",
+        "PR 64 head acfe2d656d65655baef9c0b5c51f32fd122a2248 and footer commit 7076234d7f67bf350190206d6a11240f02156ddb were combined at the source level. Decapod declined a direct merge of the two active governance journals, so the original PR and both worktrees were preserved."
       ],
       "inspected_files": [
         "clack/clack.css",

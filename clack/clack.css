@@ -8,6 +8,28 @@
   --clack-coral: #ff8664;
 }
 
+.clack-site .nav {
+  color: var(--clack-text);
+  background: var(--clack-ink);
+  border-bottom-color: var(--clack-line);
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+.clack-site .nav-cta,
+.clack-site .nav-links a.nav-pricing {
+  color: var(--clack-text);
+  background: var(--clack-surface);
+}
+
+.clack-site .nav-links a.nav-pricing:hover {
+  color: var(--clack-seaglass);
+}
+
+.clack-site .nav-links a[aria-current="page"] {
+  color: var(--clack-text);
+}
+
 .clack-page {
   color: var(--clack-text);
   background: var(--clack-ink);
