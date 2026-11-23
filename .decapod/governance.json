@@ -26,6 +26,14 @@
       "proof_refs": [
         "trajectory:branch_01M853JH0YQBMDZWV7B71ES0D2"
       ]
+    },
+    {
+      "id": "clack-site-manifest-whitelist",
+      "summary": "Track the manifest at the new release-managed path while preserving ignore rules for machine state.",
+      "input_digest": "sha256:a8af1f7630a1bdfecd9f0834c19ef965f75a2399af07ddb1baeef0e9603d3cb2",
+      "proof_refs": [
+        "trajectory:branch_01M853JH0YQBMDZWV7B71ES0D2"
+      ]
     }
   ],
   "intents": {
@@ -113,7 +121,7 @@
       "active_boundaries": [
         "Current claimed task and isolated work branch"
       ],
-      "artifact_hash": "sha256:2f5802a126aa0edce4195ef3d5eb24b4ed72402cd035563b82fa43cf05be071f",
+      "artifact_hash": "sha256:a1222bb91b4bc8d7f6e4cdffaf3eec6dd8dacaf2126ea8fe56821206a6f73ef8",
       "checks": [
         {
           "name": "browser-download",
@@ -126,6 +134,10 @@
         {
           "name": "disk-image-structure",
           "status": "passed"
+        },
+        {
+          "name": "initial-repository-validation",
+          "status": "failed"
         },
         {
           "name": "upstream-dmg-sha256",
@@ -160,10 +172,17 @@
             "intent_id": "intent:change_01M853JGXYFP1SYRRS2JXV0V76",
             "kind": "trajectory_step_recorded",
             "sequence": 5
+          },
+          {
+            "detail": "trajectory:branch_01M853JH0YQBMDZWV7B71ES0D2",
+            "event_id": "event:6",
+            "intent_id": "intent:change_01M853JGXYFP1SYRRS2JXV0V76",
+            "kind": "trajectory_step_recorded",
+            "sequence": 6
           }
         ],
         "knowledge_candidates": [],
-        "next_sequence": 5,
+        "next_sequence": 6,
         "schema_version": "1.1.0",
         "trajectories": {
           "branch_01M853JH0YQBMDZWV7B71ES0D2": {
@@ -242,6 +261,32 @@
                 ],
                 "sequence": 5,
                 "validation_findings": []
+              },
+              {
+                "action": "trajectory.record",
+                "custody_event_id": "event:6",
+                "observations": [
+                  ".gitignore",
+                  "Decapod v0.164.1 moved the generated spec manifest. The first validation identified the obsolete Git whitelist path, which is updated here to permit the new manifest while other managed state stays ignored."
+                ],
+                "proof_refs": [
+                  "initial-repository-validation"
+                ],
+                "scope": [
+                  ".decapod/managed/specs",
+                  "admin/index.html",
+                  "clack",
+                  "index.html",
+                  "pricing.html",
+                  "pricing/index.html",
+                  "proof.html",
+                  "scripts/check-site.ts",
+                  "signup/index.html",
+                  "styles.css",
+                  "tecr.html"
+                ],
+                "sequence": 6,
+                "validation_findings": []
               }
             ]
           }
@@ -255,6 +300,7 @@
       "destination": "pull request",
       "evidence": [
         "Clack v0.9.14 GitHub Release digest and companion checksum both matched 8df5da4613b7da022644f6fd41704c45d76140d2066217fd4275c6a49a85e480",
+        "Decapod v0.164.1 moved the generated spec manifest. The first validation identified the obsolete Git whitelist path, which is updated here to permit the new manifest while other managed state stays ignored.",
         "Headless Chromium verified eight content routes at 1440, 951, 900, 541, 390, and 320 px. The browser click downloaded the same-origin DMG with SHA-256 8df5da4613b7da022644f6fd41704c45d76140d2066217fd4275c6a49a85e480 and stayed on the Clack page. hdiutil verify passed."
       ],
       "inspected_files": [
@@ -266,6 +312,7 @@
       ],
       "intent_id": "intent:change_01M853JGXYFP1SYRRS2JXV0V76",
       "modified_files": [
+        ".gitignore",
         "admin/index.html",
         "clack/clack.css",
         "clack/downloads/Clack-0.9.14-macOS-arm64.dmg",
@@ -283,6 +330,7 @@
       "next_transitions": [
         "Implement and browser-test static Pages assets before release validation.",
         "Refine plan and declare falsifiable checks",
+        "Rerun exact-candidate Decapod validation on the repaired branch.",
         "Validate committed candidate, publish PR, and verify production Pages and download after merge."
       ],
       "repo_scope": [

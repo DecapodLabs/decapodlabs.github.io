@@ -8,6 +8,6 @@
 !.decapod/managed/Dockerfile.decapod
 !.decapod/managed/specs/
 !.decapod/managed/specs/*.md
-!.decapod/managed/specs/.manifest.json
+!.decapod/managed/.manifest.json
 __pycache__/
 target/
