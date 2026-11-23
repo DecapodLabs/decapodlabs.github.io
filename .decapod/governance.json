@@ -13,6 +13,11 @@
       "id": "clack-download-page",
       "summary": "Link the dedicated Clack landing page and verified Mac disk image.",
       "input_digest": "sha256:59bb622ff0be1e68f6193bafadea4703f6d470a2c176201a0711aab8e48698ee"
+    },
+    {
+      "id": "clack-entrypoint-refresh",
+      "summary": "Bring generated site entrypoints up to the installed Decapod release.",
+      "input_digest": "sha256:280a6b3680932c245663c6abe8fdd6bac8f64167920d0dd26a02e9312c8aa401"
     }
   ],
   "intents": {
@@ -89,9 +94,9 @@
       "active_boundaries": [
         "Current claimed task and isolated work branch"
       ],
-      "artifact_hash": "sha256:360e83082c48adf6ced001001bbac728453d0e054469c5959b9d593e0948ca3a",
+      "artifact_hash": "sha256:43ed1fd2b70c3e80b6b97c48c147186fa6d59ddc1ec99945d1e5a7e776e6e0bc",
       "checks": [],
-      "current_phase": "implementation",
+      "current_phase": "verification",
       "custody": {
         "events": [
           {
@@ -112,10 +117,17 @@
             "intent_id": "intent:change_01M839T78QSJRGAMSCGJ122Z52",
             "kind": "trajectory_step_recorded",
             "sequence": 4
+          },
+          {
+            "detail": "trajectory:branch_01M839T7CE7R06T6V9VDQ35QZB",
+            "event_id": "event:5",
+            "intent_id": "intent:change_01M839T78QSJRGAMSCGJ122Z52",
+            "kind": "trajectory_step_recorded",
+            "sequence": 5
           }
         ],
         "knowledge_candidates": [],
-        "next_sequence": 4,
+        "next_sequence": 5,
         "schema_version": "1.1.0",
         "trajectories": {
           "branch_01M839T7CE7R06T6V9VDQ35QZB": {
@@ -139,6 +151,23 @@
                 ],
                 "sequence": 4,
                 "validation_findings": []
+              },
+              {
+                "action": "verification",
+                "custody_event_id": "event:5",
+                "observations": [
+                  "AGENTS.md",
+                  "CLAUDE.md",
+                  "CODEX.md",
+                  "GEMINI.md",
+                  "Refreshed the generated agent entrypoints to the installed Decapod release after the publication currency check identified the older version."
+                ],
+                "proof_refs": [],
+                "scope": [
+                  "root"
+                ],
+                "sequence": 5,
+                "validation_findings": []
               }
             ]
           }
@@ -147,11 +176,16 @@
       "declared_commands": [],
       "destination": "pull request",
       "evidence": [
+        "Refreshed the generated agent entrypoints to the installed Decapod release after the publication currency check identified the older version.",
         "Verified the published Clack 0.9.14 ZIP checksum and signature. The same arm64 application was packaged into a verified DMG and uploaded with its checksum to the existing release."
       ],
       "inspected_files": [],
       "intent_id": "intent:change_01M839T78QSJRGAMSCGJ122Z52",
       "modified_files": [
+        "AGENTS.md",
+        "CLAUDE.md",
+        "CODEX.md",
+        "GEMINI.md",
         "clack/clack.css",
         "clack/index.html",
         "index.html",
