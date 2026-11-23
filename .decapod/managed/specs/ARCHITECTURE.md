@@ -139,4 +139,4 @@ GitHub Pages serves `admin/index.html` at `/admin/` alongside `admin/admin.css`,
 
 ## Clack distribution page
 
-The Clack landing page is static HTML and CSS under clack/. GitHub Pages serves the directory index and shared mascot artwork. The versioned DMG and its checksum are GitHub Release assets in DecapodLabs/clack. The site links directly to their verified URLs.
+The Clack landing page is static HTML and CSS under clack/. GitHub Pages serves the directory index, the shared site stylesheet and mascot artwork, and the Clack-specific transparent PNG wordmark and icon. The Clack page uses the main site's header markup and scopes its own styles to the download page. The versioned DMG and its checksum are GitHub Release assets in DecapodLabs/clack. The site links directly to their verified URLs.

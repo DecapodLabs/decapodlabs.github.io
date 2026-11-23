@@ -48,7 +48,7 @@ The homepage puts this use case after the kernel capabilities and gives it a dir
 
 ## Clack downloads
 
-Give Clack a dedicated route at /clack on the existing Decapod Labs domain. Visitors can recognize the game, check macOS compatibility, and download its published disk image.
+Give Clack a dedicated route at /clack on the existing Decapod Labs domain. Visitors can recognize the game, check macOS compatibility, and download its published disk image. Present Clack as a Decapod Labs product with a recognizable mascot and wordmark alongside the main site's navigation and visual style.
 
 <!-- decapod:declared-capabilities:start -->
 
