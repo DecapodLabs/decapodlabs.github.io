@@ -48,7 +48,7 @@ The homepage puts this use case after the kernel capabilities and gives it a dir
 
 ## Clack downloads
 
-Visitors can discover Clack from the shared Decapod Labs header on every content page, including mobile layouts. At `/clack/`, the illustrated Siltwick hero introduces both the playable town and the macOS coding workspace. An example from Agents Mode shows how a visitor can select a resident, assign a project request, and review an edit before applying it. The page keeps the shared site footer and clear Apple silicon requirements. The primary action downloads the published disk image directly from the Decapod Labs domain.
+Visitors can discover Clack from the shared Decapod Labs header on every content page, including mobile layouts. At `/clack/`, the navigation sits on the same dark teal background as the rest of the Clack page, with a wordmark and links suited to the dark surface. The illustrated Siltwick hero introduces both the playable town and the macOS coding workspace. An example from Agents Mode shows how a visitor can select a resident, assign a project request, and review an edit before applying it. The page keeps the shared site footer and clear Apple silicon requirements. The primary action downloads the published disk image directly from the Decapod Labs domain.
 
 <!-- decapod:declared-capabilities:start -->
 

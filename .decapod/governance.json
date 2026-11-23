@@ -1,35 +1,32 @@
 {
   "schema_version": "1.0.0",
   "baseline": {
-    "accepted_commit": "f57408fd4a80c2ae3b6cbf7fb0955223a61003cb"
+    "accepted_commit": "b6521cd9988981fdaf0f3ca65536e8e5b0267515"
   },
   "change": {
-    "id": "change_01M854XGGJ39NN5E12CSNPXZ1G",
-    "base_commit": "f57408fd4a80c2ae3b6cbf7fb0955223a61003cb",
+    "id": "change_01M85AN1BQYZ0S5F4ZEV5XDW4F",
+    "base_commit": "b6521cd9988981fdaf0f3ca65536e8e5b0267515",
     "target_base": "origin/main"
   },
   "claims": {
-    "clack-tour": {
-      "statement": "Clack uses the selected Pricing treatment and shows its project workflow in Agents Mode",
-      "falsifier": "Selected pill styles differ, or the example fails to identify the request, resident, coding agent, and review step",
+    "clack-header-background": {
+      "statement": "The Clack header and main page compute to the same dark teal at desktop and mobile widths with readable navigation.",
+      "falsifier": "Different computed backgrounds, unreadable navigation, clipping, or a changed Labs homepage header.",
       "status": "supported",
       "proof_refs": [
-        "chrome-responsive-nav-and-footer sha256:0e79c20ce8ab5ff60cef769327fee7ca547218fb69d707a98ef1c6f6a658f177"
+        "Headless Chrome /clack/ at 1440, 768, 390 and 320 CSS pixels, compared with accepted origin/main"
       ]
     }
   },
   "checkpoints": [
     {
-      "id": "clack-product-tour",
-      "summary": "Show a real Clack app capture with sample project data and give Clack and Pricing the same accessible selected pill appearance.",
-      "input_digest": "sha256:1efcce472aec1152a89895bf97dac5b49fb871ded24ac9ad0c1b3c6e95d09b54",
-      "proof_refs": [
-        "chrome-responsive-nav-and-footer sha256:0e79c20ce8ab5ff60cef769327fee7ca547218fb69d707a98ef1c6f6a658f177"
-      ]
+      "id": "clack-header",
+      "summary": "Match the Clack header to its page color and verify responsive navigation in Chrome.",
+      "input_digest": "sha256:73140db0446dd2566bfdd49e32ab74342748c7d3ec69ea7abba280845ea1f139"
     }
   ],
   "intents": {
-    "intent:change_01M854XGGJ39NN5E12CSNPXZ1G": {
+    "intent:change_01M85AN1BQYZ0S5F4ZEV5XDW4F": {
       "acceptance_criteria": [],
       "assumptions": [],
       "boundaries": [
@@ -39,14 +36,14 @@
         "root"
       ],
       "created_sequence": 1,
-      "id": "intent:change_01M854XGGJ39NN5E12CSNPXZ1G",
+      "id": "intent:change_01M85AN1BQYZ0S5F4ZEV5XDW4F",
       "instruction_origin": {
         "source_ref": "caller:unverified"
       },
       "out_of_scope": [],
       "proof_requirements": [],
-      "raw_intent": "Show Clack in use on the Labs site\n\nMatch Clack selected header treatment to Pricing, demonstrate a project workflow, and verify responsive navigation, shared footer and direct DMG download before a governed PR and safe merge.",
-      "refined_intent": "Show Clack in use on the Labs site\n\nMatch Clack selected header treatment to Pricing, demonstrate a project workflow, and verify responsive navigation, shared footer and direct DMG download before a governed PR and safe merge.",
+      "raw_intent": "Match the Clack landing page header to its background\n\nScope the dark background and readable navigation to /clack/. Verify desktop and mobile widths and open a website PR.",
+      "refined_intent": "Match the Clack landing page header to its background\n\nScope the dark background and readable navigation to /clack/. Verify desktop and mobile widths and open a website PR.",
       "status": "refined",
       "updated_sequence": 3
     }
@@ -59,59 +56,36 @@
       },
       "deferred_questions": [],
       "human_questions": [],
-      "intent": "Show Clack in use on the Labs site\n\nMatch Clack selected header treatment to Pricing, demonstrate a project workflow, and verify responsive navigation, shared footer and direct DMG download before a governed PR and safe merge.",
+      "intent": "Use the existing solid Clack background for the shared header on /clack/ at desktop and mobile widths, with readable navigation and a dark-surface wordmark.",
       "phases": [],
       "proof_hooks": [
-        "Compare selected Clack and Pricing styles and click through shared navigation at desktop and mobile widths",
-        "Verify shared footer and click the direct browser download, then compare SHA-256"
+        "Headless Chrome checks computed backgrounds, navigation contrast and layout on /clack/ at 1440px and 390px plus the root page as a scope control.",
+        "decapod validate passes the site source contract before PR creation."
       ],
       "schema_version": "1.1.0",
-      "spec_reviews": [
-        {
-          "disposition": "updated",
-          "path": ".decapod/managed/specs/ARCHITECTURE.md",
-          "reason": "The screenshot and shared responsive styles are part of the static site assets.",
-          "reviewed_code_fingerprint": "fca742ebb02bd651d8423dc5d31d6d559e999f2b6dff87b38999ae9893b20a69",
-          "spec_material_hash": "c74ffe3e81d221755f34fd599f1d8d7c397c21f4e8350f470581ff500c881917"
-        },
-        {
-          "disposition": "updated",
-          "path": ".decapod/managed/specs/INTERFACES.md",
-          "reason": "The hero adds the Agents Mode anchor, the screenshot link, and the selected navigation semantics.",
-          "reviewed_code_fingerprint": "fca742ebb02bd651d8423dc5d31d6d559e999f2b6dff87b38999ae9893b20a69",
-          "spec_material_hash": "55ce7bb777f3beea6daa250665674f7d9e56337f84c2126ef0e3fb37172ea486"
-        }
-      ],
       "state": "APPROVED",
       "stop_conditions": [],
-      "title": "Show Clack in use on the Labs site",
+      "title": "Match the Clack site header to its background",
       "todo_ids": [
-        "code_01m854wwhe7t6yb1"
+        "code_01m85amgnc31n5t6"
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1795469786Z"
+      "updated_at": "1795475327Z"
     },
     "trajectory": {
       "active_boundaries": [
-        "Current claimed task and isolated work branch"
+        "Current claimed task and isolated work branch",
+        "The existing public page’s solid dark teal is the color reference. Deliver through the website repository’s PR flow."
       ],
-      "artifact_hash": "sha256:bcfe44c98c5adda33bfecea8afd60b102be61918d18efe663e7d2eff821c2686",
+      "artifact_hash": "sha256:98eeace1e8f58e6d6d75a7be90e3f041b411c842e29aa613515b0ecde01fe529",
       "checks": [
         {
-          "name": "chrome-dmg-download",
+          "name": "clack-header-browser",
           "status": "passed"
         },
         {
-          "name": "chrome-responsive-nav-and-footer",
-          "status": "passed"
-        },
-        {
-          "name": "chrome-sample-asset",
-          "status": "passed"
-        },
-        {
-          "name": "public-dmg-bytes",
+          "name": "git-diff-check",
           "status": "passed"
         }
       ],
@@ -120,61 +94,75 @@
         "events": [
           {
             "event_id": "event:2",
-            "intent_id": "intent:change_01M854XGGJ39NN5E12CSNPXZ1G",
+            "intent_id": "intent:change_01M85AN1BQYZ0S5F4ZEV5XDW4F",
             "kind": "created",
             "sequence": 2
           },
           {
             "event_id": "event:3",
-            "intent_id": "intent:change_01M854XGGJ39NN5E12CSNPXZ1G",
+            "intent_id": "intent:change_01M85AN1BQYZ0S5F4ZEV5XDW4F",
             "kind": "refined",
             "sequence": 3
           },
           {
-            "detail": "trajectory:branch_01M854XGKPF6YTXZQN7E2B10BJ",
+            "detail": "trajectory:branch_01M85AN1EF3C9W5GS3QF6DPB4T",
             "event_id": "event:4",
-            "intent_id": "intent:change_01M854XGGJ39NN5E12CSNPXZ1G",
+            "intent_id": "intent:change_01M85AN1BQYZ0S5F4ZEV5XDW4F",
             "kind": "trajectory_step_recorded",
             "sequence": 4
+          },
+          {
+            "detail": "trajectory:branch_01M85AN1EF3C9W5GS3QF6DPB4T",
+            "event_id": "event:5",
+            "intent_id": "intent:change_01M85AN1BQYZ0S5F4ZEV5XDW4F",
+            "kind": "trajectory_step_recorded",
+            "sequence": 5
           }
         ],
         "knowledge_candidates": [],
-        "next_sequence": 4,
+        "next_sequence": 5,
         "schema_version": "1.1.0",
         "trajectories": {
-          "branch_01M854XGKPF6YTXZQN7E2B10BJ": {
+          "branch_01M85AN1EF3C9W5GS3QF6DPB4T": {
             "evidence_only": true,
-            "id": "branch_01M854XGKPF6YTXZQN7E2B10BJ",
-            "intent_id": "intent:change_01M854XGGJ39NN5E12CSNPXZ1G",
+            "id": "branch_01M85AN1EF3C9W5GS3QF6DPB4T",
+            "intent_id": "intent:change_01M85AN1BQYZ0S5F4ZEV5XDW4F",
             "steps": [
               {
-                "action": "verification",
+                "action": "trajectory.record",
                 "custody_event_id": "event:4",
                 "observations": [
-                  "scripts/check-site.ts",
-                  "clack/index.html",
-                  "pricing.css",
-                  "styles.css",
                   "clack/index.html",
                   "clack/clack.css",
-                  "clack/agents-mode.webp",
-                  "pricing.css",
-                  "pricing.html",
-                  "pricing/index.html",
-                  "Headless Chrome at 1440, 768, 390, 320 CSS px. SHA-256 of check transcript is 0e79c20ce8ab5ff60cef769327fee7ca547218fb69d707a98ef1c6f6a658f177.",
-                  "Preview download and production DMG matched the versioned checksum 8df5da4613b7da022644f6fd41704c45d76140d2066217fd4275c6a49a85e480",
-                  "Captured Clack v0.9.14 with an isolated sample ledger. The displayed conversation is illustrative."
+                  "styles.css"
                 ],
-                "proof_refs": [
-                  "chrome-responsive-nav-and-footer",
-                  "chrome-sample-asset",
-                  "chrome-dmg-download",
-                  "public-dmg-bytes"
-                ],
+                "proof_refs": [],
                 "scope": [
                   "root"
                 ],
                 "sequence": 4,
+                "validation_findings": []
+              },
+              {
+                "action": "verification",
+                "custody_event_id": "event:5",
+                "observations": [
+                  "clack/index.html",
+                  "clack/clack.css",
+                  ".decapod/managed/specs/INTENT.md",
+                  ".decapod/managed/specs/ARCHITECTURE.md",
+                  ".decapod/managed/specs/INTERFACES.md",
+                  "Headless Chrome rendered /clack/ at 1440, 768, 390 and 320 CSS pixels. Header and main both resolved to rgb(8, 29, 37) before and after scrolling. Seven navigation links fit at each width, minimum text contrast 6.84:1, logo loaded. The root-page header matched the accepted base."
+                ],
+                "proof_refs": [
+                  "clack-header-browser",
+                  "git-diff-check"
+                ],
+                "scope": [
+                  "Clack website header under /clack/",
+                  "root"
+                ],
+                "sequence": 5,
                 "validation_findings": []
               }
             ]
@@ -184,35 +172,32 @@
       "declared_commands": [],
       "destination": "pull request",
       "evidence": [
-        "Captured Clack v0.9.14 with an isolated sample ledger. The displayed conversation is illustrative.",
-        "Headless Chrome at 1440, 768, 390, 320 CSS px. SHA-256 of check transcript is 0e79c20ce8ab5ff60cef769327fee7ca547218fb69d707a98ef1c6f6a658f177.",
-        "Preview download and production DMG matched the versioned checksum 8df5da4613b7da022644f6fd41704c45d76140d2066217fd4275c6a49a85e480"
+        "Headless Chrome rendered /clack/ at 1440, 768, 390 and 320 CSS pixels. Header and main both resolved to rgb(8, 29, 37) before and after scrolling. Seven navigation links fit at each width, minimum text contrast 6.84:1, logo loaded. The root-page header matched the accepted base."
       ],
       "inspected_files": [
-        "clack/index.html",
-        "pricing.css",
-        "scripts/check-site.ts"
-      ],
-      "intent_id": "intent:change_01M854XGGJ39NN5E12CSNPXZ1G",
-      "modified_files": [
-        "clack/agents-mode.webp",
         "clack/clack.css",
         "clack/index.html",
-        "pricing.css",
-        "pricing.html",
-        "pricing/index.html",
         "styles.css"
+      ],
+      "intent_id": "intent:change_01M85AN1BQYZ0S5F4ZEV5XDW4F",
+      "modified_files": [
+        ".decapod/managed/specs/ARCHITECTURE.md",
+        ".decapod/managed/specs/INTENT.md",
+        ".decapod/managed/specs/INTERFACES.md",
+        "clack/clack.css",
+        "clack/index.html"
       ],
       "next_transitions": [
         "Refine plan and declare falsifiable checks"
       ],
       "repo_scope": [
+        "Clack website header under /clack/",
         "root"
       ],
-      "run_id": "branch_01M854XGKPF6YTXZQN7E2B10BJ",
+      "run_id": "branch_01M85AN1EF3C9W5GS3QF6DPB4T",
       "schema_version": "1.1.0",
       "shortcut_risk_signals": [],
-      "task_id": "code_01m854wwhe7t6yb1",
+      "task_id": "code_01m85amgnc31n5t6",
       "tool_calls": [],
       "unresolved_assumptions": []
     }
