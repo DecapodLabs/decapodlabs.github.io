@@ -1,68 +1,22 @@
 {
   "schema_version": "1.0.0",
   "baseline": {
-    "accepted_commit": "0af7552f665afaef96479594abe463a471c4c906"
+    "accepted_commit": "f04d6fa14d2eeed749721a5c3ea133cc66ac063a"
   },
   "change": {
-    "id": "change_01M7Z1N3EWR4DHGBMTKMSP30VK",
-    "base_commit": "0af7552f665afaef96479594abe463a471c4c906",
+    "id": "change_01M839T78QSJRGAMSCGJ122Z52",
+    "base_commit": "f04d6fa14d2eeed749721a5c3ea133cc66ac063a",
     "target_base": "origin/main"
-  },
-  "claims": {
-    "admin_auth_and_org_resolution": {
-      "statement": "Unauthenticated /admin visitors fail closed behind PKCE sign-in with zero admin API calls, and authenticated <org> locators resolve strictly via Propodus to immutable cloud_org_id UUIDs while denying unaffiliated, non-admin, and ambiguous orgs.",
-      "falsifier": "Any unauthenticated or unauthorized org loads workspace state or dispatches org-scoped API calls in tests/admin_test.ts.",
-      "status": "supported",
-      "proof_refs": [
-        "admin/admin.js",
-        "tests/admin_test.ts"
-      ]
-    },
-    "admin_route_xss_rejection": {
-      "statement": "Admin route parsing and URL sanitization accept valid /admin/<org> and /admin/?org=<org> locators while rejecting XSS, traversal, multi-segment, conflicting, and external return URLs and scrubbing URL tokens prior to API calls.",
-      "falsifier": "tests/admin_test.ts fails on hostile slug, traversal, return_to, or fragment token checks.",
-      "status": "supported",
-      "proof_refs": [
-        "admin/admin.js",
-        "cloud-flow.js",
-        "tests/admin_test.ts"
-      ]
-    },
-    "admin_zero_seat_and_multi_org_isolation": {
-      "statement": "Zero-seat org admins administer org settings, delegation, limits, spend caps, devices, recovery contacts, policy templates, and billing portals without accessing repo task/event/evidence endpoints; org switching wipes prior DOM state and discards stale async responses.",
-      "falsifier": "Admin calls repo query/batch APIs or leaks OrgA state into OrgB in tests/admin_test.ts.",
-      "status": "supported",
-      "proof_refs": [
-        "admin/admin.js",
-        "admin/index.html",
-        "tests/admin_test.ts"
-      ]
-    },
-    "static_site_and_confidentiality": {
-      "statement": "Existing public routes and scripts/check-site.ts pass unchanged, all classic browser scripts compile, and public-repo confidentiality checks pass across all authored files and Living Specs.",
-      "falsifier": "scripts/check-site.ts or confidentiality scan in tests/admin_test.ts or tests/pricing_signup_test.ts fails.",
-      "status": "supported",
-      "proof_refs": [
-        "scripts/check-site.ts",
-        "tests/admin_test.ts",
-        "tests/pricing_signup_test.ts"
-      ]
-    }
   },
   "checkpoints": [
     {
-      "id": "w2-admin-ui",
-      "summary": "Implement /admin/<org> organization-scoped Admin UI (admin/index.html, admin/admin.js, admin/admin.css), extend cloud-flow.js route/org-resolution helpers, document static/subpath hosting in docs/decisions/0010-admin-route-hosting.md, add Deno tests in tests/admin_test.ts, and update Living Specs.",
-      "input_digest": "sha256:d227b872ae8b6a138ec552c5b5159ffcc9635f2f74e163de28686fdf04dc07b0",
-      "proof_refs": [
-        "scripts/check-site.ts",
-        "tests/admin_test.ts",
-        "tests/pricing_signup_test.ts"
-      ]
+      "id": "clack-download-page",
+      "summary": "Link the dedicated Clack landing page and verified Mac disk image.",
+      "input_digest": "sha256:59bb622ff0be1e68f6193bafadea4703f6d470a2c176201a0711aab8e48698ee"
     }
   ],
   "intents": {
-    "intent:change_01M7Z1N3EWR4DHGBMTKMSP30VK": {
+    "intent:change_01M839T78QSJRGAMSCGJ122Z52": {
       "acceptance_criteria": [],
       "assumptions": [],
       "boundaries": [
@@ -72,14 +26,14 @@
         "root"
       ],
       "created_sequence": 1,
-      "id": "intent:change_01M7Z1N3EWR4DHGBMTKMSP30VK",
+      "id": "intent:change_01M839T78QSJRGAMSCGJ122Z52",
       "instruction_origin": {
         "source_ref": "caller:unverified"
       },
       "out_of_scope": [],
       "proof_requirements": [],
-      "raw_intent": "Website #55: Serve /admin/<org> as authenticated organization-scoped Admin UI",
-      "refined_intent": "Website #55: Serve /admin/<org> as authenticated organization-scoped Admin UI",
+      "raw_intent": "Publish the Clack download page\n\nAdd the Decapod Labs /clack landing page and point visitors to the verified Apple Silicon disk image.",
+      "refined_intent": "Publish the Clack download page\n\nAdd the Decapod Labs /clack landing page and point visitors to the verified Apple Silicon disk image.",
       "status": "refined",
       "updated_sequence": 3
     }
@@ -92,11 +46,9 @@
       },
       "deferred_questions": [],
       "human_questions": [],
-      "intent": "Deliver /admin/<org> authenticated organization-scoped Admin UI (admin/index.html, admin/admin.js, admin/admin.css, cloud-flow.js route/session helpers, subpath router documentation, Deno tests, and updated Living Specs) on GitHub Pages with fail-closed auth gating, Propodus org UUID resolution, zero-seat admin separation, and strict public-repo confidentiality.",
+      "intent": "Publish the Clack download page\n\nAdd the Decapod Labs /clack landing page and point visitors to the verified Apple Silicon disk image.",
       "phases": [],
       "proof_hooks": [
-        "deno run --no-remote --no-npm --allow-read=. scripts/check-site.ts",
-        "deno test --no-remote --no-npm --allow-read=. tests/",
         "decapod validate"
       ],
       "schema_version": "1.1.0",
@@ -104,73 +56,60 @@
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/ARCHITECTURE.md",
-          "reason": "Documented cloud-flow.js admin helpers, admin/ SPA, subpath routing decision, and tests/admin_test.ts.",
-          "reviewed_code_fingerprint": "6cec0ed061c3e917e38aed51236040a3c2b6ea6284e9c4c78b883439035cab5f",
-          "spec_material_hash": "7b41494be97c5eb9f6cf0796644277c6ef0cb1e22724a69146f8cdc81de11276"
+          "reason": "Record static Pages hosting and the checked GitHub release artifacts.",
+          "reviewed_code_fingerprint": "4b4f46db991ac5089f058fcd17b07e1ee6549b26c056d0b44f59261ab1c01e02",
+          "spec_material_hash": "c4302454b4442b26e98ebfcb8320f1ff57dec8c5f5c8230c4cdd9aaac4aae735"
         },
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/INTERFACES.md",
-          "reason": "Documented /admin/ and /admin/<org> inbound routes, Propodus Admin Edge endpoints, and fail-closed isolation.",
-          "reviewed_code_fingerprint": "6cec0ed061c3e917e38aed51236040a3c2b6ea6284e9c4c78b883439035cab5f",
-          "spec_material_hash": "a79e222cdff1f372634911cfac96e2ecf70554fbd9b26814922fb683298c1e8d"
+          "reason": "Specify the download route, release links, and macOS package requirements.",
+          "reviewed_code_fingerprint": "4b4f46db991ac5089f058fcd17b07e1ee6549b26c056d0b44f59261ab1c01e02",
+          "spec_material_hash": "f6e4f4d02f8fee070fe1c83a90f0b17f0696c5ea03fbc9d66ed5e69e0fcf393f"
         },
         {
-          "disposition": "updated",
+          "disposition": "unchanged_with_reason",
           "path": ".decapod/managed/specs/SECURITY.md",
-          "reason": "Documented untrusted org locator resolution, multi-org context isolation, 401/403 revocation, XSS/redirect guards, and confidentiality.",
-          "reviewed_code_fingerprint": "6cec0ed061c3e917e38aed51236040a3c2b6ea6284e9c4c78b883439035cab5f",
+          "reason": "Static HTML links to verified public release assets and does not introduce authentication, sensitive inputs, or a site-side executable download service.",
+          "reviewed_code_fingerprint": "4b4f46db991ac5089f058fcd17b07e1ee6549b26c056d0b44f59261ab1c01e02",
           "spec_material_hash": "5701fbd6ef9c15fff62b23319b803fb8427a25b5ad76f4b5ed6b1ab83278d60e"
         }
       ],
       "state": "APPROVED",
       "stop_conditions": [],
-      "title": "Website #55: Authenticated /admin/<org> Organization-Scoped Admin UI",
+      "title": "Publish the Clack download page",
       "todo_ids": [
-        "secu_01m7z1kqrjyjftpj"
+        "code_01m83960jt4h0ccx"
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1795265415Z"
+      "updated_at": "1795407875Z"
     },
     "trajectory": {
       "active_boundaries": [
         "Current claimed task and isolated work branch"
       ],
-      "artifact_hash": "sha256:b353488451baa1c4f4cd64f1a8733112d682e736a9e824f7e819a48b1f2217c6",
-      "checks": [
-        {
-          "name": "deno-unit-tests",
-          "status": "passed"
-        },
-        {
-          "name": "public-confidentiality",
-          "status": "passed"
-        },
-        {
-          "name": "static-site-check",
-          "status": "passed"
-        }
-      ],
-      "current_phase": "verify",
+      "artifact_hash": "sha256:360e83082c48adf6ced001001bbac728453d0e054469c5959b9d593e0948ca3a",
+      "checks": [],
+      "current_phase": "implementation",
       "custody": {
         "events": [
           {
             "event_id": "event:2",
-            "intent_id": "intent:change_01M7Z1N3EWR4DHGBMTKMSP30VK",
+            "intent_id": "intent:change_01M839T78QSJRGAMSCGJ122Z52",
             "kind": "created",
             "sequence": 2
           },
           {
             "event_id": "event:3",
-            "intent_id": "intent:change_01M7Z1N3EWR4DHGBMTKMSP30VK",
+            "intent_id": "intent:change_01M839T78QSJRGAMSCGJ122Z52",
             "kind": "refined",
             "sequence": 3
           },
           {
-            "detail": "trajectory:branch_01M7Z1N3J82TMPVDK1W3887KK1",
+            "detail": "trajectory:branch_01M839T7CE7R06T6V9VDQ35QZB",
             "event_id": "event:4",
-            "intent_id": "intent:change_01M7Z1N3EWR4DHGBMTKMSP30VK",
+            "intent_id": "intent:change_01M839T78QSJRGAMSCGJ122Z52",
             "kind": "trajectory_step_recorded",
             "sequence": 4
           }
@@ -179,34 +118,22 @@
         "next_sequence": 4,
         "schema_version": "1.1.0",
         "trajectories": {
-          "branch_01M7Z1N3J82TMPVDK1W3887KK1": {
+          "branch_01M839T7CE7R06T6V9VDQ35QZB": {
             "evidence_only": true,
-            "id": "branch_01M7Z1N3J82TMPVDK1W3887KK1",
-            "intent_id": "intent:change_01M7Z1N3EWR4DHGBMTKMSP30VK",
+            "id": "branch_01M839T7CE7R06T6V9VDQ35QZB",
+            "intent_id": "intent:change_01M839T78QSJRGAMSCGJ122Z52",
             "steps": [
               {
-                "action": "verify",
-                "command": "deno run --no-remote --no-npm --allow-read=. scripts/check-site.ts",
+                "action": "implementation",
                 "custody_event_id": "event:4",
                 "observations": [
-                  "cloud-flow.js",
+                  "clack/index.html",
+                  "clack/clack.css",
+                  "index.html",
                   "scripts/check-site.ts",
-                  "signup/signup.js",
-                  "tests/pricing_signup_test.ts",
-                  "cloud-flow.js",
-                  "admin/index.html",
-                  "admin/admin.css",
-                  "admin/admin.js",
-                  "docs/decisions/0010-admin-route-hosting.md",
-                  "tests/admin_test.ts",
-                  "scripts/check-site.ts: documents=4, local_assets=94, fragment_links=18, javascript_compiled=true",
-                  "tests/: 13 passed | 0 failed (6 in tests/admin_test.ts, 7 in tests/pricing_signup_test.ts)"
+                  "Verified the published Clack 0.9.14 ZIP checksum and signature. The same arm64 application was packaged into a verified DMG and uploaded with its checksum to the existing release."
                 ],
-                "proof_refs": [
-                  "static-site-check",
-                  "deno-unit-tests",
-                  "public-confidentiality"
-                ],
+                "proof_refs": [],
                 "scope": [
                   "root"
                 ],
@@ -217,29 +144,18 @@
           }
         }
       },
-      "declared_commands": [
-        "deno run --no-remote --no-npm --allow-read=. scripts/check-site.ts",
-        "deno test --no-remote --no-npm --allow-read=. tests/"
-      ],
+      "declared_commands": [],
       "destination": "pull request",
       "evidence": [
-        "scripts/check-site.ts: documents=4, local_assets=94, fragment_links=18, javascript_compiled=true",
-        "tests/: 13 passed | 0 failed (6 in tests/admin_test.ts, 7 in tests/pricing_signup_test.ts)"
+        "Verified the published Clack 0.9.14 ZIP checksum and signature. The same arm64 application was packaged into a verified DMG and uploaded with its checksum to the existing release."
       ],
-      "inspected_files": [
-        "cloud-flow.js",
-        "scripts/check-site.ts",
-        "signup/signup.js",
-        "tests/pricing_signup_test.ts"
-      ],
-      "intent_id": "intent:change_01M7Z1N3EWR4DHGBMTKMSP30VK",
+      "inspected_files": [],
+      "intent_id": "intent:change_01M839T78QSJRGAMSCGJ122Z52",
       "modified_files": [
-        "admin/admin.css",
-        "admin/admin.js",
-        "admin/index.html",
-        "cloud-flow.js",
-        "docs/decisions/0010-admin-route-hosting.md",
-        "tests/admin_test.ts"
+        "clack/clack.css",
+        "clack/index.html",
+        "index.html",
+        "scripts/check-site.ts"
       ],
       "next_transitions": [
         "Refine plan and declare falsifiable checks"
@@ -247,10 +163,10 @@
       "repo_scope": [
         "root"
       ],
-      "run_id": "branch_01M7Z1N3J82TMPVDK1W3887KK1",
+      "run_id": "branch_01M839T7CE7R06T6V9VDQ35QZB",
       "schema_version": "1.1.0",
       "shortcut_risk_signals": [],
-      "task_id": "secu_01m7z1kqrjyjftpj",
+      "task_id": "code_01m83960jt4h0ccx",
       "tool_calls": [],
       "unresolved_assumptions": []
     }
