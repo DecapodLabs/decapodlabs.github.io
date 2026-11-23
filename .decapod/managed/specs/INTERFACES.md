@@ -132,3 +132,5 @@ Generated capability obligations: `public-api` is declared for this project. The
 ## Clack download
 
 The canonical Clack page is `/clack/`. The shared navigation links to the equivalent static index at `/clack/index.html` so the existing source verifier can check the target file. The Download for Mac link uses the HTML `download` attribute and points to `/clack/downloads/Clack-0.9.14-macOS-arm64.dmg`. The matching `.dmg.sha256` file is also served by Pages. Release notes and source code remain on GitHub. The download page identifies the exact release, architecture, and minimum macOS version.
+
+The hero’s “See Clack in use” link jumps to `#agents`. That section provides the example request and its review flow as text and links the screenshot to its full-size image. Clack marks its own header link with `aria-current="page"` and uses the same selected pill treatment as Pricing.

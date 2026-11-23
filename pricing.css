@@ -1,6 +1,5 @@
 /* Decapod Local and Cloud pricing. The estimator is informational; purchasing remains server-authoritative. */
 .pricing-page{overflow-x:clip;background:#fff9f0}
-.pricing-page .nav-links a[aria-current="page"]{color:#fff;background:var(--orange)}
 .pricing-page .nav-links a:focus-visible,.pricing-page button:focus-visible,.pricing-page a:focus-visible,.pricing-page summary:focus-visible,.pricing-page input:focus-visible{outline:3px solid var(--orange);outline-offset:4px}
 .pricing-page .site-wordmark{width:170px;height:auto;max-height:80px;object-fit:contain}
 .pricing-hero{background:radial-gradient(ellipse 55% 90% at 88% 20%,#ffdbb2,transparent 88%),#fff3e2;padding:76px 0 65px}
@@ -436,28 +435,7 @@
 @media(max-width:400px){.preview-savings-row{column-gap:6px}.preview-annual-equation{gap:4px}}
 @media(prefers-reduced-motion:reduce){.preview-savings-row .preview-annual-savings{animation:none}}
 
-/* Canonical /pricing route navigation + safe repository intent banner. */
-.pricing-page .nav-links a[href="/pricing"],
-.pricing-page .nav-links a[href="/pricing.html"]{
-  background:rgba(240,91,55,.11);
-  color:#853524;
-  padding:10px 15px;
-  border-radius:999px;
-  transition:background .18s,color .18s;
-}
-.pricing-page .nav-links a[href="/pricing"][aria-current="page"],
-.pricing-page .nav-links a[href="/pricing.html"][aria-current="page"]{
-  color:#fff;
-  background:var(--orange);
-}
-@media(max-width:850px){
-  .pricing-page .nav-links a[href="/pricing"],
-  .pricing-page .nav-links a[href="/pricing.html"]{padding:7px 12px}
-}
-@media(max-width:390px){
-  .pricing-page .nav-links a[href="/pricing"],
-  .pricing-page .nav-links a[href="/pricing.html"]{padding:7px 8px}
-}
+/* Safe repository intent banner. */
 .pricing-repo-banner{
   max-width:1190px;
   margin:0 auto 22px;
