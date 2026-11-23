@@ -100,7 +100,7 @@ Generated capability obligations: `persistent-state` is declared for this projec
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `6cec0ed061c3e917e38aed51236040a3c2b6ea6284e9c4c78b883439035cab5f`
+- Repository signal fingerprint: `fca742ebb02bd651d8423dc5d31d6d559e999f2b6dff87b38999ae9893b20a69`
 - Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (2 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->
@@ -136,3 +136,7 @@ GitHub Pages serves `admin/index.html` at `/admin/` alongside `admin/admin.css`,
 1. **Route Parsing & Canonical Org Resolution (`cloud-flow.js`)**: `parseOrgSlug`, `parseAdminRoute`, `isAllowedAdminPathname`, `buildAdminBrowserPath`, `sanitizeAdminReturnUrl`, `buildAdminAuthAuthorizeUrl`, `listAdminOrganizations`, and `resolveAdminOrganization` enforce single-segment slug/UUID syntax, reject traversal/XSS/conflicting path-vs-query inputs, resolve untrusted `<org>` locators against server-returned `organizations` to immutable `cloud_org_id` UUIDs (failing closed on unaffiliated, non-admin, or ambiguous entries), and keep GitHub Pages browser reloads functional via `/admin/?org=<org>` when no edge subpath rewrite is active.
 2. **Scoped Admin Controller (`admin/admin.js`, `admin/index.html`, `admin/admin.css`)**: `DecapodAdminApp.createAdminController` scrubs URL callback parameters and fragment tokens immediately, blocks confidential API calls prior to PKCE verification, performs server-side `account-register` verification per `cloud_org_id`, enforces generation-guarded org-switcher isolation (`isActiveContext` + full DOM reset on org switch), handles `401` / `403 admin_required` mid-session revocation immediately, and separates zero-seat org administration (members, invitations, `/org-admins` delegation, `/org-recovery` contacts, `/policy-templates`, `/resource-limits`, `/billing-overage-policy`, `/device-keys`/`/device-revoke`, and Stripe `/billing-portal`) from repository governance data.
 3. **Verification (`tests/admin_test.ts`)**: Verifies `/admin/<org>` and `/admin/?org=<org>` parsing, hostile slug/XSS/traversal/return-URL rejection, auth gating and URL token scrubbing, unaffiliated/non-admin/ambiguous org denial, multi-org switch concurrency isolation, zero-seat admin operations, mid-session `401`/`403` fail-closed handling, HTML/JS asset integrity, and public-repo confidentiality offline via Deno.
+
+## Clack distribution page
+
+The Clack landing page is static HTML and CSS under clack/. GitHub Pages serves the directory index and shared mascot artwork. The versioned DMG and its checksum are GitHub Release assets in DecapodLabs/clack. The site links directly to their verified URLs.

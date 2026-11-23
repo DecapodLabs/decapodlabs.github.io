@@ -16,6 +16,8 @@ The [pricing page](https://decapodlabs.github.io/pricing.html) shows free local 
 
 The interactive preview is static HTML/CSS/JavaScript (`pricing.html`, `pricing.css`, `pricing.js`) and is intentionally disconnected from billing, customer identity and production infrastructure. The optional discount preview follows the accepted static pricing page’s illustrative repository/contributor milestones and annual savings cap; it must not be treated as an approved or activated billing discount. The optional Advanced controls show network, compute and retained-data quantities only as percentages of an **unannounced included baseline**, with all money still `$X`. No actual usage quotas, automatic overages, or purchasable upgrade packs are promised before controlled hosted cost measurement. Approved live catalog pricing and quotas must be surfaced only when Propodus can authoritatively quote and enforce them, and the purchase path is fully validated. See [Propodus UX #150](https://github.com/DecapodLabs/propodus/issues/150) and [load/cost envelope #149](https://github.com/DecapodLabs/propodus/issues/149).
 
+The [Clack download page](https://decapodlabs.ai/clack/) links to the published Apple silicon DMG, its SHA-256 checksum, and release notes.
+
 ## Local development
 
 ```sh

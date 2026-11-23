@@ -46,6 +46,10 @@ Show Waystead as a legitimate in-progress game-development workload for the free
 
 The homepage puts this use case after the kernel capabilities and gives it a direct discovery link near the main call to action. Move the native Pi proof recording below the project/workflow sections and above installation, preserving the existing player, chapters, evidence links, and fragment identifiers `#proof` and `#proofs`. Keep the recording within a restrained readable width. Existing pricing copy, purchase status, branding, and original media are out of scope. Browser layout, fragment navigation, and exact-candidate validation remain acceptance gates.
 
+## Clack downloads
+
+Give Clack a dedicated route at /clack on the existing Decapod Labs domain. Visitors can recognize the game, check macOS compatibility, and download its published disk image.
+
 <!-- decapod:declared-capabilities:start -->
 
 ## Declared Capability Surfaces
@@ -65,7 +69,7 @@ These declarations select authoring and proof obligations; they do not attest im
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `6cec0ed061c3e917e38aed51236040a3c2b6ea6284e9c4c78b883439035cab5f`
+- Repository signal fingerprint: `fca742ebb02bd651d8423dc5d31d6d559e999f2b6dff87b38999ae9893b20a69`
 - Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (2 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->
