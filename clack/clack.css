@@ -16,6 +16,11 @@
   backdrop-filter: none;
 }
 
+.clack-site .nav .brand .site-wordmark {
+  background: var(--clack-text);
+  border-radius: .375rem;
+}
+
 .clack-site .nav-cta,
 .clack-site .nav-links a.nav-pricing {
   color: var(--clack-text);
@@ -306,7 +311,7 @@
   color: var(--clack-ink);
 }
 
-.clack-install img { width: clamp(4.5rem, 8vw, 8rem); height: auto; }
+.clack-install > img { width: clamp(4.5rem, 8vw, 8rem); height: auto; }
 .clack-install h2 { font-size: clamp(1.9rem, 3.5vw, 3rem); }
 .clack-install p { margin: .5rem 0 0; line-height: 1.55; }
 
@@ -325,6 +330,24 @@
 }
 
 .clack-release-links a:hover, .clack-powered:hover { color: var(--clack-ink); }
+
+.clack-powered {
+  display: grid;
+  justify-items: start;
+  justify-self: start;
+  gap: .375rem;
+  text-decoration: none;
+}
+
+.clack-powered:hover span { text-decoration: underline; }
+
+.clack-powered img {
+  display: block;
+  width: 9rem;
+  height: auto;
+  background: var(--clack-ink);
+  border-radius: .375rem;
+}
 
 .clack-site > .footer {
   color: var(--clack-text);
