@@ -96,6 +96,15 @@ Generated capability obligations: `persistent-state` is declared for this projec
 - Migration and rollback treatment MUST match the selected storage technology
 <!-- decapod:capability-overlay:persistent-state:end -->
 
+<!-- decapod:codebase-contract:start -->
+
+## Codebase Contract Snapshot
+
+- Core modules (0): none detected
+- Plugin/extension modules (0): none detected
+- Build manifests (0): none detected
+<!-- decapod:codebase-contract:end -->
+
 <!-- decapod:codebase-attestation:start -->
 
 ## Codebase Attestation
@@ -139,4 +148,4 @@ GitHub Pages serves `admin/index.html` at `/admin/` alongside `admin/admin.css`,
 
 ## Clack distribution page
 
-The Clack landing page is static HTML and CSS under clack/. GitHub Pages serves the directory index, the shared site stylesheet and mascot artwork, and the Clack-specific transparent PNG wordmark and icon. The Clack page uses the main site's header markup and scopes its own styles to the download page. The versioned DMG and its checksum are GitHub Release assets in DecapodLabs/clack. The site links directly to their verified URLs.
+GitHub Pages serves `clack/index.html`, its scoped stylesheet, the original Siltwick key art, and the release files in `clack/downloads/` from the same origin. The versioned disk image and companion checksum are copied from the official GitHub release and verified before publication. Each content page uses the same static header link order, sized by shared rules in `styles.css`. The Clack page uses the shared footer in normal document flow, leaving the install section fully visible on narrow screens.

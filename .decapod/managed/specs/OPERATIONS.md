@@ -64,6 +64,13 @@ Generated capability obligations: `persistent-state` is declared for this projec
 - Migration health checks and rollback triggers
 <!-- decapod:capability-overlay:persistent-state:end -->
 
+<!-- decapod:codebase-contract:start -->
+
+## Codebase Contract Snapshot
+
+- Operational/deployment/workflow surfaces (1): `.github/workflows/site-bootstrap.yml`
+<!-- decapod:codebase-contract:end -->
+
 <!-- decapod:codebase-attestation:start -->
 
 ## Codebase Attestation

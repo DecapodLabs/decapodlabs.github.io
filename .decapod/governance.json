@@ -1,39 +1,62 @@
 {
   "schema_version": "1.0.0",
   "baseline": {
-    "accepted_commit": "a41a5deb910d41c2491722e39e7c1ec8d4e8f337"
+    "accepted_commit": "5d60c85049fc9da50107ce41fa32f28bf5dc706c"
   },
   "change": {
-    "id": "change_01M83BET8YMPM24N8CXX0693E1",
-    "base_commit": "a41a5deb910d41c2491722e39e7c1ec8d4e8f337",
+    "id": "change_01M853JGXYFP1SYRRS2JXV0V76",
+    "base_commit": "5d60c85049fc9da50107ce41fa32f28bf5dc706c",
     "target_base": "origin/main"
+  },
+  "claims": {
+    "clack-site-release": {
+      "statement": "The website candidate exposes Clack in each content-page header, includes the shared footer, and downloads the original v0.9.14 disk image from its own origin.",
+      "falsifier": "A tested page header misses Clack, the shared footer is absent, the Download button navigates away or fetches across origins, or the DMG digest differs from the GitHub release.",
+      "status": "supported",
+      "proof_refs": [
+        "trajectory:branch_01M853JH0YQBMDZWV7B71ES0D2"
+      ]
+    }
   },
   "checkpoints": [
     {
-      "id": "clack-brand-update",
-      "summary": "Match the Decapod Labs header and use a Clack mascot wordmark",
-      "input_digest": "sha256:0a05737c8935d196724496815828c281f05687ba77545582f9aa2dc2a1f343e4"
+      "id": "clack-site-candidate",
+      "summary": "Redesign the Clack download page, expose it in shared navigation, and mirror the verified release disk image on Pages.",
+      "input_digest": "sha256:e965cd0fbafbc71bf9f4dba85c9e572f5e36aded074ae7ea42f0394f4fe17830",
+      "proof_refs": [
+        "trajectory:branch_01M853JH0YQBMDZWV7B71ES0D2"
+      ]
     }
   ],
   "intents": {
-    "intent:change_01M83BET8YMPM24N8CXX0693E1": {
+    "intent:change_01M853JGXYFP1SYRRS2JXV0V76": {
       "acceptance_criteria": [],
       "assumptions": [],
       "boundaries": [
         "Current claimed task and isolated work branch"
       ],
       "constraints": [
-        "root"
+        ".decapod/managed/specs",
+        "admin/index.html",
+        "clack",
+        "index.html",
+        "pricing.html",
+        "pricing/index.html",
+        "proof.html",
+        "scripts/check-site.ts",
+        "signup/index.html",
+        "styles.css",
+        "tecr.html"
       ],
       "created_sequence": 1,
-      "id": "intent:change_01M83BET8YMPM24N8CXX0693E1",
+      "id": "intent:change_01M853JGXYFP1SYRRS2JXV0V76",
       "instruction_origin": {
         "source_ref": "caller:unverified"
       },
       "out_of_scope": [],
       "proof_requirements": [],
-      "raw_intent": "Align Clack with Decapod Labs branding\n\nCreate a Clack wordmark, reuse the main website header on /clack, and place Clack directly before Pricing.",
-      "refined_intent": "Align Clack with Decapod Labs branding\n\nCreate a Clack wordmark, reuse the main website header on /clack, and place Clack directly before Pricing.",
+      "raw_intent": "Redesign the Clack landing page and deliver a same-origin macOS installer\n\nFix public site navigation, add the shared footer to Clack, redesign with original key art, and serve the checksum-verified release DMG directly from decapodlabs.ai.",
+      "refined_intent": "Redesign the Clack landing page and deliver a same-origin macOS installer\n\nFix public site navigation, add the shared footer to Clack, redesign with original key art, and serve the checksum-verified release DMG directly from decapodlabs.ai.",
       "status": "refined",
       "updated_sequence": 3
     }
@@ -46,77 +69,95 @@
       },
       "deferred_questions": [],
       "human_questions": [],
-      "intent": "Align Clack with Decapod Labs branding\n\nCreate a Clack wordmark, reuse the main website header on /clack, and place Clack directly before Pricing.",
+      "intent": "Make Clack immediately discoverable from all Decapod Labs content pages, give its download page a complete shared footer and a distinct underwater visual identity, and provide a direct same-origin Apple silicon DMG.",
       "phases": [],
       "proof_hooks": [
-        "decapod validate"
+        "decapod validate on the exact contender",
+        "Desktop and narrow mobile browser navigation and actual same-origin DMG download verified against the upstream checksum."
       ],
       "schema_version": "1.1.0",
       "spec_reviews": [
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/ARCHITECTURE.md",
-          "reason": "Documents the shared brand stylesheet and logo assets.",
+          "reason": "Describes static Pages distribution, responsive navigation and location of the release files.",
           "reviewed_code_fingerprint": "fca742ebb02bd651d8423dc5d31d6d559e999f2b6dff87b38999ae9893b20a69",
-          "spec_material_hash": "dbdb28739c98b2657a813ea1ddf249e16d5be18ff5a28b4d2f9262488690a7d1"
+          "spec_material_hash": "f930054961669e40d89c757a62f86b6d771750ac7230b79328d7c2cd47a8a7c6"
         },
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/INTERFACES.md",
-          "reason": "Documents matching navigation order and the public logo.",
+          "reason": "Records the public route, same-origin DMG filename, checksum and compatibility.",
           "reviewed_code_fingerprint": "fca742ebb02bd651d8423dc5d31d6d559e999f2b6dff87b38999ae9893b20a69",
-          "spec_material_hash": "73f6db1cc7d6715c75c0401cba51a074f5a822e812aa9e6b1c01374530866e30"
+          "spec_material_hash": "13da241a7f246b6b28d4c3ba29650e1b10d02e0f2ce296446e68a17858446964"
         },
         {
           "disposition": "unchanged_with_reason",
           "path": ".decapod/managed/specs/SECURITY.md",
-          "reason": "The page remains static and distribution uses the existing verified release links.",
+          "reason": "Static navigation and a byte-for-byte mirror of an existing public release preserve the site authentication and runtime boundaries.",
           "reviewed_code_fingerprint": "fca742ebb02bd651d8423dc5d31d6d559e999f2b6dff87b38999ae9893b20a69",
           "spec_material_hash": "5701fbd6ef9c15fff62b23319b803fb8427a25b5ad76f4b5ed6b1ab83278d60e"
         }
       ],
       "state": "APPROVED",
       "stop_conditions": [],
-      "title": "Align Clack with Decapod Labs branding",
+      "title": "Redesign the Clack landing page and deliver a same-origin macOS installer",
       "todo_ids": [
-        "code_01m83bcb05qdcz2h"
+        "arch_01m853hwpfah61jz"
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1795409291Z"
+      "updated_at": "1795468263Z"
     },
     "trajectory": {
       "active_boundaries": [
         "Current claimed task and isolated work branch"
       ],
-      "artifact_hash": "sha256:fb0724eb4884f79442f6e034e1c9d33be7b1b3631a340467eafa1d7f1470e6f4",
-      "checks": [],
-      "current_phase": "implementation",
+      "artifact_hash": "sha256:2f5802a126aa0edce4195ef3d5eb24b4ed72402cd035563b82fa43cf05be071f",
+      "checks": [
+        {
+          "name": "browser-download",
+          "status": "passed"
+        },
+        {
+          "name": "browser-navigation",
+          "status": "passed"
+        },
+        {
+          "name": "disk-image-structure",
+          "status": "passed"
+        },
+        {
+          "name": "upstream-dmg-sha256",
+          "status": "passed"
+        }
+      ],
+      "current_phase": "verification",
       "custody": {
         "events": [
           {
             "event_id": "event:2",
-            "intent_id": "intent:change_01M83BET8YMPM24N8CXX0693E1",
+            "intent_id": "intent:change_01M853JGXYFP1SYRRS2JXV0V76",
             "kind": "created",
             "sequence": 2
           },
           {
             "event_id": "event:3",
-            "intent_id": "intent:change_01M83BET8YMPM24N8CXX0693E1",
+            "intent_id": "intent:change_01M853JGXYFP1SYRRS2JXV0V76",
             "kind": "refined",
             "sequence": 3
           },
           {
-            "detail": "trajectory:branch_01M83BETCERXW7KH473AXBBHPZ",
+            "detail": "trajectory:branch_01M853JH0YQBMDZWV7B71ES0D2",
             "event_id": "event:4",
-            "intent_id": "intent:change_01M83BET8YMPM24N8CXX0693E1",
+            "intent_id": "intent:change_01M853JGXYFP1SYRRS2JXV0V76",
             "kind": "trajectory_step_recorded",
             "sequence": 4
           },
           {
-            "detail": "trajectory:branch_01M83BETCERXW7KH473AXBBHPZ",
+            "detail": "trajectory:branch_01M853JH0YQBMDZWV7B71ES0D2",
             "event_id": "event:5",
-            "intent_id": "intent:change_01M83BET8YMPM24N8CXX0693E1",
+            "intent_id": "intent:change_01M853JGXYFP1SYRRS2JXV0V76",
             "kind": "trajectory_step_recorded",
             "sequence": 5
           }
@@ -125,39 +166,79 @@
         "next_sequence": 5,
         "schema_version": "1.1.0",
         "trajectories": {
-          "branch_01M83BETCERXW7KH473AXBBHPZ": {
+          "branch_01M853JH0YQBMDZWV7B71ES0D2": {
             "evidence_only": true,
-            "id": "branch_01M83BETCERXW7KH473AXBBHPZ",
-            "intent_id": "intent:change_01M83BET8YMPM24N8CXX0693E1",
+            "id": "branch_01M853JH0YQBMDZWV7B71ES0D2",
+            "intent_id": "intent:change_01M853JGXYFP1SYRRS2JXV0V76",
             "steps": [
               {
                 "action": "implementation",
+                "command": "Read live Pages HTML and GitHub release metadata",
                 "custody_event_id": "event:4",
                 "observations": [
-                  "index.html",
                   "clack/index.html",
-                  "styles.css"
+                  "styles.css",
+                  "pricing/index.html",
+                  "admin/index.html",
+                  "proof.html",
+                  "Clack v0.9.14 GitHub Release digest and companion checksum both matched 8df5da4613b7da022644f6fd41704c45d76140d2066217fd4275c6a49a85e480"
                 ],
-                "proof_refs": [],
+                "proof_refs": [
+                  "upstream-dmg-sha256"
+                ],
                 "scope": [
-                  "root"
+                  ".decapod/managed/specs",
+                  "admin/index.html",
+                  "clack",
+                  "index.html",
+                  "pricing.html",
+                  "pricing/index.html",
+                  "proof.html",
+                  "scripts/check-site.ts",
+                  "signup/index.html",
+                  "styles.css",
+                  "tecr.html"
                 ],
                 "sequence": 4,
                 "validation_findings": []
               },
               {
-                "action": "implementation",
+                "action": "verification",
+                "command": "Headless Chrome via DevTools and local static HTTP server",
                 "custody_event_id": "event:5",
                 "observations": [
-                  "index.html",
                   "clack/index.html",
                   "clack/clack.css",
-                  "clack/logo.png",
-                  "clack/icon.png"
+                  "clack/siltwick.webp",
+                  "clack/downloads/Clack-0.9.14-macOS-arm64.dmg",
+                  "clack/downloads/Clack-0.9.14-macOS-arm64.dmg.sha256",
+                  "index.html",
+                  "pricing.html",
+                  "pricing/index.html",
+                  "signup/index.html",
+                  "admin/index.html",
+                  "tecr.html",
+                  "proof.html",
+                  "styles.css",
+                  "Headless Chromium verified eight content routes at 1440, 951, 900, 541, 390, and 320 px. The browser click downloaded the same-origin DMG with SHA-256 8df5da4613b7da022644f6fd41704c45d76140d2066217fd4275c6a49a85e480 and stayed on the Clack page. hdiutil verify passed."
                 ],
-                "proof_refs": [],
+                "proof_refs": [
+                  "browser-navigation",
+                  "browser-download",
+                  "disk-image-structure"
+                ],
                 "scope": [
-                  "root"
+                  ".decapod/managed/specs",
+                  "admin/index.html",
+                  "clack",
+                  "index.html",
+                  "pricing.html",
+                  "pricing/index.html",
+                  "proof.html",
+                  "scripts/check-site.ts",
+                  "signup/index.html",
+                  "styles.css",
+                  "tecr.html"
                 ],
                 "sequence": 5,
                 "validation_findings": []
@@ -166,32 +247,61 @@
           }
         }
       },
-      "declared_commands": [],
+      "declared_commands": [
+        "Headless Chrome via DevTools and local static HTTP server",
+        "Read live Pages HTML and GitHub release metadata",
+        "hdiutil verify"
+      ],
       "destination": "pull request",
-      "evidence": [],
+      "evidence": [
+        "Clack v0.9.14 GitHub Release digest and companion checksum both matched 8df5da4613b7da022644f6fd41704c45d76140d2066217fd4275c6a49a85e480",
+        "Headless Chromium verified eight content routes at 1440, 951, 900, 541, 390, and 320 px. The browser click downloaded the same-origin DMG with SHA-256 8df5da4613b7da022644f6fd41704c45d76140d2066217fd4275c6a49a85e480 and stayed on the Clack page. hdiutil verify passed."
+      ],
       "inspected_files": [
+        "admin/index.html",
         "clack/index.html",
-        "index.html",
+        "pricing/index.html",
+        "proof.html",
         "styles.css"
       ],
-      "intent_id": "intent:change_01M83BET8YMPM24N8CXX0693E1",
+      "intent_id": "intent:change_01M853JGXYFP1SYRRS2JXV0V76",
       "modified_files": [
+        "admin/index.html",
         "clack/clack.css",
-        "clack/icon.png",
+        "clack/downloads/Clack-0.9.14-macOS-arm64.dmg",
+        "clack/downloads/Clack-0.9.14-macOS-arm64.dmg.sha256",
         "clack/index.html",
-        "clack/logo.png",
-        "index.html"
+        "clack/siltwick.webp",
+        "index.html",
+        "pricing.html",
+        "pricing/index.html",
+        "proof.html",
+        "signup/index.html",
+        "styles.css",
+        "tecr.html"
       ],
       "next_transitions": [
-        "Refine plan and declare falsifiable checks"
+        "Implement and browser-test static Pages assets before release validation.",
+        "Refine plan and declare falsifiable checks",
+        "Validate committed candidate, publish PR, and verify production Pages and download after merge."
       ],
       "repo_scope": [
-        "root"
+        ".decapod/managed/specs",
+        "admin/index.html",
+        "clack",
+        "index.html",
+        "pricing.html",
+        "pricing/index.html",
+        "proof.html",
+        "scripts/check-site.ts",
+        "signup/index.html",
+        "styles.css",
+        "tecr.html"
       ],
-      "run_id": "branch_01M83BETCERXW7KH473AXBBHPZ",
+      "run_id": "branch_01M853JH0YQBMDZWV7B71ES0D2",
       "schema_version": "1.1.0",
       "shortcut_risk_signals": [],
-      "task_id": "code_01m83bcb05qdcz2h",
+      "task_id": "arch_01m853hwpfah61jz",
       "tool_calls": [],
       "unresolved_assumptions": []
     }

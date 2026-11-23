@@ -138,6 +138,14 @@ Generated capability obligations: `public-api` is declared for this project. The
 - Token expiry/revocation tests
 <!-- decapod:capability-overlay:public-api:end -->
 
+<!-- decapod:codebase-contract:start -->
+
+## Codebase Contract Snapshot
+
+- CI workflows (1): `.github/workflows/site-bootstrap.yml`
+- Integration test targets (0): none detected
+<!-- decapod:codebase-contract:end -->
+
 <!-- decapod:codebase-attestation:start -->
 
 ## Codebase Attestation
