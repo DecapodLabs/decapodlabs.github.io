@@ -48,6 +48,8 @@ The homepage puts this use case after the kernel capabilities and gives it a dir
 
 ## Clack downloads
 
+The navigation at `/clack/` uses the page’s dark teal background, with a wordmark and link colors that remain readable at desktop and mobile widths.
+
 Visitors can find Clack immediately after Rework in the Decapod Labs header on desktop and mobile. The header underlines the current non-Pricing destination, including selected homepage sections. Pricing keeps its distinct pill treatment. At `/clack/`, the illustrated Siltwick hero invites visitors to “code with the crabs 🦀” and introduces Clack as “a new way to work and play.” The accompanying copy explains how a macOS coding project connects to the playable town. An example from Agents Mode shows how a visitor can select a resident, assign a project request, and review an edit before applying it. The page keeps the shared site footer and clear Apple silicon requirements. The primary action downloads the published disk image directly from the Decapod Labs domain.
 
 <!-- decapod:declared-capabilities:start -->
