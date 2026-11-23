@@ -48,7 +48,7 @@ The homepage puts this use case after the kernel capabilities and gives it a dir
 
 ## Clack downloads
 
-Give Clack a dedicated route at /clack on the existing Decapod Labs domain. Visitors can recognize the game, check macOS compatibility, and download its published disk image. Present Clack as a Decapod Labs product with a recognizable mascot and wordmark alongside the main site's navigation and visual style.
+Visitors can discover Clack from the shared Decapod Labs header on every content page, including mobile layouts. At `/clack/`, the game has its own illustrated Siltwick identity, with the shared site footer and clear Apple silicon requirements. The primary action downloads the existing published disk image directly from the Decapod Labs domain.
 
 <!-- decapod:declared-capabilities:start -->
 
@@ -64,6 +64,14 @@ These declarations select authoring and proof obligations; they do not attest im
 - `public-api`
 
 <!-- decapod:declared-capabilities:end -->
+
+<!-- decapod:codebase-contract:start -->
+
+## Codebase Contract Snapshot
+
+- Tracked significant codebase files: 20 across `.github/` (1), `README.md/` (1), `admin/` (1), `cloud-flow.js/` (1), `evidence/` (4), `main.js/` (1), `pricing.js/` (1), `scripts/` (7), `signup/` (1), `tests/` (2)
+- Core modules: 0 | Workflows: 1 | Integration targets: 0
+<!-- decapod:codebase-contract:end -->
 
 <!-- decapod:codebase-attestation:start -->
 

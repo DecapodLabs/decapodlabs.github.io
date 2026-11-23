@@ -3,23 +3,34 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#fff5e9">
-  <meta name="description" content="Download Clack for Apple silicon. Explore an underwater town and work with a crew of AI crab residents. Powered by Decapod.">
+  <meta name="theme-color" content="#081d25">
+  <meta name="description" content="Download Clack for Mac. Meet your AI crew in Siltwick, a deep-sea town where you can work on projects and play between replies.">
+  <meta property="og:title" content="Clack for macOS · Decapod Labs">
+  <meta property="og:description" content="Your AI crew lives under the sea. Make yourself at home in Siltwick.">
+  <meta property="og:image" content="https://decapodlabs.ai/clack/siltwick.webp">
+  <meta property="og:image:alt" content="Illustration of a crab lifting one claw in the underwater town of Siltwick">
   <link rel="canonical" href="https://decapodlabs.ai/clack/">
   <link rel="icon" type="image/png" href="/clack/icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/styles.css?v=20261119-fixed-footer">
-  <link rel="stylesheet" href="/clack/clack.css?v=2">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css?v=20261123-site-nav">
+  <link rel="stylesheet" href="/clack/clack.css?v=3">
   <title>Clack for macOS · Decapod Labs</title>
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
-  <header class="nav">
+<header class="nav">
   <div class="wrap nav-content">
     <a href="/" class="brand" aria-label="Decapod Labs home"><img class="site-wordmark" src="/assets/logo-a.png" alt="Decapod Labs" width="420" height="140"></a>
-    <nav class="nav-links" aria-label="Site navigation"><a href="/#showcase">Showcase</a><a href="/#features">Features</a><a href="/#architecture">Architecture</a><a href="/tecr.html">Rework</a><a href="/clack/index.html" aria-current="page">Clack</a><a href="/pricing.html">Pricing</a></nav>
+    <nav class="nav-links" aria-label="Site navigation">
+      <a href="/#showcase">Showcase</a>
+      <a href="/clack/index.html" aria-current="page">Clack</a>
+      <a href="/#features">Features</a>
+      <a href="/#architecture">Architecture</a>
+      <a href="/tecr.html">Rework</a>
+      <a class="nav-pricing" href="/pricing.html">Pricing</a>
+    </nav>
     <a class="nav-cta" href="https://github.com/DecapodLabs/decapod" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>
   </div>
 </header>
@@ -27,31 +38,60 @@
     <section class="clack-hero" aria-labelledby="clack-title">
       <div class="wrap clack-hero-grid">
         <div class="clack-hero-copy">
-          <p class="clack-label">An underwater workspace</p>
-          <h1 id="clack-title"><img src="/clack/logo.png" width="750" height="240" alt="Clack"></h1>
-          <p class="clack-lead">Give your AI agents a place to live.</p>
-          <p class="clack-intro">Make your Mac home in Siltwick. Hand work to a crew of AI crabs, then dive into the mines or take on the arena while they work.</p>
-          <a class="clack-download" href="https://github.com/DecapodLabs/clack/releases/download/v0.9.14/Clack-0.9.14-macOS-arm64.dmg">Download for Mac <span>DMG</span></a>
-          <p class="clack-requirements">Version 0.9.14 · Apple silicon · macOS 14 or later</p>
-          <div class="clack-release-links">
-            <a href="https://github.com/DecapodLabs/clack/releases/tag/v0.9.14">Release notes</a>
-            <a href="https://github.com/DecapodLabs/clack/releases/download/v0.9.14/Clack-0.9.14-macOS-arm64.dmg.sha256">SHA-256 checksum</a>
-            <a href="https://github.com/DecapodLabs/clack">Source code</a>
-          </div>
+          <p class="clack-kicker">A macOS game and AI workspace</p>
+          <h1 id="clack-title">Clack<span aria-hidden="true">.</span></h1>
+          <p class="clack-lead">Your AI crew lives<br class="clack-break"> under the sea.</p>
+          <p class="clack-intro">Make yourself at home in Siltwick. Give your crab crew a project, then dive into the mines or take on the arena while they work.</p>
+          <a class="clack-download" href="/clack/downloads/Clack-0.9.14-macOS-arm64.dmg" download>
+            <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 3v12m-4-4 4 4 4-4M4 16v4h16v-4"/>
+            </svg>
+            Download for Mac
+            <span>DMG</span>
+          </a>
+          <p class="clack-requirements">v0.9.14 · Apple silicon · macOS 14+</p>
         </div>
-        <div class="clack-hero-art">
-          <img src="/assets/mascot.png" alt="" width="1040" height="880" fetchpriority="high">
-        </div>
+        <figure class="clack-key-art">
+          <img src="/clack/siltwick.webp" alt="A red crab waves on a stone quay beneath teal water and warm lanterns" width="1448" height="1086" fetchpriority="high">
+          <figcaption>Siltwick · Illustrated key art</figcaption>
+        </figure>
+      </div>
+    </section>
+    <section class="wrap clack-world" aria-labelledby="world-title">
+      <div class="clack-world-heading">
+        <h2 id="world-title">A town full of coworkers.</h2>
+        <p>Your Mac’s home folder becomes your house. Step outside and meet the crew in the streets, shops and workrooms of Siltwick.</p>
+      </div>
+      <div class="clack-world-grid">
+        <article>
+          <h3>Leave a note.</h3>
+          <p>Send a resident a project and a request. Read their reply in your Journal and review proposed edits before they reach your files.</p>
+        </article>
+        <article>
+          <h3>Bring your tools.</h3>
+          <p>Open the built-in browser or terminal when you need it. Choose local models or supported cloud coding agents for your crew.</p>
+        </article>
+        <article>
+          <h3>Take the deep route.</h3>
+          <p>Head to the mines, forge better gear, or test it in the Pearl Ring while your crew gets on with their work.</p>
+        </article>
       </div>
     </section>
     <section class="wrap clack-install" aria-labelledby="install-title">
+      <img src="/clack/icon.png" alt="" width="128" height="128" loading="lazy">
       <div>
         <h2 id="install-title">Install Clack</h2>
         <p>Open the disk image and drag Clack into Applications.</p>
-        <p class="clack-install-note">This release uses an ad hoc signature. macOS may ask for approval when you open it.</p>
+        <p>This release uses an ad hoc signature. macOS may ask for approval when you open it.</p>
+        <div class="clack-release-links">
+          <a href="/clack/downloads/Clack-0.9.14-macOS-arm64.dmg.sha256" download>SHA-256 checksum</a>
+          <a href="https://github.com/DecapodLabs/clack/releases/tag/v0.9.14">Release notes</a>
+          <a href="https://github.com/DecapodLabs/clack">Source code</a>
+        </div>
       </div>
-      <a class="clack-powered" href="/"><img src="/assets/logo-c.png" width="26" height="26" alt=""> Powered by Decapod</a>
+      <a class="clack-powered" href="/">Powered by Decapod</a>
     </section>
   </main>
+<footer class="footer"><div class="wrap footer-grid"><a href="/" class="footer-brand" aria-label="Decapod Labs home"><img class="site-wordmark" src="/assets/logo-c.png?v=20261118-footer" alt="Decapod Labs" width="420" height="140"></a><span>© 2026 Decapod Labs</span><div><a href="/pricing.html">Pricing ↗</a><a href="https://github.com/DecapodLabs/decapod">GitHub ↗</a><a href="https://decapodlabs.github.io/decapod/">Read the docs ↗</a></div></div></footer>
 </body>
 </html>

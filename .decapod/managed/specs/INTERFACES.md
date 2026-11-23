@@ -112,6 +112,14 @@ Generated capability obligations: `public-api` is declared for this project. The
 - Input validation MUST reject malformed requests with typed errors
 <!-- decapod:capability-overlay:public-api:end -->
 
+<!-- decapod:codebase-contract:start -->
+
+## Codebase Contract Snapshot
+
+- CLI/RPC/protocol surfaces (0): none detected
+- Manifest authority path: `.decapod/managed/.manifest.json`
+<!-- decapod:codebase-contract:end -->
+
 <!-- decapod:codebase-attestation:start -->
 
 ## Codebase Attestation
@@ -123,4 +131,4 @@ Generated capability obligations: `public-api` is declared for this project. The
 
 ## Clack download
 
-The homepage and Clack headers both link to Clack immediately before Pricing. The canonical Clack page is /clack/ and its reusable logo is served at /clack/logo.png. The Clack page lists the Apple silicon and macOS requirements and provides separate links for the disk image, checksum, and release notes.
+The canonical Clack page is `/clack/`. The shared navigation links to the equivalent static index at `/clack/index.html` so the existing source verifier can check the target file. The Download for Mac link uses the HTML `download` attribute and points to `/clack/downloads/Clack-0.9.14-macOS-arm64.dmg`. The matching `.dmg.sha256` file is also served by Pages. Release notes and source code remain on GitHub. The download page identifies the exact release, architecture, and minimum macOS version.

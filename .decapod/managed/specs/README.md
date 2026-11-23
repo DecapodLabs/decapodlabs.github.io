@@ -4,6 +4,14 @@ These living specifications describe the Decapod Labs homepage and standalone Lo
 
 INTENT describes the current public contract; ARCHITECTURE and INTERFACES describe static boundaries/navigation; SECURITY, VALIDATION and OPERATIONS distinguish source and published-page proof from actual hosted payment/authorization acceptance in Propodus. Generated overlays remain obligations, not runtime attestations.
 
+<!-- decapod:codebase-contract:start -->
+
+## Codebase Contract Snapshot
+
+- Tracked significant codebase files: 20 across `.github/` (1), `README.md/` (1), `admin/` (1), `cloud-flow.js/` (1), `evidence/` (4), `main.js/` (1), `pricing.js/` (1), `scripts/` (7), `signup/` (1), `tests/` (2)
+- Core modules: 0 | Workflows: 1 | Integration targets: 0
+<!-- decapod:codebase-contract:end -->
+
 <!-- decapod:codebase-attestation:start -->
 
 ## Codebase Attestation

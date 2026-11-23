@@ -101,6 +101,13 @@ Generated capability obligations: `public-api` is declared for this project. The
 - Client-visible throttling behavior MUST be part of the contract when applicable
 <!-- decapod:capability-overlay:public-api:end -->
 
+<!-- decapod:codebase-contract:start -->
+
+## Codebase Contract Snapshot
+
+- Security/policy/auth surfaces (0): none detected
+<!-- decapod:codebase-contract:end -->
+
 <!-- decapod:codebase-attestation:start -->
 
 ## Codebase Attestation
