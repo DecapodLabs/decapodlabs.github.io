@@ -1,4 +1,4 @@
-.clack-page {
+.clack-site {
   --clack-ink: #081d25;
   --clack-surface: #102a32;
   --clack-line: #264650;
@@ -6,6 +6,31 @@
   --clack-muted: #b8ced0;
   --clack-seaglass: #a7f2d4;
   --clack-coral: #ff8664;
+}
+
+.clack-site .nav {
+  color: var(--clack-text);
+  background: var(--clack-ink);
+  border-bottom-color: var(--clack-line);
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+.clack-site .nav-cta,
+.clack-site .nav-links a.nav-pricing {
+  color: var(--clack-text);
+  background: var(--clack-surface);
+}
+
+.clack-site .nav-links a.nav-pricing:hover {
+  color: var(--clack-seaglass);
+}
+
+.clack-site .nav-links a[aria-current="page"] {
+  color: var(--clack-text);
+}
+
+.clack-page {
   color: var(--clack-text);
   background: var(--clack-ink);
   padding-bottom: clamp(3rem, 7vw, 7rem);
@@ -300,6 +325,21 @@
 }
 
 .clack-release-links a:hover, .clack-powered:hover { color: var(--clack-ink); }
+
+.clack-site > .footer {
+  color: var(--clack-text);
+  background: var(--clack-ink);
+  border-top: 1px solid var(--clack-line);
+}
+
+.clack-site .footer-grid > span { color: var(--clack-muted); }
+
+.clack-site .footer a:is(:hover, :focus-visible) { color: var(--clack-seaglass); }
+
+.clack-site .footer a:focus-visible {
+  outline: 2px solid var(--clack-seaglass);
+  outline-offset: 4px;
+}
 
 @media (max-width: 900px) {
   .clack-hero-grid { grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); }
