@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "baseline": {
-    "accepted_commit": "4153e178bb48c68784ae557c5cf5f9e39bb09100",
+    "accepted_commit": "3267c1e4f3f7b62b44480694ed97a9bcc76b6ff8",
     "unresolved": {
       "claim:clack-hero-mascot": {
         "falsifier": "The emoji remains, the mascot fails to load or appears on a line by itself, or either tagline is clipped.",
@@ -11,22 +11,19 @@
     }
   },
   "change": {
-    "id": "change_01M85GARXT1RMED04SN4RTCK2D",
-    "base_commit": "4153e178bb48c68784ae557c5cf5f9e39bb09100",
+    "id": "change_01M85J5AQ4Q7G0BM1J1898PN0N",
+    "base_commit": "3267c1e4f3f7b62b44480694ed97a9bcc76b6ff8",
     "target_base": "origin/main"
   },
   "checkpoints": [
     {
-      "id": "clack-12-second-trailer",
-      "summary": "Put the native gameplay trailer and original score in the Clack hero.",
-      "input_digest": "sha256:2adc98b8a40cc2a3a5d7bb1c57729042237e4c1b35108225860c52438cc1cb14",
-      "proof_refs": [
-        "Native capture confirmed mining reward and third round arena victory. FFprobe confirmed 12.000 seconds and stereo AAC."
-      ]
+      "id": "progression-integration-plan",
+      "summary": "Record the scoped trailer update and reconcile the three requested website PRs with current main.",
+      "input_digest": "sha256:905bf9b39b329f2bb1c02f9535b0ce9ffe984689ec7f920bb318e1cd1d9995c9"
     }
   ],
   "intents": {
-    "intent:change_01M85GARXT1RMED04SN4RTCK2D": {
+    "intent:change_01M85J5AQ4Q7G0BM1J1898PN0N": {
       "acceptance_criteria": [],
       "assumptions": [],
       "boundaries": [
@@ -36,14 +33,14 @@
         "root"
       ],
       "created_sequence": 1,
-      "id": "intent:change_01M85GARXT1RMED04SN4RTCK2D",
+      "id": "intent:change_01M85J5AQ4Q7G0BM1J1898PN0N",
       "instruction_origin": {
         "source_ref": "caller:unverified"
       },
       "out_of_scope": [],
       "proof_requirements": [],
-      "raw_intent": "Publish the 12-second Clack gameplay trailer\n\nMake the actual Clack gameplay trailer prominent above the fold and verify its site deployment.",
-      "refined_intent": "Publish the 12-second Clack gameplay trailer\n\nMake the actual Clack gameplay trailer prominent above the fold and verify its site deployment.",
+      "raw_intent": "Expand Clack’s gameplay trailer to 30 seconds\n\nShow early and advanced homes, furnishings, Pearl Ring and combat progression in the existing hero player.",
+      "refined_intent": "Expand Clack’s gameplay trailer to 30 seconds\n\nShow early and advanced homes, furnishings, Pearl Ring and combat progression in the existing hero player.",
       "status": "refined",
       "updated_sequence": 3
     }
@@ -56,40 +53,40 @@
       },
       "deferred_questions": [],
       "human_questions": [],
-      "intent": "Publish a prominent 12-second native gameplay cut with an original score and accessible playback on /clack/.",
+      "intent": "Expand the Clack hero trailer to 30 seconds with Waystead ABAXI fanfare, native word-free footage, and Powered by Decapod closing credit. Retain the requested header and Rework fixes.",
       "phases": [],
       "proof_hooks": [
-        "Verify real native mining and championship callbacks, the 12 second duration, audio stream, and live browser playback."
+        "Verify native home and gear upgrades, ore, landing pounce, airborne spell, and arena victory; test 30-second playback and integrated site changes."
       ],
       "schema_version": "1.1.0",
       "state": "APPROVED",
       "stop_conditions": [],
-      "title": "Clack gameplay trailer",
+      "title": "Clack gameplay progression trailer and site integration",
       "todo_ids": [
-        "code_01m85gaactjjq9ey"
+        "code_01m85j4ypkebd7r8"
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1795482099Z"
+      "updated_at": "1795483630Z"
     },
     "trajectory": {
       "active_boundaries": [
         "Current claimed task and isolated work branch"
       ],
-      "artifact_hash": "sha256:673e7ba51ab11a201ea29ce269ebb70f30cdd2714b085bc2509536948ab746eb",
+      "artifact_hash": "sha256:6a0ce3a31ed23ddd6ff83db863c856279d6d69b7908868fce99688147e0df2a7",
       "checks": [],
       "current_phase": "intent",
       "custody": {
         "events": [
           {
             "event_id": "event:2",
-            "intent_id": "intent:change_01M85GARXT1RMED04SN4RTCK2D",
+            "intent_id": "intent:change_01M85J5AQ4Q7G0BM1J1898PN0N",
             "kind": "created",
             "sequence": 2
           },
           {
             "event_id": "event:3",
-            "intent_id": "intent:change_01M85GARXT1RMED04SN4RTCK2D",
+            "intent_id": "intent:change_01M85J5AQ4Q7G0BM1J1898PN0N",
             "kind": "refined",
             "sequence": 3
           }
@@ -103,7 +100,7 @@
       "destination": "pull request",
       "evidence": [],
       "inspected_files": [],
-      "intent_id": "intent:change_01M85GARXT1RMED04SN4RTCK2D",
+      "intent_id": "intent:change_01M85J5AQ4Q7G0BM1J1898PN0N",
       "modified_files": [],
       "next_transitions": [
         "Refine plan and declare falsifiable checks"
@@ -111,10 +108,10 @@
       "repo_scope": [
         "root"
       ],
-      "run_id": "branch_01M85GAS27AJCJH1R88747YC3M",
+      "run_id": "branch_01M85J5ASV3MGJQRSVDGY9ZNB1",
       "schema_version": "1.1.0",
       "shortcut_risk_signals": [],
-      "task_id": "code_01m85gaactjjq9ey",
+      "task_id": "code_01m85j4ypkebd7r8",
       "tool_calls": [],
       "unresolved_assumptions": []
     }
