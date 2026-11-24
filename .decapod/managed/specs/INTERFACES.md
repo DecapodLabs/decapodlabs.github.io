@@ -78,6 +78,13 @@ The proof ledger binds visible terminal states to ordered byte offsets and the s
   - Public `/pricing` remains `'UNDER WRAPS'` with disabled Pay controls unless server discovery explicitly signals live sales and billing are enabled.
   - `/signup` fails closed on `billing_not_configured` / `live_sale_disabled`, `organization_already_enrolled`, `repository_already_enrolled`, `admin_approval_required`, `code_host_link_required`, `provider_link_stepup_required`, and bounded `pending_fulfillment` polling (12 checks max before manual retry), unlocking CLI-ready instructions only when server `account-status` returns `backend_authorized: true`.
 
+## Release-Coherent Discovery, Deep-Link Scrubbing & Multi-Tab Coherence (#70, #54, #55, #56) — November 24, 2026
+
+- **Static Asset & Contract Headers**: `pricing.html`, `pricing/index.html`, `signup/index.html`, and `admin/index.html` declare `decapod-flow-contract=1`, `decapod-asset-release=20261124-p3`, `referrer=no-referrer`, and `?v=20261124-p3` on `cloud-flow.js`, `pricing.js`, `signup/signup.js`, and `admin/admin.js`.
+- **Discovery & Edge Contract Verification**: `DecapodCloudFlow.discoverRuntimeStatus` / `discoverRuntimeConfig` probes `/functions/v1/decapod-onboarding/config?include_auth_providers=true` and `/auth/providers` with `cache: "no-store"`, checks `decapod-cloud-contract-version` (`1.x`) and payload `version === 1` (`schema === "dactyl_api"`), conservatively intersects provider flags, distinguishes `unavailable` / `rate_limited` / `invalid` / `incompatible`, and refuses untrusted `apiOrigin`, `authBaseUrl`, or `project_origin` without silent fallback on malformed `200` configs.
+- **Cross-Tab Coherence Channel & Idempotent Request Contracts**: `DecapodCloudFlow.createCoherenceChannel` supports `tab_hello`, `release_skew`, `auth_invalidated`, `intent_sync`, and checkout coordination events (`checkout_started`, `checkout_returned`, `fulfillment_status`) with zero tokens/PII. `signup/signup.js` passes stable `request_id` values on `repository-enroll`, `billing-quote`, and `billing-checkout` (retaining `checkoutRequestId` across `429`/`5xx`/lost-ack retries); `admin/admin.js` passes `expected_revision` on `org-admins`, `org-recovery`, `resource-limits`, and `billing-overage-policy`, re-fetches authoritative state on `409` conflicts, and separates `5xx`/`429` verification outages from `403` admin revocations.
+- **Live Read-Only Receipt & Synthetic Readiness Interfaces (`tests/live_headers_check.ts`, `tests/synthetic_readiness.ts`)**: Verify HTTP 200, `Cache-Control: no-store` on `/auth/providers`, `/config`, and `https://decapod-cloud-admin.pages.dev/`, `decapod-cloud-contract-version: 1.0`, `referrer-policy: no-referrer`, `x-content-type-options: nosniff`, strict CSP, `UNDER WRAPS` / `noindex,nofollow` on deployed GitHub Pages routes, and per-plane latency/status separation (`github_pages_web`, `api_auth_discovery`, `cloudflare_pages_admin`, `billing_entitlement_posture`).
+
 ## Authenticated `/admin/<org>` Organization Admin Route Interfaces (November 21, 2026)
 
 - **Inbound Browser Routes**:
@@ -124,8 +131,8 @@ Generated capability obligations: `public-api` is declared for this project. The
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `92022fafab9734f72f905091a0484ce04adc8935d81151889e4af897851d79ae`
-- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (2 files)
+- Repository signal fingerprint: `d679387470586d94af1e08534714adac79032fce4d95c17e4c6f60f3542d80da`
+- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (8 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->
 

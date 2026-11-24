@@ -1,6 +1,9 @@
 (function (root) {
   "use strict";
 
+  var ASSET_RELEASE = "20261124-p3";
+  var CONTRACT_VERSION = 1;
+  var SUPPORTED_API_CONTRACT_MAJORS = Object.freeze([1]);
   var CANONICAL_SITE_ORIGIN = "https://decapodlabs.ai";
   var CANONICAL_AUTH_ORIGIN = "https://api.decapodlabs.ai";
   var FALLBACK_CLOUD_ORIGIN = "https://goyxpcmxetztjlrrcwew.supabase.co";
@@ -19,6 +22,21 @@
   var UUID_PATTERN = /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i;
   var PKCE_HASH_PATTERN = /^[A-Za-z0-9_-]{43}$/;
   var PROVIDERS = Object.freeze(["github", "google", "gitlab"]);
+  var SENSITIVE_QUERY_PARAMS = Object.freeze([
+    "repo",
+    "return_to",
+    "redirect_to",
+    "code",
+    "login_nonce",
+    "access_token",
+    "refresh_token",
+    "provider_token",
+    "token",
+    "invitation_id",
+    "invitation_secret",
+    "error",
+    "error_description"
+  ]);
 
   function nowSeconds() {
     return Math.floor(Date.now() / 1000);
@@ -445,9 +463,218 @@
     return url.href;
   }
 
+  function isSupportedApiContractVersion(raw) {
+    if (raw === undefined || raw === null || raw === "") return true;
+    if (typeof raw === "number") return Number.isSafeInteger(raw) && SUPPORTED_API_CONTRACT_MAJORS.includes(raw);
+    if (typeof raw !== "string") return false;
+    var trimmed = raw.trim();
+    if (!trimmed || trimmed.length > 32) return false;
+    var match = /^(\d+)(?:\.\d+)?$/.exec(trimmed);
+    if (!match) return false;
+    return SUPPORTED_API_CONTRACT_MAJORS.includes(Number(match[1]));
+  }
+
+  function readDocumentContractMeta(doc) {
+    if (!doc || typeof doc.querySelector !== "function") {
+      return { status: "compatible", contractVersion: CONTRACT_VERSION, assetRelease: null, legacy: true };
+    }
+    var contractMeta = doc.querySelector('meta[name="decapod-flow-contract"]');
+    if (contractMeta) {
+      var rawContract = typeof contractMeta.getAttribute === "function"
+        ? contractMeta.getAttribute("content")
+        : contractMeta.content;
+      if (String(rawContract || "").trim() !== String(CONTRACT_VERSION)) {
+        return {
+          status: "incompatible",
+          reason: "unsupported_html_contract",
+          contractVersion: rawContract || null,
+          assetRelease: null,
+          legacy: false
+        };
+      }
+    }
+    var releaseMeta = doc.querySelector('meta[name="decapod-asset-release"]');
+    var releaseVal = releaseMeta
+      ? (typeof releaseMeta.getAttribute === "function" ? releaseMeta.getAttribute("content") : releaseMeta.content)
+      : null;
+    return {
+      status: "compatible",
+      contractVersion: CONTRACT_VERSION,
+      assetRelease: typeof releaseVal === "string" && releaseVal ? releaseVal.trim() : null,
+      legacy: !contractMeta
+    };
+  }
+
+  function checkPageCoherence(options) {
+    var opts = options || {};
+    var doc = opts.document || root.document;
+    var requiredIds = Array.isArray(opts.requiredIds) ? opts.requiredIds : [];
+    var docMeta = readDocumentContractMeta(doc);
+    if (docMeta.status !== "compatible") {
+      return { ok: false, reason: docMeta.reason || "unsupported_html_contract", meta: docMeta };
+    }
+    if (opts.strictRelease === true && docMeta.assetRelease && docMeta.assetRelease !== ASSET_RELEASE) {
+      return { ok: false, reason: "asset_release_skew", meta: docMeta };
+    }
+    if (!doc || typeof doc.getElementById !== "function") {
+      return { ok: false, reason: "missing_document", meta: docMeta };
+    }
+    for (var i = 0; i < requiredIds.length; i++) {
+      if (!doc.getElementById(requiredIds[i])) {
+        return { ok: false, reason: "missing_required_dom_anchor:" + requiredIds[i], meta: docMeta };
+      }
+    }
+    return { ok: true, reason: null, meta: docMeta };
+  }
+
+  function scrubSensitiveLocation(loc, hist, options) {
+    if (!loc || !hist || typeof hist.replaceState !== "function") return false;
+    var opts = options || {};
+    var extraKeys = Array.isArray(opts.extraKeys) ? opts.extraKeys : [];
+    var keys = SENSITIVE_QUERY_PARAMS.concat(extraKeys);
+    var searchStr = typeof loc.search === "string" ? loc.search : "";
+    var hashStr = typeof loc.hash === "string" ? loc.hash : "";
+    var pathname = typeof loc.pathname === "string" && loc.pathname ? loc.pathname : "/";
+    var params = new URLSearchParams(searchStr);
+    var changed = false;
+
+    for (var i = 0; i < keys.length; i++) {
+      if (params.has(keys[i])) {
+        params.delete(keys[i]);
+        changed = true;
+      }
+    }
+    var nextHash = hashStr;
+    if (hashStr && (hasHostileFragmentTokens(hashStr) || opts.stripAllHash === true)) {
+      nextHash = "";
+      changed = true;
+    }
+    if (!changed) return false;
+    var nextQuery = params.toString();
+    var target = pathname + (nextQuery ? "?" + nextQuery : "") + nextHash;
+    try {
+      hist.replaceState(null, "", target);
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  function createCoherenceChannel(options) {
+    var opts = options || {};
+    var ChannelCtor = opts.BroadcastChannel ||
+      (typeof window !== "undefined" && typeof BroadcastChannel === "function" ? BroadcastChannel : null);
+    if (typeof ChannelCtor !== "function") {
+      return {
+        announceReady: function () {},
+        broadcastAuthInvalidated: function () {},
+        broadcastIntentSync: function () {},
+        broadcastCheckoutEvent: function () {},
+        close: function () {}
+      };
+    }
+    var channel;
+    try {
+      channel = new ChannelCtor("decapod-cloud-coherence");
+    } catch (_) {
+      return {
+        announceReady: function () {},
+        broadcastAuthInvalidated: function () {},
+        broadcastIntentSync: function () {},
+        broadcastCheckoutEvent: function () {},
+        close: function () {}
+      };
+    }
+    var tabId = randomSecret();
+    var onSkew = typeof opts.onSkew === "function" ? opts.onSkew : function () {};
+    var onAuthInvalidated = typeof opts.onAuthInvalidated === "function" ? opts.onAuthInvalidated : function () {};
+    var onIntentSync = typeof opts.onIntentSync === "function" ? opts.onIntentSync : function () {};
+    var onCheckoutEvent = typeof opts.onCheckoutEvent === "function" ? opts.onCheckoutEvent : function () {};
+
+    channel.onmessage = function (ev) {
+      var msg = ev && ev.data;
+      if (!msg || typeof msg !== "object" || msg.tabId === tabId) return;
+      if (msg.type === "tab_hello" || msg.type === "release_skew") {
+        if ((typeof msg.contractVersion === "number" && msg.contractVersion !== CONTRACT_VERSION) ||
+            (typeof msg.assetRelease === "string" && msg.assetRelease && msg.assetRelease !== ASSET_RELEASE)) {
+          onSkew(msg);
+        }
+        return;
+      }
+      if (msg.type === "auth_invalidated") {
+        onAuthInvalidated(msg);
+        return;
+      }
+      if (msg.type === "intent_sync") {
+        onIntentSync(msg);
+        return;
+      }
+      if (msg.type === "checkout_started" || msg.type === "checkout_returned" || msg.type === "fulfillment_status") {
+        onCheckoutEvent(msg);
+      }
+    };
+
+    function safePost(payload) {
+      try {
+        channel.postMessage(Object.assign({ tabId: tabId }, payload));
+      } catch (_) {}
+    }
+
+    return {
+      announceReady: function () {
+        safePost({
+          type: "tab_hello",
+          contractVersion: CONTRACT_VERSION,
+          assetRelease: ASSET_RELEASE
+        });
+      },
+      broadcastAuthInvalidated: function (projectOrigin) {
+        safePost({
+          type: "auth_invalidated",
+          projectOrigin: typeof projectOrigin === "string" ? projectOrigin : null,
+          contractVersion: CONTRACT_VERSION
+        });
+      },
+      broadcastIntentSync: function (payload) {
+        var p = payload && typeof payload === "object" ? payload : {};
+        var repoParsed = typeof p.repo === "string" ? parseRepoSlug(p.repo) : null;
+        safePost({
+          type: "intent_sync",
+          page: typeof p.page === "string" ? p.page : null,
+          repo: repoParsed ? repoParsed.slug : null,
+          billing: p.billing === "year" || p.billing === "month" ? p.billing : null,
+          contractVersion: CONTRACT_VERSION,
+          assetRelease: ASSET_RELEASE
+        });
+      },
+      broadcastCheckoutEvent: function (eventType, payload) {
+        if (!["checkout_started", "checkout_returned", "fulfillment_status"].includes(eventType)) return;
+        var p = payload && typeof payload === "object" ? payload : {};
+        safePost({
+          type: eventType,
+          projectOrigin: typeof p.projectOrigin === "string" ? p.projectOrigin : null,
+          organizationId: typeof p.organizationId === "string" ? p.organizationId : null,
+          projectId: typeof p.projectId === "string" ? p.projectId : null,
+          orderId: typeof p.orderId === "string" ? p.orderId : null,
+          quoteId: typeof p.quoteId === "string" ? p.quoteId : null,
+          requestId: typeof p.requestId === "string" ? p.requestId : null,
+          state: typeof p.state === "string" ? p.state : null,
+          contractVersion: CONTRACT_VERSION,
+          assetRelease: ASSET_RELEASE
+        });
+      },
+      close: function () {
+        try {
+          if (typeof channel.close === "function") channel.close();
+        } catch (_) {}
+      }
+    };
+  }
+
   function validateSessionRecord(value, expectedProjectOrigin, currentUnixSeconds) {
     var now = Number.isSafeInteger(currentUnixSeconds) ? currentUnixSeconds : nowSeconds();
     if (!value || typeof value !== "object" || Array.isArray(value)) return false;
+    if (value.contract_version !== undefined && value.contract_version !== CONTRACT_VERSION) return false;
     if (!isTrustedApiOrigin(value.origin)) return false;
     if (expectedProjectOrigin && value.origin !== expectedProjectOrigin) return false;
     if (typeof value.access_token !== "string" || value.access_token.length === 0 || value.access_token.length > 16384) {
@@ -515,6 +742,60 @@
     return "pending_verification";
   }
 
+  var CORRELATION_ID_PATTERN = /^[A-Za-z0-9_.:-]{4,128}$/;
+
+  function sanitizeCorrelationId(raw) {
+    if (typeof raw !== "string") return null;
+    var trimmed = raw.trim();
+    if (!CORRELATION_ID_PATTERN.test(trimmed)) return null;
+    // Never accept JWT-shaped strings (three base64url segments) or secret prefixes as support refs.
+    if (/^[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+$/.test(trimmed)) return null;
+    if (/^(?:gh[pousr]_|github_pat_|[sr]k_(?:live|test)_|sb_secret_)/i.test(trimmed)) return null;
+    return trimmed;
+  }
+
+  function extractCorrelationRef(response, data, fallbackRequestId) {
+    var headers = response && response.headers && typeof response.headers.get === "function"
+      ? response.headers
+      : null;
+    var headerCandidates = headers
+      ? [headers.get("x-request-id"), headers.get("x-correlation-id"), headers.get("cf-ray")]
+      : [];
+    for (var i = 0; i < headerCandidates.length; i++) {
+      var cleanHeader = sanitizeCorrelationId(headerCandidates[i]);
+      if (cleanHeader) return cleanHeader;
+    }
+    if (data && typeof data === "object" && !Array.isArray(data)) {
+      var dataCandidates = [
+        data.request_id,
+        data.correlation_id,
+        data.trace_id,
+        data.error && typeof data.error === "object" ? data.error.request_id : null
+      ];
+      for (var j = 0; j < dataCandidates.length; j++) {
+        var cleanData = sanitizeCorrelationId(dataCandidates[j]);
+        if (cleanData) return cleanData;
+      }
+    }
+    return sanitizeCorrelationId(fallbackRequestId);
+  }
+
+  function parseRetryAfterSeconds(rawHeader) {
+    if (typeof rawHeader !== "string") return null;
+    var trimmed = rawHeader.trim();
+    if (!trimmed || trimmed.length > 64) return null;
+    if (/^\d+$/.test(trimmed)) {
+      var secs = Number(trimmed);
+      if (Number.isSafeInteger(secs) && secs >= 1) return Math.min(secs, 3600);
+      return null;
+    }
+    var parsedMs = Date.parse(trimmed);
+    if (!Number.isFinite(parsedMs)) return null;
+    var deltaSec = Math.ceil((parsedMs - Date.now()) / 1000);
+    if (deltaSec < 1) return 1;
+    return Math.min(deltaSec, 3600);
+  }
+
   function defaultSleep(ms) {
     return new Promise(function (resolve) {
       setTimeout(resolve, ms);
@@ -529,11 +810,43 @@
     var onUpdate = typeof opts.onUpdate === "function" ? opts.onUpdate : function () {};
     var sleepFn = typeof opts.sleepFn === "function" ? opts.sleepFn : defaultSleep;
     var isCancelled = typeof opts.isCancelled === "function" ? opts.isCancelled : function () { return false; };
+    var lastError = null;
 
     for (var attempt = 1; attempt <= maxAttempts; attempt++) {
       if (isCancelled()) return { outcome: "cancelled", attempts: attempt - 1 };
       onUpdate({ phase: "checking", attempt: attempt, maxAttempts: maxAttempts });
-      var result = await checkFn(attempt);
+      var result = null;
+      try {
+        result = await checkFn(attempt);
+      } catch (err) {
+        if (err && (
+          err.status === 401 ||
+          err.status === 403 ||
+          err.name === "AbortError" ||
+          err.message === "invalid_token" ||
+          err.message === "admin_required" ||
+          err.message === "organization_access_denied" ||
+          err.message === "forbidden" ||
+          err.message === "contract_version_mismatch" ||
+          err.message === "client_version_skew" ||
+          err.message === "sign_in_required" ||
+          err.message === "auth_account_changed"
+        )) {
+          throw err;
+        }
+        lastError = err;
+        if (isCancelled()) return { outcome: "cancelled", attempts: attempt };
+        if (attempt < maxAttempts) {
+          var retryWaitMs = intervalMs;
+          if (err && (err.status === 429 || err.message === "rate_limited") &&
+              Number.isSafeInteger(err.retryAfterMs) && err.retryAfterMs > 0) {
+            retryWaitMs = Math.max(intervalMs, Math.min(err.retryAfterMs, 15000));
+          }
+          onUpdate({ phase: "waiting", attempt: attempt, maxAttempts: maxAttempts, error: err, retryWaitMs: retryWaitMs });
+          await sleepFn(retryWaitMs);
+        }
+        continue;
+      }
       if (isCancelled()) return { outcome: "cancelled", attempts: attempt };
       var state = classifyAccessState(result);
       if (state === "ready") {
@@ -547,11 +860,43 @@
         await sleepFn(intervalMs);
       }
     }
-    return { outcome: "pending_timeout", attempts: maxAttempts };
+    return { outcome: "pending_timeout", attempts: maxAttempts, lastError: lastError };
+  }
+
+  async function readBoundedResponseJson(res, maxBytes) {
+    var limit = maxBytes || 16384;
+    if (!res.body || typeof res.body.getReader !== "function") {
+      return await res.json();
+    }
+    var reader = res.body.getReader();
+    var chunks = [];
+    var total = 0;
+    try {
+      while (true) {
+        var step = await reader.read();
+        if (step.done) break;
+        total += step.value.length;
+        if (total > limit) throw new Error("payload_too_large");
+        chunks.push(step.value);
+      }
+    } finally {
+      if (typeof reader.cancel === "function") await reader.cancel().catch(function () {});
+    }
+    var buf = new Uint8Array(total);
+    var offset = 0;
+    for (var i = 0; i < chunks.length; i++) {
+      buf.set(chunks[i], offset);
+      offset += chunks[i].length;
+    }
+    var text = new TextDecoder("utf-8", { fatal: true }).decode(buf);
+    return JSON.parse(text);
   }
 
   function normalizeDiscoveryProfile(data, apiOrigin, authBaseUrl) {
     if (!data || typeof data !== "object" || Array.isArray(data)) return null;
+    if (!isTrustedApiOrigin(apiOrigin) || !isTrustedAuthUrl(authBaseUrl)) return null;
+    if (data.version !== undefined && data.version !== CONTRACT_VERSION) return null;
+    if (data.schema !== undefined && data.schema !== "dactyl_api") return null;
     if (typeof data.project_origin !== "string" || !isTrustedApiOrigin(data.project_origin)) return null;
     if (typeof data.publishable_key !== "string" || !data.publishable_key.startsWith("sb_publishable_") || /[^A-Za-z0-9_-]/.test(data.publishable_key)) {
       return null;
@@ -563,13 +908,16 @@
       gitlab: rawProviders ? Boolean(rawProviders.gitlab) : false
     };
     return {
+      contractVersion: CONTRACT_VERSION,
+      discoveredAt: nowSeconds(),
       apiOrigin: apiOrigin,
       onboardingPrefix: apiOrigin + CANONICAL_ONBOARDING_PREFIX,
       authBaseUrl: authBaseUrl,
       projectOrigin: data.project_origin,
       publishableKey: data.publishable_key,
       authProviders: providers,
-      liveSaleEnabled: data.live_sale_enabled === true && data.billing_enabled === true
+      liveSaleEnabled: data.live_sale_enabled === true && data.billing_enabled === true,
+      pricingVersion: typeof data.pricing_version === "string" && data.pricing_version ? data.pricing_version : null
     };
   }
 
@@ -579,22 +927,56 @@
         method: "GET",
         redirect: "error",
         credentials: "omit",
+        cache: "no-store",
         signal: typeof AbortSignal !== "undefined" && AbortSignal.timeout ? AbortSignal.timeout(6000) : undefined
       });
-      if (!res.ok) {
+      var contractHeader = res.headers && typeof res.headers.get === "function"
+        ? res.headers.get("decapod-cloud-contract-version")
+        : null;
+      var corrId = extractCorrelationRef(res, null, null);
+      if (!isSupportedApiContractVersion(contractHeader)) {
         if (res.body && typeof res.body.cancel === "function") await res.body.cancel().catch(function () {});
-        return null;
+        return { status: "incompatible", profile: null, httpStatus: res.status, correlationId: corrId, retryAfterSec: null };
       }
-      var data = await res.json();
-      return normalizeDiscoveryProfile(data, candidate.apiOrigin, candidate.authBaseUrl);
+      if (!res.ok) {
+        var retryAfterSec = res.status === 429 || res.status === 503
+          ? parseRetryAfterSeconds(res.headers && typeof res.headers.get === "function" ? res.headers.get("retry-after") : null)
+          : null;
+        if (res.body && typeof res.body.cancel === "function") await res.body.cancel().catch(function () {});
+        return {
+          status: res.status === 429 ? "rate_limited" : "unavailable",
+          profile: null,
+          httpStatus: res.status,
+          correlationId: corrId,
+          retryAfterSec: retryAfterSec
+        };
+      }
+      var data;
+      try {
+        data = await readBoundedResponseJson(res, 16384);
+      } catch (_) {
+        return { status: "invalid", profile: null, httpStatus: res.status, correlationId: corrId, retryAfterSec: null };
+      }
+      corrId = extractCorrelationRef(res, data, null) || corrId;
+      if (data && typeof data === "object" && !Array.isArray(data) &&
+          data.version !== undefined && data.version !== CONTRACT_VERSION) {
+        return { status: "incompatible", profile: null, httpStatus: res.status, correlationId: corrId, retryAfterSec: null };
+      }
+      var normalized = normalizeDiscoveryProfile(data, candidate.apiOrigin, candidate.authBaseUrl);
+      if (!normalized) {
+        return { status: "invalid", profile: null, httpStatus: res.status, correlationId: corrId, retryAfterSec: null };
+      }
+      return { status: "ok", profile: normalized, httpStatus: res.status, correlationId: corrId, retryAfterSec: null };
     } catch (_) {
-      return null;
+      return { status: "unavailable", profile: null, httpStatus: 0, correlationId: null, retryAfterSec: null };
     }
   }
 
-  async function discoverRuntimeConfig(fetchFn) {
+  async function discoverRuntimeStatus(fetchFn) {
     var fetcher = fetchFn || root.fetch;
-    if (typeof fetcher !== "function") return null;
+    if (typeof fetcher !== "function") {
+      return { status: "unavailable", profile: null, reason: "fetch_unavailable", correlationId: null, retryAfterSec: null };
+    }
     var candidates = [
       {
         apiOrigin: CANONICAL_AUTH_ORIGIN,
@@ -607,31 +989,122 @@
         authBaseUrl: FALLBACK_CLOUD_ORIGIN + CANONICAL_ONBOARDING_PREFIX + "/auth"
       }
     ];
+    var lastStatus = "unavailable";
+    var lastCorrId = null;
+    var lastRetryAfter = null;
     for (var i = 0; i < candidates.length; i++) {
-      var profile = await probeDiscoveryCandidate(fetcher, candidates[i]);
-      if (profile) {
+      var probe = await probeDiscoveryCandidate(fetcher, candidates[i]);
+      if (probe.correlationId) lastCorrId = probe.correlationId;
+      if (probe.retryAfterSec !== null) lastRetryAfter = probe.retryAfterSec;
+      if (probe.status === "incompatible") {
+        // Never silently downgrade or switch authority when an origin reports an incompatible contract version.
+        return {
+          status: "incompatible",
+          profile: null,
+          reason: "contract_version_mismatch",
+          correlationId: probe.correlationId,
+          retryAfterSec: null
+        };
+      }
+      if (probe.status === "invalid") {
+        // Fail closed on malformed/untrusted 200 config responses instead of silently falling back.
+        return {
+          status: "invalid",
+          profile: null,
+          reason: "malformed_runtime_config",
+          correlationId: probe.correlationId,
+          retryAfterSec: null
+        };
+      }
+      if (probe.status === "ok" && probe.profile) {
+        var profile = probe.profile;
         if (profile.apiOrigin === CANONICAL_AUTH_ORIGIN) {
           try {
             var rootAuthCheck = await fetcher(CANONICAL_AUTH_ORIGIN + "/auth/providers", {
               method: "GET",
               redirect: "error",
               credentials: "omit",
+              cache: "no-store",
               signal: typeof AbortSignal !== "undefined" && AbortSignal.timeout ? AbortSignal.timeout(4000) : undefined
             });
-            if (!rootAuthCheck.ok) {
-              profile.authBaseUrl = CANONICAL_AUTH_ORIGIN + CANONICAL_ONBOARDING_PREFIX + "/auth";
+            var authHeader = rootAuthCheck.headers && typeof rootAuthCheck.headers.get === "function"
+              ? rootAuthCheck.headers.get("decapod-cloud-contract-version")
+              : null;
+            if (!isSupportedApiContractVersion(authHeader)) {
+              if (rootAuthCheck.body && typeof rootAuthCheck.body.cancel === "function") {
+                await rootAuthCheck.body.cancel().catch(function () {});
+              }
+              return {
+                status: "incompatible",
+                profile: null,
+                reason: "auth_providers_contract_mismatch",
+                correlationId: extractCorrelationRef(rootAuthCheck, null, null),
+                retryAfterSec: null
+              };
             }
-            if (rootAuthCheck.body && typeof rootAuthCheck.body.cancel === "function") {
-              await rootAuthCheck.body.cancel().catch(function () {});
+            if (!rootAuthCheck.ok) {
+              if (rootAuthCheck.body && typeof rootAuthCheck.body.cancel === "function") {
+                await rootAuthCheck.body.cancel().catch(function () {});
+              }
+              profile.authBaseUrl = CANONICAL_AUTH_ORIGIN + CANONICAL_ONBOARDING_PREFIX + "/auth";
+              profile.authProvidersDegraded = true;
+            } else {
+              try {
+                var authData = await readBoundedResponseJson(rootAuthCheck, 16384);
+                if (!authData || typeof authData !== "object" || Array.isArray(authData)) {
+                  profile.authBaseUrl = CANONICAL_AUTH_ORIGIN + CANONICAL_ONBOARDING_PREFIX + "/auth";
+                  profile.authProvidersDegraded = true;
+                } else {
+                  if (authData.version !== undefined && authData.version !== CONTRACT_VERSION) {
+                    return {
+                      status: "incompatible",
+                      profile: null,
+                      reason: "auth_providers_payload_mismatch",
+                      correlationId: extractCorrelationRef(rootAuthCheck, authData, null),
+                      retryAfterSec: null
+                    };
+                  }
+                  if (authData.auth_providers && typeof authData.auth_providers === "object") {
+                    for (var p = 0; p < PROVIDERS.length; p++) {
+                      var prov = PROVIDERS[p];
+                      if (Object.prototype.hasOwnProperty.call(authData.auth_providers, prov)) {
+                        profile.authProviders[prov] = Boolean(profile.authProviders[prov]) && Boolean(authData.auth_providers[prov]);
+                      }
+                    }
+                  }
+                }
+              } catch (_) {
+                profile.authBaseUrl = CANONICAL_AUTH_ORIGIN + CANONICAL_ONBOARDING_PREFIX + "/auth";
+                profile.authProvidersDegraded = true;
+              }
             }
           } catch (_) {
             profile.authBaseUrl = CANONICAL_AUTH_ORIGIN + CANONICAL_ONBOARDING_PREFIX + "/auth";
+            profile.authProvidersDegraded = true;
           }
         }
-        return profile;
+        return {
+          status: "ok",
+          profile: profile,
+          reason: null,
+          correlationId: probe.correlationId,
+          retryAfterSec: null
+        };
       }
+      lastStatus = probe.status;
     }
-    return null;
+    return {
+      status: lastStatus,
+      profile: null,
+      reason: lastStatus === "rate_limited" ? "rate_limited" : "discovery_unavailable",
+      correlationId: lastCorrId,
+      retryAfterSec: lastRetryAfter
+    };
+  }
+
+  async function discoverRuntimeConfig(fetchFn) {
+    var result = await discoverRuntimeStatus(fetchFn);
+    return result && result.status === "ok" ? result.profile : null;
   }
 
   function encodeBase64Url(bytes) {
@@ -655,12 +1128,21 @@
   }
 
   root.DecapodCloudFlow = Object.freeze({
+    ASSET_RELEASE: ASSET_RELEASE,
+    CONTRACT_VERSION: CONTRACT_VERSION,
+    SUPPORTED_API_CONTRACT_MAJORS: SUPPORTED_API_CONTRACT_MAJORS,
+    SENSITIVE_QUERY_PARAMS: SENSITIVE_QUERY_PARAMS,
     CANONICAL_SITE_ORIGIN: CANONICAL_SITE_ORIGIN,
     CANONICAL_AUTH_ORIGIN: CANONICAL_AUTH_ORIGIN,
     FALLBACK_CLOUD_ORIGIN: FALLBACK_CLOUD_ORIGIN,
     CANONICAL_ONBOARDING_PREFIX: CANONICAL_ONBOARDING_PREFIX,
     UUID_PATTERN: UUID_PATTERN,
     PKCE_HASH_PATTERN: PKCE_HASH_PATTERN,
+    isSupportedApiContractVersion: isSupportedApiContractVersion,
+    readDocumentContractMeta: readDocumentContractMeta,
+    checkPageCoherence: checkPageCoherence,
+    scrubSensitiveLocation: scrubSensitiveLocation,
+    createCoherenceChannel: createCoherenceChannel,
     parseOrgSlug: parseOrgSlug,
     parseAdminRoute: parseAdminRoute,
     isAllowedAdminPathname: isAllowedAdminPathname,
@@ -685,8 +1167,11 @@
     listVerifiedProviders: listVerifiedProviders,
     hasVerifiedProvider: hasVerifiedProvider,
     classifyAccessState: classifyAccessState,
+    extractCorrelationRef: extractCorrelationRef,
+    parseRetryAfterSeconds: parseRetryAfterSeconds,
     createBoundedPoller: createBoundedPoller,
     normalizeDiscoveryProfile: normalizeDiscoveryProfile,
+    discoverRuntimeStatus: discoverRuntimeStatus,
     discoverRuntimeConfig: discoverRuntimeConfig,
     randomSecret: randomSecret,
     sha256Base64Url: sha256Base64Url

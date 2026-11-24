@@ -36,6 +36,11 @@
       "proof_refs": [
         "Verified native 594-frame recapture and inspected entrance and exit frames."
       ]
+    },
+    {
+      "id": "progression-current-website-base",
+      "summary": "Preserve the latest accepted website changes and refresh validation inputs for the trailer and requested site polish.",
+      "input_digest": "sha256:930e8ce596dc9e55705eccc59e8211b4f9d0e8130cd29ce85dea41dc1523ed22"
     }
   ],
   "intents": {

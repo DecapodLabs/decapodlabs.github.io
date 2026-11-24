@@ -1,7 +1,6 @@
 (function (root) {
   "use strict";
 
-  var flow = root.DecapodCloudFlow;
   var TERMS_VERSION = "v7_2026_11_18";
   var CATEGORY_LABELS = {
     network_transfer: "Network transfer",
@@ -10,8 +9,48 @@
     request_pressure: "Request pressure"
   };
 
+  function hasCompatibleFlow(candidate) {
+    return Boolean(
+      candidate &&
+      candidate.CONTRACT_VERSION === 1 &&
+      typeof candidate.isAllowedSiteOrigin === "function" &&
+      typeof candidate.isTrustedApiOrigin === "function" &&
+      typeof candidate.isTrustedAuthUrl === "function" &&
+      typeof candidate.isAllowedCheckoutUrl === "function" &&
+      typeof candidate.isSupportedApiContractVersion === "function" &&
+      typeof candidate.checkPageCoherence === "function" &&
+      typeof candidate.scrubSensitiveLocation === "function" &&
+      typeof candidate.createCoherenceChannel === "function" &&
+      typeof candidate.parseOrgSlug === "function" &&
+      typeof candidate.parseAdminRoute === "function" &&
+      typeof candidate.buildAdminBrowserPath === "function" &&
+      typeof candidate.listAdminOrganizations === "function" &&
+      typeof candidate.resolveAdminOrganization === "function" &&
+      typeof candidate.parseSafeAdminReturnParam === "function" &&
+      typeof candidate.buildAdminAuthAuthorizeUrl === "function" &&
+      typeof candidate.parseRepoSlug === "function" &&
+      typeof candidate.buildSignupHandoffUrl === "function" &&
+      typeof candidate.validateSessionRecord === "function" &&
+      typeof candidate.hasHostileFragmentTokens === "function" &&
+      typeof candidate.listVerifiedProviders === "function" &&
+      typeof candidate.hasVerifiedProvider === "function" &&
+      typeof candidate.discoverRuntimeConfig === "function" &&
+      typeof candidate.randomSecret === "function" &&
+      typeof candidate.sha256Base64Url === "function"
+    );
+  }
+
+  function isValidProfile(p, flowApi) {
+    if (!p || typeof p !== "object" || Array.isArray(p) || !hasCompatibleFlow(flowApi)) return false;
+    if (p.contractVersion !== undefined && p.contractVersion !== flowApi.CONTRACT_VERSION) return false;
+    if (!flowApi.isTrustedApiOrigin(p.projectOrigin) || !flowApi.isTrustedApiOrigin(p.apiOrigin)) return false;
+    if (!flowApi.isTrustedAuthUrl(p.authBaseUrl)) return false;
+    return typeof p.publishableKey === "string" && p.publishableKey.length > 0;
+  }
+
   function createAdminController(deps) {
     var d = deps || {};
+    var flow = Object.prototype.hasOwnProperty.call(d, "flow") ? d.flow : root.DecapodCloudFlow;
     var doc = d.document || root.document;
     var winLocation = d.location || root.location;
     var winHistory = d.history || (typeof history !== "undefined" ? history : null);
@@ -20,7 +59,11 @@
     var navigateFn = d.navigateFn || function (url) { winLocation.assign(url); };
     var nowSec = d.nowSec || function () { return Math.floor(Date.now() / 1000); };
 
-    var profile = d.initialProfile || null;
+    var flowOk = hasCompatibleFlow(flow);
+    var profile = d.initialProfile ? (isValidProfile(d.initialProfile, flow) ? d.initialProfile : null) : null;
+    var invalidInitialProfile = Boolean(d.initialProfile && !profile);
+    var skewBlocked = !flowOk || invalidInitialProfile;
+    var skewReason = !flowOk ? "incompatible_cloud_flow" : (invalidInitialProfile ? "untrusted_profile" : null);
     var session = null;
     var currentUser = null;
     var accountSnapshot = null;
@@ -37,8 +80,11 @@
     var billingReady = false;
     var pendingBillingOrder = null;
 
+    var sessionEpoch = 0;
     var renderGeneration = 0;
     var devicesGeneration = 0;
+    var sessionAbortController = null;
+    var orgAbortController = null;
     var busy = false;
     var pendingActions = new Map();
 
@@ -53,20 +99,35 @@
     var exportedTemplate = null;
     var recoveryRevision = 0;
     var recoveryContact = null;
+    var coherenceChannel = flowOk
+      ? flow.createCoherenceChannel({
+          BroadcastChannel: d.broadcastChannel,
+          onSkew: function () {
+            skewBlocked = true;
+            skewReason = "multi_tab_release_skew";
+            handleExpiredOrRevokedSession("A newer release of Decapod Cloud is active in another tab. Reload this page to continue safely.", false);
+          },
+          onAuthInvalidated: function (msg) {
+            if (msg && msg.projectOrigin && profile && msg.projectOrigin !== profile.projectOrigin) return;
+            handleExpiredOrRevokedSession("Signed out in another tab. Authenticate again to administer organizations.", false);
+          }
+        })
+      : { announceReady: function () {}, broadcastAuthInvalidated: function () {}, close: function () {} };
 
     function byId(id) {
       return doc.getElementById(id);
     }
 
     function siteOrigin() {
-      if (winLocation && flow.isAllowedSiteOrigin(winLocation.origin)) {
+      if (flowOk && winLocation && flow.isAllowedSiteOrigin(winLocation.origin)) {
         return winLocation.origin;
       }
-      return flow.CANONICAL_SITE_ORIGIN;
+      return flowOk ? flow.CANONICAL_SITE_ORIGIN : "https://decapodlabs.ai";
     }
 
     function namespace() {
-      return "decapod-portal:" + (profile ? profile.projectOrigin : flow.FALLBACK_CLOUD_ORIGIN) + ":";
+      var proj = profile ? profile.projectOrigin : (flowOk ? flow.FALLBACK_CLOUD_ORIGIN : "https://goyxpcmxetztjlrrcwew.supabase.co");
+      return "decapod-portal:" + proj + ":";
     }
 
     function storeGet(key, limit) {
@@ -114,10 +175,104 @@
       banner.hidden = false;
     }
 
+    function makeRequestId() {
+      return typeof crypto !== "undefined" && typeof crypto.randomUUID === "function"
+        ? crypto.randomUUID()
+        : flow.randomSecret();
+    }
+
+    function formatSupportRef(err, fallbackId) {
+      var ref = (err && typeof err.correlationId === "string" && err.correlationId) ||
+        (typeof fallbackId === "string" && fallbackId ? fallbackId : null);
+      return ref ? "Support ref: " + ref : "";
+    }
+
+    function createAbortError() {
+      var err = new Error("aborted");
+      err.name = "AbortError";
+      return err;
+    }
+
+    function resetSessionAbortController() {
+      if (sessionAbortController) {
+        try { sessionAbortController.abort(); } catch (_) {}
+      }
+      sessionAbortController = typeof AbortController === "function" ? new AbortController() : null;
+      return sessionAbortController;
+    }
+
+    function resetOrgAbortController() {
+      if (orgAbortController) {
+        try { orgAbortController.abort(); } catch (_) {}
+      }
+      orgAbortController = typeof AbortController === "function" ? new AbortController() : null;
+      return orgAbortController;
+    }
+
+    function abortAllInFlight() {
+      if (orgAbortController) {
+        try { orgAbortController.abort(); } catch (_) {}
+        orgAbortController = null;
+      }
+      if (sessionAbortController) {
+        try { sessionAbortController.abort(); } catch (_) {}
+        sessionAbortController = null;
+      }
+    }
+
+    function createLinkedSignal(timeoutMs, parentSignal) {
+      var timeoutSig = typeof AbortSignal !== "undefined" && AbortSignal.timeout ? AbortSignal.timeout(timeoutMs) : null;
+      if (!parentSignal) return { signal: timeoutSig, cleanup: function () {} };
+      if (!timeoutSig) return { signal: parentSignal, cleanup: function () {} };
+      if (typeof AbortSignal !== "undefined" && typeof AbortSignal.any === "function") {
+        return { signal: AbortSignal.any([timeoutSig, parentSignal]), cleanup: function () {} };
+      }
+      if (typeof AbortController !== "function") return { signal: parentSignal, cleanup: function () {} };
+      var ctrl = new AbortController();
+      function onAbort() {
+        try { ctrl.abort(); } catch (_) {}
+      }
+      if (parentSignal.aborted || timeoutSig.aborted) {
+        onAbort();
+        return { signal: ctrl.signal, cleanup: function () {} };
+      }
+      parentSignal.addEventListener("abort", onAbort, { once: true });
+      timeoutSig.addEventListener("abort", onAbort, { once: true });
+      return {
+        signal: ctrl.signal,
+        cleanup: function () {
+          try { parentSignal.removeEventListener("abort", onAbort); } catch (_) {}
+          try { timeoutSig.removeEventListener("abort", onAbort); } catch (_) {}
+        }
+      };
+    }
+
+    function isAdminRevocationError(error) {
+      return Boolean(error && (
+        error.status === 403 ||
+        error.message === "admin_required" ||
+        error.message === "organization_access_denied" ||
+        error.message === "admin_revoked" ||
+        error.message === "forbidden"
+      ));
+    }
+
+    function isRevisionConflictError(error) {
+      return Boolean(error && (
+        error.status === 409 ||
+        error.message === "revision_conflict" ||
+        error.message === "conflict" ||
+        error.message === "stale_revision"
+      ));
+    }
+
     function isActiveContext(ctx) {
       return Boolean(
         ctx &&
+        !skewBlocked &&
+        ctx.sessionEpoch === sessionEpoch &&
         ctx.generation === renderGeneration &&
+        (!ctx.signal || !ctx.signal.aborted) &&
         activeOrg &&
         ctx.cloudOrgId === activeOrg.cloud_org_id &&
         currentUser &&
@@ -140,6 +295,8 @@
       invitationCursor = null;
       createdInvitation = null;
       limitsSnapshot = null;
+      enrollRequestId = null;
+      enrollRepoSlug = null;
       adminRevision = 0;
       exportedTemplate = null;
       recoveryRevision = 0;
@@ -174,6 +331,18 @@
         if (lEl) lEl.replaceChildren();
       }
 
+      var clearInputIds = [
+        "admin-enroll-repo-input", "admin-settings-project-name", "admin-invite-recipient",
+        "admin-delegate-account", "admin-template-target-project", "admin-recovery-contact-input",
+        "admin-overage-cap-usd", "admin-limit-cap"
+      ];
+      for (var ii = 0; ii < clearInputIds.length; ii++) {
+        var inp = byId(clearInputIds[ii]);
+        if (inp) inp.value = "";
+      }
+      var termsCheck = byId("admin-overage-terms-check");
+      if (termsCheck) termsCheck.checked = false;
+
       var invBox = byId("admin-invitation-copy-box");
       if (invBox) invBox.hidden = true;
       var invLink = byId("admin-invitation-link");
@@ -198,9 +367,14 @@
       clearWorkspaceUi();
     }
 
-    function clearAllSessionState() {
+    function clearAllSessionState(bumpEpoch) {
+      if (bumpEpoch) {
+        sessionEpoch++;
+        abortAllInFlight();
+      }
       renderGeneration++;
       devicesGeneration++;
+      busy = false;
       pendingActions.clear();
       activeOrg = null;
       adminOrgs = [];
@@ -208,6 +382,8 @@
       accountSnapshot = null;
       inMemoryProviderToken = null;
       pendingStepupProvider = null;
+      enrollRequestId = null;
+      enrollRepoSlug = null;
       hideAllProtectedPanels();
       var summary = byId("admin-account-summary");
       if (summary) summary.textContent = "";
@@ -220,27 +396,36 @@
     }
 
     function syncAuthGateUi() {
-      var signedIn = Boolean(profile && flow.validateSessionRecord(session, profile.projectOrigin, nowSec()));
+      var signedIn = Boolean(
+        !skewBlocked &&
+        flowOk &&
+        profile &&
+        flow.validateSessionRecord(session, profile.projectOrigin, nowSec())
+      );
       var authGate = byId("admin-auth-gate");
       if (authGate) authGate.hidden = signedIn;
       var cancelBtn = byId("admin-cancel-auth-btn");
-      if (cancelBtn) cancelBtn.hidden = !storeGet("flow", 8192);
+      if (cancelBtn) cancelBtn.hidden = skewBlocked || !storeGet("flow", 8192);
       if (!signedIn) {
-        clearAllSessionState();
+        clearAllSessionState(false);
       }
       var providers = profile ? profile.authProviders : { github: true, google: false };
       var ghBtn = byId("admin-auth-github");
       var googleBtn = byId("admin-auth-google");
-      if (ghBtn) ghBtn.disabled = busy || !providers.github;
-      if (googleBtn) googleBtn.disabled = busy || !providers.google;
+      if (ghBtn) ghBtn.disabled = skewBlocked || busy || !providers.github;
+      if (googleBtn) googleBtn.disabled = skewBlocked || busy || !providers.google;
       var noteEl = byId("admin-auth-provider-note");
       if (noteEl) {
-        var disabled = [];
-        if (!providers.github) disabled.push("GitHub");
-        if (!providers.google) disabled.push("Google");
-        noteEl.textContent = disabled.length
-          ? "Currently disabled on this deployment: " + disabled.join(", ") + "."
-          : "Sign in with GitHub or Google via PKCE.";
+        if (skewBlocked) {
+          noteEl.textContent = "Client asset version skew detected. Reload the page before signing in.";
+        } else {
+          var disabled = [];
+          if (!providers.github) disabled.push("GitHub");
+          if (!providers.google) disabled.push("Google");
+          noteEl.textContent = disabled.length
+            ? "Currently disabled on this deployment: " + disabled.join(", ") + "."
+            : "Sign in with GitHub or Google via PKCE.";
+        }
       }
     }
 
@@ -273,67 +458,157 @@
       try {
         return JSON.parse(text);
       } catch (_) {
-        if (!response.ok) return { error: { code: "service_unavailable" } };
+        if (!response.ok) {
+          if (response.status === 429) return { error: { code: "rate_limited" } };
+          if (response.status === 403) return { error: { code: "forbidden" } };
+          return { error: { code: "service_unavailable" } };
+        }
         throw new Error("invalid_response");
       }
     }
 
-    async function apiRequest(url, body, bearer, method) {
-      if (!profile) throw new Error("service_unavailable");
+    async function apiRequest(url, body, bearer, method, reqOptions) {
+      if (skewBlocked || !flowOk) throw new Error("client_version_skew");
+      if (!profile || !isValidProfile(profile, flow)) throw new Error("service_unavailable");
+      var opts = reqOptions || {};
+      var expectedSessionEpoch = typeof opts.sessionEpoch === "number" ? opts.sessionEpoch : sessionEpoch;
+      var parentSignal = opts.signal || (sessionAbortController ? sessionAbortController.signal : null);
+      if ((parentSignal && parentSignal.aborted) || expectedSessionEpoch !== sessionEpoch) {
+        throw createAbortError();
+      }
       var parsed = new URL(url);
       if (!flow.isTrustedApiOrigin(parsed.origin)) throw new Error("untrusted_api_origin");
       var headers = { apikey: profile.publishableKey };
       if (body !== undefined) headers["Content-Type"] = "application/json";
       if (bearer) headers.Authorization = "Bearer " + bearer;
-      var response = await fetchFn(url, {
-        method: method || (body === undefined ? "GET" : "POST"),
-        redirect: "error",
-        credentials: "omit",
-        signal: typeof AbortSignal !== "undefined" && AbortSignal.timeout ? AbortSignal.timeout(15000) : undefined,
-        headers: headers,
-        body: body === undefined ? undefined : JSON.stringify(body)
-      });
-      var data = await boundedJson(response);
-      if (!response.ok) {
-        var errCode = data && ((data.error && data.error.code) || data.error_code || data.code) || "request_failed";
-        if (response.status === 401 || errCode === "invalid_token") {
-          handleExpiredOrRevokedSession();
+      var fallbackCorr = (body && typeof body.request_id === "string" && body.request_id) ? body.request_id : makeRequestId();
+      var linked = createLinkedSignal(15000, parentSignal);
+      var response;
+      try {
+        response = await fetchFn(url, {
+          method: method || (body === undefined ? "GET" : "POST"),
+          redirect: "error",
+          credentials: "omit",
+          cache: "no-store",
+          signal: linked.signal || undefined,
+          headers: headers,
+          body: body === undefined ? undefined : JSON.stringify(body)
+        });
+      } catch (netErr) {
+        if ((parentSignal && parentSignal.aborted) || expectedSessionEpoch !== sessionEpoch) {
+          throw createAbortError();
         }
+        var isTimeout = Boolean(netErr && (netErr.name === "TimeoutError" || netErr.name === "AbortError"));
+        var wrappedNet = new Error(isTimeout ? "request_timeout" : "service_unavailable");
+        wrappedNet.status = isTimeout ? 504 : 503;
+        wrappedNet.correlationId = typeof flow.extractCorrelationRef === "function"
+          ? flow.extractCorrelationRef(null, null, fallbackCorr)
+          : fallbackCorr;
+        throw wrappedNet;
+      } finally {
+        linked.cleanup();
+      }
+      if ((parentSignal && parentSignal.aborted) || expectedSessionEpoch !== sessionEpoch) {
+        if (response && response.body && typeof response.body.cancel === "function") {
+          await response.body.cancel().catch(function () {});
+        }
+        throw createAbortError();
+      }
+      var contractHeader = response.headers && typeof response.headers.get === "function"
+        ? response.headers.get("decapod-cloud-contract-version")
+        : null;
+      if (!flow.isSupportedApiContractVersion(contractHeader)) {
+        if (response.body && typeof response.body.cancel === "function") await response.body.cancel().catch(function () {});
+        skewBlocked = true;
+        skewReason = "api_contract_mismatch";
+        handleExpiredOrRevokedSession("API contract version mismatch. Reload this page to continue safely.", false);
+        throw new Error("contract_version_mismatch");
+      }
+      var data = await boundedJson(response);
+      if ((parentSignal && parentSignal.aborted) || expectedSessionEpoch !== sessionEpoch) {
+        throw createAbortError();
+      }
+      if (data && typeof data === "object" && !Array.isArray(data) &&
+          data.version !== undefined && data.version !== flow.CONTRACT_VERSION) {
+        skewBlocked = true;
+        skewReason = "api_payload_version_mismatch";
+        handleExpiredOrRevokedSession("API payload version mismatch. Reload this page to continue safely.", false);
+        throw new Error("contract_version_mismatch");
+      }
+      if (!response.ok) {
+        var errCode = data && ((data.error && data.error.code) || data.error_code || data.code) ||
+          (response.status === 429 ? "rate_limited" : response.status === 403 ? "forbidden" : response.status >= 500 ? "service_unavailable" : "request_failed");
+        if ((response.status === 401 || errCode === "invalid_token") && expectedSessionEpoch === sessionEpoch) {
+          handleExpiredOrRevokedSession(null, true);
+        }
+        var retryAfterSec = typeof flow.parseRetryAfterSeconds === "function"
+          ? flow.parseRetryAfterSeconds(response.headers && typeof response.headers.get === "function" ? response.headers.get("retry-after") : null)
+          : null;
         var err = new Error(errCode);
         err.status = response.status;
         err.payload = data;
+        err.correlationId = typeof flow.extractCorrelationRef === "function"
+          ? flow.extractCorrelationRef(response, data, fallbackCorr)
+          : fallbackCorr;
+        if (retryAfterSec !== null) {
+          err.retryAfterSec = retryAfterSec;
+          err.retryAfterMs = retryAfterSec * 1000;
+        }
         throw err;
       }
       return data;
     }
 
-    function handleExpiredOrRevokedSession() {
+    function handleExpiredOrRevokedSession(customStatus, broadcast) {
       session = null;
       storeRemove("session");
       storeRemove("flow");
+      clearAllSessionState(true);
       syncAuthGateUi();
-      setStatus("Your session expired or was revoked. Authenticate again to administer organizations.", true);
+      if (broadcast !== false && flowOk && profile) {
+        coherenceChannel.broadcastAuthInvalidated(profile.projectOrigin);
+      }
+      setStatus(customStatus || "Your session expired or was revoked. Authenticate again to administer organizations.", true);
+    }
+
+    function handleOrgAccessRevoked(ctx, errorCode) {
+      if (!ctx || ctx.sessionEpoch !== sessionEpoch) return;
+      adminOrgs = adminOrgs.filter(function (o) { return o.cloud_org_id !== ctx.cloudOrgId; });
+      if (orgAbortController) {
+        try { orgAbortController.abort(); } catch (_) {}
+        orgAbortController = null;
+      }
+      devicesGeneration++;
+      showDeniedPanel(
+        "ADMIN REVOKED",
+        "Administrator authorization required",
+        "Your administrator grant for this organization is no longer active.",
+        "Refresh or contact an existing organization administrator.",
+        adminOrgs.length > 0
+      );
+      setStatus("Administrator grant revoked or unavailable (" + (errorCode || "admin_required") + ").", true);
     }
 
     function requireToken() {
-      if (!profile || !flow.validateSessionRecord(session, profile.projectOrigin, nowSec())) {
+      if (skewBlocked || !flowOk || !profile || !flow.validateSessionRecord(session, profile.projectOrigin, nowSec())) {
         throw new Error("sign_in_required");
       }
       return session.access_token;
     }
 
-    async function edgePost(action, body) {
+    async function edgePost(action, body, reqOptions) {
       var bearer = requireToken();
       return await apiRequest(
         profile.onboardingPrefix + "/" + action,
         Object.assign({ version: 1 }, body || {}),
         bearer,
-        "POST"
+        "POST",
+        reqOptions
       );
     }
 
-    async function fetchUser(bearer) {
-      var u = await apiRequest(profile.projectOrigin + "/auth/v1/user", undefined, bearer, "GET");
+    async function fetchUser(bearer, reqOptions) {
+      var u = await apiRequest(profile.projectOrigin + "/auth/v1/user", undefined, bearer, "GET", reqOptions);
       if (!u || !flow.UUID_PATTERN.test(u.id || "") || !Array.isArray(u.identities) || u.identities.length > 100) {
         throw new Error("invalid_response");
       }
@@ -341,6 +616,7 @@
     }
 
     async function beginAuth(provider, kind, repoVerification) {
+      if (skewBlocked || !flowOk) throw new Error("client_version_skew");
       if (!profile) throw new Error("service_unavailable");
       if (busy) throw new Error("auth_pending");
       if (!["github", "google"].includes(provider)) throw new Error("invalid_provider");
@@ -348,91 +624,99 @@
         throw new Error("provider_disabled");
       }
 
-      var verifier = flow.randomSecret();
-      var nonce = flow.randomSecret();
-      var challenge = await flow.sha256Base64Url(verifier);
-      var origin = siteOrigin();
-      var returnTarget = new URL(origin + "/admin/");
-      returnTarget.searchParams.set("login_nonce", nonce);
-
-      var flowRecord = {
-        version: 1,
-        kind: kind,
-        provider: provider,
-        verifier: verifier,
-        nonce: nonce,
-        expires: nowSec() + 900,
-        phase: "pending",
-        project: profile.projectOrigin,
-        returnURL: origin + "/admin/",
-        requested_org: requestedOrgLocator,
-        route_mode: routeMode
-      };
-
-      if (kind === "link") {
-        var linkBearer = requireToken();
-        var userInfo = await fetchUser(linkBearer);
-        flowRecord.account_id = userInfo.id;
-        flowRecord.session_binding = await flow.sha256Base64Url(linkBearer);
-        flowRecord.before_providers = flow.listVerifiedProviders(userInfo);
-        var prep = await edgePost("account-register", {
-          operation: "prepare_provider_link",
-          target_provider: provider
-        });
-        if (prep && prep.link_intent_id && prep.stepup_secret) {
-          flowRecord.link_intent_id = prep.link_intent_id;
-          flowRecord.stepup_secret = prep.stepup_secret;
-        }
-        storeSet("flow", flowRecord);
-        syncAuthGateUi();
-        var linkAuthUrl = new URL("/auth/v1/user/identities/authorize", profile.projectOrigin);
-        linkAuthUrl.search = new URLSearchParams({
-          provider: provider,
-          code_challenge: challenge,
-          code_challenge_method: "s256",
-          redirect_to: returnTarget.href,
-          scopes: "repo",
-          skip_http_redirect: "true"
-        }).toString();
-        var linkResp = await apiRequest(linkAuthUrl.href, undefined, linkBearer, "GET");
-        var linkTarget = new URL(linkResp.url);
-        if (linkTarget.origin + linkTarget.pathname !== "https://github.com/login/oauth/authorize" ||
-            linkTarget.username || linkTarget.password || linkTarget.hash) {
-          storeRemove("flow");
-          throw new Error("invalid_response");
-        }
-        navigateFn(linkTarget.href);
-        return;
-      }
-
-      if (repoVerification) {
-        var activeBearer = requireToken();
-        var current = await fetchUser(activeBearer);
-        flowRecord.verification_account_id = current.id;
-        storeSet("flow", flowRecord);
-        syncAuthGateUi();
-        var verifyUrl = new URL("/auth/v1/authorize", profile.projectOrigin);
-        verifyUrl.search = new URLSearchParams({
-          provider: provider,
-          code_challenge: challenge,
-          code_challenge_method: "s256",
-          redirect_to: returnTarget.href,
-          scopes: "repo"
-        }).toString();
-        navigateFn(verifyUrl.href);
-        return;
-      }
-
-      storeSet("flow", flowRecord);
+      busy = true;
       syncAuthGateUi();
-      var authUrl = flow.buildAdminAuthAuthorizeUrl({
-        authBaseUrl: profile.authBaseUrl,
-        provider: provider,
-        returnTo: returnTarget.href,
-        codeChallenge: challenge,
-        expectedOrigin: origin
-      });
-      navigateFn(authUrl);
+      try {
+        var verifier = flow.randomSecret();
+        var nonce = flow.randomSecret();
+        var challenge = await flow.sha256Base64Url(verifier);
+        var origin = siteOrigin();
+        var returnTarget = new URL(origin + "/admin/");
+        returnTarget.searchParams.set("login_nonce", nonce);
+
+        var flowRecord = {
+          version: 1,
+          contract_version: flow.CONTRACT_VERSION,
+          kind: kind,
+          provider: provider,
+          verifier: verifier,
+          nonce: nonce,
+          expires: nowSec() + 900,
+          phase: "pending",
+          project: profile.projectOrigin,
+          returnURL: origin + "/admin/",
+          requested_org: requestedOrgLocator,
+          route_mode: routeMode
+        };
+
+        if (kind === "link") {
+          var linkBearer = requireToken();
+          var userInfo = await fetchUser(linkBearer);
+          flowRecord.account_id = userInfo.id;
+          flowRecord.session_binding = await flow.sha256Base64Url(linkBearer);
+          flowRecord.before_providers = flow.listVerifiedProviders(userInfo);
+          var prep = await edgePost("account-register", {
+            operation: "prepare_provider_link",
+            target_provider: provider
+          });
+          if (prep && prep.link_intent_id && prep.stepup_secret) {
+            flowRecord.link_intent_id = prep.link_intent_id;
+            flowRecord.stepup_secret = prep.stepup_secret;
+          }
+          storeSet("flow", flowRecord);
+          syncAuthGateUi();
+          var linkAuthUrl = new URL("/auth/v1/user/identities/authorize", profile.projectOrigin);
+          linkAuthUrl.search = new URLSearchParams({
+            provider: provider,
+            code_challenge: challenge,
+            code_challenge_method: "s256",
+            redirect_to: returnTarget.href,
+            scopes: "repo",
+            skip_http_redirect: "true"
+          }).toString();
+          var linkResp = await apiRequest(linkAuthUrl.href, undefined, linkBearer, "GET");
+          var linkTarget = new URL(linkResp.url);
+          if (linkTarget.origin + linkTarget.pathname !== "https://github.com/login/oauth/authorize" ||
+              linkTarget.username || linkTarget.password || linkTarget.hash) {
+            storeRemove("flow");
+            throw new Error("invalid_response");
+          }
+          navigateFn(linkTarget.href);
+          return;
+        }
+
+        if (repoVerification) {
+          var activeBearer = requireToken();
+          var current = await fetchUser(activeBearer);
+          flowRecord.verification_account_id = current.id;
+          storeSet("flow", flowRecord);
+          syncAuthGateUi();
+          var verifyUrl = new URL("/auth/v1/authorize", profile.projectOrigin);
+          verifyUrl.search = new URLSearchParams({
+            provider: provider,
+            code_challenge: challenge,
+            code_challenge_method: "s256",
+            redirect_to: returnTarget.href,
+            scopes: "repo"
+          }).toString();
+          navigateFn(verifyUrl.href);
+          return;
+        }
+
+        storeSet("flow", flowRecord);
+        syncAuthGateUi();
+        var authUrl = flow.buildAdminAuthAuthorizeUrl({
+          authBaseUrl: profile.authBaseUrl,
+          provider: provider,
+          returnTo: returnTarget.href,
+          codeChallenge: challenge,
+          expectedOrigin: origin
+        });
+        navigateFn(authUrl);
+      } finally {
+        busy = false;
+        syncAuthGateUi();
+      }
     }
 
     function renderAccountBar() {
@@ -687,7 +971,9 @@
       return async function () {
         if (!activeOrg || !currentUser || !session) throw new Error("admin_required");
         var ctx = {
+          sessionEpoch: sessionEpoch,
           generation: renderGeneration,
+          signal: orgAbortController ? orgAbortController.signal : null,
           cloudOrgId: activeOrg.cloud_org_id,
           orgId: activeOrg.id,
           actor: currentUser.id,
@@ -699,18 +985,25 @@
         try {
           await fn(ctx);
         } catch (error) {
-          if (isActiveContext(ctx) && error && error.message === "admin_required") {
-            showDeniedPanel(
-              "ADMIN REVOKED",
-              "Administrator authorization required",
-              "Your administrator grant for this organization is no longer active.",
-              "Refresh or contact an existing organization administrator.",
-              adminOrgs.length > 0
-            );
-            setStatus("Administrator grant revoked or unavailable (admin_required).", true);
+          if (error && error.name === "AbortError") return;
+          if (error && (error.status === 401 || error.message === "invalid_token" || error.message === "sign_in_required")) {
+            if (ctx.sessionEpoch === sessionEpoch && session) {
+              handleExpiredOrRevokedSession(null, true);
+            }
             return;
           }
-          throw error;
+          if (ctx.sessionEpoch !== sessionEpoch || !activeOrg || ctx.cloudOrgId !== activeOrg.cloud_org_id || ctx.generation !== renderGeneration) {
+            return;
+          }
+          if (isAdminRevocationError(error)) {
+            handleOrgAccessRevoked(ctx, error.message);
+            return;
+          }
+          var actionRef = formatSupportRef(error, ctx.cloudOrgId);
+          var actionWait = error && Number.isSafeInteger(error.retryAfterSec) && error.retryAfterSec > 0
+            ? " Wait " + error.retryAfterSec + "s before retrying."
+            : "";
+          setStatus("Action failed (" + (error && error.message ? error.message : "error") + ")." + actionWait + (actionRef ? " " + actionRef + "." : ""), true);
         } finally {
           if (pendingActions.get(ctx.cloudOrgId) === ctx) {
             pendingActions.delete(ctx.cloudOrgId);
@@ -718,6 +1011,10 @@
           syncActionStates();
         }
       };
+    }
+
+    function orgReqOpts(ctx) {
+      return { sessionEpoch: ctx.sessionEpoch, signal: ctx.signal };
     }
 
     function renderResourceLimits(ctx, snap) {
@@ -844,12 +1141,24 @@
               btn.type = "button";
               btn.textContent = "Dismiss";
               btn.onclick = withOrgLock(async function (activeCtx) {
-                var updated = await edgePost("resource-limits", {
-                  action: "dismiss_alert",
-                  organization_id: activeCtx.orgId,
-                  alert_id: alertItem.id
-                });
-                renderResourceLimits(activeCtx, updated);
+                var statusSaveEl = byId("admin-limit-save-status");
+                try {
+                  var updated = await edgePost("resource-limits", {
+                    action: "dismiss_alert",
+                    organization_id: activeCtx.orgId,
+                    alert_id: alertItem.id
+                  }, orgReqOpts(activeCtx));
+                  if (!isActiveContext(activeCtx)) return;
+                  renderResourceLimits(activeCtx, updated);
+                } catch (err) {
+                  if (!isActiveContext(activeCtx) || isAdminRevocationError(err) || (err && (err.name === "AbortError" || err.status === 401))) throw err;
+                  if (isRevisionConflictError(err)) {
+                    if (statusSaveEl) statusSaveEl.textContent = "Concurrent revision conflict (409). Refreshing resource limits…";
+                    await loadResourceLimits(activeCtx);
+                    return;
+                  }
+                  throw err;
+                }
               });
               aLi.appendChild(btn);
             }
@@ -886,12 +1195,16 @@
         var snap = await edgePost("resource-limits", {
           action: "status",
           organization_id: ctx.orgId
-        });
+        }, orgReqOpts(ctx));
         if (!isActiveContext(ctx)) return;
         if (!snap || !Array.isArray(snap.metrics)) throw new Error("invalid_response");
         renderResourceLimits(ctx, snap);
       } catch (error) {
-        if (!isActiveContext(ctx)) return;
+        if ((error && error.name === "AbortError") || !isActiveContext(ctx)) return;
+        if (isAdminRevocationError(error)) {
+          handleOrgAccessRevoked(ctx, error.message);
+          return;
+        }
         var statusEl = byId("admin-overage-status");
         if (statusEl) statusEl.textContent = "Resource limit telemetry unavailable (" + (error && error.message ? error.message : "error") + ").";
       }
@@ -906,7 +1219,7 @@
         var res = await edgePost("account-register", Object.assign({
           operation: "members",
           organization_id: ctx.orgId
-        }, after !== undefined ? { after: after } : {}));
+        }, after !== undefined ? { after: after } : {}), orgReqOpts(ctx));
         if (!isActiveContext(ctx)) return;
         var entries = Array.isArray(res.members) ? res.members : [];
         memberCursor = res.next !== undefined ? res.next : null;
@@ -937,7 +1250,8 @@
                     organization_id: activeCtx.orgId,
                     slot: entry.slot,
                     member_account_id: entry.account_id
-                  });
+                  }, orgReqOpts(activeCtx));
+                  if (!isActiveContext(activeCtx)) return;
                   await refreshActiveOrganization();
                 });
                 li.appendChild(revokeSeatBtn);
@@ -950,7 +1264,8 @@
                     operation: "revoke_membership",
                     organization_id: activeCtx.orgId,
                     member_account_id: entry.account_id
-                  });
+                  }, orgReqOpts(activeCtx));
+                  if (!isActiveContext(activeCtx)) return;
                   await refreshActiveOrganization();
                 });
                 li.appendChild(revokeMemBtn);
@@ -965,9 +1280,9 @@
             : "No seated organization members.";
         }
       } catch (error) {
-        if (!isActiveContext(ctx)) return;
-        if (error && error.message === "admin_required") {
-          showDeniedPanel("ADMIN REVOKED", "Administrator authorization required", "Your administrator grant for this organization is no longer active.", "Contact an existing organization administrator.", true);
+        if ((error && error.name === "AbortError") || !isActiveContext(ctx)) return;
+        if (isAdminRevocationError(error)) {
+          handleOrgAccessRevoked(ctx, error.message);
           return;
         }
         if (statusEl) statusEl.textContent = "Members could not be loaded (" + (error && error.message ? error.message : "error") + ").";
@@ -996,7 +1311,7 @@
         var res = await edgePost("account-register", Object.assign({
           operation: "invitations",
           organization_id: ctx.orgId
-        }, after !== undefined ? { after: after } : {}));
+        }, after !== undefined ? { after: after } : {}), orgReqOpts(ctx));
         if (!isActiveContext(ctx)) return;
         var entries = Array.isArray(res.invitations) ? res.invitations : [];
         invitationCursor = res.next !== undefined ? res.next : null;
@@ -1019,10 +1334,11 @@
                     operation: "revoke_invitation",
                     organization_id: activeCtx.orgId,
                     invitation_id: entry.invitation_id
-                  });
+                  }, orgReqOpts(activeCtx));
                 } catch (err) {
                   if (!err || !["invitation_already_accepted", "invitation_not_found"].includes(err.message)) throw err;
                 }
+                if (!isActiveContext(activeCtx)) return;
                 await loadInvitations(activeCtx);
               });
               li.appendChild(span);
@@ -1037,7 +1353,11 @@
             : "No unused invitations.";
         }
       } catch (error) {
-        if (!isActiveContext(ctx)) return;
+        if ((error && error.name === "AbortError") || !isActiveContext(ctx)) return;
+        if (isAdminRevocationError(error)) {
+          handleOrgAccessRevoked(ctx, error.message);
+          return;
+        }
         if (statusEl) statusEl.textContent = "Invitations unavailable (" + (error && error.message ? error.message : "error") + ").";
       }
     }
@@ -1055,7 +1375,7 @@
         var res = await edgePost("org-admins", {
           operation: "list",
           organization_id: ctx.orgId
-        });
+        }, orgReqOpts(ctx));
         if (!isActiveContext(ctx)) return;
         adminRevision = Number.isSafeInteger(res.admin_revision) ? res.admin_revision : 0;
         if (metaEl) {
@@ -1077,13 +1397,27 @@
               revBtn.type = "button";
               revBtn.textContent = "Revoke admin";
               revBtn.onclick = withOrgLock(async function (activeCtx) {
-                await edgePost("org-admins", {
-                  operation: "revoke",
-                  organization_id: activeCtx.orgId,
-                  member_account_id: a.account_id,
-                  expected_revision: adminRevision
-                });
-                await loadAdminDelegation(activeCtx);
+                try {
+                  await edgePost("org-admins", {
+                    operation: "revoke",
+                    organization_id: activeCtx.orgId,
+                    member_account_id: a.account_id,
+                    expected_revision: adminRevision
+                  }, orgReqOpts(activeCtx));
+                  if (!isActiveContext(activeCtx)) return;
+                  await loadAdminDelegation(activeCtx);
+                } catch (err) {
+                  if (!isActiveContext(activeCtx) || isAdminRevocationError(err) || (err && (err.name === "AbortError" || err.status === 401))) throw err;
+                  if (isRevisionConflictError(err)) {
+                    if (statusEl) statusEl.textContent = "Concurrent revision conflict (409). Refreshing authoritative admin state…";
+                    await loadAdminDelegation(activeCtx);
+                    if (isActiveContext(activeCtx) && statusEl) {
+                      statusEl.textContent = "Concurrent revision conflict detected; reloaded admin revision " + adminRevision + ".";
+                    }
+                    return;
+                  }
+                  if (statusEl) statusEl.textContent = "Admin revocation failed (" + (err && err.message ? err.message : "error") + ").";
+                }
               });
               li.appendChild(revBtn);
             }
@@ -1101,13 +1435,27 @@
               cBtn.type = "button";
               cBtn.textContent = "Revoke admin invite";
               cBtn.onclick = withOrgLock(async function (activeCtx) {
-                await edgePost("org-admins", {
-                  operation: "revoke_invite",
-                  organization_id: activeCtx.orgId,
-                  invitation_id: inv.invitation_id,
-                  expected_revision: adminRevision
-                });
-                await loadAdminDelegation(activeCtx);
+                try {
+                  await edgePost("org-admins", {
+                    operation: "revoke_invite",
+                    organization_id: activeCtx.orgId,
+                    invitation_id: inv.invitation_id,
+                    expected_revision: adminRevision
+                  }, orgReqOpts(activeCtx));
+                  if (!isActiveContext(activeCtx)) return;
+                  await loadAdminDelegation(activeCtx);
+                } catch (err) {
+                  if (!isActiveContext(activeCtx) || isAdminRevocationError(err) || (err && (err.name === "AbortError" || err.status === 401))) throw err;
+                  if (isRevisionConflictError(err)) {
+                    if (statusEl) statusEl.textContent = "Concurrent revision conflict (409). Refreshing authoritative admin state…";
+                    await loadAdminDelegation(activeCtx);
+                    if (isActiveContext(activeCtx) && statusEl) {
+                      statusEl.textContent = "Concurrent revision conflict detected; reloaded admin revision " + adminRevision + ".";
+                    }
+                    return;
+                  }
+                  if (statusEl) statusEl.textContent = "Admin invite revocation failed (" + (err && err.message ? err.message : "error") + ").";
+                }
               });
               iLi.appendChild(iSpan);
               iLi.appendChild(cBtn);
@@ -1117,7 +1465,11 @@
         }
         if (statusEl) statusEl.textContent = admins.length ? String(admins.length) + " listed organization admin(s)." : "";
       } catch (error) {
-        if (!isActiveContext(ctx)) return;
+        if ((error && error.name === "AbortError") || !isActiveContext(ctx)) return;
+        if (isAdminRevocationError(error)) {
+          handleOrgAccessRevoked(ctx, error.message);
+          return;
+        }
         if (statusEl) {
           statusEl.textContent = (error && (error.message === "not_found" || error.message === "invalid_request"))
             ? "Primary owner transfer is active; delegated org-admin list activates with Wave 2 /org-admins rollout."
@@ -1158,7 +1510,7 @@
         var res = await edgePost("policy-templates", {
           operation: "audit_list",
           organization_id: ctx.orgId
-        });
+        }, orgReqOpts(ctx));
         if (!isActiveContext(ctx)) return;
         var entries = Array.isArray(res.audit_entries) ? res.audit_entries : (Array.isArray(res.events) ? res.events : []);
         for (var k = 0; k < entries.length; k++) {
@@ -1167,7 +1519,11 @@
           auditList.appendChild(li);
         }
       } catch (error) {
-        if (!isActiveContext(ctx)) return;
+        if ((error && error.name === "AbortError") || !isActiveContext(ctx)) return;
+        if (isAdminRevocationError(error)) {
+          handleOrgAccessRevoked(ctx, error.message);
+          return;
+        }
         if (statusEl && error && error.message !== "not_found") {
           statusEl.textContent = "Policy template audit unavailable (" + (error.message || "error") + ").";
         }
@@ -1183,7 +1539,7 @@
         var contactRes = await edgePost("org-recovery", {
           operation: "get_recovery_contact",
           organization_id: ctx.orgId
-        });
+        }, orgReqOpts(ctx));
         if (!isActiveContext(ctx)) return;
         recoveryContact = contactRes.contact_account_id || null;
         recoveryRevision = Number.isSafeInteger(contactRes.revision) ? contactRes.revision : 0;
@@ -1196,14 +1552,18 @@
         var recStatus = await edgePost("org-recovery", {
           operation: "status",
           organization_id: ctx.orgId
-        });
+        }, orgReqOpts(ctx));
         if (!isActiveContext(ctx)) return;
         if (statusEl && recStatus && recStatus.recovery_request_id) {
           statusEl.textContent = "Active recovery request " + recStatus.recovery_request_id +
             " · state " + recStatus.state + " (" + (recStatus.proof_count || 0) + "/" + (recStatus.required_proofs || 2) + " proofs).";
         }
       } catch (error) {
-        if (!isActiveContext(ctx)) return;
+        if ((error && error.name === "AbortError") || !isActiveContext(ctx)) return;
+        if (isAdminRevocationError(error)) {
+          handleOrgAccessRevoked(ctx, error.message);
+          return;
+        }
         if (summaryEl) {
           summaryEl.textContent = (error && (error.message === "not_found" || error.message === "invalid_request"))
             ? "Recovery contact management activates with Wave 2 /org-recovery rollout."
@@ -1225,7 +1585,7 @@
         var state = await edgePost("billing-manage", {
           action: "status",
           organization_id: ctx.orgId
-        });
+        }, orgReqOpts(ctx));
         if (!isActiveContext(ctx)) return;
         billingReady = true;
         lastCapacities = Array.isArray(state.capacities) ? state.capacities : [];
@@ -1259,7 +1619,7 @@
           var mRes = await edgePost("billing-manage", {
             action: "members",
             organization_id: ctx.orgId
-          });
+          }, orgReqOpts(ctx));
           if (!isActiveContext(ctx)) return;
           var mList = Array.isArray(mRes.members) ? mRes.members : [];
           for (var i = 0; i < mList.length; i++) {
@@ -1272,7 +1632,11 @@
           if (moreMembersBtn) moreMembersBtn.hidden = !billingMemberCursor;
         }
       } catch (error) {
-        if (!isActiveContext(ctx)) return;
+        if ((error && error.name === "AbortError") || !isActiveContext(ctx)) return;
+        if (isAdminRevocationError(error)) {
+          handleOrgAccessRevoked(ctx, error.message);
+          return;
+        }
         billingReady = false;
         lastCapacities = [];
         pendingBillingOrder = null;
@@ -1284,6 +1648,7 @@
             : "Billing status unavailable (" + code + ").";
         }
       }
+      if (!isActiveContext(ctx)) return;
       renderRepositoriesSection();
       syncActionStates();
     }
@@ -1302,11 +1667,12 @@
           res = await edgePost("device-keys", {
             action: "admin_list",
             organization_id: ctx.orgId
-          });
+          }, orgReqOpts(ctx));
         } catch (adminErr) {
+          if ((adminErr && adminErr.name === "AbortError") || !isActiveContext(ctx) || myDevGen !== devicesGeneration) return;
           if (adminErr && adminErr.message === "invalid_request") {
             adminMode = false;
-            res = await edgePost("device-keys", {});
+            res = await edgePost("device-keys", {}, orgReqOpts(ctx));
           } else {
             throw adminErr;
           }
@@ -1358,11 +1724,17 @@
                   } : {
                     action: "revoke_key",
                     device_key_id: key.device_key_id
-                  });
+                  }, orgReqOpts(ctx));
+                  if (!isActiveContext(ctx)) return;
                   if (revRes.status !== "device_revoked") throw new Error("invalid_response");
                   if (statusEl) statusEl.textContent = "Device revoked. Refreshing device inventory…";
                   await loadDevices(ctx);
                 } catch (err) {
+                  if ((err && err.name === "AbortError") || !isActiveContext(ctx)) return;
+                  if (isAdminRevocationError(err)) {
+                    handleOrgAccessRevoked(ctx, err.message);
+                    return;
+                  }
                   if (statusEl) statusEl.textContent = "Device revocation failed (" + (err && err.message ? err.message : "error") + ").";
                 }
               };
@@ -1371,6 +1743,7 @@
             rows.push(li);
           })(res.device_keys[i]);
         }
+        if (!isActiveContext(ctx) || myDevGen !== devicesGeneration) return;
         if (listEl) listEl.replaceChildren.apply(listEl, rows);
         if (statusEl) {
           statusEl.textContent = rows.length
@@ -1378,7 +1751,11 @@
             : (adminMode ? "No enrolled CLI devices in this organization." : "No enrolled CLI devices on this account.");
         }
       } catch (error) {
-        if (!isActiveContext(ctx) || myDevGen !== devicesGeneration) return;
+        if ((error && error.name === "AbortError") || !isActiveContext(ctx) || myDevGen !== devicesGeneration) return;
+        if (isAdminRevocationError(error)) {
+          handleOrgAccessRevoked(ctx, error.message);
+          return;
+        }
         if (statusEl) statusEl.textContent = "Enrolled devices unavailable (" + (error && error.message ? error.message : "error") + ").";
       }
     }
@@ -1396,7 +1773,7 @@
           var st = await edgePost("account-status", {
             project_id: proj.project_id,
             operation: "access_details"
-          });
+          }, orgReqOpts(ctx));
           if (!isActiveContext(ctx)) return;
           var matchesOrg = st.organization_id === ctx.orgId ||
             (typeof st.cloud_org_id === "string" && st.cloud_org_id.toLowerCase() === ctx.cloudOrgId);
@@ -1404,21 +1781,32 @@
             filtered.push(proj);
             projectStates.set(proj.project_id, st);
           }
-        } catch (_) {}
+        } catch (err) {
+          if ((err && err.name === "AbortError") || !isActiveContext(ctx)) return;
+          if (isAdminRevocationError(err)) {
+            handleOrgAccessRevoked(ctx, err.message);
+            return;
+          }
+        }
       }
       if (!isActiveContext(ctx)) return;
       orgProjects = filtered;
       renderRepositoriesSection();
     }
 
-    async function activateOrganization(orgObj) {
+    async function activateOrganization(orgObj, expectedSessionEpoch) {
+      var mySessionEpoch = typeof expectedSessionEpoch === "number" ? expectedSessionEpoch : sessionEpoch;
+      if (mySessionEpoch !== sessionEpoch || !currentUser || !session) return;
+      resetOrgAbortController();
       var myGen = ++renderGeneration;
       clearWorkspaceUi();
       activeOrg = orgObj;
       renderAccountBar();
 
       var ctx = {
+        sessionEpoch: mySessionEpoch,
         generation: myGen,
+        signal: orgAbortController ? orgAbortController.signal : null,
         cloudOrgId: orgObj.cloud_org_id,
         orgId: orgObj.id,
         actor: currentUser.id,
@@ -1430,22 +1818,48 @@
         var orgVerified = await edgePost("account-register", {
           operation: "account",
           organization_id: orgObj.cloud_org_id
-        });
+        }, orgReqOpts(ctx));
         if (!isActiveContext(ctx)) return;
         if (!orgVerified || orgVerified.account_id !== currentUser.id) {
           throw new Error("auth_account_changed");
         }
       } catch (error) {
-        if (myGen !== renderGeneration) return;
+        if ((error && error.name === "AbortError") || mySessionEpoch !== sessionEpoch || myGen !== renderGeneration) return;
         var code = error && error.message ? error.message : "authorization_denied";
-        showDeniedPanel(
-          "AUTHORIZATION DENIED",
-          "Organization administrator access denied",
-          "You do not hold a verified administrator grant for this organization.",
-          "Server verification returned: " + code + ".",
-          true
-        );
-        setStatus("Access denied for organization (" + code + ").", true);
+        var orgErrRef = formatSupportRef(error, orgObj.cloud_org_id);
+        if (isAdminRevocationError(error)) {
+          handleOrgAccessRevoked(ctx, code);
+        } else if (error && (error.status === 429 || code === "rate_limited")) {
+          var orgWait = Number.isSafeInteger(error.retryAfterSec) && error.retryAfterSec > 0
+            ? " Wait " + error.retryAfterSec + "s before retrying."
+            : " Wait briefly before retrying.";
+          showDeniedPanel(
+            "RATE LIMITED (429)",
+            "Organization verification rate limited",
+            "Cloud API rate limit prevented verifying your administrator grant. Workspace panels stay locked until verification completes." + orgWait,
+            (orgErrRef ? orgErrRef + ". " : "") + "Use Refresh organization after waiting.",
+            adminOrgs.length > 0
+          );
+          setStatus("Organization verification rate-limited (429)." + orgWait + (orgErrRef ? " " + orgErrRef + "." : ""), true);
+        } else if (error && (error.status >= 500 || code === "service_unavailable" || code === "request_timeout")) {
+          showDeniedPanel(
+            "SERVICE UNAVAILABLE",
+            "Organization verification temporarily unavailable",
+            "The Decapod Cloud API could not verify your organization administrator grant right now. Protected panels remain locked.",
+            (orgErrRef ? orgErrRef + ". " : "") + "Use Refresh organization or reload once connectivity recovers.",
+            adminOrgs.length > 0
+          );
+          setStatus("Organization verification unavailable (" + code + ")." + (orgErrRef ? " " + orgErrRef + "." : ""), true);
+        } else {
+          showDeniedPanel(
+            "AUTHORIZATION DENIED",
+            "Organization administrator access denied",
+            "You do not hold a verified administrator grant for this organization.",
+            "Server verification returned: " + code + "." + (orgErrRef ? " " + orgErrRef + "." : ""),
+            true
+          );
+          setStatus("Access denied for organization (" + code + ")." + (orgErrRef ? " " + orgErrRef + "." : ""), true);
+        }
         return;
       }
 
@@ -1485,18 +1899,26 @@
 
     async function refreshActiveOrganization() {
       if (!activeOrg) {
-        await loadAuthenticatedAccount();
+        await loadAuthenticatedAccount(sessionEpoch);
         return;
       }
       var targetUuid = activeOrg.cloud_org_id;
       requestedOrgLocator = targetUuid;
-      await loadAuthenticatedAccount();
+      await loadAuthenticatedAccount(sessionEpoch);
     }
 
-    async function loadAuthenticatedAccount() {
+    async function loadAuthenticatedAccount(expectedSessionEpoch) {
+      var mySessionEpoch = typeof expectedSessionEpoch === "number" ? expectedSessionEpoch : sessionEpoch;
+      var reqOpts = {
+        sessionEpoch: mySessionEpoch,
+        signal: sessionAbortController ? sessionAbortController.signal : null
+      };
       var bearer = requireToken();
-      currentUser = await fetchUser(bearer);
-      var result = await edgePost("account-register", { operation: "account" });
+      var fetchedUser = await fetchUser(bearer, reqOpts);
+      if (mySessionEpoch !== sessionEpoch || !session) return;
+      currentUser = fetchedUser;
+      var result = await edgePost("account-register", { operation: "account" }, reqOpts);
+      if (mySessionEpoch !== sessionEpoch || !session) return;
       if (result.account_id !== currentUser.id) {
         throw new Error("auth_account_changed");
       }
@@ -1524,14 +1946,18 @@
             operation: "accept_invite",
             invitation_id: invite.id,
             invitation_secret: invite.secret
-          });
+          }, reqOpts);
+          if (mySessionEpoch !== sessionEpoch || !session) return;
           if (accepted.status === "invitation_accepted") {
             storeRemove("invitation");
-            result = await edgePost("account-register", { operation: "account" });
+            result = await edgePost("account-register", { operation: "account" }, reqOpts);
+            if (mySessionEpoch !== sessionEpoch || !session) return;
             accountSnapshot = result;
             adminOrgs = flow.listAdminOrganizations(result.organizations);
           }
-        } catch (_) {}
+        } catch (invErr) {
+          if ((invErr && invErr.name === "AbortError") || mySessionEpoch !== sessionEpoch || !session) return;
+        }
       }
 
       if (requestedOrgLocator) {
@@ -1547,7 +1973,7 @@
           setStatus("Organization resolution denied (" + resolved.reason + ").", true);
           return;
         }
-        await activateOrganization(resolved.org);
+        await activateOrganization(resolved.org, mySessionEpoch);
         return;
       }
 
@@ -1563,10 +1989,15 @@
         return;
       }
 
-      await activateOrganization(adminOrgs[0]);
+      await activateOrganization(adminOrgs[0], mySessionEpoch);
     }
 
-    async function processIncomingUrlAndSession() {
+    async function processIncomingUrlAndSession(expectedSessionEpoch) {
+      var mySessionEpoch = typeof expectedSessionEpoch === "number" ? expectedSessionEpoch : sessionEpoch;
+      var reqOpts = {
+        sessionEpoch: mySessionEpoch,
+        signal: sessionAbortController ? sessionAbortController.signal : null
+      };
       var currentUrl = new URL(winLocation.href);
       var query = new URLSearchParams(currentUrl.search || "");
       var rawHash = currentUrl.hash || "";
@@ -1624,12 +2055,31 @@
       }
 
       if (!profile) {
-        profile = await flow.discoverRuntimeConfig(fetchFn);
-      }
-      if (!profile) {
-        syncAuthGateUi();
-        setStatus("Cloud authentication configuration is currently unavailable.", true);
-        return;
+        var discovery = typeof flow.discoverRuntimeStatus === "function"
+          ? await flow.discoverRuntimeStatus(fetchFn)
+          : { status: "ok", profile: await flow.discoverRuntimeConfig(fetchFn), correlationId: null, retryAfterSec: null };
+        if (mySessionEpoch !== sessionEpoch) return;
+        profile = discovery && discovery.profile ? discovery.profile : null;
+        if (!profile) {
+          var dStatus = discovery && discovery.status ? discovery.status : "unavailable";
+          if (dStatus === "incompatible") {
+            skewBlocked = true;
+            skewReason = discovery.reason || "api_contract_mismatch";
+          }
+          syncAuthGateUi();
+          var dRef = discovery && discovery.correlationId ? (" Support ref: " + discovery.correlationId + ".") : "";
+          if (dStatus === "invalid") {
+            setStatus("Cloud authentication configuration failed validation (malformed config)." + dRef, true);
+          } else if (dStatus === "rate_limited") {
+            var dWait = discovery.retryAfterSec ? (" Wait " + discovery.retryAfterSec + "s before reloading.") : "";
+            setStatus("Cloud authentication discovery rate-limited (429)." + dWait + dRef, true);
+          } else if (dStatus === "incompatible") {
+            setStatus("API contract version mismatch. Reload this page to continue safely." + dRef, true);
+          } else {
+            setStatus("Cloud authentication configuration is currently unavailable." + dRef, true);
+          }
+          return;
+        }
       }
 
       if (invId && invSecret && flow.UUID_PATTERN.test(invId) && flow.PKCE_HASH_PATTERN.test(invSecret)) {
@@ -1651,8 +2101,11 @@
       if (routeCheck.status === "invalid" && !query.has("code")) {
         syncAuthGateUi();
         if (session) {
-          currentUser = await fetchUser(requireToken());
-          var acct = await edgePost("account-register", { operation: "account" });
+          var invalidRouteUser = await fetchUser(requireToken(), reqOpts);
+          if (mySessionEpoch !== sessionEpoch || !session) return;
+          currentUser = invalidRouteUser;
+          var acct = await edgePost("account-register", { operation: "account" }, reqOpts);
+          if (mySessionEpoch !== sessionEpoch || !session) return;
           accountSnapshot = acct;
           adminOrgs = flow.listAdminOrganizations(acct.organizations);
           showDeniedPanel(
@@ -1671,6 +2124,7 @@
         var pendingFlow = storeGet("flow", 8192);
         var validFlow = pendingFlow &&
           pendingFlow.version === 1 &&
+          (pendingFlow.contract_version === undefined || pendingFlow.contract_version === flow.CONTRACT_VERSION) &&
           pendingFlow.project === profile.projectOrigin &&
           pendingFlow.phase === "pending" &&
           Number.isSafeInteger(pendingFlow.expires) &&
@@ -1682,6 +2136,7 @@
 
         if (validFlow && pendingFlow.kind === "link") {
           var linkBinding = session ? await flow.sha256Base64Url(session.access_token) : null;
+          if (mySessionEpoch !== sessionEpoch) return;
           if (!session || !flow.UUID_PATTERN.test(pendingFlow.account_id || "") || pendingFlow.session_binding !== linkBinding) {
             validFlow = false;
           }
@@ -1698,7 +2153,7 @@
           storeRemove("flow");
           syncAuthGateUi();
           setStatus("Sign-in canceled or declined.", false);
-          if (session) await loadAuthenticatedAccount();
+          if (session) await loadAuthenticatedAccount(mySessionEpoch);
           return;
         }
 
@@ -1715,15 +2170,18 @@
           profile.projectOrigin + "/auth/v1/token?grant_type=pkce",
           { auth_code: code, code_verifier: pendingFlow.verifier },
           undefined,
-          "POST"
+          "POST",
+          reqOpts
         );
+        if (mySessionEpoch !== sessionEpoch) return;
         if (typeof exchanged.access_token !== "string" || !exchanged.access_token ||
             exchanged.access_token.length > 16384 || /\s/.test(exchanged.access_token) ||
             !Number.isSafeInteger(exchanged.expires_in) || exchanged.expires_in <= 15) {
           storeRemove("flow");
           throw new Error("invalid_response");
         }
-        var confirmed = await fetchUser(exchanged.access_token);
+        var confirmed = await fetchUser(exchanged.access_token, reqOpts);
+        if (mySessionEpoch !== sessionEpoch) return;
         if ((pendingFlow.kind === "link" && confirmed.id !== pendingFlow.account_id) ||
             (pendingFlow.verification_account_id && confirmed.id !== pendingFlow.verification_account_id)) {
           storeRemove("flow");
@@ -1741,7 +2199,8 @@
         session = {
           access_token: exchanged.access_token,
           expires_at: nowSec() + exchanged.expires_in,
-          origin: profile.projectOrigin
+          origin: profile.projectOrigin,
+          contract_version: flow.CONTRACT_VERSION
         };
         storeSet("session", session);
         storeRemove("flow");
@@ -1753,16 +2212,18 @@
             operation: "confirm_provider_link",
             link_intent_id: pendingFlow.link_intent_id,
             stepup_secret: pendingFlow.stepup_secret
-          });
+          }, reqOpts);
+          if (mySessionEpoch !== sessionEpoch) return;
         }
       }
 
+      if (mySessionEpoch !== sessionEpoch) return;
       syncAuthGateUi();
       if (!session) {
         setStatus("Sign in with GitHub or Google to open organization administration.", false);
         return;
       }
-      await loadAuthenticatedAccount();
+      await loadAuthenticatedAccount(mySessionEpoch);
     }
 
     function bindEvents() {
@@ -1776,10 +2237,15 @@
       var signOutBtn = byId("admin-sign-out-btn");
       if (signOutBtn) {
         signOutBtn.onclick = function () {
+          requestedOrgLocator = null;
           storeRemove("flow");
           storeRemove("session");
           session = null;
+          clearAllSessionState(true);
           syncAuthGateUi();
+          if (flowOk && profile) {
+            coherenceChannel.broadcastAuthInvalidated(profile.projectOrigin);
+          }
           setStatus("Signed out. Authenticate to continue.", false);
         };
       }
@@ -1793,7 +2259,7 @@
           var chosen = adminOrgs.find(function (o) { return o.cloud_org_id === orgSelect.value; });
           if (!chosen) return;
           requestedOrgLocator = chosen.scm_owner_slug || chosen.cloud_org_id;
-          activateOrganization(chosen).catch(function (e) { setStatus("Organization switch failed: " + e.message, true); });
+          activateOrganization(chosen, sessionEpoch).catch(function (e) { setStatus("Organization switch failed: " + e.message, true); });
         };
       }
 
@@ -1802,7 +2268,7 @@
         openAuthorizedBtn.onclick = function () {
           if (!adminOrgs.length) return;
           requestedOrgLocator = adminOrgs[0].scm_owner_slug || adminOrgs[0].cloud_org_id;
-          activateOrganization(adminOrgs[0]).catch(function (e) { setStatus("Organization switch failed: " + e.message, true); });
+          activateOrganization(adminOrgs[0], sessionEpoch).catch(function (e) { setStatus("Organization switch failed: " + e.message, true); });
         };
       }
 
@@ -1813,12 +2279,14 @@
       if (confirmProvBtn) {
         confirmProvBtn.onclick = function () {
           if (!pendingStepupProvider) return;
+          var myEpoch = sessionEpoch;
           edgePost("account-register", {
             operation: "resolve_provider_quarantine",
             provider: pendingStepupProvider,
             decision: "confirm"
-          }).then(function () { return loadAuthenticatedAccount(); })
-            .catch(function (e) { setStatus("Provider confirmation failed: " + e.message, true); });
+          }, { sessionEpoch: myEpoch, signal: sessionAbortController ? sessionAbortController.signal : null })
+            .then(function () { if (myEpoch === sessionEpoch) return loadAuthenticatedAccount(myEpoch); })
+            .catch(function (e) { if (e && e.name !== "AbortError" && myEpoch === sessionEpoch) setStatus("Provider confirmation failed: " + e.message, true); });
         };
       }
 
@@ -1826,12 +2294,14 @@
       if (revokeProvBtn) {
         revokeProvBtn.onclick = function () {
           if (!pendingStepupProvider) return;
+          var myEpoch = sessionEpoch;
           edgePost("account-register", {
             operation: "resolve_provider_quarantine",
             provider: pendingStepupProvider,
             decision: "revoke"
-          }).then(function () { return loadAuthenticatedAccount(); })
-            .catch(function (e) { setStatus("Provider revocation failed: " + e.message, true); });
+          }, { sessionEpoch: myEpoch, signal: sessionAbortController ? sessionAbortController.signal : null })
+            .then(function () { if (myEpoch === sessionEpoch) return loadAuthenticatedAccount(myEpoch); })
+            .catch(function (e) { if (e && e.name !== "AbortError" && myEpoch === sessionEpoch) setStatus("Provider revocation failed: " + e.message, true); });
         };
       }
 
@@ -1861,7 +2331,7 @@
             repository: parsed.slug,
             organization_id: ctx.orgId,
             provider_token: inMemoryProviderToken
-          });
+          }, orgReqOpts(ctx));
           if (!isActiveContext(ctx)) return;
           if (enrolled.status !== "repository_enrolled") {
             if (statusEl) statusEl.textContent = "Repository enrollment status: " + enrolled.status;
@@ -1896,7 +2366,7 @@
             organization_id: ctx.orgId,
             project_id: projId,
             project_name: newName
-          });
+          }, orgReqOpts(ctx));
           if (!isActiveContext(ctx)) return;
           if (statusEl) statusEl.textContent = "Saved display name for " + updated.project_id + ".";
           await refreshActiveOrganization();
@@ -1914,7 +2384,7 @@
             organization_id: ctx.orgId,
             project_id: projSel ? projSel.value : "",
             account_id: memSel ? memSel.value : ""
-          });
+          }, orgReqOpts(ctx));
           if (!isActiveContext(ctx)) return;
           if (statusEl) statusEl.textContent = "Assigned paid repository seat.";
           await refreshActiveOrganization();
@@ -1932,7 +2402,7 @@
             organization_id: ctx.orgId,
             project_id: projSel ? projSel.value : "",
             account_id: memSel ? memSel.value : ""
-          });
+          }, orgReqOpts(ctx));
           if (!isActiveContext(ctx)) return;
           if (statusEl) statusEl.textContent = "Revoked paid repository seat. Organization admin authority remains unchanged.";
           await refreshActiveOrganization();
@@ -1958,7 +2428,7 @@
             operation: "invite",
             organization_id: ctx.orgId,
             recipient_account_id: recipient
-          });
+          }, orgReqOpts(ctx));
           if (!isActiveContext(ctx)) return;
           if (recipientInput) recipientInput.value = "";
           var safeUrl = validateInvitationUrl(res.invitation_url);
@@ -2002,12 +2472,20 @@
               member_account_id: targetUuid,
               role: "admin",
               expected_revision: adminRevision
-            });
+            }, orgReqOpts(ctx));
             if (!isActiveContext(ctx)) return;
             if (statusEl) statusEl.textContent = "Granted admin role to " + targetUuid + " (0 repo seats added).";
             await loadAdminDelegation(ctx);
           } catch (error) {
-            if (!isActiveContext(ctx)) return;
+            if ((error && (error.name === "AbortError" || error.status === 401)) || isAdminRevocationError(error) || !isActiveContext(ctx)) throw error;
+            if (isRevisionConflictError(error)) {
+              if (statusEl) statusEl.textContent = "Concurrent revision conflict (409). Refreshing authoritative admin state…";
+              await loadAdminDelegation(ctx);
+              if (isActiveContext(ctx) && statusEl) {
+                statusEl.textContent = "Concurrent revision conflict detected; reloaded authoritative admin revision " + adminRevision + ".";
+              }
+              return;
+            }
             if (statusEl) statusEl.textContent = "Admin grant failed (" + (error && error.message ? error.message : "error") + ").";
           }
         });
@@ -2029,12 +2507,20 @@
               organization_id: ctx.orgId,
               recipient_account_id: targetUuid,
               expected_revision: adminRevision
-            });
+            }, orgReqOpts(ctx));
             if (!isActiveContext(ctx)) return;
             if (statusEl) statusEl.textContent = "Created admin invitation " + (res.invitation_id || "") + " (identity-bound).";
             await loadAdminDelegation(ctx);
           } catch (error) {
-            if (!isActiveContext(ctx)) return;
+            if ((error && (error.name === "AbortError" || error.status === 401)) || isAdminRevocationError(error) || !isActiveContext(ctx)) throw error;
+            if (isRevisionConflictError(error)) {
+              if (statusEl) statusEl.textContent = "Concurrent revision conflict (409). Refreshing authoritative admin state…";
+              await loadAdminDelegation(ctx);
+              if (isActiveContext(ctx) && statusEl) {
+                statusEl.textContent = "Concurrent revision conflict detected; reloaded authoritative admin revision " + adminRevision + ".";
+              }
+              return;
+            }
             if (statusEl) statusEl.textContent = "Admin invitation failed (" + (error && error.message ? error.message : "error") + ").";
           }
         });
@@ -2056,12 +2542,20 @@
               organization_id: ctx.orgId,
               member_account_id: targetUuid,
               expected_revision: adminRevision
-            });
+            }, orgReqOpts(ctx));
             if (!isActiveContext(ctx)) return;
             if (statusEl) statusEl.textContent = "Revoked admin role for " + targetUuid + ".";
             await loadAdminDelegation(ctx);
           } catch (error) {
-            if (!isActiveContext(ctx)) return;
+            if ((error && (error.name === "AbortError" || error.status === 401)) || isAdminRevocationError(error) || !isActiveContext(ctx)) throw error;
+            if (isRevisionConflictError(error)) {
+              if (statusEl) statusEl.textContent = "Concurrent revision conflict (409). Refreshing authoritative admin state…";
+              await loadAdminDelegation(ctx);
+              if (isActiveContext(ctx) && statusEl) {
+                statusEl.textContent = "Concurrent revision conflict detected; reloaded authoritative admin revision " + adminRevision + ".";
+              }
+              return;
+            }
             if (statusEl) statusEl.textContent = "Admin revocation failed (" + (error && error.message ? error.message : "error") + ").";
           }
         });
@@ -2083,14 +2577,23 @@
               organization_id: ctx.orgId,
               member_account_id: targetUuid,
               expected_revision: adminRevision
-            });
+            }, orgReqOpts(ctx));
           } catch (err) {
+            if ((err && (err.name === "AbortError" || err.status === 401)) || isAdminRevocationError(err) || !isActiveContext(ctx)) throw err;
+            if (isRevisionConflictError(err)) {
+              if (statusEl) statusEl.textContent = "Concurrent revision conflict (409). Refreshing authoritative admin state…";
+              await loadAdminDelegation(ctx);
+              if (isActiveContext(ctx) && statusEl) {
+                statusEl.textContent = "Concurrent revision conflict detected; reloaded authoritative admin revision " + adminRevision + ".";
+              }
+              return;
+            }
             if (err && (err.message === "not_found" || err.message === "invalid_request")) {
               await edgePost("account-register", {
                 operation: "transfer_ownership",
                 organization_id: ctx.orgId,
                 member_account_id: targetUuid
-              });
+              }, orgReqOpts(ctx));
             } else {
               throw err;
             }
@@ -2118,7 +2621,7 @@
             source_organization_id: ctx.orgId,
             source_project_id: srcProj,
             target_organization_id: dstOrgId
-          });
+          }, orgReqOpts(ctx));
           if (!isActiveContext(ctx)) return;
           exportedTemplate = res.template || res;
           if (statusEl) statusEl.textContent = "Exported policy template from " + srcProj + " for destination " + dstOrgId + ".";
@@ -2140,7 +2643,7 @@
             operation: "preview",
             template: exportedTemplate,
             target_project_id: targetProj
-          });
+          }, orgReqOpts(ctx));
           if (!isActiveContext(ctx)) return;
           if (statusEl) statusEl.textContent = "Preview ready for " + targetProj + " (" + (res.status || "preview_ready") + ").";
         });
@@ -2160,7 +2663,7 @@
             operation: "import",
             template: exportedTemplate,
             target_project_id: targetProj
-          });
+          }, orgReqOpts(ctx));
           if (!isActiveContext(ctx)) return;
           exportedTemplate = null;
           if (statusEl) statusEl.textContent = "Applied repository policy template to " + targetProj + " (seats and governance data untouched).";
@@ -2178,15 +2681,28 @@
             if (statusEl) statusEl.textContent = "Enter a valid Cloud Account UUID for the recovery contact.";
             return;
           }
-          await edgePost("org-recovery", {
-            operation: "set_recovery_contact",
-            organization_id: ctx.orgId,
-            contact_account_id: contactUuid,
-            expected_revision: recoveryRevision
-          });
-          if (!isActiveContext(ctx)) return;
-          if (statusEl) statusEl.textContent = "Designated recovery contact saved.";
-          await loadRecoverySection(ctx);
+          try {
+            await edgePost("org-recovery", {
+              operation: "set_recovery_contact",
+              organization_id: ctx.orgId,
+              contact_account_id: contactUuid,
+              expected_revision: recoveryRevision
+            }, orgReqOpts(ctx));
+            if (!isActiveContext(ctx)) return;
+            if (statusEl) statusEl.textContent = "Designated recovery contact saved.";
+            await loadRecoverySection(ctx);
+          } catch (error) {
+            if ((error && (error.name === "AbortError" || error.status === 401)) || isAdminRevocationError(error) || !isActiveContext(ctx)) throw error;
+            if (isRevisionConflictError(error)) {
+              if (statusEl) statusEl.textContent = "Concurrent revision conflict (409). Refreshing authoritative recovery state…";
+              await loadRecoverySection(ctx);
+              if (isActiveContext(ctx) && statusEl) {
+                statusEl.textContent = "Concurrent revision conflict detected; reloaded authoritative recovery revision " + recoveryRevision + ".";
+              }
+              return;
+            }
+            if (statusEl) statusEl.textContent = "Recovery contact update failed (" + (error && error.message ? error.message : "error") + ").";
+          }
         });
       }
 
@@ -2194,14 +2710,27 @@
       if (clearRecBtn) {
         clearRecBtn.onclick = withOrgLock(async function (ctx) {
           var statusEl = byId("admin-recovery-status");
-          await edgePost("org-recovery", {
-            operation: "clear_recovery_contact",
-            organization_id: ctx.orgId,
-            expected_revision: recoveryRevision
-          });
-          if (!isActiveContext(ctx)) return;
-          if (statusEl) statusEl.textContent = "Cleared secondary recovery contact.";
-          await loadRecoverySection(ctx);
+          try {
+            await edgePost("org-recovery", {
+              operation: "clear_recovery_contact",
+              organization_id: ctx.orgId,
+              expected_revision: recoveryRevision
+            }, orgReqOpts(ctx));
+            if (!isActiveContext(ctx)) return;
+            if (statusEl) statusEl.textContent = "Cleared secondary recovery contact.";
+            await loadRecoverySection(ctx);
+          } catch (error) {
+            if ((error && (error.name === "AbortError" || error.status === 401)) || isAdminRevocationError(error) || !isActiveContext(ctx)) throw error;
+            if (isRevisionConflictError(error)) {
+              if (statusEl) statusEl.textContent = "Concurrent revision conflict (409). Refreshing authoritative recovery state…";
+              await loadRecoverySection(ctx);
+              if (isActiveContext(ctx) && statusEl) {
+                statusEl.textContent = "Concurrent revision conflict detected; reloaded authoritative recovery revision " + recoveryRevision + ".";
+              }
+              return;
+            }
+            if (statusEl) statusEl.textContent = "Recovery contact clear failed (" + (error && error.message ? error.message : "error") + ").";
+          }
         });
       }
 
@@ -2234,19 +2763,32 @@
             if (statusEl) statusEl.textContent = "Invalid limit or threshold values.";
             return;
           }
-          var updated = await edgePost("resource-limits", {
-            action: "set_limit",
-            organization_id: ctx.orgId,
-            metric: selected.metric,
-            expected_revision: selected.revision || 0,
-            operating_limit: opLimit,
-            warning_pct: warnPct,
-            critical_pct: critPct,
-            notify_flags: notifyFlags
-          });
-          if (!isActiveContext(ctx)) return;
-          renderResourceLimits(ctx, updated);
-          if (statusEl) statusEl.textContent = "Saved limit for " + selected.key + ".";
+          try {
+            var updated = await edgePost("resource-limits", {
+              action: "set_limit",
+              organization_id: ctx.orgId,
+              metric: selected.metric,
+              expected_revision: selected.revision || 0,
+              operating_limit: opLimit,
+              warning_pct: warnPct,
+              critical_pct: critPct,
+              notify_flags: notifyFlags
+            }, orgReqOpts(ctx));
+            if (!isActiveContext(ctx)) return;
+            renderResourceLimits(ctx, updated);
+            if (statusEl) statusEl.textContent = "Saved limit for " + selected.key + ".";
+          } catch (error) {
+            if ((error && (error.name === "AbortError" || error.status === 401)) || isAdminRevocationError(error) || !isActiveContext(ctx)) throw error;
+            if (isRevisionConflictError(error)) {
+              if (statusEl) statusEl.textContent = "Concurrent revision conflict (409). Refreshing authoritative resource limits…";
+              await loadResourceLimits(ctx);
+              if (isActiveContext(ctx) && statusEl) {
+                statusEl.textContent = "Concurrent revision conflict detected; reloaded authoritative resource limits.";
+              }
+              return;
+            }
+            if (statusEl) statusEl.textContent = "Limit update failed (" + (error && error.message ? error.message : "error") + ").";
+          }
         });
       }
 
@@ -2258,15 +2800,28 @@
           var selected = list.find(function (x) { return sel && String(x.metric) === sel.value; }) || list[0];
           var statusEl = byId("admin-limit-save-status");
           if (!selected) return;
-          var updated = await edgePost("resource-limits", {
-            action: "reset_limit",
-            organization_id: ctx.orgId,
-            metric: selected.metric,
-            expected_revision: selected.revision || 0
-          });
-          if (!isActiveContext(ctx)) return;
-          renderResourceLimits(ctx, updated);
-          if (statusEl) statusEl.textContent = "Reset " + selected.key + " to default ceiling.";
+          try {
+            var updated = await edgePost("resource-limits", {
+              action: "reset_limit",
+              organization_id: ctx.orgId,
+              metric: selected.metric,
+              expected_revision: selected.revision || 0
+            }, orgReqOpts(ctx));
+            if (!isActiveContext(ctx)) return;
+            renderResourceLimits(ctx, updated);
+            if (statusEl) statusEl.textContent = "Reset " + selected.key + " to default ceiling.";
+          } catch (error) {
+            if ((error && (error.name === "AbortError" || error.status === 401)) || isAdminRevocationError(error) || !isActiveContext(ctx)) throw error;
+            if (isRevisionConflictError(error)) {
+              if (statusEl) statusEl.textContent = "Concurrent revision conflict (409). Refreshing authoritative resource limits…";
+              await loadResourceLimits(ctx);
+              if (isActiveContext(ctx) && statusEl) {
+                statusEl.textContent = "Concurrent revision conflict detected; reloaded authoritative resource limits.";
+              }
+              return;
+            }
+            if (statusEl) statusEl.textContent = "Limit reset failed (" + (error && error.message ? error.message : "error") + ").";
+          }
         });
       }
 
@@ -2290,16 +2845,29 @@
             return;
           }
           var rev = limitsSnapshot && limitsSnapshot.paid_overages ? limitsSnapshot.paid_overages.revision : undefined;
-          var updated = await edgePost("billing-overage-policy", Object.assign({
-            action: "enable",
-            organization_id: ctx.orgId,
-            monthly_spend_cap_cents: capCents,
-            accepted_terms: true,
-            terms_version: TERMS_VERSION
-          }, Number.isSafeInteger(rev) ? { expected_revision: rev } : {}));
-          if (!isActiveContext(ctx)) return;
-          renderResourceLimits(ctx, updated);
-          if (statusEl) statusEl.textContent = "Enabled paid overages with " + formatCents(capCents) + " monthly spend cap.";
+          try {
+            var updated = await edgePost("billing-overage-policy", Object.assign({
+              action: "enable",
+              organization_id: ctx.orgId,
+              monthly_spend_cap_cents: capCents,
+              accepted_terms: true,
+              terms_version: TERMS_VERSION
+            }, Number.isSafeInteger(rev) ? { expected_revision: rev } : {}), orgReqOpts(ctx));
+            if (!isActiveContext(ctx)) return;
+            renderResourceLimits(ctx, updated);
+            if (statusEl) statusEl.textContent = "Enabled paid overages with " + formatCents(capCents) + " monthly spend cap.";
+          } catch (error) {
+            if ((error && (error.name === "AbortError" || error.status === 401)) || isAdminRevocationError(error) || !isActiveContext(ctx)) throw error;
+            if (isRevisionConflictError(error)) {
+              if (statusEl) statusEl.textContent = "Concurrent revision conflict (409). Refreshing authoritative overage policy…";
+              await loadResourceLimits(ctx);
+              if (isActiveContext(ctx) && statusEl) {
+                statusEl.textContent = "Concurrent revision conflict detected; reloaded authoritative overage policy.";
+              }
+              return;
+            }
+            if (statusEl) statusEl.textContent = "Enable overages failed (" + (error && error.message ? error.message : "error") + ").";
+          }
         });
       }
 
@@ -2313,14 +2881,27 @@
             return;
           }
           var rev = limitsSnapshot && limitsSnapshot.paid_overages ? limitsSnapshot.paid_overages.revision : undefined;
-          var updated = await edgePost("billing-overage-policy", Object.assign({
-            action: "update_cap",
-            organization_id: ctx.orgId,
-            monthly_spend_cap_cents: capCents
-          }, Number.isSafeInteger(rev) ? { expected_revision: rev } : {}));
-          if (!isActiveContext(ctx)) return;
-          renderResourceLimits(ctx, updated);
-          if (statusEl) statusEl.textContent = "Updated monthly spend cap to " + formatCents(capCents) + ".";
+          try {
+            var updated = await edgePost("billing-overage-policy", Object.assign({
+              action: "update_cap",
+              organization_id: ctx.orgId,
+              monthly_spend_cap_cents: capCents
+            }, Number.isSafeInteger(rev) ? { expected_revision: rev } : {}), orgReqOpts(ctx));
+            if (!isActiveContext(ctx)) return;
+            renderResourceLimits(ctx, updated);
+            if (statusEl) statusEl.textContent = "Updated monthly spend cap to " + formatCents(capCents) + ".";
+          } catch (error) {
+            if ((error && (error.name === "AbortError" || error.status === 401)) || isAdminRevocationError(error) || !isActiveContext(ctx)) throw error;
+            if (isRevisionConflictError(error)) {
+              if (statusEl) statusEl.textContent = "Concurrent revision conflict (409). Refreshing authoritative overage policy…";
+              await loadResourceLimits(ctx);
+              if (isActiveContext(ctx) && statusEl) {
+                statusEl.textContent = "Concurrent revision conflict detected; reloaded authoritative overage policy.";
+              }
+              return;
+            }
+            if (statusEl) statusEl.textContent = "Update spend cap failed (" + (error && error.message ? error.message : "error") + ").";
+          }
         });
       }
 
@@ -2329,13 +2910,26 @@
         overagesRevokeBtn.onclick = withOrgLock(async function (ctx) {
           var statusEl = byId("admin-overage-save-status");
           var rev = limitsSnapshot && limitsSnapshot.paid_overages ? limitsSnapshot.paid_overages.revision : undefined;
-          var updated = await edgePost("billing-overage-policy", Object.assign({
-            action: "revoke",
-            organization_id: ctx.orgId
-          }, Number.isSafeInteger(rev) ? { expected_revision: rev } : {}));
-          if (!isActiveContext(ctx)) return;
-          renderResourceLimits(ctx, updated);
-          if (statusEl) statusEl.textContent = "Revoked paid resource overages ($0 overage exposure restored).";
+          try {
+            var updated = await edgePost("billing-overage-policy", Object.assign({
+              action: "revoke",
+              organization_id: ctx.orgId
+            }, Number.isSafeInteger(rev) ? { expected_revision: rev } : {}), orgReqOpts(ctx));
+            if (!isActiveContext(ctx)) return;
+            renderResourceLimits(ctx, updated);
+            if (statusEl) statusEl.textContent = "Revoked paid resource overages ($0 overage exposure restored).";
+          } catch (error) {
+            if ((error && (error.name === "AbortError" || error.status === 401)) || isAdminRevocationError(error) || !isActiveContext(ctx)) throw error;
+            if (isRevisionConflictError(error)) {
+              if (statusEl) statusEl.textContent = "Concurrent revision conflict (409). Refreshing authoritative overage policy…";
+              await loadResourceLimits(ctx);
+              if (isActiveContext(ctx) && statusEl) {
+                statusEl.textContent = "Concurrent revision conflict detected; reloaded authoritative overage policy.";
+              }
+              return;
+            }
+            if (statusEl) statusEl.textContent = "Revoke overages failed (" + (error && error.message ? error.message : "error") + ").";
+          }
         });
       }
 
@@ -2343,7 +2937,7 @@
       if (portalBtn) {
         portalBtn.onclick = withOrgLock(async function (ctx) {
           var detailEl = byId("admin-billing-detail");
-          var res = await edgePost("billing-portal", { organization_id: ctx.orgId });
+          var res = await edgePost("billing-portal", { organization_id: ctx.orgId }, orgReqOpts(ctx));
           if (!isActiveContext(ctx)) return;
           if (!res || !flow.isAllowedCheckoutUrl(res.portal_url)) {
             if (detailEl) detailEl.textContent = "Rejected untrusted billing portal redirect.";
@@ -2361,7 +2955,7 @@
             action: "order_cancel",
             organization_id: ctx.orgId,
             order_id: pendingBillingOrder.order_id
-          });
+          }, orgReqOpts(ctx));
           if (!isActiveContext(ctx)) return;
           await loadBillingSection(ctx);
         });
@@ -2372,7 +2966,9 @@
         refreshDevicesBtn.onclick = function () {
           if (!activeOrg || !currentUser || !session) return;
           loadDevices({
+            sessionEpoch: sessionEpoch,
             generation: renderGeneration,
+            signal: orgAbortController ? orgAbortController.signal : null,
             cloudOrgId: activeOrg.cloud_org_id,
             orgId: activeOrg.id,
             actor: currentUser.id,
@@ -2383,13 +2979,59 @@
     }
 
     async function init() {
+      if (flowOk) {
+        var coherence = flow.checkPageCoherence({
+          document: doc,
+          requiredIds: ["admin-auth-gate", "admin-denied-panel", "admin-workspace", "admin-status"]
+        });
+        if (!coherence.ok) {
+          skewBlocked = true;
+          skewReason = coherence.reason || "html_js_skew";
+        }
+      }
+      if (skewBlocked) {
+        if (flowOk) {
+          flow.scrubSensitiveLocation(winLocation, winHistory, { stripAllHash: true });
+        } else if (winLocation && winHistory && typeof winHistory.replaceState === "function") {
+          try { winHistory.replaceState(null, "", "/admin/"); } catch (_) {}
+        }
+        hideAllProtectedPanels();
+        var ghBtn = byId("admin-auth-github");
+        var googleBtn = byId("admin-auth-google");
+        if (ghBtn) ghBtn.disabled = true;
+        if (googleBtn) googleBtn.disabled = true;
+        setStatus("Client asset or HTML/JS version skew detected (" + (skewReason || "mismatch") + "). Reload the page to continue safely.", true);
+        return;
+      }
+
+      coherenceChannel.announceReady();
+      if (typeof window !== "undefined" && typeof window.addEventListener === "function") {
+        window.addEventListener("pagehide", function () {
+          coherenceChannel.close();
+        });
+        window.addEventListener("pageshow", function (ev) {
+          if (ev && ev.persisted) {
+            busy = false;
+            syncAuthGateUi();
+          }
+        });
+      }
+
       bindEvents();
       syncAuthGateUi();
+      var mySessionEpoch = ++sessionEpoch;
+      resetSessionAbortController();
       try {
-        await processIncomingUrlAndSession();
+        await processIncomingUrlAndSession(mySessionEpoch);
       } catch (error) {
-        syncAuthGateUi();
-        setStatus("Organization Admin could not be initialized (" + (error && error.message ? error.message : "error") + ").", true);
+        if (error && error.name === "AbortError") return;
+        if (mySessionEpoch !== sessionEpoch) return;
+        try { syncAuthGateUi(); } catch (_) {}
+        var initRef = formatSupportRef(error, null);
+        var initWait = error && Number.isSafeInteger(error.retryAfterSec) && error.retryAfterSec > 0
+          ? " Wait " + error.retryAfterSec + "s before retrying."
+          : "";
+        setStatus("Organization Admin could not be initialized (" + (error && error.message ? error.message : "error") + ")." + initWait + (initRef ? " " + initRef + "." : ""), true);
       }
     }
 
@@ -2400,21 +3042,28 @@
         var target = adminOrgs.find(function (o) { return o.cloud_org_id === cloudOrgId; });
         if (!target) throw new Error("organization_access_denied");
         requestedOrgLocator = target.scm_owner_slug || target.cloud_org_id;
-        await activateOrganization(target);
+        await activateOrganization(target, sessionEpoch);
       },
       signOut: function () {
         var btn = byId("admin-sign-out-btn");
         if (btn && typeof btn.onclick === "function") btn.onclick();
       },
+      close: function () { abortAllInFlight(); coherenceChannel.close(); },
       getState: function () {
         return {
-          authenticated: Boolean(profile && flow.validateSessionRecord(session, profile.projectOrigin, nowSec())),
+          authenticated: Boolean(!skewBlocked && flowOk && profile && flow.validateSessionRecord(session, profile.projectOrigin, nowSec())),
+          skewBlocked: skewBlocked,
+          skewReason: skewReason,
           requestedOrgLocator: requestedOrgLocator,
           activeOrg: activeOrg ? Object.assign({}, activeOrg) : null,
           adminOrgIds: adminOrgs.map(function (o) { return o.cloud_org_id; }),
           orgProjectCount: orgProjects.length,
           billingReady: billingReady,
-          routeMode: routeMode
+          routeMode: routeMode,
+          adminRevision: adminRevision,
+          recoveryRevision: recoveryRevision,
+          sessionEpoch: sessionEpoch,
+          renderGeneration: renderGeneration
         };
       }
     };

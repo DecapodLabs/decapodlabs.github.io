@@ -1,10 +1,45 @@
 (function (root) {
   "use strict";
 
-  var flow = root.DecapodCloudFlow;
+  function hasCompatibleFlow(candidate) {
+    return Boolean(
+      candidate &&
+      candidate.CONTRACT_VERSION === 1 &&
+      typeof candidate.isAllowedSiteOrigin === "function" &&
+      typeof candidate.isTrustedApiOrigin === "function" &&
+      typeof candidate.isTrustedAuthUrl === "function" &&
+      typeof candidate.isAllowedCheckoutUrl === "function" &&
+      typeof candidate.isSupportedApiContractVersion === "function" &&
+      typeof candidate.checkPageCoherence === "function" &&
+      typeof candidate.scrubSensitiveLocation === "function" &&
+      typeof candidate.createCoherenceChannel === "function" &&
+      typeof candidate.parseRepoSearch === "function" &&
+      typeof candidate.parseRepoSlug === "function" &&
+      typeof candidate.parseSafeReturnParam === "function" &&
+      typeof candidate.validateSessionRecord === "function" &&
+      typeof candidate.hasHostileFragmentTokens === "function" &&
+      typeof candidate.listVerifiedProviders === "function" &&
+      typeof candidate.hasVerifiedProvider === "function" &&
+      typeof candidate.classifyAccessState === "function" &&
+      typeof candidate.createBoundedPoller === "function" &&
+      typeof candidate.buildAuthAuthorizeUrl === "function" &&
+      typeof candidate.discoverRuntimeConfig === "function" &&
+      typeof candidate.randomSecret === "function" &&
+      typeof candidate.sha256Base64Url === "function"
+    );
+  }
+
+  function isValidProfile(p, flowApi) {
+    if (!p || typeof p !== "object" || Array.isArray(p) || !hasCompatibleFlow(flowApi)) return false;
+    if (p.contractVersion !== undefined && p.contractVersion !== flowApi.CONTRACT_VERSION) return false;
+    if (!flowApi.isTrustedApiOrigin(p.projectOrigin) || !flowApi.isTrustedApiOrigin(p.apiOrigin)) return false;
+    if (!flowApi.isTrustedAuthUrl(p.authBaseUrl)) return false;
+    return typeof p.publishableKey === "string" && p.publishableKey.length > 0;
+  }
 
   function createSignupController(deps) {
     var d = deps || {};
+    var flow = Object.prototype.hasOwnProperty.call(d, "flow") ? d.flow : root.DecapodCloudFlow;
     var doc = d.document || root.document;
     var winLocation = d.location || root.location;
     var winHistory = d.history || (typeof history !== "undefined" ? history : null);
@@ -14,7 +49,11 @@
     var navigateFn = d.navigateFn || function (url) { winLocation.assign(url); };
     var nowSec = d.nowSec || function () { return Math.floor(Date.now() / 1000); };
 
-    var profile = d.initialProfile || null;
+    var flowOk = hasCompatibleFlow(flow);
+    var profile = d.initialProfile ? (isValidProfile(d.initialProfile, flow) ? d.initialProfile : null) : null;
+    var invalidInitialProfile = Boolean(d.initialProfile && !profile);
+    var skewBlocked = !flowOk || invalidInitialProfile;
+    var skewReason = !flowOk ? "incompatible_cloud_flow" : (invalidInitialProfile ? "untrusted_profile" : null);
     var session = null;
     var currentUser = null;
     var accountSnapshot = null;
@@ -28,26 +67,158 @@
     var activeQuoteOrder = null;
     var quoteRequestId = null;
     var quotePayloadKey = null;
+    var checkoutRequestId = null;
+    var checkoutRequestKey = null;
     var enrollRequestId = null;
     var enrollRepoSlug = null;
     var githubReposCache = [];
     var githubOrgsCache = [];
+    var sessionEpoch = 0;
+    var viewGeneration = 0;
     var pollGeneration = 0;
+    var quoteGeneration = 0;
+    var sessionAbortController = null;
+    var viewAbortController = null;
     var busy = false;
+    var enrollInFlight = false;
+    var quoteInFlight = false;
+    var checkoutInFlight = false;
+    var siblingCheckout = null;
+    var backendAuthorized = false;
+    var lastStateKind = null;
+    var coherenceChannel = flowOk
+      ? flow.createCoherenceChannel({
+          BroadcastChannel: d.broadcastChannel,
+          onSkew: function () {
+            skewBlocked = true;
+            skewReason = "multi_tab_release_skew";
+            invalidateSessionState("A newer release of Decapod Cloud is active in another tab. Reload this page to continue safely.", true, false);
+          },
+          onAuthInvalidated: function (msg) {
+            if (msg && msg.projectOrigin && profile && msg.projectOrigin !== profile.projectOrigin) return;
+            invalidateSessionState("Signed out in another tab. Authenticate again to continue.", false, false);
+          },
+          onCheckoutEvent: function (msg) {
+            if (!msg || skewBlocked || !session) return;
+            if (msg.projectOrigin && profile && msg.projectOrigin !== profile.projectOrigin) return;
+            if (msg.type === "checkout_started") {
+              if (activeProjectId && msg.projectId === activeProjectId) {
+                siblingCheckout = {
+                  organizationId: msg.organizationId || null,
+                  projectId: msg.projectId,
+                  orderId: msg.orderId || null,
+                  requestId: msg.requestId || null
+                };
+                var cBtn = byId("checkout-btn");
+                if (cBtn) cBtn.disabled = true;
+                setStatus("Checkout is already open in another tab for " + msg.projectId + ". Complete it there or refresh status before starting another.", false);
+              }
+              return;
+            }
+            if (msg.type === "checkout_returned" || msg.type === "fulfillment_status") {
+              if (siblingCheckout && (!msg.projectId || siblingCheckout.projectId === msg.projectId)) {
+                siblingCheckout = null;
+              }
+              if (activeOrganizationId && activeProjectId && (!msg.projectId || msg.projectId === activeProjectId) && !backendAuthorized) {
+                inspectProjectAccess(activeOrganizationId, activeProjectId, preselectedRepo || activeProjectId, viewGeneration)
+                  .catch(function () {});
+              }
+            }
+          }
+        })
+      : { announceReady: function () {}, broadcastAuthInvalidated: function () {}, broadcastIntentSync: function () {}, broadcastCheckoutEvent: function () {}, close: function () {} };
+
+    function makeRequestId() {
+      return typeof crypto !== "undefined" && typeof crypto.randomUUID === "function"
+        ? crypto.randomUUID()
+        : flow.randomSecret();
+    }
+
+    function createAbortError() {
+      var err = new Error("aborted");
+      err.name = "AbortError";
+      return err;
+    }
+
+    function resetSessionAbortController() {
+      if (sessionAbortController) {
+        try { sessionAbortController.abort(); } catch (_) {}
+      }
+      sessionAbortController = typeof AbortController === "function" ? new AbortController() : null;
+      return sessionAbortController;
+    }
+
+    function resetViewAbortController() {
+      if (viewAbortController) {
+        try { viewAbortController.abort(); } catch (_) {}
+      }
+      viewAbortController = typeof AbortController === "function" ? new AbortController() : null;
+      return viewAbortController;
+    }
+
+    function abortAllInFlight() {
+      if (viewAbortController) {
+        try { viewAbortController.abort(); } catch (_) {}
+        viewAbortController = null;
+      }
+      if (sessionAbortController) {
+        try { sessionAbortController.abort(); } catch (_) {}
+        sessionAbortController = null;
+      }
+    }
+
+    function createLinkedSignal(timeoutMs, parentSignal) {
+      var timeoutSig = typeof AbortSignal !== "undefined" && AbortSignal.timeout ? AbortSignal.timeout(timeoutMs) : null;
+      if (!parentSignal) return { signal: timeoutSig, cleanup: function () {} };
+      if (!timeoutSig) return { signal: parentSignal, cleanup: function () {} };
+      if (typeof AbortSignal !== "undefined" && typeof AbortSignal.any === "function") {
+        return { signal: AbortSignal.any([timeoutSig, parentSignal]), cleanup: function () {} };
+      }
+      if (typeof AbortController !== "function") return { signal: parentSignal, cleanup: function () {} };
+      var ctrl = new AbortController();
+      function onAbort() {
+        try { ctrl.abort(); } catch (_) {}
+      }
+      if (parentSignal.aborted || timeoutSig.aborted) {
+        onAbort();
+        return { signal: ctrl.signal, cleanup: function () {} };
+      }
+      parentSignal.addEventListener("abort", onAbort, { once: true });
+      timeoutSig.addEventListener("abort", onAbort, { once: true });
+      return {
+        signal: ctrl.signal,
+        cleanup: function () {
+          try { parentSignal.removeEventListener("abort", onAbort); } catch (_) {}
+          try { timeoutSig.removeEventListener("abort", onAbort); } catch (_) {}
+        }
+      };
+    }
+
+    function isActiveView(expectedSessionEpoch, expectedViewGen) {
+      return Boolean(
+        !skewBlocked &&
+        expectedSessionEpoch === sessionEpoch &&
+        expectedViewGen === viewGeneration &&
+        session &&
+        profile &&
+        flow.validateSessionRecord(session, profile.projectOrigin, nowSec())
+      );
+    }
 
     function byId(id) {
       return doc.getElementById(id);
     }
 
     function siteOrigin() {
-      if (winLocation && flow.isAllowedSiteOrigin(winLocation.origin)) {
+      if (flowOk && winLocation && flow.isAllowedSiteOrigin(winLocation.origin)) {
         return winLocation.origin;
       }
-      return flow.CANONICAL_SITE_ORIGIN;
+      return flowOk ? flow.CANONICAL_SITE_ORIGIN : "https://decapodlabs.ai";
     }
 
     function namespace() {
-      return "decapod-portal:" + (profile ? profile.projectOrigin : flow.FALLBACK_CLOUD_ORIGIN) + ":";
+      var proj = profile ? profile.projectOrigin : (flowOk ? flow.FALLBACK_CLOUD_ORIGIN : "https://goyxpcmxetztjlrrcwew.supabase.co");
+      return "decapod-portal:" + proj + ":";
     }
 
     function storeGet(key, limit) {
@@ -95,6 +266,7 @@
     }
 
     function hideAllProtectedPanels() {
+      backendAuthorized = false;
       var ids = ["account-bar", "step-identity", "step-org-repo", "step-state", "step-checkout", "step-ready"];
       for (var i = 0; i < ids.length; i++) {
         var el = byId(ids[i]);
@@ -121,31 +293,142 @@
       activeOrganizationId = null;
     }
 
+    function invalidateSessionState(statusMessage, isError, broadcast) {
+      sessionEpoch++;
+      viewGeneration++;
+      pollGeneration++;
+      quoteGeneration++;
+      abortAllInFlight();
+      busy = false;
+      enrollInFlight = false;
+      quoteInFlight = false;
+      checkoutInFlight = false;
+      siblingCheckout = null;
+      backendAuthorized = false;
+      lastStateKind = null;
+      checkoutReturned = false;
+      storeRemove("flow");
+      storeRemove("session");
+      storeRemove("checkout_pending");
+      storeRemove("checkout_req");
+      storeRemove("enroll_req");
+      session = null;
+      currentUser = null;
+      accountSnapshot = null;
+      inMemoryProviderToken = null;
+      pendingStepupProvider = null;
+      quoteRequestId = null;
+      quotePayloadKey = null;
+      checkoutRequestId = null;
+      checkoutRequestKey = null;
+      enrollRequestId = null;
+      enrollRepoSlug = null;
+      githubReposCache = [];
+      githubOrgsCache = [];
+      var repoInput = byId("repo-input");
+      if (repoInput) repoInput.value = "";
+      syncAuthGateUi();
+      if (broadcast !== false && flowOk && profile) {
+        coherenceChannel.broadcastAuthInvalidated(profile.projectOrigin);
+      }
+      if (statusMessage) {
+        setStatus(statusMessage, Boolean(isError));
+      }
+    }
+
     function syncAuthGateUi() {
-      var signedIn = Boolean(profile && flow.validateSessionRecord(session, profile.projectOrigin, nowSec()));
+      var signedIn = Boolean(
+        !skewBlocked &&
+        flowOk &&
+        profile &&
+        flow.validateSessionRecord(session, profile.projectOrigin, nowSec())
+      );
       var authGate = byId("auth-gate");
       if (authGate) authGate.hidden = signedIn;
       var cancelBtn = byId("cancel-auth-btn");
-      if (cancelBtn) cancelBtn.hidden = !storeGet("flow", 8192);
+      if (cancelBtn) cancelBtn.hidden = skewBlocked || !storeGet("flow", 8192);
       if (!signedIn) {
         clearConfidentialUi();
       }
       var providers = profile ? profile.authProviders : { github: true, google: false };
       var ghBtn = byId("auth-github");
       var googleBtn = byId("auth-google");
-      if (ghBtn) ghBtn.disabled = busy || !providers.github;
+      if (ghBtn) ghBtn.disabled = skewBlocked || busy || !providers.github;
       if (googleBtn) {
-        googleBtn.disabled = busy || !providers.google;
+        googleBtn.disabled = skewBlocked || busy || !providers.google;
       }
       var noteEl = byId("auth-provider-note");
       if (noteEl) {
-        var disabled = [];
-        if (!providers.github) disabled.push("GitHub");
-        if (!providers.google) disabled.push("Google");
-        noteEl.textContent = disabled.length
-          ? "Currently disabled on this deployment: " + disabled.join(", ") + "."
-          : "Sign in with GitHub or Google via PKCE.";
+        if (skewBlocked) {
+          noteEl.textContent = "Client asset version skew detected. Reload the page before signing in.";
+        } else {
+          var disabled = [];
+          if (!providers.github) disabled.push("GitHub");
+          if (!providers.google) disabled.push("Google");
+          noteEl.textContent = disabled.length
+            ? "Currently disabled on this deployment: " + disabled.join(", ") + "."
+            : "Sign in with GitHub or Google via PKCE.";
+        }
       }
+    }
+
+    function formatSupportRef(err, fallbackId) {
+      var ref = (err && typeof err.correlationId === "string" && err.correlationId) ||
+        (typeof fallbackId === "string" && fallbackId ? fallbackId : null);
+      return ref ? "Support ref: " + ref : "";
+    }
+
+    function statusCodeToFailureKind(err) {
+      if (!err) return "backend_unavailable";
+      var msg = err.message || "";
+      if (err.status === 403 || msg === "admin_required" || msg === "organization_access_denied" || msg === "forbidden") {
+        return "access_denied";
+      }
+      if (err.status === 429 || msg === "rate_limited") {
+        return "rate_limited";
+      }
+      return "backend_unavailable";
+    }
+
+    function showDegradedApiState(err, fallbackRef, allowRetry) {
+      var kind = statusCodeToFailureKind(err);
+      var refText = formatSupportRef(err, fallbackRef);
+      var retryWait = err && Number.isSafeInteger(err.retryAfterSec) && err.retryAfterSec > 0
+        ? " Wait at least " + err.retryAfterSec + "s before retrying."
+        : "";
+      if (kind === "access_denied") {
+        showFailClosedState(
+          "access_denied",
+          "ACCESS DENIED",
+          "Authorization denied by server",
+          "The server denied access to this organization or repository (" + (err && err.message ? err.message : "forbidden") + ").",
+          refText || "Contact an organization administrator to verify your access.",
+          false
+        );
+        setStatus("Access denied (" + (err && err.message ? err.message : "forbidden") + ")." + (refText ? " " + refText + "." : ""), true);
+        return;
+      }
+      if (kind === "rate_limited") {
+        showFailClosedState(
+          "rate_limited",
+          "RATE LIMITED (429)",
+          "Too many requests — please wait",
+          "Cloud API rate limit reached. Do not submit duplicate payments or repeated checkouts." + retryWait,
+          (refText ? refText + ". " : "") + "Use Check status now after waiting.",
+          allowRetry !== false
+        );
+        setStatus("Rate-limited (429)." + retryWait + (refText ? " " + refText + "." : ""), true);
+        return;
+      }
+      showFailClosedState(
+        "backend_unavailable",
+        "SERVICE UNAVAILABLE",
+        "Cloud backend temporarily unavailable",
+        "The Decapod Cloud API could not be reached or returned an error. Your repository intent remains preserved and no duplicate payment was created.",
+        (refText ? refText + ". " : "") + "Use Check status now once connectivity recovers.",
+        allowRetry !== false
+      );
+      setStatus("Cloud backend unavailable (" + (err && err.message ? err.message : "service_unavailable") + ")." + (refText ? " " + refText + "." : ""), true);
     }
 
     async function boundedJson(response, maxBytes) {
@@ -177,51 +460,121 @@
       try {
         return JSON.parse(text);
       } catch (_) {
-        if (!response.ok) return { error: { code: "service_unavailable" } };
+        if (!response.ok) {
+          if (response.status === 429) return { error: { code: "rate_limited" } };
+          if (response.status === 403) return { error: { code: "forbidden" } };
+          return { error: { code: "service_unavailable" } };
+        }
         throw new Error("invalid_response");
       }
     }
 
-    async function apiRequest(url, body, bearer, method) {
-      if (!profile) throw new Error("service_unavailable");
+    async function apiRequest(url, body, bearer, method, reqOptions) {
+      if (skewBlocked || !flowOk) throw new Error("client_version_skew");
+      if (!profile || !isValidProfile(profile, flow)) throw new Error("service_unavailable");
+      var opts = reqOptions || {};
+      var expectedSessionEpoch = typeof opts.sessionEpoch === "number" ? opts.sessionEpoch : sessionEpoch;
+      var parentSignal = opts.signal || (sessionAbortController ? sessionAbortController.signal : null);
+      if ((parentSignal && parentSignal.aborted) || expectedSessionEpoch !== sessionEpoch) {
+        throw createAbortError();
+      }
       var parsed = new URL(url);
       if (!flow.isTrustedApiOrigin(parsed.origin)) throw new Error("untrusted_api_origin");
       var headers = { apikey: profile.publishableKey };
       if (body !== undefined) headers["Content-Type"] = "application/json";
       if (bearer) headers.Authorization = "Bearer " + bearer;
-      var response = await fetchFn(url, {
-        method: method || (body === undefined ? "GET" : "POST"),
-        redirect: "error",
-        credentials: "omit",
-        signal: typeof AbortSignal !== "undefined" && AbortSignal.timeout ? AbortSignal.timeout(15000) : undefined,
-        headers: headers,
-        body: body === undefined ? undefined : JSON.stringify(body)
-      });
+      var fallbackCorr = (body && typeof body.request_id === "string" && body.request_id) ? body.request_id : makeRequestId();
+      var linked = createLinkedSignal(15000, parentSignal);
+      var response;
+      try {
+        response = await fetchFn(url, {
+          method: method || (body === undefined ? "GET" : "POST"),
+          redirect: "error",
+          credentials: "omit",
+          cache: "no-store",
+          signal: linked.signal || undefined,
+          headers: headers,
+          body: body === undefined ? undefined : JSON.stringify(body)
+        });
+      } catch (netErr) {
+        if ((parentSignal && parentSignal.aborted) || expectedSessionEpoch !== sessionEpoch) {
+          throw createAbortError();
+        }
+        var isTimeout = Boolean(netErr && (netErr.name === "TimeoutError" || netErr.name === "AbortError"));
+        var wrappedNet = new Error(isTimeout ? "request_timeout" : "service_unavailable");
+        wrappedNet.status = isTimeout ? 504 : 503;
+        wrappedNet.correlationId = typeof flow.extractCorrelationRef === "function"
+          ? flow.extractCorrelationRef(null, null, fallbackCorr)
+          : fallbackCorr;
+        throw wrappedNet;
+      } finally {
+        linked.cleanup();
+      }
+      if ((parentSignal && parentSignal.aborted) || expectedSessionEpoch !== sessionEpoch) {
+        if (response && response.body && typeof response.body.cancel === "function") {
+          await response.body.cancel().catch(function () {});
+        }
+        throw createAbortError();
+      }
+      var contractHeader = response.headers && typeof response.headers.get === "function"
+        ? response.headers.get("decapod-cloud-contract-version")
+        : null;
+      if (!flow.isSupportedApiContractVersion(contractHeader)) {
+        if (response.body && typeof response.body.cancel === "function") await response.body.cancel().catch(function () {});
+        skewBlocked = true;
+        skewReason = "api_contract_mismatch";
+        invalidateSessionState("API contract version mismatch. Reload this page to continue safely.", true, false);
+        throw new Error("contract_version_mismatch");
+      }
       var data = await boundedJson(response);
+      if ((parentSignal && parentSignal.aborted) || expectedSessionEpoch !== sessionEpoch) {
+        throw createAbortError();
+      }
+      if (data && typeof data === "object" && !Array.isArray(data) &&
+          data.version !== undefined && data.version !== flow.CONTRACT_VERSION) {
+        skewBlocked = true;
+        skewReason = "api_payload_version_mismatch";
+        invalidateSessionState("API payload version mismatch. Reload this page to continue safely.", true, false);
+        throw new Error("contract_version_mismatch");
+      }
       if (!response.ok) {
-        var errCode = data && ((data.error && data.error.code) || data.error_code || data.code) || "request_failed";
+        var errCode = data && ((data.error && data.error.code) || data.error_code || data.code) ||
+          (response.status === 429 ? "rate_limited" : response.status === 403 ? "forbidden" : response.status >= 500 ? "service_unavailable" : "request_failed");
+        if ((response.status === 401 || errCode === "invalid_token") && expectedSessionEpoch === sessionEpoch) {
+          invalidateSessionState("Your session expired or was revoked. Sign in again to continue.", true, true);
+        }
+        var retryAfterSec = typeof flow.parseRetryAfterSeconds === "function"
+          ? flow.parseRetryAfterSeconds(response.headers && typeof response.headers.get === "function" ? response.headers.get("retry-after") : null)
+          : null;
         var err = new Error(errCode);
         err.status = response.status;
         err.payload = data;
+        err.correlationId = typeof flow.extractCorrelationRef === "function"
+          ? flow.extractCorrelationRef(response, data, fallbackCorr)
+          : fallbackCorr;
+        if (retryAfterSec !== null) {
+          err.retryAfterSec = retryAfterSec;
+          err.retryAfterMs = retryAfterSec * 1000;
+        }
         throw err;
       }
       return data;
     }
 
     function requireToken() {
-      if (!profile || !flow.validateSessionRecord(session, profile.projectOrigin, nowSec())) {
+      if (skewBlocked || !flowOk || !profile || !flow.validateSessionRecord(session, profile.projectOrigin, nowSec())) {
         throw new Error("sign_in_required");
       }
       return session.access_token;
     }
 
-    async function edgePost(action, body) {
+    async function edgePost(action, body, reqOptions) {
       var bearer = requireToken();
-      return await apiRequest(profile.onboardingPrefix + "/" + action, Object.assign({ version: 1 }, body || {}), bearer, "POST");
+      return await apiRequest(profile.onboardingPrefix + "/" + action, Object.assign({ version: 1 }, body || {}), bearer, "POST", reqOptions);
     }
 
-    async function fetchUser(bearer) {
-      var u = await apiRequest(profile.projectOrigin + "/auth/v1/user", undefined, bearer, "GET");
+    async function fetchUser(bearer, reqOptions) {
+      var u = await apiRequest(profile.projectOrigin + "/auth/v1/user", undefined, bearer, "GET", reqOptions);
       if (!u || !flow.UUID_PATTERN.test(u.id || "") || !Array.isArray(u.identities) || u.identities.length > 100) {
         throw new Error("invalid_response");
       }
@@ -229,6 +582,7 @@
     }
 
     async function beginAuth(provider, kind, repoVerification) {
+      if (skewBlocked || !flowOk) throw new Error("client_version_skew");
       if (!profile) throw new Error("service_unavailable");
       if (busy) throw new Error("auth_pending");
       if (!["github", "google"].includes(provider)) throw new Error("invalid_provider");
@@ -236,89 +590,97 @@
         throw new Error("provider_disabled");
       }
 
-      var verifier = flow.randomSecret();
-      var nonce = flow.randomSecret();
-      var challenge = await flow.sha256Base64Url(verifier);
-      var origin = siteOrigin();
-      var returnTarget = new URL(origin + "/signup");
-      returnTarget.searchParams.set("login_nonce", nonce);
-
-      var flowRecord = {
-        version: 1,
-        kind: kind,
-        provider: provider,
-        verifier: verifier,
-        nonce: nonce,
-        expires: nowSec() + 900,
-        phase: "pending",
-        project: profile.projectOrigin,
-        returnURL: origin + "/signup"
-      };
-
-      if (kind === "link") {
-        var linkBearer = requireToken();
-        var userInfo = await fetchUser(linkBearer);
-        flowRecord.account_id = userInfo.id;
-        flowRecord.session_binding = await flow.sha256Base64Url(linkBearer);
-        flowRecord.before_providers = flow.listVerifiedProviders(userInfo);
-        var prep = await edgePost("account-register", {
-          operation: "prepare_provider_link",
-          target_provider: provider
-        });
-        if (prep && prep.link_intent_id && prep.stepup_secret) {
-          flowRecord.link_intent_id = prep.link_intent_id;
-          flowRecord.stepup_secret = prep.stepup_secret;
-        }
-        storeSet("flow", flowRecord);
-        syncAuthGateUi();
-        var linkAuthUrl = new URL("/auth/v1/user/identities/authorize", profile.projectOrigin);
-        linkAuthUrl.search = new URLSearchParams({
-          provider: provider,
-          code_challenge: challenge,
-          code_challenge_method: "s256",
-          redirect_to: returnTarget.href,
-          scopes: "repo",
-          skip_http_redirect: "true"
-        }).toString();
-        var linkResp = await apiRequest(linkAuthUrl.href, undefined, linkBearer, "GET");
-        var linkTarget = new URL(linkResp.url);
-        if (linkTarget.origin + linkTarget.pathname !== "https://github.com/login/oauth/authorize" ||
-            linkTarget.username || linkTarget.password || linkTarget.hash) {
-          storeRemove("flow");
-          throw new Error("invalid_response");
-        }
-        navigateFn(linkTarget.href);
-        return;
-      }
-
-      if (repoVerification) {
-        var activeBearer = requireToken();
-        var current = await fetchUser(activeBearer);
-        flowRecord.verification_account_id = current.id;
-        storeSet("flow", flowRecord);
-        syncAuthGateUi();
-        var verifyUrl = new URL("/auth/v1/authorize", profile.projectOrigin);
-        verifyUrl.search = new URLSearchParams({
-          provider: provider,
-          code_challenge: challenge,
-          code_challenge_method: "s256",
-          redirect_to: returnTarget.href,
-          scopes: "repo"
-        }).toString();
-        navigateFn(verifyUrl.href);
-        return;
-      }
-
-      storeSet("flow", flowRecord);
+      busy = true;
       syncAuthGateUi();
-      var authUrl = flow.buildAuthAuthorizeUrl({
-        authBaseUrl: profile.authBaseUrl,
-        provider: provider,
-        returnTo: returnTarget.href,
-        codeChallenge: challenge,
-        expectedOrigin: origin
-      });
-      navigateFn(authUrl);
+      try {
+        var verifier = flow.randomSecret();
+        var nonce = flow.randomSecret();
+        var challenge = await flow.sha256Base64Url(verifier);
+        var origin = siteOrigin();
+        var returnTarget = new URL(origin + "/signup");
+        returnTarget.searchParams.set("login_nonce", nonce);
+
+        var flowRecord = {
+          version: 1,
+          contract_version: flow.CONTRACT_VERSION,
+          kind: kind,
+          provider: provider,
+          verifier: verifier,
+          nonce: nonce,
+          expires: nowSec() + 900,
+          phase: "pending",
+          project: profile.projectOrigin,
+          returnURL: origin + "/signup"
+        };
+
+        if (kind === "link") {
+          var linkBearer = requireToken();
+          var userInfo = await fetchUser(linkBearer);
+          flowRecord.account_id = userInfo.id;
+          flowRecord.session_binding = await flow.sha256Base64Url(linkBearer);
+          flowRecord.before_providers = flow.listVerifiedProviders(userInfo);
+          var prep = await edgePost("account-register", {
+            operation: "prepare_provider_link",
+            target_provider: provider
+          });
+          if (prep && prep.link_intent_id && prep.stepup_secret) {
+            flowRecord.link_intent_id = prep.link_intent_id;
+            flowRecord.stepup_secret = prep.stepup_secret;
+          }
+          storeSet("flow", flowRecord);
+          syncAuthGateUi();
+          var linkAuthUrl = new URL("/auth/v1/user/identities/authorize", profile.projectOrigin);
+          linkAuthUrl.search = new URLSearchParams({
+            provider: provider,
+            code_challenge: challenge,
+            code_challenge_method: "s256",
+            redirect_to: returnTarget.href,
+            scopes: "repo",
+            skip_http_redirect: "true"
+          }).toString();
+          var linkResp = await apiRequest(linkAuthUrl.href, undefined, linkBearer, "GET");
+          var linkTarget = new URL(linkResp.url);
+          if (linkTarget.origin + linkTarget.pathname !== "https://github.com/login/oauth/authorize" ||
+              linkTarget.username || linkTarget.password || linkTarget.hash) {
+            storeRemove("flow");
+            throw new Error("invalid_response");
+          }
+          navigateFn(linkTarget.href);
+          return;
+        }
+
+        if (repoVerification) {
+          var activeBearer = requireToken();
+          var current = await fetchUser(activeBearer);
+          flowRecord.verification_account_id = current.id;
+          storeSet("flow", flowRecord);
+          syncAuthGateUi();
+          var verifyUrl = new URL("/auth/v1/authorize", profile.projectOrigin);
+          verifyUrl.search = new URLSearchParams({
+            provider: provider,
+            code_challenge: challenge,
+            code_challenge_method: "s256",
+            redirect_to: returnTarget.href,
+            scopes: "repo"
+          }).toString();
+          navigateFn(verifyUrl.href);
+          return;
+        }
+
+        storeSet("flow", flowRecord);
+        syncAuthGateUi();
+        var authUrl = flow.buildAuthAuthorizeUrl({
+          authBaseUrl: profile.authBaseUrl,
+          provider: provider,
+          returnTo: returnTarget.href,
+          codeChallenge: challenge,
+          expectedOrigin: origin
+        });
+        navigateFn(authUrl);
+      } finally {
+        busy = false;
+        syncAuthGateUi();
+      }
     }
 
     function renderAccountBar() {
@@ -362,6 +724,8 @@
     }
 
     function showFailClosedState(kind, kicker, heading, message, detail, allowRetry) {
+      backendAuthorized = false;
+      lastStateKind = kind;
       hideAllProtectedPanels();
       renderAccountBar();
       var card = byId("step-state");
@@ -377,17 +741,36 @@
     }
 
     function showReadyState(projectId, accessStatus) {
+      if (!accessStatus || accessStatus.backend_authorized !== true || accessStatus.status !== "active") {
+        throw new Error("invalid_response");
+      }
       pollGeneration++;
       hideAllProtectedPanels();
+      backendAuthorized = true;
+      lastStateKind = "ready";
+      siblingCheckout = null;
+      storeRemove("checkout_pending");
+      storeRemove("checkout_req");
+      checkoutRequestId = null;
+      checkoutRequestKey = null;
       renderAccountBar();
       var card = byId("step-ready");
       var summary = byId("ready-summary");
       if (!card || !summary) return;
+      var resolvedProject = accessStatus.project_id || projectId;
       var roleLabel = accessStatus.admin ? "workspace administrator" : "assigned repository contributor";
-      summary.textContent = "Repository " + (accessStatus.project_id || projectId) +
+      summary.textContent = "Repository " + resolvedProject +
         " is active and server-authorized (" + roleLabel + ").";
       card.hidden = false;
-      setStatus("Ready: backend_authorized=true for " + (accessStatus.project_id || projectId) + ".", false);
+      setStatus("Ready: backend_authorized=true for " + resolvedProject + ".", false);
+      if (flowOk && profile) {
+        coherenceChannel.broadcastCheckoutEvent("fulfillment_status", {
+          projectOrigin: profile.projectOrigin,
+          organizationId: activeOrganizationId,
+          projectId: resolvedProject,
+          state: "ready"
+        });
+      }
     }
 
     function isOrgAdmin(orgId) {
@@ -433,7 +816,9 @@
       }
     }
 
-    async function loadGitHubOrgsAndRepos() {
+    async function loadGitHubOrgsAndRepos(expectedSessionEpoch, expectedViewGen) {
+      var mySessionEpoch = typeof expectedSessionEpoch === "number" ? expectedSessionEpoch : sessionEpoch;
+      var myViewGen = typeof expectedViewGen === "number" ? expectedViewGen : viewGeneration;
       var orgBlock = byId("org-picker-block");
       var orgSelect = byId("org-select");
       var authBtn = byId("authorize-github-repos-btn");
@@ -448,28 +833,43 @@
           Authorization: "Bearer " + inMemoryProviderToken,
           Accept: "application/vnd.github+json"
         };
+        var sig = viewAbortController ? viewAbortController.signal : (sessionAbortController ? sessionAbortController.signal : undefined);
         var userRes = await fetchFn("https://api.github.com/user", {
           method: "GET",
           redirect: "error",
+          signal: sig,
           headers: headers
         });
+        if (!isActiveView(mySessionEpoch, myViewGen)) return;
         var orgsRes = await fetchFn("https://api.github.com/user/orgs?per_page=100", {
           method: "GET",
           redirect: "error",
+          signal: sig,
           headers: headers
         });
+        if (!isActiveView(mySessionEpoch, myViewGen)) return;
         var reposRes = await fetchFn("https://api.github.com/user/repos?per_page=100&affiliation=owner,organization_member", {
           method: "GET",
           redirect: "error",
+          signal: sig,
           headers: headers
         });
+        if (!isActiveView(mySessionEpoch, myViewGen)) return;
         if (!userRes.ok || !reposRes.ok) {
           if (authBtn) authBtn.hidden = false;
+          var ghHint = byId("org-repo-hint");
+          var ghStatus = !userRes.ok ? userRes.status : reposRes.status;
+          if (ghHint) {
+            ghHint.textContent = ghStatus === 429
+              ? "GitHub repository lookup was rate-limited (429). Enter owner/repo manually or retry shortly."
+              : "GitHub repository lookup is temporarily unavailable (" + ghStatus + "). Enter owner/repo manually or re-authorize lookup.";
+          }
           return;
         }
         var ghUser = await userRes.json();
         var ghOrgs = orgsRes.ok ? await orgsRes.json() : [];
         var ghRepos = await reposRes.json();
+        if (!isActiveView(mySessionEpoch, myViewGen)) return;
         githubOrgsCache = [];
         if (ghUser && typeof ghUser.login === "string") {
           githubOrgsCache.push({ login: ghUser.login, label: ghUser.login + " (personal)" });
@@ -501,11 +901,25 @@
           if (orgBlock) orgBlock.hidden = false;
         }
       } catch (_) {
+        if (!isActiveView(mySessionEpoch, myViewGen)) return;
         if (authBtn) authBtn.hidden = false;
+        var ghCatchHint = byId("org-repo-hint");
+        if (ghCatchHint) {
+          ghCatchHint.textContent = "GitHub repository lookup could not be reached. Enter owner/repo manually or retry.";
+        }
       }
     }
 
     async function showOrgRepoPicker(note) {
+      resetViewAbortController();
+      var mySessionEpoch = sessionEpoch;
+      var myViewGen = ++viewGeneration;
+      pollGeneration++;
+      quoteGeneration++;
+      activeOrganizationId = null;
+      activeProjectId = null;
+      activeQuoteOrder = null;
+      siblingCheckout = null;
       hideAllProtectedPanels();
       renderAccountBar();
       var panel = byId("step-org-repo");
@@ -517,11 +931,14 @@
       }
       if (hint) hint.textContent = note || "";
       panel.hidden = false;
-      await loadGitHubOrgsAndRepos();
+      await loadGitHubOrgsAndRepos(mySessionEpoch, myViewGen);
     }
 
     async function runPendingFulfillmentPoll(projectId) {
+      var mySessionEpoch = sessionEpoch;
+      var myViewGen = viewGeneration;
       var myGen = ++pollGeneration;
+      var mySignal = viewAbortController ? viewAbortController.signal : (sessionAbortController ? sessionAbortController.signal : null);
       showFailClosedState(
         "pending_fulfillment",
         "FULFILLMENT IN PROGRESS",
@@ -530,32 +947,50 @@
         "Checking fulfillment status…",
         true
       );
-      var outcome = await flow.createBoundedPoller({
-        maxAttempts: 12,
-        intervalMs: 2500,
-        sleepFn: sleepFn,
-        isCancelled: function () { return myGen !== pollGeneration; },
-        onUpdate: function (info) {
-          var detail = byId("state-detail");
-          if (!detail) return;
-          detail.textContent = info.phase === "checking"
-            ? "Checking server fulfillment (attempt " + info.attempt + " of " + info.maxAttempts + ")…"
-            : "Still waiting on settlement (attempt " + info.attempt + " of " + info.maxAttempts + ")…";
-        },
-        checkFn: async function () {
-          return await edgePost("account-status", {
-            project_id: projectId,
-            operation: "access_details"
-          });
+      var outcome;
+      try {
+        outcome = await flow.createBoundedPoller({
+          maxAttempts: 12,
+          intervalMs: 2500,
+          sleepFn: sleepFn,
+          isCancelled: function () {
+            return myGen !== pollGeneration || mySessionEpoch !== sessionEpoch || myViewGen !== viewGeneration || Boolean(mySignal && mySignal.aborted);
+          },
+          onUpdate: function (info) {
+            if (myGen !== pollGeneration || mySessionEpoch !== sessionEpoch || myViewGen !== viewGeneration) return;
+            var detail = byId("state-detail");
+            if (!detail) return;
+            detail.textContent = info.phase === "checking"
+              ? "Checking server fulfillment (attempt " + info.attempt + " of " + info.maxAttempts + ")…"
+              : "Still waiting on settlement (attempt " + info.attempt + " of " + info.maxAttempts + ")…";
+          },
+          checkFn: async function () {
+            return await edgePost("account-status", {
+              project_id: projectId,
+              operation: "access_details"
+            }, { sessionEpoch: mySessionEpoch, signal: mySignal });
+          }
+        });
+      } catch (err) {
+        if ((err && err.name === "AbortError") || myGen !== pollGeneration || mySessionEpoch !== sessionEpoch || myViewGen !== viewGeneration) {
+          return;
         }
-      });
+        if (err && (err.status === 403 || err.message === "admin_required" || err.message === "organization_access_denied" || err.message === "forbidden")) {
+          storeRemove("checkout_pending");
+          showDegradedApiState(err, checkoutRequestId, false);
+          return;
+        }
+        throw err;
+      }
 
+      if (myGen !== pollGeneration || mySessionEpoch !== sessionEpoch || myViewGen !== viewGeneration) return;
       if (outcome.outcome === "cancelled") return;
       if (outcome.outcome === "ready") {
         showReadyState(projectId, outcome.result);
         return;
       }
       if (outcome.outcome === "admin_approval_required") {
+        storeRemove("checkout_pending");
         showFailClosedState(
           "admin_approval_required",
           "ADMIN APPROVAL REQUIRED",
@@ -567,6 +1002,7 @@
         return;
       }
       if (outcome.outcome === "organization_already_enrolled") {
+        storeRemove("checkout_pending");
         showFailClosedState(
           "organization_already_enrolled",
           "ORGANIZATION ALREADY ENROLLED",
@@ -577,14 +1013,36 @@
         );
         return;
       }
-      var detail = byId("state-detail");
-      if (detail) {
-        detail.textContent = "Fulfillment is still pending after " + outcome.attempts +
-          " checks. Access remains locked until settlement completes. Use Check status now to retry.";
+      var pendingCheckoutMeta = storeGet("checkout_pending", 4096);
+      var pendingCorr = (outcome.lastError && outcome.lastError.correlationId) ||
+        (pendingCheckoutMeta && (pendingCheckoutMeta.order_id || pendingCheckoutMeta.request_id)) ||
+        checkoutRequestId ||
+        projectId;
+      var refDetail = pendingCorr ? (" Support ref: " + pendingCorr + ".") : "";
+      showFailClosedState(
+        "pending_timeout",
+        "CONFIRMATION TIMED OUT",
+        "Payment confirmation still pending",
+        "Checkout redirect alone never grants access. Server fulfillment has not confirmed settlement yet (backend_authorized=false). Do not start a duplicate payment while settlement is pending.",
+        "Fulfillment is still pending after " + outcome.attempts +
+          " checks. Access remains locked until settlement completes. Use Check status now to retry." + refDetail,
+        true
+      );
+      setStatus("Fulfillment confirmation timed out (pending_timeout). Access remains locked (backend_authorized=false)." + refDetail, true);
+      if (flowOk && profile) {
+        coherenceChannel.broadcastCheckoutEvent("fulfillment_status", {
+          projectOrigin: profile.projectOrigin,
+          organizationId: activeOrganizationId,
+          projectId: projectId,
+          state: "pending_timeout"
+        });
       }
     }
 
-    async function showCheckoutPanel(orgId, projectId, repoLabel) {
+    async function showCheckoutPanel(orgId, projectId, repoLabel, expectedViewGen, customStatus) {
+      var mySessionEpoch = sessionEpoch;
+      var myViewGen = typeof expectedViewGen === "number" ? expectedViewGen : viewGeneration;
+      var mySignal = viewAbortController ? viewAbortController.signal : (sessionAbortController ? sessionAbortController.signal : null);
       hideAllProtectedPanels();
       renderAccountBar();
       activeOrganizationId = orgId;
@@ -614,15 +1072,17 @@
         var bStatus = await edgePost("billing-manage", {
           action: "status",
           organization_id: orgId
-        });
+        }, { sessionEpoch: mySessionEpoch, signal: mySignal });
+        if (!isActiveView(mySessionEpoch, myViewGen) || activeProjectId !== projectId) return;
         if (closedBox) closedBox.hidden = true;
         if (quoteControls) quoteControls.hidden = false;
         card.hidden = false;
-        setStatus("Organization and repository verified. Request an authoritative server quote to continue.", false);
+        setStatus(customStatus || "Organization and repository verified. Request an authoritative server quote to continue.", false);
         if (bStatus && bStatus.pending_order && bStatus.pending_order.quote_id) {
           renderQuoteSummary(bStatus.pending_order, repoLabel || projectId);
         }
       } catch (error) {
+        if ((error && error.name === "AbortError") || !isActiveView(mySessionEpoch, myViewGen) || activeProjectId !== projectId) return;
         var code = error && error.message ? error.message : "";
         if (code === "billing_not_configured" || code === "live_sale_disabled") {
           if (closedBox) closedBox.hidden = false;
@@ -658,26 +1118,81 @@
         ? "Annual commitment billed upfront for 12 months. Monthly resource allowances still reset monthly."
         : "Monthly recurring subscription. Changes or cancellations take effect at renewal.";
       summary.hidden = false;
-      checkoutBtn.disabled = !quoted.quote_id || quoted.status === "scheduled";
+      var blockedBySibling = Boolean(siblingCheckout && siblingCheckout.projectId === activeProjectId);
+      checkoutBtn.disabled = !quoted.quote_id || quoted.status === "scheduled" || checkoutInFlight || blockedBySibling;
     }
 
-    async function inspectProjectAccess(orgId, projectId, repoLabel) {
+    async function inspectProjectAccess(orgId, projectId, repoLabel, expectedViewGen) {
+      var mySessionEpoch = sessionEpoch;
+      var myViewGen;
+      if (typeof expectedViewGen === "number") {
+        myViewGen = expectedViewGen;
+        if (!viewAbortController) resetViewAbortController();
+      } else {
+        resetViewAbortController();
+        myViewGen = ++viewGeneration;
+      }
+      var mySignal = viewAbortController ? viewAbortController.signal : (sessionAbortController ? sessionAbortController.signal : null);
       activeOrganizationId = orgId;
       activeProjectId = projectId;
-      var access = await edgePost("account-status", {
-        project_id: projectId,
-        operation: "access_details"
-      });
+      var pendingCheckout = storeGet("checkout_pending", 4096);
+      var matchingPending = Boolean(pendingCheckout && pendingCheckout.project_id === projectId);
+      var pendingReturned = Boolean(matchingPending && pendingCheckout.returned === true);
+      var access = null;
+      try {
+        access = await edgePost("account-status", {
+          project_id: projectId,
+          operation: "access_details"
+        }, { sessionEpoch: mySessionEpoch, signal: mySignal });
+      } catch (err) {
+        if ((err && err.name === "AbortError") || !isActiveView(mySessionEpoch, myViewGen) || activeProjectId !== projectId) return;
+        if ((checkoutReturned || pendingReturned) && !(err && (
+          err.status === 401 ||
+          err.status === 403 ||
+          err.message === "invalid_token" ||
+          err.message === "admin_required" ||
+          err.message === "organization_access_denied" ||
+          err.message === "forbidden" ||
+          err.message === "contract_version_mismatch" ||
+          err.message === "client_version_skew" ||
+          err.message === "sign_in_required" ||
+          err.message === "auth_account_changed"
+        ))) {
+          if (flowOk && profile) {
+            coherenceChannel.broadcastCheckoutEvent("checkout_returned", {
+              projectOrigin: profile.projectOrigin,
+              organizationId: orgId,
+              projectId: projectId
+            });
+          }
+          await runPendingFulfillmentPoll(projectId);
+          return;
+        }
+        if (err && (err.status === 401 || err.message === "invalid_token" || err.message === "contract_version_mismatch" || err.message === "client_version_skew")) {
+          throw err;
+        }
+        showDegradedApiState(err, (pendingCheckout && pendingCheckout.order_id) || projectId, true);
+        return;
+      }
+      if (!isActiveView(mySessionEpoch, myViewGen) || activeProjectId !== projectId) return;
       var state = flow.classifyAccessState(access);
       if (state === "ready") {
         showReadyState(projectId, access);
         return;
       }
-      if (state === "pending_fulfillment" || checkoutReturned) {
+      if (state === "pending_fulfillment" || checkoutReturned || pendingReturned) {
+        if (flowOk && profile) {
+          coherenceChannel.broadcastCheckoutEvent("checkout_returned", {
+            projectOrigin: profile.projectOrigin,
+            organizationId: orgId,
+            projectId: projectId
+          });
+        }
         await runPendingFulfillmentPoll(projectId);
         return;
       }
       if (state === "organization_already_enrolled") {
+        storeRemove("checkout_pending");
         showFailClosedState(
           "organization_already_enrolled",
           "ORGANIZATION ALREADY ENROLLED",
@@ -689,6 +1204,7 @@
         return;
       }
       if (state === "admin_approval_required") {
+        storeRemove("checkout_pending");
         showFailClosedState(
           "admin_approval_required",
           "ADMIN APPROVAL REQUIRED",
@@ -700,6 +1216,11 @@
         return;
       }
       if (state === "entitlement_required") {
+        var returnedFromBack = matchingPending && !checkoutReturned && !pendingReturned;
+        if (returnedFromBack) {
+          storeRemove("checkout_pending");
+          siblingCheckout = null;
+        }
         if (!isOrgAdmin(access.organization_id || orgId)) {
           showFailClosedState(
             "admin_approval_required",
@@ -711,47 +1232,66 @@
           );
           return;
         }
-        await showCheckoutPanel(access.organization_id || orgId, projectId, repoLabel);
+        await showCheckoutPanel(
+          access.organization_id || orgId,
+          projectId,
+          repoLabel,
+          myViewGen,
+          returnedFromBack ? "Returned from Checkout before completion. Request or confirm a fresh server quote to continue." : null
+        );
         return;
       }
       await showOrgRepoPicker("Complete repository verification to continue.");
     }
 
     async function handleVerifyAndEnrollRepo() {
+      if (enrollInFlight) return;
       var input = byId("repo-input");
       var hint = byId("org-repo-hint");
+      var verifyBtn = byId("verify-repo-btn");
       var rawSlug = input ? input.value : "";
       var parsed = flow.parseRepoSlug(rawSlug);
       if (!parsed) {
         if (hint) hint.textContent = "Enter a valid repository as owner/repo (letters, digits, ., _, - only).";
         return;
       }
-      preselectedRepo = parsed.slug;
-      storeSet("pending-repo", parsed.slug);
-
-      var existing = findExistingProject(parsed.slug);
-      if (existing) {
-        await inspectProjectAccess(existing.organization_id || existing.organization, existing.project_id, parsed.slug);
-        return;
-      }
-
-      if (!inMemoryProviderToken) {
-        if (hint) {
-          hint.textContent = "GitHub repository verification requires an active GitHub OAuth session with repository permissions. Click Authorize GitHub repository lookup.";
-        }
-        var authBtn = byId("authorize-github-repos-btn");
-        if (authBtn) authBtn.hidden = false;
-        return;
-      }
-
-      if (enrollRepoSlug !== parsed.slug || !enrollRequestId) {
-        enrollRepoSlug = parsed.slug;
-        enrollRequestId = typeof crypto !== "undefined" && crypto.randomUUID
-          ? crypto.randomUUID()
-          : flow.randomSecret();
-      }
-
+      enrollInFlight = true;
+      if (verifyBtn) verifyBtn.disabled = true;
+      resetViewAbortController();
+      var mySessionEpoch = sessionEpoch;
+      var myViewGen = ++viewGeneration;
+      var mySignal = viewAbortController ? viewAbortController.signal : (sessionAbortController ? sessionAbortController.signal : null);
       try {
+        preselectedRepo = parsed.slug;
+        storeSet("pending-repo", parsed.slug);
+
+        var existing = findExistingProject(parsed.slug);
+        if (existing) {
+          await inspectProjectAccess(existing.organization_id || existing.organization, existing.project_id, parsed.slug, myViewGen);
+          return;
+        }
+
+        if (!inMemoryProviderToken) {
+          if (hint) {
+            hint.textContent = "GitHub repository verification requires an active GitHub OAuth session with repository permissions. Click Authorize GitHub repository lookup.";
+          }
+          var authBtn = byId("authorize-github-repos-btn");
+          if (authBtn) authBtn.hidden = false;
+          return;
+        }
+
+        if (enrollRepoSlug !== parsed.slug || !enrollRequestId) {
+          var savedEnroll = storeGet("enroll_req", 1024);
+          if (savedEnroll && savedEnroll.repo === parsed.slug && typeof savedEnroll.request_id === "string" && savedEnroll.request_id) {
+            enrollRepoSlug = parsed.slug;
+            enrollRequestId = savedEnroll.request_id;
+          } else {
+            enrollRepoSlug = parsed.slug;
+            enrollRequestId = makeRequestId();
+            storeSet("enroll_req", { repo: parsed.slug, request_id: enrollRequestId });
+          }
+        }
+
         if (hint) hint.textContent = "Verifying GitHub organization and repository permissions…";
         var existingProjects = (accountSnapshot && Array.isArray(accountSnapshot.projects))
           ? accountSnapshot.projects
@@ -772,17 +1312,24 @@
         if (sameOwnerProject) {
           enrollBody.organization_id = sameOwnerProject.organization_id || sameOwnerProject.organization;
         }
-        var enrolled = await edgePost("repository-enroll", enrollBody);
+        var enrolled = await edgePost("repository-enroll", enrollBody, { sessionEpoch: mySessionEpoch, signal: mySignal });
+        if (!isActiveView(mySessionEpoch, myViewGen)) return;
         if (enrolled.status !== "repository_enrolled" || typeof enrolled.project_id !== "string") {
           throw new Error(enrolled.status || "repository_verification_required");
         }
         enrollRequestId = null;
         enrollRepoSlug = null;
-        await loadAuthenticatedAccount();
-        await inspectProjectAccess(enrolled.organization_id, enrolled.project_id, parsed.slug);
+        storeRemove("enroll_req");
+        await loadAuthenticatedAccount(mySessionEpoch, myViewGen);
+        if (!isActiveView(mySessionEpoch, myViewGen)) return;
+        await inspectProjectAccess(enrolled.organization_id, enrolled.project_id, parsed.slug, myViewGen);
       } catch (error) {
+        if ((error && error.name === "AbortError") || !isActiveView(mySessionEpoch, myViewGen)) return;
         var code = error && error.message ? error.message : "repository_verification_required";
         if (code === "organization_already_enrolled") {
+          enrollRequestId = null;
+          enrollRepoSlug = null;
+          storeRemove("enroll_req");
           showFailClosedState(
             "organization_already_enrolled",
             "ORGANIZATION ALREADY ENROLLED",
@@ -794,6 +1341,9 @@
           return;
         }
         if (code === "repository_already_enrolled") {
+          enrollRequestId = null;
+          enrollRepoSlug = null;
+          storeRemove("enroll_req");
           showFailClosedState(
             "repository_already_enrolled",
             "REPOSITORY ALREADY ENROLLED",
@@ -805,6 +1355,9 @@
           return;
         }
         if (code === "admin_approval_required" || code === "admin_required") {
+          enrollRequestId = null;
+          enrollRepoSlug = null;
+          storeRemove("enroll_req");
           showFailClosedState(
             "admin_approval_required",
             "ADMIN APPROVAL REQUIRED",
@@ -829,87 +1382,217 @@
           return;
         }
         if (hint) hint.textContent = "Repository verification failed (" + code + ").";
+      } finally {
+        enrollInFlight = false;
+        if (verifyBtn) verifyBtn.disabled = false;
       }
     }
 
     async function handleQuoteClick() {
-      if (!activeOrganizationId || !activeProjectId) return;
+      if (quoteInFlight || !activeOrganizationId || !activeProjectId) return;
       var cadenceEl = byId("billing-cadence");
       var seatEl = byId("seat-quantity");
+      var quoteBtn = byId("quote-btn");
       var cadence = cadenceEl && cadenceEl.value === "year" ? "year" : "month";
       var capacity = Math.floor(Number(seatEl ? seatEl.value : 1));
       if (!Number.isSafeInteger(capacity) || capacity < 1 || capacity > 1000) {
         setStatus("Enter a seat count between 1 and 1000.", true);
         return;
       }
+      var targetOrgId = activeOrganizationId;
+      var targetProjId = activeProjectId;
       var payload = {
-        organization_id: activeOrganizationId,
+        organization_id: targetOrgId,
         cadence: cadence,
-        allocations: [{ project_id: activeProjectId, capacity: capacity }]
+        allocations: [{ project_id: targetProjId, capacity: capacity }]
       };
       var canonical = JSON.stringify(payload);
       if (quotePayloadKey !== canonical || !quoteRequestId) {
         quotePayloadKey = canonical;
-        quoteRequestId = typeof crypto !== "undefined" && crypto.randomUUID
-          ? crypto.randomUUID()
-          : flow.randomSecret();
+        quoteRequestId = makeRequestId();
       }
+      quoteInFlight = true;
+      if (quoteBtn) quoteBtn.disabled = true;
+      var mySessionEpoch = sessionEpoch;
+      var myViewGen = viewGeneration;
+      var myQuoteGen = ++quoteGeneration;
+      var mySignal = viewAbortController ? viewAbortController.signal : (sessionAbortController ? sessionAbortController.signal : null);
       try {
         setStatus("Requesting authoritative quote from server…", false);
-        var quoted = await edgePost("billing-quote", Object.assign({ request_id: quoteRequestId }, payload));
-        renderQuoteSummary(quoted, preselectedRepo || activeProjectId);
-        setStatus("Server quote ready. Review exact amount and terms before opening Stripe Checkout.", false);
-      } catch (error) {
-        var code = error && error.message ? error.message : "billing_quote_unavailable";
-        if (code === "billing_not_configured" || code === "live_sale_disabled") {
-          await showCheckoutPanel(activeOrganizationId, activeProjectId, preselectedRepo || activeProjectId);
+        var quoted = await edgePost("billing-quote", Object.assign({ request_id: quoteRequestId }, payload), {
+          sessionEpoch: mySessionEpoch,
+          signal: mySignal
+        });
+        if (!isActiveView(mySessionEpoch, myViewGen) || myQuoteGen !== quoteGeneration ||
+            activeOrganizationId !== targetOrgId || activeProjectId !== targetProjId) {
           return;
         }
-        setStatus("Quote failed (" + code + ").", true);
+        renderQuoteSummary(quoted, preselectedRepo || targetProjId);
+        setStatus("Server quote ready. Review exact amount and terms before opening Stripe Checkout.", false);
+      } catch (error) {
+        if ((error && error.name === "AbortError") || !isActiveView(mySessionEpoch, myViewGen) ||
+            myQuoteGen !== quoteGeneration || activeProjectId !== targetProjId) {
+          return;
+        }
+        var code = error && error.message ? error.message : "billing_quote_unavailable";
+        if (code === "billing_not_configured" || code === "live_sale_disabled") {
+          await showCheckoutPanel(targetOrgId, targetProjId, preselectedRepo || targetProjId, myViewGen);
+          return;
+        }
+        var quoteRef = formatSupportRef(error, quoteRequestId);
+        var quoteWait = error && Number.isSafeInteger(error.retryAfterSec) && error.retryAfterSec > 0
+          ? " Wait " + error.retryAfterSec + "s before retrying."
+          : "";
+        setStatus("Quote unavailable (" + code + ")." + quoteWait + (quoteRef ? " " + quoteRef + "." : ""), true);
+      } finally {
+        quoteInFlight = false;
+        if (quoteBtn) quoteBtn.disabled = false;
       }
     }
 
-    var checkoutInFlight = false;
     async function handleCheckoutClick() {
       if (checkoutInFlight) return;
       if (!activeOrganizationId || !activeQuoteOrder || !activeQuoteOrder.quote_id) {
         setStatus("Request a valid server quote before proceeding to Checkout.", true);
         return;
       }
+      if (siblingCheckout && siblingCheckout.projectId === activeProjectId) {
+        setStatus("Checkout is already open in another tab for " + activeProjectId + ". Complete it there or refresh status before starting another.", true);
+        return;
+      }
+      var targetOrgId = activeOrganizationId;
+      var targetProjId = activeProjectId;
+      var targetOrderId = activeQuoteOrder.order_id;
+      var targetQuoteId = activeQuoteOrder.quote_id;
+      var reqKey = targetOrgId + ":" + targetOrderId + ":" + targetQuoteId;
+      if (checkoutRequestKey !== reqKey || !checkoutRequestId) {
+        var savedReq = storeGet("checkout_req", 1024);
+        if (savedReq && savedReq.key === reqKey && typeof savedReq.request_id === "string" && savedReq.request_id) {
+          checkoutRequestKey = reqKey;
+          checkoutRequestId = savedReq.request_id;
+        } else {
+          checkoutRequestKey = reqKey;
+          checkoutRequestId = makeRequestId();
+          storeSet("checkout_req", { key: reqKey, request_id: checkoutRequestId });
+        }
+      }
+
       checkoutInFlight = true;
       var checkoutBtn = byId("checkout-btn");
       if (checkoutBtn) checkoutBtn.disabled = true;
+      var mySessionEpoch = sessionEpoch;
+      var myViewGen = viewGeneration;
+      var mySignal = viewAbortController ? viewAbortController.signal : (sessionAbortController ? sessionAbortController.signal : null);
       try {
         setStatus("Creating server-bound Checkout session…", false);
         var result = await edgePost("billing-checkout", {
-          organization_id: activeOrganizationId,
-          order_id: activeQuoteOrder.order_id,
-          quote_id: activeQuoteOrder.quote_id
-        });
+          request_id: checkoutRequestId,
+          organization_id: targetOrgId,
+          order_id: targetOrderId,
+          quote_id: targetQuoteId
+        }, { sessionEpoch: mySessionEpoch, signal: mySignal });
+        if (!isActiveView(mySessionEpoch, myViewGen) || activeProjectId !== targetProjId) return;
         if (result.checkout_url) {
           if (!flow.isAllowedCheckoutUrl(result.checkout_url)) {
             throw new Error("invalid_response");
+          }
+          storeSet("checkout_pending", {
+            organization_id: targetOrgId,
+            project_id: targetProjId,
+            order_id: targetOrderId,
+            quote_id: targetQuoteId,
+            request_id: checkoutRequestId,
+            repo: preselectedRepo || targetProjId,
+            returned: false,
+            started_at: nowSec()
+          });
+          if (flowOk && profile) {
+            coherenceChannel.broadcastCheckoutEvent("checkout_started", {
+              projectOrigin: profile.projectOrigin,
+              organizationId: targetOrgId,
+              projectId: targetProjId,
+              orderId: targetOrderId,
+              quoteId: targetQuoteId,
+              requestId: checkoutRequestId
+            });
           }
           navigateFn(result.checkout_url);
           return;
         }
         if (result.status === "payment_pending") {
-          await runPendingFulfillmentPoll(activeProjectId);
+          storeSet("checkout_pending", {
+            organization_id: targetOrgId,
+            project_id: targetProjId,
+            order_id: targetOrderId,
+            quote_id: targetQuoteId,
+            request_id: checkoutRequestId,
+            repo: preselectedRepo || targetProjId,
+            returned: true,
+            started_at: nowSec()
+          });
+          if (flowOk && profile) {
+            coherenceChannel.broadcastCheckoutEvent("checkout_started", {
+              projectOrigin: profile.projectOrigin,
+              organizationId: targetOrgId,
+              projectId: targetProjId,
+              orderId: targetOrderId,
+              quoteId: targetQuoteId,
+              requestId: checkoutRequestId
+            });
+          }
+          await runPendingFulfillmentPoll(targetProjId);
           return;
         }
-        await inspectProjectAccess(activeOrganizationId, activeProjectId, preselectedRepo || activeProjectId);
+        await inspectProjectAccess(targetOrgId, targetProjId, preselectedRepo || targetProjId, myViewGen);
       } catch (error) {
-        setStatus("Checkout could not be started (" + (error && error.message ? error.message : "error") + ").", true);
-        if (checkoutBtn && activeQuoteOrder && activeQuoteOrder.quote_id) checkoutBtn.disabled = false;
+        if ((error && error.name === "AbortError") || !isActiveView(mySessionEpoch, myViewGen)) return;
+        var errCode = error && error.message ? error.message : "error";
+        if (errCode === "quote_expired" || errCode === "quote_mismatch" || (error && error.status === 409)) {
+          activeQuoteOrder = null;
+          quoteRequestId = null;
+          quotePayloadKey = null;
+          checkoutRequestId = null;
+          checkoutRequestKey = null;
+          storeRemove("checkout_req");
+          var quoteSummary = byId("quote-summary");
+          if (quoteSummary) quoteSummary.hidden = true;
+          if (checkoutBtn) checkoutBtn.disabled = true;
+          setStatus("Quote expired or changed (" + errCode + "). Request a fresh server quote before continuing.", true);
+          return;
+        }
+        var checkoutRef = formatSupportRef(error, checkoutRequestId);
+        if (error && (error.status === 429 || errCode === "rate_limited")) {
+          var waitSec = Number.isSafeInteger(error.retryAfterSec) && error.retryAfterSec > 0
+            ? " Wait " + error.retryAfterSec + "s before retrying."
+            : " Wait briefly before retrying.";
+          setStatus("Checkout request rate-limited (429)." + waitSec + " Do not start a duplicate payment." + (checkoutRef ? " " + checkoutRef + "." : ""), true);
+        } else if (error && (error.status >= 500 || errCode === "service_unavailable" || errCode === "request_timeout")) {
+          setStatus("Checkout acknowledgement unavailable (" + errCode + "). Do not submit a duplicate payment; check status or retry with the same quote." + (checkoutRef ? " " + checkoutRef + "." : ""), true);
+        } else {
+          setStatus("Checkout could not be started (" + errCode + ")." + (checkoutRef ? " " + checkoutRef + "." : ""), true);
+        }
+        if (checkoutBtn && activeQuoteOrder && activeQuoteOrder.quote_id &&
+            !(siblingCheckout && siblingCheckout.projectId === activeProjectId)) {
+          checkoutBtn.disabled = false;
+        }
       } finally {
         checkoutInFlight = false;
       }
     }
 
-    async function loadAuthenticatedAccount() {
+    async function loadAuthenticatedAccount(expectedSessionEpoch, expectedViewGen) {
+      var mySessionEpoch = typeof expectedSessionEpoch === "number" ? expectedSessionEpoch : sessionEpoch;
+      var myViewGen = typeof expectedViewGen === "number" ? expectedViewGen : viewGeneration;
+      var reqOpts = {
+        sessionEpoch: mySessionEpoch,
+        signal: sessionAbortController ? sessionAbortController.signal : null
+      };
       var bearer = requireToken();
-      currentUser = await fetchUser(bearer);
-      var result = await edgePost("account-register", { operation: "account" });
+      var fetchedUser = await fetchUser(bearer, reqOpts);
+      if (mySessionEpoch !== sessionEpoch || !session) return;
+      currentUser = fetchedUser;
+      var result = await edgePost("account-register", { operation: "account" }, reqOpts);
+      if (mySessionEpoch !== sessionEpoch || !session) return;
       if (result.account_id !== currentUser.id) {
         throw new Error("auth_account_changed");
       }
@@ -936,19 +1619,31 @@
             operation: "accept_invite",
             invitation_id: invite.id,
             invitation_secret: invite.secret
-          });
+          }, reqOpts);
+          if (mySessionEpoch !== sessionEpoch || !session) return;
           if (accepted.status === "invitation_accepted") {
             storeRemove("invitation");
-            result = await edgePost("account-register", { operation: "account" });
+            result = await edgePost("account-register", { operation: "account" }, reqOpts);
+            if (mySessionEpoch !== sessionEpoch || !session) return;
             accountSnapshot = result;
           }
-        } catch (_) {}
+        } catch (invErr) {
+          if ((invErr && invErr.name === "AbortError") || mySessionEpoch !== sessionEpoch || !session) return;
+        }
       }
 
-      if (preselectedRepo) {
-        var existing = findExistingProject(preselectedRepo);
+      if (myViewGen !== viewGeneration) return;
+      var targetLookup = preselectedRepo;
+      if (!targetLookup) {
+        var pendingCheckout = storeGet("checkout_pending", 4096);
+        if (pendingCheckout && Number.isSafeInteger(pendingCheckout.started_at) && (nowSec() - pendingCheckout.started_at) < 1800) {
+          targetLookup = pendingCheckout.repo || pendingCheckout.project_id || null;
+        }
+      }
+      if (targetLookup) {
+        var existing = findExistingProject(targetLookup);
         if (existing) {
-          await inspectProjectAccess(existing.organization_id || existing.organization, existing.project_id, preselectedRepo);
+          await inspectProjectAccess(existing.organization_id || existing.organization, existing.project_id, targetLookup, myViewGen);
           return;
         }
       }
@@ -959,7 +1654,12 @@
       );
     }
 
-    async function processIncomingUrlAndSession() {
+    async function processIncomingUrlAndSession(expectedSessionEpoch) {
+      var mySessionEpoch = typeof expectedSessionEpoch === "number" ? expectedSessionEpoch : sessionEpoch;
+      var reqOpts = {
+        sessionEpoch: mySessionEpoch,
+        signal: sessionAbortController ? sessionAbortController.signal : null
+      };
       var currentUrl = new URL(winLocation.href);
       var query = new URLSearchParams(currentUrl.search || "");
       var rawHash = currentUrl.hash || "";
@@ -1015,12 +1715,49 @@
       }
 
       if (!profile) {
-        profile = await flow.discoverRuntimeConfig(fetchFn);
+        var discovery = typeof flow.discoverRuntimeStatus === "function"
+          ? await flow.discoverRuntimeStatus(fetchFn)
+          : { status: "ok", profile: await flow.discoverRuntimeConfig(fetchFn), correlationId: null, retryAfterSec: null };
+        if (mySessionEpoch !== sessionEpoch) return;
+        profile = discovery && discovery.profile ? discovery.profile : null;
+        if (!profile) {
+          var dStatus = discovery && discovery.status ? discovery.status : "unavailable";
+          if (dStatus === "incompatible") {
+            skewBlocked = true;
+            skewReason = discovery.reason || "api_contract_mismatch";
+          }
+          syncAuthGateUi();
+          var dRef = discovery && discovery.correlationId ? (" Support ref: " + discovery.correlationId + ".") : "";
+          if (dStatus === "invalid") {
+            setStatus("Cloud authentication configuration failed validation (malformed config)." + dRef, true);
+          } else if (dStatus === "rate_limited") {
+            var dWait = discovery.retryAfterSec ? (" Wait " + discovery.retryAfterSec + "s before reloading.") : "";
+            setStatus("Cloud authentication discovery rate-limited (429)." + dWait + dRef, true);
+          } else if (dStatus === "incompatible") {
+            setStatus("API contract version mismatch. Reload this page to continue safely." + dRef, true);
+          } else {
+            setStatus("Cloud authentication configuration is currently unavailable." + dRef, true);
+          }
+          return;
+        }
       }
-      if (!profile) {
-        syncAuthGateUi();
-        setStatus("Cloud authentication configuration is currently unavailable.", true);
-        return;
+
+      var storedPendingCheckout = storeGet("checkout_pending", 4096);
+      if (storedPendingCheckout) {
+        if (!Number.isSafeInteger(storedPendingCheckout.started_at) || (nowSec() - storedPendingCheckout.started_at) >= 1800) {
+          storeRemove("checkout_pending");
+        } else if (checkoutReturned) {
+          storedPendingCheckout.returned = true;
+          if (!storedPendingCheckout.repo && preselectedRepo) storedPendingCheckout.repo = preselectedRepo;
+          storeSet("checkout_pending", storedPendingCheckout);
+        }
+      } else if (checkoutReturned) {
+        storeSet("checkout_pending", {
+          project_id: preselectedRepo || null,
+          repo: preselectedRepo || null,
+          returned: true,
+          started_at: nowSec()
+        });
       }
 
       if (invId && invSecret && flow.UUID_PATTERN.test(invId) && flow.PKCE_HASH_PATTERN.test(invSecret)) {
@@ -1043,6 +1780,7 @@
         var pendingFlow = storeGet("flow", 8192);
         var validFlow = pendingFlow &&
           pendingFlow.version === 1 &&
+          (pendingFlow.contract_version === undefined || pendingFlow.contract_version === flow.CONTRACT_VERSION) &&
           pendingFlow.project === profile.projectOrigin &&
           pendingFlow.phase === "pending" &&
           Number.isSafeInteger(pendingFlow.expires) &&
@@ -1054,6 +1792,7 @@
 
         if (validFlow && pendingFlow.kind === "link") {
           var linkBinding = session ? await flow.sha256Base64Url(session.access_token) : null;
+          if (mySessionEpoch !== sessionEpoch) return;
           if (!session || !flow.UUID_PATTERN.test(pendingFlow.account_id || "") || pendingFlow.session_binding !== linkBinding) {
             validFlow = false;
           }
@@ -1070,7 +1809,7 @@
           storeRemove("flow");
           syncAuthGateUi();
           setStatus("Sign-in canceled or declined.", false);
-          if (session) await loadAuthenticatedAccount();
+          if (session) await loadAuthenticatedAccount(mySessionEpoch, viewGeneration);
           return;
         }
 
@@ -1087,15 +1826,18 @@
           profile.projectOrigin + "/auth/v1/token?grant_type=pkce",
           { auth_code: code, code_verifier: pendingFlow.verifier },
           undefined,
-          "POST"
+          "POST",
+          reqOpts
         );
+        if (mySessionEpoch !== sessionEpoch) return;
         if (typeof exchanged.access_token !== "string" || !exchanged.access_token ||
             exchanged.access_token.length > 16384 || /\s/.test(exchanged.access_token) ||
             !Number.isSafeInteger(exchanged.expires_in) || exchanged.expires_in <= 15) {
           storeRemove("flow");
           throw new Error("invalid_response");
         }
-        var confirmed = await fetchUser(exchanged.access_token);
+        var confirmed = await fetchUser(exchanged.access_token, reqOpts);
+        if (mySessionEpoch !== sessionEpoch) return;
         if ((pendingFlow.kind === "link" && confirmed.id !== pendingFlow.account_id) ||
             (pendingFlow.verification_account_id && confirmed.id !== pendingFlow.verification_account_id)) {
           storeRemove("flow");
@@ -1113,7 +1855,8 @@
         session = {
           access_token: exchanged.access_token,
           expires_at: nowSec() + exchanged.expires_in,
-          origin: profile.projectOrigin
+          origin: profile.projectOrigin,
+          contract_version: flow.CONTRACT_VERSION
         };
         storeSet("session", session);
         storeRemove("flow");
@@ -1125,16 +1868,18 @@
             operation: "confirm_provider_link",
             link_intent_id: pendingFlow.link_intent_id,
             stepup_secret: pendingFlow.stepup_secret
-          });
+          }, reqOpts);
+          if (mySessionEpoch !== sessionEpoch) return;
         }
       }
 
+      if (mySessionEpoch !== sessionEpoch) return;
       syncAuthGateUi();
       if (!session) {
         setStatus("Sign in with GitHub or Google to verify your organization and repository.", false);
         return;
       }
-      await loadAuthenticatedAccount();
+      await loadAuthenticatedAccount(mySessionEpoch, viewGeneration);
     }
 
     function bindEvents() {
@@ -1147,43 +1892,43 @@
       var signOutBtn = byId("sign-out-btn");
       if (signOutBtn) {
         signOutBtn.onclick = function () {
-          pollGeneration++;
-          storeRemove("flow");
-          storeRemove("session");
-          session = null;
-          currentUser = null;
-          accountSnapshot = null;
-          inMemoryProviderToken = null;
-          syncAuthGateUi();
-          setStatus("Signed out. Authenticate to continue.", false);
+          preselectedRepo = null;
+          try {
+            if (storage) storage.removeItem("decapod:pending-repo-intent");
+          } catch (_) {}
+          invalidateSessionState("Signed out. Authenticate to continue.", false, true);
         };
       }
       var refreshBtn = byId("refresh-account-btn");
-      if (refreshBtn) refreshBtn.onclick = function () { loadAuthenticatedAccount().catch(function (e) { setStatus("Refresh failed: " + e.message, true); }); };
+      if (refreshBtn) refreshBtn.onclick = function () { loadAuthenticatedAccount(sessionEpoch, viewGeneration).catch(function (e) { if (e && e.name !== "AbortError") setStatus("Refresh failed: " + e.message, true); }); };
       var linkGhBtn = byId("link-github-btn");
       if (linkGhBtn) linkGhBtn.onclick = function () { beginAuth("github", "link", true).catch(function (e) { setStatus("GitHub linking failed: " + e.message, true); }); };
       var confirmProvBtn = byId("confirm-provider-btn");
       if (confirmProvBtn) {
         confirmProvBtn.onclick = function () {
           if (!pendingStepupProvider) return;
+          var myEpoch = sessionEpoch;
           edgePost("account-register", {
             operation: "resolve_provider_quarantine",
             provider: pendingStepupProvider,
             decision: "confirm"
-          }).then(function () { return loadAuthenticatedAccount(); })
-            .catch(function (e) { setStatus("Provider confirmation failed: " + e.message, true); });
+          }, { sessionEpoch: myEpoch, signal: sessionAbortController ? sessionAbortController.signal : null })
+            .then(function () { if (myEpoch === sessionEpoch) return loadAuthenticatedAccount(myEpoch, viewGeneration); })
+            .catch(function (e) { if (e && e.name !== "AbortError" && myEpoch === sessionEpoch) setStatus("Provider confirmation failed: " + e.message, true); });
         };
       }
       var revokeProvBtn = byId("revoke-provider-btn");
       if (revokeProvBtn) {
         revokeProvBtn.onclick = function () {
           if (!pendingStepupProvider) return;
+          var myEpoch = sessionEpoch;
           edgePost("account-register", {
             operation: "resolve_provider_quarantine",
             provider: pendingStepupProvider,
             decision: "revoke"
-          }).then(function () { return loadAuthenticatedAccount(); })
-            .catch(function (e) { setStatus("Provider revocation failed: " + e.message, true); });
+          }, { sessionEpoch: myEpoch, signal: sessionAbortController ? sessionAbortController.signal : null })
+            .then(function () { if (myEpoch === sessionEpoch) return loadAuthenticatedAccount(myEpoch, viewGeneration); })
+            .catch(function (e) { if (e && e.name !== "AbortError" && myEpoch === sessionEpoch) setStatus("Provider revocation failed: " + e.message, true); });
         };
       }
       var orgSelect = byId("org-select");
@@ -1204,7 +1949,10 @@
         stateRetryBtn.onclick = function () {
           if (activeProjectId) {
             inspectProjectAccess(activeOrganizationId, activeProjectId, preselectedRepo || activeProjectId)
-              .catch(function (e) { setStatus("Status check failed: " + e.message, true); });
+              .catch(function (e) { if (e && e.name !== "AbortError") showDegradedApiState(e, preselectedRepo || activeProjectId, true); });
+          } else if (session) {
+            loadAuthenticatedAccount(sessionEpoch, viewGeneration)
+              .catch(function (e) { if (e && e.name !== "AbortError") showDegradedApiState(e, preselectedRepo, true); });
           }
         };
       }
@@ -1221,13 +1969,69 @@
     }
 
     async function init() {
+      if (flowOk) {
+        var coherence = flow.checkPageCoherence({
+          document: doc,
+          requiredIds: ["auth-gate", "step-state", "step-checkout", "checkout-btn", "signup-status"]
+        });
+        if (!coherence.ok) {
+          skewBlocked = true;
+          skewReason = coherence.reason || "html_js_skew";
+        }
+      }
+      if (skewBlocked) {
+        if (flowOk) {
+          flow.scrubSensitiveLocation(winLocation, winHistory, { stripAllHash: true });
+        } else if (winLocation && winHistory && typeof winHistory.replaceState === "function") {
+          try { winHistory.replaceState(null, "", "/signup"); } catch (_) {}
+        }
+        hideAllProtectedPanels();
+        var ghBtn = byId("auth-github");
+        var googleBtn = byId("auth-google");
+        var checkoutBtn = byId("checkout-btn");
+        if (ghBtn) ghBtn.disabled = true;
+        if (googleBtn) googleBtn.disabled = true;
+        if (checkoutBtn) checkoutBtn.disabled = true;
+        setStatus("Client asset or HTML/JS version skew detected (" + (skewReason || "mismatch") + "). Reload the page to continue safely.", true);
+        return;
+      }
+
+      coherenceChannel.announceReady();
+      if (typeof window !== "undefined" && typeof window.addEventListener === "function") {
+        window.addEventListener("pagehide", function () {
+          coherenceChannel.close();
+        });
+        window.addEventListener("pageshow", function (ev) {
+          if (ev && ev.persisted) {
+            busy = false;
+            enrollInFlight = false;
+            quoteInFlight = false;
+            checkoutInFlight = false;
+            syncAuthGateUi();
+            if (session && activeOrganizationId && activeProjectId) {
+              inspectProjectAccess(activeOrganizationId, activeProjectId, preselectedRepo || activeProjectId)
+                .catch(function () {});
+            }
+          }
+        });
+      }
+
       bindEvents();
-      syncAuthGateUi();
+      var mySessionEpoch = ++sessionEpoch;
+      resetSessionAbortController();
       try {
-        await processIncomingUrlAndSession();
-      } catch (error) {
         syncAuthGateUi();
-        setStatus("Authentication could not be completed (" + (error && error.message ? error.message : "error") + ").", true);
+        await processIncomingUrlAndSession(mySessionEpoch);
+      } catch (error) {
+        if (error && error.name === "AbortError") return;
+        if (mySessionEpoch !== sessionEpoch) return;
+        try { syncAuthGateUi(); } catch (_) {}
+        if (!skewBlocked && session && profile && flow.validateSessionRecord(session, profile.projectOrigin, nowSec())) {
+          showDegradedApiState(error, preselectedRepo, true);
+        } else {
+          var initRef = formatSupportRef(error, null);
+          setStatus("Authentication could not be completed (" + (error && error.message ? error.message : "error") + ")." + (initRef ? " " + initRef + "." : ""), true);
+        }
       }
     }
 
@@ -1238,12 +2042,21 @@
       requestQuote: handleQuoteClick,
       startCheckout: handleCheckoutClick,
       pollFulfillment: runPendingFulfillmentPoll,
+      close: function () { abortAllInFlight(); coherenceChannel.close(); },
       getState: function () {
         return {
-          authenticated: Boolean(profile && flow.validateSessionRecord(session, profile.projectOrigin, nowSec())),
+          authenticated: Boolean(!skewBlocked && flowOk && profile && flow.validateSessionRecord(session, profile.projectOrigin, nowSec())),
+          skewBlocked: skewBlocked,
+          skewReason: skewReason,
           preselectedRepo: preselectedRepo,
           activeProjectId: activeProjectId,
-          activeOrganizationId: activeOrganizationId
+          activeOrganizationId: activeOrganizationId,
+          backendAuthorized: backendAuthorized,
+          stateKind: lastStateKind,
+          checkoutInFlight: checkoutInFlight,
+          enrollInFlight: enrollInFlight,
+          quoteInFlight: quoteInFlight,
+          siblingCheckoutActive: Boolean(siblingCheckout)
         };
       }
     };
