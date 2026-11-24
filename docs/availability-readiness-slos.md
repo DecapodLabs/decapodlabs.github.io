@@ -1,6 +1,6 @@
 # Degraded Availability, SLO Thresholds & Read-Only Synthetic Readiness
 
-**Scope:** Public static web (`https://decapodlabs.ai`, `https://decapodlabs.github.io`), Cloudflare/Supabase Auth & Onboarding API (`https://api.decapodlabs.ai`, fallback `https://goyxpcmxetztjlrrcwew.supabase.co`), Cloudflare Pages Admin (`https://decapod-cloud-admin.pages.dev/`), and Billing/Entitlement fulfillment state (`cloud-flow.js`, `pricing.js`, `signup/signup.js`, `admin/admin.js`, `scripts/synthetic-readiness.ts`).
+**Scope:** Public static web (`https://decapodlabs.ai`, `https://decapodlabs.github.io`), Cloudflare/Supabase Auth & Onboarding API (`https://api.decapodlabs.ai`, fallback `https://goyxpcmxetztjlrrcwew.supabase.co`), Cloudflare Pages Admin (`https://decapod-cloud-admin.pages.dev/`), and Billing/Entitlement fulfillment state (`cloud-flow.js`, `pricing.js`, `signup/signup.js`, `admin/admin.js`, `tests/synthetic_readiness.ts`).
 
 **Cost & Credential Invariant:** All synthetic readiness checks use strictly read-only HTTP `GET` requests (`credentials: "omit"`, `cache: "no-store"`, zero Stripe checkout/billing mutations, zero stored credentials, `$0/mo` infrastructure only).
 
@@ -32,10 +32,10 @@ Client retry, timeout, and correlation behavior aligns with Propodus (`docs/prop
 
 | Affected Plane | Observed Symptoms | Client Fail-Closed Behavior | Triage & Support Correlation |
 | --- | --- | --- | --- |
-| **GitHub Pages Static Web** | `5xx`/DNS failure on `decapodlabs.ai`, or HTML/JS `ASSET_RELEASE` / `CONTRACT_VERSION` mismatch | `checkPageCoherence` / `hasCompatibleFlow` sets `skewBlocked=true`, scrubs URL, disables auth & checkout CTAs, makes zero API calls | Check GitHub Pages status & `scripts/synthetic-readiness.ts`; wait for 600s CDN propagation or revert commit |
-| **Auth / Discovery (`api.decapodlabs.ai`)** | `403` (`1014` DNS error), `5xx`, network error, or `/auth/providers` degraded | `discoverRuntimeStatus` distinguishes `unavailable` / `rate_limited` / `invalid` / `incompatible`. Falls back to `goyxpcmxetztjlrrcwew.supabase.co` **only** on `unavailable`/`rate_limited` (never on `200` `invalid` malformed config or `2.0` contract skew). `/auth/providers` outage falls back to `/functions/v1/decapod-onboarding/auth`. | Inspect `api_auth_discovery` plane in `scripts/synthetic-readiness.ts`; verify Cloudflare Worker & Supabase Edge health using `x-request-id` / `cf-ray` |
+| **GitHub Pages Static Web** | `5xx`/DNS failure on `decapodlabs.ai`, or HTML/JS `ASSET_RELEASE` / `CONTRACT_VERSION` mismatch | `checkPageCoherence` / `hasCompatibleFlow` sets `skewBlocked=true`, scrubs URL, disables auth & checkout CTAs, makes zero API calls | Check GitHub Pages status & `tests/synthetic_readiness.ts`; wait for 600s CDN propagation or revert commit |
+| **Auth / Discovery (`api.decapodlabs.ai`)** | `403` (`1014` DNS error), `5xx`, network error, or `/auth/providers` degraded | `discoverRuntimeStatus` distinguishes `unavailable` / `rate_limited` / `invalid` / `incompatible`. Falls back to `goyxpcmxetztjlrrcwew.supabase.co` **only** on `unavailable`/`rate_limited` (never on `200` `invalid` malformed config or `2.0` contract skew). `/auth/providers` outage falls back to `/functions/v1/decapod-onboarding/auth`. | Inspect `api_auth_discovery` plane in `tests/synthetic_readiness.ts`; verify Cloudflare Worker & Supabase Edge health using `x-request-id` / `cf-ray` |
 | **Provider Outage (GitHub / Google)** | `/auth/providers` disables provider or `api.github.com` returns `429`/`5xx` | Disabled provider button stays locked (`auth-provider-note` updated); `api.github.com` outage shows non-blocking hint in `#org-repo-hint` while allowing manual `owner/repo` input (still verified server-side) | Verify `/auth/providers` JSON flags and GitHub API rate-limit status |
-| **Cloudflare Pages Admin (`decapod-cloud-admin.pages.dev`)** | Non-200 or missing `no-store` / CSP / `nosniff` headers | Standalone Admin refuses unsafe framing (`frame-ancestors 'none'`) and stays isolated from `decapodlabs.ai` | Check `cloudflare_pages_admin` plane in `scripts/synthetic-readiness.ts` |
+| **Cloudflare Pages Admin (`decapod-cloud-admin.pages.dev`)** | Non-200 or missing `no-store` / CSP / `nosniff` headers | Standalone Admin refuses unsafe framing (`frame-ancestors 'none'`) and stays isolated from `decapodlabs.ai` | Check `cloudflare_pages_admin` plane in `tests/synthetic_readiness.ts` |
 | **Billing / Entitlement Lag or Lost Checkout Ack** | `billing-checkout` `5xx`/timeout, `?checkout=returned` without settlement, or `429` during polling | `checkoutRequestId` and `checkout_pending` remain preserved in `sessionStorage`; `runPendingFulfillmentPoll` bounds to 12 checks and transitions to `pending_timeout` (`backend_authorized=false`) with `Support ref: <order_id/request_id/x-request-id>` and explicit warning **not** to submit duplicate payment | Correlate `Support ref` (`request_id`, `order_id`, or `x-request-id`) in Propodus/Stripe webhook ledger; never tell customer to pay again |
 
 ---
@@ -51,7 +51,7 @@ Client retry, timeout, and correlation behavior aligns with Propodus (`docs/prop
 ```sh
 deno run --no-remote --no-npm \
   --allow-net=decapodlabs.ai,api.decapodlabs.ai,decapod-cloud-admin.pages.dev,goyxpcmxetztjlrrcwew.supabase.co \
-  scripts/synthetic-readiness.ts
+  tests/synthetic_readiness.ts
 ```
 
 Exit status is `0` when all four planes report `"healthy"` or `"degraded"` (within hard failure thresholds), and non-zero if any plane reports `"unavailable"` or violates security/contract invariants.

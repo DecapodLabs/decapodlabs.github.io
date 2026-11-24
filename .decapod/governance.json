@@ -33,6 +33,15 @@
       "proof_refs": [
         "scripts/synthetic-readiness.ts"
       ]
+    },
+    {
+      "id": "cicd_01m85w29w2g2g8n1-tests-probe",
+      "summary": "Move synthetic readiness probe under tests/ to preserve reviewed scripts inventory digest (#71)",
+      "input_digest": "sha256:892dea818667f76c72be119cf0ed4105ab57753742ceb883460ce9011a30cb76",
+      "proof_refs": [
+        "deno test tests/: 31 passed, 0 failed",
+        "scripts/check-site.ts: passed"
+      ]
     }
   ],
   "intents": {
@@ -78,22 +87,22 @@
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/ARCHITECTURE.md",
-          "reason": "Updated ARCHITECTURE.md for #72 provenance projections and #71 degraded availability, correlation refs, synthetic readiness, and 20261124-p3 coherence",
-          "reviewed_code_fingerprint": "e51a354bf244cd41ae4527f3e44ac167123d15cad71c4eb1d5c6745acb733600",
-          "spec_material_hash": "6f1b40bfca4a96888c039b01f1bbd7e0df351e3fcc4121ad60310652aa3732c3"
+          "reason": "Move synthetic_readiness.ts under tests/ to preserve reviewed scripts inventory digest (#71)",
+          "reviewed_code_fingerprint": "d679387470586d94af1e08534714adac79032fce4d95c17e4c6f60f3542d80da",
+          "spec_material_hash": "ce63ea8b963c710c54eb84a5b06d6ca3ee7599d6cb96eeec7f59a4eec448915e"
         },
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/INTERFACES.md",
-          "reason": "Updated INTERFACES.md for #71 discoverRuntimeStatus, correlation refs, synthetic-readiness.ts, and 20261124-p3 asset tags",
-          "reviewed_code_fingerprint": "e51a354bf244cd41ae4527f3e44ac167123d15cad71c4eb1d5c6745acb733600",
-          "spec_material_hash": "e1966dea6ec62c91362fc468a702fb19035cf9f106124eac20cafd1e617abc0f"
+          "reason": "Move synthetic_readiness.ts under tests/ to preserve reviewed scripts inventory digest (#71)",
+          "reviewed_code_fingerprint": "d679387470586d94af1e08534714adac79032fce4d95c17e4c6f60f3542d80da",
+          "spec_material_hash": "7e237e82f8fd9ba26876a30a91ec4b7d445c4599ccf6dd65677c25be4e10c73b"
         },
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/SECURITY.md",
-          "reason": "Updated SECURITY.md for #72 redaction/non-authority and #71 support-safe correlation refs and fail-closed degradation",
-          "reviewed_code_fingerprint": "e51a354bf244cd41ae4527f3e44ac167123d15cad71c4eb1d5c6745acb733600",
+          "reason": "Verified SECURITY.md after relocating synthetic_readiness.ts under tests/",
+          "reviewed_code_fingerprint": "d679387470586d94af1e08534714adac79032fce4d95c17e4c6f60f3542d80da",
           "spec_material_hash": "22ef3b79fedb4c7a0fe330dc5be4251d96ab3a72f94c969941928db3b5e165b5"
         }
       ],
@@ -105,13 +114,13 @@
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1795494241Z"
+      "updated_at": "1795494664Z"
     },
     "trajectory": {
       "active_boundaries": [
         "Worktree isolated; zero paid traffic; zero credentials stored; preserve UNDER WRAPS / disabled Pay posture"
       ],
-      "artifact_hash": "sha256:bfa5cc9693bf6eab0ba92e2a6e717f54faa8862acbcb7a86730dd5e6ad45e17d",
+      "artifact_hash": "sha256:4c21c56beef4b5c2a163f98fc6471559e2968fabb70d02a6e3ac52279f8f12dc",
       "checks": [
         {
           "name": "check-site",
@@ -146,10 +155,17 @@
             "intent_id": "intent:run_p34_prov_avail",
             "kind": "trajectory_step_recorded",
             "sequence": 4
+          },
+          {
+            "detail": "trajectory:run_p34_prov_avail",
+            "event_id": "event:5",
+            "intent_id": "intent:run_p34_prov_avail",
+            "kind": "trajectory_step_recorded",
+            "sequence": 5
           }
         ],
         "knowledge_candidates": [],
-        "next_sequence": 4,
+        "next_sequence": 5,
         "schema_version": "1.1.0",
         "trajectories": {
           "run_p34_prov_avail": {
@@ -195,6 +211,24 @@
                 ],
                 "sequence": 4,
                 "validation_findings": []
+              },
+              {
+                "action": "trajectory.record",
+                "custody_event_id": "event:5",
+                "observations": [
+                  "tests/synthetic_readiness.ts",
+                  "Moved synthetic_readiness.ts under tests/ to preserve reviewed scripts inventory digest; 31/31 Deno tests pass; check-site passes; live synthetic readiness healthy"
+                ],
+                "proof_refs": [
+                  "check-site",
+                  "deno-tests",
+                  "synthetic-readiness-live"
+                ],
+                "scope": [
+                  "docs/,scripts/,tests/,cloud-flow.js,pricing.js,signup/signup.js,admin/admin.js,pricing.html,pricing/index.html,signup/index.html,admin/index.html"
+                ],
+                "sequence": 5,
+                "validation_findings": []
               }
             ]
           }
@@ -202,6 +236,7 @@
       },
       "declared_commands": [],
       "evidence": [
+        "Moved synthetic_readiness.ts under tests/ to preserve reviewed scripts inventory digest; 31/31 Deno tests pass; check-site passes; live synthetic readiness healthy",
         "scripts/check-site.ts passed; deno test passed 31/31; live synthetic-readiness.ts passed healthy across all 4 planes with zero paid traffic"
       ],
       "inspected_files": [
@@ -229,7 +264,8 @@
         "signup/index.html",
         "signup/signup.js",
         "tests/degraded_availability_71_test.ts",
-        "tests/provenance_projection_72_test.ts"
+        "tests/provenance_projection_72_test.ts",
+        "tests/synthetic_readiness.ts"
       ],
       "repo_scope": [
         "docs/,scripts/,tests/,cloud-flow.js,pricing.js,signup/signup.js,admin/admin.js,pricing.html,pricing/index.html,signup/index.html,admin/index.html"

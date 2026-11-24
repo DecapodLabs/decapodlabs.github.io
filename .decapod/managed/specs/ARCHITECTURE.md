@@ -109,8 +109,8 @@ Generated capability obligations: `persistent-state` is declared for this projec
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `e51a354bf244cd41ae4527f3e44ac167123d15cad71c4eb1d5c6745acb733600`
-- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (8 files), `signup/` (1 files), `tests/` (7 files)
+- Repository signal fingerprint: `d679387470586d94af1e08534714adac79032fce4d95c17e4c6f60f3542d80da`
+- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (8 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->
 
@@ -130,7 +130,7 @@ All Cloud-enabled HTML entrypoints (`pricing.html`, `pricing/index.html`, `signu
 
 1. **Reproducible, Redacted, Non-Authoritative Proof Projections (`docs/provenance-projections.md`, `tests/provenance_projection_72_test.ts`, #72)**: Inventories all published proof/case-study/evidence artifacts (`index.html#proofs`, `proof.html`, `media/launch-production.json`, `assets/decapod-*-render.json`, `evidence/pi-1758-*`), binds deterministic event and publication digests against redacted source receipts, enforces `publication_ready=false` / `merge_authorized=false` / `current_admission_applicable=false` on expired historical demonstrations, scans all published proof files against token/secret/PII leaks, and documents how projections are republished without rewriting immutable canonical archive commits (`3c6c373ea703144a2a096e7c3ad6b17c45fcdc38`).
 2. **Degraded Availability Handling & Support Correlation (`cloud-flow.js`, `pricing.js`, `signup/signup.js`, `admin/admin.js`, #71)**: Bumps coherent release tag `20261124-p3` across all four Cloud HTML entrypoints (`pricing.html`, `pricing/index.html`, `signup/index.html`, `admin/index.html`). Adds `discoverRuntimeStatus`, `extractCorrelationRef` (JWT/secret-stripping opaque ref extractor), and `parseRetryAfterSeconds` in `cloud-flow.js`; aborts `createBoundedPoller` immediately on `403` and honors bounded `Retry-After` on `429`. `pricing.js`, `signup/signup.js`, and `admin/admin.js` separate paused/unreachable backends (`5xx`/timeout), `429` rate limits, `403` denials, malformed `200` configs (fail closed without silent fallback), stale discovery readiness (`>300s`), and lost checkout acknowledgements—surfacing actionable retry/status states with safe support correlation refs and zero duplicate-payment nudges.
-3. **Read-Only Synthetic Readiness & SLOs (`docs/availability-readiness-slos.md`, `scripts/synthetic-readiness.ts`, `tests/degraded_availability_71_test.ts`, #71)**: Establishes reviewed latency/timeout/alerting thresholds and a strictly `GET`-only synthetic readiness probe (`credentials: "omit"`, `cache: "no-store"`, zero paid traffic, zero credentials) separating `github_pages_web`, `api_auth_discovery`, `cloudflare_pages_admin`, and `billing_entitlement_posture`.
+3. **Read-Only Synthetic Readiness & SLOs (`docs/availability-readiness-slos.md`, `tests/synthetic_readiness.ts`, `tests/degraded_availability_71_test.ts`, #71)**: Establishes reviewed latency/timeout/alerting thresholds and a strictly `GET`-only synthetic readiness probe (`credentials: "omit"`, `cache: "no-store"`, zero paid traffic, zero credentials) separating `github_pages_web`, `api_auth_discovery`, `cloudflare_pages_admin`, and `billing_entitlement_posture`.
 
 ## Public showcase gallery and first application
 

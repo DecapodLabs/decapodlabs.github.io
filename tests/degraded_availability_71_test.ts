@@ -3,7 +3,7 @@
 import '../cloud-flow.js';
 import '../signup/signup.js';
 import '../admin/admin.js';
-import { runSyntheticReadiness } from '../scripts/synthetic-readiness.ts';
+import { runSyntheticReadiness } from './synthetic_readiness.ts';
 
 const assert = (cond: unknown, msg: string) => {
   if (!cond) throw new Error('degraded_assertion_failed: ' + msg);
