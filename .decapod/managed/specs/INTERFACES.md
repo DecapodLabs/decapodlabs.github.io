@@ -82,7 +82,7 @@ The proof ledger binds visible terminal states to ordered byte offsets and the s
 
 - **Static Asset & Contract Headers**: `pricing.html`, `pricing/index.html`, `signup/index.html`, and `admin/index.html` declare `decapod-flow-contract=1`, `decapod-asset-release=20261124-p1`, `referrer=no-referrer`, and `?v=20261124-p1` on `cloud-flow.js`, `pricing.js`, `signup/signup.js`, and `admin/admin.js`.
 - **Discovery & Edge Contract Verification**: `DecapodCloudFlow.discoverRuntimeConfig` probes `/functions/v1/decapod-onboarding/config?include_auth_providers=true` and `/auth/providers` with `cache: "no-store"`, checks `decapod-cloud-contract-version` (`1.x`) and payload `version === 1` (`schema === "dactyl_api"`), conservatively intersects provider flags, and rejects untrusted `apiOrigin`, `authBaseUrl`, or `project_origin`.
-- **Live Read-Only Receipt Interface (`scripts/check-live-headers.ts`)**: Verifies HTTP 200, `Cache-Control: no-store` on `/auth/providers`, `/config`, and `https://decapod-cloud-admin.pages.dev/`, `decapod-cloud-contract-version: 1.0`, `referrer-policy: no-referrer`, `x-content-type-options: nosniff`, strict CSP, and `UNDER WRAPS` / `noindex,nofollow` on deployed GitHub Pages routes.
+- **Live Read-Only Receipt Interface (`tests/live_headers_check.ts`)**: Verifies HTTP 200, `Cache-Control: no-store` on `/auth/providers`, `/config`, and `https://decapod-cloud-admin.pages.dev/`, `decapod-cloud-contract-version: 1.0`, `referrer-policy: no-referrer`, `x-content-type-options: nosniff`, strict CSP, and `UNDER WRAPS` / `noindex,nofollow` on deployed GitHub Pages routes.
 
 ## Authenticated `/admin/<org>` Organization Admin Route Interfaces (November 21, 2026)
 
@@ -130,8 +130,8 @@ Generated capability obligations: `public-api` is declared for this project. The
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `9dc228762a362593a9406cfe097c40a2988cc0899a8671b223ce2b7c90417161`
-- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (8 files), `signup/` (1 files), `tests/` (3 files)
+- Repository signal fingerprint: `1deb5fc0e6e7ceb60d4567f8d18b10d2ce9f470c572ef8400a88d109e9292dc6`
+- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (4 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->
 

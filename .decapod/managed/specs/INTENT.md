@@ -69,7 +69,7 @@ These declarations select authoring and proof obligations; they do not attest im
 
 ## Codebase Contract Snapshot
 
-- Tracked significant codebase files: 22 across `.github/` (1), `README.md/` (1), `admin/` (1), `cloud-flow.js/` (1), `evidence/` (4), `main.js/` (1), `pricing.js/` (1), `scripts/` (8), `signup/` (1), `tests/` (3)
+- Tracked significant codebase files: 22 across `.github/` (1), `README.md/` (1), `admin/` (1), `cloud-flow.js/` (1), `evidence/` (4), `main.js/` (1), `pricing.js/` (1), `scripts/` (7), `signup/` (1), `tests/` (4)
 - Core modules: 0 | Workflows: 1 | Integration targets: 0
 <!-- decapod:codebase-contract:end -->
 
@@ -77,8 +77,8 @@ These declarations select authoring and proof obligations; they do not attest im
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `9dc228762a362593a9406cfe097c40a2988cc0899a8671b223ce2b7c90417161`
-- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (8 files), `signup/` (1 files), `tests/` (3 files)
+- Repository signal fingerprint: `1deb5fc0e6e7ceb60d4567f8d18b10d2ce9f470c572ef8400a88d109e9292dc6`
+- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (4 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->
 
@@ -125,4 +125,4 @@ Deliver the authenticated organization-scoped Cloud Admin surface (`admin/index.
 An unauthenticated visitor fails closed behind the PKCE sign-in gate before rendering or invoking organization APIs. After sign-in, untrusted `<org>` path or query locators are resolved solely through Propodus to an immutable canonical `cloud_org_id` UUID and verified server-side against current administrator grants; unaffiliated, non-admin, ambiguous, and malformed routes fail closed independent of client URLs. Verified organization administrators operate orthogonally with zero paid repository seats—managing repositories, seat assignments, members, invitations, admin delegation, resource limits, spend-cap policies, enrolled devices, recovery contacts, cross-org policy templates, and Stripe Billing Portal deep-links without accessing repository task, event, or evidence payloads.
 
 ## Browser Asset Release Coherence & API Skew Compatibility (#70) — November 23, 2026
-Prove and enforce release coherence across GitHub Pages static assets (`max-age=600`), `$0/mo` Cloudflare edge routes, and Propodus APIs under CDN/browser cache skew, interrupted deployments, rollbacks, stale discovery, deep links (`?repo=...`), and multi-tab sessions. Document the compatibility and invalidation matrix in `docs/asset-compatibility-matrix.md`, fix client skew/scrubbing/discovery/cache defects in `cloud-flow.js`, `pricing.js`, `signup/signup.js`, `admin/admin.js`, and HTML entrypoints, and prove deterministic fail-closed or valid-progression behavior via offline Deno tests (`tests/asset_skew_test.ts`) plus read-only deployed header verification (`scripts/check-live-headers.ts`).
+Prove and enforce release coherence across GitHub Pages static assets (`max-age=600`), `$0/mo` Cloudflare edge routes, and Propodus APIs under CDN/browser cache skew, interrupted deployments, rollbacks, stale discovery, deep links (`?repo=...`), and multi-tab sessions. Document the compatibility and invalidation matrix in `docs/asset-compatibility-matrix.md`, fix client skew/scrubbing/discovery/cache defects in `cloud-flow.js`, `pricing.js`, `signup/signup.js`, `admin/admin.js`, and HTML entrypoints, and prove deterministic fail-closed or valid-progression behavior via offline Deno tests (`tests/asset_skew_test.ts`) plus read-only deployed header verification (`tests/live_headers_check.ts`).
