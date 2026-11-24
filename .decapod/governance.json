@@ -1,46 +1,61 @@
 {
   "schema_version": "1.0.0",
   "baseline": {
-    "accepted_commit": "1177f03a7fc8beeb2d844f3ea2f599a8e071d966"
+    "accepted_commit": "4153e178bb48c68784ae557c5cf5f9e39bb09100",
+    "unresolved": {
+      "claim:clack-hero-mascot": {
+        "falsifier": "The emoji remains, the mascot fails to load or appears on a line by itself, or either tagline is clipped.",
+        "statement": "The Clack hero displays the repository mascot beside the tagline and keeps both tagline lines readable at mobile and desktop widths.",
+        "status": "open"
+      }
+    }
   },
   "change": {
-    "id": "change_01M85DCV1KAPX5NAHAG34DTTSR",
-    "base_commit": "1177f03a7fc8beeb2d844f3ea2f599a8e071d966",
+    "id": "change_01M85F6GYYGWXD0Z5K70XB0QG9",
+    "base_commit": "4153e178bb48c68784ae557c5cf5f9e39bb09100",
     "target_base": "origin/main"
   },
   "claims": {
-    "clack-hero-mascot": {
-      "statement": "The Clack hero displays the repository mascot beside the tagline and keeps both tagline lines readable at mobile and desktop widths.",
-      "falsifier": "The emoji remains, the mascot fails to load or appears on a line by itself, or either tagline is clipped.",
-      "status": "open"
+    "rework-github-hover": {
+      "statement": "The GitHub header link on Rework renders the same hover shadow as the homepage at desktop and narrow widths.",
+      "falsifier": "A pointer hover produces no shadow or a different computed shadow on Rework.",
+      "status": "supported",
+      "proof_refs": [
+        "headless Chrome pointer input and computed styles at 320, 390, 768, 1024 and 1440 px"
+      ]
     }
   },
   "checkpoints": [
     {
-      "id": "clack-mascot-source",
-      "summary": "Use the existing repository mascot in the Clack hero tagline and update the living site specs.",
-      "input_digest": "sha256:38ab4c75d0acf0bf4529b3395b9ba2ac8f5379a83482ab5d1d1de1655181a4a8"
+      "id": "rework-github-hover-candidate",
+      "summary": "Restore the shared GitHub hover shadow on the Rework page and document the behavior.",
+      "input_digest": "sha256:0d0590294241413ca7f13b8ecbe4c8da94be04fd9f36927718835f9d7454ed98",
+      "proof_refs": [
+        "Chrome baseline and candidate hover comparison at five viewport widths"
+      ]
     }
   ],
   "intents": {
-    "intent:change_01M85DCV1KAPX5NAHAG34DTTSR": {
+    "intent:change_01M85F6GYYGWXD0Z5K70XB0QG9": {
       "acceptance_criteria": [],
       "assumptions": [],
       "boundaries": [
         "Current claimed task and isolated work branch"
       ],
       "constraints": [
-        "root"
+        "tecr.css",
+        "tecr.html",
+        ".decapod/managed/specs"
       ],
       "created_sequence": 1,
-      "id": "intent:change_01M85DCV1KAPX5NAHAG34DTTSR",
+      "id": "intent:change_01M85F6GYYGWXD0Z5K70XB0QG9",
       "instruction_origin": {
         "source_ref": "caller:unverified"
       },
       "out_of_scope": [],
       "proof_requirements": [],
-      "raw_intent": "Use the Clack mascot in the website hero tagline\n\nReplace the crab emoji with the existing repository mascot beside “code with the crabs”, keep “a new way to work and play”, and publish the verified website change.",
-      "refined_intent": "Use the Clack mascot in the website hero tagline\n\nReplace the crab emoji with the existing repository mascot beside “code with the crabs”, keep “a new way to work and play”, and publish the verified website change.",
+      "raw_intent": "Restore the Rework header GitHub hover shadow\n\nMatch the red GitHub hover shadow on /tecr.html to the shared Labs header on the homepage. Verify the shared hover in Chrome and publish a focused PR.",
+      "refined_intent": "Restore the Rework header GitHub hover shadow\n\nMatch the red GitHub hover shadow on /tecr.html to the shared Labs header on the homepage. Verify the shared hover in Chrome and publish a focused PR.",
       "status": "refined",
       "updated_sequence": 3
     }
@@ -53,83 +68,84 @@
       },
       "deferred_questions": [],
       "human_questions": [],
-      "intent": "Use the repository’s existing Clack mascot in place of the crab emoji in the hero. Keep both tagline lines and verify the mascot renders beside the text on desktop and mobile. Publish the verified website change.",
+      "intent": "Restore the GitHub header link hover on /tecr.html by using the same shared style as the homepage. Verify mouse hover at desktop and narrow widths, and retain the existing Rework active link and header surface.",
       "phases": [],
       "proof_hooks": [
         "decapod validate",
-        "Headless Chrome verifies mascot rendering and tagline layout on desktop and mobile"
+        "Headless Chrome GitHub header mouse hover comparison on homepage and /tecr.html"
       ],
       "schema_version": "1.1.0",
       "spec_reviews": [
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/ARCHITECTURE.md",
-          "reason": "Identifies the shared SVG reference and responsive inline styling in the Clack hero.",
+          "reason": "Record that Rework uses the shared header GitHub pointer hover treatment.",
           "reviewed_code_fingerprint": "92022fafab9734f72f905091a0484ce04adc8935d81151889e4af897851d79ae",
-          "spec_material_hash": "db0e344e07f966b3bc98f61506185b35f97bcb678575693cae5c2d32c6dab1af"
+          "spec_material_hash": "735496126a28d33c51fa1d19bdad52c2f667b183168030380e698c20a14ab6fb"
         },
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/INTERFACES.md",
-          "reason": "Describes both visible tagline lines and how assistive technology handles the decorative mascot.",
+          "reason": "Document the shared pointer hover on the Rework header GitHub link.",
           "reviewed_code_fingerprint": "92022fafab9734f72f905091a0484ce04adc8935d81151889e4af897851d79ae",
-          "spec_material_hash": "47051f37cb844f58c34a34df3ec6fdeeaf966b3d89188753a79da78b49afa7ae"
+          "spec_material_hash": "578aa04cd85cbec694b739b0dac80abcc84878c5399dfced30114423f0ff3c76"
         },
         {
           "disposition": "unchanged_with_reason",
           "path": ".decapod/managed/specs/SECURITY.md",
-          "reason": "The hero uses an existing same-origin SVG through an img element and makes no changes to script, data flows, authentication, or payment.",
+          "reason": "The stylesheet change leaves the GitHub destination, rel attributes, and security boundaries intact.",
           "reviewed_code_fingerprint": "92022fafab9734f72f905091a0484ce04adc8935d81151889e4af897851d79ae",
           "spec_material_hash": "5701fbd6ef9c15fff62b23319b803fb8427a25b5ad76f4b5ed6b1ab83278d60e"
         }
       ],
       "state": "APPROVED",
       "stop_conditions": [],
-      "title": "Use the Clack mascot in the website hero tagline",
+      "title": "Restore the Rework header GitHub hover shadow",
       "todo_ids": [
-        "fend_01m85dc600ph3ddd"
+        "apis_01m85f5yj80zy9tg"
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1795478365Z"
+      "updated_at": "1795480179Z"
     },
     "trajectory": {
       "active_boundaries": [
-        "Current claimed task and isolated work branch"
+        "Current claimed task and isolated work branch",
+        "The Clack transparency and inline credit are reviewed separately in PR 68."
       ],
-      "artifact_hash": "sha256:718b2f296d92aa5fff180d05453183cab080a69bdf483d766347d68e20031e7b",
+      "artifact_hash": "sha256:b366af5720c4b80e84bf4713e3a5e87ff74c0f6e3e7599487afca2ec4e713571",
       "checks": [
         {
-          "name": "headless-chrome-tagline",
+          "name": "chrome-hover-comparison",
           "status": "passed"
         }
       ],
-      "current_phase": "intent",
+      "current_phase": "verification",
       "custody": {
         "events": [
           {
             "event_id": "event:2",
-            "intent_id": "intent:change_01M85DCV1KAPX5NAHAG34DTTSR",
+            "intent_id": "intent:change_01M85F6GYYGWXD0Z5K70XB0QG9",
             "kind": "created",
             "sequence": 2
           },
           {
             "event_id": "event:3",
-            "intent_id": "intent:change_01M85DCV1KAPX5NAHAG34DTTSR",
+            "intent_id": "intent:change_01M85F6GYYGWXD0Z5K70XB0QG9",
             "kind": "refined",
             "sequence": 3
           },
           {
-            "detail": "trajectory:branch_01M85DCV4KWTXS68XPBHQ1YWR7",
+            "detail": "trajectory:branch_01M85F6H1HD57FPZHXKGWDD5PC",
             "event_id": "event:4",
-            "intent_id": "intent:change_01M85DCV1KAPX5NAHAG34DTTSR",
+            "intent_id": "intent:change_01M85F6GYYGWXD0Z5K70XB0QG9",
             "kind": "trajectory_step_recorded",
             "sequence": 4
           },
           {
-            "detail": "trajectory:branch_01M85DCV4KWTXS68XPBHQ1YWR7",
+            "detail": "trajectory:branch_01M85F6H1HD57FPZHXKGWDD5PC",
             "event_id": "event:5",
-            "intent_id": "intent:change_01M85DCV1KAPX5NAHAG34DTTSR",
+            "intent_id": "intent:change_01M85F6GYYGWXD0Z5K70XB0QG9",
             "kind": "trajectory_step_recorded",
             "sequence": 5
           }
@@ -138,44 +154,47 @@
         "next_sequence": 5,
         "schema_version": "1.1.0",
         "trajectories": {
-          "branch_01M85DCV4KWTXS68XPBHQ1YWR7": {
+          "branch_01M85F6H1HD57FPZHXKGWDD5PC": {
             "evidence_only": true,
-            "id": "branch_01M85DCV4KWTXS68XPBHQ1YWR7",
-            "intent_id": "intent:change_01M85DCV1KAPX5NAHAG34DTTSR",
+            "id": "branch_01M85F6H1HD57FPZHXKGWDD5PC",
+            "intent_id": "intent:change_01M85F6GYYGWXD0Z5K70XB0QG9",
             "steps": [
               {
                 "action": "trajectory.record",
                 "custody_event_id": "event:4",
                 "observations": [
-                  "clack/index.html",
-                  "clack/clack.css",
-                  "assets/mascot.svg",
-                  "Authenticated GitHub main and live page agree on the three wordmark placements. The live hero still uses a crab emoji. The website base is 1177f03a7fc8beeb2d844f3ea2f599a8e071d966."
+                  "tecr.css",
+                  "styles.css",
+                  "tecr.html",
+                  "The nested site clone resolved to the Clack store. Decapod rejected its checkout binding with AUTHORING_CHECKOUT_UNVERIFIED. Created a dedicated website todo and registered worktree in the prior website clone at accepted main 4153e178bb48c68784ae557c5cf5f9e39bb09100."
                 ],
                 "proof_refs": [],
                 "scope": [
-                  "root"
+                  ".decapod/managed/specs",
+                  "tecr.css",
+                  "tecr.html"
                 ],
                 "sequence": 4,
                 "validation_findings": []
               },
               {
-                "action": "trajectory.record",
+                "action": "verification",
                 "custody_event_id": "event:5",
                 "observations": [
-                  "clack/index.html",
-                  "clack/clack.css",
+                  "tecr.css",
+                  "tecr.html",
                   ".decapod/managed/specs/INTENT.md",
                   ".decapod/managed/specs/ARCHITECTURE.md",
                   ".decapod/managed/specs/INTERFACES.md",
-                  "Headless Chrome decoded the existing mascot SVG and verified both tagline texts, layout, adjacent placement, all three wordmark URLs, and the same-origin DMG link at 320, 375, 390, 700, 768, 900, 1024, 1280 and 1440 CSS pixels. Screenshots were inspected at 390 and 1440."
+                  "Chrome pointer input at 320, 390, 768, 1024 and 1440 px. Accepted main had no Rework hover shadow. The candidate and homepage both render rgb(240, 91, 55) 0px 6px 0px 0px on hover and no shadow at rest. Rework retains aria-current=page and the paper header."
                 ],
                 "proof_refs": [
-                  "headless-chrome-tagline"
+                  "chrome-hover-comparison"
                 ],
                 "scope": [
-                  "Clack hero and living specs",
-                  "root"
+                  ".decapod/managed/specs",
+                  "tecr.css",
+                  "tecr.html"
                 ],
                 "sequence": 5,
                 "validation_findings": []
@@ -187,33 +206,35 @@
       "declared_commands": [],
       "destination": "pull request",
       "evidence": [
-        "Authenticated GitHub main and live page agree on the three wordmark placements. The live hero still uses a crab emoji. The website base is 1177f03a7fc8beeb2d844f3ea2f599a8e071d966.",
-        "Headless Chrome decoded the existing mascot SVG and verified both tagline texts, layout, adjacent placement, all three wordmark URLs, and the same-origin DMG link at 320, 375, 390, 700, 768, 900, 1024, 1280 and 1440 CSS pixels. Screenshots were inspected at 390 and 1440."
+        "Chrome pointer input at 320, 390, 768, 1024 and 1440 px. Accepted main had no Rework hover shadow. The candidate and homepage both render rgb(240, 91, 55) 0px 6px 0px 0px on hover and no shadow at rest. Rework retains aria-current=page and the paper header.",
+        "The nested site clone resolved to the Clack store. Decapod rejected its checkout binding with AUTHORING_CHECKOUT_UNVERIFIED. Created a dedicated website todo and registered worktree in the prior website clone at accepted main 4153e178bb48c68784ae557c5cf5f9e39bb09100."
       ],
       "inspected_files": [
-        "assets/mascot.svg",
-        "clack/clack.css",
-        "clack/index.html"
+        "styles.css",
+        "tecr.css",
+        "tecr.html"
       ],
-      "intent_id": "intent:change_01M85DCV1KAPX5NAHAG34DTTSR",
+      "intent_id": "intent:change_01M85F6GYYGWXD0Z5K70XB0QG9",
       "modified_files": [
         ".decapod/managed/specs/ARCHITECTURE.md",
         ".decapod/managed/specs/INTENT.md",
         ".decapod/managed/specs/INTERFACES.md",
-        "clack/clack.css",
-        "clack/index.html"
+        "tecr.css",
+        "tecr.html"
       ],
       "next_transitions": [
-        "Refine plan and declare falsifiable checks"
+        "Refine plan and declare falsifiable checks",
+        "Validate the committed website candidate, then publish."
       ],
       "repo_scope": [
-        "Clack hero and living specs",
-        "root"
+        ".decapod/managed/specs",
+        "tecr.css",
+        "tecr.html"
       ],
-      "run_id": "branch_01M85DCV4KWTXS68XPBHQ1YWR7",
+      "run_id": "branch_01M85F6H1HD57FPZHXKGWDD5PC",
       "schema_version": "1.1.0",
       "shortcut_risk_signals": [],
-      "task_id": "fend_01m85dc600ph3ddd",
+      "task_id": "apis_01m85f5yj80zy9tg",
       "tool_calls": [],
       "unresolved_assumptions": []
     }
