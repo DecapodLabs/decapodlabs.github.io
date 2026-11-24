@@ -90,6 +90,16 @@
   margin: 1.5rem 0 1rem;
 }
 
+.clack-lead-mascot {
+  white-space: nowrap;
+}
+
+.clack-lead-mascot img {
+  width: 1.2em;
+  height: auto;
+  vertical-align: -.18em;
+}
+
 .clack-intro {
   max-width: 39ch;
   margin: 0 0 1.75rem;
