@@ -20,6 +20,11 @@
       "id": "bend_01m85khhevh0s4m1",
       "summary": "Harden browser asset release coherence, API skew compatibility, discovery no-store/intersection, deep-link scrubbing, and multi-tab coherence (#70)",
       "input_digest": "sha256:a6b54753eda59629ae0709ba64998d7772321f039b8e02329098e86119798fcd"
+    },
+    {
+      "id": "bend_01m85khhevh0s4m1-spec-review",
+      "summary": "Reviewed ARCHITECTURE, INTERFACES, SECURITY specs for #70",
+      "input_digest": "sha256:82733954430cd22209d7047dca8014a5b56f5feda8f9d4d31291b6f912dd0363"
     }
   ],
   "intents": {
@@ -63,9 +68,23 @@
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/ARCHITECTURE.md",
-          "reason": "Updated ARCHITECTURE.md, INTENT.md, INTERFACES.md, and SECURITY.md with #70 asset release coherence, skew refusal, discovery no-store/intersection, and deep-link scrubbing.",
+          "reason": "Updated ARCHITECTURE.md for #70 asset release coherence, skew refusal, discovery intersection, and matrix doc.",
           "reviewed_code_fingerprint": "9dc228762a362593a9406cfe097c40a2988cc0899a8671b223ce2b7c90417161",
           "spec_material_hash": "8279a06a0c5915d28b773d81490c75a1a3263b356f6019212eeee15991dbcb96"
+        },
+        {
+          "disposition": "updated",
+          "path": ".decapod/managed/specs/INTERFACES.md",
+          "reason": "Updated INTERFACES.md for #70 release metadata, discovery headers, and live read-only header verification.",
+          "reviewed_code_fingerprint": "9dc228762a362593a9406cfe097c40a2988cc0899a8671b223ce2b7c90417161",
+          "spec_material_hash": "d0f814e873ed5ecd908e7e4ec807bda322fc9365e14d62f9a968af8e30ba0c81"
+        },
+        {
+          "disposition": "updated",
+          "path": ".decapod/managed/specs/SECURITY.md",
+          "reason": "Updated SECURITY.md for #70 no-store enforcement, skew fail-closed refusal, and deep-link scrubbing.",
+          "reviewed_code_fingerprint": "9dc228762a362593a9406cfe097c40a2988cc0899a8671b223ce2b7c90417161",
+          "spec_material_hash": "ced437817e491afb8093e400a208725a75a4929c5d45f8833f6b4b95ce5488ba"
         }
       ],
       "state": "APPROVED",
@@ -76,7 +95,7 @@
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1795485294Z"
+      "updated_at": "1795485417Z"
     },
     "trajectory": {
       "active_boundaries": [
