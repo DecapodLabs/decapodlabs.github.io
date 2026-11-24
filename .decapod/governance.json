@@ -1,29 +1,42 @@
 {
   "schema_version": "1.0.0",
   "baseline": {
-    "accepted_commit": "1177f03a7fc8beeb2d844f3ea2f599a8e071d966"
+    "accepted_commit": "4153e178bb48c68784ae557c5cf5f9e39bb09100",
+    "unresolved": {
+      "claim:clack-hero-mascot": {
+        "falsifier": "The emoji remains, the mascot fails to load or appears on a line by itself, or either tagline is clipped.",
+        "statement": "The Clack hero displays the repository mascot beside the tagline and keeps both tagline lines readable at mobile and desktop widths.",
+        "status": "open"
+      }
+    }
   },
   "change": {
-    "id": "change_01M85DCV1KAPX5NAHAG34DTTSR",
-    "base_commit": "1177f03a7fc8beeb2d844f3ea2f599a8e071d966",
+    "id": "change_01M85EG8R01TJC0111Q6BSESGB",
+    "base_commit": "4153e178bb48c68784ae557c5cf5f9e39bb09100",
     "target_base": "origin/main"
   },
   "claims": {
-    "clack-hero-mascot": {
-      "statement": "The Clack hero displays the repository mascot beside the tagline and keeps both tagline lines readable at mobile and desktop widths.",
-      "falsifier": "The emoji remains, the mascot fails to load or appears on a line by itself, or either tagline is clipped.",
-      "status": "open"
+    "clack-alpha-and-install-credit": {
+      "statement": "Both Clack wordmarks show the underlying surface through their alpha and the install credit fits on one line.",
+      "falsifier": "A logo background covers its section or the label and logo wrap, overlap, clip, or extend past the install panel.",
+      "status": "supported",
+      "proof_refs": [
+        "Headless Chrome layout and screenshot pixel assertions at 320–1440 px"
+      ]
     }
   },
   "checkpoints": [
     {
-      "id": "clack-mascot-source",
-      "summary": "Use the existing repository mascot in the Clack hero tagline and update the living site specs.",
-      "input_digest": "sha256:38ab4c75d0acf0bf4529b3395b9ba2ac8f5379a83482ab5d1d1de1655181a4a8"
+      "id": "clack-wordmarks-start",
+      "summary": "Expose PNG alpha in the Clack header and install credit, with a one-row credit verified from 320 to 1440 px.",
+      "input_digest": "sha256:c86816907c2a4172efbe0e3c3cc16848934ef0ac83dde32aaa55e0e30d973e56",
+      "proof_refs": [
+        "Headless Chrome verified layout and rendered background samples"
+      ]
     }
   ],
   "intents": {
-    "intent:change_01M85DCV1KAPX5NAHAG34DTTSR": {
+    "intent:change_01M85EG8R01TJC0111Q6BSESGB": {
       "acceptance_criteria": [],
       "assumptions": [],
       "boundaries": [
@@ -33,14 +46,14 @@
         "root"
       ],
       "created_sequence": 1,
-      "id": "intent:change_01M85DCV1KAPX5NAHAG34DTTSR",
+      "id": "intent:change_01M85EG8R01TJC0111Q6BSESGB",
       "instruction_origin": {
         "source_ref": "caller:unverified"
       },
       "out_of_scope": [],
       "proof_requirements": [],
-      "raw_intent": "Use the Clack mascot in the website hero tagline\n\nReplace the crab emoji with the existing repository mascot beside “code with the crabs”, keep “a new way to work and play”, and publish the verified website change.",
-      "refined_intent": "Use the Clack mascot in the website hero tagline\n\nReplace the crab emoji with the existing repository mascot beside “code with the crabs”, keep “a new way to work and play”, and publish the verified website change.",
+      "raw_intent": "Make the Clack header and install wordmarks transparent\n\nUse the existing PNG alpha in logo-a and logo-c on /clack/ and keep Powered by and logo-c on one line at desktop and mobile widths. Validate and open a website PR.",
+      "refined_intent": "Make the Clack header and install wordmarks transparent\n\nUse the existing PNG alpha in logo-a and logo-c on /clack/ and keep Powered by and logo-c on one line at desktop and mobile widths. Validate and open a website PR.",
       "status": "refined",
       "updated_sequence": 3
     }
@@ -53,54 +66,58 @@
       },
       "deferred_questions": [],
       "human_questions": [],
-      "intent": "Use the repository’s existing Clack mascot in place of the crab emoji in the hero. Keep both tagline lines and verify the mascot renders beside the text on desktop and mobile. Publish the verified website change.",
+      "intent": "Make the Clack header and install wordmarks transparent\n\nUse the existing PNG alpha in logo-a and logo-c on /clack/ and keep Powered by and logo-c on one line at desktop and mobile widths. Validate and open a website PR.",
       "phases": [],
       "proof_hooks": [
         "decapod validate",
-        "Headless Chrome verifies mascot rendering and tagline layout on desktop and mobile"
+        "Headless Chrome verifies alpha compositing, an unbroken install credit, and section bounds on desktop and mobile"
       ],
       "schema_version": "1.1.0",
       "spec_reviews": [
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/ARCHITECTURE.md",
-          "reason": "Identifies the shared SVG reference and responsive inline styling in the Clack hero.",
+          "reason": "Records the original PNG alpha, header color filter, and responsive flex layout.",
           "reviewed_code_fingerprint": "92022fafab9734f72f905091a0484ce04adc8935d81151889e4af897851d79ae",
-          "spec_material_hash": "db0e344e07f966b3bc98f61506185b35f97bcb678575693cae5c2d32c6dab1af"
+          "spec_material_hash": "9dba182f6f0a29a96ff1e1490b9a25e743f80070bb98030b7dbb356277ca164d"
         },
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/INTERFACES.md",
-          "reason": "Describes both visible tagline lines and how assistive technology handles the decorative mascot.",
+          "reason": "Records the asset placements and layout of the homepage credit link.",
           "reviewed_code_fingerprint": "92022fafab9734f72f905091a0484ce04adc8935d81151889e4af897851d79ae",
-          "spec_material_hash": "47051f37cb844f58c34a34df3ec6fdeeaf966b3d89188753a79da78b49afa7ae"
+          "spec_material_hash": "5c1535cd0ad62e3bd9f742de91f567b815fab0da6b349093a31cd90bb0a83ab8"
         },
         {
           "disposition": "unchanged_with_reason",
           "path": ".decapod/managed/specs/SECURITY.md",
-          "reason": "The hero uses an existing same-origin SVG through an img element and makes no changes to script, data flows, authentication, or payment.",
+          "reason": "The landing page uses the same local assets and existing navigation and download links. The change affects only rendering and introduces no new runtime behavior or storage.",
           "reviewed_code_fingerprint": "92022fafab9734f72f905091a0484ce04adc8935d81151889e4af897851d79ae",
           "spec_material_hash": "5701fbd6ef9c15fff62b23319b803fb8427a25b5ad76f4b5ed6b1ab83278d60e"
         }
       ],
       "state": "APPROVED",
       "stop_conditions": [],
-      "title": "Use the Clack mascot in the website hero tagline",
+      "title": "Make the Clack header and install wordmarks transparent",
       "todo_ids": [
-        "fend_01m85dc600ph3ddd"
+        "code_01m85efnb6mhtaqf"
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1795478365Z"
+      "updated_at": "1795479499Z"
     },
     "trajectory": {
       "active_boundaries": [
         "Current claimed task and isolated work branch"
       ],
-      "artifact_hash": "sha256:718b2f296d92aa5fff180d05453183cab080a69bdf483d766347d68e20031e7b",
+      "artifact_hash": "sha256:310de7d1b61a7ac7ad0e65d35b36d3fe5cfb32eb73458bf4eba7b66cbd5bb656",
       "checks": [
         {
-          "name": "headless-chrome-tagline",
+          "name": "diff-whitespace",
+          "status": "passed"
+        },
+        {
+          "name": "headless-chrome-wordmarks",
           "status": "passed"
         }
       ],
@@ -109,27 +126,27 @@
         "events": [
           {
             "event_id": "event:2",
-            "intent_id": "intent:change_01M85DCV1KAPX5NAHAG34DTTSR",
+            "intent_id": "intent:change_01M85EG8R01TJC0111Q6BSESGB",
             "kind": "created",
             "sequence": 2
           },
           {
             "event_id": "event:3",
-            "intent_id": "intent:change_01M85DCV1KAPX5NAHAG34DTTSR",
+            "intent_id": "intent:change_01M85EG8R01TJC0111Q6BSESGB",
             "kind": "refined",
             "sequence": 3
           },
           {
-            "detail": "trajectory:branch_01M85DCV4KWTXS68XPBHQ1YWR7",
+            "detail": "trajectory:branch_01M85EG8VCMYZMNBMT6BN8X1RW",
             "event_id": "event:4",
-            "intent_id": "intent:change_01M85DCV1KAPX5NAHAG34DTTSR",
+            "intent_id": "intent:change_01M85EG8R01TJC0111Q6BSESGB",
             "kind": "trajectory_step_recorded",
             "sequence": 4
           },
           {
-            "detail": "trajectory:branch_01M85DCV4KWTXS68XPBHQ1YWR7",
+            "detail": "trajectory:branch_01M85EG8VCMYZMNBMT6BN8X1RW",
             "event_id": "event:5",
-            "intent_id": "intent:change_01M85DCV1KAPX5NAHAG34DTTSR",
+            "intent_id": "intent:change_01M85EG8R01TJC0111Q6BSESGB",
             "kind": "trajectory_step_recorded",
             "sequence": 5
           }
@@ -138,10 +155,10 @@
         "next_sequence": 5,
         "schema_version": "1.1.0",
         "trajectories": {
-          "branch_01M85DCV4KWTXS68XPBHQ1YWR7": {
+          "branch_01M85EG8VCMYZMNBMT6BN8X1RW": {
             "evidence_only": true,
-            "id": "branch_01M85DCV4KWTXS68XPBHQ1YWR7",
-            "intent_id": "intent:change_01M85DCV1KAPX5NAHAG34DTTSR",
+            "id": "branch_01M85EG8VCMYZMNBMT6BN8X1RW",
+            "intent_id": "intent:change_01M85EG8R01TJC0111Q6BSESGB",
             "steps": [
               {
                 "action": "trajectory.record",
@@ -149,8 +166,9 @@
                 "observations": [
                   "clack/index.html",
                   "clack/clack.css",
-                  "assets/mascot.svg",
-                  "Authenticated GitHub main and live page agree on the three wordmark placements. The live hero still uses a crab emoji. The website base is 1177f03a7fc8beeb2d844f3ea2f599a8e071d966."
+                  "assets/logo-a.png",
+                  "assets/logo-c.png",
+                  "Accepted GitHub main 4153e178bb48c68784ae557c5cf5f9e39bb09100 matches the live logo placements. Both indexed PNGs already contain tRNS alpha. The prior nested clone resolves to the desktop repository’s Decapod store, so the website task is isolated in a separate website worktree."
                 ],
                 "proof_refs": [],
                 "scope": [
@@ -163,18 +181,18 @@
                 "action": "trajectory.record",
                 "custody_event_id": "event:5",
                 "observations": [
-                  "clack/index.html",
                   "clack/clack.css",
+                  "clack/index.html",
                   ".decapod/managed/specs/INTENT.md",
                   ".decapod/managed/specs/ARCHITECTURE.md",
                   ".decapod/managed/specs/INTERFACES.md",
-                  "Headless Chrome decoded the existing mascot SVG and verified both tagline texts, layout, adjacent placement, all three wordmark URLs, and the same-origin DMG link at 320, 375, 390, 700, 768, 900, 1024, 1280 and 1440 CSS pixels. Screenshots were inspected at 390 and 1440."
+                  "Chrome verified transparent PNG corners, transparent CSS image backgrounds and an in-bounds one-line credit at 320, 375, 390, 430, 431, 560, 700, 850, 900, 901, 1024 and 1440 px. Screenshot pixels matched ink #081d25 and cream #f7e8cd at 320 and 1440 px. The header filter preserves logo-a alpha and keeps the lettering legible on ink."
                 ],
                 "proof_refs": [
-                  "headless-chrome-tagline"
+                  "headless-chrome-wordmarks",
+                  "diff-whitespace"
                 ],
                 "scope": [
-                  "Clack hero and living specs",
                   "root"
                 ],
                 "sequence": 5,
@@ -187,15 +205,16 @@
       "declared_commands": [],
       "destination": "pull request",
       "evidence": [
-        "Authenticated GitHub main and live page agree on the three wordmark placements. The live hero still uses a crab emoji. The website base is 1177f03a7fc8beeb2d844f3ea2f599a8e071d966.",
-        "Headless Chrome decoded the existing mascot SVG and verified both tagline texts, layout, adjacent placement, all three wordmark URLs, and the same-origin DMG link at 320, 375, 390, 700, 768, 900, 1024, 1280 and 1440 CSS pixels. Screenshots were inspected at 390 and 1440."
+        "Accepted GitHub main 4153e178bb48c68784ae557c5cf5f9e39bb09100 matches the live logo placements. Both indexed PNGs already contain tRNS alpha. The prior nested clone resolves to the desktop repository’s Decapod store, so the website task is isolated in a separate website worktree.",
+        "Chrome verified transparent PNG corners, transparent CSS image backgrounds and an in-bounds one-line credit at 320, 375, 390, 430, 431, 560, 700, 850, 900, 901, 1024 and 1440 px. Screenshot pixels matched ink #081d25 and cream #f7e8cd at 320 and 1440 px. The header filter preserves logo-a alpha and keeps the lettering legible on ink."
       ],
       "inspected_files": [
-        "assets/mascot.svg",
+        "assets/logo-a.png",
+        "assets/logo-c.png",
         "clack/clack.css",
         "clack/index.html"
       ],
-      "intent_id": "intent:change_01M85DCV1KAPX5NAHAG34DTTSR",
+      "intent_id": "intent:change_01M85EG8R01TJC0111Q6BSESGB",
       "modified_files": [
         ".decapod/managed/specs/ARCHITECTURE.md",
         ".decapod/managed/specs/INTENT.md",
@@ -207,13 +226,12 @@
         "Refine plan and declare falsifiable checks"
       ],
       "repo_scope": [
-        "Clack hero and living specs",
         "root"
       ],
-      "run_id": "branch_01M85DCV4KWTXS68XPBHQ1YWR7",
+      "run_id": "branch_01M85EG8VCMYZMNBMT6BN8X1RW",
       "schema_version": "1.1.0",
       "shortcut_risk_signals": [],
-      "task_id": "fend_01m85dc600ph3ddd",
+      "task_id": "code_01m85efnb6mhtaqf",
       "tool_calls": [],
       "unresolved_assumptions": []
     }
