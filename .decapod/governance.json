@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "baseline": {
-    "accepted_commit": "92b0b66e233bb78d1c9f9821314b06788bfd830b",
+    "accepted_commit": "4ca4f7f73aa7357528ea0502e93fdeda030683f2",
     "unresolved": {
       "claim:clack-hero-mascot": {
         "falsifier": "The emoji remains, the mascot fails to load or appears on a line by itself, or either tagline is clipped.",
@@ -11,22 +11,38 @@
     }
   },
   "change": {
-    "id": "change_01M86G9PFQKW4B26NQN6X1DG3N",
-    "base_commit": "92b0b66e233bb78d1c9f9821314b06788bfd830b",
+    "id": "change_01M87TWH028WFGX7FWYPMFXZA2",
+    "base_commit": "4ca4f7f73aa7357528ea0502e93fdeda030683f2",
     "target_base": "origin/main"
+  },
+  "claims": {
+    "claim:clack-pinned-footer": {
+      "statement": "The /clack/ page pins the shared Decapod Labs footer to the bottom of the viewport throughout scrolling using styles.css .site-footer-pinned, sets Clack's dark ink background on body.clack-site so bottom clearance matches the page palette, and preserves unobstructed clearance for the install section across desktop and mobile widths.",
+      "falsifier": "Footer position is not fixed at bottom:0 across scroll positions, body background exposes light paper color above the footer, or the install card overlaps the fixed footer on desktop, tablet, or mobile viewports.",
+      "status": "supported",
+      "proof_refs": [
+        "chrome:desktop-1440:fixed-bottom-0-clearance-103px",
+        "chrome:mobile-320:fixed-bottom-0-clearance-89px",
+        "chrome:mobile-390:fixed-bottom-0-clearance-89px",
+        "chrome:tablet-820:fixed-bottom-0-clearance-95px"
+      ]
+    }
   },
   "checkpoints": [
     {
-      "id": "clack-hero-journey-trailer",
-      "summary": "Recut Clack's 30-second native gameplay trailer as a hero's journey with starter homes, copper mining, early fights, Kelp Lantern, midpoint Staff Shop Sunclaw Scepter upgrade, airborne Tidehex, upgraded homes, Imperial Dome victory, and closing line 'code with the crabs'; update captions, asset query versions, and living specs.",
-      "input_digest": "sha256:7560bab8de0110726a27bd553baf8d46c563329666d89fa8227f9f33843cd3a9",
+      "id": "cp-clack-pinned-footer",
+      "summary": "Pin the shared Decapod Labs footer on /clack/ via .site-footer-pinned, match body background to --clack-ink, bump clack.css?v=12, and update living specs.",
+      "input_digest": "sha256:83ef165fd36fb14a4b44669616784be8a5cfb4b923d691c3f8a57d2862b70aa4",
       "proof_refs": [
-        "ffprobe verified 1280x720 24fps 720 frames 30.000s H.264 High yuv420p + AAC 48kHz stereo faststart MP4; 30-frame contact sheet and closing frame verified hero's journey ordering and exact on-screen line 'code with the crabs'."
+        "chrome:desktop-1440:fixed-bottom-0-clearance-103px",
+        "chrome:mobile-320:fixed-bottom-0-clearance-89px",
+        "chrome:mobile-390:fixed-bottom-0-clearance-89px",
+        "chrome:tablet-820:fixed-bottom-0-clearance-95px"
       ]
     }
   ],
   "intents": {
-    "intent:change_01M86G9PFQKW4B26NQN6X1DG3N": {
+    "intent:change_01M87TWH028WFGX7FWYPMFXZA2": {
       "acceptance_criteria": [],
       "assumptions": [],
       "boundaries": [
@@ -36,14 +52,14 @@
         "root"
       ],
       "created_sequence": 1,
-      "id": "intent:change_01M86G9PFQKW4B26NQN6X1DG3N",
+      "id": "intent:change_01M87TWH028WFGX7FWYPMFXZA2",
       "instruction_origin": {
         "source_ref": "caller:unverified"
       },
       "out_of_scope": [],
       "proof_requirements": [],
-      "raw_intent": "Recut Clack trailer as a hero's journey and publish on decapodlabs.ai/clack",
-      "refined_intent": "Recut Clack trailer as a hero's journey and publish on decapodlabs.ai/clack",
+      "raw_intent": "Clack repository note for Maris",
+      "refined_intent": "Clack repository note for Maris",
       "status": "refined",
       "updated_sequence": 3
     }
@@ -56,65 +72,138 @@
       },
       "deferred_questions": [],
       "human_questions": [],
-      "intent": "Recut Clack's 30-second gameplay trailer as a hero's journey from starter homes, copper mining, early fights, and Kelp Lantern through a midpoint Staff Shop Sunclaw Scepter upgrade to airborne Tidehex, upgraded homes, Imperial Dome victory, and closing line 'code with the crabs'. Update MP4, WebVTT captions, poster, asset query versions, and living specs, validate with Decapod, merge PR, and verify live desktop and mobile playback.",
+      "intent": "Enable the shared fixed site footer (.site-footer-pinned) on decapodlabs.ai/clack so the footer stays visible throughout scrolling just like all other decapodlabs.ai pages, while matching Clack's dark teal palette and preserving bottom clearance across desktop and mobile viewports.",
       "phases": [],
       "proof_hooks": [
-        "FFprobe confirms 1280x720 24fps 30.000s H.264/AAC MP4 with faststart; extracted frames verify hero's journey order and exact 'code with the crabs' closing card; decapod validate passes; live desktop and mobile headless Chrome playback verified on https://decapodlabs.ai/clack/."
+        "decapod validate",
+        "Headless Chrome geometry and screenshot check at 1440x900, 820x900, 390x844, and 320x700"
       ],
       "schema_version": "1.1.0",
       "state": "APPROVED",
       "stop_conditions": [],
-      "title": "Recut Clack 30-second trailer as a hero's journey",
+      "title": "Freeze footer in frame on decapodlabs.ai/clack",
       "todo_ids": [
-        "code_01m86g8mftbwzka3"
+        "code_01m87tw46q057e4j"
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1795515059Z"
+      "updated_at": "1795559680Z"
     },
     "trajectory": {
       "active_boundaries": [
         "Current claimed task and isolated work branch"
       ],
-      "artifact_hash": "sha256:65b9c27e05c38d587cc102ef04a26868ba5186b263b98fe938a1bf24edefbe96",
-      "checks": [],
-      "current_phase": "intent",
+      "artifact_hash": "sha256:61298e35aa54cd409fdb4b5624f3e38b0880f907be73549ffd16b53f65b87904",
+      "checks": [
+        {
+          "name": "chrome_pinned_footer_geometry",
+          "status": "passed"
+        },
+        {
+          "name": "chrome_visual_screenshots",
+          "status": "passed"
+        }
+      ],
+      "current_phase": "validation",
       "custody": {
         "events": [
           {
             "event_id": "event:2",
-            "intent_id": "intent:change_01M86G9PFQKW4B26NQN6X1DG3N",
+            "intent_id": "intent:change_01M87TWH028WFGX7FWYPMFXZA2",
             "kind": "created",
             "sequence": 2
           },
           {
             "event_id": "event:3",
-            "intent_id": "intent:change_01M86G9PFQKW4B26NQN6X1DG3N",
+            "intent_id": "intent:change_01M87TWH028WFGX7FWYPMFXZA2",
             "kind": "refined",
             "sequence": 3
+          },
+          {
+            "detail": "trajectory:branch_01M87TWH2XRYTDE813GCCDGXX6",
+            "event_id": "event:4",
+            "intent_id": "intent:change_01M87TWH028WFGX7FWYPMFXZA2",
+            "kind": "trajectory_step_recorded",
+            "sequence": 4
           }
         ],
         "knowledge_candidates": [],
-        "next_sequence": 3,
+        "next_sequence": 4,
         "schema_version": "1.1.0",
-        "trajectories": {}
+        "trajectories": {
+          "branch_01M87TWH2XRYTDE813GCCDGXX6": {
+            "evidence_only": true,
+            "id": "branch_01M87TWH2XRYTDE813GCCDGXX6",
+            "intent_id": "intent:change_01M87TWH028WFGX7FWYPMFXZA2",
+            "steps": [
+              {
+                "action": "validation",
+                "command": "verify_clack_footer.mjs",
+                "custody_event_id": "event:4",
+                "observations": [
+                  "clack/index.html",
+                  "clack/clack.css",
+                  "styles.css",
+                  "index.html",
+                  "tecr.html",
+                  "pricing.html",
+                  "tecr.css",
+                  "clack/index.html",
+                  "clack/clack.css",
+                  ".decapod/managed/specs/INTENT.md",
+                  ".decapod/managed/specs/ARCHITECTURE.md",
+                  ".decapod/managed/specs/INTERFACES.md",
+                  "Headless Chrome verified position:fixed, bottom:0, z-index:80, body/footer rgb(8,29,37), 0px horizontal overflow, and positive install-card clearance (103px@1440, 95px@820, 89px@390, 89px@320) across top/mid/bottom scroll positions matching index.html."
+                ],
+                "proof_refs": [
+                  "chrome_pinned_footer_geometry",
+                  "chrome_visual_screenshots"
+                ],
+                "scope": [
+                  "root"
+                ],
+                "sequence": 4,
+                "validation_findings": []
+              }
+            ]
+          }
+        }
       },
-      "declared_commands": [],
+      "declared_commands": [
+        "verify_clack_footer.mjs"
+      ],
       "destination": "pull request",
-      "evidence": [],
-      "inspected_files": [],
-      "intent_id": "intent:change_01M86G9PFQKW4B26NQN6X1DG3N",
-      "modified_files": [],
+      "evidence": [
+        "Headless Chrome verified position:fixed, bottom:0, z-index:80, body/footer rgb(8,29,37), 0px horizontal overflow, and positive install-card clearance (103px@1440, 95px@820, 89px@390, 89px@320) across top/mid/bottom scroll positions matching index.html."
+      ],
+      "inspected_files": [
+        "clack/clack.css",
+        "clack/index.html",
+        "index.html",
+        "pricing.html",
+        "styles.css",
+        "tecr.css",
+        "tecr.html"
+      ],
+      "intent_id": "intent:change_01M87TWH028WFGX7FWYPMFXZA2",
+      "modified_files": [
+        ".decapod/managed/specs/ARCHITECTURE.md",
+        ".decapod/managed/specs/INTENT.md",
+        ".decapod/managed/specs/INTERFACES.md",
+        "clack/clack.css",
+        "clack/index.html"
+      ],
       "next_transitions": [
-        "Refine plan and declare falsifiable checks"
+        "Refine plan and declare falsifiable checks",
+        "Stage authored changes, checkpoint, commit, and run decapod validate"
       ],
       "repo_scope": [
         "root"
       ],
-      "run_id": "branch_01M86G9PJZ2QJ6E870BCNF6KKX",
+      "run_id": "branch_01M87TWH2XRYTDE813GCCDGXX6",
       "schema_version": "1.1.0",
       "shortcut_risk_signals": [],
-      "task_id": "code_01m86g8mftbwzka3",
+      "task_id": "code_01m87tw46q057e4j",
       "tool_calls": [],
       "unresolved_assumptions": []
     }
