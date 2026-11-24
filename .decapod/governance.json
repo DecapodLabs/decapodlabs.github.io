@@ -25,6 +25,14 @@
         "scripts/check-site.ts: passed",
         "scripts/synthetic-readiness.ts: healthy across 4 planes"
       ]
+    },
+    {
+      "id": "cicd_01m85w29w2g2g8n1-reconcile",
+      "summary": "Reconcile reviewed_sources_digest for scripts/synthetic-readiness.ts (#71)",
+      "input_digest": "sha256:a6881851adeab44b8ffde022434987d2067ca8f2a2bf6538c16154e82d4e431c",
+      "proof_refs": [
+        "scripts/synthetic-readiness.ts"
+      ]
     }
   ],
   "intents": {
