@@ -1,29 +1,32 @@
 {
   "schema_version": "1.0.0",
   "baseline": {
-    "accepted_commit": "1177f03a7fc8beeb2d844f3ea2f599a8e071d966"
+    "accepted_commit": "4153e178bb48c68784ae557c5cf5f9e39bb09100",
+    "unresolved": {
+      "claim:clack-hero-mascot": {
+        "falsifier": "The emoji remains, the mascot fails to load or appears on a line by itself, or either tagline is clipped.",
+        "statement": "The Clack hero displays the repository mascot beside the tagline and keeps both tagline lines readable at mobile and desktop widths.",
+        "status": "open"
+      }
+    }
   },
   "change": {
-    "id": "change_01M85DCV1KAPX5NAHAG34DTTSR",
-    "base_commit": "1177f03a7fc8beeb2d844f3ea2f599a8e071d966",
+    "id": "change_01M85GARXT1RMED04SN4RTCK2D",
+    "base_commit": "4153e178bb48c68784ae557c5cf5f9e39bb09100",
     "target_base": "origin/main"
-  },
-  "claims": {
-    "clack-hero-mascot": {
-      "statement": "The Clack hero displays the repository mascot beside the tagline and keeps both tagline lines readable at mobile and desktop widths.",
-      "falsifier": "The emoji remains, the mascot fails to load or appears on a line by itself, or either tagline is clipped.",
-      "status": "open"
-    }
   },
   "checkpoints": [
     {
-      "id": "clack-mascot-source",
-      "summary": "Use the existing repository mascot in the Clack hero tagline and update the living site specs.",
-      "input_digest": "sha256:38ab4c75d0acf0bf4529b3395b9ba2ac8f5379a83482ab5d1d1de1655181a4a8"
+      "id": "clack-12-second-trailer",
+      "summary": "Put the native gameplay trailer and original score in the Clack hero.",
+      "input_digest": "sha256:2adc98b8a40cc2a3a5d7bb1c57729042237e4c1b35108225860c52438cc1cb14",
+      "proof_refs": [
+        "Native capture confirmed mining reward and third round arena victory. FFprobe confirmed 12.000 seconds and stereo AAC."
+      ]
     }
   ],
   "intents": {
-    "intent:change_01M85DCV1KAPX5NAHAG34DTTSR": {
+    "intent:change_01M85GARXT1RMED04SN4RTCK2D": {
       "acceptance_criteria": [],
       "assumptions": [],
       "boundaries": [
@@ -33,14 +36,14 @@
         "root"
       ],
       "created_sequence": 1,
-      "id": "intent:change_01M85DCV1KAPX5NAHAG34DTTSR",
+      "id": "intent:change_01M85GARXT1RMED04SN4RTCK2D",
       "instruction_origin": {
         "source_ref": "caller:unverified"
       },
       "out_of_scope": [],
       "proof_requirements": [],
-      "raw_intent": "Use the Clack mascot in the website hero tagline\n\nReplace the crab emoji with the existing repository mascot beside “code with the crabs”, keep “a new way to work and play”, and publish the verified website change.",
-      "refined_intent": "Use the Clack mascot in the website hero tagline\n\nReplace the crab emoji with the existing repository mascot beside “code with the crabs”, keep “a new way to work and play”, and publish the verified website change.",
+      "raw_intent": "Publish the 12-second Clack gameplay trailer\n\nMake the actual Clack gameplay trailer prominent above the fold and verify its site deployment.",
+      "refined_intent": "Publish the 12-second Clack gameplay trailer\n\nMake the actual Clack gameplay trailer prominent above the fold and verify its site deployment.",
       "status": "refined",
       "updated_sequence": 3
     }
@@ -53,167 +56,65 @@
       },
       "deferred_questions": [],
       "human_questions": [],
-      "intent": "Use the repository’s existing Clack mascot in place of the crab emoji in the hero. Keep both tagline lines and verify the mascot renders beside the text on desktop and mobile. Publish the verified website change.",
+      "intent": "Publish a prominent 12-second native gameplay cut with an original score and accessible playback on /clack/.",
       "phases": [],
       "proof_hooks": [
-        "decapod validate",
-        "Headless Chrome verifies mascot rendering and tagline layout on desktop and mobile"
+        "Verify real native mining and championship callbacks, the 12 second duration, audio stream, and live browser playback."
       ],
       "schema_version": "1.1.0",
-      "spec_reviews": [
-        {
-          "disposition": "updated",
-          "path": ".decapod/managed/specs/ARCHITECTURE.md",
-          "reason": "Identifies the shared SVG reference and responsive inline styling in the Clack hero.",
-          "reviewed_code_fingerprint": "92022fafab9734f72f905091a0484ce04adc8935d81151889e4af897851d79ae",
-          "spec_material_hash": "db0e344e07f966b3bc98f61506185b35f97bcb678575693cae5c2d32c6dab1af"
-        },
-        {
-          "disposition": "updated",
-          "path": ".decapod/managed/specs/INTERFACES.md",
-          "reason": "Describes both visible tagline lines and how assistive technology handles the decorative mascot.",
-          "reviewed_code_fingerprint": "92022fafab9734f72f905091a0484ce04adc8935d81151889e4af897851d79ae",
-          "spec_material_hash": "47051f37cb844f58c34a34df3ec6fdeeaf966b3d89188753a79da78b49afa7ae"
-        },
-        {
-          "disposition": "unchanged_with_reason",
-          "path": ".decapod/managed/specs/SECURITY.md",
-          "reason": "The hero uses an existing same-origin SVG through an img element and makes no changes to script, data flows, authentication, or payment.",
-          "reviewed_code_fingerprint": "92022fafab9734f72f905091a0484ce04adc8935d81151889e4af897851d79ae",
-          "spec_material_hash": "5701fbd6ef9c15fff62b23319b803fb8427a25b5ad76f4b5ed6b1ab83278d60e"
-        }
-      ],
       "state": "APPROVED",
       "stop_conditions": [],
-      "title": "Use the Clack mascot in the website hero tagline",
+      "title": "Clack gameplay trailer",
       "todo_ids": [
-        "fend_01m85dc600ph3ddd"
+        "code_01m85gaactjjq9ey"
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1795478365Z"
+      "updated_at": "1795482099Z"
     },
     "trajectory": {
       "active_boundaries": [
         "Current claimed task and isolated work branch"
       ],
-      "artifact_hash": "sha256:718b2f296d92aa5fff180d05453183cab080a69bdf483d766347d68e20031e7b",
-      "checks": [
-        {
-          "name": "headless-chrome-tagline",
-          "status": "passed"
-        }
-      ],
+      "artifact_hash": "sha256:673e7ba51ab11a201ea29ce269ebb70f30cdd2714b085bc2509536948ab746eb",
+      "checks": [],
       "current_phase": "intent",
       "custody": {
         "events": [
           {
             "event_id": "event:2",
-            "intent_id": "intent:change_01M85DCV1KAPX5NAHAG34DTTSR",
+            "intent_id": "intent:change_01M85GARXT1RMED04SN4RTCK2D",
             "kind": "created",
             "sequence": 2
           },
           {
             "event_id": "event:3",
-            "intent_id": "intent:change_01M85DCV1KAPX5NAHAG34DTTSR",
+            "intent_id": "intent:change_01M85GARXT1RMED04SN4RTCK2D",
             "kind": "refined",
             "sequence": 3
-          },
-          {
-            "detail": "trajectory:branch_01M85DCV4KWTXS68XPBHQ1YWR7",
-            "event_id": "event:4",
-            "intent_id": "intent:change_01M85DCV1KAPX5NAHAG34DTTSR",
-            "kind": "trajectory_step_recorded",
-            "sequence": 4
-          },
-          {
-            "detail": "trajectory:branch_01M85DCV4KWTXS68XPBHQ1YWR7",
-            "event_id": "event:5",
-            "intent_id": "intent:change_01M85DCV1KAPX5NAHAG34DTTSR",
-            "kind": "trajectory_step_recorded",
-            "sequence": 5
           }
         ],
         "knowledge_candidates": [],
-        "next_sequence": 5,
+        "next_sequence": 3,
         "schema_version": "1.1.0",
-        "trajectories": {
-          "branch_01M85DCV4KWTXS68XPBHQ1YWR7": {
-            "evidence_only": true,
-            "id": "branch_01M85DCV4KWTXS68XPBHQ1YWR7",
-            "intent_id": "intent:change_01M85DCV1KAPX5NAHAG34DTTSR",
-            "steps": [
-              {
-                "action": "trajectory.record",
-                "custody_event_id": "event:4",
-                "observations": [
-                  "clack/index.html",
-                  "clack/clack.css",
-                  "assets/mascot.svg",
-                  "Authenticated GitHub main and live page agree on the three wordmark placements. The live hero still uses a crab emoji. The website base is 1177f03a7fc8beeb2d844f3ea2f599a8e071d966."
-                ],
-                "proof_refs": [],
-                "scope": [
-                  "root"
-                ],
-                "sequence": 4,
-                "validation_findings": []
-              },
-              {
-                "action": "trajectory.record",
-                "custody_event_id": "event:5",
-                "observations": [
-                  "clack/index.html",
-                  "clack/clack.css",
-                  ".decapod/managed/specs/INTENT.md",
-                  ".decapod/managed/specs/ARCHITECTURE.md",
-                  ".decapod/managed/specs/INTERFACES.md",
-                  "Headless Chrome decoded the existing mascot SVG and verified both tagline texts, layout, adjacent placement, all three wordmark URLs, and the same-origin DMG link at 320, 375, 390, 700, 768, 900, 1024, 1280 and 1440 CSS pixels. Screenshots were inspected at 390 and 1440."
-                ],
-                "proof_refs": [
-                  "headless-chrome-tagline"
-                ],
-                "scope": [
-                  "Clack hero and living specs",
-                  "root"
-                ],
-                "sequence": 5,
-                "validation_findings": []
-              }
-            ]
-          }
-        }
+        "trajectories": {}
       },
       "declared_commands": [],
       "destination": "pull request",
-      "evidence": [
-        "Authenticated GitHub main and live page agree on the three wordmark placements. The live hero still uses a crab emoji. The website base is 1177f03a7fc8beeb2d844f3ea2f599a8e071d966.",
-        "Headless Chrome decoded the existing mascot SVG and verified both tagline texts, layout, adjacent placement, all three wordmark URLs, and the same-origin DMG link at 320, 375, 390, 700, 768, 900, 1024, 1280 and 1440 CSS pixels. Screenshots were inspected at 390 and 1440."
-      ],
-      "inspected_files": [
-        "assets/mascot.svg",
-        "clack/clack.css",
-        "clack/index.html"
-      ],
-      "intent_id": "intent:change_01M85DCV1KAPX5NAHAG34DTTSR",
-      "modified_files": [
-        ".decapod/managed/specs/ARCHITECTURE.md",
-        ".decapod/managed/specs/INTENT.md",
-        ".decapod/managed/specs/INTERFACES.md",
-        "clack/clack.css",
-        "clack/index.html"
-      ],
+      "evidence": [],
+      "inspected_files": [],
+      "intent_id": "intent:change_01M85GARXT1RMED04SN4RTCK2D",
+      "modified_files": [],
       "next_transitions": [
         "Refine plan and declare falsifiable checks"
       ],
       "repo_scope": [
-        "Clack hero and living specs",
         "root"
       ],
-      "run_id": "branch_01M85DCV4KWTXS68XPBHQ1YWR7",
+      "run_id": "branch_01M85GAS27AJCJH1R88747YC3M",
       "schema_version": "1.1.0",
       "shortcut_risk_signals": [],
-      "task_id": "fend_01m85dc600ph3ddd",
+      "task_id": "code_01m85gaactjjq9ey",
       "tool_calls": [],
       "unresolved_assumptions": []
     }
