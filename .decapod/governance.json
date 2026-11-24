@@ -30,27 +30,44 @@
       "id": "bend_01m85khhevh0s4m1-live-tests",
       "summary": "Move live header check under tests/ to preserve reviewed scripts inventory digest (#70)",
       "input_digest": "sha256:a158f8fbcc15f05f521e280e188be32a4b992cf6388d54067ae930cb677c225c"
+    },
+    {
+      "id": "cicd_01m85q99x77gk0pw",
+      "summary": "Phase 2 browser concurrency and workflow consistency hardening (#54, #55, #56)",
+      "input_digest": "sha256:18bcabb9ba9c8eab045dbf183817aaaacedce0d2b9c78d21fd6ab687f68537af",
+      "proof_refs": [
+        "deno test: 23 passed, 0 failed",
+        "scripts/check-site.ts: passed"
+      ]
+    },
+    {
+      "id": "cicd_01m85q99x77gk0pw-traj",
+      "summary": "Bind trajectory to cicd_01m85q99x77gk0pw",
+      "input_digest": "sha256:e026beb756e7c323667bb4070f65d3d47f1513950656a0a4d99b8688572fcdce",
+      "proof_refs": [
+        "deno test: 23 passed, 0 failed"
+      ]
     }
   ],
   "intents": {
-    "intent:change_01M85KJ14VPQXQRM1P1ZVXPAY5": {
+    "intent:run_p2_concurrency": {
       "acceptance_criteria": [],
       "assumptions": [],
       "boundaries": [
-        "Current claimed task and isolated work branch"
+        "Worktree isolated; preserve UNDER WRAPS / disabled Pay posture unless enabled by server; no weakening assertions"
       ],
       "constraints": [
-        "root"
+        "pricing.js,signup/signup.js,admin/admin.js,cloud-flow.js,pricing.html,pricing/index.html,signup/index.html,admin/index.html,tests/"
       ],
       "created_sequence": 1,
-      "id": "intent:change_01M85KJ14VPQXQRM1P1ZVXPAY5",
+      "id": "intent:run_p2_concurrency",
       "instruction_origin": {
         "source_ref": "caller:unverified"
       },
       "out_of_scope": [],
       "proof_requirements": [],
-      "raw_intent": "Harden browser asset release coherence and API skew compatibility (#70)",
-      "refined_intent": "Harden browser asset release coherence and API skew compatibility (#70)",
+      "raw_intent": "Execute Phase 2 browser concurrency & workflow consistency hardening (#54, #55, #56)",
+      "refined_intent": "Harden pricing.js, admin/admin.js, signup/signup.js, and cloud-flow.js against stale state, out-of-order responses, concurrent conflicts, and duplicate submits; bump asset release version and add tests",
       "status": "refined",
       "updated_sequence": 3
     }
@@ -63,9 +80,11 @@
       },
       "deferred_questions": [],
       "human_questions": [],
-      "intent": "Harden browser asset release coherence and API skew compatibility (#70)",
+      "intent": "Audit and harden pricing.js, admin/admin.js, signup/signup.js, and cloud-flow.js for concurrency, out-of-order response guards, 409 revision conflicts, 401/403 fail-closed clearing, duplicate-submit suppression, and cross-tab coordination",
       "phases": [],
       "proof_hooks": [
+        "deno run --no-remote --no-npm --allow-read=. scripts/check-site.ts",
+        "deno test --no-remote --no-npm --allow-read=. tests/",
         "decapod validate"
       ],
       "schema_version": "1.1.0",
@@ -73,78 +92,169 @@
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/ARCHITECTURE.md",
-          "reason": "Updated ARCHITECTURE.md for #70 with tests/live_headers_check.ts.",
-          "reviewed_code_fingerprint": "1deb5fc0e6e7ceb60d4567f8d18b10d2ce9f470c572ef8400a88d109e9292dc6",
-          "spec_material_hash": "1deb1ac77d487f7591bed9fc1553380aa6cf9d2dd3aca7c58ad8ebb3163f1a6c"
+          "reason": "Updated ARCHITECTURE.md for #54, #55, #56 Phase 2 concurrency, AbortController, conflict/revocation, and cross-tab coordination",
+          "reviewed_code_fingerprint": "c6072ce15f4e71fde6215e313b64d02941f4a31745c84d3173170443b8de3774",
+          "spec_material_hash": "dfe7d1b37b4d216b7eeaa3f956431bba0abe5efa41f42c782ec34eca2f7f77aa"
         },
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/INTERFACES.md",
-          "reason": "Updated INTERFACES.md for #70 with tests/live_headers_check.ts.",
-          "reviewed_code_fingerprint": "1deb5fc0e6e7ceb60d4567f8d18b10d2ce9f470c572ef8400a88d109e9292dc6",
-          "spec_material_hash": "8b18e6c3930a3fa054873725cd2f9370e204637616cd86af5df76da12cd5e159"
+          "reason": "Updated INTERFACES.md for 20261124-p2 release tags, coherence channel events, and idempotency/revision contracts",
+          "reviewed_code_fingerprint": "c6072ce15f4e71fde6215e313b64d02941f4a31745c84d3173170443b8de3774",
+          "spec_material_hash": "297c64569d1221b2c7c51a96508cfa03ebbf33026793060f18ef660e704dbea7"
         },
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/SECURITY.md",
-          "reason": "Confirmed SECURITY.md for #70.",
-          "reviewed_code_fingerprint": "1deb5fc0e6e7ceb60d4567f8d18b10d2ce9f470c572ef8400a88d109e9292dc6",
-          "spec_material_hash": "ced437817e491afb8093e400a208725a75a4929c5d45f8833f6b4b95ce5488ba"
+          "reason": "Updated SECURITY.md for Phase 2 abort/epoch isolation, 403 org eviction, and non-authoritative cross-tab coordination",
+          "reviewed_code_fingerprint": "c6072ce15f4e71fde6215e313b64d02941f4a31745c84d3173170443b8de3774",
+          "spec_material_hash": "25ef7b6373625ea58d33d6170146df55456e1481abbcba6cd62c33ca3b2d7af2"
         }
       ],
       "state": "APPROVED",
       "stop_conditions": [],
-      "title": "Harden browser asset release coherence and API skew compatibility (#70)",
+      "title": "Harden browser workflow concurrency and consistency (#54, #55, #56)",
       "todo_ids": [
-        "bend_01m85khhevh0s4m1"
+        "cicd_01m85q99x77gk0pw"
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1795485546Z"
+      "updated_at": "1795489659Z"
     },
     "trajectory": {
       "active_boundaries": [
-        "Current claimed task and isolated work branch"
+        "Worktree isolated; preserve UNDER WRAPS / disabled Pay posture unless enabled by server; no weakening assertions"
       ],
-      "artifact_hash": "sha256:7f1feeec655c94065734f3b04b1aa11f7ad97335d55830660508540d614b1ff5",
-      "checks": [],
-      "current_phase": "intent",
+      "artifact_hash": "sha256:d753b5b6eeb1b2e30dccc21adb8a9869b3d18b8bfab4d9c3a364675a3037ae86",
+      "checks": [
+        {
+          "name": "check-site",
+          "status": "passed"
+        },
+        {
+          "name": "deno-tests",
+          "status": "passed"
+        }
+      ],
       "custody": {
         "events": [
           {
             "event_id": "event:2",
-            "intent_id": "intent:change_01M85KJ14VPQXQRM1P1ZVXPAY5",
+            "intent_id": "intent:run_p2_concurrency",
             "kind": "created",
             "sequence": 2
           },
           {
             "event_id": "event:3",
-            "intent_id": "intent:change_01M85KJ14VPQXQRM1P1ZVXPAY5",
+            "intent_id": "intent:run_p2_concurrency",
             "kind": "refined",
             "sequence": 3
+          },
+          {
+            "detail": "trajectory:run_p2_concurrency",
+            "event_id": "event:4",
+            "intent_id": "intent:run_p2_concurrency",
+            "kind": "trajectory_step_recorded",
+            "sequence": 4
+          },
+          {
+            "detail": "trajectory:run_p2_concurrency",
+            "event_id": "event:5",
+            "intent_id": "intent:run_p2_concurrency",
+            "kind": "trajectory_step_recorded",
+            "sequence": 5
           }
         ],
         "knowledge_candidates": [],
-        "next_sequence": 3,
+        "next_sequence": 5,
         "schema_version": "1.1.0",
-        "trajectories": {}
+        "trajectories": {
+          "run_p2_concurrency": {
+            "evidence_only": true,
+            "id": "run_p2_concurrency",
+            "intent_id": "intent:run_p2_concurrency",
+            "steps": [
+              {
+                "action": "trajectory.record",
+                "custody_event_id": "event:4",
+                "observations": [
+                  "cloud-flow.js",
+                  "pricing.js",
+                  "admin/admin.js",
+                  "signup/signup.js",
+                  "cloud-flow.js",
+                  "pricing.js",
+                  "admin/admin.js",
+                  "signup/signup.js",
+                  "pricing.html",
+                  "pricing/index.html",
+                  "signup/index.html",
+                  "admin/index.html",
+                  "docs/asset-compatibility-matrix.md",
+                  "tests/workflow_concurrency_p2_test.ts",
+                  "23/23 Deno tests passed including tests/workflow_concurrency_p2_test.ts and scripts/check-site.ts passed"
+                ],
+                "proof_refs": [
+                  "check-site",
+                  "deno-tests"
+                ],
+                "scope": [
+                  "pricing.js,signup/signup.js,admin/admin.js,cloud-flow.js,pricing.html,pricing/index.html,signup/index.html,admin/index.html,tests/"
+                ],
+                "sequence": 4,
+                "validation_findings": []
+              },
+              {
+                "action": "trajectory.record",
+                "custody_event_id": "event:5",
+                "observations": [
+                  "Bound trajectory to todo cicd_01m85q99x77gk0pw; 23/23 Deno tests passed"
+                ],
+                "proof_refs": [
+                  "check-site",
+                  "deno-tests"
+                ],
+                "scope": [
+                  "pricing.js,signup/signup.js,admin/admin.js,cloud-flow.js,pricing.html,pricing/index.html,signup/index.html,admin/index.html,tests/"
+                ],
+                "sequence": 5,
+                "validation_findings": []
+              }
+            ]
+          }
+        }
       },
       "declared_commands": [],
-      "destination": "pull request",
-      "evidence": [],
-      "inspected_files": [],
-      "intent_id": "intent:change_01M85KJ14VPQXQRM1P1ZVXPAY5",
-      "modified_files": [],
-      "next_transitions": [
-        "Refine plan and declare falsifiable checks"
+      "evidence": [
+        "23/23 Deno tests passed including tests/workflow_concurrency_p2_test.ts and scripts/check-site.ts passed",
+        "Bound trajectory to todo cicd_01m85q99x77gk0pw; 23/23 Deno tests passed"
+      ],
+      "inspected_files": [
+        "admin/admin.js",
+        "cloud-flow.js",
+        "pricing.js",
+        "signup/signup.js"
+      ],
+      "intent_id": "intent:run_p2_concurrency",
+      "modified_files": [
+        "admin/admin.js",
+        "admin/index.html",
+        "cloud-flow.js",
+        "docs/asset-compatibility-matrix.md",
+        "pricing.html",
+        "pricing.js",
+        "pricing/index.html",
+        "signup/index.html",
+        "signup/signup.js",
+        "tests/workflow_concurrency_p2_test.ts"
       ],
       "repo_scope": [
-        "root"
+        "pricing.js,signup/signup.js,admin/admin.js,cloud-flow.js,pricing.html,pricing/index.html,signup/index.html,admin/index.html,tests/"
       ],
-      "run_id": "branch_01M85KJ18XZP13X353CVSAX47A",
+      "run_id": "run_p2_concurrency",
       "schema_version": "1.1.0",
       "shortcut_risk_signals": [],
-      "task_id": "bend_01m85khhevh0s4m1",
+      "task_id": "cicd_01m85q99x77gk0pw",
       "tool_calls": [],
       "unresolved_assumptions": []
     }

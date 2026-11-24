@@ -69,7 +69,7 @@ These declarations select authoring and proof obligations; they do not attest im
 
 ## Codebase Contract Snapshot
 
-- Tracked significant codebase files: 22 across `.github/` (1), `README.md/` (1), `admin/` (1), `cloud-flow.js/` (1), `evidence/` (4), `main.js/` (1), `pricing.js/` (1), `scripts/` (7), `signup/` (1), `tests/` (4)
+- Tracked significant codebase files: 23 across `.github/` (1), `README.md/` (1), `admin/` (1), `cloud-flow.js/` (1), `evidence/` (4), `main.js/` (1), `pricing.js/` (1), `scripts/` (7), `signup/` (1), `tests/` (5)
 - Core modules: 0 | Workflows: 1 | Integration targets: 0
 <!-- decapod:codebase-contract:end -->
 
@@ -77,8 +77,8 @@ These declarations select authoring and proof obligations; they do not attest im
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `1deb5fc0e6e7ceb60d4567f8d18b10d2ce9f470c572ef8400a88d109e9292dc6`
-- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (4 files)
+- Repository signal fingerprint: `c6072ce15f4e71fde6215e313b64d02941f4a31745c84d3173170443b8de3774`
+- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (5 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->
 
@@ -126,3 +126,6 @@ An unauthenticated visitor fails closed behind the PKCE sign-in gate before rend
 
 ## Browser Asset Release Coherence & API Skew Compatibility (#70) — November 23, 2026
 Prove and enforce release coherence across GitHub Pages static assets (`max-age=600`), `$0/mo` Cloudflare edge routes, and Propodus APIs under CDN/browser cache skew, interrupted deployments, rollbacks, stale discovery, deep links (`?repo=...`), and multi-tab sessions. Document the compatibility and invalidation matrix in `docs/asset-compatibility-matrix.md`, fix client skew/scrubbing/discovery/cache defects in `cloud-flow.js`, `pricing.js`, `signup/signup.js`, `admin/admin.js`, and HTML entrypoints, and prove deterministic fail-closed or valid-progression behavior via offline Deno tests (`tests/asset_skew_test.ts`) plus read-only deployed header verification (`tests/live_headers_check.ts`).
+
+## Phase 2 Browser Concurrency & Workflow Consistency Hardening (#54, #55, #56) — November 24, 2026
+Harden Pricing (`pricing.js`), Admin (`admin/admin.js`), Signup (`signup/signup.js`), and shared flow coordination (`cloud-flow.js`, release `20261124-p2`) against stale cached pricing/quote state, cross-tab intent mismatches, out-of-order async responses during org/repo switches or after sign-out, concurrent `409` revision conflicts, mid-flight `401`/`403` revocations, duplicate enrollment/quote/checkout clicks, two-tab checkout races, Browser Back/reload transitions, and transient lost-ack polling while preserving strict `pending_timeout` fail-closed locking and `'UNDER WRAPS'` defaults, verified via `tests/workflow_concurrency_p2_test.ts`.
