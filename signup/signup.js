@@ -1,10 +1,45 @@
 (function (root) {
   "use strict";
 
-  var flow = root.DecapodCloudFlow;
+  function hasCompatibleFlow(candidate) {
+    return Boolean(
+      candidate &&
+      candidate.CONTRACT_VERSION === 1 &&
+      typeof candidate.isAllowedSiteOrigin === "function" &&
+      typeof candidate.isTrustedApiOrigin === "function" &&
+      typeof candidate.isTrustedAuthUrl === "function" &&
+      typeof candidate.isAllowedCheckoutUrl === "function" &&
+      typeof candidate.isSupportedApiContractVersion === "function" &&
+      typeof candidate.checkPageCoherence === "function" &&
+      typeof candidate.scrubSensitiveLocation === "function" &&
+      typeof candidate.createCoherenceChannel === "function" &&
+      typeof candidate.parseRepoSearch === "function" &&
+      typeof candidate.parseRepoSlug === "function" &&
+      typeof candidate.parseSafeReturnParam === "function" &&
+      typeof candidate.validateSessionRecord === "function" &&
+      typeof candidate.hasHostileFragmentTokens === "function" &&
+      typeof candidate.listVerifiedProviders === "function" &&
+      typeof candidate.hasVerifiedProvider === "function" &&
+      typeof candidate.classifyAccessState === "function" &&
+      typeof candidate.createBoundedPoller === "function" &&
+      typeof candidate.buildAuthAuthorizeUrl === "function" &&
+      typeof candidate.discoverRuntimeConfig === "function" &&
+      typeof candidate.randomSecret === "function" &&
+      typeof candidate.sha256Base64Url === "function"
+    );
+  }
+
+  function isValidProfile(p, flowApi) {
+    if (!p || typeof p !== "object" || Array.isArray(p) || !hasCompatibleFlow(flowApi)) return false;
+    if (p.contractVersion !== undefined && p.contractVersion !== flowApi.CONTRACT_VERSION) return false;
+    if (!flowApi.isTrustedApiOrigin(p.projectOrigin) || !flowApi.isTrustedApiOrigin(p.apiOrigin)) return false;
+    if (!flowApi.isTrustedAuthUrl(p.authBaseUrl)) return false;
+    return typeof p.publishableKey === "string" && p.publishableKey.length > 0;
+  }
 
   function createSignupController(deps) {
     var d = deps || {};
+    var flow = Object.prototype.hasOwnProperty.call(d, "flow") ? d.flow : root.DecapodCloudFlow;
     var doc = d.document || root.document;
     var winLocation = d.location || root.location;
     var winHistory = d.history || (typeof history !== "undefined" ? history : null);
@@ -14,7 +49,11 @@
     var navigateFn = d.navigateFn || function (url) { winLocation.assign(url); };
     var nowSec = d.nowSec || function () { return Math.floor(Date.now() / 1000); };
 
-    var profile = d.initialProfile || null;
+    var flowOk = hasCompatibleFlow(flow);
+    var profile = d.initialProfile ? (isValidProfile(d.initialProfile, flow) ? d.initialProfile : null) : null;
+    var invalidInitialProfile = Boolean(d.initialProfile && !profile);
+    var skewBlocked = !flowOk || invalidInitialProfile;
+    var skewReason = !flowOk ? "incompatible_cloud_flow" : (invalidInitialProfile ? "untrusted_profile" : null);
     var session = null;
     var currentUser = null;
     var accountSnapshot = null;
@@ -34,20 +73,35 @@
     var githubOrgsCache = [];
     var pollGeneration = 0;
     var busy = false;
+    var coherenceChannel = flowOk
+      ? flow.createCoherenceChannel({
+          BroadcastChannel: d.broadcastChannel,
+          onSkew: function () {
+            skewBlocked = true;
+            skewReason = "multi_tab_release_skew";
+            invalidateSessionState("A newer release of Decapod Cloud is active in another tab. Reload this page to continue safely.", true, false);
+          },
+          onAuthInvalidated: function (msg) {
+            if (msg && msg.projectOrigin && profile && msg.projectOrigin !== profile.projectOrigin) return;
+            invalidateSessionState("Signed out in another tab. Authenticate again to continue.", false, false);
+          }
+        })
+      : { announceReady: function () {}, broadcastAuthInvalidated: function () {}, close: function () {} };
 
     function byId(id) {
       return doc.getElementById(id);
     }
 
     function siteOrigin() {
-      if (winLocation && flow.isAllowedSiteOrigin(winLocation.origin)) {
+      if (flowOk && winLocation && flow.isAllowedSiteOrigin(winLocation.origin)) {
         return winLocation.origin;
       }
-      return flow.CANONICAL_SITE_ORIGIN;
+      return flowOk ? flow.CANONICAL_SITE_ORIGIN : "https://decapodlabs.ai";
     }
 
     function namespace() {
-      return "decapod-portal:" + (profile ? profile.projectOrigin : flow.FALLBACK_CLOUD_ORIGIN) + ":";
+      var proj = profile ? profile.projectOrigin : (flowOk ? flow.FALLBACK_CLOUD_ORIGIN : "https://goyxpcmxetztjlrrcwew.supabase.co");
+      return "decapod-portal:" + proj + ":";
     }
 
     function storeGet(key, limit) {
@@ -121,30 +175,65 @@
       activeOrganizationId = null;
     }
 
+    function invalidateSessionState(statusMessage, isError, broadcast) {
+      pollGeneration++;
+      storeRemove("flow");
+      storeRemove("session");
+      session = null;
+      currentUser = null;
+      accountSnapshot = null;
+      inMemoryProviderToken = null;
+      pendingStepupProvider = null;
+      quoteRequestId = null;
+      quotePayloadKey = null;
+      enrollRequestId = null;
+      enrollRepoSlug = null;
+      githubReposCache = [];
+      githubOrgsCache = [];
+      var repoInput = byId("repo-input");
+      if (repoInput) repoInput.value = "";
+      syncAuthGateUi();
+      if (broadcast !== false && flowOk && profile) {
+        coherenceChannel.broadcastAuthInvalidated(profile.projectOrigin);
+      }
+      if (statusMessage) {
+        setStatus(statusMessage, Boolean(isError));
+      }
+    }
+
     function syncAuthGateUi() {
-      var signedIn = Boolean(profile && flow.validateSessionRecord(session, profile.projectOrigin, nowSec()));
+      var signedIn = Boolean(
+        !skewBlocked &&
+        flowOk &&
+        profile &&
+        flow.validateSessionRecord(session, profile.projectOrigin, nowSec())
+      );
       var authGate = byId("auth-gate");
       if (authGate) authGate.hidden = signedIn;
       var cancelBtn = byId("cancel-auth-btn");
-      if (cancelBtn) cancelBtn.hidden = !storeGet("flow", 8192);
+      if (cancelBtn) cancelBtn.hidden = skewBlocked || !storeGet("flow", 8192);
       if (!signedIn) {
         clearConfidentialUi();
       }
       var providers = profile ? profile.authProviders : { github: true, google: false };
       var ghBtn = byId("auth-github");
       var googleBtn = byId("auth-google");
-      if (ghBtn) ghBtn.disabled = busy || !providers.github;
+      if (ghBtn) ghBtn.disabled = skewBlocked || busy || !providers.github;
       if (googleBtn) {
-        googleBtn.disabled = busy || !providers.google;
+        googleBtn.disabled = skewBlocked || busy || !providers.google;
       }
       var noteEl = byId("auth-provider-note");
       if (noteEl) {
-        var disabled = [];
-        if (!providers.github) disabled.push("GitHub");
-        if (!providers.google) disabled.push("Google");
-        noteEl.textContent = disabled.length
-          ? "Currently disabled on this deployment: " + disabled.join(", ") + "."
-          : "Sign in with GitHub or Google via PKCE.";
+        if (skewBlocked) {
+          noteEl.textContent = "Client asset version skew detected. Reload the page before signing in.";
+        } else {
+          var disabled = [];
+          if (!providers.github) disabled.push("GitHub");
+          if (!providers.google) disabled.push("Google");
+          noteEl.textContent = disabled.length
+            ? "Currently disabled on this deployment: " + disabled.join(", ") + "."
+            : "Sign in with GitHub or Google via PKCE.";
+        }
       }
     }
 
@@ -183,7 +272,8 @@
     }
 
     async function apiRequest(url, body, bearer, method) {
-      if (!profile) throw new Error("service_unavailable");
+      if (skewBlocked || !flowOk) throw new Error("client_version_skew");
+      if (!profile || !isValidProfile(profile, flow)) throw new Error("service_unavailable");
       var parsed = new URL(url);
       if (!flow.isTrustedApiOrigin(parsed.origin)) throw new Error("untrusted_api_origin");
       var headers = { apikey: profile.publishableKey };
@@ -193,13 +283,34 @@
         method: method || (body === undefined ? "GET" : "POST"),
         redirect: "error",
         credentials: "omit",
+        cache: "no-store",
         signal: typeof AbortSignal !== "undefined" && AbortSignal.timeout ? AbortSignal.timeout(15000) : undefined,
         headers: headers,
         body: body === undefined ? undefined : JSON.stringify(body)
       });
+      var contractHeader = response.headers && typeof response.headers.get === "function"
+        ? response.headers.get("decapod-cloud-contract-version")
+        : null;
+      if (!flow.isSupportedApiContractVersion(contractHeader)) {
+        if (response.body && typeof response.body.cancel === "function") await response.body.cancel().catch(function () {});
+        skewBlocked = true;
+        skewReason = "api_contract_mismatch";
+        invalidateSessionState("API contract version mismatch. Reload this page to continue safely.", true, false);
+        throw new Error("contract_version_mismatch");
+      }
       var data = await boundedJson(response);
+      if (data && typeof data === "object" && !Array.isArray(data) &&
+          data.version !== undefined && data.version !== flow.CONTRACT_VERSION) {
+        skewBlocked = true;
+        skewReason = "api_payload_version_mismatch";
+        invalidateSessionState("API payload version mismatch. Reload this page to continue safely.", true, false);
+        throw new Error("contract_version_mismatch");
+      }
       if (!response.ok) {
         var errCode = data && ((data.error && data.error.code) || data.error_code || data.code) || "request_failed";
+        if (response.status === 401 || errCode === "invalid_token") {
+          invalidateSessionState("Your session expired or was revoked. Sign in again to continue.", true, true);
+        }
         var err = new Error(errCode);
         err.status = response.status;
         err.payload = data;
@@ -209,7 +320,7 @@
     }
 
     function requireToken() {
-      if (!profile || !flow.validateSessionRecord(session, profile.projectOrigin, nowSec())) {
+      if (skewBlocked || !flowOk || !profile || !flow.validateSessionRecord(session, profile.projectOrigin, nowSec())) {
         throw new Error("sign_in_required");
       }
       return session.access_token;
@@ -229,6 +340,7 @@
     }
 
     async function beginAuth(provider, kind, repoVerification) {
+      if (skewBlocked || !flowOk) throw new Error("client_version_skew");
       if (!profile) throw new Error("service_unavailable");
       if (busy) throw new Error("auth_pending");
       if (!["github", "google"].includes(provider)) throw new Error("invalid_provider");
@@ -245,6 +357,7 @@
 
       var flowRecord = {
         version: 1,
+        contract_version: flow.CONTRACT_VERSION,
         kind: kind,
         provider: provider,
         verifier: verifier,
@@ -1043,6 +1156,7 @@
         var pendingFlow = storeGet("flow", 8192);
         var validFlow = pendingFlow &&
           pendingFlow.version === 1 &&
+          (pendingFlow.contract_version === undefined || pendingFlow.contract_version === flow.CONTRACT_VERSION) &&
           pendingFlow.project === profile.projectOrigin &&
           pendingFlow.phase === "pending" &&
           Number.isSafeInteger(pendingFlow.expires) &&
@@ -1113,7 +1227,8 @@
         session = {
           access_token: exchanged.access_token,
           expires_at: nowSec() + exchanged.expires_in,
-          origin: profile.projectOrigin
+          origin: profile.projectOrigin,
+          contract_version: flow.CONTRACT_VERSION
         };
         storeSet("session", session);
         storeRemove("flow");
@@ -1147,15 +1262,11 @@
       var signOutBtn = byId("sign-out-btn");
       if (signOutBtn) {
         signOutBtn.onclick = function () {
-          pollGeneration++;
-          storeRemove("flow");
-          storeRemove("session");
-          session = null;
-          currentUser = null;
-          accountSnapshot = null;
-          inMemoryProviderToken = null;
-          syncAuthGateUi();
-          setStatus("Signed out. Authenticate to continue.", false);
+          preselectedRepo = null;
+          try {
+            if (storage) storage.removeItem("decapod:pending-repo-intent");
+          } catch (_) {}
+          invalidateSessionState("Signed out. Authenticate to continue.", false, true);
         };
       }
       var refreshBtn = byId("refresh-account-btn");
@@ -1221,12 +1332,46 @@
     }
 
     async function init() {
+      if (flowOk) {
+        var coherence = flow.checkPageCoherence({
+          document: doc,
+          requiredIds: ["auth-gate", "step-state", "step-checkout", "checkout-btn", "signup-status"]
+        });
+        if (!coherence.ok) {
+          skewBlocked = true;
+          skewReason = coherence.reason || "html_js_skew";
+        }
+      }
+      if (skewBlocked) {
+        if (flowOk) {
+          flow.scrubSensitiveLocation(winLocation, winHistory, { stripAllHash: true });
+        } else if (winLocation && winHistory && typeof winHistory.replaceState === "function") {
+          try { winHistory.replaceState(null, "", "/signup"); } catch (_) {}
+        }
+        hideAllProtectedPanels();
+        var ghBtn = byId("auth-github");
+        var googleBtn = byId("auth-google");
+        var checkoutBtn = byId("checkout-btn");
+        if (ghBtn) ghBtn.disabled = true;
+        if (googleBtn) googleBtn.disabled = true;
+        if (checkoutBtn) checkoutBtn.disabled = true;
+        setStatus("Client asset or HTML/JS version skew detected (" + (skewReason || "mismatch") + "). Reload the page to continue safely.", true);
+        return;
+      }
+
+      coherenceChannel.announceReady();
+      if (typeof window !== "undefined" && typeof window.addEventListener === "function") {
+        window.addEventListener("pagehide", function () {
+          coherenceChannel.close();
+        });
+      }
+
       bindEvents();
-      syncAuthGateUi();
       try {
+        syncAuthGateUi();
         await processIncomingUrlAndSession();
       } catch (error) {
-        syncAuthGateUi();
+        try { syncAuthGateUi(); } catch (_) {}
         setStatus("Authentication could not be completed (" + (error && error.message ? error.message : "error") + ").", true);
       }
     }
@@ -1238,9 +1383,12 @@
       requestQuote: handleQuoteClick,
       startCheckout: handleCheckoutClick,
       pollFulfillment: runPendingFulfillmentPoll,
+      close: function () { coherenceChannel.close(); },
       getState: function () {
         return {
-          authenticated: Boolean(profile && flow.validateSessionRecord(session, profile.projectOrigin, nowSec())),
+          authenticated: Boolean(!skewBlocked && flowOk && profile && flow.validateSessionRecord(session, profile.projectOrigin, nowSec())),
+          skewBlocked: skewBlocked,
+          skewReason: skewReason,
           preselectedRepo: preselectedRepo,
           activeProjectId: activeProjectId,
           activeOrganizationId: activeOrganizationId

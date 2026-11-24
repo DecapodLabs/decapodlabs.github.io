@@ -1,6 +1,9 @@
 (function (root) {
   "use strict";
 
+  var ASSET_RELEASE = "20261124-p1";
+  var CONTRACT_VERSION = 1;
+  var SUPPORTED_API_CONTRACT_MAJORS = Object.freeze([1]);
   var CANONICAL_SITE_ORIGIN = "https://decapodlabs.ai";
   var CANONICAL_AUTH_ORIGIN = "https://api.decapodlabs.ai";
   var FALLBACK_CLOUD_ORIGIN = "https://goyxpcmxetztjlrrcwew.supabase.co";
@@ -19,6 +22,21 @@
   var UUID_PATTERN = /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i;
   var PKCE_HASH_PATTERN = /^[A-Za-z0-9_-]{43}$/;
   var PROVIDERS = Object.freeze(["github", "google", "gitlab"]);
+  var SENSITIVE_QUERY_PARAMS = Object.freeze([
+    "repo",
+    "return_to",
+    "redirect_to",
+    "code",
+    "login_nonce",
+    "access_token",
+    "refresh_token",
+    "provider_token",
+    "token",
+    "invitation_id",
+    "invitation_secret",
+    "error",
+    "error_description"
+  ]);
 
   function nowSeconds() {
     return Math.floor(Date.now() / 1000);
@@ -445,9 +463,172 @@
     return url.href;
   }
 
+  function isSupportedApiContractVersion(raw) {
+    if (raw === undefined || raw === null || raw === "") return true;
+    if (typeof raw === "number") return Number.isSafeInteger(raw) && SUPPORTED_API_CONTRACT_MAJORS.includes(raw);
+    if (typeof raw !== "string") return false;
+    var trimmed = raw.trim();
+    if (!trimmed || trimmed.length > 32) return false;
+    var match = /^(\d+)(?:\.\d+)?$/.exec(trimmed);
+    if (!match) return false;
+    return SUPPORTED_API_CONTRACT_MAJORS.includes(Number(match[1]));
+  }
+
+  function readDocumentContractMeta(doc) {
+    if (!doc || typeof doc.querySelector !== "function") {
+      return { status: "compatible", contractVersion: CONTRACT_VERSION, assetRelease: null, legacy: true };
+    }
+    var contractMeta = doc.querySelector('meta[name="decapod-flow-contract"]');
+    if (contractMeta) {
+      var rawContract = typeof contractMeta.getAttribute === "function"
+        ? contractMeta.getAttribute("content")
+        : contractMeta.content;
+      if (String(rawContract || "").trim() !== String(CONTRACT_VERSION)) {
+        return {
+          status: "incompatible",
+          reason: "unsupported_html_contract",
+          contractVersion: rawContract || null,
+          assetRelease: null,
+          legacy: false
+        };
+      }
+    }
+    var releaseMeta = doc.querySelector('meta[name="decapod-asset-release"]');
+    var releaseVal = releaseMeta
+      ? (typeof releaseMeta.getAttribute === "function" ? releaseMeta.getAttribute("content") : releaseMeta.content)
+      : null;
+    return {
+      status: "compatible",
+      contractVersion: CONTRACT_VERSION,
+      assetRelease: typeof releaseVal === "string" && releaseVal ? releaseVal.trim() : null,
+      legacy: !contractMeta
+    };
+  }
+
+  function checkPageCoherence(options) {
+    var opts = options || {};
+    var doc = opts.document || root.document;
+    var requiredIds = Array.isArray(opts.requiredIds) ? opts.requiredIds : [];
+    var docMeta = readDocumentContractMeta(doc);
+    if (docMeta.status !== "compatible") {
+      return { ok: false, reason: docMeta.reason || "unsupported_html_contract", meta: docMeta };
+    }
+    if (!doc || typeof doc.getElementById !== "function") {
+      return { ok: false, reason: "missing_document", meta: docMeta };
+    }
+    for (var i = 0; i < requiredIds.length; i++) {
+      if (!doc.getElementById(requiredIds[i])) {
+        return { ok: false, reason: "missing_required_dom_anchor:" + requiredIds[i], meta: docMeta };
+      }
+    }
+    return { ok: true, reason: null, meta: docMeta };
+  }
+
+  function scrubSensitiveLocation(loc, hist, options) {
+    if (!loc || !hist || typeof hist.replaceState !== "function") return false;
+    var opts = options || {};
+    var extraKeys = Array.isArray(opts.extraKeys) ? opts.extraKeys : [];
+    var keys = SENSITIVE_QUERY_PARAMS.concat(extraKeys);
+    var searchStr = typeof loc.search === "string" ? loc.search : "";
+    var hashStr = typeof loc.hash === "string" ? loc.hash : "";
+    var pathname = typeof loc.pathname === "string" && loc.pathname ? loc.pathname : "/";
+    var params = new URLSearchParams(searchStr);
+    var changed = false;
+
+    for (var i = 0; i < keys.length; i++) {
+      if (params.has(keys[i])) {
+        params.delete(keys[i]);
+        changed = true;
+      }
+    }
+    var nextHash = hashStr;
+    if (hashStr && (hasHostileFragmentTokens(hashStr) || opts.stripAllHash === true)) {
+      nextHash = "";
+      changed = true;
+    }
+    if (!changed) return false;
+    var nextQuery = params.toString();
+    var target = pathname + (nextQuery ? "?" + nextQuery : "") + nextHash;
+    try {
+      hist.replaceState(null, "", target);
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  function createCoherenceChannel(options) {
+    var opts = options || {};
+    var ChannelCtor = opts.BroadcastChannel ||
+      (typeof window !== "undefined" && typeof BroadcastChannel === "function" ? BroadcastChannel : null);
+    if (typeof ChannelCtor !== "function") {
+      return {
+        announceReady: function () {},
+        broadcastAuthInvalidated: function () {},
+        close: function () {}
+      };
+    }
+    var channel;
+    try {
+      channel = new ChannelCtor("decapod-cloud-coherence");
+    } catch (_) {
+      return {
+        announceReady: function () {},
+        broadcastAuthInvalidated: function () {},
+        close: function () {}
+      };
+    }
+    var tabId = randomSecret();
+    var onSkew = typeof opts.onSkew === "function" ? opts.onSkew : function () {};
+    var onAuthInvalidated = typeof opts.onAuthInvalidated === "function" ? opts.onAuthInvalidated : function () {};
+
+    channel.onmessage = function (ev) {
+      var msg = ev && ev.data;
+      if (!msg || typeof msg !== "object" || msg.tabId === tabId) return;
+      if (msg.type === "tab_hello" || msg.type === "release_skew") {
+        if (typeof msg.contractVersion === "number" && msg.contractVersion !== CONTRACT_VERSION) {
+          onSkew(msg);
+        }
+        return;
+      }
+      if (msg.type === "auth_invalidated") {
+        onAuthInvalidated(msg);
+      }
+    };
+
+    function safePost(payload) {
+      try {
+        channel.postMessage(Object.assign({ tabId: tabId }, payload));
+      } catch (_) {}
+    }
+
+    return {
+      announceReady: function () {
+        safePost({
+          type: "tab_hello",
+          contractVersion: CONTRACT_VERSION,
+          assetRelease: ASSET_RELEASE
+        });
+      },
+      broadcastAuthInvalidated: function (projectOrigin) {
+        safePost({
+          type: "auth_invalidated",
+          projectOrigin: typeof projectOrigin === "string" ? projectOrigin : null,
+          contractVersion: CONTRACT_VERSION
+        });
+      },
+      close: function () {
+        try {
+          if (typeof channel.close === "function") channel.close();
+        } catch (_) {}
+      }
+    };
+  }
+
   function validateSessionRecord(value, expectedProjectOrigin, currentUnixSeconds) {
     var now = Number.isSafeInteger(currentUnixSeconds) ? currentUnixSeconds : nowSeconds();
     if (!value || typeof value !== "object" || Array.isArray(value)) return false;
+    if (value.contract_version !== undefined && value.contract_version !== CONTRACT_VERSION) return false;
     if (!isTrustedApiOrigin(value.origin)) return false;
     if (expectedProjectOrigin && value.origin !== expectedProjectOrigin) return false;
     if (typeof value.access_token !== "string" || value.access_token.length === 0 || value.access_token.length > 16384) {
@@ -550,8 +731,40 @@
     return { outcome: "pending_timeout", attempts: maxAttempts };
   }
 
+  async function readBoundedResponseJson(res, maxBytes) {
+    var limit = maxBytes || 16384;
+    if (!res.body || typeof res.body.getReader !== "function") {
+      return await res.json();
+    }
+    var reader = res.body.getReader();
+    var chunks = [];
+    var total = 0;
+    try {
+      while (true) {
+        var step = await reader.read();
+        if (step.done) break;
+        total += step.value.length;
+        if (total > limit) throw new Error("payload_too_large");
+        chunks.push(step.value);
+      }
+    } finally {
+      if (typeof reader.cancel === "function") await reader.cancel().catch(function () {});
+    }
+    var buf = new Uint8Array(total);
+    var offset = 0;
+    for (var i = 0; i < chunks.length; i++) {
+      buf.set(chunks[i], offset);
+      offset += chunks[i].length;
+    }
+    var text = new TextDecoder("utf-8", { fatal: true }).decode(buf);
+    return JSON.parse(text);
+  }
+
   function normalizeDiscoveryProfile(data, apiOrigin, authBaseUrl) {
     if (!data || typeof data !== "object" || Array.isArray(data)) return null;
+    if (!isTrustedApiOrigin(apiOrigin) || !isTrustedAuthUrl(authBaseUrl)) return null;
+    if (data.version !== undefined && data.version !== CONTRACT_VERSION) return null;
+    if (data.schema !== undefined && data.schema !== "dactyl_api") return null;
     if (typeof data.project_origin !== "string" || !isTrustedApiOrigin(data.project_origin)) return null;
     if (typeof data.publishable_key !== "string" || !data.publishable_key.startsWith("sb_publishable_") || /[^A-Za-z0-9_-]/.test(data.publishable_key)) {
       return null;
@@ -563,6 +776,8 @@
       gitlab: rawProviders ? Boolean(rawProviders.gitlab) : false
     };
     return {
+      contractVersion: CONTRACT_VERSION,
+      discoveredAt: nowSeconds(),
       apiOrigin: apiOrigin,
       onboardingPrefix: apiOrigin + CANONICAL_ONBOARDING_PREFIX,
       authBaseUrl: authBaseUrl,
@@ -579,16 +794,32 @@
         method: "GET",
         redirect: "error",
         credentials: "omit",
+        cache: "no-store",
         signal: typeof AbortSignal !== "undefined" && AbortSignal.timeout ? AbortSignal.timeout(6000) : undefined
       });
+      var contractHeader = res.headers && typeof res.headers.get === "function"
+        ? res.headers.get("decapod-cloud-contract-version")
+        : null;
+      if (!isSupportedApiContractVersion(contractHeader)) {
+        if (res.body && typeof res.body.cancel === "function") await res.body.cancel().catch(function () {});
+        return { status: "incompatible", profile: null };
+      }
       if (!res.ok) {
         if (res.body && typeof res.body.cancel === "function") await res.body.cancel().catch(function () {});
-        return null;
+        return { status: "unavailable", profile: null };
       }
-      var data = await res.json();
-      return normalizeDiscoveryProfile(data, candidate.apiOrigin, candidate.authBaseUrl);
+      var data = await readBoundedResponseJson(res, 16384);
+      if (data && typeof data === "object" && !Array.isArray(data) &&
+          data.version !== undefined && data.version !== CONTRACT_VERSION) {
+        return { status: "incompatible", profile: null };
+      }
+      var normalized = normalizeDiscoveryProfile(data, candidate.apiOrigin, candidate.authBaseUrl);
+      if (!normalized) {
+        return { status: "invalid", profile: null };
+      }
+      return { status: "ok", profile: normalized };
     } catch (_) {
-      return null;
+      return { status: "unavailable", profile: null };
     }
   }
 
@@ -608,21 +839,57 @@
       }
     ];
     for (var i = 0; i < candidates.length; i++) {
-      var profile = await probeDiscoveryCandidate(fetcher, candidates[i]);
-      if (profile) {
+      var probe = await probeDiscoveryCandidate(fetcher, candidates[i]);
+      if (probe.status === "incompatible") {
+        // Never silently downgrade or switch authority when an origin reports an incompatible contract version.
+        return null;
+      }
+      if (probe.status === "ok" && probe.profile) {
+        var profile = probe.profile;
         if (profile.apiOrigin === CANONICAL_AUTH_ORIGIN) {
           try {
             var rootAuthCheck = await fetcher(CANONICAL_AUTH_ORIGIN + "/auth/providers", {
               method: "GET",
               redirect: "error",
               credentials: "omit",
+              cache: "no-store",
               signal: typeof AbortSignal !== "undefined" && AbortSignal.timeout ? AbortSignal.timeout(4000) : undefined
             });
-            if (!rootAuthCheck.ok) {
-              profile.authBaseUrl = CANONICAL_AUTH_ORIGIN + CANONICAL_ONBOARDING_PREFIX + "/auth";
+            var authHeader = rootAuthCheck.headers && typeof rootAuthCheck.headers.get === "function"
+              ? rootAuthCheck.headers.get("decapod-cloud-contract-version")
+              : null;
+            if (!isSupportedApiContractVersion(authHeader)) {
+              if (rootAuthCheck.body && typeof rootAuthCheck.body.cancel === "function") {
+                await rootAuthCheck.body.cancel().catch(function () {});
+              }
+              return null;
             }
-            if (rootAuthCheck.body && typeof rootAuthCheck.body.cancel === "function") {
-              await rootAuthCheck.body.cancel().catch(function () {});
+            if (!rootAuthCheck.ok) {
+              if (rootAuthCheck.body && typeof rootAuthCheck.body.cancel === "function") {
+                await rootAuthCheck.body.cancel().catch(function () {});
+              }
+              profile.authBaseUrl = CANONICAL_AUTH_ORIGIN + CANONICAL_ONBOARDING_PREFIX + "/auth";
+            } else {
+              try {
+                var authData = await readBoundedResponseJson(rootAuthCheck, 16384);
+                if (!authData || typeof authData !== "object" || Array.isArray(authData)) {
+                  profile.authBaseUrl = CANONICAL_AUTH_ORIGIN + CANONICAL_ONBOARDING_PREFIX + "/auth";
+                } else {
+                  if (authData.version !== undefined && authData.version !== CONTRACT_VERSION) {
+                    return null;
+                  }
+                  if (authData.auth_providers && typeof authData.auth_providers === "object") {
+                    for (var p = 0; p < PROVIDERS.length; p++) {
+                      var prov = PROVIDERS[p];
+                      if (Object.prototype.hasOwnProperty.call(authData.auth_providers, prov)) {
+                        profile.authProviders[prov] = Boolean(profile.authProviders[prov]) && Boolean(authData.auth_providers[prov]);
+                      }
+                    }
+                  }
+                }
+              } catch (_) {
+                profile.authBaseUrl = CANONICAL_AUTH_ORIGIN + CANONICAL_ONBOARDING_PREFIX + "/auth";
+              }
             }
           } catch (_) {
             profile.authBaseUrl = CANONICAL_AUTH_ORIGIN + CANONICAL_ONBOARDING_PREFIX + "/auth";
@@ -655,12 +922,21 @@
   }
 
   root.DecapodCloudFlow = Object.freeze({
+    ASSET_RELEASE: ASSET_RELEASE,
+    CONTRACT_VERSION: CONTRACT_VERSION,
+    SUPPORTED_API_CONTRACT_MAJORS: SUPPORTED_API_CONTRACT_MAJORS,
+    SENSITIVE_QUERY_PARAMS: SENSITIVE_QUERY_PARAMS,
     CANONICAL_SITE_ORIGIN: CANONICAL_SITE_ORIGIN,
     CANONICAL_AUTH_ORIGIN: CANONICAL_AUTH_ORIGIN,
     FALLBACK_CLOUD_ORIGIN: FALLBACK_CLOUD_ORIGIN,
     CANONICAL_ONBOARDING_PREFIX: CANONICAL_ONBOARDING_PREFIX,
     UUID_PATTERN: UUID_PATTERN,
     PKCE_HASH_PATTERN: PKCE_HASH_PATTERN,
+    isSupportedApiContractVersion: isSupportedApiContractVersion,
+    readDocumentContractMeta: readDocumentContractMeta,
+    checkPageCoherence: checkPageCoherence,
+    scrubSensitiveLocation: scrubSensitiveLocation,
+    createCoherenceChannel: createCoherenceChannel,
     parseOrgSlug: parseOrgSlug,
     parseAdminRoute: parseAdminRoute,
     isAllowedAdminPathname: isAllowedAdminPathname,

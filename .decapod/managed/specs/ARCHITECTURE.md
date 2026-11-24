@@ -109,10 +109,16 @@ Generated capability obligations: `persistent-state` is declared for this projec
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `92022fafab9734f72f905091a0484ce04adc8935d81151889e4af897851d79ae`
-- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (2 files)
+- Repository signal fingerprint: `9dc228762a362593a9406cfe097c40a2988cc0899a8671b223ce2b7c90417161`
+- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (8 files), `signup/` (1 files), `tests/` (3 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->
+
+## Browser Asset Release Coherence & API Skew Compatibility (#70) — November 23, 2026
+
+All Cloud-enabled HTML entrypoints (`pricing.html`, `pricing/index.html`, `signup/index.html`, `admin/index.html`) pin a unified release tag (`?v=20261124-p1`) alongside `<meta name="decapod-flow-contract" content="1">` and `<meta name="decapod-asset-release" content="20261124-p1">`. `cloud-flow.js` exposes `ASSET_RELEASE`, `CONTRACT_VERSION = 1`, `isSupportedApiContractVersion`, `readDocumentContractMeta`, `checkPageCoherence`, `scrubSensitiveLocation`, and ephemeral `createCoherenceChannel` (`BroadcastChannel("decapod-cloud-coherence")`, zero `localStorage`, zero `CacheStorage`, zero Service Worker).
+
+`pricing.js`, `signup/signup.js`, and `admin/admin.js` run self-contained contract and DOM-anchor coherence checks before initializing UI gates or making API requests, failing closed with disabled CTAs, locked panels, and scrubbed URLs whenever `DecapodCloudFlow` is missing, skewed (`CONTRACT_VERSION !== 1`), or paired with incompatible HTML. `discoverRuntimeConfig` enforces `cache: "no-store"`, refuses silent fallback to `FALLBACK_CLOUD_ORIGIN` on explicit API contract-version mismatches (`version !== 1` or `decapod-cloud-contract-version` != `1.x`), and intersects `/config` provider flags conservatively against `/auth/providers`. The compatibility and cache-invalidation matrix is documented in `docs/asset-compatibility-matrix.md`, verified offline in `tests/asset_skew_test.ts`, and verified read-only against live endpoints via `scripts/check-live-headers.ts`.
 
 ## Public showcase gallery and first application
 

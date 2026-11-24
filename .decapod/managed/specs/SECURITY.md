@@ -72,6 +72,12 @@ Private ANSI bytes and cursor-state captures stay private. The public media uses
 - **Credential isolation and URL scrubbing**: `signup/signup.js` scrubs all query and fragment parameters immediately via `history.replaceState`, rejects implicit URL fragment tokens (`access_token`, `refresh_token`, `provider_token`), stores active bearer tokens only in per-tab `sessionStorage`, keeps ephemeral provider tokens only in JS memory, and never transmits credentials in URLs or logs.
 - **Public-repo confidentiality**: `tests/pricing_signup_test.ts` scans authored website HTML/JS/CSS/TS artifacts and living specs to block Stripe object/secret IDs, private migration filenames, internal RPC symbols, and private backend file paths.
 
+## Browser Asset Release Coherence, Cache Hygiene & Origin Pinning (#70) — November 23, 2026
+
+- **Zero Persistent Cache & `no-store` Enforcement**: No Cloud page uses `localStorage`, `CacheStorage`, or a Service Worker. Discovery (`discoverRuntimeConfig`, `/auth/providers`) and authenticated/quote/checkout/admin `apiRequest` calls enforce `cache: "no-store"`, `credentials: "omit"`, and `redirect: "error"`. Sign-out and `401`/`invalid_token` invalidation clear per-tab `sessionStorage` and in-memory closures (`githubReposCache`, `quoteRequestId`, `enrollRequestId`, form inputs) and notify sibling tabs via zero-PII `BroadcastChannel` (`auth_invalidated`).
+- **Fail-Closed Skew Refusal & Anti-Downgrade**: `pricing.js`, `signup/signup.js`, and `admin/admin.js` validate `DecapodCloudFlow.CONTRACT_VERSION === 1`, HTML `<meta name="decapod-flow-contract">`, required DOM anchors, and `initialProfile` origin pins before rendering or calling APIs. Explicit API contract-version mismatches (`decapod-cloud-contract-version` != `1.x` or payload `version !== 1`) fail closed immediately and never silently switch API authority.
+- **Deep-Link Scrubbing**: `pricing.js` validates `?repo=` into per-tab `sessionStorage` and immediately scrubs `repo`, `return_to`, `redirect_to`, OAuth callback parameters, and hostile fragment tokens via `history.replaceState` while preserving banner state across asynchronous discovery. `pricing.html` and `pricing/index.html` declare `<meta name="referrer" content="no-referrer">`.
+
 ## Organization Admin (`/admin/<org>`) Security Boundary (November 21, 2026)
 
 - **Navigation vs. Authority Separation**: `<org>` path and query locators are treated purely as untrusted navigation hints. `DecapodCloudFlow.resolveAdminOrganization` resolves locators solely against authenticated server `organizations` records to immutable `cloud_org_id` UUIDs, followed by an explicit server-side `account-register` authorization check on that `cloud_org_id` before rendering any workspace panel.
@@ -112,7 +118,7 @@ Generated capability obligations: `public-api` is declared for this project. The
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `92022fafab9734f72f905091a0484ce04adc8935d81151889e4af897851d79ae`
-- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (2 files)
+- Repository signal fingerprint: `9dc228762a362593a9406cfe097c40a2988cc0899a8671b223ce2b7c90417161`
+- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (8 files), `signup/` (1 files), `tests/` (3 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->

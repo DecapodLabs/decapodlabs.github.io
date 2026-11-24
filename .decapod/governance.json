@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "baseline": {
-    "accepted_commit": "4153e178bb48c68784ae557c5cf5f9e39bb09100",
+    "accepted_commit": "3267c1e4f3f7b62b44480694ed97a9bcc76b6ff8",
     "unresolved": {
       "claim:clack-hero-mascot": {
         "falsifier": "The emoji remains, the mascot fails to load or appears on a line by itself, or either tagline is clipped.",
@@ -11,22 +11,19 @@
     }
   },
   "change": {
-    "id": "change_01M85GARXT1RMED04SN4RTCK2D",
-    "base_commit": "4153e178bb48c68784ae557c5cf5f9e39bb09100",
+    "id": "change_01M85KJ14VPQXQRM1P1ZVXPAY5",
+    "base_commit": "3267c1e4f3f7b62b44480694ed97a9bcc76b6ff8",
     "target_base": "origin/main"
   },
   "checkpoints": [
     {
-      "id": "clack-12-second-trailer",
-      "summary": "Put the native gameplay trailer and original score in the Clack hero.",
-      "input_digest": "sha256:2adc98b8a40cc2a3a5d7bb1c57729042237e4c1b35108225860c52438cc1cb14",
-      "proof_refs": [
-        "Native capture confirmed mining reward and third round arena victory. FFprobe confirmed 12.000 seconds and stereo AAC."
-      ]
+      "id": "bend_01m85khhevh0s4m1",
+      "summary": "Harden browser asset release coherence, API skew compatibility, discovery no-store/intersection, deep-link scrubbing, and multi-tab coherence (#70)",
+      "input_digest": "sha256:a6b54753eda59629ae0709ba64998d7772321f039b8e02329098e86119798fcd"
     }
   ],
   "intents": {
-    "intent:change_01M85GARXT1RMED04SN4RTCK2D": {
+    "intent:change_01M85KJ14VPQXQRM1P1ZVXPAY5": {
       "acceptance_criteria": [],
       "assumptions": [],
       "boundaries": [
@@ -36,14 +33,14 @@
         "root"
       ],
       "created_sequence": 1,
-      "id": "intent:change_01M85GARXT1RMED04SN4RTCK2D",
+      "id": "intent:change_01M85KJ14VPQXQRM1P1ZVXPAY5",
       "instruction_origin": {
         "source_ref": "caller:unverified"
       },
       "out_of_scope": [],
       "proof_requirements": [],
-      "raw_intent": "Publish the 12-second Clack gameplay trailer\n\nMake the actual Clack gameplay trailer prominent above the fold and verify its site deployment.",
-      "refined_intent": "Publish the 12-second Clack gameplay trailer\n\nMake the actual Clack gameplay trailer prominent above the fold and verify its site deployment.",
+      "raw_intent": "Harden browser asset release coherence and API skew compatibility (#70)",
+      "refined_intent": "Harden browser asset release coherence and API skew compatibility (#70)",
       "status": "refined",
       "updated_sequence": 3
     }
@@ -56,40 +53,49 @@
       },
       "deferred_questions": [],
       "human_questions": [],
-      "intent": "Publish a prominent 12-second native gameplay cut with an original score and accessible playback on /clack/.",
+      "intent": "Harden browser asset release coherence and API skew compatibility (#70)",
       "phases": [],
       "proof_hooks": [
-        "Verify real native mining and championship callbacks, the 12 second duration, audio stream, and live browser playback."
+        "decapod validate"
       ],
       "schema_version": "1.1.0",
+      "spec_reviews": [
+        {
+          "disposition": "updated",
+          "path": ".decapod/managed/specs/ARCHITECTURE.md",
+          "reason": "Updated ARCHITECTURE.md, INTENT.md, INTERFACES.md, and SECURITY.md with #70 asset release coherence, skew refusal, discovery no-store/intersection, and deep-link scrubbing.",
+          "reviewed_code_fingerprint": "9dc228762a362593a9406cfe097c40a2988cc0899a8671b223ce2b7c90417161",
+          "spec_material_hash": "8279a06a0c5915d28b773d81490c75a1a3263b356f6019212eeee15991dbcb96"
+        }
+      ],
       "state": "APPROVED",
       "stop_conditions": [],
-      "title": "Clack gameplay trailer",
+      "title": "Harden browser asset release coherence and API skew compatibility (#70)",
       "todo_ids": [
-        "code_01m85gaactjjq9ey"
+        "bend_01m85khhevh0s4m1"
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1795482099Z"
+      "updated_at": "1795485294Z"
     },
     "trajectory": {
       "active_boundaries": [
         "Current claimed task and isolated work branch"
       ],
-      "artifact_hash": "sha256:673e7ba51ab11a201ea29ce269ebb70f30cdd2714b085bc2509536948ab746eb",
+      "artifact_hash": "sha256:7f1feeec655c94065734f3b04b1aa11f7ad97335d55830660508540d614b1ff5",
       "checks": [],
       "current_phase": "intent",
       "custody": {
         "events": [
           {
             "event_id": "event:2",
-            "intent_id": "intent:change_01M85GARXT1RMED04SN4RTCK2D",
+            "intent_id": "intent:change_01M85KJ14VPQXQRM1P1ZVXPAY5",
             "kind": "created",
             "sequence": 2
           },
           {
             "event_id": "event:3",
-            "intent_id": "intent:change_01M85GARXT1RMED04SN4RTCK2D",
+            "intent_id": "intent:change_01M85KJ14VPQXQRM1P1ZVXPAY5",
             "kind": "refined",
             "sequence": 3
           }
@@ -103,7 +109,7 @@
       "destination": "pull request",
       "evidence": [],
       "inspected_files": [],
-      "intent_id": "intent:change_01M85GARXT1RMED04SN4RTCK2D",
+      "intent_id": "intent:change_01M85KJ14VPQXQRM1P1ZVXPAY5",
       "modified_files": [],
       "next_transitions": [
         "Refine plan and declare falsifiable checks"
@@ -111,10 +117,10 @@
       "repo_scope": [
         "root"
       ],
-      "run_id": "branch_01M85GAS27AJCJH1R88747YC3M",
+      "run_id": "branch_01M85KJ18XZP13X353CVSAX47A",
       "schema_version": "1.1.0",
       "shortcut_risk_signals": [],
-      "task_id": "code_01m85gaactjjq9ey",
+      "task_id": "bend_01m85khhevh0s4m1",
       "tool_calls": [],
       "unresolved_assumptions": []
     }
