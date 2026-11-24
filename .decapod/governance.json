@@ -20,6 +20,14 @@
       "id": "progression-integration-plan",
       "summary": "Record the scoped trailer update and reconcile the three requested website PRs with current main.",
       "input_digest": "sha256:905bf9b39b329f2bb1c02f9535b0ce9ffe984689ec7f920bb318e1cd1d9995c9"
+    },
+    {
+      "id": "progression-trailer-and-branding",
+      "summary": "Publish the word-free 30-second native trailer and integrate the site changes from PRs #64, #68 and #69 in one workstream.",
+      "input_digest": "sha256:e49eb2da48257e5e810956bae3fe3f1033dd4b6b6f8fe7b20be9257a2b228b6a",
+      "proof_refs": [
+        "Native capture verified house changes, staff upgrade, ore, charged pounce, airborne Tidehex and Imperial Dome championship. FFprobe measured 30.000 seconds."
+      ]
     }
   ],
   "intents": {
