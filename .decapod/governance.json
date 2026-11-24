@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "baseline": {
-    "accepted_commit": "c150f3e8f20e7f25e268423e54da2ee977b36cb5",
+    "accepted_commit": "3267c1e4f3f7b62b44480694ed97a9bcc76b6ff8",
     "unresolved": {
       "claim:clack-hero-mascot": {
         "falsifier": "The emoji remains, the mascot fails to load or appears on a line by itself, or either tagline is clipped.",
@@ -11,58 +11,57 @@
     }
   },
   "change": {
-    "id": "change_1933_web_p34",
-    "base_commit": "c150f3e8f20e7f25e268423e54da2ee977b36cb5",
+    "id": "change_01M85J5AQ4Q7G0BM1J1898PN0N",
+    "base_commit": "3267c1e4f3f7b62b44480694ed97a9bcc76b6ff8",
     "target_base": "origin/main"
   },
   "checkpoints": [
     {
-      "id": "cicd_01m85w29w2g2g8n1",
-      "summary": "Wave 3 hardening (#72 provenance projections + #71 degraded availability & read-only synthetic readiness)",
-      "input_digest": "sha256:eb3525fa0e631b07e6097349fd3e74addc3d860252b4323e7d40b7c7a659ffd0",
+      "id": "progression-integration-plan",
+      "summary": "Record the scoped trailer update and reconcile the three requested website PRs with current main.",
+      "input_digest": "sha256:905bf9b39b329f2bb1c02f9535b0ce9ffe984689ec7f920bb318e1cd1d9995c9"
+    },
+    {
+      "id": "progression-trailer-and-branding",
+      "summary": "Publish the word-free 30-second native trailer and integrate the site changes from PRs #64, #68 and #69 in one workstream.",
+      "input_digest": "sha256:e49eb2da48257e5e810956bae3fe3f1033dd4b6b6f8fe7b20be9257a2b228b6a",
       "proof_refs": [
-        "deno test tests/: 31 passed, 0 failed",
-        "scripts/check-site.ts: passed",
-        "scripts/synthetic-readiness.ts: healthy across 4 planes"
+        "Native capture verified house changes, staff upgrade, ore, charged pounce, airborne Tidehex and Imperial Dome championship. FFprobe measured 30.000 seconds."
       ]
     },
     {
-      "id": "cicd_01m85w29w2g2g8n1-reconcile",
-      "summary": "Reconcile reviewed_sources_digest for scripts/synthetic-readiness.ts (#71)",
-      "input_digest": "sha256:a6881851adeab44b8ffde022434987d2067ca8f2a2bf6538c16154e82d4e431c",
+      "id": "progression-staff-store-framing",
+      "summary": "Frame the staff storefront entrance and exit so both equipped staffs and the house upgrades are visible.",
+      "input_digest": "sha256:481bc4d81afe9b4d63b8ca4f21ac99642cd16b1f7bd618da49a1f432b945e304",
       "proof_refs": [
-        "scripts/synthetic-readiness.ts"
+        "Verified native 594-frame recapture and inspected entrance and exit frames."
       ]
     },
     {
-      "id": "cicd_01m85w29w2g2g8n1-tests-probe",
-      "summary": "Move synthetic readiness probe under tests/ to preserve reviewed scripts inventory digest (#71)",
-      "input_digest": "sha256:892dea818667f76c72be119cf0ed4105ab57753742ceb883460ce9011a30cb76",
-      "proof_refs": [
-        "deno test tests/: 31 passed, 0 failed",
-        "scripts/check-site.ts: passed"
-      ]
+      "id": "progression-current-website-base",
+      "summary": "Preserve the latest accepted website changes and refresh validation inputs for the trailer and requested site polish.",
+      "input_digest": "sha256:930e8ce596dc9e55705eccc59e8211b4f9d0e8130cd29ce85dea41dc1523ed22"
     }
   ],
   "intents": {
-    "intent:run_p34_prov_avail": {
+    "intent:change_01M85J5AQ4Q7G0BM1J1898PN0N": {
       "acceptance_criteria": [],
       "assumptions": [],
       "boundaries": [
-        "Worktree isolated; zero paid traffic; zero credentials stored; preserve UNDER WRAPS / disabled Pay posture"
+        "Current claimed task and isolated work branch"
       ],
       "constraints": [
-        "docs/,scripts/,tests/,cloud-flow.js,pricing.js,signup/signup.js,admin/admin.js,pricing.html,pricing/index.html,signup/index.html,admin/index.html"
+        "root"
       ],
       "created_sequence": 1,
-      "id": "intent:run_p34_prov_avail",
+      "id": "intent:change_01M85J5AQ4Q7G0BM1J1898PN0N",
       "instruction_origin": {
         "source_ref": "caller:unverified"
       },
       "out_of_scope": [],
       "proof_requirements": [],
-      "raw_intent": "Execute Wave 3 (Website Phase 3 #72 + Phase 4 #71)",
-      "refined_intent": "Implement provenance projections docs/tests (#72), availability SLOs, read-only synthetic readiness probe, degraded availability tests, and fix any uncovered defects (#71)",
+      "raw_intent": "Expand Clack’s gameplay trailer to 30 seconds\n\nShow early and advanced homes, furnishings, Pearl Ring and combat progression in the existing hero player.",
+      "refined_intent": "Expand Clack’s gameplay trailer to 30 seconds\n\nShow early and advanced homes, furnishings, Pearl Ring and combat progression in the existing hero player.",
       "status": "refined",
       "updated_sequence": 3
     }
@@ -75,205 +74,65 @@
       },
       "deferred_questions": [],
       "human_questions": [],
-      "intent": "Harden public proof provenance reproducibility/redaction (#72) and degraded availability/read-only synthetic readiness (#71) across decapodlabs.github.io",
+      "intent": "Expand the Clack hero trailer to 30 seconds with Waystead ABAXI fanfare, native word-free footage, and Powered by Decapod closing credit. Retain the requested header and Rework fixes.",
       "phases": [],
       "proof_hooks": [
-        "deno run --no-remote --no-npm --allow-read=. scripts/check-site.ts",
-        "deno test --no-remote --no-npm --allow-read=. tests/",
-        "decapod validate"
+        "Verify native home and gear upgrades, ore, landing pounce, airborne spell, and arena victory; test 30-second playback and integrated site changes."
       ],
       "schema_version": "1.1.0",
-      "spec_reviews": [
-        {
-          "disposition": "updated",
-          "path": ".decapod/managed/specs/ARCHITECTURE.md",
-          "reason": "Move synthetic_readiness.ts under tests/ to preserve reviewed scripts inventory digest (#71)",
-          "reviewed_code_fingerprint": "d679387470586d94af1e08534714adac79032fce4d95c17e4c6f60f3542d80da",
-          "spec_material_hash": "ce63ea8b963c710c54eb84a5b06d6ca3ee7599d6cb96eeec7f59a4eec448915e"
-        },
-        {
-          "disposition": "updated",
-          "path": ".decapod/managed/specs/INTERFACES.md",
-          "reason": "Move synthetic_readiness.ts under tests/ to preserve reviewed scripts inventory digest (#71)",
-          "reviewed_code_fingerprint": "d679387470586d94af1e08534714adac79032fce4d95c17e4c6f60f3542d80da",
-          "spec_material_hash": "7e237e82f8fd9ba26876a30a91ec4b7d445c4599ccf6dd65677c25be4e10c73b"
-        },
-        {
-          "disposition": "updated",
-          "path": ".decapod/managed/specs/SECURITY.md",
-          "reason": "Verified SECURITY.md after relocating synthetic_readiness.ts under tests/",
-          "reviewed_code_fingerprint": "d679387470586d94af1e08534714adac79032fce4d95c17e4c6f60f3542d80da",
-          "spec_material_hash": "22ef3b79fedb4c7a0fe330dc5be4251d96ab3a72f94c969941928db3b5e165b5"
-        }
-      ],
       "state": "APPROVED",
       "stop_conditions": [],
-      "title": "Wave 3 Hardening (#72 Provenance Projections + #71 Degraded Availability & Synthetic Readiness)",
+      "title": "Clack gameplay progression trailer and site integration",
       "todo_ids": [
-        "cicd_01m85w29w2g2g8n1"
+        "code_01m85j4ypkebd7r8"
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1795494664Z"
+      "updated_at": "1795483630Z"
     },
     "trajectory": {
       "active_boundaries": [
-        "Worktree isolated; zero paid traffic; zero credentials stored; preserve UNDER WRAPS / disabled Pay posture"
+        "Current claimed task and isolated work branch"
       ],
-      "artifact_hash": "sha256:4c21c56beef4b5c2a163f98fc6471559e2968fabb70d02a6e3ac52279f8f12dc",
-      "checks": [
-        {
-          "name": "check-site",
-          "status": "passed"
-        },
-        {
-          "name": "deno-tests",
-          "status": "passed"
-        },
-        {
-          "name": "synthetic-readiness-live",
-          "status": "passed"
-        }
-      ],
+      "artifact_hash": "sha256:6a0ce3a31ed23ddd6ff83db863c856279d6d69b7908868fce99688147e0df2a7",
+      "checks": [],
+      "current_phase": "intent",
       "custody": {
         "events": [
           {
             "event_id": "event:2",
-            "intent_id": "intent:run_p34_prov_avail",
+            "intent_id": "intent:change_01M85J5AQ4Q7G0BM1J1898PN0N",
             "kind": "created",
             "sequence": 2
           },
           {
             "event_id": "event:3",
-            "intent_id": "intent:run_p34_prov_avail",
+            "intent_id": "intent:change_01M85J5AQ4Q7G0BM1J1898PN0N",
             "kind": "refined",
             "sequence": 3
-          },
-          {
-            "detail": "trajectory:run_p34_prov_avail",
-            "event_id": "event:4",
-            "intent_id": "intent:run_p34_prov_avail",
-            "kind": "trajectory_step_recorded",
-            "sequence": 4
-          },
-          {
-            "detail": "trajectory:run_p34_prov_avail",
-            "event_id": "event:5",
-            "intent_id": "intent:run_p34_prov_avail",
-            "kind": "trajectory_step_recorded",
-            "sequence": 5
           }
         ],
         "knowledge_candidates": [],
-        "next_sequence": 5,
+        "next_sequence": 3,
         "schema_version": "1.1.0",
-        "trajectories": {
-          "run_p34_prov_avail": {
-            "evidence_only": true,
-            "id": "run_p34_prov_avail",
-            "intent_id": "intent:run_p34_prov_avail",
-            "steps": [
-              {
-                "action": "trajectory.record",
-                "custody_event_id": "event:4",
-                "observations": [
-                  "scripts/check-launch.ts",
-                  "scripts/check-site.ts",
-                  "cloud-flow.js",
-                  "pricing.js",
-                  "signup/signup.js",
-                  "admin/admin.js",
-                  "tests/live_headers_check.ts",
-                  "tests/workflow_concurrency_p2_test.ts",
-                  "docs/provenance-projections.md",
-                  "docs/availability-readiness-slos.md",
-                  "docs/asset-compatibility-matrix.md",
-                  "scripts/synthetic-readiness.ts",
-                  "tests/provenance_projection_72_test.ts",
-                  "tests/degraded_availability_71_test.ts",
-                  "cloud-flow.js",
-                  "pricing.js",
-                  "signup/signup.js",
-                  "admin/admin.js",
-                  "pricing.html",
-                  "pricing/index.html",
-                  "signup/index.html",
-                  "admin/index.html",
-                  "scripts/check-site.ts passed; deno test passed 31/31; live synthetic-readiness.ts passed healthy across all 4 planes with zero paid traffic"
-                ],
-                "proof_refs": [
-                  "check-site",
-                  "deno-tests",
-                  "synthetic-readiness-live"
-                ],
-                "scope": [
-                  "docs/,scripts/,tests/,cloud-flow.js,pricing.js,signup/signup.js,admin/admin.js,pricing.html,pricing/index.html,signup/index.html,admin/index.html"
-                ],
-                "sequence": 4,
-                "validation_findings": []
-              },
-              {
-                "action": "trajectory.record",
-                "custody_event_id": "event:5",
-                "observations": [
-                  "tests/synthetic_readiness.ts",
-                  "Moved synthetic_readiness.ts under tests/ to preserve reviewed scripts inventory digest; 31/31 Deno tests pass; check-site passes; live synthetic readiness healthy"
-                ],
-                "proof_refs": [
-                  "check-site",
-                  "deno-tests",
-                  "synthetic-readiness-live"
-                ],
-                "scope": [
-                  "docs/,scripts/,tests/,cloud-flow.js,pricing.js,signup/signup.js,admin/admin.js,pricing.html,pricing/index.html,signup/index.html,admin/index.html"
-                ],
-                "sequence": 5,
-                "validation_findings": []
-              }
-            ]
-          }
-        }
+        "trajectories": {}
       },
       "declared_commands": [],
-      "evidence": [
-        "Moved synthetic_readiness.ts under tests/ to preserve reviewed scripts inventory digest; 31/31 Deno tests pass; check-site passes; live synthetic readiness healthy",
-        "scripts/check-site.ts passed; deno test passed 31/31; live synthetic-readiness.ts passed healthy across all 4 planes with zero paid traffic"
-      ],
-      "inspected_files": [
-        "admin/admin.js",
-        "cloud-flow.js",
-        "pricing.js",
-        "scripts/check-launch.ts",
-        "scripts/check-site.ts",
-        "signup/signup.js",
-        "tests/live_headers_check.ts",
-        "tests/workflow_concurrency_p2_test.ts"
-      ],
-      "intent_id": "intent:run_p34_prov_avail",
-      "modified_files": [
-        "admin/admin.js",
-        "admin/index.html",
-        "cloud-flow.js",
-        "docs/asset-compatibility-matrix.md",
-        "docs/availability-readiness-slos.md",
-        "docs/provenance-projections.md",
-        "pricing.html",
-        "pricing.js",
-        "pricing/index.html",
-        "scripts/synthetic-readiness.ts",
-        "signup/index.html",
-        "signup/signup.js",
-        "tests/degraded_availability_71_test.ts",
-        "tests/provenance_projection_72_test.ts",
-        "tests/synthetic_readiness.ts"
+      "destination": "pull request",
+      "evidence": [],
+      "inspected_files": [],
+      "intent_id": "intent:change_01M85J5AQ4Q7G0BM1J1898PN0N",
+      "modified_files": [],
+      "next_transitions": [
+        "Refine plan and declare falsifiable checks"
       ],
       "repo_scope": [
-        "docs/,scripts/,tests/,cloud-flow.js,pricing.js,signup/signup.js,admin/admin.js,pricing.html,pricing/index.html,signup/index.html,admin/index.html"
+        "root"
       ],
-      "run_id": "run_p34_prov_avail",
+      "run_id": "branch_01M85J5ASV3MGJQRSVDGY9ZNB1",
       "schema_version": "1.1.0",
       "shortcut_risk_signals": [],
-      "task_id": "cicd_01m85w29w2g2g8n1",
+      "task_id": "code_01m85j4ypkebd7r8",
       "tool_calls": [],
       "unresolved_assumptions": []
     }

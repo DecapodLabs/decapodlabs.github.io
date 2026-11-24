@@ -1,8 +1,6 @@
 /* A restrained publication, separate from the product landing page. */
 body.tecr-page{background:#fcfbf8;color:#211e20}
 .tecr-page .nav{background:#fcfbf8;box-shadow:none;border-bottom:1px solid #dedbd6;-webkit-backdrop-filter:none;backdrop-filter:none}
-.tecr-page .nav-cta{box-shadow:none}
-.tecr-page .nav-cta:hover{box-shadow:none}
 .letter{background:#fcfbf8}
 .letter-inner{width:min(760px,calc(100% - 48px));margin-inline:auto;padding:clamp(25px,3.1vh,44px) 0 28px}
 .letter-header h1{max-width:720px;font-family:Georgia,Cambria,"Times New Roman",serif;font-size:clamp(44px,5.1vw,70px);font-weight:700;letter-spacing:-.046em;line-height:1.1;margin:0 0 14px;text-wrap:balance}
