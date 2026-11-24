@@ -85,9 +85,11 @@ Private ANSI bytes and cursor-state captures stay private. The public media uses
 - **Multi-Org Scope, Abort & Revocation Safety**: Organization switching and sign-out abort active `AbortController` signals, advance monotonic `sessionEpoch` and `renderGeneration` counters, reset all previous-org DOM containers and form inputs, and discard delayed cross-org or post-signout responses. Any `401` (`invalid_token`) clears session storage back to the auth gate and any `403` (`admin_required`, `organization_access_denied`, `admin_revoked`) immediately evicts the revoked org, clears workspace state, and closes the admin workspace.
 - **XSS, Redirect & Confidentiality Guardrails**: `admin/admin.js` updates DOM solely via `textContent` and `createElement`/`replaceChildren` (zero `innerHTML`/`outerHTML`/`insertAdjacentHTML`/`document.write`), `sanitizeAdminReturnUrl` restricts OAuth returns to HTTPS same-origin `/admin` routes without userinfo or fragments, Stripe Billing Portal URLs are allowlisted identically to Checkout URLs, and `tests/admin_test.ts` enforces public-repo confidentiality across all authored Admin files and living specs.
 
-## Phase 2 Concurrency & Authority Failure Safety (#54, #55, #56) — November 24, 2026
+## Phase 2–4 Concurrency, Provenance Redaction & Degraded Availability Safety (#54, #55, #56, #71, #72) — November 24, 2026
 
-- **No Trust in Stale Client Caches or Cross-Tab Broadcasts**: `pricing.js` fails closed on manifest release mismatches (`20261124-p2`), clears stale `decapod:pricing-meta` / quote caches, and disables Pay on cross-tab intent mismatch or network unavailability. `signup/signup.js` treats `BroadcastChannel` checkout events purely as coordination hints to suppress duplicate Checkout sessions and trigger authoritative server `account-status` verification; `backendAuthorized=true` is set strictly from server-verified `status === "active"` and `backend_authorized === true`, never on `pending_timeout` or Browser Back/reload.
+- **No Trust in Stale Client Caches or Cross-Tab Broadcasts**: `pricing.js` fails closed on manifest release mismatches (`20261124-p3`), clears stale `decapod:pricing-meta` / quote caches, and disables Pay on cross-tab intent mismatch, stale re-probe failure, malformed discovery config, `429` rate limit, or network unavailability. `signup/signup.js` treats `BroadcastChannel` checkout events purely as coordination hints to suppress duplicate Checkout sessions and trigger authoritative server `account-status` verification; `backendAuthorized=true` is set strictly from server-verified `status === "active"` and `backend_authorized === true`, never on `pending_timeout` or Browser Back/reload.
+- **Support-Safe Correlation References & Bounded Retries (#71)**: `DecapodCloudFlow.extractCorrelationRef` extracts only opaque identifiers (`x-request-id`, `x-correlation-id`, `cf-ray`, `request_id`), explicitly rejecting JWTs, OAuth/API tokens, and PII. `createBoundedPoller` stops immediately on `401`/`403` and honors bounded `Retry-After` on `429`. Lost checkout acknowledgements and `pending_timeout` retain stable `request_id` / `checkout_pending` metadata while explicitly advising against duplicate payment.
+- **Provenance Non-Authority & Automated Redaction (#72)**: `tests/provenance_projection_72_test.ts` enforces zero secret/token/PII leaks across all published `evidence/*`, `media/*`, `assets/*.json`, `proof.html`, and `index.html`, verifies deterministic witness/event/receipt digests, rejects tampered/superseded/stale-green references, and ensures projection republishes never rewrite canonical archive receipts.
 
 <!-- decapod:capability-overlay:public-api:start -->
 
@@ -122,7 +124,7 @@ Generated capability obligations: `public-api` is declared for this project. The
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `c6072ce15f4e71fde6215e313b64d02941f4a31745c84d3173170443b8de3774`
-- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (5 files)
+- Repository signal fingerprint: `e51a354bf244cd41ae4527f3e44ac167123d15cad71c4eb1d5c6745acb733600`
+- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (8 files), `signup/` (1 files), `tests/` (7 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->
