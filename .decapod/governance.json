@@ -39,6 +39,14 @@
         "deno test: 23 passed, 0 failed",
         "scripts/check-site.ts: passed"
       ]
+    },
+    {
+      "id": "cicd_01m85q99x77gk0pw-traj",
+      "summary": "Bind trajectory to cicd_01m85q99x77gk0pw",
+      "input_digest": "sha256:e026beb756e7c323667bb4070f65d3d47f1513950656a0a4d99b8688572fcdce",
+      "proof_refs": [
+        "deno test: 23 passed, 0 failed"
+      ]
     }
   ],
   "intents": {
@@ -117,7 +125,7 @@
       "active_boundaries": [
         "Worktree isolated; preserve UNDER WRAPS / disabled Pay posture unless enabled by server; no weakening assertions"
       ],
-      "artifact_hash": "sha256:44160c39d209116bb9780fe5a20c975f878bf598696a9db2861adb6f24c3ed25",
+      "artifact_hash": "sha256:d753b5b6eeb1b2e30dccc21adb8a9869b3d18b8bfab4d9c3a364675a3037ae86",
       "checks": [
         {
           "name": "check-site",
@@ -148,10 +156,17 @@
             "intent_id": "intent:run_p2_concurrency",
             "kind": "trajectory_step_recorded",
             "sequence": 4
+          },
+          {
+            "detail": "trajectory:run_p2_concurrency",
+            "event_id": "event:5",
+            "intent_id": "intent:run_p2_concurrency",
+            "kind": "trajectory_step_recorded",
+            "sequence": 5
           }
         ],
         "knowledge_candidates": [],
-        "next_sequence": 4,
+        "next_sequence": 5,
         "schema_version": "1.1.0",
         "trajectories": {
           "run_p2_concurrency": {
@@ -188,6 +203,22 @@
                 ],
                 "sequence": 4,
                 "validation_findings": []
+              },
+              {
+                "action": "trajectory.record",
+                "custody_event_id": "event:5",
+                "observations": [
+                  "Bound trajectory to todo cicd_01m85q99x77gk0pw; 23/23 Deno tests passed"
+                ],
+                "proof_refs": [
+                  "check-site",
+                  "deno-tests"
+                ],
+                "scope": [
+                  "pricing.js,signup/signup.js,admin/admin.js,cloud-flow.js,pricing.html,pricing/index.html,signup/index.html,admin/index.html,tests/"
+                ],
+                "sequence": 5,
+                "validation_findings": []
               }
             ]
           }
@@ -195,7 +226,8 @@
       },
       "declared_commands": [],
       "evidence": [
-        "23/23 Deno tests passed including tests/workflow_concurrency_p2_test.ts and scripts/check-site.ts passed"
+        "23/23 Deno tests passed including tests/workflow_concurrency_p2_test.ts and scripts/check-site.ts passed",
+        "Bound trajectory to todo cicd_01m85q99x77gk0pw; 23/23 Deno tests passed"
       ],
       "inspected_files": [
         "admin/admin.js",
@@ -222,6 +254,7 @@
       "run_id": "run_p2_concurrency",
       "schema_version": "1.1.0",
       "shortcut_risk_signals": [],
+      "task_id": "cicd_01m85q99x77gk0pw",
       "tool_calls": [],
       "unresolved_assumptions": []
     }
