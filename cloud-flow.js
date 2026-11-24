@@ -1,7 +1,7 @@
 (function (root) {
   "use strict";
 
-  var ASSET_RELEASE = "20261124-p1";
+  var ASSET_RELEASE = "20261124-p2";
   var CONTRACT_VERSION = 1;
   var SUPPORTED_API_CONTRACT_MAJORS = Object.freeze([1]);
   var CANONICAL_SITE_ORIGIN = "https://decapodlabs.ai";
@@ -513,6 +513,9 @@
     if (docMeta.status !== "compatible") {
       return { ok: false, reason: docMeta.reason || "unsupported_html_contract", meta: docMeta };
     }
+    if (opts.strictRelease === true && docMeta.assetRelease && docMeta.assetRelease !== ASSET_RELEASE) {
+      return { ok: false, reason: "asset_release_skew", meta: docMeta };
+    }
     if (!doc || typeof doc.getElementById !== "function") {
       return { ok: false, reason: "missing_document", meta: docMeta };
     }
@@ -565,6 +568,8 @@
       return {
         announceReady: function () {},
         broadcastAuthInvalidated: function () {},
+        broadcastIntentSync: function () {},
+        broadcastCheckoutEvent: function () {},
         close: function () {}
       };
     }
@@ -575,24 +580,37 @@
       return {
         announceReady: function () {},
         broadcastAuthInvalidated: function () {},
+        broadcastIntentSync: function () {},
+        broadcastCheckoutEvent: function () {},
         close: function () {}
       };
     }
     var tabId = randomSecret();
     var onSkew = typeof opts.onSkew === "function" ? opts.onSkew : function () {};
     var onAuthInvalidated = typeof opts.onAuthInvalidated === "function" ? opts.onAuthInvalidated : function () {};
+    var onIntentSync = typeof opts.onIntentSync === "function" ? opts.onIntentSync : function () {};
+    var onCheckoutEvent = typeof opts.onCheckoutEvent === "function" ? opts.onCheckoutEvent : function () {};
 
     channel.onmessage = function (ev) {
       var msg = ev && ev.data;
       if (!msg || typeof msg !== "object" || msg.tabId === tabId) return;
       if (msg.type === "tab_hello" || msg.type === "release_skew") {
-        if (typeof msg.contractVersion === "number" && msg.contractVersion !== CONTRACT_VERSION) {
+        if ((typeof msg.contractVersion === "number" && msg.contractVersion !== CONTRACT_VERSION) ||
+            (typeof msg.assetRelease === "string" && msg.assetRelease && msg.assetRelease !== ASSET_RELEASE)) {
           onSkew(msg);
         }
         return;
       }
       if (msg.type === "auth_invalidated") {
         onAuthInvalidated(msg);
+        return;
+      }
+      if (msg.type === "intent_sync") {
+        onIntentSync(msg);
+        return;
+      }
+      if (msg.type === "checkout_started" || msg.type === "checkout_returned" || msg.type === "fulfillment_status") {
+        onCheckoutEvent(msg);
       }
     };
 
@@ -615,6 +633,34 @@
           type: "auth_invalidated",
           projectOrigin: typeof projectOrigin === "string" ? projectOrigin : null,
           contractVersion: CONTRACT_VERSION
+        });
+      },
+      broadcastIntentSync: function (payload) {
+        var p = payload && typeof payload === "object" ? payload : {};
+        var repoParsed = typeof p.repo === "string" ? parseRepoSlug(p.repo) : null;
+        safePost({
+          type: "intent_sync",
+          page: typeof p.page === "string" ? p.page : null,
+          repo: repoParsed ? repoParsed.slug : null,
+          billing: p.billing === "year" || p.billing === "month" ? p.billing : null,
+          contractVersion: CONTRACT_VERSION,
+          assetRelease: ASSET_RELEASE
+        });
+      },
+      broadcastCheckoutEvent: function (eventType, payload) {
+        if (!["checkout_started", "checkout_returned", "fulfillment_status"].includes(eventType)) return;
+        var p = payload && typeof payload === "object" ? payload : {};
+        safePost({
+          type: eventType,
+          projectOrigin: typeof p.projectOrigin === "string" ? p.projectOrigin : null,
+          organizationId: typeof p.organizationId === "string" ? p.organizationId : null,
+          projectId: typeof p.projectId === "string" ? p.projectId : null,
+          orderId: typeof p.orderId === "string" ? p.orderId : null,
+          quoteId: typeof p.quoteId === "string" ? p.quoteId : null,
+          requestId: typeof p.requestId === "string" ? p.requestId : null,
+          state: typeof p.state === "string" ? p.state : null,
+          contractVersion: CONTRACT_VERSION,
+          assetRelease: ASSET_RELEASE
         });
       },
       close: function () {
@@ -710,11 +756,34 @@
     var onUpdate = typeof opts.onUpdate === "function" ? opts.onUpdate : function () {};
     var sleepFn = typeof opts.sleepFn === "function" ? opts.sleepFn : defaultSleep;
     var isCancelled = typeof opts.isCancelled === "function" ? opts.isCancelled : function () { return false; };
+    var lastError = null;
 
     for (var attempt = 1; attempt <= maxAttempts; attempt++) {
       if (isCancelled()) return { outcome: "cancelled", attempts: attempt - 1 };
       onUpdate({ phase: "checking", attempt: attempt, maxAttempts: maxAttempts });
-      var result = await checkFn(attempt);
+      var result = null;
+      try {
+        result = await checkFn(attempt);
+      } catch (err) {
+        if (err && (
+          err.status === 401 ||
+          err.name === "AbortError" ||
+          err.message === "invalid_token" ||
+          err.message === "contract_version_mismatch" ||
+          err.message === "client_version_skew" ||
+          err.message === "sign_in_required" ||
+          err.message === "auth_account_changed"
+        )) {
+          throw err;
+        }
+        lastError = err;
+        if (isCancelled()) return { outcome: "cancelled", attempts: attempt };
+        if (attempt < maxAttempts) {
+          onUpdate({ phase: "waiting", attempt: attempt, maxAttempts: maxAttempts, error: err });
+          await sleepFn(intervalMs);
+        }
+        continue;
+      }
       if (isCancelled()) return { outcome: "cancelled", attempts: attempt };
       var state = classifyAccessState(result);
       if (state === "ready") {
@@ -728,7 +797,7 @@
         await sleepFn(intervalMs);
       }
     }
-    return { outcome: "pending_timeout", attempts: maxAttempts };
+    return { outcome: "pending_timeout", attempts: maxAttempts, lastError: lastError };
   }
 
   async function readBoundedResponseJson(res, maxBytes) {
@@ -784,7 +853,8 @@
       projectOrigin: data.project_origin,
       publishableKey: data.publishable_key,
       authProviders: providers,
-      liveSaleEnabled: data.live_sale_enabled === true && data.billing_enabled === true
+      liveSaleEnabled: data.live_sale_enabled === true && data.billing_enabled === true,
+      pricingVersion: typeof data.pricing_version === "string" && data.pricing_version ? data.pricing_version : null
     };
   }
 

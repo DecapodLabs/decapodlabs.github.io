@@ -82,8 +82,12 @@ Private ANSI bytes and cursor-state captures stay private. The public media uses
 
 - **Navigation vs. Authority Separation**: `<org>` path and query locators are treated purely as untrusted navigation hints. `DecapodCloudFlow.resolveAdminOrganization` resolves locators solely against authenticated server `organizations` records to immutable `cloud_org_id` UUIDs, followed by an explicit server-side `account-register` authorization check on that `cloud_org_id` before rendering any workspace panel.
 - **Zero-Seat Orthogonality & Repo Data Isolation**: Admin UI never requests or renders repository task, event, or evidence payloads, operating strictly through bounded organization-administration endpoints even when the signed-in admin holds zero paid repository seats.
-- **Multi-Org Scope & Revocation Safety**: Organization switching resets all previous-org DOM containers and increments `renderGeneration` so delayed cross-org responses cannot bleed across views. Any `401` (`invalid_token`) clears session storage back to the auth gate and any `403` (`admin_required`) immediately closes the admin workspace.
+- **Multi-Org Scope, Abort & Revocation Safety**: Organization switching and sign-out abort active `AbortController` signals, advance monotonic `sessionEpoch` and `renderGeneration` counters, reset all previous-org DOM containers and form inputs, and discard delayed cross-org or post-signout responses. Any `401` (`invalid_token`) clears session storage back to the auth gate and any `403` (`admin_required`, `organization_access_denied`, `admin_revoked`) immediately evicts the revoked org, clears workspace state, and closes the admin workspace.
 - **XSS, Redirect & Confidentiality Guardrails**: `admin/admin.js` updates DOM solely via `textContent` and `createElement`/`replaceChildren` (zero `innerHTML`/`outerHTML`/`insertAdjacentHTML`/`document.write`), `sanitizeAdminReturnUrl` restricts OAuth returns to HTTPS same-origin `/admin` routes without userinfo or fragments, Stripe Billing Portal URLs are allowlisted identically to Checkout URLs, and `tests/admin_test.ts` enforces public-repo confidentiality across all authored Admin files and living specs.
+
+## Phase 2 Concurrency & Authority Failure Safety (#54, #55, #56) — November 24, 2026
+
+- **No Trust in Stale Client Caches or Cross-Tab Broadcasts**: `pricing.js` fails closed on manifest release mismatches (`20261124-p2`), clears stale `decapod:pricing-meta` / quote caches, and disables Pay on cross-tab intent mismatch or network unavailability. `signup/signup.js` treats `BroadcastChannel` checkout events purely as coordination hints to suppress duplicate Checkout sessions and trigger authoritative server `account-status` verification; `backendAuthorized=true` is set strictly from server-verified `status === "active"` and `backend_authorized === true`, never on `pending_timeout` or Browser Back/reload.
 
 <!-- decapod:capability-overlay:public-api:start -->
 
@@ -118,7 +122,7 @@ Generated capability obligations: `public-api` is declared for this project. The
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `1deb5fc0e6e7ceb60d4567f8d18b10d2ce9f470c572ef8400a88d109e9292dc6`
-- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (4 files)
+- Repository signal fingerprint: `c6072ce15f4e71fde6215e313b64d02941f4a31745c84d3173170443b8de3774`
+- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (5 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->
