@@ -6,6 +6,8 @@
   --clack-muted: #b8ced0;
   --clack-seaglass: #a7f2d4;
   --clack-coral: #ff8664;
+  color: var(--clack-text);
+  background: var(--clack-ink);
 }
 
 .clack-site .nav {
