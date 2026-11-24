@@ -28,6 +28,14 @@
       "proof_refs": [
         "Native capture verified house changes, staff upgrade, ore, charged pounce, airborne Tidehex and Imperial Dome championship. FFprobe measured 30.000 seconds."
       ]
+    },
+    {
+      "id": "progression-staff-store-framing",
+      "summary": "Frame the staff storefront entrance and exit so both equipped staffs and the house upgrades are visible.",
+      "input_digest": "sha256:481bc4d81afe9b4d63b8ca4f21ac99642cd16b1f7bd618da49a1f432b945e304",
+      "proof_refs": [
+        "Verified native 594-frame recapture and inspected entrance and exit frames."
+      ]
     }
   ],
   "intents": {
