@@ -9,6 +9,28 @@
   const flow = typeof DecapodCloudFlow !== "undefined" ? DecapodCloudFlow : null;
   if (!repositories || !contributors) return;
 
+  function hasCompatibleFlow(candidate) {
+    return Boolean(
+      candidate &&
+      candidate.CONTRACT_VERSION === 1 &&
+      typeof candidate.isAllowedSiteOrigin === "function" &&
+      typeof candidate.parseRepoSearch === "function" &&
+      typeof candidate.parseRepoSlug === "function" &&
+      typeof candidate.parseSafeReturnParam === "function" &&
+      typeof candidate.hasHostileFragmentTokens === "function" &&
+      typeof candidate.validateSessionRecord === "function" &&
+      typeof candidate.buildSignupHandoffUrl === "function" &&
+      typeof candidate.buildAuthAuthorizeUrl === "function" &&
+      typeof candidate.isTrustedAuthUrl === "function" &&
+      typeof candidate.discoverRuntimeConfig === "function" &&
+      typeof candidate.checkPageCoherence === "function" &&
+      typeof candidate.scrubSensitiveLocation === "function" &&
+      typeof candidate.createCoherenceChannel === "function" &&
+      typeof candidate.randomSecret === "function" &&
+      typeof candidate.sha256Base64Url === "function"
+    );
+  }
+
   const steps = Object.freeze({
     repos: [[3, 2], [6, 4], [10, 6]],
     people: [[5, 2], [10, 4], [20, 6]]
@@ -21,6 +43,18 @@
   let liveSaleEnabled = false;
   let activeProfile = null;
   let validatedRepoSlug = null;
+  let repoBannerState = "none"; // "none" | "valid" | "invalid" | "hostile"
+  let skewBlocked = false;
+
+  const coherence = hasCompatibleFlow(flow)
+    ? flow.checkPageCoherence({
+        document: typeof document !== "undefined" ? document : null,
+        requiredIds: ["repo-count", "seat-count", "cloud-pay-cta", "preview-checkout"]
+      })
+    : { ok: false, reason: "incompatible_cloud_flow" };
+  if (!coherence.ok) {
+    skewBlocked = true;
+  }
 
   const tier = (count, points) => points.reduce(
     (amount, [minimum, discount]) => count >= minimum ? discount : amount, 0
@@ -31,14 +65,14 @@
   };
 
   function siteOrigin() {
-    if (flow && typeof location !== "undefined" && flow.isAllowedSiteOrigin(location.origin)) {
+    if (hasCompatibleFlow(flow) && typeof location !== "undefined" && flow.isAllowedSiteOrigin(location.origin)) {
       return location.origin;
     }
-    return flow ? flow.CANONICAL_SITE_ORIGIN : "https://decapodlabs.ai";
+    return flow && flow.CANONICAL_SITE_ORIGIN ? flow.CANONICAL_SITE_ORIGIN : "https://decapodlabs.ai";
   }
 
   function readExistingSession(projectOrigin) {
-    if (!flow || typeof sessionStorage === "undefined" || !projectOrigin) return null;
+    if (!hasCompatibleFlow(flow) || typeof sessionStorage === "undefined" || !projectOrigin) return null;
     try {
       const raw = sessionStorage.getItem("decapod-portal:" + projectOrigin + ":session");
       if (!raw || raw.length > 24576) return null;
@@ -49,54 +83,125 @@
     }
   }
 
-  function applyRepoIntentFromUrl() {
+  function scrubPricingLocation() {
+    if (typeof location === "undefined" || typeof history === "undefined" || !history.replaceState) return;
+    if (hasCompatibleFlow(flow)) {
+      flow.scrubSensitiveLocation(location, history);
+      return;
+    }
+    const search = new URLSearchParams(location.search || "");
+    const sensitive = ["repo", "return_to", "redirect_to", "code", "login_nonce", "access_token", "refresh_token", "provider_token", "token", "invitation_id", "invitation_secret"];
+    let changed = false;
+    for (const k of sensitive) {
+      if (search.has(k)) {
+        search.delete(k);
+        changed = true;
+      }
+    }
+    const hash = location.hash || "";
+    const hostileHash = /access_token|refresh_token|provider_token/i.test(hash);
+    if (changed || hostileHash) {
+      const nextSearch = search.toString();
+      history.replaceState(null, "", (location.pathname || "/pricing") + (nextSearch ? "?" + nextSearch : "") + (hostileHash ? "" : hash));
+    }
+  }
+
+  function renderRepoBanner() {
     const banner = byId("pricing-repo-banner");
     const slugEl = byId("pricing-repo-slug");
     const noteEl = byId("pricing-repo-note");
-    if (!flow || typeof location === "undefined") return;
+    if (!banner || !slugEl || !noteEl) return;
+
+    if (repoBannerState === "valid" && validatedRepoSlug) {
+      banner.classList.remove("is-invalid");
+      slugEl.textContent = "Target repository intent: " + validatedRepoSlug;
+      noteEl.textContent = skewBlocked
+        ? "Client asset version skew detected. Reload the page to refresh Cloud checkout."
+        : (liveSaleEnabled
+            ? "Organization and repository authority will be verified after managed sign-in."
+            : "Queued as unverified intent only. Cloud checkout opens after launch verification.");
+      banner.hidden = false;
+      return;
+    }
+    if (repoBannerState === "hostile") {
+      banner.classList.add("is-invalid");
+      slugEl.textContent = "Hostile URL token parameter ignored";
+      noteEl.textContent = "Authentication tokens cannot be supplied via URL query or fragment parameters.";
+      banner.hidden = false;
+      return;
+    }
+    if (repoBannerState === "invalid") {
+      banner.classList.add("is-invalid");
+      slugEl.textContent = "Invalid repository parameter ignored";
+      noteEl.textContent = "Use owner/repo formatting or select your repository after signing in.";
+      banner.hidden = false;
+      return;
+    }
+    banner.hidden = true;
+  }
+
+  function processUrlRepoIntent() {
+    if (typeof location === "undefined") return;
+    if (skewBlocked || !hasCompatibleFlow(flow)) {
+      scrubPricingLocation();
+      renderRepoBanner();
+      return;
+    }
 
     const search = new URLSearchParams(location.search || "");
-    const returnCheck = flow.parseSafeReturnParam(search, siteOrigin());
-    if (returnCheck.status === "rejected" && typeof history !== "undefined" && history.replaceState) {
-      search.delete("return_to");
-      search.delete("redirect_to");
-      const nextSearch = search.toString();
-      history.replaceState(null, "", location.pathname + (nextSearch ? "?" + nextSearch : ""));
+    const hash = location.hash || "";
+    const hostileTokens = flow.hasHostileFragmentTokens(hash) ||
+      search.has("access_token") || search.has("refresh_token") || search.has("provider_token");
+
+    flow.parseSafeReturnParam(search, siteOrigin());
+
+    if (hostileTokens) {
+      validatedRepoSlug = null;
+      repoBannerState = "hostile";
+      try {
+        if (typeof sessionStorage !== "undefined") {
+          sessionStorage.removeItem("decapod:pending-repo-intent");
+        }
+      } catch (_) {}
+      scrubPricingLocation();
+      renderRepoBanner();
+      return;
     }
 
     const parsed = flow.parseRepoSearch(search);
     if (parsed.status === "valid") {
       validatedRepoSlug = parsed.slug;
+      repoBannerState = "valid";
       try {
         if (typeof sessionStorage !== "undefined") {
           sessionStorage.setItem("decapod:pending-repo-intent", parsed.slug);
         }
       } catch (_) {}
-      if (banner && slugEl && noteEl) {
-        banner.classList.remove("is-invalid");
-        slugEl.textContent = "Target repository intent: " + parsed.slug;
-        noteEl.textContent = liveSaleEnabled
-          ? "Organization and repository authority will be verified after managed sign-in."
-          : "Queued as unverified intent only. Cloud checkout opens after launch verification.";
-        banner.hidden = false;
-      }
-      return;
+    } else if (parsed.status === "invalid") {
+      validatedRepoSlug = null;
+      repoBannerState = "invalid";
+      try {
+        if (typeof sessionStorage !== "undefined") {
+          sessionStorage.removeItem("decapod:pending-repo-intent");
+        }
+      } catch (_) {}
+    } else {
+      validatedRepoSlug = null;
+      repoBannerState = "none";
+      try {
+        if (typeof sessionStorage !== "undefined") {
+          const saved = sessionStorage.getItem("decapod:pending-repo-intent");
+          const parsedSaved = flow.parseRepoSlug(saved);
+          if (parsedSaved) {
+            validatedRepoSlug = parsedSaved.slug;
+            repoBannerState = "valid";
+          }
+        }
+      } catch (_) {}
     }
 
-    validatedRepoSlug = null;
-    try {
-      if (typeof sessionStorage !== "undefined") {
-        sessionStorage.removeItem("decapod:pending-repo-intent");
-      }
-    } catch (_) {}
-    if (parsed.status === "invalid" && banner && slugEl && noteEl) {
-      banner.classList.add("is-invalid");
-      slugEl.textContent = "Invalid repository parameter ignored";
-      noteEl.textContent = "Use owner/repo formatting or select your repository after signing in.";
-      banner.hidden = false;
-    } else if (banner) {
-      banner.hidden = true;
-    }
+    scrubPricingLocation();
+    renderRepoBanner();
   }
 
   function setButtonLabel(button, text) {
@@ -110,7 +215,7 @@
   function syncPayButtons() {
     const cloudBtn = byId("cloud-pay-cta");
     const previewBtn = byId("preview-checkout");
-    const enabled = Boolean(liveSaleEnabled && activeProfile);
+    const enabled = Boolean(!skewBlocked && hasCompatibleFlow(flow) && liveSaleEnabled && activeProfile);
 
     if (cloudBtn) {
       cloudBtn.disabled = !enabled;
@@ -126,7 +231,8 @@
   }
 
   async function handlePayClick() {
-    if (!liveSaleEnabled || !activeProfile || !flow) return;
+    if (skewBlocked || !hasCompatibleFlow(flow) || !liveSaleEnabled || !activeProfile) return;
+    if (!flow.isTrustedAuthUrl(activeProfile.authBaseUrl)) return;
 
     const origin = siteOrigin();
     const signupUrl = flow.buildSignupHandoffUrl({
@@ -155,6 +261,7 @@
         }
         sessionStorage.setItem(flowNamespace + "flow", JSON.stringify({
           version: 1,
+          contract_version: flow.CONTRACT_VERSION,
           kind: "sign_in",
           provider: "github",
           verifier: verifier,
@@ -252,17 +359,39 @@
   if (cloudBtn) cloudBtn.addEventListener("click", () => { handlePayClick().catch(() => {}); });
   if (previewBtn) previewBtn.addEventListener("click", () => { handlePayClick().catch(() => {}); });
 
-  applyRepoIntentFromUrl();
+  let coherenceChannel = null;
+  if (!skewBlocked && hasCompatibleFlow(flow)) {
+    coherenceChannel = flow.createCoherenceChannel({
+      BroadcastChannel: typeof globalThis !== "undefined" && typeof globalThis.DecapodMockBroadcastChannel === "function"
+        ? globalThis.DecapodMockBroadcastChannel
+        : undefined,
+      onSkew: () => {
+        skewBlocked = true;
+        liveSaleEnabled = false;
+        activeProfile = null;
+        syncPayButtons();
+        renderRepoBanner();
+      }
+    });
+    coherenceChannel.announceReady();
+    if (typeof window !== "undefined" && typeof window.addEventListener === "function") {
+      window.addEventListener("pagehide", () => {
+        if (coherenceChannel) coherenceChannel.close();
+      });
+    }
+  }
+
+  processUrlRepoIntent();
   syncPayButtons();
   render();
 
-  if (flow && typeof fetch === "function") {
+  if (!skewBlocked && hasCompatibleFlow(flow) && typeof fetch === "function") {
     flow.discoverRuntimeConfig(fetch).then(profile => {
-      if (!profile) return;
+      if (!profile || skewBlocked) return;
       activeProfile = profile;
       liveSaleEnabled = profile.liveSaleEnabled === true;
       syncPayButtons();
-      applyRepoIntentFromUrl();
+      renderRepoBanner();
     }).catch(() => {});
   }
 })();

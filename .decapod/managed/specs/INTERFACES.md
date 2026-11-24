@@ -78,6 +78,12 @@ The proof ledger binds visible terminal states to ordered byte offsets and the s
   - Public `/pricing` remains `'UNDER WRAPS'` with disabled Pay controls unless server discovery explicitly signals live sales and billing are enabled.
   - `/signup` fails closed on `billing_not_configured` / `live_sale_disabled`, `organization_already_enrolled`, `repository_already_enrolled`, `admin_approval_required`, `code_host_link_required`, `provider_link_stepup_required`, and bounded `pending_fulfillment` polling (12 checks max before manual retry), unlocking CLI-ready instructions only when server `account-status` returns `backend_authorized: true`.
 
+## Release-Coherent Discovery, Deep-Link Scrubbing & Multi-Tab Coherence (#70) — November 23, 2026
+
+- **Static Asset & Contract Headers**: `pricing.html`, `pricing/index.html`, `signup/index.html`, and `admin/index.html` declare `decapod-flow-contract=1`, `decapod-asset-release=20261124-p1`, `referrer=no-referrer`, and `?v=20261124-p1` on `cloud-flow.js`, `pricing.js`, `signup/signup.js`, and `admin/admin.js`.
+- **Discovery & Edge Contract Verification**: `DecapodCloudFlow.discoverRuntimeConfig` probes `/functions/v1/decapod-onboarding/config?include_auth_providers=true` and `/auth/providers` with `cache: "no-store"`, checks `decapod-cloud-contract-version` (`1.x`) and payload `version === 1` (`schema === "dactyl_api"`), conservatively intersects provider flags, and rejects untrusted `apiOrigin`, `authBaseUrl`, or `project_origin`.
+- **Live Read-Only Receipt Interface (`tests/live_headers_check.ts`)**: Verifies HTTP 200, `Cache-Control: no-store` on `/auth/providers`, `/config`, and `https://decapod-cloud-admin.pages.dev/`, `decapod-cloud-contract-version: 1.0`, `referrer-policy: no-referrer`, `x-content-type-options: nosniff`, strict CSP, and `UNDER WRAPS` / `noindex,nofollow` on deployed GitHub Pages routes.
+
 ## Authenticated `/admin/<org>` Organization Admin Route Interfaces (November 21, 2026)
 
 - **Inbound Browser Routes**:
@@ -124,8 +130,8 @@ Generated capability obligations: `public-api` is declared for this project. The
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `92022fafab9734f72f905091a0484ce04adc8935d81151889e4af897851d79ae`
-- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (2 files)
+- Repository signal fingerprint: `1deb5fc0e6e7ceb60d4567f8d18b10d2ce9f470c572ef8400a88d109e9292dc6`
+- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (4 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->
 
