@@ -9,7 +9,7 @@
   const flow = typeof DecapodCloudFlow !== "undefined" ? DecapodCloudFlow : null;
   if (!repositories || !contributors) return;
 
-  const PRICING_ASSET_RELEASE = "20261124-p2";
+  const PRICING_ASSET_RELEASE = "20261124-p3";
   const PRICING_META_KEY = "decapod:pricing-meta";
   const ALLOWLISTED_RECOVERY_ERRORS = Object.freeze([
     "stale_quote",
@@ -61,6 +61,9 @@
   let crossTabMismatch = null;
   let recoveryNotice = null;
   let discoveryUnavailable = false;
+  let discoveryStatus = "pending";
+  let discoveryCorrelationId = null;
+  let discoveryRetryAfterSec = null;
   let discoveryEpoch = 0;
   let payInFlight = false;
 
@@ -209,8 +212,9 @@
     if (recoveryNotice) {
       banner.classList.add("is-invalid");
       slugEl.textContent = validatedRepoSlug ? ("Target repository intent: " + validatedRepoSlug) : "Pricing quote or manifest refreshed";
+      const refSuffix = discoveryCorrelationId ? (" (Ref: " + discoveryCorrelationId + ")") : "";
       noteEl.textContent = discoveryUnavailable
-        ? (recoveryNotice + " Cloud configuration is currently unavailable; checkout remains locked.")
+        ? (recoveryNotice + " Cloud configuration is currently unavailable; checkout remains locked." + refSuffix)
         : recoveryNotice;
       banner.hidden = false;
       return;
@@ -218,11 +222,36 @@
     if (repoBannerState === "valid" && validatedRepoSlug) {
       banner.classList.remove("is-invalid");
       slugEl.textContent = "Target repository intent: " + validatedRepoSlug;
+      const refSuffix = discoveryCorrelationId ? (" (Ref: " + discoveryCorrelationId + ")") : "";
       noteEl.textContent = discoveryUnavailable
-        ? "Cloud pricing verification is temporarily unavailable. Checkout remains disabled."
+        ? (discoveryStatus === "invalid"
+            ? "Malformed Cloud configuration was rejected. Checkout remains disabled." + refSuffix
+            : discoveryStatus === "rate_limited"
+              ? "Cloud pricing verification is rate-limited (429)." +
+                (discoveryRetryAfterSec ? " Retry after " + discoveryRetryAfterSec + "s." : " Wait briefly before retrying.") +
+                " Checkout remains disabled." + refSuffix
+              : "Cloud pricing verification is temporarily unavailable. Checkout remains disabled." + refSuffix)
         : (liveSaleEnabled
             ? "Organization and repository authority will be verified after managed sign-in."
             : "Queued as unverified intent only. Cloud checkout opens after launch verification.");
+      banner.hidden = false;
+      return;
+    }
+    if (discoveryUnavailable) {
+      banner.classList.add("is-invalid");
+      const refSuffix = discoveryCorrelationId ? (" Support ref: " + discoveryCorrelationId + ".") : "";
+      if (discoveryStatus === "invalid") {
+        slugEl.textContent = "Malformed Cloud configuration rejected";
+        noteEl.textContent = "Cloud discovery returned invalid metadata. Checkout stays locked fail-closed." + refSuffix;
+      } else if (discoveryStatus === "rate_limited") {
+        slugEl.textContent = "Cloud verification rate-limited (429)";
+        noteEl.textContent = "Too many discovery requests." +
+          (discoveryRetryAfterSec ? " Retry after " + discoveryRetryAfterSec + "s." : " Please wait before retrying.") +
+          " Checkout remains disabled." + refSuffix;
+      } else {
+        slugEl.textContent = "Cloud verification temporarily unavailable";
+        noteEl.textContent = "Decapod Cloud discovery could not be reached. Local remains free and ready; Cloud checkout stays locked." + refSuffix;
+      }
       banner.hidden = false;
       return;
     }
@@ -350,12 +379,24 @@
     if (skewBlocked || !hasCompatibleFlow(flow) || typeof fetch !== "function") return null;
     const myEpoch = ++discoveryEpoch;
     try {
-      const profile = await flow.discoverRuntimeConfig(fetch);
+      const result = typeof flow.discoverRuntimeStatus === "function"
+        ? await flow.discoverRuntimeStatus(fetch)
+        : { status: "ok", profile: await flow.discoverRuntimeConfig(fetch), correlationId: null, retryAfterSec: null };
       if (myEpoch !== discoveryEpoch || skewBlocked) return null;
+      const profile = result && result.profile ? result.profile : null;
       if (!profile) {
         activeProfile = null;
         liveSaleEnabled = false;
-        discoveryUnavailable = true;
+        discoveryStatus = result && result.status ? result.status : "unavailable";
+        discoveryCorrelationId = result && result.correlationId ? result.correlationId : null;
+        discoveryRetryAfterSec = result && result.retryAfterSec ? result.retryAfterSec : null;
+        if (discoveryStatus === "incompatible") {
+          skewBlocked = true;
+          skewReason = result.reason || "api_contract_mismatch";
+          clearStalePricingState();
+        } else {
+          discoveryUnavailable = true;
+        }
         syncPayButtons();
         renderRepoBanner();
         return null;
@@ -366,6 +407,9 @@
         recoveryNotice = "Pricing manifest version changed on the server. Fresh server quote verification is required before Checkout.";
       }
       discoveryUnavailable = false;
+      discoveryStatus = "ok";
+      discoveryCorrelationId = result && result.correlationId ? result.correlationId : null;
+      discoveryRetryAfterSec = null;
       activeProfile = profile;
       liveSaleEnabled = profile.liveSaleEnabled === true;
       writePricingMeta(profile);
@@ -377,6 +421,9 @@
       activeProfile = null;
       liveSaleEnabled = false;
       discoveryUnavailable = true;
+      discoveryStatus = "unavailable";
+      discoveryCorrelationId = null;
+      discoveryRetryAfterSec = null;
       syncPayButtons();
       renderRepoBanner();
       return null;
@@ -392,6 +439,10 @@
       if (!activeProfile.discoveredAt || (now - activeProfile.discoveredAt) > 300) {
         const refreshed = await refreshRuntimeDiscovery();
         if (!refreshed || skewBlocked || crossTabMismatch || refreshed.liveSaleEnabled !== true) {
+          if (!skewBlocked) {
+            recoveryNotice = "Stale Cloud readiness could not be re-verified from the server.";
+            renderRepoBanner();
+          }
           return;
         }
       }

@@ -1,7 +1,7 @@
 (function (root) {
   "use strict";
 
-  var ASSET_RELEASE = "20261124-p2";
+  var ASSET_RELEASE = "20261124-p3";
   var CONTRACT_VERSION = 1;
   var SUPPORTED_API_CONTRACT_MAJORS = Object.freeze([1]);
   var CANONICAL_SITE_ORIGIN = "https://decapodlabs.ai";
@@ -742,6 +742,60 @@
     return "pending_verification";
   }
 
+  var CORRELATION_ID_PATTERN = /^[A-Za-z0-9_.:-]{4,128}$/;
+
+  function sanitizeCorrelationId(raw) {
+    if (typeof raw !== "string") return null;
+    var trimmed = raw.trim();
+    if (!CORRELATION_ID_PATTERN.test(trimmed)) return null;
+    // Never accept JWT-shaped strings (three base64url segments) or secret prefixes as support refs.
+    if (/^[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+$/.test(trimmed)) return null;
+    if (/^(?:gh[pousr]_|github_pat_|[sr]k_(?:live|test)_|sb_secret_)/i.test(trimmed)) return null;
+    return trimmed;
+  }
+
+  function extractCorrelationRef(response, data, fallbackRequestId) {
+    var headers = response && response.headers && typeof response.headers.get === "function"
+      ? response.headers
+      : null;
+    var headerCandidates = headers
+      ? [headers.get("x-request-id"), headers.get("x-correlation-id"), headers.get("cf-ray")]
+      : [];
+    for (var i = 0; i < headerCandidates.length; i++) {
+      var cleanHeader = sanitizeCorrelationId(headerCandidates[i]);
+      if (cleanHeader) return cleanHeader;
+    }
+    if (data && typeof data === "object" && !Array.isArray(data)) {
+      var dataCandidates = [
+        data.request_id,
+        data.correlation_id,
+        data.trace_id,
+        data.error && typeof data.error === "object" ? data.error.request_id : null
+      ];
+      for (var j = 0; j < dataCandidates.length; j++) {
+        var cleanData = sanitizeCorrelationId(dataCandidates[j]);
+        if (cleanData) return cleanData;
+      }
+    }
+    return sanitizeCorrelationId(fallbackRequestId);
+  }
+
+  function parseRetryAfterSeconds(rawHeader) {
+    if (typeof rawHeader !== "string") return null;
+    var trimmed = rawHeader.trim();
+    if (!trimmed || trimmed.length > 64) return null;
+    if (/^\d+$/.test(trimmed)) {
+      var secs = Number(trimmed);
+      if (Number.isSafeInteger(secs) && secs >= 1) return Math.min(secs, 3600);
+      return null;
+    }
+    var parsedMs = Date.parse(trimmed);
+    if (!Number.isFinite(parsedMs)) return null;
+    var deltaSec = Math.ceil((parsedMs - Date.now()) / 1000);
+    if (deltaSec < 1) return 1;
+    return Math.min(deltaSec, 3600);
+  }
+
   function defaultSleep(ms) {
     return new Promise(function (resolve) {
       setTimeout(resolve, ms);
@@ -767,8 +821,12 @@
       } catch (err) {
         if (err && (
           err.status === 401 ||
+          err.status === 403 ||
           err.name === "AbortError" ||
           err.message === "invalid_token" ||
+          err.message === "admin_required" ||
+          err.message === "organization_access_denied" ||
+          err.message === "forbidden" ||
           err.message === "contract_version_mismatch" ||
           err.message === "client_version_skew" ||
           err.message === "sign_in_required" ||
@@ -779,8 +837,13 @@
         lastError = err;
         if (isCancelled()) return { outcome: "cancelled", attempts: attempt };
         if (attempt < maxAttempts) {
-          onUpdate({ phase: "waiting", attempt: attempt, maxAttempts: maxAttempts, error: err });
-          await sleepFn(intervalMs);
+          var retryWaitMs = intervalMs;
+          if (err && (err.status === 429 || err.message === "rate_limited") &&
+              Number.isSafeInteger(err.retryAfterMs) && err.retryAfterMs > 0) {
+            retryWaitMs = Math.max(intervalMs, Math.min(err.retryAfterMs, 15000));
+          }
+          onUpdate({ phase: "waiting", attempt: attempt, maxAttempts: maxAttempts, error: err, retryWaitMs: retryWaitMs });
+          await sleepFn(retryWaitMs);
         }
         continue;
       }
@@ -870,32 +933,50 @@
       var contractHeader = res.headers && typeof res.headers.get === "function"
         ? res.headers.get("decapod-cloud-contract-version")
         : null;
+      var corrId = extractCorrelationRef(res, null, null);
       if (!isSupportedApiContractVersion(contractHeader)) {
         if (res.body && typeof res.body.cancel === "function") await res.body.cancel().catch(function () {});
-        return { status: "incompatible", profile: null };
+        return { status: "incompatible", profile: null, httpStatus: res.status, correlationId: corrId, retryAfterSec: null };
       }
       if (!res.ok) {
+        var retryAfterSec = res.status === 429 || res.status === 503
+          ? parseRetryAfterSeconds(res.headers && typeof res.headers.get === "function" ? res.headers.get("retry-after") : null)
+          : null;
         if (res.body && typeof res.body.cancel === "function") await res.body.cancel().catch(function () {});
-        return { status: "unavailable", profile: null };
+        return {
+          status: res.status === 429 ? "rate_limited" : "unavailable",
+          profile: null,
+          httpStatus: res.status,
+          correlationId: corrId,
+          retryAfterSec: retryAfterSec
+        };
       }
-      var data = await readBoundedResponseJson(res, 16384);
+      var data;
+      try {
+        data = await readBoundedResponseJson(res, 16384);
+      } catch (_) {
+        return { status: "invalid", profile: null, httpStatus: res.status, correlationId: corrId, retryAfterSec: null };
+      }
+      corrId = extractCorrelationRef(res, data, null) || corrId;
       if (data && typeof data === "object" && !Array.isArray(data) &&
           data.version !== undefined && data.version !== CONTRACT_VERSION) {
-        return { status: "incompatible", profile: null };
+        return { status: "incompatible", profile: null, httpStatus: res.status, correlationId: corrId, retryAfterSec: null };
       }
       var normalized = normalizeDiscoveryProfile(data, candidate.apiOrigin, candidate.authBaseUrl);
       if (!normalized) {
-        return { status: "invalid", profile: null };
+        return { status: "invalid", profile: null, httpStatus: res.status, correlationId: corrId, retryAfterSec: null };
       }
-      return { status: "ok", profile: normalized };
+      return { status: "ok", profile: normalized, httpStatus: res.status, correlationId: corrId, retryAfterSec: null };
     } catch (_) {
-      return { status: "unavailable", profile: null };
+      return { status: "unavailable", profile: null, httpStatus: 0, correlationId: null, retryAfterSec: null };
     }
   }
 
-  async function discoverRuntimeConfig(fetchFn) {
+  async function discoverRuntimeStatus(fetchFn) {
     var fetcher = fetchFn || root.fetch;
-    if (typeof fetcher !== "function") return null;
+    if (typeof fetcher !== "function") {
+      return { status: "unavailable", profile: null, reason: "fetch_unavailable", correlationId: null, retryAfterSec: null };
+    }
     var candidates = [
       {
         apiOrigin: CANONICAL_AUTH_ORIGIN,
@@ -908,11 +989,32 @@
         authBaseUrl: FALLBACK_CLOUD_ORIGIN + CANONICAL_ONBOARDING_PREFIX + "/auth"
       }
     ];
+    var lastStatus = "unavailable";
+    var lastCorrId = null;
+    var lastRetryAfter = null;
     for (var i = 0; i < candidates.length; i++) {
       var probe = await probeDiscoveryCandidate(fetcher, candidates[i]);
+      if (probe.correlationId) lastCorrId = probe.correlationId;
+      if (probe.retryAfterSec !== null) lastRetryAfter = probe.retryAfterSec;
       if (probe.status === "incompatible") {
         // Never silently downgrade or switch authority when an origin reports an incompatible contract version.
-        return null;
+        return {
+          status: "incompatible",
+          profile: null,
+          reason: "contract_version_mismatch",
+          correlationId: probe.correlationId,
+          retryAfterSec: null
+        };
+      }
+      if (probe.status === "invalid") {
+        // Fail closed on malformed/untrusted 200 config responses instead of silently falling back.
+        return {
+          status: "invalid",
+          profile: null,
+          reason: "malformed_runtime_config",
+          correlationId: probe.correlationId,
+          retryAfterSec: null
+        };
       }
       if (probe.status === "ok" && probe.profile) {
         var profile = probe.profile;
@@ -932,21 +1034,35 @@
               if (rootAuthCheck.body && typeof rootAuthCheck.body.cancel === "function") {
                 await rootAuthCheck.body.cancel().catch(function () {});
               }
-              return null;
+              return {
+                status: "incompatible",
+                profile: null,
+                reason: "auth_providers_contract_mismatch",
+                correlationId: extractCorrelationRef(rootAuthCheck, null, null),
+                retryAfterSec: null
+              };
             }
             if (!rootAuthCheck.ok) {
               if (rootAuthCheck.body && typeof rootAuthCheck.body.cancel === "function") {
                 await rootAuthCheck.body.cancel().catch(function () {});
               }
               profile.authBaseUrl = CANONICAL_AUTH_ORIGIN + CANONICAL_ONBOARDING_PREFIX + "/auth";
+              profile.authProvidersDegraded = true;
             } else {
               try {
                 var authData = await readBoundedResponseJson(rootAuthCheck, 16384);
                 if (!authData || typeof authData !== "object" || Array.isArray(authData)) {
                   profile.authBaseUrl = CANONICAL_AUTH_ORIGIN + CANONICAL_ONBOARDING_PREFIX + "/auth";
+                  profile.authProvidersDegraded = true;
                 } else {
                   if (authData.version !== undefined && authData.version !== CONTRACT_VERSION) {
-                    return null;
+                    return {
+                      status: "incompatible",
+                      profile: null,
+                      reason: "auth_providers_payload_mismatch",
+                      correlationId: extractCorrelationRef(rootAuthCheck, authData, null),
+                      retryAfterSec: null
+                    };
                   }
                   if (authData.auth_providers && typeof authData.auth_providers === "object") {
                     for (var p = 0; p < PROVIDERS.length; p++) {
@@ -959,16 +1075,36 @@
                 }
               } catch (_) {
                 profile.authBaseUrl = CANONICAL_AUTH_ORIGIN + CANONICAL_ONBOARDING_PREFIX + "/auth";
+                profile.authProvidersDegraded = true;
               }
             }
           } catch (_) {
             profile.authBaseUrl = CANONICAL_AUTH_ORIGIN + CANONICAL_ONBOARDING_PREFIX + "/auth";
+            profile.authProvidersDegraded = true;
           }
         }
-        return profile;
+        return {
+          status: "ok",
+          profile: profile,
+          reason: null,
+          correlationId: probe.correlationId,
+          retryAfterSec: null
+        };
       }
+      lastStatus = probe.status;
     }
-    return null;
+    return {
+      status: lastStatus,
+      profile: null,
+      reason: lastStatus === "rate_limited" ? "rate_limited" : "discovery_unavailable",
+      correlationId: lastCorrId,
+      retryAfterSec: lastRetryAfter
+    };
+  }
+
+  async function discoverRuntimeConfig(fetchFn) {
+    var result = await discoverRuntimeStatus(fetchFn);
+    return result && result.status === "ok" ? result.profile : null;
   }
 
   function encodeBase64Url(bytes) {
@@ -1031,8 +1167,11 @@
     listVerifiedProviders: listVerifiedProviders,
     hasVerifiedProvider: hasVerifiedProvider,
     classifyAccessState: classifyAccessState,
+    extractCorrelationRef: extractCorrelationRef,
+    parseRetryAfterSeconds: parseRetryAfterSeconds,
     createBoundedPoller: createBoundedPoller,
     normalizeDiscoveryProfile: normalizeDiscoveryProfile,
+    discoverRuntimeStatus: discoverRuntimeStatus,
     discoverRuntimeConfig: discoverRuntimeConfig,
     randomSecret: randomSecret,
     sha256Base64Url: sha256Base64Url

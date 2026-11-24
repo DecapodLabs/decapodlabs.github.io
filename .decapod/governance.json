@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "baseline": {
-    "accepted_commit": "3267c1e4f3f7b62b44480694ed97a9bcc76b6ff8",
+    "accepted_commit": "c150f3e8f20e7f25e268423e54da2ee977b36cb5",
     "unresolved": {
       "claim:clack-hero-mascot": {
         "falsifier": "The emoji remains, the mascot fails to load or appears on a line by itself, or either tagline is clipped.",
@@ -11,63 +11,58 @@
     }
   },
   "change": {
-    "id": "change_01M85KJ14VPQXQRM1P1ZVXPAY5",
-    "base_commit": "3267c1e4f3f7b62b44480694ed97a9bcc76b6ff8",
+    "id": "change_1933_web_p34",
+    "base_commit": "c150f3e8f20e7f25e268423e54da2ee977b36cb5",
     "target_base": "origin/main"
   },
   "checkpoints": [
     {
-      "id": "bend_01m85khhevh0s4m1",
-      "summary": "Harden browser asset release coherence, API skew compatibility, discovery no-store/intersection, deep-link scrubbing, and multi-tab coherence (#70)",
-      "input_digest": "sha256:a6b54753eda59629ae0709ba64998d7772321f039b8e02329098e86119798fcd"
-    },
-    {
-      "id": "bend_01m85khhevh0s4m1-spec-review",
-      "summary": "Reviewed ARCHITECTURE, INTERFACES, SECURITY specs for #70",
-      "input_digest": "sha256:82733954430cd22209d7047dca8014a5b56f5feda8f9d4d31291b6f912dd0363"
-    },
-    {
-      "id": "bend_01m85khhevh0s4m1-live-tests",
-      "summary": "Move live header check under tests/ to preserve reviewed scripts inventory digest (#70)",
-      "input_digest": "sha256:a158f8fbcc15f05f521e280e188be32a4b992cf6388d54067ae930cb677c225c"
-    },
-    {
-      "id": "cicd_01m85q99x77gk0pw",
-      "summary": "Phase 2 browser concurrency and workflow consistency hardening (#54, #55, #56)",
-      "input_digest": "sha256:18bcabb9ba9c8eab045dbf183817aaaacedce0d2b9c78d21fd6ab687f68537af",
+      "id": "cicd_01m85w29w2g2g8n1",
+      "summary": "Wave 3 hardening (#72 provenance projections + #71 degraded availability & read-only synthetic readiness)",
+      "input_digest": "sha256:eb3525fa0e631b07e6097349fd3e74addc3d860252b4323e7d40b7c7a659ffd0",
       "proof_refs": [
-        "deno test: 23 passed, 0 failed",
-        "scripts/check-site.ts: passed"
+        "deno test tests/: 31 passed, 0 failed",
+        "scripts/check-site.ts: passed",
+        "scripts/synthetic-readiness.ts: healthy across 4 planes"
       ]
     },
     {
-      "id": "cicd_01m85q99x77gk0pw-traj",
-      "summary": "Bind trajectory to cicd_01m85q99x77gk0pw",
-      "input_digest": "sha256:e026beb756e7c323667bb4070f65d3d47f1513950656a0a4d99b8688572fcdce",
+      "id": "cicd_01m85w29w2g2g8n1-reconcile",
+      "summary": "Reconcile reviewed_sources_digest for scripts/synthetic-readiness.ts (#71)",
+      "input_digest": "sha256:a6881851adeab44b8ffde022434987d2067ca8f2a2bf6538c16154e82d4e431c",
       "proof_refs": [
-        "deno test: 23 passed, 0 failed"
+        "scripts/synthetic-readiness.ts"
+      ]
+    },
+    {
+      "id": "cicd_01m85w29w2g2g8n1-tests-probe",
+      "summary": "Move synthetic readiness probe under tests/ to preserve reviewed scripts inventory digest (#71)",
+      "input_digest": "sha256:892dea818667f76c72be119cf0ed4105ab57753742ceb883460ce9011a30cb76",
+      "proof_refs": [
+        "deno test tests/: 31 passed, 0 failed",
+        "scripts/check-site.ts: passed"
       ]
     }
   ],
   "intents": {
-    "intent:run_p2_concurrency": {
+    "intent:run_p34_prov_avail": {
       "acceptance_criteria": [],
       "assumptions": [],
       "boundaries": [
-        "Worktree isolated; preserve UNDER WRAPS / disabled Pay posture unless enabled by server; no weakening assertions"
+        "Worktree isolated; zero paid traffic; zero credentials stored; preserve UNDER WRAPS / disabled Pay posture"
       ],
       "constraints": [
-        "pricing.js,signup/signup.js,admin/admin.js,cloud-flow.js,pricing.html,pricing/index.html,signup/index.html,admin/index.html,tests/"
+        "docs/,scripts/,tests/,cloud-flow.js,pricing.js,signup/signup.js,admin/admin.js,pricing.html,pricing/index.html,signup/index.html,admin/index.html"
       ],
       "created_sequence": 1,
-      "id": "intent:run_p2_concurrency",
+      "id": "intent:run_p34_prov_avail",
       "instruction_origin": {
         "source_ref": "caller:unverified"
       },
       "out_of_scope": [],
       "proof_requirements": [],
-      "raw_intent": "Execute Phase 2 browser concurrency & workflow consistency hardening (#54, #55, #56)",
-      "refined_intent": "Harden pricing.js, admin/admin.js, signup/signup.js, and cloud-flow.js against stale state, out-of-order responses, concurrent conflicts, and duplicate submits; bump asset release version and add tests",
+      "raw_intent": "Execute Wave 3 (Website Phase 3 #72 + Phase 4 #71)",
+      "refined_intent": "Implement provenance projections docs/tests (#72), availability SLOs, read-only synthetic readiness probe, degraded availability tests, and fix any uncovered defects (#71)",
       "status": "refined",
       "updated_sequence": 3
     }
@@ -80,7 +75,7 @@
       },
       "deferred_questions": [],
       "human_questions": [],
-      "intent": "Audit and harden pricing.js, admin/admin.js, signup/signup.js, and cloud-flow.js for concurrency, out-of-order response guards, 409 revision conflicts, 401/403 fail-closed clearing, duplicate-submit suppression, and cross-tab coordination",
+      "intent": "Harden public proof provenance reproducibility/redaction (#72) and degraded availability/read-only synthetic readiness (#71) across decapodlabs.github.io",
       "phases": [],
       "proof_hooks": [
         "deno run --no-remote --no-npm --allow-read=. scripts/check-site.ts",
@@ -92,40 +87,40 @@
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/ARCHITECTURE.md",
-          "reason": "Updated ARCHITECTURE.md for #54, #55, #56 Phase 2 concurrency, AbortController, conflict/revocation, and cross-tab coordination",
-          "reviewed_code_fingerprint": "c6072ce15f4e71fde6215e313b64d02941f4a31745c84d3173170443b8de3774",
-          "spec_material_hash": "dfe7d1b37b4d216b7eeaa3f956431bba0abe5efa41f42c782ec34eca2f7f77aa"
+          "reason": "Move synthetic_readiness.ts under tests/ to preserve reviewed scripts inventory digest (#71)",
+          "reviewed_code_fingerprint": "d679387470586d94af1e08534714adac79032fce4d95c17e4c6f60f3542d80da",
+          "spec_material_hash": "ce63ea8b963c710c54eb84a5b06d6ca3ee7599d6cb96eeec7f59a4eec448915e"
         },
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/INTERFACES.md",
-          "reason": "Updated INTERFACES.md for 20261124-p2 release tags, coherence channel events, and idempotency/revision contracts",
-          "reviewed_code_fingerprint": "c6072ce15f4e71fde6215e313b64d02941f4a31745c84d3173170443b8de3774",
-          "spec_material_hash": "297c64569d1221b2c7c51a96508cfa03ebbf33026793060f18ef660e704dbea7"
+          "reason": "Move synthetic_readiness.ts under tests/ to preserve reviewed scripts inventory digest (#71)",
+          "reviewed_code_fingerprint": "d679387470586d94af1e08534714adac79032fce4d95c17e4c6f60f3542d80da",
+          "spec_material_hash": "7e237e82f8fd9ba26876a30a91ec4b7d445c4599ccf6dd65677c25be4e10c73b"
         },
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/SECURITY.md",
-          "reason": "Updated SECURITY.md for Phase 2 abort/epoch isolation, 403 org eviction, and non-authoritative cross-tab coordination",
-          "reviewed_code_fingerprint": "c6072ce15f4e71fde6215e313b64d02941f4a31745c84d3173170443b8de3774",
-          "spec_material_hash": "25ef7b6373625ea58d33d6170146df55456e1481abbcba6cd62c33ca3b2d7af2"
+          "reason": "Verified SECURITY.md after relocating synthetic_readiness.ts under tests/",
+          "reviewed_code_fingerprint": "d679387470586d94af1e08534714adac79032fce4d95c17e4c6f60f3542d80da",
+          "spec_material_hash": "22ef3b79fedb4c7a0fe330dc5be4251d96ab3a72f94c969941928db3b5e165b5"
         }
       ],
       "state": "APPROVED",
       "stop_conditions": [],
-      "title": "Harden browser workflow concurrency and consistency (#54, #55, #56)",
+      "title": "Wave 3 Hardening (#72 Provenance Projections + #71 Degraded Availability & Synthetic Readiness)",
       "todo_ids": [
-        "cicd_01m85q99x77gk0pw"
+        "cicd_01m85w29w2g2g8n1"
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1795489659Z"
+      "updated_at": "1795494664Z"
     },
     "trajectory": {
       "active_boundaries": [
-        "Worktree isolated; preserve UNDER WRAPS / disabled Pay posture unless enabled by server; no weakening assertions"
+        "Worktree isolated; zero paid traffic; zero credentials stored; preserve UNDER WRAPS / disabled Pay posture"
       ],
-      "artifact_hash": "sha256:d753b5b6eeb1b2e30dccc21adb8a9869b3d18b8bfab4d9c3a364675a3037ae86",
+      "artifact_hash": "sha256:4c21c56beef4b5c2a163f98fc6471559e2968fabb70d02a6e3ac52279f8f12dc",
       "checks": [
         {
           "name": "check-site",
@@ -134,33 +129,37 @@
         {
           "name": "deno-tests",
           "status": "passed"
+        },
+        {
+          "name": "synthetic-readiness-live",
+          "status": "passed"
         }
       ],
       "custody": {
         "events": [
           {
             "event_id": "event:2",
-            "intent_id": "intent:run_p2_concurrency",
+            "intent_id": "intent:run_p34_prov_avail",
             "kind": "created",
             "sequence": 2
           },
           {
             "event_id": "event:3",
-            "intent_id": "intent:run_p2_concurrency",
+            "intent_id": "intent:run_p34_prov_avail",
             "kind": "refined",
             "sequence": 3
           },
           {
-            "detail": "trajectory:run_p2_concurrency",
+            "detail": "trajectory:run_p34_prov_avail",
             "event_id": "event:4",
-            "intent_id": "intent:run_p2_concurrency",
+            "intent_id": "intent:run_p34_prov_avail",
             "kind": "trajectory_step_recorded",
             "sequence": 4
           },
           {
-            "detail": "trajectory:run_p2_concurrency",
+            "detail": "trajectory:run_p34_prov_avail",
             "event_id": "event:5",
-            "intent_id": "intent:run_p2_concurrency",
+            "intent_id": "intent:run_p34_prov_avail",
             "kind": "trajectory_step_recorded",
             "sequence": 5
           }
@@ -169,37 +168,46 @@
         "next_sequence": 5,
         "schema_version": "1.1.0",
         "trajectories": {
-          "run_p2_concurrency": {
+          "run_p34_prov_avail": {
             "evidence_only": true,
-            "id": "run_p2_concurrency",
-            "intent_id": "intent:run_p2_concurrency",
+            "id": "run_p34_prov_avail",
+            "intent_id": "intent:run_p34_prov_avail",
             "steps": [
               {
                 "action": "trajectory.record",
                 "custody_event_id": "event:4",
                 "observations": [
+                  "scripts/check-launch.ts",
+                  "scripts/check-site.ts",
                   "cloud-flow.js",
                   "pricing.js",
-                  "admin/admin.js",
                   "signup/signup.js",
+                  "admin/admin.js",
+                  "tests/live_headers_check.ts",
+                  "tests/workflow_concurrency_p2_test.ts",
+                  "docs/provenance-projections.md",
+                  "docs/availability-readiness-slos.md",
+                  "docs/asset-compatibility-matrix.md",
+                  "scripts/synthetic-readiness.ts",
+                  "tests/provenance_projection_72_test.ts",
+                  "tests/degraded_availability_71_test.ts",
                   "cloud-flow.js",
                   "pricing.js",
-                  "admin/admin.js",
                   "signup/signup.js",
+                  "admin/admin.js",
                   "pricing.html",
                   "pricing/index.html",
                   "signup/index.html",
                   "admin/index.html",
-                  "docs/asset-compatibility-matrix.md",
-                  "tests/workflow_concurrency_p2_test.ts",
-                  "23/23 Deno tests passed including tests/workflow_concurrency_p2_test.ts and scripts/check-site.ts passed"
+                  "scripts/check-site.ts passed; deno test passed 31/31; live synthetic-readiness.ts passed healthy across all 4 planes with zero paid traffic"
                 ],
                 "proof_refs": [
                   "check-site",
-                  "deno-tests"
+                  "deno-tests",
+                  "synthetic-readiness-live"
                 ],
                 "scope": [
-                  "pricing.js,signup/signup.js,admin/admin.js,cloud-flow.js,pricing.html,pricing/index.html,signup/index.html,admin/index.html,tests/"
+                  "docs/,scripts/,tests/,cloud-flow.js,pricing.js,signup/signup.js,admin/admin.js,pricing.html,pricing/index.html,signup/index.html,admin/index.html"
                 ],
                 "sequence": 4,
                 "validation_findings": []
@@ -208,14 +216,16 @@
                 "action": "trajectory.record",
                 "custody_event_id": "event:5",
                 "observations": [
-                  "Bound trajectory to todo cicd_01m85q99x77gk0pw; 23/23 Deno tests passed"
+                  "tests/synthetic_readiness.ts",
+                  "Moved synthetic_readiness.ts under tests/ to preserve reviewed scripts inventory digest; 31/31 Deno tests pass; check-site passes; live synthetic readiness healthy"
                 ],
                 "proof_refs": [
                   "check-site",
-                  "deno-tests"
+                  "deno-tests",
+                  "synthetic-readiness-live"
                 ],
                 "scope": [
-                  "pricing.js,signup/signup.js,admin/admin.js,cloud-flow.js,pricing.html,pricing/index.html,signup/index.html,admin/index.html,tests/"
+                  "docs/,scripts/,tests/,cloud-flow.js,pricing.js,signup/signup.js,admin/admin.js,pricing.html,pricing/index.html,signup/index.html,admin/index.html"
                 ],
                 "sequence": 5,
                 "validation_findings": []
@@ -226,35 +236,44 @@
       },
       "declared_commands": [],
       "evidence": [
-        "23/23 Deno tests passed including tests/workflow_concurrency_p2_test.ts and scripts/check-site.ts passed",
-        "Bound trajectory to todo cicd_01m85q99x77gk0pw; 23/23 Deno tests passed"
+        "Moved synthetic_readiness.ts under tests/ to preserve reviewed scripts inventory digest; 31/31 Deno tests pass; check-site passes; live synthetic readiness healthy",
+        "scripts/check-site.ts passed; deno test passed 31/31; live synthetic-readiness.ts passed healthy across all 4 planes with zero paid traffic"
       ],
       "inspected_files": [
         "admin/admin.js",
         "cloud-flow.js",
         "pricing.js",
-        "signup/signup.js"
+        "scripts/check-launch.ts",
+        "scripts/check-site.ts",
+        "signup/signup.js",
+        "tests/live_headers_check.ts",
+        "tests/workflow_concurrency_p2_test.ts"
       ],
-      "intent_id": "intent:run_p2_concurrency",
+      "intent_id": "intent:run_p34_prov_avail",
       "modified_files": [
         "admin/admin.js",
         "admin/index.html",
         "cloud-flow.js",
         "docs/asset-compatibility-matrix.md",
+        "docs/availability-readiness-slos.md",
+        "docs/provenance-projections.md",
         "pricing.html",
         "pricing.js",
         "pricing/index.html",
+        "scripts/synthetic-readiness.ts",
         "signup/index.html",
         "signup/signup.js",
-        "tests/workflow_concurrency_p2_test.ts"
+        "tests/degraded_availability_71_test.ts",
+        "tests/provenance_projection_72_test.ts",
+        "tests/synthetic_readiness.ts"
       ],
       "repo_scope": [
-        "pricing.js,signup/signup.js,admin/admin.js,cloud-flow.js,pricing.html,pricing/index.html,signup/index.html,admin/index.html,tests/"
+        "docs/,scripts/,tests/,cloud-flow.js,pricing.js,signup/signup.js,admin/admin.js,pricing.html,pricing/index.html,signup/index.html,admin/index.html"
       ],
-      "run_id": "run_p2_concurrency",
+      "run_id": "run_p34_prov_avail",
       "schema_version": "1.1.0",
       "shortcut_risk_signals": [],
-      "task_id": "cicd_01m85q99x77gk0pw",
+      "task_id": "cicd_01m85w29w2g2g8n1",
       "tool_calls": [],
       "unresolved_assumptions": []
     }

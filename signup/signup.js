@@ -372,6 +372,65 @@
       }
     }
 
+    function formatSupportRef(err, fallbackId) {
+      var ref = (err && typeof err.correlationId === "string" && err.correlationId) ||
+        (typeof fallbackId === "string" && fallbackId ? fallbackId : null);
+      return ref ? "Support ref: " + ref : "";
+    }
+
+    function statusCodeToFailureKind(err) {
+      if (!err) return "backend_unavailable";
+      var msg = err.message || "";
+      if (err.status === 403 || msg === "admin_required" || msg === "organization_access_denied" || msg === "forbidden") {
+        return "access_denied";
+      }
+      if (err.status === 429 || msg === "rate_limited") {
+        return "rate_limited";
+      }
+      return "backend_unavailable";
+    }
+
+    function showDegradedApiState(err, fallbackRef, allowRetry) {
+      var kind = statusCodeToFailureKind(err);
+      var refText = formatSupportRef(err, fallbackRef);
+      var retryWait = err && Number.isSafeInteger(err.retryAfterSec) && err.retryAfterSec > 0
+        ? " Wait at least " + err.retryAfterSec + "s before retrying."
+        : "";
+      if (kind === "access_denied") {
+        showFailClosedState(
+          "access_denied",
+          "ACCESS DENIED",
+          "Authorization denied by server",
+          "The server denied access to this organization or repository (" + (err && err.message ? err.message : "forbidden") + ").",
+          refText || "Contact an organization administrator to verify your access.",
+          false
+        );
+        setStatus("Access denied (" + (err && err.message ? err.message : "forbidden") + ")." + (refText ? " " + refText + "." : ""), true);
+        return;
+      }
+      if (kind === "rate_limited") {
+        showFailClosedState(
+          "rate_limited",
+          "RATE LIMITED (429)",
+          "Too many requests — please wait",
+          "Cloud API rate limit reached. Do not submit duplicate payments or repeated checkouts." + retryWait,
+          (refText ? refText + ". " : "") + "Use Check status now after waiting.",
+          allowRetry !== false
+        );
+        setStatus("Rate-limited (429)." + retryWait + (refText ? " " + refText + "." : ""), true);
+        return;
+      }
+      showFailClosedState(
+        "backend_unavailable",
+        "SERVICE UNAVAILABLE",
+        "Cloud backend temporarily unavailable",
+        "The Decapod Cloud API could not be reached or returned an error. Your repository intent remains preserved and no duplicate payment was created.",
+        (refText ? refText + ". " : "") + "Use Check status now once connectivity recovers.",
+        allowRetry !== false
+      );
+      setStatus("Cloud backend unavailable (" + (err && err.message ? err.message : "service_unavailable") + ")." + (refText ? " " + refText + "." : ""), true);
+    }
+
     async function boundedJson(response, maxBytes) {
       var limit = maxBytes || 65536;
       if (!response.body || typeof response.body.getReader !== "function") {
@@ -401,7 +460,11 @@
       try {
         return JSON.parse(text);
       } catch (_) {
-        if (!response.ok) return { error: { code: "service_unavailable" } };
+        if (!response.ok) {
+          if (response.status === 429) return { error: { code: "rate_limited" } };
+          if (response.status === 403) return { error: { code: "forbidden" } };
+          return { error: { code: "service_unavailable" } };
+        }
         throw new Error("invalid_response");
       }
     }
@@ -420,6 +483,7 @@
       var headers = { apikey: profile.publishableKey };
       if (body !== undefined) headers["Content-Type"] = "application/json";
       if (bearer) headers.Authorization = "Bearer " + bearer;
+      var fallbackCorr = (body && typeof body.request_id === "string" && body.request_id) ? body.request_id : makeRequestId();
       var linked = createLinkedSignal(15000, parentSignal);
       var response;
       try {
@@ -432,6 +496,17 @@
           headers: headers,
           body: body === undefined ? undefined : JSON.stringify(body)
         });
+      } catch (netErr) {
+        if ((parentSignal && parentSignal.aborted) || expectedSessionEpoch !== sessionEpoch) {
+          throw createAbortError();
+        }
+        var isTimeout = Boolean(netErr && (netErr.name === "TimeoutError" || netErr.name === "AbortError"));
+        var wrappedNet = new Error(isTimeout ? "request_timeout" : "service_unavailable");
+        wrappedNet.status = isTimeout ? 504 : 503;
+        wrappedNet.correlationId = typeof flow.extractCorrelationRef === "function"
+          ? flow.extractCorrelationRef(null, null, fallbackCorr)
+          : fallbackCorr;
+        throw wrappedNet;
       } finally {
         linked.cleanup();
       }
@@ -463,13 +538,24 @@
         throw new Error("contract_version_mismatch");
       }
       if (!response.ok) {
-        var errCode = data && ((data.error && data.error.code) || data.error_code || data.code) || "request_failed";
+        var errCode = data && ((data.error && data.error.code) || data.error_code || data.code) ||
+          (response.status === 429 ? "rate_limited" : response.status === 403 ? "forbidden" : response.status >= 500 ? "service_unavailable" : "request_failed");
         if ((response.status === 401 || errCode === "invalid_token") && expectedSessionEpoch === sessionEpoch) {
           invalidateSessionState("Your session expired or was revoked. Sign in again to continue.", true, true);
         }
+        var retryAfterSec = typeof flow.parseRetryAfterSeconds === "function"
+          ? flow.parseRetryAfterSeconds(response.headers && typeof response.headers.get === "function" ? response.headers.get("retry-after") : null)
+          : null;
         var err = new Error(errCode);
         err.status = response.status;
         err.payload = data;
+        err.correlationId = typeof flow.extractCorrelationRef === "function"
+          ? flow.extractCorrelationRef(response, data, fallbackCorr)
+          : fallbackCorr;
+        if (retryAfterSec !== null) {
+          err.retryAfterSec = retryAfterSec;
+          err.retryAfterMs = retryAfterSec * 1000;
+        }
         throw err;
       }
       return data;
@@ -771,6 +857,13 @@
         if (!isActiveView(mySessionEpoch, myViewGen)) return;
         if (!userRes.ok || !reposRes.ok) {
           if (authBtn) authBtn.hidden = false;
+          var ghHint = byId("org-repo-hint");
+          var ghStatus = !userRes.ok ? userRes.status : reposRes.status;
+          if (ghHint) {
+            ghHint.textContent = ghStatus === 429
+              ? "GitHub repository lookup was rate-limited (429). Enter owner/repo manually or retry shortly."
+              : "GitHub repository lookup is temporarily unavailable (" + ghStatus + "). Enter owner/repo manually or re-authorize lookup.";
+          }
           return;
         }
         var ghUser = await userRes.json();
@@ -810,6 +903,10 @@
       } catch (_) {
         if (!isActiveView(mySessionEpoch, myViewGen)) return;
         if (authBtn) authBtn.hidden = false;
+        var ghCatchHint = byId("org-repo-hint");
+        if (ghCatchHint) {
+          ghCatchHint.textContent = "GitHub repository lookup could not be reached. Enter owner/repo manually or retry.";
+        }
       }
     }
 
@@ -878,6 +975,11 @@
         if ((err && err.name === "AbortError") || myGen !== pollGeneration || mySessionEpoch !== sessionEpoch || myViewGen !== viewGeneration) {
           return;
         }
+        if (err && (err.status === 403 || err.message === "admin_required" || err.message === "organization_access_denied" || err.message === "forbidden")) {
+          storeRemove("checkout_pending");
+          showDegradedApiState(err, checkoutRequestId, false);
+          return;
+        }
         throw err;
       }
 
@@ -911,16 +1013,22 @@
         );
         return;
       }
+      var pendingCheckoutMeta = storeGet("checkout_pending", 4096);
+      var pendingCorr = (outcome.lastError && outcome.lastError.correlationId) ||
+        (pendingCheckoutMeta && (pendingCheckoutMeta.order_id || pendingCheckoutMeta.request_id)) ||
+        checkoutRequestId ||
+        projectId;
+      var refDetail = pendingCorr ? (" Support ref: " + pendingCorr + ".") : "";
       showFailClosedState(
         "pending_timeout",
         "CONFIRMATION TIMED OUT",
         "Payment confirmation still pending",
-        "Checkout redirect alone never grants access. Server fulfillment has not confirmed settlement yet (backend_authorized=false).",
+        "Checkout redirect alone never grants access. Server fulfillment has not confirmed settlement yet (backend_authorized=false). Do not start a duplicate payment while settlement is pending.",
         "Fulfillment is still pending after " + outcome.attempts +
-          " checks. Access remains locked until settlement completes. Use Check status now to retry.",
+          " checks. Access remains locked until settlement completes. Use Check status now to retry." + refDetail,
         true
       );
-      setStatus("Fulfillment confirmation timed out (pending_timeout). Access remains locked (backend_authorized=false).", true);
+      setStatus("Fulfillment confirmation timed out (pending_timeout). Access remains locked (backend_authorized=false)." + refDetail, true);
       if (flowOk && profile) {
         coherenceChannel.broadcastCheckoutEvent("fulfillment_status", {
           projectOrigin: profile.projectOrigin,
@@ -1040,7 +1148,11 @@
         if ((err && err.name === "AbortError") || !isActiveView(mySessionEpoch, myViewGen) || activeProjectId !== projectId) return;
         if ((checkoutReturned || pendingReturned) && !(err && (
           err.status === 401 ||
+          err.status === 403 ||
           err.message === "invalid_token" ||
+          err.message === "admin_required" ||
+          err.message === "organization_access_denied" ||
+          err.message === "forbidden" ||
           err.message === "contract_version_mismatch" ||
           err.message === "client_version_skew" ||
           err.message === "sign_in_required" ||
@@ -1056,7 +1168,11 @@
           await runPendingFulfillmentPoll(projectId);
           return;
         }
-        throw err;
+        if (err && (err.status === 401 || err.message === "invalid_token" || err.message === "contract_version_mismatch" || err.message === "client_version_skew")) {
+          throw err;
+        }
+        showDegradedApiState(err, (pendingCheckout && pendingCheckout.order_id) || projectId, true);
+        return;
       }
       if (!isActiveView(mySessionEpoch, myViewGen) || activeProjectId !== projectId) return;
       var state = flow.classifyAccessState(access);
@@ -1323,7 +1439,11 @@
           await showCheckoutPanel(targetOrgId, targetProjId, preselectedRepo || targetProjId, myViewGen);
           return;
         }
-        setStatus("Quote failed (" + code + ").", true);
+        var quoteRef = formatSupportRef(error, quoteRequestId);
+        var quoteWait = error && Number.isSafeInteger(error.retryAfterSec) && error.retryAfterSec > 0
+          ? " Wait " + error.retryAfterSec + "s before retrying."
+          : "";
+        setStatus("Quote unavailable (" + code + ")." + quoteWait + (quoteRef ? " " + quoteRef + "." : ""), true);
       } finally {
         quoteInFlight = false;
         if (quoteBtn) quoteBtn.disabled = false;
@@ -1440,7 +1560,17 @@
           setStatus("Quote expired or changed (" + errCode + "). Request a fresh server quote before continuing.", true);
           return;
         }
-        setStatus("Checkout could not be started (" + errCode + ").", true);
+        var checkoutRef = formatSupportRef(error, checkoutRequestId);
+        if (error && (error.status === 429 || errCode === "rate_limited")) {
+          var waitSec = Number.isSafeInteger(error.retryAfterSec) && error.retryAfterSec > 0
+            ? " Wait " + error.retryAfterSec + "s before retrying."
+            : " Wait briefly before retrying.";
+          setStatus("Checkout request rate-limited (429)." + waitSec + " Do not start a duplicate payment." + (checkoutRef ? " " + checkoutRef + "." : ""), true);
+        } else if (error && (error.status >= 500 || errCode === "service_unavailable" || errCode === "request_timeout")) {
+          setStatus("Checkout acknowledgement unavailable (" + errCode + "). Do not submit a duplicate payment; check status or retry with the same quote." + (checkoutRef ? " " + checkoutRef + "." : ""), true);
+        } else {
+          setStatus("Checkout could not be started (" + errCode + ")." + (checkoutRef ? " " + checkoutRef + "." : ""), true);
+        }
         if (checkoutBtn && activeQuoteOrder && activeQuoteOrder.quote_id &&
             !(siblingCheckout && siblingCheckout.projectId === activeProjectId)) {
           checkoutBtn.disabled = false;
@@ -1585,13 +1715,31 @@
       }
 
       if (!profile) {
-        profile = await flow.discoverRuntimeConfig(fetchFn);
+        var discovery = typeof flow.discoverRuntimeStatus === "function"
+          ? await flow.discoverRuntimeStatus(fetchFn)
+          : { status: "ok", profile: await flow.discoverRuntimeConfig(fetchFn), correlationId: null, retryAfterSec: null };
         if (mySessionEpoch !== sessionEpoch) return;
-      }
-      if (!profile) {
-        syncAuthGateUi();
-        setStatus("Cloud authentication configuration is currently unavailable.", true);
-        return;
+        profile = discovery && discovery.profile ? discovery.profile : null;
+        if (!profile) {
+          var dStatus = discovery && discovery.status ? discovery.status : "unavailable";
+          if (dStatus === "incompatible") {
+            skewBlocked = true;
+            skewReason = discovery.reason || "api_contract_mismatch";
+          }
+          syncAuthGateUi();
+          var dRef = discovery && discovery.correlationId ? (" Support ref: " + discovery.correlationId + ".") : "";
+          if (dStatus === "invalid") {
+            setStatus("Cloud authentication configuration failed validation (malformed config)." + dRef, true);
+          } else if (dStatus === "rate_limited") {
+            var dWait = discovery.retryAfterSec ? (" Wait " + discovery.retryAfterSec + "s before reloading.") : "";
+            setStatus("Cloud authentication discovery rate-limited (429)." + dWait + dRef, true);
+          } else if (dStatus === "incompatible") {
+            setStatus("API contract version mismatch. Reload this page to continue safely." + dRef, true);
+          } else {
+            setStatus("Cloud authentication configuration is currently unavailable." + dRef, true);
+          }
+          return;
+        }
       }
 
       var storedPendingCheckout = storeGet("checkout_pending", 4096);
@@ -1801,7 +1949,10 @@
         stateRetryBtn.onclick = function () {
           if (activeProjectId) {
             inspectProjectAccess(activeOrganizationId, activeProjectId, preselectedRepo || activeProjectId)
-              .catch(function (e) { if (e && e.name !== "AbortError") setStatus("Status check failed: " + e.message, true); });
+              .catch(function (e) { if (e && e.name !== "AbortError") showDegradedApiState(e, preselectedRepo || activeProjectId, true); });
+          } else if (session) {
+            loadAuthenticatedAccount(sessionEpoch, viewGeneration)
+              .catch(function (e) { if (e && e.name !== "AbortError") showDegradedApiState(e, preselectedRepo, true); });
           }
         };
       }
@@ -1875,7 +2026,12 @@
         if (error && error.name === "AbortError") return;
         if (mySessionEpoch !== sessionEpoch) return;
         try { syncAuthGateUi(); } catch (_) {}
-        setStatus("Authentication could not be completed (" + (error && error.message ? error.message : "error") + ").", true);
+        if (!skewBlocked && session && profile && flow.validateSessionRecord(session, profile.projectOrigin, nowSec())) {
+          showDegradedApiState(error, preselectedRepo, true);
+        } else {
+          var initRef = formatSupportRef(error, null);
+          setStatus("Authentication could not be completed (" + (error && error.message ? error.message : "error") + ")." + (initRef ? " " + initRef + "." : ""), true);
+        }
       }
     }
 

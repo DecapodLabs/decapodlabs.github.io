@@ -175,6 +175,18 @@
       banner.hidden = false;
     }
 
+    function makeRequestId() {
+      return typeof crypto !== "undefined" && typeof crypto.randomUUID === "function"
+        ? crypto.randomUUID()
+        : flow.randomSecret();
+    }
+
+    function formatSupportRef(err, fallbackId) {
+      var ref = (err && typeof err.correlationId === "string" && err.correlationId) ||
+        (typeof fallbackId === "string" && fallbackId ? fallbackId : null);
+      return ref ? "Support ref: " + ref : "";
+    }
+
     function createAbortError() {
       var err = new Error("aborted");
       err.name = "AbortError";
@@ -446,7 +458,11 @@
       try {
         return JSON.parse(text);
       } catch (_) {
-        if (!response.ok) return { error: { code: "service_unavailable" } };
+        if (!response.ok) {
+          if (response.status === 429) return { error: { code: "rate_limited" } };
+          if (response.status === 403) return { error: { code: "forbidden" } };
+          return { error: { code: "service_unavailable" } };
+        }
         throw new Error("invalid_response");
       }
     }
@@ -465,6 +481,7 @@
       var headers = { apikey: profile.publishableKey };
       if (body !== undefined) headers["Content-Type"] = "application/json";
       if (bearer) headers.Authorization = "Bearer " + bearer;
+      var fallbackCorr = (body && typeof body.request_id === "string" && body.request_id) ? body.request_id : makeRequestId();
       var linked = createLinkedSignal(15000, parentSignal);
       var response;
       try {
@@ -477,6 +494,17 @@
           headers: headers,
           body: body === undefined ? undefined : JSON.stringify(body)
         });
+      } catch (netErr) {
+        if ((parentSignal && parentSignal.aborted) || expectedSessionEpoch !== sessionEpoch) {
+          throw createAbortError();
+        }
+        var isTimeout = Boolean(netErr && (netErr.name === "TimeoutError" || netErr.name === "AbortError"));
+        var wrappedNet = new Error(isTimeout ? "request_timeout" : "service_unavailable");
+        wrappedNet.status = isTimeout ? 504 : 503;
+        wrappedNet.correlationId = typeof flow.extractCorrelationRef === "function"
+          ? flow.extractCorrelationRef(null, null, fallbackCorr)
+          : fallbackCorr;
+        throw wrappedNet;
       } finally {
         linked.cleanup();
       }
@@ -508,13 +536,24 @@
         throw new Error("contract_version_mismatch");
       }
       if (!response.ok) {
-        var errCode = data && ((data.error && data.error.code) || data.error_code || data.code) || "request_failed";
+        var errCode = data && ((data.error && data.error.code) || data.error_code || data.code) ||
+          (response.status === 429 ? "rate_limited" : response.status === 403 ? "forbidden" : response.status >= 500 ? "service_unavailable" : "request_failed");
         if ((response.status === 401 || errCode === "invalid_token") && expectedSessionEpoch === sessionEpoch) {
           handleExpiredOrRevokedSession(null, true);
         }
+        var retryAfterSec = typeof flow.parseRetryAfterSeconds === "function"
+          ? flow.parseRetryAfterSeconds(response.headers && typeof response.headers.get === "function" ? response.headers.get("retry-after") : null)
+          : null;
         var err = new Error(errCode);
         err.status = response.status;
         err.payload = data;
+        err.correlationId = typeof flow.extractCorrelationRef === "function"
+          ? flow.extractCorrelationRef(response, data, fallbackCorr)
+          : fallbackCorr;
+        if (retryAfterSec !== null) {
+          err.retryAfterSec = retryAfterSec;
+          err.retryAfterMs = retryAfterSec * 1000;
+        }
         throw err;
       }
       return data;
@@ -960,7 +999,11 @@
             handleOrgAccessRevoked(ctx, error.message);
             return;
           }
-          setStatus("Action failed (" + (error && error.message ? error.message : "error") + ").", true);
+          var actionRef = formatSupportRef(error, ctx.cloudOrgId);
+          var actionWait = error && Number.isSafeInteger(error.retryAfterSec) && error.retryAfterSec > 0
+            ? " Wait " + error.retryAfterSec + "s before retrying."
+            : "";
+          setStatus("Action failed (" + (error && error.message ? error.message : "error") + ")." + actionWait + (actionRef ? " " + actionRef + "." : ""), true);
         } finally {
           if (pendingActions.get(ctx.cloudOrgId) === ctx) {
             pendingActions.delete(ctx.cloudOrgId);
@@ -1783,17 +1826,39 @@
       } catch (error) {
         if ((error && error.name === "AbortError") || mySessionEpoch !== sessionEpoch || myGen !== renderGeneration) return;
         var code = error && error.message ? error.message : "authorization_denied";
+        var orgErrRef = formatSupportRef(error, orgObj.cloud_org_id);
         if (isAdminRevocationError(error)) {
           handleOrgAccessRevoked(ctx, code);
+        } else if (error && (error.status === 429 || code === "rate_limited")) {
+          var orgWait = Number.isSafeInteger(error.retryAfterSec) && error.retryAfterSec > 0
+            ? " Wait " + error.retryAfterSec + "s before retrying."
+            : " Wait briefly before retrying.";
+          showDeniedPanel(
+            "RATE LIMITED (429)",
+            "Organization verification rate limited",
+            "Cloud API rate limit prevented verifying your administrator grant. Workspace panels stay locked until verification completes." + orgWait,
+            (orgErrRef ? orgErrRef + ". " : "") + "Use Refresh organization after waiting.",
+            adminOrgs.length > 0
+          );
+          setStatus("Organization verification rate-limited (429)." + orgWait + (orgErrRef ? " " + orgErrRef + "." : ""), true);
+        } else if (error && (error.status >= 500 || code === "service_unavailable" || code === "request_timeout")) {
+          showDeniedPanel(
+            "SERVICE UNAVAILABLE",
+            "Organization verification temporarily unavailable",
+            "The Decapod Cloud API could not verify your organization administrator grant right now. Protected panels remain locked.",
+            (orgErrRef ? orgErrRef + ". " : "") + "Use Refresh organization or reload once connectivity recovers.",
+            adminOrgs.length > 0
+          );
+          setStatus("Organization verification unavailable (" + code + ")." + (orgErrRef ? " " + orgErrRef + "." : ""), true);
         } else {
           showDeniedPanel(
             "AUTHORIZATION DENIED",
             "Organization administrator access denied",
             "You do not hold a verified administrator grant for this organization.",
-            "Server verification returned: " + code + ".",
+            "Server verification returned: " + code + "." + (orgErrRef ? " " + orgErrRef + "." : ""),
             true
           );
-          setStatus("Access denied for organization (" + code + ").", true);
+          setStatus("Access denied for organization (" + code + ")." + (orgErrRef ? " " + orgErrRef + "." : ""), true);
         }
         return;
       }
@@ -1990,13 +2055,31 @@
       }
 
       if (!profile) {
-        profile = await flow.discoverRuntimeConfig(fetchFn);
+        var discovery = typeof flow.discoverRuntimeStatus === "function"
+          ? await flow.discoverRuntimeStatus(fetchFn)
+          : { status: "ok", profile: await flow.discoverRuntimeConfig(fetchFn), correlationId: null, retryAfterSec: null };
         if (mySessionEpoch !== sessionEpoch) return;
-      }
-      if (!profile) {
-        syncAuthGateUi();
-        setStatus("Cloud authentication configuration is currently unavailable.", true);
-        return;
+        profile = discovery && discovery.profile ? discovery.profile : null;
+        if (!profile) {
+          var dStatus = discovery && discovery.status ? discovery.status : "unavailable";
+          if (dStatus === "incompatible") {
+            skewBlocked = true;
+            skewReason = discovery.reason || "api_contract_mismatch";
+          }
+          syncAuthGateUi();
+          var dRef = discovery && discovery.correlationId ? (" Support ref: " + discovery.correlationId + ".") : "";
+          if (dStatus === "invalid") {
+            setStatus("Cloud authentication configuration failed validation (malformed config)." + dRef, true);
+          } else if (dStatus === "rate_limited") {
+            var dWait = discovery.retryAfterSec ? (" Wait " + discovery.retryAfterSec + "s before reloading.") : "";
+            setStatus("Cloud authentication discovery rate-limited (429)." + dWait + dRef, true);
+          } else if (dStatus === "incompatible") {
+            setStatus("API contract version mismatch. Reload this page to continue safely." + dRef, true);
+          } else {
+            setStatus("Cloud authentication configuration is currently unavailable." + dRef, true);
+          }
+          return;
+        }
       }
 
       if (invId && invSecret && flow.UUID_PATTERN.test(invId) && flow.PKCE_HASH_PATTERN.test(invSecret)) {
@@ -2944,7 +3027,11 @@
         if (error && error.name === "AbortError") return;
         if (mySessionEpoch !== sessionEpoch) return;
         try { syncAuthGateUi(); } catch (_) {}
-        setStatus("Organization Admin could not be initialized (" + (error && error.message ? error.message : "error") + ").", true);
+        var initRef = formatSupportRef(error, null);
+        var initWait = error && Number.isSafeInteger(error.retryAfterSec) && error.retryAfterSec > 0
+          ? " Wait " + error.retryAfterSec + "s before retrying."
+          : "";
+        setStatus("Organization Admin could not be initialized (" + (error && error.message ? error.message : "error") + ")." + initWait + (initRef ? " " + initRef + "." : ""), true);
       }
     }
 
