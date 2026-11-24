@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "baseline": {
-    "accepted_commit": "3267c1e4f3f7b62b44480694ed97a9bcc76b6ff8",
+    "accepted_commit": "92b0b66e233bb78d1c9f9821314b06788bfd830b",
     "unresolved": {
       "claim:clack-hero-mascot": {
         "falsifier": "The emoji remains, the mascot fails to load or appears on a line by itself, or either tagline is clipped.",
@@ -11,40 +11,22 @@
     }
   },
   "change": {
-    "id": "change_01M85J5AQ4Q7G0BM1J1898PN0N",
-    "base_commit": "3267c1e4f3f7b62b44480694ed97a9bcc76b6ff8",
+    "id": "change_01M86G9PFQKW4B26NQN6X1DG3N",
+    "base_commit": "92b0b66e233bb78d1c9f9821314b06788bfd830b",
     "target_base": "origin/main"
   },
   "checkpoints": [
     {
-      "id": "progression-integration-plan",
-      "summary": "Record the scoped trailer update and reconcile the three requested website PRs with current main.",
-      "input_digest": "sha256:905bf9b39b329f2bb1c02f9535b0ce9ffe984689ec7f920bb318e1cd1d9995c9"
-    },
-    {
-      "id": "progression-trailer-and-branding",
-      "summary": "Publish the word-free 30-second native trailer and integrate the site changes from PRs #64, #68 and #69 in one workstream.",
-      "input_digest": "sha256:e49eb2da48257e5e810956bae3fe3f1033dd4b6b6f8fe7b20be9257a2b228b6a",
+      "id": "clack-hero-journey-trailer",
+      "summary": "Recut Clack's 30-second native gameplay trailer as a hero's journey with starter homes, copper mining, early fights, Kelp Lantern, midpoint Staff Shop Sunclaw Scepter upgrade, airborne Tidehex, upgraded homes, Imperial Dome victory, and closing line 'code with the crabs'; update captions, asset query versions, and living specs.",
+      "input_digest": "sha256:7560bab8de0110726a27bd553baf8d46c563329666d89fa8227f9f33843cd3a9",
       "proof_refs": [
-        "Native capture verified house changes, staff upgrade, ore, charged pounce, airborne Tidehex and Imperial Dome championship. FFprobe measured 30.000 seconds."
+        "ffprobe verified 1280x720 24fps 720 frames 30.000s H.264 High yuv420p + AAC 48kHz stereo faststart MP4; 30-frame contact sheet and closing frame verified hero's journey ordering and exact on-screen line 'code with the crabs'."
       ]
-    },
-    {
-      "id": "progression-staff-store-framing",
-      "summary": "Frame the staff storefront entrance and exit so both equipped staffs and the house upgrades are visible.",
-      "input_digest": "sha256:481bc4d81afe9b4d63b8ca4f21ac99642cd16b1f7bd618da49a1f432b945e304",
-      "proof_refs": [
-        "Verified native 594-frame recapture and inspected entrance and exit frames."
-      ]
-    },
-    {
-      "id": "progression-current-website-base",
-      "summary": "Preserve the latest accepted website changes and refresh validation inputs for the trailer and requested site polish.",
-      "input_digest": "sha256:930e8ce596dc9e55705eccc59e8211b4f9d0e8130cd29ce85dea41dc1523ed22"
     }
   ],
   "intents": {
-    "intent:change_01M85J5AQ4Q7G0BM1J1898PN0N": {
+    "intent:change_01M86G9PFQKW4B26NQN6X1DG3N": {
       "acceptance_criteria": [],
       "assumptions": [],
       "boundaries": [
@@ -54,14 +36,14 @@
         "root"
       ],
       "created_sequence": 1,
-      "id": "intent:change_01M85J5AQ4Q7G0BM1J1898PN0N",
+      "id": "intent:change_01M86G9PFQKW4B26NQN6X1DG3N",
       "instruction_origin": {
         "source_ref": "caller:unverified"
       },
       "out_of_scope": [],
       "proof_requirements": [],
-      "raw_intent": "Expand Clack’s gameplay trailer to 30 seconds\n\nShow early and advanced homes, furnishings, Pearl Ring and combat progression in the existing hero player.",
-      "refined_intent": "Expand Clack’s gameplay trailer to 30 seconds\n\nShow early and advanced homes, furnishings, Pearl Ring and combat progression in the existing hero player.",
+      "raw_intent": "Recut Clack trailer as a hero's journey and publish on decapodlabs.ai/clack",
+      "refined_intent": "Recut Clack trailer as a hero's journey and publish on decapodlabs.ai/clack",
       "status": "refined",
       "updated_sequence": 3
     }
@@ -74,40 +56,40 @@
       },
       "deferred_questions": [],
       "human_questions": [],
-      "intent": "Expand the Clack hero trailer to 30 seconds with Waystead ABAXI fanfare, native word-free footage, and Powered by Decapod closing credit. Retain the requested header and Rework fixes.",
+      "intent": "Recut Clack's 30-second gameplay trailer as a hero's journey from starter homes, copper mining, early fights, and Kelp Lantern through a midpoint Staff Shop Sunclaw Scepter upgrade to airborne Tidehex, upgraded homes, Imperial Dome victory, and closing line 'code with the crabs'. Update MP4, WebVTT captions, poster, asset query versions, and living specs, validate with Decapod, merge PR, and verify live desktop and mobile playback.",
       "phases": [],
       "proof_hooks": [
-        "Verify native home and gear upgrades, ore, landing pounce, airborne spell, and arena victory; test 30-second playback and integrated site changes."
+        "FFprobe confirms 1280x720 24fps 30.000s H.264/AAC MP4 with faststart; extracted frames verify hero's journey order and exact 'code with the crabs' closing card; decapod validate passes; live desktop and mobile headless Chrome playback verified on https://decapodlabs.ai/clack/."
       ],
       "schema_version": "1.1.0",
       "state": "APPROVED",
       "stop_conditions": [],
-      "title": "Clack gameplay progression trailer and site integration",
+      "title": "Recut Clack 30-second trailer as a hero's journey",
       "todo_ids": [
-        "code_01m85j4ypkebd7r8"
+        "code_01m86g8mftbwzka3"
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1795483630Z"
+      "updated_at": "1795515059Z"
     },
     "trajectory": {
       "active_boundaries": [
         "Current claimed task and isolated work branch"
       ],
-      "artifact_hash": "sha256:6a0ce3a31ed23ddd6ff83db863c856279d6d69b7908868fce99688147e0df2a7",
+      "artifact_hash": "sha256:65b9c27e05c38d587cc102ef04a26868ba5186b263b98fe938a1bf24edefbe96",
       "checks": [],
       "current_phase": "intent",
       "custody": {
         "events": [
           {
             "event_id": "event:2",
-            "intent_id": "intent:change_01M85J5AQ4Q7G0BM1J1898PN0N",
+            "intent_id": "intent:change_01M86G9PFQKW4B26NQN6X1DG3N",
             "kind": "created",
             "sequence": 2
           },
           {
             "event_id": "event:3",
-            "intent_id": "intent:change_01M85J5AQ4Q7G0BM1J1898PN0N",
+            "intent_id": "intent:change_01M86G9PFQKW4B26NQN6X1DG3N",
             "kind": "refined",
             "sequence": 3
           }
@@ -121,7 +103,7 @@
       "destination": "pull request",
       "evidence": [],
       "inspected_files": [],
-      "intent_id": "intent:change_01M85J5AQ4Q7G0BM1J1898PN0N",
+      "intent_id": "intent:change_01M86G9PFQKW4B26NQN6X1DG3N",
       "modified_files": [],
       "next_transitions": [
         "Refine plan and declare falsifiable checks"
@@ -129,10 +111,10 @@
       "repo_scope": [
         "root"
       ],
-      "run_id": "branch_01M85J5ASV3MGJQRSVDGY9ZNB1",
+      "run_id": "branch_01M86G9PJZ2QJ6E870BCNF6KKX",
       "schema_version": "1.1.0",
       "shortcut_risk_signals": [],
-      "task_id": "code_01m85j4ypkebd7r8",
+      "task_id": "code_01m86g8mftbwzka3",
       "tool_calls": [],
       "unresolved_assumptions": []
     }
