@@ -1,7 +1,8 @@
 {
   "schema_version": "1.0.0",
   "baseline": {
-    "accepted_commit": "92b0b66e233bb78d1c9f9821314b06788bfd830b",
+    "accepted_commit": "4ca4f7f73aa7357528ea0502e93fdeda030683f2",
+    "release": "clack-v0.9.14",
     "unresolved": {
       "claim:clack-hero-mascot": {
         "falsifier": "The emoji remains, the mascot fails to load or appears on a line by itself, or either tagline is clipped.",
@@ -11,22 +12,19 @@
     }
   },
   "change": {
-    "id": "change_01M86G9PFQKW4B26NQN6X1DG3N",
-    "base_commit": "92b0b66e233bb78d1c9f9821314b06788bfd830b",
+    "id": "change_01M87ZSJYPDCBJG0RYSY2EMYW8",
+    "base_commit": "4ca4f7f73aa7357528ea0502e93fdeda030683f2",
     "target_base": "origin/main"
   },
   "checkpoints": [
     {
-      "id": "clack-hero-journey-trailer",
-      "summary": "Recut Clack's 30-second native gameplay trailer as a hero's journey with starter homes, copper mining, early fights, Kelp Lantern, midpoint Staff Shop Sunclaw Scepter upgrade, airborne Tidehex, upgraded homes, Imperial Dome victory, and closing line 'code with the crabs'; update captions, asset query versions, and living specs.",
-      "input_digest": "sha256:7560bab8de0110726a27bd553baf8d46c563329666d89fa8227f9f33843cd3a9",
-      "proof_refs": [
-        "ffprobe verified 1280x720 24fps 720 frames 30.000s H.264 High yuv420p + AAC 48kHz stereo faststart MP4; 30-frame contact sheet and closing frame verified hero's journey ordering and exact on-screen line 'code with the crabs'."
-      ]
+      "id": "feat_01m87zr6qy7kbdrz",
+      "summary": "Add versioned /trust privacy contract, footer links, and zero-tracker Deno tests",
+      "input_digest": "sha256:bf66c6755369d2d098a87d6f661f82c88eeefed76e04629a25eecb916e74643c"
     }
   ],
   "intents": {
-    "intent:change_01M86G9PFQKW4B26NQN6X1DG3N": {
+    "intent:change_01M87ZSJYPDCBJG0RYSY2EMYW8": {
       "acceptance_criteria": [],
       "assumptions": [],
       "boundaries": [
@@ -36,60 +34,51 @@
         "root"
       ],
       "created_sequence": 1,
-      "id": "intent:change_01M86G9PFQKW4B26NQN6X1DG3N",
+      "id": "intent:change_01M87ZSJYPDCBJG0RYSY2EMYW8",
       "instruction_origin": {
         "source_ref": "caller:unverified"
       },
       "out_of_scope": [],
       "proof_requirements": [],
-      "raw_intent": "Recut Clack trailer as a hero's journey and publish on decapodlabs.ai/clack",
-      "refined_intent": "Recut Clack trailer as a hero's journey and publish on decapodlabs.ai/clack",
+      "raw_intent": "Add /trust privacy and trust contract",
+      "refined_intent": "Add /trust privacy and trust contract",
       "status": "refined",
       "updated_sequence": 3
     }
   },
   "sections": {
     "plan": {
-      "constraints": {
-        "file_touch_budget": null,
-        "forbidden_paths": []
-      },
-      "deferred_questions": [],
-      "human_questions": [],
-      "intent": "Recut Clack's 30-second gameplay trailer as a hero's journey from starter homes, copper mining, early fights, and Kelp Lantern through a midpoint Staff Shop Sunclaw Scepter upgrade to airborne Tidehex, upgraded homes, Imperial Dome victory, and closing line 'code with the crabs'. Update MP4, WebVTT captions, poster, asset query versions, and living specs, validate with Decapod, merge PR, and verify live desktop and mobile playback.",
-      "phases": [],
+      "constraints": {},
+      "intent": "Add /trust privacy and trust contract",
       "proof_hooks": [
-        "FFprobe confirms 1280x720 24fps 30.000s H.264/AAC MP4 with faststart; extracted frames verify hero's journey order and exact 'code with the crabs' closing card; decapod validate passes; live desktop and mobile headless Chrome playback verified on https://decapodlabs.ai/clack/."
+        "decapod validate"
       ],
       "schema_version": "1.1.0",
-      "state": "APPROVED",
-      "stop_conditions": [],
-      "title": "Recut Clack 30-second trailer as a hero's journey",
+      "state": "DRAFT",
+      "title": "Add /trust privacy and trust contract",
       "todo_ids": [
-        "code_01m86g8mftbwzka3"
+        "feat_01m87zr6qy7kbdrz"
       ],
-      "unknowns": [],
-      "unresolved_contradictions": [],
-      "updated_at": "1795515059Z"
+      "updated_at": "1795564555Z"
     },
     "trajectory": {
       "active_boundaries": [
         "Current claimed task and isolated work branch"
       ],
-      "artifact_hash": "sha256:65b9c27e05c38d587cc102ef04a26868ba5186b263b98fe938a1bf24edefbe96",
+      "artifact_hash": "sha256:d35d800363f1675190a9440efaf0a56bdb443e98f7ddaedd00b9f219d72cc6cf",
       "checks": [],
       "current_phase": "intent",
       "custody": {
         "events": [
           {
             "event_id": "event:2",
-            "intent_id": "intent:change_01M86G9PFQKW4B26NQN6X1DG3N",
+            "intent_id": "intent:change_01M87ZSJYPDCBJG0RYSY2EMYW8",
             "kind": "created",
             "sequence": 2
           },
           {
             "event_id": "event:3",
-            "intent_id": "intent:change_01M86G9PFQKW4B26NQN6X1DG3N",
+            "intent_id": "intent:change_01M87ZSJYPDCBJG0RYSY2EMYW8",
             "kind": "refined",
             "sequence": 3
           }
@@ -103,7 +92,7 @@
       "destination": "pull request",
       "evidence": [],
       "inspected_files": [],
-      "intent_id": "intent:change_01M86G9PFQKW4B26NQN6X1DG3N",
+      "intent_id": "intent:change_01M87ZSJYPDCBJG0RYSY2EMYW8",
       "modified_files": [],
       "next_transitions": [
         "Refine plan and declare falsifiable checks"
@@ -111,10 +100,10 @@
       "repo_scope": [
         "root"
       ],
-      "run_id": "branch_01M86G9PJZ2QJ6E870BCNF6KKX",
+      "run_id": "branch_01M87ZSK3DZXWFN53356WRT7RX",
       "schema_version": "1.1.0",
       "shortcut_risk_signals": [],
-      "task_id": "code_01m86g8mftbwzka3",
+      "task_id": "feat_01m87zr6qy7kbdrz",
       "tool_calls": [],
       "unresolved_assumptions": []
     }
