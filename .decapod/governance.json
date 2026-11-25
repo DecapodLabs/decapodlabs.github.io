@@ -26,6 +26,11 @@
       "id": "feat_01m87zr6qy7kbdrz-approved",
       "summary": "Approve plan for /trust privacy contract PR",
       "input_digest": "sha256:fd841e33a90c2c8fbc16f7b24be59fa2a495d011ba4406e5ee953ab7aa932f1f"
+    },
+    {
+      "id": "feat_01m87zr6qy7kbdrz-reviewed",
+      "summary": "Record spec reviews for /trust privacy contract PR",
+      "input_digest": "sha256:424e1afe1dfee20ebacfa9cab3fbb3b167f6caa506c8a88863bef2a06f051719"
     }
   ],
   "intents": {
@@ -65,6 +70,29 @@
         "decapod validate"
       ],
       "schema_version": "1.1.0",
+      "spec_reviews": [
+        {
+          "disposition": "updated",
+          "path": ".decapod/managed/specs/ARCHITECTURE.md",
+          "reason": "Reviewed against /trust/index.html, footer updates, and tests/trust_privacy_contract_test.ts",
+          "reviewed_code_fingerprint": "9a80a566a672bcc2f324a487b2e08c5a91eff24107b4b3922101389ff1e43469",
+          "spec_material_hash": "ce729c6d7a763815637c5afc42bf04bdb61f0f1b1603fec3cbd707d5c4f6435c"
+        },
+        {
+          "disposition": "updated",
+          "path": ".decapod/managed/specs/INTERFACES.md",
+          "reason": "Reviewed against /trust/index.html, footer updates, and tests/trust_privacy_contract_test.ts",
+          "reviewed_code_fingerprint": "9a80a566a672bcc2f324a487b2e08c5a91eff24107b4b3922101389ff1e43469",
+          "spec_material_hash": "46c1c7c45f09aa6a6724ec69446fb1c87ee2d477952f2c3dd8c3b2ab9213f961"
+        },
+        {
+          "disposition": "updated",
+          "path": ".decapod/managed/specs/SECURITY.md",
+          "reason": "Reviewed against /trust/index.html, footer updates, and tests/trust_privacy_contract_test.ts",
+          "reviewed_code_fingerprint": "9a80a566a672bcc2f324a487b2e08c5a91eff24107b4b3922101389ff1e43469",
+          "spec_material_hash": "8ffaa11634369183e27f26afcb8b22b38e13187b8c20ff1ff4b50b45f78405fd"
+        }
+      ],
       "state": "APPROVED",
       "stop_conditions": [],
       "title": "Add /trust privacy and trust contract",
@@ -73,7 +101,7 @@
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1795565023Z"
+      "updated_at": "1795565096Z"
     },
     "trajectory": {
       "active_boundaries": [
