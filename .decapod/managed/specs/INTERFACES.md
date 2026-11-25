@@ -1,5 +1,10 @@
 # Interfaces
 
+## Behavioral Privacy & Trust Contract Interface (`/trust/index.html`)
+
+- **Version Metadata:** `<meta name="decapod-trust-contract-version" content="1.0.0">` and `<meta name="decapod-trust-effective-date" content="2026-11-24">` plus visible contract metadata, change-control guarantee, and changelog section.
+- **Footer Navigation:** All primary site pages (`index.html`, `pricing.html`, `pricing/index.html`, `signup/index.html`, `clack/index.html`, `tecr.html`, `admin/index.html`, `trust/index.html`) include `<a href="/trust/index.html">Trust &amp; Privacy ↗</a>` inside `.footer-grid`.
+
 index.html links to pricing.html from navigation and its highlighted hero entry. The dedicated document loads shared styles, pricing.css and local pricing.js controls with illustrative $X values. offerings.html is a noindex redirect. Its Get started links go to https://decapodlabs.github.io/decapod/quickstart.html. Cloud uses a disabled native button with an accessible availability description and a decorative Coming soon sticker; no anchor, form, click handler or purchase API is attached.
 
 ## Inbound Contracts
@@ -131,8 +136,8 @@ Generated capability obligations: `public-api` is declared for this project. The
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `d679387470586d94af1e08534714adac79032fce4d95c17e4c6f60f3542d80da`
-- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (8 files)
+- Repository signal fingerprint: `9a80a566a672bcc2f324a487b2e08c5a91eff24107b4b3922101389ff1e43469`
+- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (9 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->
 
