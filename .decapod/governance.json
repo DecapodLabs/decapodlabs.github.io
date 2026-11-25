@@ -21,6 +21,11 @@
       "id": "feat_01m87zr6qy7kbdrz",
       "summary": "Add versioned /trust privacy contract, footer links, and zero-tracker Deno tests",
       "input_digest": "sha256:bf66c6755369d2d098a87d6f661f82c88eeefed76e04629a25eecb916e74643c"
+    },
+    {
+      "id": "feat_01m87zr6qy7kbdrz-approved",
+      "summary": "Approve plan for /trust privacy contract PR",
+      "input_digest": "sha256:fd841e33a90c2c8fbc16f7b24be59fa2a495d011ba4406e5ee953ab7aa932f1f"
     }
   ],
   "intents": {
@@ -48,18 +53,27 @@
   },
   "sections": {
     "plan": {
-      "constraints": {},
+      "constraints": {
+        "file_touch_budget": null,
+        "forbidden_paths": []
+      },
+      "deferred_questions": [],
+      "human_questions": [],
       "intent": "Add /trust privacy and trust contract",
+      "phases": [],
       "proof_hooks": [
         "decapod validate"
       ],
       "schema_version": "1.1.0",
-      "state": "DRAFT",
+      "state": "APPROVED",
+      "stop_conditions": [],
       "title": "Add /trust privacy and trust contract",
       "todo_ids": [
         "feat_01m87zr6qy7kbdrz"
       ],
-      "updated_at": "1795564555Z"
+      "unknowns": [],
+      "unresolved_contradictions": [],
+      "updated_at": "1795565023Z"
     },
     "trajectory": {
       "active_boundaries": [
