@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#fff5e9">
+<meta name="referrer" content="no-referrer">
+<meta name="decapod-trust-contract-version" content="1.0.0">
+<meta name="decapod-trust-effective-date" content="2026-11-24">
+<meta name="description" content="Decapod Labs Behavioral Privacy &amp; Trust Contract: zero covert analytics, strictly declared network egress across Local CLI, Decapod Cloud, Dactyl, and Clack, Cloudflare relay transparency, and permanent trust invariants.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Decapod Labs">
+<meta property="og:title" content="Trust &amp; Privacy Contract — Decapod Labs">
+<meta property="og:description" content="Every network request is a documented consequence of an explicitly selected capability. Versioned behavioral privacy contract for Decapod, Cloud, Dactyl, and Clack.">
+<meta property="og:image" content="https://decapodlabs.ai/assets/social-preview.png">
+<meta property="og:url" content="https://decapodlabs.ai/trust/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://decapodlabs.ai/trust/">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css?v=20261123-current-nav">
+<link rel="stylesheet" href="/trust/trust.css?v=20261124-trust1">
+<title>Trust &amp; Privacy Contract — Decapod Labs</title>
+</head>
+<body class="trust-page site-footer-pinned">
+<a class="skip" href="#main">Skip to content</a>
+<header class="nav">
+  <div class="wrap nav-content">
+    <a href="/" class="brand" aria-label="Decapod Labs home"><img class="site-wordmark" src="/assets/logo-a.png" alt="Decapod Labs" width="420" height="140"></a>
+    <nav class="nav-links" aria-label="Site navigation">
+      <a href="/#showcase">Showcase</a>
+      <a href="/#features">Features</a>
+      <a href="/#architecture">Architecture</a>
+      <a href="/tecr.html">Rework</a>
+      <a href="/clack/index.html">Clack</a>
+      <a class="nav-pricing" href="/pricing.html">Pricing</a>
+    </nav>
+    <a class="nav-cta" href="https://github.com/DecapodLabs/decapod" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>
+  </div>
+</header>
+<main id="main">
+  <section class="trust-hero" aria-labelledby="trust-heading">
+    <div class="wrap trust-hero-grid">
+      <div>
+        <p class="trust-eyebrow">BEHAVIORAL PRIVACY &amp; TRUST CONTRACT</p>
+        <h1 id="trust-heading">Every byte accounted for.<br><span>Zero covert collection.</span></h1>
+        <p class="trust-intro">Every network transmission in Decapod Labs software is a documented consequence of an explicitly selected capability. Local governance stays on your machine. Hosted services disclose their exact endpoints, relay behavior, credential isolation, and revocation boundaries below.</p>
+      </div>
+      <aside class="trust-meta-card" aria-label="Contract version metadata">
+        <h2>Contract Metadata</h2>
+        <ul class="trust-meta-list">
+          <li><strong>Contract Version</strong><span><code>1.0.0</code></span></li>
+          <li><strong>Effective Date</strong><span><time datetime="2026-11-24">2026-11-24</time></span></li>
+          <li><strong>Third-Party Analytics &amp; Pixels</strong><span>Zero across website, CLI, Cloud, Dactyl, and Clack</span></li>
+        </ul>
+        <p class="trust-change-promise"><strong>Change-Control Guarantee:</strong> Removing or weakening a guarantee requires explicit version increment and changelog entry; updates never silently broaden collection.</p>
+      </aside>
+    </div>
+  </section>
+
+  <section class="trust-section" aria-labelledby="surface-scope-heading">
+    <div class="wrap">
+      <div class="trust-section-heading">
+        <p class="trust-eyebrow">PRODUCT BOUNDARIES</p>
+        <h2 id="surface-scope-heading">What runs locally, and what touches the network.</h2>
+        <p>We distinguish strictly between offline local-first products and explicitly enabled hosted services. We never claim a hosted service observes nothing, and we never advertise unqualified zero-network claims for cloud features.</p>
+      </div>
+      <div class="trust-grid-2">
+        <article class="trust-card" id="scope-local-decapod">
+          <span class="trust-card-tag">01 / DECAPOD LOCAL CLI &amp; CORE</span>
+          <h3>Zero telemetry. Zero analytics.</h3>
+          <p>Running <code>decapod</code> in default <code>local</code> mode stores governance state, SQLite databases, trajectories, and proofs strictly inside your local repository.</p>
+          <ul>
+            <li>No background daemon, heartbeat, crash reporter, or usage beacon.</li>
+            <li>Local observability projections remain read-only files in your repository with no default upload.</li>
+            <li>Network egress occurs only when you explicitly configure Cloud backend mode or invoke an explicit remote command.</li>
+          </ul>
+        </article>
+        <article class="trust-card" id="scope-decapod-cloud">
+          <span class="trust-card-tag">02 / DECAPOD CLOUD (HOSTED)</span>
+          <h3>Strictly declared service endpoints.</h3>
+          <p>When you opt in to Decapod Cloud, hosted APIs necessarily process authenticated identity, repository-scoped task/proof traffic, and billing state.</p>
+          <ul>
+            <li><strong>Declared endpoints only:</strong> GitHub OAuth &amp; API (and optional GitLab when enabled), Supabase Auth/PostgREST/Edge Functions, Stripe API for billing, and our first-party Cloudflare Worker API gateway.</li>
+            <li>Zero third-party analytics SDKs, ad networks, or tracking pixels on the website, Cloud Signup, or Cloud Admin.</li>
+            <li>Minimal operational diagnostics scrub credentials, tokens, emails, and DSNs before logging.</li>
+          </ul>
+        </article>
+        <article class="trust-card" id="scope-dactyl">
+          <span class="trust-card-tag">03 / DACTYL STORAGE ADAPTER</span>
+          <h3>Local SQLite = zero egress.</h3>
+          <p>Dactyl provides bounded, origin-validated storage transport with explicit backend selection.</p>
+          <ul>
+            <li><strong>Local SQLite mode:</strong> Performs zero network egress outside loopback test fixtures.</li>
+            <li><strong>Optional remote modes (<code>neon</code> / <code>supabase</code>):</strong> Enforce HTTPS-only connections, strict origin validation, and disabled cross-origin redirects.</li>
+          </ul>
+        </article>
+        <article class="trust-card" id="scope-clack">
+          <span class="trust-card-tag">04 / CLACK FOR MACOS</span>
+          <h3>Local workspace isolation &amp; opt-in boundaries.</h3>
+          <p>Clack keeps project files and home-directory state local while making external integrations explicit user choices.</p>
+          <ul>
+            <li><strong>Local models:</strong> Loopback Ollama communication stays on your machine.</li>
+            <li><strong>Coding agent providers:</strong> Subprocess execution invokes only the coding agent executable you select; that provider's own CLI and ambient environment form an explicit external trust boundary.</li>
+            <li><strong>Solana &amp; Browser:</strong> Solana mainnet RPC runs only for deliberate wallet actions; the built-in browser navigates only where you direct it.</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="trust-section trust-section-dark" id="relay-transparency" aria-labelledby="relay-heading">
+    <div class="wrap">
+      <div class="trust-section-heading">
+        <p class="trust-eyebrow">CLOUDFLARE WORKERS RELAY TRANSPARENCY</p>
+        <h2 id="relay-heading">What our API gateway sees, forwards, and refuses to keep.</h2>
+        <p>Public API traffic at <code>https://api.decapodlabs.ai</code> passes through a stateless Cloudflare Worker relay to our primary Supabase backend. Here is the exact operational boundary.</p>
+      </div>
+      <div class="trust-grid-3">
+        <article class="trust-card">
+          <span class="trust-card-tag">OBSERVED AT EDGE</span>
+          <h3>Transient request metadata</h3>
+          <ul>
+            <li>TLS-terminated HTTP method, host, route path, and query string (capped at 8,192 bytes).</li>
+            <li>Client authorization and signature headers forwarded for upstream validation.</li>
+            <li>Edge response status and Cloudflare Ray timing metadata.</li>
+          </ul>
+        </article>
+        <article class="trust-card">
+          <span class="trust-card-tag">STRIPPED &amp; ATTESTED</span>
+          <h3>Header normalization</h3>
+          <ul>
+            <li>Strips caller-supplied proxy spoofing headers (<code>X-Forwarded-Host</code>, <code>Forwarded</code>, and unauthenticated proxy headers).</li>
+            <li>Signs bounded HMAC-SHA256 route attestation headers for DPoP URI verification.</li>
+            <li>Forwards raw webhook payloads untouched and enforces <code>redirect: manual</code>.</li>
+          </ul>
+        </article>
+        <article class="trust-card">
+          <span class="trust-card-tag">NEVER RETAINED OR EXECUTED</span>
+          <h3>Zero Worker persistence</h3>
+          <ul>
+            <li>Zero request-body, JWT, DPoP key, or webhook secret logging in Worker code.</li>
+            <li>Zero KV, D1, R2, or Cache API persistent storage bindings.</li>
+            <li>Executes no database queries and fails closed on unknown or traversal paths (404 / 503).</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="trust-section" id="egress-table" aria-labelledby="endpoints-heading">
+    <div class="wrap">
+      <div class="trust-section-heading">
+        <p class="trust-eyebrow">DECLARED ENDPOINTS</p>
+        <h2 id="endpoints-heading">Declared outbound destinations for hosted features.</h2>
+        <p>Automated build and test gates fail if undocumented third-party analytics, tracking beacons, or undeclared outbound origins are introduced.</p>
+      </div>
+      <div class="trust-table-wrap">
+        <table class="trust-table">
+          <thead>
+            <tr>
+              <th>Endpoint / Origin</th>
+              <th>Triggering Action</th>
+              <th>Data Scope</th>
+              <th>Boundary &amp; Retention</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>https://github.com</code> &amp; <code>https://api.github.com</code></td>
+              <td>User OAuth sign-in, repository enrollment, or authorized operator grant check</td>
+              <td>OAuth PKCE code, in-memory token, numeric user/repo/org IDs, admin permission check</td>
+              <td>Provider tokens used once in memory and never persisted; HTTPS + no-redirect enforced</td>
+            </tr>
+            <tr>
+              <td><code>https://gitlab.com</code></td>
+              <td>Optional GitLab sign-in or repo enrollment when enabled</td>
+              <td>OAuth params, in-memory token, numeric user/project/namespace IDs</td>
+              <td>Disabled by default unless server auth provider is enabled; tokens never persisted</td>
+            </tr>
+            <tr>
+              <td><code>https://api.stripe.com</code></td>
+              <td>Billing admin checkout, portal, or explicitly opted-in overage metering</td>
+              <td>Merchant/customer/price IDs, seat quantities, bounded meter units</td>
+              <td>Restricted mode-bound keys, merchant/product firewall, default-OFF paid overages</td>
+            </tr>
+            <tr>
+              <td><code>https://api.decapodlabs.ai</code> &amp; Supabase project origin</td>
+              <td>CLI Cloud commands, Cloud Signup, Cloud Admin</td>
+              <td>JWT / RFC 9449 DPoP proof, repo-scoped task/event/proof state, billing status</td>
+              <td>Stateless Worker relay; strict tenant RLS &amp; DPoP replay protection in backend</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="trust-section trust-section-alt" id="invariants" aria-labelledby="invariants-heading">
+    <div class="wrap">
+      <div class="trust-section-heading">
+        <p class="trust-eyebrow">PERMANENT GUARANTEES</p>
+        <h2 id="invariants-heading">Nine permanent trust invariants.</h2>
+        <p>These invariants govern architecture, engineering reviews, and automated verification across Decapod, Dactyl, Propodus, Clack, and decapodlabs.ai.</p>
+      </div>
+      <div class="trust-invariants">
+        <article class="trust-invariant"><span>01 / DATA SCOPE</span><h3>Purpose minimization</h3><p>Only fields strictly needed for the selected action are transmitted. Ambient home-directory secrets and unrelated repositories are never read or uploaded.</p></article>
+        <article class="trust-invariant"><span>02 / AUTHORIZATION</span><h3>Fail-closed boundaries</h3><p>Cloud operations require verified JWT + local AAL2 MFA step-up for sensitive changes, RFC 9449 DPoP proof-of-possession, and tenant-scoped RLS.</p></article>
+        <article class="trust-invariant"><span>03 / RETENTION</span><h3>Explicit lifecycle separation</h3><p>Sensitive payloads can be redacted and garbage-collected without falsifying immutable structural audit digests. Legal retention stays governed by explicit policy.</p></article>
+        <article class="trust-invariant"><span>04 / CONSENT</span><h3>Default-OFF paid overages</h3><p>Paid overages are off by default with zero silent spend. Enabling overages requires an explicit billing-admin action, versioned terms consent, and a finite spend cap.</p></article>
+        <article class="trust-invariant"><span>05 / REVOCATION</span><h3>Effective immediately</h3><p>Revoking a device key, session, provider link, or repository grant takes immediate effect at the control plane; refresh token reuse revokes the entire session family.</p></article>
+        <article class="trust-invariant"><span>06 / SOVEREIGNTY</span><h3>Identity sovereignty</h3><p>Accounts across GitHub, Google, and GitLab are never silently auto-merged. Linking requires live authenticated session continuity and explicit user confirmation.</p></article>
+        <article class="trust-invariant"><span>07 / NO FINGERPRINTING</span><h3>Zero cross-site tracking</h3><p>Zero browser fingerprinting, zero third-party analytics, zero ad pixels, and zero cross-tenant correlation via unhashed identifiers.</p></article>
+        <article class="trust-invariant"><span>08 / CREDENTIAL ISOLATION</span><h3>Strict key boundaries</h3><p>Provider tokens stay isolated to their fixed origin; billing keys are pinned to Stripe; administrative DB credentials are forbidden in routine operations.</p></article>
+        <article class="trust-invariant"><span>09 / INTEGRITY &amp; ACCOUNTABILITY</span><h3>Verifiable artifacts</h3><p>Release downloads include SHA-256 checksums, commits are cryptographically signed, backups are AES-256-GCM verified, and telemetry passes zero-leak checks.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="trust-section" id="incident-accountability" aria-labelledby="incident-heading">
+    <div class="wrap trust-grid-2">
+      <div>
+        <div class="trust-section-heading">
+          <p class="trust-eyebrow">INCIDENT ACCOUNTABILITY &amp; REVOCATION</p>
+          <h2 id="incident-heading">How to report a concern or revoke access.</h2>
+          <p>Security disclosures, privacy questions, and suspected credential exposures are handled directly by Decapod Labs maintainers with deterministic containment and commit-bound evidence.</p>
+        </div>
+        <div class="trust-card">
+          <h3>Disclosure &amp; Revocation Channels</h3>
+          <ul>
+            <li><strong>Security &amp; Privacy Advisories:</strong> Submit a private vulnerability report via <a href="https://github.com/DecapodLabs/decapod/security/advisories/new">GitHub Security Advisories ↗</a> or open an issue on <a href="https://github.com/DecapodLabs/decapod/issues">DecapodLabs/decapod ↗</a> for non-sensitive contract questions.</li>
+            <li><strong>Self-Service Revocation:</strong> Revoke enrolled device keys and active sessions immediately from <a href="/admin">Cloud Admin</a> or via the CLI device-revocation flow.</li>
+            <li><strong>Response Commitment:</strong> Suspected token or egress anomalies trigger immediate key rotation, fail-closed access fencing, and redacted post-incident verification tied to exact commit SHAs.</li>
+          </ul>
+        </div>
+      </div>
+      <div>
+        <div class="trust-section-heading">
+          <p class="trust-eyebrow">CONTRACT CHANGELOG</p>
+          <h2 id="changelog-heading">Version history.</h2>
+          <p>No guarantee in this contract may be weakened or removed without incrementing the contract version and documenting the change here.</p>
+        </div>
+        <ul class="trust-changelog">
+          <li><strong>v1.0.0 — 2026-11-24:</strong> Initial Behavioral Privacy &amp; Trust Contract covering Decapod Local CLI, Decapod Cloud, Dactyl, Clack, Cloudflare Workers relay transparency, declared endpoints, all 9 permanent trust invariants, and incident accountability channels.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</main>
+<footer class="footer"><div class="wrap footer-grid"><a href="/" class="footer-brand" aria-label="Decapod Labs home"><img class="site-wordmark" src="/assets/logo-c.png?v=20261118-footer" alt="Decapod Labs" width="420" height="140"></a><span>© 2026 Decapod Labs</span><div><a href="/pricing.html">Pricing ↗</a><a href="/trust/index.html" aria-current="page">Trust &amp; Privacy ↗</a><a href="https://github.com/DecapodLabs/decapod">GitHub ↗</a><a href="https://decapodlabs.github.io/decapod/">Read the docs ↗</a></div></div></footer>
+</body>
+</html>

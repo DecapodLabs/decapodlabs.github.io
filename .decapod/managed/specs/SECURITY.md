@@ -1,5 +1,9 @@
 # Security
 
+## Public Privacy Contract & Zero-Tracker Verification (`tests/trust_privacy_contract_test.ts`)
+
+`tests/trust_privacy_contract_test.ts` enforces that zero third-party analytics, tracking pixels, fingerprinting scripts, or external telemetry beacons exist across all HTML and JS assets in the site, and confirms `trust/index.html` discloses exact product boundaries, Cloudflare Worker relay non-persistence, all nine permanent trust invariants, and GitHub Security Advisories / `/admin` revocation channels without leaking private backend identifiers or altering `UNDER WRAPS` pre-launch commercial gating.
+
 The homepage, pricing preview and proof page contain public static content only. Local is free without signup. Cloud is a Coming soon preview: its native-disabled button has no checkout target or handler. No authoritative price or claim of current hosted activation is displayed. Benefits are explicitly planned for launch.
 
 ## Authorization
@@ -117,14 +121,14 @@ Generated capability obligations: `public-api` is declared for this project. The
 
 ## Codebase Contract Snapshot
 
-- Security/policy/auth surfaces (0): none detected
+- Security/policy/auth surfaces (1): `tests/trust_privacy_contract_test.ts`
 <!-- decapod:codebase-contract:end -->
 
 <!-- decapod:codebase-attestation:start -->
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `d679387470586d94af1e08534714adac79032fce4d95c17e4c6f60f3542d80da`
-- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (8 files)
+- Repository signal fingerprint: `9a80a566a672bcc2f324a487b2e08c5a91eff24107b4b3922101389ff1e43469`
+- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (9 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->

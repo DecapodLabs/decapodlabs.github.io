@@ -1,5 +1,9 @@
 # Architecture
 
+## Privacy & Trust Contract Surface (`trust/index.html`, `trust/trust.css`, `tests/trust_privacy_contract_test.ts`)
+
+`trust/index.html` is a static semantic HTML page styled with `styles.css` and `trust/trust.css` using the existing Decapod Labs typography and palette, with zero third-party scripts, tracking pixels, or analytics beacons. `tests/trust_privacy_contract_test.ts` scans every `.html` and `.js` asset in the repository to fail closed on third-party trackers, external `<script src>` embeds, fingerprinting scripts, missing contract metadata/disclosures, or missing footer links.
+
 GitHub Pages serves a static homepage and a dedicated pricing.html preview. Existing styles.css supplies branding and responsive layout; main.js retains film controls and install-selection/copy behavior on the homepage. pricing.js updates illustrative assignment, discount and resource-capacity controls locally; no application server or payment authority is introduced. offerings.html redirects to pricing.html. Website-owned media generation extends the existing renderer and main/manual workflow with verified real-agent launch assets.
 
 ## Direction
@@ -109,8 +113,8 @@ Generated capability obligations: `persistent-state` is declared for this projec
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `d679387470586d94af1e08534714adac79032fce4d95c17e4c6f60f3542d80da`
-- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (8 files)
+- Repository signal fingerprint: `9a80a566a672bcc2f324a487b2e08c5a91eff24107b4b3922101389ff1e43469`
+- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (9 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->
 
