@@ -967,9 +967,20 @@
 
       var reposValEl = byId("overview-repos-value");
       var reposMetaEl = byId("overview-repos-meta");
-      if (reposValEl) reposValEl.textContent = String(orgProjects.length);
+      var purchasedRepoSlots = billingStateSnapshot && Number.isSafeInteger(billingStateSnapshot.purchased_repository_slots)
+        ? billingStateSnapshot.purchased_repository_slots
+        : orgProjects.length;
+      var activatedRepos = billingStateSnapshot && Number.isSafeInteger(billingStateSnapshot.activated_repositories)
+        ? billingStateSnapshot.activated_repositories
+        : lastCapacities.length;
+      var availRepoSlots = billingStateSnapshot && Number.isSafeInteger(billingStateSnapshot.available_repository_slots)
+        ? billingStateSnapshot.available_repository_slots
+        : 0;
+      if (reposValEl) reposValEl.textContent = String(billingStateSnapshot ? purchasedRepoSlots : orgProjects.length);
       if (reposMetaEl) {
-        reposMetaEl.textContent = orgProjects.length === 1 ? "1 repository enrolled" : orgProjects.length + " repositories enrolled";
+        reposMetaEl.textContent = billingStateSnapshot
+          ? (activatedRepos + " activated · " + availRepoSlots + " reserved slots")
+          : (orgProjects.length === 1 ? "1 repository enrolled" : orgProjects.length + " repositories enrolled");
       }
 
       var subValEl = byId("overview-sub-status");
@@ -978,8 +989,13 @@
       var seatsMetaEl = byId("overview-seats-meta");
       if (billingStateSnapshot) {
         var b = billingStateSnapshot;
-        var totalCap = Number(b.quantity || 0);
-        var totalAssigned = lastCapacities.reduce(function (acc, c) { return acc + Number(c.assigned || 0); }, 0);
+        var totalCap = Number.isSafeInteger(b.purchased_contributor_capacity) ? b.purchased_contributor_capacity : Number(b.quantity || 0);
+        var totalAssigned = Number.isSafeInteger(b.assigned_contributor_capacity)
+          ? b.assigned_contributor_capacity
+          : lastCapacities.reduce(function (acc, c) { return acc + Number(c.assigned || 0); }, 0);
+        var availSeats = Number.isSafeInteger(b.available_contributor_capacity)
+          ? b.available_contributor_capacity
+          : Math.max(0, totalCap - totalAssigned);
         if (subValEl) {
           subValEl.textContent = b.risk_hold
             ? "Action needed"
@@ -993,7 +1009,7 @@
           subMetaEl.textContent = b.risk_hold ? "Billing hold active — open Billing" : (cadLabel + until);
         }
         if (seatsValEl) seatsValEl.textContent = totalCap > 0 ? (totalAssigned + " / " + totalCap) : "0";
-        if (seatsMetaEl) seatsMetaEl.textContent = totalCap > 0 ? "Assigned vs purchased seats" : "Purchase seats to enable repo access";
+        if (seatsMetaEl) seatsMetaEl.textContent = totalCap > 0 ? (availSeats + " unassigned seats available") : "Purchase seats to enable repo access";
       } else if (!billingSectionLoaded) {
         if (subValEl) subValEl.textContent = "Loading…";
         if (subMetaEl) subMetaEl.textContent = "Checking subscription status…";
@@ -1040,27 +1056,75 @@
       var settingsSelect = byId("admin-settings-project-select");
       var settingsName = byId("admin-settings-project-name");
       var assignSelect = byId("admin-assign-project-select");
+      var bindProjSelect = byId("admin-bind-project-select");
+      var bindResSelect = byId("admin-bind-reservation-select");
+      var policyProjSelect = byId("admin-policy-project-select");
+      var availCountEl = byId("admin-avail-res-count");
       if (!tbody) return;
 
       tbody.replaceChildren();
       if (settingsSelect) settingsSelect.replaceChildren();
       if (assignSelect) assignSelect.replaceChildren();
+      if (bindProjSelect) bindProjSelect.replaceChildren();
+      if (policyProjSelect) policyProjSelect.replaceChildren();
       if (emptyNote) emptyNote.hidden = orgProjects.length > 0;
 
+      var reservations = billingStateSnapshot && Array.isArray(billingStateSnapshot.reservations) ? billingStateSnapshot.reservations : [];
+      var availReservations = reservations.filter(function (r) { return r && r.status === "available"; });
+      if (availCountEl) availCountEl.textContent = String(availReservations.length);
+      if (bindResSelect) {
+        bindResSelect.replaceChildren();
+        if (availReservations.length === 0) {
+          var emptyOpt = doc.createElement("option");
+          emptyOpt.value = "";
+          emptyOpt.textContent = "No available reservations";
+          bindResSelect.appendChild(emptyOpt);
+        } else {
+          for (var rIdx = 0; rIdx < availReservations.length; rIdx++) {
+            var rItem = availReservations[rIdx];
+            var rOpt = doc.createElement("option");
+            rOpt.value = rItem.reservation_id;
+            rOpt.textContent = rItem.capacity + (rItem.capacity === 1 ? " seat slot" : " seats slot");
+            bindResSelect.appendChild(rOpt);
+          }
+        }
+      }
+
+      var enrolledMetaList = billingStateSnapshot && Array.isArray(billingStateSnapshot.enrolled_repositories)
+        ? billingStateSnapshot.enrolled_repositories
+        : [];
       for (var i = 0; i < orgProjects.length; i++) {
         var proj = orgProjects[i];
         var st = projectStates.get(proj.project_id) || {};
         var capEntry = lastCapacities.find(function (c) { return c.project_id === proj.project_id; });
+        var enrolledEntry = enrolledMetaList.find(function (e) { return e.project_id === proj.project_id; });
         var capLabel = billingReady && capEntry
           ? (String(capEntry.assigned || 0) + " / " + String(capEntry.capacity || 0) + " seats")
           : (billingReady ? "0 seats" : "No plan");
         var granted = st.backend_authorized === true;
+        var mode = (capEntry && capEntry.assignment_mode) || (enrolledEntry && enrolledEntry.assignment_mode) || st.assignment_mode || "manual_admin_only";
 
         var tr = doc.createElement("tr");
         var tdName = doc.createElement("td");
+        tdName.className = "ds-mono";
         tdName.textContent = proj.name || proj.project_id;
         var tdCap = doc.createElement("td");
+        tdCap.className = "ds-tabular";
         tdCap.textContent = capLabel;
+        var tdPolicy = doc.createElement("td");
+        tdPolicy.textContent = mode === "approved_members_auto_claim" ? "Auto-claim (org members)" : "Manual admin approval";
+        var tdContributors = doc.createElement("td");
+        tdContributors.className = "ds-tabular";
+        var roster = capEntry && Array.isArray(capEntry.assignments) ? capEntry.assignments : [];
+        if (roster.length > 0) {
+          var names = roster.map(function (a) {
+            var matchedMem = orgMembersCache.find(function (m) { return m.account_id === a.account_id; });
+            return matchedMem ? memberDisplayName(matchedMem) : String(a.account_id || "").slice(0, 8);
+          });
+          tdContributors.textContent = names.join(", ");
+        } else {
+          tdContributors.textContent = capEntry && capEntry.capacity > 0 ? "Unassigned (" + capEntry.capacity + " free)" : "—";
+        }
         var tdAccess = doc.createElement("td");
         var pill = doc.createElement("span");
         pill.className = "access-pill " + (granted ? "is-granted" : "is-admin-only");
@@ -1068,6 +1132,8 @@
         tdAccess.appendChild(pill);
         tr.appendChild(tdName);
         tr.appendChild(tdCap);
+        tr.appendChild(tdPolicy);
+        tr.appendChild(tdContributors);
         tr.appendChild(tdAccess);
         tbody.appendChild(tr);
 
@@ -1082,6 +1148,18 @@
           aOpt.value = proj.project_id;
           aOpt.textContent = proj.name || proj.project_id;
           assignSelect.appendChild(aOpt);
+        }
+        if (bindProjSelect) {
+          var bpOpt = doc.createElement("option");
+          bpOpt.value = proj.project_id;
+          bpOpt.textContent = proj.name || proj.project_id;
+          bindProjSelect.appendChild(bpOpt);
+        }
+        if (policyProjSelect) {
+          var ppOpt = doc.createElement("option");
+          ppOpt.value = proj.project_id;
+          ppOpt.textContent = proj.name || proj.project_id;
+          policyProjSelect.appendChild(ppOpt);
         }
       }
       if (settingsName) {
@@ -1125,11 +1203,28 @@
 
       var billingIds = [
         "admin-assign-seat-btn", "admin-revoke-seat-btn", "admin-more-billing-members-btn",
-        "admin-billing-portal-btn", "admin-cancel-order-btn"
+        "admin-billing-portal-btn", "admin-cancel-order-btn", "admin-bind-reservation-btn",
+        "admin-save-policy-btn"
       ];
       for (var k = 0; k < billingIds.length; k++) {
         var bEl = byId(billingIds[k]);
         if (bEl) bEl.disabled = !allowed || !billingReady || isBusy;
+      }
+      var bindBtn = byId("admin-bind-reservation-btn");
+      var availResList = billingStateSnapshot && Array.isArray(billingStateSnapshot.reservations)
+        ? billingStateSnapshot.reservations.filter(function (r) { return r && r.status === "available"; })
+        : [];
+      if (bindBtn) {
+        bindBtn.disabled = !allowed || !billingReady || isBusy || !hasRepos || availResList.length === 0;
+      }
+      var buySlotLink = byId("admin-buy-slot-link");
+      if (buySlotLink && activeOrg) {
+        buySlotLink.href = flow.buildSignupHandoffUrl({
+          origin: siteOrigin(),
+          repo: orgProjects[0] ? (orgProjects[0].name || orgProjects[0].project_id) : "",
+          billing: (billingStateSnapshot && billingStateSnapshot.cadence) || "month",
+          source: "admin"
+        });
       }
     }
 
@@ -1815,6 +1910,39 @@
             pendingBox.hidden = false;
           } else {
             pendingBox.hidden = true;
+          }
+        }
+        var resWrap = byId("admin-billing-reservations-wrap");
+        var resTbody = byId("admin-billing-reservations");
+        if (resWrap && resTbody) {
+          resTbody.replaceChildren();
+          var resList = Array.isArray(state.reservations) ? state.reservations : [];
+          if (resList.length > 0) {
+            for (var rIdx = 0; rIdx < resList.length; rIdx++) {
+              var rEntry = resList[rIdx];
+              var rTr = doc.createElement("tr");
+              var rTdStatus = doc.createElement("td");
+              rTdStatus.textContent = String(rEntry.status || "available");
+              var rTdBound = doc.createElement("td");
+              rTdBound.className = "ds-mono";
+              rTdBound.textContent = rEntry.bound_repository || (rEntry.bound_repo_id ? resolveProjectLabel(rEntry.bound_repo_id) : "Unbound (available)");
+              var rTdSeats = doc.createElement("td");
+              rTdSeats.className = "ds-tabular";
+              rTdSeats.textContent = String(rEntry.capacity || 0) + (rEntry.capacity === 1 ? " seat" : " seats");
+              var rTdValid = doc.createElement("td");
+              rTdValid.className = "ds-tabular";
+              rTdValid.textContent = typeof rEntry.valid_until === "string" && Number.isFinite(Date.parse(rEntry.valid_until))
+                ? new Date(rEntry.valid_until).toISOString().slice(0, 10)
+                : "—";
+              rTr.appendChild(rTdStatus);
+              rTr.appendChild(rTdBound);
+              rTr.appendChild(rTdSeats);
+              rTr.appendChild(rTdValid);
+              resTbody.appendChild(rTr);
+            }
+            resWrap.hidden = false;
+          } else {
+            resWrap.hidden = true;
           }
         }
         if (detailEl) detailEl.textContent = "";
@@ -2594,6 +2722,59 @@
           }, orgReqOpts(ctx));
           if (!isActiveContext(ctx)) return;
           if (statusEl) statusEl.textContent = "Repository seat removed.";
+          await refreshActiveOrganization();
+        });
+      }
+
+      var bindResBtn = byId("admin-bind-reservation-btn");
+      if (bindResBtn) {
+        bindResBtn.onclick = withOrgLock(async function (ctx) {
+          var projSel = byId("admin-bind-project-select");
+          var resSel = byId("admin-bind-reservation-select");
+          var statusEl = byId("admin-bind-reservation-status");
+          var projId = projSel ? projSel.value : "";
+          var resId = resSel ? resSel.value : "";
+          if (!projId || !resId) {
+            if (statusEl) statusEl.textContent = "Select an enrolled repository and an available reservation.";
+            return;
+          }
+          var bound = await edgePost("billing-manage", {
+            action: "bind_reservation",
+            organization_id: ctx.orgId,
+            project_id: projId,
+            reservation_id: resId,
+            request_id: makeRequestId()
+          }, orgReqOpts(ctx));
+          if (!isActiveContext(ctx)) return;
+          if (statusEl) {
+            statusEl.textContent = "Bound " + (bound.capacity_added || 1) + " reserved seats to " + resolveProjectLabel(projId) + ".";
+          }
+          await refreshActiveOrganization();
+        });
+      }
+
+      var savePolBtn = byId("admin-save-policy-btn");
+      if (savePolBtn) {
+        savePolBtn.onclick = withOrgLock(async function (ctx) {
+          var projSel = byId("admin-policy-project-select");
+          var modeSel = byId("admin-policy-mode-select");
+          var statusEl = byId("admin-policy-status");
+          var projId = projSel ? projSel.value : "";
+          var mode = modeSel ? modeSel.value : "manual_admin_only";
+          if (!projId) {
+            if (statusEl) statusEl.textContent = "Select a repository first.";
+            return;
+          }
+          var updated = await edgePost("billing-manage", {
+            action: "set_access_policy",
+            organization_id: ctx.orgId,
+            project_id: projId,
+            assignment_mode: mode
+          }, orgReqOpts(ctx));
+          if (!isActiveContext(ctx)) return;
+          if (statusEl) {
+            statusEl.textContent = "Policy updated to " + (updated.assignment_mode === "approved_members_auto_claim" ? "approved members auto-claim" : "manual admin approval") + ".";
+          }
           await refreshActiveOrganization();
         });
       }

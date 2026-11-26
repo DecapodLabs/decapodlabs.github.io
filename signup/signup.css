@@ -1,4 +1,4 @@
-/* Decapod Cloud Unified Signup & Checkout UI (20261126-geist) */
+/* Decapod Cloud Unified Signup & Checkout UI (20261126-brand) */
 
 .signup-shell {
   display: grid;
@@ -77,7 +77,7 @@
 
 .step-item.is-active span {
   background: var(--ds-fg);
-  color: #ffffff;
+  color: var(--ds-on-dark);
 }
 
 .step-item.is-done {
@@ -88,7 +88,7 @@
 
 .step-item.is-done span {
   background: var(--ds-success);
-  color: #ffffff;
+  color: var(--ds-on-dark);
 }
 
 .signup-auth-card {
@@ -343,7 +343,7 @@
   padding: 8px 12px;
   border-radius: var(--ds-radius-sm);
   background: var(--ds-fg);
-  color: #ffffff;
+  color: var(--ds-on-dark);
   font-size: 12px;
   overflow-x: auto;
 }

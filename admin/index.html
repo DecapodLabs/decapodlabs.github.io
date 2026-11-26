@@ -3,18 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#ffffff">
+<meta name="theme-color" content="#fff9f0">
 <meta name="robots" content="noindex,nofollow">
 <meta name="referrer" content="no-referrer">
 <meta name="decapod-flow-contract" content="1">
-<meta name="decapod-asset-release" content="20261126-geist">
+<meta name="decapod-asset-release" content="20261126-brand">
 <meta name="description" content="Manage your Decapod Cloud organization: repositories, contributor seats, team members, billing, usage thresholds, and device security.">
 <link rel="canonical" href="https://decapodlabs.ai/admin/">
 <link rel="icon" type="image/png" href="/assets/favicon.png">
-<link rel="stylesheet" href="/shared/commercial-ui.css?v=20261126-geist">
-<link rel="stylesheet" href="/admin/admin.css?v=20261126-geist">
-<script src="/cloud-flow.js?v=20261126-geist" defer></script>
-<script src="/admin/admin.js?v=20261126-geist" defer></script>
+<link rel="stylesheet" href="/shared/commercial-ui.css?v=20261126-brand">
+<link rel="stylesheet" href="/admin/admin.css?v=20261126-brand">
+<script src="/cloud-flow.js?v=20261126-brand" defer></script>
+<script src="/admin/admin.js?v=20261126-brand" defer></script>
 <title>Organization Admin — Decapod Cloud</title>
 </head>
 <body class="ds-body admin-page">
@@ -139,12 +139,12 @@
           <article class="ds-card ds-card-compact kpi-card">
             <span class="kpi-label">Seats</span>
             <strong class="kpi-value ds-tabular" id="overview-seats-value">—</strong>
-            <p class="kpi-meta" id="overview-seats-meta">Assigned vs purchased</p>
+            <p class="kpi-meta" id="overview-seats-meta">Assigned vs purchased capacity</p>
           </article>
           <article class="ds-card ds-card-compact kpi-card">
             <span class="kpi-label">Repositories</span>
             <strong class="kpi-value ds-tabular" id="overview-repos-value">0</strong>
-            <p class="kpi-meta" id="overview-repos-meta">Connected to Cloud</p>
+            <p class="kpi-meta" id="overview-repos-meta">Activated &amp; reserved slots</p>
           </article>
           <article class="ds-card ds-card-compact kpi-card">
             <span class="kpi-label">Usage &amp; alerts</span>
@@ -187,6 +187,8 @@
                 <tr>
                   <th scope="col">Repository</th>
                   <th scope="col">Assigned / purchased</th>
+                  <th scope="col">Teammate policy</th>
+                  <th scope="col">Contributors</th>
                   <th scope="col">Your access</th>
                 </tr>
               </thead>
@@ -195,6 +197,54 @@
           </div>
           <p class="ds-empty" id="admin-repos-empty" hidden style="margin-top:12px">No repositories enrolled in this organization yet.</p>
         </article>
+
+        <div class="admin-two-col">
+          <details class="ds-disclosure" id="admin-bind-reservation-box">
+            <summary>Bind reserved repository slot (<span id="admin-avail-res-count" class="ds-tabular">0</span> available)</summary>
+            <div class="ds-disclosure-body">
+              <p class="ds-hint" style="margin:0 0 12px">Activate a pre-purchased future repository reservation on an enrolled repository without creating a duplicate subscription.</p>
+              <div class="admin-form-grid">
+                <div class="ds-field">
+                  <label for="admin-bind-project-select">Target repository</label>
+                  <select id="admin-bind-project-select" class="ds-select"></select>
+                </div>
+                <div class="ds-field">
+                  <label for="admin-bind-reservation-select">Available reservation</label>
+                  <select id="admin-bind-reservation-select" class="ds-select"></select>
+                </div>
+              </div>
+              <div class="admin-actions">
+                <button type="button" class="ds-btn ds-btn-primary" id="admin-bind-reservation-btn">Bind reservation</button>
+                <a class="ds-btn ds-btn-secondary" id="admin-buy-slot-link" href="/signup">Buy additional slot</a>
+              </div>
+              <p class="ds-hint" id="admin-bind-reservation-status" role="status"></p>
+            </div>
+          </details>
+
+          <details class="ds-disclosure">
+            <summary>Configure repository teammate access policy</summary>
+            <div class="ds-disclosure-body">
+              <p class="ds-hint" style="margin:0 0 12px">By default, repository seats require manual admin approval. Enable auto-claim to let approved organization members claim an available paid seat automatically on init.</p>
+              <div class="admin-form-grid">
+                <div class="ds-field">
+                  <label for="admin-policy-project-select">Repository</label>
+                  <select id="admin-policy-project-select" class="ds-select"></select>
+                </div>
+                <div class="ds-field">
+                  <label for="admin-policy-mode-select">Assignment policy</label>
+                  <select id="admin-policy-mode-select" class="ds-select">
+                    <option value="manual_admin_only">Manual admin approval required (default)</option>
+                    <option value="approved_members_auto_claim">Approved org members may auto-claim available seats</option>
+                  </select>
+                </div>
+              </div>
+              <div class="admin-actions">
+                <button type="button" class="ds-btn ds-btn-primary" id="admin-save-policy-btn">Save policy</button>
+              </div>
+              <p class="ds-hint" id="admin-policy-status" role="status"></p>
+            </div>
+          </details>
+        </div>
 
         <div class="admin-two-col">
           <details class="ds-disclosure">
@@ -327,13 +377,25 @@
           </dl>
 
           <div id="admin-billing-capacities-wrap" hidden style="margin-top:16px">
-            <h3 class="billing-subhead">Purchased repository allocations</h3>
+            <h3 class="billing-subhead">Bound repository allocations</h3>
             <div class="ds-table-wrap">
               <table class="ds-table">
                 <thead>
                   <tr><th scope="col">Repository</th><th scope="col">Assigned</th><th scope="col">Purchased capacity</th></tr>
                 </thead>
                 <tbody id="admin-billing-capacities"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div id="admin-billing-reservations-wrap" hidden style="margin-top:16px">
+            <h3 class="billing-subhead">Future repository reservations</h3>
+            <div class="ds-table-wrap">
+              <table class="ds-table">
+                <thead>
+                  <tr><th scope="col">Status</th><th scope="col">Bound repository</th><th scope="col">Reserved seats</th><th scope="col">Valid through</th></tr>
+                </thead>
+                <tbody id="admin-billing-reservations"></tbody>
               </table>
             </div>
           </div>

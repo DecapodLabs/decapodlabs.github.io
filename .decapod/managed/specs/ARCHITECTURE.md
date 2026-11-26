@@ -2,7 +2,7 @@
 
 ## Signed Cloud Web Artifact Distribution (`docs/cloud-app-publication.md`, `cloud-app-manifest.json`)
 
-Compiled Decapod Cloud web presentation assets (`cloud-flow.js`, `pricing/*`, `signup/*`, `admin/*`, `404.html`, `shared/commercial-ui.css`, `assets/fonts/*`) are stamped into this repository together with `cloud-app-manifest.json` (`asset_release: 20261126-geist`, `source_revision: a4361194`, `source_clean: true`, and SHA-256 digests). Public pages synchronize cleanly with this release, omit raw `mailto:` attributes that trigger Cloudflare Email Obfuscation HTML mutations, and pass `scripts/check-site.ts`, `tests/publication_provenance_test.ts`, and `tests/trust_privacy_contract_test.ts`.
+Compiled Decapod Cloud web presentation assets (`cloud-flow.js`, `pricing/*`, `signup/*`, `admin/*`, `404.html`, `shared/commercial-ui.css`, `assets/fonts/*`) are stamped into this repository together with `cloud-app-manifest.json` (`asset_release: 20261126-brand`, `source_revision: e5f85185`, `source_clean: true`, warm homepage `#fff9f0`/`#17131a`/`#f05b37` tokens paired with Geist typography, and SHA-256 digests). `trust/trust.css` softens `.trust-meta-card` to a hairline border and restrained shadow alongside homepage stability (`/`, `/clack/` untouched), and all public pages pass `scripts/check-site.ts`, `tests/publication_provenance_test.ts`, and `tests/trust_privacy_contract_test.ts`.
 
 ## Privacy & Trust Contract Surface (`trust/index.html`, `trust/trust.css`, `tests/trust_privacy_contract_test.ts`)
 
@@ -117,7 +117,7 @@ Generated capability obligations: `persistent-state` is declared for this projec
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `e4c19b6cd95b96ab408a352006060f4358fb42f6372b56ed4721c171eca10a38`
+- Repository signal fingerprint: `8524b997a6b303773ca1dd873d37dc26efcf37e14684c1ef08a803a4f06414f3`
 - Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (3 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->

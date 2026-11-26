@@ -15,7 +15,7 @@ Deno.test('Published Cloud web bundle matches signed cloud-app-manifest.json dig
   assert(manifest.version === 1, 'manifest version === 1');
   assert(manifest.product === 'decapod-cloud-web', 'manifest product === decapod-cloud-web');
   assert(manifest.contract_version === 1, 'manifest contract_version === 1');
-  assert(typeof manifest.asset_release === 'string' && manifest.asset_release === '20261126-geist', 'manifest asset_release');
+  assert(typeof manifest.asset_release === 'string' && manifest.asset_release === '20261126-brand', 'manifest asset_release');
   assert(typeof manifest.source_revision === 'string' && /^[a-f0-9]{40}$/.test(manifest.source_revision), 'source_revision 40-char git SHA');
   assert(manifest.source_clean === true, 'source_clean === true');
   assert(manifest.files && typeof manifest.files === 'object', 'manifest.files object present');

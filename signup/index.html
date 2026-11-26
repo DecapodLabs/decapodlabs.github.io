@@ -3,18 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#ffffff">
+<meta name="theme-color" content="#fff9f0">
 <meta name="robots" content="noindex,nofollow">
 <meta name="referrer" content="no-referrer">
 <meta name="decapod-flow-contract" content="1">
-<meta name="decapod-asset-release" content="20261126-geist">
+<meta name="decapod-asset-release" content="20261126-brand">
 <meta name="description" content="Verify GitHub repository ownership, configure repositories and seats, and complete Decapod Cloud subscription checkout.">
 <link rel="canonical" href="https://decapodlabs.ai/signup">
 <link rel="icon" type="image/png" href="/assets/favicon.png">
-<link rel="stylesheet" href="/shared/commercial-ui.css?v=20261126-geist">
-<link rel="stylesheet" href="/signup/signup.css?v=20261126-geist">
-<script src="/cloud-flow.js?v=20261126-geist" defer></script>
-<script src="/signup/signup.js?v=20261126-geist" defer></script>
+<link rel="stylesheet" href="/shared/commercial-ui.css?v=20261126-brand">
+<link rel="stylesheet" href="/signup/signup.css?v=20261126-brand">
+<script src="/cloud-flow.js?v=20261126-brand" defer></script>
+<script src="/signup/signup.js?v=20261126-brand" defer></script>
 <title>Subscribe — Decapod Cloud</title>
 </head>
 <body class="ds-body signup-page">
@@ -212,6 +212,39 @@
               <button type="submit" class="ds-btn ds-btn-secondary" id="add-alloc-btn" style="align-self:flex-end">Verify &amp; add</button>
             </form>
             <p class="ds-hint" id="add-alloc-hint" role="status"></p>
+          </div>
+
+          <div class="ds-card ds-card-compact" style="margin-top:14px">
+            <div class="alloc-card-head">
+              <div>
+                <h3 class="alloc-heading">Reserve future repository slots</h3>
+                <p class="ds-hint" style="margin-top:2px">Pre-purchase unassigned repository slots for future rollouts. Bind them in Admin when ready; unbound slots do not count toward verified-repository volume discounts.</p>
+              </div>
+              <span class="ds-badge ds-tabular" id="reservations-count-badge">0 slots</span>
+            </div>
+
+            <div class="ds-table-wrap" id="reservations-table-wrap" hidden style="margin-top:12px">
+              <table class="ds-table alloc-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Slot</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Seats</th>
+                    <th scope="col" class="alloc-col-act"><span class="sr-only">Actions</span></th>
+                  </tr>
+                </thead>
+                <tbody id="reservations-tbody"></tbody>
+              </table>
+            </div>
+
+            <div class="add-alloc-bar">
+              <div class="ds-field" style="width:120px">
+                <label for="add-reservation-seats-input">Seats per slot</label>
+                <input id="add-reservation-seats-input" class="ds-input ds-tabular" type="number" min="1" max="1000" step="1" value="1" inputmode="numeric">
+              </div>
+              <button type="button" class="ds-btn ds-btn-secondary" id="add-reservation-btn" style="align-self:flex-end">Add reserved slot</button>
+            </div>
+            <p class="ds-hint" id="add-reservation-hint" role="status"></p>
           </div>
         </div>
 
