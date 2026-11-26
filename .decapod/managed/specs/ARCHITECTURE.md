@@ -2,7 +2,7 @@
 
 ## Signed Cloud Web Artifact Distribution (`docs/cloud-app-publication.md`, `cloud-app-manifest.json`)
 
-Compiled Decapod Cloud web presentation assets (`cloud-flow.js`, `pricing/*`, `signup/*`, `admin/*`, `404.html`, `shared/commercial-ui.css`, `assets/fonts/*`) are stamped into this repository together with `cloud-app-manifest.json` (`asset_release: 20261126-geist`, `source_revision`, `source_clean: true`, and SHA-256 digests). Public marketing pages synchronize cleanly with this release and pass `scripts/check-site.ts`, `tests/publication_provenance_test.ts`, and `tests/trust_privacy_contract_test.ts`.
+Compiled Decapod Cloud web presentation assets (`cloud-flow.js`, `pricing/*`, `signup/*`, `admin/*`, `404.html`, `shared/commercial-ui.css`, `assets/fonts/*`) are stamped into this repository together with `cloud-app-manifest.json` (`asset_release: 20261126-geist`, `source_revision: a4361194`, `source_clean: true`, and SHA-256 digests). Public pages synchronize cleanly with this release, omit raw `mailto:` attributes that trigger Cloudflare Email Obfuscation HTML mutations, and pass `scripts/check-site.ts`, `tests/publication_provenance_test.ts`, and `tests/trust_privacy_contract_test.ts`.
 
 ## Privacy & Trust Contract Surface (`trust/index.html`, `trust/trust.css`, `tests/trust_privacy_contract_test.ts`)
 
