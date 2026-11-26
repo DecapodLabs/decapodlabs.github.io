@@ -44,6 +44,11 @@
       "id": "clack-download-0.10.1-plan",
       "summary": "Bind website release plan to code_01m8bp85dmkxnchn.",
       "input_digest": "sha256:9cfe289cd6b546e727ad733c6be973ed2471fc25e747976e1896d60822107110"
+    },
+    {
+      "id": "clack-download-0.10.1-r2",
+      "summary": "Host the signed Clack 0.10.1 disk image and checksum.",
+      "input_digest": "sha256:3f08020a81eef3be7607424dfa3c73176ddf8ef372efa0ccbc241e6d1ce342e5"
     }
   ],
   "intents": {
@@ -98,13 +103,13 @@
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1795689439Z"
+      "updated_at": "1795689625Z"
     },
     "trajectory": {
       "active_boundaries": [
         "Current claimed task and isolated work branch"
       ],
-      "artifact_hash": "sha256:5e8f36a93af526480d324f8ff0465dfce394869cfcd2b08d301053c91611a1fe",
+      "artifact_hash": "sha256:b9ab5e6f9721c09c79c1b4c724eb5e47590ecf91fe32b3c4ed79eabb6b5d9661",
       "checks": [
         {
           "name": "static-source",
@@ -132,10 +137,17 @@
             "intent_id": "intent:change_01M8BPA4RP9PKD911TDPSDRQ2T",
             "kind": "trajectory_step_recorded",
             "sequence": 4
+          },
+          {
+            "detail": "trajectory:branch_01M8BPA4VADRKH7JFPVAZD98XD",
+            "event_id": "event:5",
+            "intent_id": "intent:change_01M8BPA4RP9PKD911TDPSDRQ2T",
+            "kind": "trajectory_step_recorded",
+            "sequence": 5
           }
         ],
         "knowledge_candidates": [],
-        "next_sequence": 4,
+        "next_sequence": 5,
         "schema_version": "1.1.0",
         "trajectories": {
           "branch_01M8BPA4VADRKH7JFPVAZD98XD": {
@@ -158,6 +170,23 @@
                   "root"
                 ],
                 "sequence": 4,
+                "validation_findings": []
+              },
+              {
+                "action": "trajectory.record",
+                "custody_event_id": "event:5",
+                "observations": [
+                  "clack/index.html",
+                  "clack/index.html",
+                  "clack/release.json"
+                ],
+                "proof_refs": [
+                  "static-source"
+                ],
+                "scope": [
+                  "root"
+                ],
+                "sequence": 5,
                 "validation_findings": []
               }
             ]
