@@ -67,14 +67,21 @@
     var pendingStepupProvider = null;
 
     var preselectedRepo = null;
+    var originRepoSlug = null;
+    var originProjectId = null;
+    var sourceMode = null;
+    var pricingReposCount = 1;
     var preferredBilling = "month";
     var preferredSeats = 1;
+    var seatsExplicitInUrl = false;
     var checkoutReturned = false;
     var checkoutCanceled = false;
     var activeContinuation = null;
 
     var activeProjectId = null;
     var activeOrganizationId = null;
+    var orderAllocations = [];
+    var existingOrgCapacities = [];
     var activeQuoteOrder = null;
     var quoteRequestId = null;
     var quotePayloadKey = null;
@@ -84,6 +91,8 @@
     var checkoutRequestKey = null;
     var enrollRequestId = null;
     var enrollRepoSlug = null;
+    var addAllocRequestId = null;
+    var addAllocRepoSlug = null;
     var githubReposCache = [];
     var sessionEpoch = 0;
     var viewGeneration = 0;
@@ -93,6 +102,7 @@
     var viewAbortController = null;
     var busy = false;
     var enrollInFlight = false;
+    var addAllocInFlight = false;
     var quoteInFlight = false;
     var checkoutInFlight = false;
     var portalInFlight = false;
@@ -262,29 +272,101 @@
       storage.removeItem(namespace() + key);
     }
 
+    function clampSeats(n) {
+      var v = Math.floor(Number(n));
+      if (!Number.isSafeInteger(v) || v < 1) return 1;
+      if (v > 1000) return 1000;
+      return v;
+    }
+
+    function sanitizeDraftAllocations(list) {
+      if (!Array.isArray(list)) return [];
+      var seen = new Set();
+      var out = [];
+      for (var i = 0; i < list.length && out.length < 100; i++) {
+        var row = list[i];
+        if (!row || typeof row !== "object") continue;
+        var pid = typeof row.project_id === "string" ? row.project_id.trim() : "";
+        var slug = typeof row.slug === "string" ? row.slug.trim() : pid;
+        if (!pid || seen.has(pid.toLowerCase())) continue;
+        seen.add(pid.toLowerCase());
+        out.push({
+          project_id: pid,
+          slug: slug || pid,
+          capacity: clampSeats(row.capacity),
+          currentCapacity: Number.isSafeInteger(row.currentCapacity) && row.currentCapacity > 0 ? row.currentCapacity : 0,
+          isOrigin: Boolean(row.isOrigin)
+        });
+      }
+      return out;
+    }
+
     function savePendingIntent() {
       if (!storage) return;
       try {
-        if (preselectedRepo) {
-          storage.setItem("decapod:pending-repo-intent", preselectedRepo);
+        var repoToKeep = originRepoSlug || preselectedRepo;
+        if (repoToKeep) {
+          storage.setItem("decapod:pending-repo-intent", repoToKeep);
         } else {
           storage.removeItem("decapod:pending-repo-intent");
         }
         storage.setItem("decapod:pending-checkout-intent", JSON.stringify({
           repo: preselectedRepo || null,
+          originRepo: originRepoSlug || preselectedRepo || null,
+          reposCount: pricingReposCount,
           billing: preferredBilling === "year" ? "year" : "month",
-          seats: preferredSeats
+          seats: preferredSeats,
+          source: sourceMode || null,
+          organizationId: activeOrganizationId || null,
+          allocations: orderAllocations.map(function (a) {
+            return {
+              project_id: a.project_id,
+              slug: a.slug,
+              capacity: a.capacity,
+              currentCapacity: a.currentCapacity || 0,
+              isOrigin: Boolean(a.isOrigin)
+            };
+          })
         }));
       } catch (_) {}
     }
 
     function clearPendingIntent() {
       preselectedRepo = null;
+      originRepoSlug = null;
+      originProjectId = null;
+      sourceMode = null;
+      pricingReposCount = 1;
+      orderAllocations = [];
+      existingOrgCapacities = [];
       if (!storage) return;
       try {
         storage.removeItem("decapod:pending-repo-intent");
         storage.removeItem("decapod:pending-checkout-intent");
       } catch (_) {}
+    }
+
+    function renderAuthIntentPreview() {
+      var box = byId("auth-intent-preview");
+      var summary = byId("auth-intent-summary");
+      if (!box || !summary) return;
+      var parts = [];
+      if (originRepoSlug || preselectedRepo) {
+        parts.push(originRepoSlug || preselectedRepo);
+      } else if (pricingReposCount > 1) {
+        parts.push(pricingReposCount + " repositories");
+      }
+      if (sourceMode === "pricing" || pricingReposCount > 1 || preferredSeats > 1 || preferredBilling === "year") {
+        parts.push(preferredSeats + (preferredSeats === 1 ? " seat/repo" : " seats/repo"));
+        parts.push(preferredBilling === "year" ? "Annual ($552/yr)" : "Monthly ($50/mo)");
+      }
+      if (!parts.length) {
+        box.hidden = true;
+        summary.textContent = "";
+        return;
+      }
+      summary.textContent = parts.join(" · ");
+      box.hidden = false;
     }
 
     function setStep(activeStage) {
@@ -348,6 +430,10 @@
       if (summary) summary.textContent = "";
       var suggestions = byId("repo-suggestions");
       if (suggestions) suggestions.replaceChildren();
+      var tbody = byId("allocations-tbody");
+      if (tbody) tbody.replaceChildren();
+      var readyList = byId("ready-allocations-list");
+      if (readyList) readyList.replaceChildren();
       var checkoutBtn = byId("checkout-btn");
       if (checkoutBtn) checkoutBtn.disabled = true;
       var quoteErr = byId("quote-error-note");
@@ -366,6 +452,7 @@
       abortAllInFlight();
       busy = false;
       enrollInFlight = false;
+      addAllocInFlight = false;
       quoteInFlight = false;
       checkoutInFlight = false;
       portalInFlight = false;
@@ -394,6 +481,8 @@
       checkoutRequestKey = null;
       enrollRequestId = null;
       enrollRepoSlug = null;
+      addAllocRequestId = null;
+      addAllocRepoSlug = null;
       githubReposCache = [];
       var repoInput = byId("repo-input");
       if (repoInput) repoInput.value = "";
@@ -421,6 +510,7 @@
       if (cancelBtn) cancelBtn.hidden = skewBlocked || !storeGet("flow", 8192);
       if (!signedIn) {
         clearConfidentialUi();
+        renderAuthIntentPreview();
         setStep("auth");
       }
       var providers = profile ? profile.authProviders : { github: true, google: false };
@@ -800,6 +890,82 @@
       card.hidden = false;
     }
 
+    function findOrgById(orgId) {
+      if (!orgId || !accountSnapshot || !Array.isArray(accountSnapshot.organizations)) return null;
+      var target = String(orgId).toLowerCase();
+      return accountSnapshot.organizations.find(function (o) {
+        return o && ((typeof o.id === "string" && o.id.toLowerCase() === target) ||
+          (typeof o.cloud_org_id === "string" && o.cloud_org_id.toLowerCase() === target));
+      }) || null;
+    }
+
+    function isOrgAdmin(orgId) {
+      var orgs = (accountSnapshot && Array.isArray(accountSnapshot.organizations))
+        ? accountSnapshot.organizations
+        : [];
+      var target = String(orgId || "").toLowerCase();
+      return orgs.some(function (o) {
+        return o && o.admin === true && ((typeof o.id === "string" && o.id.toLowerCase() === target) ||
+          (typeof o.cloud_org_id === "string" && o.cloud_org_id.toLowerCase() === target));
+      });
+    }
+
+    function findExistingProject(slugOrId) {
+      var projects = (accountSnapshot && Array.isArray(accountSnapshot.projects))
+        ? accountSnapshot.projects
+        : [];
+      var target = String(slugOrId || "").toLowerCase();
+      return projects.find(function (p) {
+        return (typeof p.name === "string" && p.name.toLowerCase() === target) ||
+          (typeof p.project_id === "string" && p.project_id.toLowerCase() === target);
+      }) || null;
+    }
+
+    function resolveDisplayProjectSlug(projectId, explicitSlug) {
+      if (typeof explicitSlug === "string" && explicitSlug.trim() && explicitSlug.indexOf("/") !== -1) {
+        return explicitSlug.trim();
+      }
+      var matched = findExistingProject(projectId);
+      if (matched && typeof matched.name === "string" && matched.name.trim()) {
+        return matched.name.trim();
+      }
+      return projectId;
+    }
+
+    function renderReadyAllocations(meta) {
+      var wrap = byId("ready-allocations-wrap");
+      var tbody = byId("ready-allocations-list");
+      if (!wrap || !tbody) return;
+      tbody.replaceChildren();
+      var rows = Array.isArray(meta && meta.allocations) ? meta.allocations : [];
+      if (!rows.length && orderAllocations.length) {
+        rows = orderAllocations.map(function (a) {
+          return { project_id: a.project_id, project_slug: a.slug, capacity: a.capacity };
+        });
+      }
+      if (!rows.length) {
+        wrap.hidden = true;
+        return;
+      }
+      for (var i = 0; i < rows.length; i++) {
+        var r = rows[i];
+        var tr = doc.createElement("tr");
+        var tdRepo = doc.createElement("td");
+        var slugSpan = doc.createElement("span");
+        slugSpan.className = "ds-mono";
+        slugSpan.textContent = resolveDisplayProjectSlug(r.project_id, r.project_slug);
+        tdRepo.appendChild(slugSpan);
+        var tdCap = doc.createElement("td");
+        tdCap.className = "ds-tabular";
+        var capNum = Number.isSafeInteger(r.capacity) ? r.capacity : 1;
+        tdCap.textContent = capNum + (capNum === 1 ? " seat" : " seats");
+        tr.appendChild(tdRepo);
+        tr.appendChild(tdCap);
+        tbody.appendChild(tr);
+      }
+      wrap.hidden = false;
+    }
+
     function showReadyState(projectId, accessStatus, meta) {
       if (!accessStatus || accessStatus.backend_authorized !== true ||
           (accessStatus.status !== "active" && accessStatus.status !== "ready")) {
@@ -821,9 +987,10 @@
       var card = byId("step-ready");
       var summary = byId("ready-summary");
       if (!card || !summary) return;
+      var targetId = originProjectId || (accessStatus && accessStatus.project_id) || projectId;
       var resolvedProject = resolveDisplayProjectSlug(
-        accessStatus.project_id || projectId,
-        (accessStatus && accessStatus.project_slug) || (meta && meta.project_slug)
+        targetId,
+        originRepoSlug || (accessStatus && accessStatus.project_slug) || (meta && meta.project_slug)
       );
       lastReadyMeta = Object.assign({ project_id: resolvedProject, organization_id: activeOrganizationId }, meta || {});
       var roleLabel = accessStatus.admin ? "organization administrator" : "repository contributor";
@@ -838,6 +1005,7 @@
       var portalBtn = byId("ready-billing-portal-btn");
       var adminLink = byId("ready-admin-link");
       var portalNote = byId("ready-portal-note");
+      var cliInstruction = byId("ready-cli-instruction");
       if (portalNote) { portalNote.hidden = true; portalNote.textContent = ""; }
 
       if (detailsDl) detailsDl.hidden = false;
@@ -861,6 +1029,12 @@
           rRenewalRow.hidden = true;
         }
       }
+      if (cliInstruction && resolvedProject) {
+        cliInstruction.textContent = "Return to your terminal — any waiting decapod init --backend cloud session for " +
+          resolvedProject + " activates automatically with no manual Admin setup.";
+      }
+      renderReadyAllocations(lastReadyMeta);
+
       if (portalBtn) {
         portalBtn.hidden = !(activeOrganizationId && (lastReadyMeta.can_manage_billing !== false) && isOrgAdmin(activeOrganizationId));
       }
@@ -880,48 +1054,6 @@
           state: "ready"
         });
       }
-    }
-
-    function findOrgById(orgId) {
-      if (!orgId || !accountSnapshot || !Array.isArray(accountSnapshot.organizations)) return null;
-      var target = String(orgId).toLowerCase();
-      return accountSnapshot.organizations.find(function (o) {
-        return o && ((typeof o.id === "string" && o.id.toLowerCase() === target) ||
-          (typeof o.cloud_org_id === "string" && o.cloud_org_id.toLowerCase() === target));
-      }) || null;
-    }
-
-    function isOrgAdmin(orgId) {
-      var orgs = (accountSnapshot && Array.isArray(accountSnapshot.organizations))
-        ? accountSnapshot.organizations
-        : [];
-      var target = String(orgId || "").toLowerCase();
-      return orgs.some(function (o) {
-        return o && o.admin === true && ((typeof o.id === "string" && o.id.toLowerCase() === target) ||
-          (typeof o.cloud_org_id === "string" && o.cloud_org_id.toLowerCase() === target));
-      });
-    }
-
-    function findExistingProject(slug) {
-      var projects = (accountSnapshot && Array.isArray(accountSnapshot.projects))
-        ? accountSnapshot.projects
-        : [];
-      var target = String(slug || "").toLowerCase();
-      return projects.find(function (p) {
-        return (typeof p.name === "string" && p.name.toLowerCase() === target) ||
-          (typeof p.project_id === "string" && p.project_id.toLowerCase() === target);
-      }) || null;
-    }
-
-    function resolveDisplayProjectSlug(projectId, explicitSlug) {
-      if (typeof explicitSlug === "string" && explicitSlug.trim() && explicitSlug.indexOf("/") !== -1) {
-        return explicitSlug.trim();
-      }
-      var matched = findExistingProject(projectId);
-      if (matched && typeof matched.name === "string" && matched.name.trim()) {
-        return matched.name.trim();
-      }
-      return projectId;
     }
 
     function populateRepoSuggestions() {
@@ -999,10 +1131,12 @@
     }
 
     async function fetchReadyDetails(cont) {
+      var targetProj = originProjectId || cont.project_id;
       var access = {
         status: cont.status === "ready" ? "active" : cont.status,
         backend_authorized: cont.backend_authorized === true,
-        project_id: cont.project_id,
+        project_id: targetProj,
+        project_slug: cont.project_slug || originRepoSlug || null,
         admin: isOrgAdmin(cont.organization_id)
       };
       try {
@@ -1013,6 +1147,15 @@
         if (bStatus && typeof bStatus === "object") {
           cont.paid_until = cont.paid_until || bStatus.paid_until || null;
           cont.cadence = cont.cadence || bStatus.cadence || null;
+          if ((!Array.isArray(cont.allocations) || !cont.allocations.length) && Array.isArray(bStatus.capacities)) {
+            cont.allocations = bStatus.capacities.map(function (c) {
+              return {
+                project_id: c.project_id,
+                project_slug: resolveDisplayProjectSlug(c.project_id, null),
+                capacity: c.capacity
+              };
+            });
+          }
         }
       } catch (_) {}
       return access;
@@ -1024,7 +1167,8 @@
       }
       activeOrganizationId = cont.organization_id || activeOrganizationId;
       activeProjectId = cont.project_id || activeProjectId;
-      if (cont.project_id) preselectedRepo = cont.project_id;
+      if (cont.project_slug && !originRepoSlug) preselectedRepo = cont.project_slug;
+      else if (cont.project_id && !preselectedRepo) preselectedRepo = cont.project_id;
       if (cont.cadence === "month" || cont.cadence === "year") preferredBilling = cont.cadence;
       if (Number.isSafeInteger(cont.quantity) && cont.quantity >= 1 && cont.quantity <= 1000) {
         preferredSeats = cont.quantity;
@@ -1033,7 +1177,7 @@
         activeContinuation = cont.continuation;
       }
 
-      var displayProject = resolveDisplayProjectSlug(cont.project_id || activeProjectId, cont.project_slug);
+      var displayProject = resolveDisplayProjectSlug(cont.project_id || activeProjectId, originRepoSlug || cont.project_slug);
 
       if (cont.status === "ready" && cont.backend_authorized === true) {
         var access = await fetchReadyDetails(cont);
@@ -1043,7 +1187,8 @@
           paid_until: cont.paid_until,
           can_manage_billing: cont.can_manage_billing,
           organization_slug: cont.organization_slug,
-          project_slug: displayProject
+          project_slug: displayProject,
+          allocations: cont.allocations || []
         });
         return true;
       }
@@ -1078,7 +1223,8 @@
       var myViewGen = viewGeneration;
       var myGen = ++pollGeneration;
       var mySignal = viewAbortController ? viewAbortController.signal : (sessionAbortController ? sessionAbortController.signal : null);
-      var repoLabel = resolveDisplayProjectSlug(projectId, displaySlug);
+      var targetProjectRef = originProjectId || originRepoSlug || projectId;
+      var repoLabel = resolveDisplayProjectSlug(targetProjectRef, displaySlug);
       showFailClosedState(
         "pending_fulfillment",
         "Finalizing subscription",
@@ -1108,16 +1254,16 @@
               : "Waiting for Stripe confirmation (" + info.attempt + " of " + info.maxAttempts + ")…";
           },
           checkFn: async function () {
-            if (contToken || !projectId) {
+            if (contToken || !targetProjectRef) {
               var payload = { action: "continuation" };
               if (contToken) payload.continuation = contToken;
-              else if (projectId) payload.project_id = projectId;
+              if (targetProjectRef) payload.project_id = targetProjectRef;
               var res = await edgePost("billing-manage", payload, { sessionEpoch: mySessionEpoch, signal: mySignal });
               lastSnapshot = res;
               return res;
             }
             var accRes = await edgePost("account-status", {
-              project_id: projectId,
+              project_id: targetProjectRef,
               operation: "access_details"
             }, { sessionEpoch: mySessionEpoch, signal: mySignal });
             lastSnapshot = accRes;
@@ -1161,14 +1307,19 @@
           quantity: r.quantity || preferredSeats,
           paid_until: r.paid_until || null,
           can_manage_billing: r.can_manage_billing,
-          organization_slug: r.organization_slug || null
+          organization_slug: r.organization_slug || null,
+          project_slug: r.project_slug || displaySlug || originRepoSlug || null,
+          allocations: r.allocations || []
         };
-        if (r.project_id && !r.paid_until && activeOrganizationId) {
+        if ((r.project_id || targetProjectRef) && !r.paid_until && activeOrganizationId) {
           var hydrated = await fetchReadyDetails(r);
-          showReadyState(r.project_id || projectId, hydrated, Object.assign(finalMeta, { paid_until: r.paid_until || null }));
+          showReadyState(r.project_id || targetProjectRef, hydrated, Object.assign(finalMeta, {
+            paid_until: r.paid_until || null,
+            allocations: r.allocations || finalMeta.allocations
+          }));
           return;
         }
-        showReadyState(r.project_id || projectId, r, finalMeta);
+        showReadyState(r.project_id || targetProjectRef, r, finalMeta);
         return;
       }
       if (outcome.outcome === "admin_approval_required") {
@@ -1199,7 +1350,7 @@
         );
         return;
       }
-      var pendingRef = (outcome.lastError && outcome.lastError.correlationId) || projectId;
+      var pendingRef = (outcome.lastError && outcome.lastError.correlationId) || targetProjectRef;
       var refDetail = pendingRef ? ("Ref: " + pendingRef) : "";
       showFailClosedState(
         "pending_timeout",
@@ -1215,19 +1366,191 @@
         coherenceChannel.broadcastCheckoutEvent("fulfillment_status", {
           projectOrigin: profile.projectOrigin,
           organizationId: activeOrganizationId,
-          projectId: projectId,
+          projectId: targetProjectRef,
           state: "pending_timeout"
         });
       }
     }
 
-    function updateSummarySelections(cadence, seats) {
+    function totalOrderSeats() {
+      if (!orderAllocations.length) return preferredSeats;
+      var sum = 0;
+      for (var i = 0; i < orderAllocations.length; i++) {
+        sum += clampSeats(orderAllocations[i].capacity);
+      }
+      return sum;
+    }
+
+    function totalExistingSeats() {
+      var sum = 0;
+      for (var i = 0; i < existingOrgCapacities.length; i++) {
+        sum += Number.isSafeInteger(existingOrgCapacities[i].capacity) ? existingOrgCapacities[i].capacity : 0;
+      }
+      return sum;
+    }
+
+    function updateSummarySelections(cadence, totalSeats) {
       var repoEl = byId("summary-repo");
       var planEl = byId("summary-plan");
       var seatsEl = byId("summary-seats");
-      if (repoEl) repoEl.textContent = preselectedRepo || activeProjectId || "—";
+      var existingRow = byId("summary-existing-row");
+      var existingVal = byId("summary-existing");
+      var count = orderAllocations.length;
+      if (repoEl) {
+        if (count > 1) {
+          repoEl.textContent = count + " repositories";
+        } else if (count === 1) {
+          repoEl.textContent = orderAllocations[0].slug;
+        } else {
+          repoEl.textContent = preselectedRepo || activeProjectId || "—";
+        }
+      }
       if (planEl) planEl.textContent = cadence === "year" ? "Decapod Cloud · Annual" : "Decapod Cloud · Monthly";
-      if (seatsEl) seatsEl.textContent = String(seats) + (seats === 1 ? " seat" : " seats");
+      if (seatsEl) seatsEl.textContent = String(totalSeats) + (totalSeats === 1 ? " seat" : " seats");
+      var priorTotal = totalExistingSeats();
+      if (existingRow && existingVal) {
+        if (priorTotal > 0) {
+          existingVal.textContent = existingOrgCapacities.length + " repo" + (existingOrgCapacities.length === 1 ? "" : "s") + " · " + priorTotal + (priorTotal === 1 ? " seat" : " seats");
+          existingRow.hidden = false;
+        } else {
+          existingRow.hidden = true;
+        }
+      }
+    }
+
+    function renderIntentCallout() {
+      var callout = byId("signup-intent-callout");
+      var titleEl = byId("signup-intent-title");
+      var detailEl = byId("signup-intent-detail");
+      if (!callout || !titleEl || !detailEl) return;
+      if (pricingReposCount > orderAllocations.length && pricingReposCount > 1) {
+        var remaining = pricingReposCount - orderAllocations.length;
+        titleEl.textContent = "Pricing selection: " + pricingReposCount + " repositories × " + preferredSeats + (preferredSeats === 1 ? " seat" : " seats");
+        detailEl.textContent = "Verify " + remaining + " more " + (remaining === 1 ? "repository" : "repositories") + " below before Stripe Checkout. Only verified repositories enter your quote.";
+        callout.hidden = false;
+      } else {
+        callout.hidden = true;
+      }
+    }
+
+    function renderAllocationsTable() {
+      renderIntentCallout();
+      var orgBadge = byId("alloc-org-badge");
+      if (orgBadge) {
+        var orgObj = findOrgById(activeOrganizationId);
+        orgBadge.textContent = (orgObj && orgObj.scm_owner_slug) ? ("Org: " + orgObj.scm_owner_slug) : "Single organization order";
+      }
+      var tbody = byId("allocations-tbody");
+      var seatCompatInput = byId("seat-quantity");
+      if (seatCompatInput && orderAllocations.length > 0) {
+        seatCompatInput.value = String(orderAllocations[0].capacity);
+      }
+      var addSeatInput = byId("add-alloc-seats-input");
+      if (addSeatInput && !addAllocInFlight) {
+        addSeatInput.value = String(sourceMode === "cli" ? 1 : preferredSeats);
+      }
+      if (!tbody) return;
+      tbody.replaceChildren();
+      for (var i = 0; i < orderAllocations.length; i++) {
+        (function (row, idx) {
+          var tr = doc.createElement("tr");
+
+          var tdRepo = doc.createElement("td");
+          var wrap = doc.createElement("div");
+          wrap.className = "alloc-repo-cell";
+          var slugEl = doc.createElement("span");
+          slugEl.className = "ds-mono";
+          slugEl.textContent = row.slug;
+          wrap.appendChild(slugEl);
+          if (row.isOrigin) {
+            var originBadge = doc.createElement("span");
+            originBadge.className = "ds-badge ds-badge-accent";
+            originBadge.textContent = "Origin";
+            wrap.appendChild(originBadge);
+          }
+          tdRepo.appendChild(wrap);
+
+          var tdCurr = doc.createElement("td");
+          tdCurr.className = "ds-tabular";
+          tdCurr.textContent = row.currentCapacity > 0 ? (row.currentCapacity + " paid") : "New";
+
+          var tdSeats = doc.createElement("td");
+          var stepper = doc.createElement("div");
+          stepper.className = "seat-stepper";
+
+          var minus = doc.createElement("button");
+          minus.type = "button";
+          minus.className = "stepper-btn";
+          minus.textContent = "−";
+          minus.setAttribute("aria-label", "Decrease seats for " + row.slug);
+          minus.disabled = row.capacity <= 1;
+          minus.onclick = function () {
+            row.capacity = clampSeats(row.capacity - 1);
+            if (idx === 0 && seatCompatInput) seatCompatInput.value = String(row.capacity);
+            renderAllocationsTable();
+            scheduleQuoteRefresh();
+          };
+
+          var inp = doc.createElement("input");
+          inp.type = "number";
+          inp.className = "ds-input ds-tabular";
+          inp.min = "1";
+          inp.max = "1000";
+          inp.step = "1";
+          inp.value = String(row.capacity);
+          inp.setAttribute("aria-label", "Seats for " + row.slug);
+          inp.onchange = function () {
+            row.capacity = clampSeats(inp.value);
+            inp.value = String(row.capacity);
+            if (idx === 0 && seatCompatInput) seatCompatInput.value = String(row.capacity);
+            renderAllocationsTable();
+            scheduleQuoteRefresh();
+          };
+
+          var plus = doc.createElement("button");
+          plus.type = "button";
+          plus.className = "stepper-btn";
+          plus.textContent = "+";
+          plus.setAttribute("aria-label", "Increase seats for " + row.slug);
+          plus.onclick = function () {
+            row.capacity = clampSeats(row.capacity + 1);
+            if (idx === 0 && seatCompatInput) seatCompatInput.value = String(row.capacity);
+            renderAllocationsTable();
+            scheduleQuoteRefresh();
+          };
+
+          stepper.appendChild(minus);
+          stepper.appendChild(inp);
+          stepper.appendChild(plus);
+          tdSeats.appendChild(stepper);
+
+          var tdAct = doc.createElement("td");
+          tdAct.className = "alloc-col-act";
+          var rem = doc.createElement("button");
+          rem.type = "button";
+          rem.className = "ds-btn ds-btn-ghost ds-btn-sm";
+          rem.textContent = "Remove";
+          rem.disabled = orderAllocations.length <= 1 || row.currentCapacity > 0;
+          rem.title = row.currentCapacity > 0 ? "Existing paid repositories remain covered through the current term" : "Remove repository from order";
+          rem.onclick = function () {
+            if (orderAllocations.length <= 1 || row.currentCapacity > 0) return;
+            orderAllocations.splice(idx, 1);
+            if (orderAllocations[0]) {
+              activeProjectId = orderAllocations[0].project_id;
+              preselectedRepo = orderAllocations[0].slug;
+            }
+            renderAllocationsTable();
+            scheduleQuoteRefresh();
+          };
+          tdAct.appendChild(rem);
+
+          tr.appendChild(tdRepo);
+          tr.appendChild(tdCurr);
+          tr.appendChild(tdSeats);
+          tr.appendChild(tdAct);
+          tbody.appendChild(tr);
+        })(orderAllocations[i], i);
+      }
     }
 
     function setQuoteUpdatingUi(cadence, seats) {
@@ -1252,7 +1575,7 @@
       if (quoteErr) { quoteErr.hidden = true; quoteErr.textContent = ""; }
     }
 
-    function renderQuoteSummary(quoted, repoLabel) {
+    function renderQuoteSummary(quoted) {
       activeQuoteOrder = quoted;
       var summary = byId("quote-summary");
       var amountEl = byId("quote-amount");
@@ -1265,7 +1588,7 @@
       var quoteErr = byId("quote-error-note");
       if (!summary || !amountEl || !detailsEl || !commitEl || !checkoutBtn) return;
 
-      var qty = Number.isSafeInteger(quoted.quantity) ? quoted.quantity : preferredSeats;
+      var qty = Number.isSafeInteger(quoted.quantity) ? quoted.quantity : totalOrderSeats();
       var cadence = quoted.cadence === "year" ? "year" : "month";
       updateSummarySelections(cadence, qty);
 
@@ -1284,7 +1607,7 @@
           badgeEl.hidden = false;
         }
         if (discRow && discVal) {
-          discVal.textContent = (cadence === "year" ? "Annual + team discount (" + pct + "%)" : "Team discount (" + pct + "%)");
+          discVal.textContent = (cadence === "year" ? "Annual + verified volume discount (" + pct + "%)" : "Verified volume discount (" + pct + "%)");
           discRow.hidden = false;
         }
       } else {
@@ -1292,9 +1615,11 @@
         if (discRow) discRow.hidden = true;
       }
 
-      commitEl.textContent = cadence === "year"
-        ? "Annual commitment billed upfront for 12 months. Cancel anytime before renewal."
-        : "Monthly recurring subscription. Adjust or cancel anytime before renewal.";
+      commitEl.textContent = quoted.kind === "increase"
+        ? "Prorated seat/repository expansion due today; ongoing renewal updates on the same schedule."
+        : (cadence === "year"
+          ? "Annual commitment billed upfront for 12 months. Cancel anytime before renewal."
+          : "Monthly recurring subscription. Adjust or cancel anytime before renewal.");
       summary.hidden = false;
       if (quoteErr) { quoteErr.hidden = true; quoteErr.textContent = ""; }
       var blockedBySibling = Boolean(siblingCheckout && siblingCheckout.projectId === activeProjectId);
@@ -1305,29 +1630,48 @@
       var cadenceEl = byId("billing-cadence");
       var seatEl = byId("seat-quantity");
       var cadence = cadenceEl && cadenceEl.value === "year" ? "year" : "month";
-      var rawSeats = seatEl ? Math.floor(Number(seatEl.value)) : preferredSeats;
-      if (!Number.isSafeInteger(rawSeats) || rawSeats < 1) rawSeats = 1;
-      if (rawSeats > 1000) rawSeats = 1000;
-      if (seatEl && String(rawSeats) !== seatEl.value) seatEl.value = String(rawSeats);
+      if (!orderAllocations.length && activeProjectId) {
+        var rawSeats = seatEl ? clampSeats(seatEl.value) : preferredSeats;
+        if (seatEl && String(rawSeats) !== seatEl.value) seatEl.value = String(rawSeats);
+        orderAllocations = [{
+          project_id: activeProjectId,
+          slug: preselectedRepo || activeProjectId,
+          capacity: rawSeats,
+          currentCapacity: 0,
+          isOrigin: Boolean(originRepoSlug && (preselectedRepo || activeProjectId).toLowerCase() === originRepoSlug.toLowerCase())
+        }];
+      } else if (orderAllocations.length === 1 && seatEl) {
+        var compatSeats = clampSeats(seatEl.value);
+        orderAllocations[0].capacity = compatSeats;
+      }
       preferredBilling = cadence;
-      preferredSeats = rawSeats;
+      if (orderAllocations.length === 1) {
+        preferredSeats = orderAllocations[0].capacity;
+      }
       savePendingIntent();
-      return { cadence: cadence, capacity: rawSeats };
+      return {
+        cadence: cadence,
+        allocations: orderAllocations.map(function (a) {
+          return { project_id: a.project_id, capacity: clampSeats(a.capacity) };
+        }),
+        totalSeats: totalOrderSeats()
+      };
     }
 
     async function requestAutomaticQuote() {
-      if (!activeOrganizationId || !activeProjectId) return null;
+      if (!activeOrganizationId || (!activeProjectId && !orderAllocations.length)) return null;
       var selected = readSelectedPlanInputs();
+      if (!selected.allocations.length) return null;
       var targetOrgId = activeOrganizationId;
-      var targetProjId = activeProjectId;
+      var targetProjId = activeProjectId || selected.allocations[0].project_id;
       var payload = {
         organization_id: targetOrgId,
         cadence: selected.cadence,
-        allocations: [{ project_id: targetProjId, capacity: selected.capacity }]
+        allocations: selected.allocations
       };
       var canonical = JSON.stringify(payload);
       if (quotePayloadKey !== canonical || !quoteRequestId) {
-        var savedQ = storeGet("quote_req", 1024);
+        var savedQ = storeGet("quote_req", 4096);
         if (savedQ && savedQ.key === canonical && typeof savedQ.request_id === "string" && savedQ.request_id) {
           quotePayloadKey = canonical;
           quoteRequestId = savedQ.request_id;
@@ -1339,7 +1683,7 @@
       }
       quoteInFlight = true;
       quoteDirty = true;
-      setQuoteUpdatingUi(selected.cadence, selected.capacity);
+      setQuoteUpdatingUi(selected.cadence, selected.totalSeats);
       var mySessionEpoch = sessionEpoch;
       var myViewGen = viewGeneration;
       var myQuoteGen = ++quoteGeneration;
@@ -1350,15 +1694,15 @@
           signal: mySignal
         });
         if (!isActiveView(mySessionEpoch, myViewGen) || myQuoteGen !== quoteGeneration ||
-            activeOrganizationId !== targetOrgId || activeProjectId !== targetProjId) {
+            activeOrganizationId !== targetOrgId) {
           return null;
         }
         quoteDirty = false;
-        renderQuoteSummary(quoted, preselectedRepo || targetProjId);
+        renderQuoteSummary(quoted);
         return quoted;
       } catch (error) {
         if ((error && error.name === "AbortError") || !isActiveView(mySessionEpoch, myViewGen) ||
-            myQuoteGen !== quoteGeneration || activeProjectId !== targetProjId) {
+            myQuoteGen !== quoteGeneration || activeOrganizationId !== targetOrgId) {
           return null;
         }
         var code = error && error.message ? error.message : "billing_quote_unavailable";
@@ -1370,7 +1714,6 @@
           return null;
         }
         if (code === "order_pending" || code === "order_conflict" || error.status === 409) {
-          // Recover an existing pending order or reset stale request ID
           try {
             var st = await edgePost("billing-manage", { action: "status", organization_id: targetOrgId }, {
               sessionEpoch: mySessionEpoch,
@@ -1380,15 +1723,23 @@
             if (st && st.pending_order && st.pending_order.quote_id) {
               var po = st.pending_order;
               if (po.status === "checkout" || po.status === "paid" || po.status === "scheduled") {
-                var contRes = await edgePost("billing-manage", { action: "continuation", organization_id: targetOrgId, project_id: targetProjId }, {
+                var contRes = await edgePost("billing-manage", {
+                  action: "continuation",
+                  organization_id: targetOrgId,
+                  project_id: originProjectId || targetProjId
+                }, {
                   sessionEpoch: mySessionEpoch,
                   signal: mySignal
                 });
                 if (await handleContinuationOutcome(contRes, false)) return null;
               }
-              if (po.cadence === selected.cadence && po.quantity === selected.capacity) {
+              var sameAllocations = JSON.stringify((po.allocations || []).map(function (x) {
+                return { project_id: x.project_id, capacity: x.capacity };
+              }).sort(function (a, b) { return a.project_id < b.project_id ? -1 : 1; })) ===
+                JSON.stringify(selected.allocations.slice().sort(function (a, b) { return a.project_id < b.project_id ? -1 : 1; }));
+              if (po.cadence === selected.cadence && po.quantity === selected.totalSeats && sameAllocations) {
                 quoteDirty = false;
-                renderQuoteSummary(po, preselectedRepo || targetProjId);
+                renderQuoteSummary(po);
                 return po;
               }
               if (po.order_id && (po.status === "quoted" || po.status === "prepared")) {
@@ -1404,7 +1755,7 @@
                 });
                 if (!isActiveView(mySessionEpoch, myViewGen) || myQuoteGen !== quoteGeneration) return null;
                 quoteDirty = false;
-                renderQuoteSummary(retried, preselectedRepo || targetProjId);
+                renderQuoteSummary(retried);
                 return retried;
               }
             }
@@ -1417,7 +1768,9 @@
         if (quoteErr) {
           quoteErr.textContent = (error && (error.status === 429 || code === "rate_limited"))
             ? "Too many price updates. Please wait a moment and change your selection to retry."
-            : "Could not calculate subscription price right now. Adjust seats or try again shortly." + (qRef ? " " + qRef : "");
+            : (code === "assignments_exceed_future_capacity"
+              ? "Cannot reduce seats below currently assigned contributors."
+              : "Could not calculate subscription price right now. Adjust seats or try again shortly." + (qRef ? " " + qRef : ""));
           quoteErr.hidden = false;
         }
         return null;
@@ -1429,7 +1782,7 @@
     function scheduleQuoteRefresh() {
       quoteDirty = true;
       var selected = readSelectedPlanInputs();
-      setQuoteUpdatingUi(selected.cadence, selected.capacity);
+      setQuoteUpdatingUi(selected.cadence, selected.totalSeats);
       if (quoteTimer !== null) {
         clearTimeout(quoteTimer);
         quoteTimer = null;
@@ -1442,6 +1795,86 @@
         quoteTimer = null;
         requestAutomaticQuote().catch(function () {});
       }, quoteDebounceMs);
+    }
+
+    function mergeOrganizationAllocations(orgId, primaryProjectId, primarySlug, bStatus) {
+      existingOrgCapacities = Array.isArray(bStatus && bStatus.capacities)
+        ? bStatus.capacities.filter(function (c) { return c && c.project_id && Number.isSafeInteger(c.capacity) && c.capacity > 0; })
+        : [];
+      var existingMap = new Map();
+      for (var i = 0; i < existingOrgCapacities.length; i++) {
+        existingMap.set(existingOrgCapacities[i].project_id.toLowerCase(), existingOrgCapacities[i].capacity);
+      }
+
+      var merged = new Map();
+      var orgProjects = (accountSnapshot && Array.isArray(accountSnapshot.projects))
+        ? accountSnapshot.projects.filter(function (p) {
+            return p && (String(p.organization_id || p.organization || "").toLowerCase() === String(orgId).toLowerCase());
+          })
+        : [];
+      var isOrgProj = function (pid) {
+        if (!orgProjects.length) return true;
+        return orgProjects.some(function (p) { return String(p.project_id || "").toLowerCase() === String(pid).toLowerCase(); });
+      };
+
+      // 1. Existing paid capacities MUST be preserved unconditionally (#260)
+      for (var e = 0; e < existingOrgCapacities.length; e++) {
+        var ec = existingOrgCapacities[e];
+        var eSlug = resolveDisplayProjectSlug(ec.project_id, null);
+        merged.set(ec.project_id.toLowerCase(), {
+          project_id: ec.project_id,
+          slug: eSlug,
+          capacity: ec.capacity,
+          currentCapacity: ec.capacity,
+          isOrigin: Boolean(originRepoSlug && eSlug.toLowerCase() === originRepoSlug.toLowerCase())
+        });
+      }
+
+      // 2. Restore any previously verified draft allocations belonging to the same organization
+      for (var dIdx = 0; dIdx < orderAllocations.length; dIdx++) {
+        var draftRow = orderAllocations[dIdx];
+        if (!draftRow || !draftRow.project_id || !isOrgProj(draftRow.project_id)) continue;
+        var dKey = draftRow.project_id.toLowerCase();
+        var prev = merged.get(dKey);
+        if (prev) {
+          prev.capacity = Math.max(prev.currentCapacity, clampSeats(draftRow.capacity));
+        } else {
+          merged.set(dKey, {
+            project_id: draftRow.project_id,
+            slug: draftRow.slug || resolveDisplayProjectSlug(draftRow.project_id, null),
+            capacity: clampSeats(draftRow.capacity),
+            currentCapacity: 0,
+            isOrigin: Boolean(originRepoSlug && (draftRow.slug || "").toLowerCase() === originRepoSlug.toLowerCase())
+          });
+        }
+      }
+
+      // 3. Ensure primaryProjectId is included
+      if (primaryProjectId) {
+        var pKey = primaryProjectId.toLowerCase();
+        var resolvedSlug = resolveDisplayProjectSlug(primaryProjectId, primarySlug);
+        var defaultSeats = (sourceMode === "cli" && !seatsExplicitInUrl) ? 1 : preferredSeats;
+        if (merged.has(pKey)) {
+          var existingEntry = merged.get(pKey);
+          existingEntry.slug = resolvedSlug;
+          if (existingEntry.currentCapacity > 0 && seatsExplicitInUrl) {
+            existingEntry.capacity = Math.max(existingEntry.currentCapacity, preferredSeats);
+          }
+          if (originRepoSlug && resolvedSlug.toLowerCase() === originRepoSlug.toLowerCase()) {
+            existingEntry.isOrigin = true;
+          }
+        } else {
+          merged.set(pKey, {
+            project_id: primaryProjectId,
+            slug: resolvedSlug,
+            capacity: clampSeats(defaultSeats),
+            currentCapacity: existingMap.get(pKey) || 0,
+            isOrigin: Boolean(originRepoSlug && resolvedSlug.toLowerCase() === originRepoSlug.toLowerCase())
+          });
+        }
+      }
+
+      orderAllocations = Array.from(merged.values());
     }
 
     async function showCheckoutPanel(orgId, projectId, repoLabel, expectedViewGen, customStatus) {
@@ -1463,17 +1896,13 @@
       if (!card) return;
 
       if (label) {
-        label.textContent = "Repository: " + (repoLabel || projectId);
+        label.textContent = "Primary repository: " + (repoLabel || projectId);
       }
       if (checkoutBtn) checkoutBtn.disabled = true;
 
       var cadenceSelect = byId("billing-cadence");
       if (cadenceSelect && (preferredBilling === "month" || preferredBilling === "year")) {
         cadenceSelect.value = preferredBilling;
-      }
-      var seatInput = byId("seat-quantity");
-      if (seatInput) {
-        seatInput.value = String(preferredSeats);
       }
 
       try {
@@ -1482,24 +1911,37 @@
           organization_id: orgId
         }, { sessionEpoch: mySessionEpoch, signal: mySignal });
         if (!isActiveView(mySessionEpoch, myViewGen) || activeProjectId !== projectId) return;
+
+        mergeOrganizationAllocations(orgId, projectId, repoLabel, bStatus);
+        if (bStatus && (bStatus.cadence === "month" || bStatus.cadence === "year") && !seatsExplicitInUrl) {
+          preferredBilling = bStatus.cadence;
+          if (cadenceSelect) cadenceSelect.value = preferredBilling;
+        }
+        renderAllocationsTable();
+
         if (closedBox) closedBox.hidden = true;
         if (quoteControls) quoteControls.hidden = false;
         card.hidden = false;
         setStatus(customStatus || "", false);
+        loadGitHubOrgsAndRepos(mySessionEpoch, myViewGen).catch(function () {});
 
         var po = bStatus && bStatus.pending_order ? bStatus.pending_order : null;
         if (po && (po.status === "checkout" || po.status === "paid" || po.status === "scheduled")) {
           var contRes = await edgePost("billing-manage", {
             action: "continuation",
             organization_id: orgId,
-            project_id: projectId
+            project_id: originProjectId || projectId
           }, { sessionEpoch: mySessionEpoch, signal: mySignal });
           if (await handleContinuationOutcome(contRes, false)) return;
         }
-        if (po && po.quote_id && po.status === "quoted" && po.cadence === preferredBilling && po.quantity === preferredSeats &&
-            (!po.allocations || !po.allocations.length || po.allocations[0].project_id === projectId)) {
+        if (po && po.quote_id && po.status === "quoted" && po.cadence === preferredBilling &&
+            po.quantity === totalOrderSeats() &&
+            Array.isArray(po.allocations) && po.allocations.length === orderAllocations.length &&
+            orderAllocations.every(function (row) {
+              return po.allocations.some(function (pa) { return pa.project_id === row.project_id && pa.capacity === row.capacity; });
+            })) {
           quoteDirty = false;
-          renderQuoteSummary(po, repoLabel || projectId);
+          renderQuoteSummary(po);
         } else {
           await requestAutomaticQuote();
         }
@@ -1530,6 +1972,9 @@
       var mySignal = viewAbortController ? viewAbortController.signal : (sessionAbortController ? sessionAbortController.signal : null);
       activeOrganizationId = orgId;
       activeProjectId = projectId;
+      if (originRepoSlug && (repoLabel || "").toLowerCase() === originRepoSlug.toLowerCase()) {
+        originProjectId = projectId;
+      }
       var pendingCheckout = storeGet("checkout_pending", 4096);
       var matchingPending = Boolean(pendingCheckout && pendingCheckout.project_id === projectId);
       var pendingReturned = Boolean(matchingPending && pendingCheckout.returned === true);
@@ -1561,7 +2006,7 @@
               projectId: projectId
             });
           }
-          await runContinuationPoll(activeContinuation, projectId);
+          await runContinuationPoll(activeContinuation, projectId, repoLabel);
           return;
         }
         if (err && (err.status === 401 || err.message === "invalid_token" || err.message === "contract_version_mismatch" || err.message === "client_version_skew")) {
@@ -1573,10 +2018,27 @@
       if (!isActiveView(mySessionEpoch, myViewGen) || activeProjectId !== projectId) return;
       var state = flow.classifyAccessState(access);
       if (state === "ready") {
-        showReadyState(projectId, access, {
-          cadence: preferredBilling,
-          quantity: preferredSeats
-        });
+        // Hydrate ready details via billing status when available so multi-repo allocations show accurately
+        var meta = { cadence: preferredBilling, quantity: preferredSeats };
+        if (isOrgAdmin(access.organization_id || orgId)) {
+          try {
+            var bs = await edgePost("billing-manage", { action: "status", organization_id: access.organization_id || orgId }, {
+              sessionEpoch: mySessionEpoch,
+              signal: mySignal
+            });
+            if (bs && typeof bs === "object") {
+              meta.cadence = bs.cadence || meta.cadence;
+              meta.quantity = Number.isSafeInteger(bs.quantity) && bs.quantity > 0 ? bs.quantity : meta.quantity;
+              meta.paid_until = bs.paid_until || null;
+              if (Array.isArray(bs.capacities)) {
+                meta.allocations = bs.capacities.map(function (c) {
+                  return { project_id: c.project_id, project_slug: resolveDisplayProjectSlug(c.project_id, null), capacity: c.capacity };
+                });
+              }
+            }
+          } catch (_) {}
+        }
+        showReadyState(projectId, access, meta);
         return;
       }
       if (state === "pending_fulfillment" || checkoutReturned || pendingReturned) {
@@ -1587,7 +2049,7 @@
             projectId: projectId
           });
         }
-        await runContinuationPoll(activeContinuation, projectId);
+        await runContinuationPoll(activeContinuation, projectId, repoLabel);
         return;
       }
       if (state === "organization_already_enrolled") {
@@ -1669,6 +2131,7 @@
       var mySignal = viewAbortController ? viewAbortController.signal : (sessionAbortController ? sessionAbortController.signal : null);
       try {
         preselectedRepo = parsed.slug;
+        if (!originRepoSlug) originRepoSlug = parsed.slug;
         savePendingIntent();
         if (extraBox) extraBox.hidden = true;
 
@@ -1732,6 +2195,9 @@
 
         var resolvedOrg = enrolled.organization_id;
         var resolvedProj = enrolled.project_id || parsed.slug;
+        if (originRepoSlug && parsed.slug.toLowerCase() === originRepoSlug.toLowerCase()) {
+          originProjectId = resolvedProj;
+        }
         await inspectProjectAccess(resolvedOrg, resolvedProj, parsed.slug, myViewGen);
       } catch (error) {
         if ((error && error.name === "AbortError") || !isActiveView(mySessionEpoch, myViewGen)) return;
@@ -1780,6 +2246,144 @@
       }
     }
 
+    async function handleAddAllocationRepo() {
+      if (addAllocInFlight || !activeOrganizationId) return;
+      var repoInput = byId("add-alloc-repo-input");
+      var seatsInput = byId("add-alloc-seats-input");
+      var hintEl = byId("add-alloc-hint");
+      var addBtn = byId("add-alloc-btn");
+      var parsed = flow.parseRepoSlug(repoInput ? repoInput.value : "");
+      if (!parsed) {
+        if (hintEl) {
+          hintEl.classList.add("is-error");
+          hintEl.textContent = "Enter a valid GitHub repository slug (owner/repo).";
+        }
+        return;
+      }
+      if (orderAllocations.some(function (a) { return a.slug.toLowerCase() === parsed.slug.toLowerCase(); })) {
+        if (hintEl) {
+          hintEl.classList.add("is-error");
+          hintEl.textContent = parsed.slug + " is already in this subscription order.";
+        }
+        return;
+      }
+
+      var addSeats = clampSeats(seatsInput ? seatsInput.value : preferredSeats);
+      var existing = findExistingProject(parsed.slug);
+      if (existing) {
+        var exOrg = existing.organization_id || existing.organization || "";
+        if (String(exOrg).toLowerCase() !== String(activeOrganizationId).toLowerCase()) {
+          if (hintEl) {
+            hintEl.classList.add("is-error");
+            hintEl.textContent = parsed.slug + " belongs to a different organization. Subscriptions are scoped to one organization per order.";
+          }
+          return;
+        }
+        orderAllocations.push({
+          project_id: existing.project_id,
+          slug: existing.name || parsed.slug,
+          capacity: addSeats,
+          currentCapacity: 0,
+          isOrigin: Boolean(originRepoSlug && parsed.slug.toLowerCase() === originRepoSlug.toLowerCase())
+        });
+        if (repoInput) repoInput.value = "";
+        if (hintEl) {
+          hintEl.classList.remove("is-error");
+          hintEl.textContent = "Added " + (existing.name || parsed.slug) + " to order.";
+        }
+        renderAllocationsTable();
+        savePendingIntent();
+        await requestAutomaticQuote();
+        return;
+      }
+
+      if (!inMemoryProviderToken) {
+        savePendingIntent();
+        if (hintEl) {
+          hintEl.classList.remove("is-error");
+          hintEl.textContent = "Re-authenticating GitHub repository access to verify " + parsed.slug + "…";
+        }
+        await beginAuth("github", "sign_in", true);
+        return;
+      }
+
+      addAllocInFlight = true;
+      if (addBtn) addBtn.disabled = true;
+      var mySessionEpoch = sessionEpoch;
+      var myViewGen = viewGeneration;
+      var mySignal = viewAbortController ? viewAbortController.signal : (sessionAbortController ? sessionAbortController.signal : null);
+      try {
+        if (addAllocRepoSlug !== parsed.slug || !addAllocRequestId) {
+          addAllocRepoSlug = parsed.slug;
+          addAllocRequestId = makeRequestId();
+        }
+        if (hintEl) {
+          hintEl.classList.remove("is-error");
+          hintEl.textContent = "Verifying GitHub admin access for " + parsed.slug + "…";
+        }
+        var enrolled = await edgePost("repository-enroll", {
+          request_id: addAllocRequestId,
+          provider: "github",
+          repository: parsed.slug,
+          provider_token: inMemoryProviderToken,
+          organization_id: activeOrganizationId
+        }, { sessionEpoch: mySessionEpoch, signal: mySignal });
+        if (!isActiveView(mySessionEpoch, myViewGen)) return;
+
+        addAllocRequestId = null;
+        addAllocRepoSlug = null;
+
+        var refreshed = await edgePost("account-register", { operation: "account" }, {
+          sessionEpoch: mySessionEpoch,
+          signal: mySignal
+        });
+        if (!isActiveView(mySessionEpoch, myViewGen)) return;
+        accountSnapshot = refreshed;
+
+        if (enrolled && String(enrolled.organization_id || "").toLowerCase() !== String(activeOrganizationId).toLowerCase()) {
+          if (hintEl) {
+            hintEl.classList.add("is-error");
+            hintEl.textContent = parsed.slug + " belongs to a different organization and requires its own subscription.";
+          }
+          return;
+        }
+
+        var projId = (enrolled && enrolled.project_id) || parsed.slug;
+        orderAllocations.push({
+          project_id: projId,
+          slug: parsed.slug,
+          capacity: addSeats,
+          currentCapacity: 0,
+          isOrigin: Boolean(originRepoSlug && parsed.slug.toLowerCase() === originRepoSlug.toLowerCase())
+        });
+        if (repoInput) repoInput.value = "";
+        if (hintEl) {
+          hintEl.classList.remove("is-error");
+          hintEl.textContent = "Verified and added " + parsed.slug + ".";
+        }
+        renderAllocationsTable();
+        savePendingIntent();
+        await requestAutomaticQuote();
+      } catch (err) {
+        if ((err && err.name === "AbortError") || !isActiveView(mySessionEpoch, myViewGen)) return;
+        var errCode = err && err.message ? err.message : "verification_failed";
+        if (hintEl) {
+          hintEl.classList.add("is-error");
+          hintEl.textContent = (
+            errCode === "repository_identity_conflict" ||
+            errCode === "repository_organization_mismatch" ||
+            errCode === "organization_already_enrolled" ||
+            errCode === "repository_already_enrolled"
+          )
+            ? (parsed.slug + " belongs to a different organization and cannot be added to this subscription. Start a separate subscription for that organization.")
+            : ("Could not verify admin permission for " + parsed.slug + ". Check the owner/repo slug and try again.");
+        }
+      } finally {
+        addAllocInFlight = false;
+        if (addBtn) addBtn.disabled = false;
+      }
+    }
+
     async function handleCheckoutClick() {
       if (checkoutInFlight || quoteDirty) return;
       if (!activeOrganizationId || !activeQuoteOrder || !activeQuoteOrder.quote_id) {
@@ -1791,7 +2395,7 @@
         return;
       }
       var targetOrgId = activeOrganizationId;
-      var targetProjId = activeProjectId;
+      var targetProjId = originProjectId || activeProjectId;
       var targetOrderId = activeQuoteOrder.order_id;
       var targetQuoteId = activeQuoteOrder.quote_id;
       var reqKey = targetOrgId + ":" + targetOrderId + ":" + targetQuoteId;
@@ -1814,13 +2418,14 @@
       var myViewGen = viewGeneration;
       var mySignal = viewAbortController ? viewAbortController.signal : (sessionAbortController ? sessionAbortController.signal : null);
       try {
+        savePendingIntent();
         var result = await edgePost("billing-checkout", {
           request_id: checkoutRequestId,
           organization_id: targetOrgId,
           order_id: targetOrderId,
           quote_id: targetQuoteId
         }, { sessionEpoch: mySessionEpoch, signal: mySignal });
-        if (!isActiveView(mySessionEpoch, myViewGen) || activeProjectId !== targetProjId) return;
+        if (!isActiveView(mySessionEpoch, myViewGen)) return;
         if (result.continuation) activeContinuation = result.continuation;
         if (result.checkout_url) {
           if (!flow.isAllowedCheckoutUrl(result.checkout_url)) {
@@ -1829,11 +2434,13 @@
           storeSet("checkout_pending", {
             organization_id: targetOrgId,
             project_id: targetProjId,
+            origin_project_id: originProjectId || null,
+            origin_repo: originRepoSlug || preselectedRepo || null,
             order_id: targetOrderId,
             quote_id: targetQuoteId,
             request_id: checkoutRequestId,
             continuation: result.continuation || null,
-            repo: preselectedRepo || targetProjId,
+            repo: originRepoSlug || preselectedRepo || targetProjId,
             returned: false,
             started_at: nowSec()
           });
@@ -1854,18 +2461,20 @@
           storeSet("checkout_pending", {
             organization_id: targetOrgId,
             project_id: targetProjId,
+            origin_project_id: originProjectId || null,
+            origin_repo: originRepoSlug || preselectedRepo || null,
             order_id: targetOrderId,
             quote_id: targetQuoteId,
             request_id: checkoutRequestId,
             continuation: result.continuation || null,
-            repo: preselectedRepo || targetProjId,
+            repo: originRepoSlug || preselectedRepo || targetProjId,
             returned: true,
             started_at: nowSec()
           });
-          await runContinuationPoll(result.continuation || activeContinuation, targetProjId);
+          await runContinuationPoll(result.continuation || activeContinuation, targetProjId, originRepoSlug || preselectedRepo);
           return;
         }
-        await inspectProjectAccess(targetOrgId, targetProjId, preselectedRepo || targetProjId, myViewGen);
+        await inspectProjectAccess(targetOrgId, targetProjId, originRepoSlug || preselectedRepo || targetProjId, myViewGen);
       } catch (error) {
         if ((error && error.name === "AbortError") || !isActiveView(mySessionEpoch, myViewGen)) return;
         var errCode = error && error.message ? error.message : "error";
@@ -1951,6 +2560,11 @@
       }
       accountSnapshot = result;
 
+      if (originRepoSlug && !originProjectId) {
+        var matchedOrig = findExistingProject(originRepoSlug);
+        if (matchedOrig) originProjectId = matchedOrig.project_id;
+      }
+
       var currentProviders = flow.listVerifiedProviders(currentUser);
       var unconfirmedLocal = Array.isArray(result.confirmed_providers)
         ? currentProviders.filter(function (p) { return !result.confirmed_providers.includes(p); })
@@ -1987,7 +2601,6 @@
 
       if (myViewGen !== viewGeneration) return;
 
-      // Authoritative purchase/checkout continuation recovery (#252, #255)
       var returnState = storeGet("checkout_return_state", 2048);
       var pendingCheckout = storeGet("checkout_pending", 4096);
       var isReturnFlow = Boolean(checkoutReturned || checkoutCanceled || (returnState && returnState.mode));
@@ -1996,11 +2609,16 @@
         (pendingCheckout && pendingCheckout.continuation) ||
         null;
       var checkSession = Boolean(checkoutCanceled || (returnState && returnState.mode === "canceled"));
+      var contProjRef = originProjectId ||
+        originRepoSlug ||
+        (pendingCheckout && (pendingCheckout.origin_project_id || pendingCheckout.project_id)) ||
+        null;
 
       if (isReturnFlow || !preselectedRepo) {
         try {
           var contPayload = { action: "continuation" };
           if (contRef) contPayload.continuation = contRef;
+          if (contProjRef) contPayload.project_id = contProjRef;
           if (checkSession) contPayload.check_session = true;
           var contResult = await edgePost("billing-manage", contPayload, reqOpts);
           if (!isActiveView(mySessionEpoch, myViewGen)) return;
@@ -2027,17 +2645,16 @@
             );
             return;
           }
-          // Non-fatal fallback only if no explicit return continuation failed validation
           if (isReturnFlow && !contRef && pendingCheckout && (pendingCheckout.repo || pendingCheckout.project_id)) {
-            await runContinuationPoll(null, pendingCheckout.repo || pendingCheckout.project_id);
+            await runContinuationPoll(null, pendingCheckout.origin_project_id || pendingCheckout.project_id, pendingCheckout.origin_repo || pendingCheckout.repo);
             return;
           }
         }
       }
 
-      var targetLookup = preselectedRepo;
+      var targetLookup = originRepoSlug || preselectedRepo;
       if (!targetLookup && pendingCheckout && Number.isSafeInteger(pendingCheckout.started_at) && (nowSec() - pendingCheckout.started_at) < 1800) {
-        targetLookup = pendingCheckout.repo || pendingCheckout.project_id || null;
+        targetLookup = pendingCheckout.origin_repo || pendingCheckout.repo || pendingCheckout.project_id || null;
       }
       if (targetLookup) {
         var existing = findExistingProject(targetLookup);
@@ -2060,10 +2677,9 @@
       var rawHash = currentUrl.hash || "";
       var fragment = new URLSearchParams(rawHash.startsWith("#") ? rawHash.slice(1) : rawHash);
 
-      // Restore saved intent from Pricing / previous step across OAuth redirects
       try {
         var savedCheckoutIntentRaw = storage ? storage.getItem("decapod:pending-checkout-intent") : null;
-        if (savedCheckoutIntentRaw && savedCheckoutIntentRaw.length < 4096) {
+        if (savedCheckoutIntentRaw && savedCheckoutIntentRaw.length < 16384) {
           var savedCheckoutIntent = JSON.parse(savedCheckoutIntentRaw);
           if (savedCheckoutIntent && typeof savedCheckoutIntent === "object") {
             if (savedCheckoutIntent.billing === "year" || savedCheckoutIntent.billing === "month") {
@@ -2072,9 +2688,22 @@
             if (Number.isSafeInteger(savedCheckoutIntent.seats) && savedCheckoutIntent.seats >= 1 && savedCheckoutIntent.seats <= 1000) {
               preferredSeats = savedCheckoutIntent.seats;
             }
+            if (Number.isSafeInteger(savedCheckoutIntent.reposCount) && savedCheckoutIntent.reposCount >= 1 && savedCheckoutIntent.reposCount <= 100) {
+              pricingReposCount = savedCheckoutIntent.reposCount;
+            }
+            if (typeof savedCheckoutIntent.source === "string" && ["pricing", "cli", "admin"].includes(savedCheckoutIntent.source)) {
+              sourceMode = savedCheckoutIntent.source;
+            }
+            if (savedCheckoutIntent.originRepo) {
+              var parsedOrig = flow.parseRepoSlug(savedCheckoutIntent.originRepo);
+              if (parsedOrig) originRepoSlug = parsedOrig.slug;
+            }
             if (savedCheckoutIntent.repo) {
               var parsedSavedRepo = flow.parseRepoSlug(savedCheckoutIntent.repo);
               if (parsedSavedRepo) preselectedRepo = parsedSavedRepo.slug;
+            }
+            if (Array.isArray(savedCheckoutIntent.allocations)) {
+              orderAllocations = sanitizeDraftAllocations(savedCheckoutIntent.allocations);
             }
           }
         }
@@ -2083,6 +2712,7 @@
       var repoCheck = flow.parseRepoSearch(query);
       if (repoCheck.status === "valid") {
         preselectedRepo = repoCheck.slug;
+        originRepoSlug = repoCheck.slug;
         setBanner("valid", "Selected repository: " + repoCheck.slug, "Ownership will be verified automatically.");
       } else if (repoCheck.status === "invalid") {
         preselectedRepo = null;
@@ -2093,6 +2723,7 @@
           var parsedLegacy = flow.parseRepoSlug(legacySavedRepo);
           if (parsedLegacy) {
             preselectedRepo = parsedLegacy.slug;
+            if (!originRepoSlug) originRepoSlug = parsedLegacy.slug;
           }
         } catch (_) {}
       }
@@ -2100,7 +2731,23 @@
       var billingCheck = flow.parseBillingParam(query);
       if (billingCheck.status === "valid") preferredBilling = billingCheck.billing;
       var seatCheck = flow.parseSeatParam(query);
-      if (seatCheck.status === "valid") preferredSeats = seatCheck.seats;
+      if (seatCheck.status === "valid") {
+        preferredSeats = seatCheck.seats;
+        seatsExplicitInUrl = true;
+      }
+      var repoCountCheck = typeof flow.parseRepoCountParam === "function"
+        ? flow.parseRepoCountParam(query)
+        : { status: "absent" };
+      if (repoCountCheck.status === "valid") pricingReposCount = repoCountCheck.repos;
+      var sourceCheck = typeof flow.parseSourceParam === "function"
+        ? flow.parseSourceParam(query)
+        : { status: "absent" };
+      if (sourceCheck.status === "valid") {
+        sourceMode = sourceCheck.source;
+        if (sourceMode === "cli" && !seatsExplicitInUrl) {
+          preferredSeats = 1;
+        }
+      }
       savePendingIntent();
 
       var returnCheck = flow.parseSafeReturnParam(query, siteOrigin());
@@ -2127,7 +2774,6 @@
       var invSecret = fragment.get("invitation_secret");
       var hostileFragment = flow.hasHostileFragmentTokens(rawHash);
 
-      // Scrub URL query & fragment immediately before network calls
       if ((currentUrl.search || currentUrl.hash) && winHistory && typeof winHistory.replaceState === "function") {
         winHistory.replaceState(null, "", "/signup");
       }
@@ -2160,7 +2806,6 @@
         }
       }
 
-      // Persist return/cancel state in profile-namespaced sessionStorage so it survives OAuth re-auth!
       if (checkoutReturned || checkoutCanceled) {
         storeSet("checkout_return_state", {
           mode: checkoutCanceled ? "canceled" : "returned",
@@ -2191,15 +2836,25 @@
       if (storedPendingCheckout) {
         if (!Number.isSafeInteger(storedPendingCheckout.started_at) || (nowSec() - storedPendingCheckout.started_at) >= 1800) {
           storeRemove("checkout_pending");
-        } else if (checkoutReturned) {
-          storedPendingCheckout.returned = true;
-          if (!storedPendingCheckout.repo && preselectedRepo) storedPendingCheckout.repo = preselectedRepo;
-          if (!storedPendingCheckout.continuation && activeContinuation) storedPendingCheckout.continuation = activeContinuation;
-          storeSet("checkout_pending", storedPendingCheckout);
+        } else {
+          if (!originRepoSlug && storedPendingCheckout.origin_repo) {
+            originRepoSlug = storedPendingCheckout.origin_repo;
+          }
+          if (!originProjectId && storedPendingCheckout.origin_project_id) {
+            originProjectId = storedPendingCheckout.origin_project_id;
+          }
+          if (checkoutReturned) {
+            storedPendingCheckout.returned = true;
+            if (!storedPendingCheckout.repo && preselectedRepo) storedPendingCheckout.repo = preselectedRepo;
+            if (!storedPendingCheckout.continuation && activeContinuation) storedPendingCheckout.continuation = activeContinuation;
+            storeSet("checkout_pending", storedPendingCheckout);
+          }
         }
       } else if (checkoutReturned) {
         storeSet("checkout_pending", {
-          project_id: preselectedRepo || null,
+          project_id: originProjectId || preselectedRepo || null,
+          origin_project_id: originProjectId || null,
+          origin_repo: originRepoSlug || preselectedRepo || null,
           repo: preselectedRepo || null,
           continuation: activeContinuation || null,
           returned: true,
@@ -2387,13 +3042,27 @@
         if (ev && typeof ev.preventDefault === "function") ev.preventDefault();
         handleVerifyAndEnrollRepo().catch(function () { setStatus("Could not verify repository.", true); });
       };
+      var addAllocForm = byId("add-alloc-form");
+      if (addAllocForm) {
+        addAllocForm.onsubmit = function (ev) {
+          if (ev && typeof ev.preventDefault === "function") ev.preventDefault();
+          handleAddAllocationRepo().catch(function () { setStatus("Could not verify repository.", true); });
+        };
+      }
+      var addAllocBtn = byId("add-alloc-btn");
+      if (addAllocBtn) {
+        addAllocBtn.onclick = function (ev) {
+          if (ev && typeof ev.preventDefault === "function") ev.preventDefault();
+          handleAddAllocationRepo().catch(function () { setStatus("Could not verify repository.", true); });
+        };
+      }
       var authReposBtn = byId("authorize-github-repos-btn");
       if (authReposBtn) authReposBtn.onclick = function () { beginAuth("github", "sign_in", true).catch(function () { setStatus("Could not open GitHub authorization.", true); }); };
       var stateRetryBtn = byId("state-retry-btn");
       if (stateRetryBtn) {
         stateRetryBtn.onclick = function () {
           if (lastStateKind === "pending_fulfillment") {
-            runContinuationPoll(activeContinuation, activeProjectId).catch(function () {});
+            runContinuationPoll(activeContinuation, originProjectId || activeProjectId, originRepoSlug || preselectedRepo).catch(function () {});
           } else if (activeProjectId) {
             inspectProjectAccess(activeOrganizationId, activeProjectId, preselectedRepo || activeProjectId)
               .catch(function (e) { if (e && e.name !== "AbortError") showDegradedApiState(e, preselectedRepo || activeProjectId, true); });
@@ -2420,8 +3089,15 @@
       if (cadenceEl) cadenceEl.onchange = function () { scheduleQuoteRefresh(); };
       var seatEl = byId("seat-quantity");
       if (seatEl) {
-        seatEl.onchange = function () { scheduleQuoteRefresh(); };
-        seatEl.oninput = function () { scheduleQuoteRefresh(); };
+        seatEl.onchange = function () {
+          if (orderAllocations.length > 0) orderAllocations[0].capacity = clampSeats(seatEl.value);
+          renderAllocationsTable();
+          scheduleQuoteRefresh();
+        };
+        seatEl.oninput = function () {
+          if (orderAllocations.length > 0) orderAllocations[0].capacity = clampSeats(seatEl.value);
+          scheduleQuoteRefresh();
+        };
       }
       var minusBtn = byId("seat-minus-btn");
       if (minusBtn) {
@@ -2430,6 +3106,8 @@
           if (!el) return;
           var next = Math.max(1, (Math.floor(Number(el.value)) || 1) - 1);
           el.value = String(next);
+          if (orderAllocations.length > 0) orderAllocations[0].capacity = next;
+          renderAllocationsTable();
           scheduleQuoteRefresh();
         };
       }
@@ -2440,6 +3118,8 @@
           if (!el) return;
           var next = Math.min(1000, (Math.floor(Number(el.value)) || 1) + 1);
           el.value = String(next);
+          if (orderAllocations.length > 0) orderAllocations[0].capacity = next;
+          renderAllocationsTable();
           scheduleQuoteRefresh();
         };
       }
@@ -2493,6 +3173,7 @@
           if (ev && ev.persisted) {
             busy = false;
             enrollInFlight = false;
+            addAllocInFlight = false;
             quoteInFlight = false;
             checkoutInFlight = false;
             syncAuthGateUi();
@@ -2527,6 +3208,26 @@
       init: init,
       beginAuth: beginAuth,
       verifyRepo: handleVerifyAndEnrollRepo,
+      addAllocationRepo: handleAddAllocationRepo,
+      setAllocationCapacity: function (projectId, capacity) {
+        var row = orderAllocations.find(function (a) { return a.project_id === projectId || a.slug === projectId; });
+        if (!row) return false;
+        row.capacity = clampSeats(capacity);
+        renderAllocationsTable();
+        savePendingIntent();
+        scheduleQuoteRefresh();
+        return true;
+      },
+      removeAllocationRepo: function (projectId) {
+        if (orderAllocations.length <= 1) return false;
+        var idx = orderAllocations.findIndex(function (a) { return a.project_id === projectId || a.slug === projectId; });
+        if (idx === -1 || orderAllocations[idx].currentCapacity > 0) return false;
+        orderAllocations.splice(idx, 1);
+        renderAllocationsTable();
+        savePendingIntent();
+        scheduleQuoteRefresh();
+        return true;
+      },
       requestQuote: requestAutomaticQuote,
       startCheckout: handleCheckoutClick,
       pollFulfillment: runContinuationPoll,
@@ -2537,10 +3238,16 @@
           skewBlocked: skewBlocked,
           skewReason: skewReason,
           preselectedRepo: preselectedRepo,
+          originRepoSlug: originRepoSlug,
+          sourceMode: sourceMode,
+          pricingReposCount: pricingReposCount,
           preferredBilling: preferredBilling,
           preferredSeats: preferredSeats,
           activeProjectId: activeProjectId,
           activeOrganizationId: activeOrganizationId,
+          allocations: orderAllocations.map(function (a) {
+            return { project_id: a.project_id, slug: a.slug, capacity: a.capacity, currentCapacity: a.currentCapacity, isOrigin: a.isOrigin };
+          }),
           backendAuthorized: backendAuthorized,
           stateKind: lastStateKind,
           checkoutInFlight: checkoutInFlight,

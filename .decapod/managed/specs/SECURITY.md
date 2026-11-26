@@ -2,24 +2,24 @@
 
 ## Signed Cloud Bundle Provenance & Secret Boundary (`tests/publication_provenance_test.ts`)
 
-`DecapodLabs/decapodlabs.github.io` receives only compiled/static Cloud web artifacts (`cloud-flow.js`, `signup/*`, `admin/*`, `404.html`, `cloud-app-manifest.json`) stamped from a clean `DecapodLabs/propodus` commit (`971b4fe`), keeping internal billing/auth tests, signing helpers, and backend code out of the public marketing repository. `tests/publication_provenance_test.ts` and `tests/trust_privacy_contract_test.ts` enforce byte-level SHA-256 integrity, zero third-party trackers/cookies, and zero exposed secrets alongside the preserved `UNDER WRAPS` gate.
+`DecapodLabs/decapodlabs.github.io` receives only compiled/static Cloud web artifacts (`cloud-flow.js`, `pricing/*`, `signup/*`, `admin/*`, `404.html`, `shared/commercial-ui.css`, `assets/fonts/*`, `cloud-app-manifest.json`) verified against source revision provenance, keeping internal billing/auth tests, operational runbooks, signing helpers, and backend code out of the public marketing repository. `tests/publication_provenance_test.ts` and `tests/trust_privacy_contract_test.ts` enforce byte-level SHA-256 integrity, zero pre-launch placeholders, zero third-party trackers/cookies, and zero exposed secrets.
 
 ## Public Privacy Contract & Zero-Tracker Verification (`tests/trust_privacy_contract_test.ts`)
 
-`tests/trust_privacy_contract_test.ts` enforces that zero third-party analytics, tracking pixels, fingerprinting scripts, or external telemetry beacons exist across all HTML and JS assets in the site, and confirms `trust/index.html` discloses exact product boundaries, Cloudflare Worker relay non-persistence, all nine permanent trust invariants, and GitHub Security Advisories / `/admin` revocation channels without leaking private backend identifiers or altering `UNDER WRAPS` pre-launch commercial gating.
+`tests/trust_privacy_contract_test.ts` enforces that zero third-party analytics, tracking pixels, fingerprinting scripts, or external telemetry beacons exist across all HTML and JS assets in the site, and confirms `trust/index.html` discloses exact product boundaries, Cloudflare Worker relay non-persistence, permanent trust invariants, and revocation channels without leaking private backend configuration.
 
-The homepage, pricing preview and proof page contain public static content only. Local is free without signup. Cloud is a Coming soon preview: its native-disabled button has no checkout target or handler. No authoritative price or claim of current hosted activation is displayed. Benefits are explicitly planned for launch.
+Public marketing, quickstart documentation, and Cloud pricing contain public static content only; Local is free without signup, and Cloud signup/admin UIs are client-only presentation layers failing closed prior to authenticated session confirmation.
 
 ## Authorization
-Public reading and local onboarding need no website login. Propodus independently enforces any future account, repository, paid-seat or exceptional governance access. Static labels confer no authority.
+Public reading and local onboarding require no website login. All account, repository, seat, and governance authority is enforced server-side outside this static site. Static presentation renders zero authority on its own.
 
 ## Data Classification
 Committed HTML, styles and assets are public. Credentials, Auth sessions, private logs, customer data and machine state remain outside Git. No Stripe product, price, merchant setting or operator override is created or changed.
 
 ## Threat Model
-Premature sales claims and misleading enabled controls are the relevant preview risks. Visible Coming soon states, no public prices, a disabled purchase control and source/browser review bound them. The exact quickstart destination carries no credential or customer state. No new remote script, installer, runtime backend or website dependency is introduced.
+Static assets and compiled UI presentation bundles carry zero credentials, private keys, or internal operational identifiers; automated provenance and privacy tests check every shipped asset without adding third-party scripts or tracking dependencies.
 
-Generated capability overlays below are obligations rather than evidence of a backend. Actual Supabase/Stripe authorization, recovery and payment acceptance remain independent Propodus proof gates.
+Generated capability overlays below are obligations rather than evidence of backend runtime state; backend authorization, recovery, and payment checks remain upstream proof gates outside this repository.
 
 ## Public evidence and publication boundary
 
@@ -75,7 +75,7 @@ Private ANSI bytes and cursor-state captures stay private. The public media uses
 
 ## Pricing and Authenticated Signup Security Boundary (November 21, 2026)
 
-- **Auth-before-checkout and fail-closed commercial gate**: Public `/pricing` keeps `'UNDER WRAPS'` and disabled Pay controls unless server discovery explicitly signals live billing and live sales; even when enabled, Pricing routes through managed PKCE authentication (`https://api.decapodlabs.ai/auth`, fallback `https://goyxpcmxetztjlrrcwew.supabase.co/functions/v1/decapod-onboarding/auth`) to `/signup` and never opens Stripe Checkout directly. `/signup` renders zero organization, repository, or billing state prior to valid PKCE authentication.
+- **Auth-before-checkout presentation gate**: Public `/pricing` presents live commercial rates ($50/mo, $552/yr) and Local free tier, routing paid enrollment exclusively through PKCE authentication at `https://api.decapodlabs.ai` into `/signup` and never opening Stripe Checkout directly. `/signup` renders zero organization, repository, or billing state prior to valid PKCE authentication.
 - **Input, XSS, and redirect validation**: `cloud-flow.js` validates `?repo=owner/repo` strictly against ASCII owner/repo allowlists, `pricing.js` and `signup/signup.js` update DOM exclusively through `textContent` (zero `innerHTML`/`outerHTML`/`insertAdjacentHTML`/`document.write`), `sanitizeReturnUrl` enforces same-origin HTTPS `/signup` or `/pricing` return targets, and `isAllowedCheckoutUrl` permits only HTTPS Stripe Checkout/Billing hosts.
 - **Credential isolation and URL scrubbing**: `signup/signup.js` scrubs all query and fragment parameters immediately via `history.replaceState`, rejects implicit URL fragment tokens (`access_token`, `refresh_token`, `provider_token`), stores active bearer tokens only in per-tab `sessionStorage`, keeps ephemeral provider tokens only in JS memory, and never transmits credentials in URLs or logs.
 - **Public-repo confidentiality**: `tests/pricing_signup_test.ts` scans authored website HTML/JS/CSS/TS artifacts and living specs to block Stripe object/secret IDs, private migration filenames, internal RPC symbols, and private backend file paths.
@@ -132,7 +132,7 @@ Generated capability obligations: `public-api` is declared for this project. The
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `a4a53b3acac59284b71bd94627308c11dedc4c43e999a2decc1b99d2432e2f6c`
-- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (4 files)
+- Repository signal fingerprint: `e4c19b6cd95b96ab408a352006060f4358fb42f6372b56ed4721c171eca10a38`
+- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (3 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->

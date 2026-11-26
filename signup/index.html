@@ -3,228 +3,316 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#fff9f0">
+<meta name="theme-color" content="#ffffff">
 <meta name="robots" content="noindex,nofollow">
 <meta name="referrer" content="no-referrer">
 <meta name="decapod-flow-contract" content="1">
-<meta name="decapod-asset-release" content="20261125-commercial">
-<meta name="description" content="Activate Decapod Cloud for your repository with verified GitHub ownership and Stripe Checkout.">
+<meta name="decapod-asset-release" content="20261126-geist">
+<meta name="description" content="Verify GitHub repository ownership, configure repositories and seats, and complete Decapod Cloud subscription checkout.">
 <link rel="canonical" href="https://decapodlabs.ai/signup">
 <link rel="icon" type="image/png" href="/assets/favicon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/styles.css?v=20261123-current-nav">
-<link rel="stylesheet" href="/signup/signup.css?v=20261125-commercial">
-<script src="/cloud-flow.js?v=20261125-commercial" defer></script>
-<script src="/signup/signup.js?v=20261125-commercial" defer></script>
-<title>Activate Decapod Cloud — Decapod Labs</title>
+<link rel="stylesheet" href="/shared/commercial-ui.css?v=20261126-geist">
+<link rel="stylesheet" href="/signup/signup.css?v=20261126-geist">
+<script src="/cloud-flow.js?v=20261126-geist" defer></script>
+<script src="/signup/signup.js?v=20261126-geist" defer></script>
+<title>Subscribe — Decapod Cloud</title>
 </head>
-<body class="signup-page site-footer-pinned">
-<a class="skip" href="#main">Skip to content</a>
-<header class="nav">
-  <div class="wrap nav-content">
-    <a href="/" class="brand" aria-label="Decapod Labs home"><img class="site-wordmark" src="/assets/logo-a.png" alt="Decapod Labs" width="420" height="140"></a>
-    <nav class="nav-links" aria-label="Site navigation">
-      <a href="/#showcase">Showcase</a>
-      <a href="/#features">Features</a>
-      <a href="/#architecture">Architecture</a>
-      <a href="/clack/index.html">Clack</a>
-      <a class="nav-pricing" href="/pricing">Pricing</a>
-      <a href="/admin/">Admin</a>
-    </nav>
-    <a class="nav-cta" href="https://github.com/DecapodLabs/decapod" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>
+<body class="ds-body signup-page">
+<a class="ds-skip" href="#main">Skip to content</a>
+
+<header class="ds-app-header">
+  <div class="ds-app-header-inner">
+    <div class="ds-header-left">
+      <a href="/" class="ds-brand" aria-label="Decapod Labs home">
+        <img class="ds-brand-mark" src="/assets/mascot.png" alt="" width="24" height="24">
+        <span>Decapod Cloud</span>
+      </a>
+      <span class="ds-header-sep" aria-hidden="true">/</span>
+      <span class="signup-nav-title">Subscription</span>
+    </div>
+    <div class="ds-header-right">
+      <a class="ds-nav-link" href="/pricing">Pricing</a>
+      <a class="ds-nav-link" href="/admin/">Admin</a>
+      <div class="signup-account-pill" id="account-bar" hidden>
+        <span class="ds-dot" style="color:var(--ds-success)" aria-hidden="true"></span>
+        <span class="account-summary" id="account-summary">GitHub</span>
+        <button type="button" class="ds-link-btn" id="sign-out-btn">Sign out</button>
+      </div>
+    </div>
   </div>
 </header>
 
-<main id="main" class="signup-main">
-  <section class="signup-app-section" id="signup-app" aria-label="Decapod Cloud activation">
-    <div class="wrap signup-shell">
-      <header class="signup-compact-header">
-        <div class="signup-header-brand">
-          <img class="signup-mascot" src="/assets/mascot.png" alt="Clack the Decapod crab mascot" width="76" height="76">
-          <div>
-            <p class="signup-eyebrow">Decapod Cloud</p>
-            <h1 id="signup-heading">Activate Cloud for your repository</h1>
-            <p class="signup-intro" id="signup-subtitle">Verify GitHub repository access, review your subscription, and connect Decapod CLI.</p>
-          </div>
-        </div>
-        <div class="signup-account-pill" id="account-bar" hidden>
-          <span class="verified-dot" aria-hidden="true">✓</span>
-          <span class="account-summary" id="account-summary">Verified with GitHub</span>
-          <button type="button" class="signup-link-btn" id="sign-out-btn">Switch account</button>
-        </div>
-      </header>
+<main id="main" class="ds-main">
+  <div class="ds-container-narrow signup-shell" id="signup-app">
 
+    <div class="signup-header-row">
+      <div>
+        <h1 class="ds-title" id="signup-heading">Set up Decapod Cloud</h1>
+        <p class="ds-subtitle" id="signup-subtitle">Authenticate with GitHub, verify repository administration, and review your server quote.</p>
+      </div>
       <ol class="signup-stepper" id="signup-stepper" aria-label="Purchase steps">
         <li class="step-item is-active" id="step-pill-auth"><span>1</span>Sign in</li>
-        <li class="step-item" id="step-pill-repo"><span>2</span>Repository</li>
-        <li class="step-item" id="step-pill-review"><span>3</span>Review &amp; pay</li>
-        <li class="step-item" id="step-pill-ready"><span>4</span>Ready</li>
+        <li class="step-item" id="step-pill-repo"><span>2</span>Repositories</li>
+        <li class="step-item" id="step-pill-review"><span>3</span>Review</li>
+        <li class="step-item" id="step-pill-ready"><span>4</span>Active</li>
       </ol>
+    </div>
 
-      <div class="signup-banner" id="signup-repo-banner" role="status" hidden>
+    <div class="ds-banner" id="signup-repo-banner" role="status" hidden>
+      <div>
         <strong id="signup-repo-banner-title"></strong>
-        <span id="signup-repo-banner-note"></span>
+        <span id="signup-repo-banner-note" style="margin-left:8px"></span>
+      </div>
+    </div>
+
+    <div class="ds-banner" id="signup-status" role="status" aria-live="polite" hidden></div>
+
+    <!-- Step 1: Unauthenticated Auth Gate -->
+    <section class="ds-card signup-auth-card" id="auth-gate" aria-labelledby="auth-heading">
+      <div class="auth-card-head">
+        <img class="signup-clack-mark" src="/assets/mascot.png" alt="Decapod mark" width="36" height="36">
+        <div>
+          <h2 class="ds-section-title" id="auth-heading">Continue with GitHub</h2>
+          <p class="ds-subtitle">Sign in as an administrator of the repository organization you want to enable.</p>
+        </div>
       </div>
 
-      <div class="signup-status-line" id="signup-status" role="status" aria-live="polite" hidden></div>
+      <div class="ds-card-subtle signup-intent-preview" id="auth-intent-preview" hidden>
+        <span class="signup-meta-label">Preserved selection</span>
+        <strong id="auth-intent-summary" class="ds-tabular"></strong>
+      </div>
 
-      <section class="signup-card" id="auth-gate" aria-labelledby="auth-heading">
-        <h2 id="auth-heading">Sign in with GitHub</h2>
-        <p class="signup-copy">Use the GitHub account that administers the repository you want to connect to Decapod Cloud.</p>
-        <div class="auth-actions">
-          <button type="button" class="signup-btn signup-btn-primary" id="auth-github">
-            <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
-            Continue with GitHub <span aria-hidden="true">→</span>
-          </button>
-          <button type="button" class="signup-btn signup-btn-secondary" id="auth-google" hidden>Continue with Google <span aria-hidden="true">→</span></button>
-          <button type="button" class="signup-btn signup-btn-ghost" id="cancel-auth-btn" hidden>Cancel sign-in</button>
-        </div>
-        <p class="signup-hint" id="auth-provider-note" role="status"></p>
-      </section>
+      <div class="auth-actions">
+        <button type="button" class="ds-btn ds-btn-primary ds-btn-lg" id="auth-github" style="width:100%">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+          Continue with GitHub
+        </button>
+        <button type="button" class="ds-btn ds-btn-secondary" id="auth-google" hidden style="width:100%">Continue with Google</button>
+        <button type="button" class="ds-btn ds-btn-ghost" id="cancel-auth-btn" hidden style="width:100%">Cancel sign-in</button>
+      </div>
+      <p class="ds-hint" id="auth-provider-note" role="status"></p>
+    </section>
 
-      <section class="signup-card" id="step-identity" hidden aria-labelledby="identity-heading">
-        <h2 id="identity-heading">Verify your GitHub account</h2>
-        <p class="signup-copy" id="identity-message"></p>
-        <div class="signup-actions" id="identity-link-actions" hidden>
-          <button type="button" class="signup-btn signup-btn-primary" id="link-github-btn">Link GitHub account <span aria-hidden="true">→</span></button>
-        </div>
-        <div class="signup-actions" id="identity-quarantine-actions" hidden>
-          <button type="button" class="signup-btn signup-btn-primary" id="confirm-provider-btn">Confirm sign-in method</button>
-          <button type="button" class="signup-btn signup-btn-danger" id="revoke-provider-btn">Remove unverified method</button>
-        </div>
-      </section>
+    <!-- Identity Linking / Step-up -->
+    <section class="ds-card signup-narrow-card" id="step-identity" hidden aria-labelledby="identity-heading">
+      <p class="ds-eyebrow">Identity check</p>
+      <h2 class="ds-section-title" id="identity-heading">Link your GitHub account</h2>
+      <p class="ds-copy" id="identity-message" style="margin-top:6px"></p>
+      <div class="signup-actions" id="identity-link-actions" hidden>
+        <button type="button" class="ds-btn ds-btn-primary" id="link-github-btn">Link GitHub account</button>
+      </div>
+      <div class="signup-actions" id="identity-quarantine-actions" hidden>
+        <button type="button" class="ds-btn ds-btn-primary" id="confirm-provider-btn">Confirm sign-in method</button>
+        <button type="button" class="ds-btn ds-btn-danger" id="revoke-provider-btn">Remove unverified method</button>
+      </div>
+    </section>
 
-      <section class="signup-card" id="step-org-repo" hidden aria-labelledby="org-repo-heading">
-        <h2 id="org-repo-heading">Choose your repository</h2>
-        <p class="signup-copy" id="org-repo-copy">Enter the GitHub repository you want to enable for Decapod Cloud.</p>
-        <form id="repo-form" novalidate>
-          <div class="signup-field">
-            <label for="repo-input">GitHub repository</label>
-            <div class="repo-input-row">
-              <input id="repo-input" name="repo" type="text" list="repo-suggestions" autocomplete="off" spellcheck="false" placeholder="owner/repository" maxlength="201" required>
-              <button type="submit" class="signup-btn signup-btn-primary" id="verify-repo-btn">Continue <span aria-hidden="true">→</span></button>
-            </div>
-            <datalist id="repo-suggestions"></datalist>
+    <!-- Step 2: Initial Repository Verification -->
+    <section class="ds-card signup-narrow-card" id="step-org-repo" hidden aria-labelledby="org-repo-heading">
+      <h2 class="ds-section-title" id="org-repo-heading">Verify starting repository</h2>
+      <p class="ds-copy" id="org-repo-copy" style="margin-top:6px">Enter an <code class="ds-mono">owner/repository</code> you administer. Additional repositories from the same organization can be added next.</p>
+      <form id="repo-form" novalidate>
+        <div class="ds-field">
+          <label for="repo-input">GitHub repository</label>
+          <div class="repo-input-row">
+            <input id="repo-input" class="ds-input ds-mono" name="repo" type="text" list="repo-suggestions" autocomplete="off" spellcheck="false" placeholder="owner/repository" maxlength="201" required>
+            <button type="submit" class="ds-btn ds-btn-primary" id="verify-repo-btn">Verify repository</button>
           </div>
-        </form>
-        <div class="signup-actions" id="repo-auth-extra" hidden>
-          <button type="button" class="signup-btn signup-btn-secondary" id="authorize-github-repos-btn">Authorize GitHub repository access <span aria-hidden="true">→</span></button>
+          <datalist id="repo-suggestions"></datalist>
         </div>
-        <p class="signup-hint" id="org-repo-hint" role="status"></p>
-      </section>
+      </form>
+      <div class="signup-actions" id="repo-auth-extra" hidden>
+        <button type="button" class="ds-btn ds-btn-secondary" id="authorize-github-repos-btn">Grant repository access on GitHub</button>
+      </div>
+      <p class="ds-hint" id="org-repo-hint" role="status"></p>
+    </section>
 
-      <section class="signup-card signup-card-state" id="step-state" hidden aria-live="polite">
-        <p class="signup-kicker" id="state-kicker">Status</p>
-        <h2 id="state-heading">Confirming your subscription…</h2>
-        <p class="signup-copy" id="state-message"></p>
-        <p class="signup-hint" id="state-detail" role="status"></p>
-        <div class="signup-actions">
-          <button type="button" class="signup-btn signup-btn-primary" id="state-retry-btn" hidden>Check status</button>
-          <button type="button" class="signup-btn signup-btn-primary" id="state-resume-checkout-btn" hidden>Review subscription <span aria-hidden="true">→</span></button>
-          <button type="button" class="signup-btn signup-btn-secondary" id="state-change-repo-btn" hidden>Choose another repository</button>
+    <!-- Fail-Closed / Polling / Canceled / Expired / Denied States -->
+    <section class="ds-card signup-narrow-card" id="step-state" hidden aria-live="polite">
+      <p class="ds-eyebrow" id="state-kicker">Status</p>
+      <h2 class="ds-section-title" id="state-heading">Confirming your subscription…</h2>
+      <p class="ds-copy" id="state-message" style="margin-top:8px"></p>
+      <p class="ds-hint" id="state-detail" role="status"></p>
+      <div class="signup-actions">
+        <button type="button" class="ds-btn ds-btn-primary" id="state-retry-btn" hidden>Check status</button>
+        <button type="button" class="ds-btn ds-btn-primary" id="state-resume-checkout-btn" hidden>Review subscription</button>
+        <button type="button" class="ds-btn ds-btn-secondary" id="state-change-repo-btn" hidden>Choose another repository</button>
+      </div>
+    </section>
+
+    <!-- Step 3: Unified Multi-Repository Allocation & Server Quote -->
+    <section id="step-checkout" hidden aria-labelledby="checkout-heading">
+      <div class="checkout-top-bar">
+        <div>
+          <h2 class="ds-section-title" id="checkout-heading">Configure repositories &amp; seats</h2>
+          <p class="ds-subtitle" id="checkout-target-label"></p>
         </div>
-      </section>
+        <button type="button" class="ds-btn ds-btn-ghost ds-btn-sm" id="checkout-back-btn">Switch starting repo</button>
+      </div>
 
-      <section class="signup-card" id="step-checkout" hidden aria-labelledby="checkout-heading">
-        <div class="checkout-card-header">
-          <div>
-            <h2 id="checkout-heading">Review your subscription</h2>
-            <p class="signup-copy checkout-target-line" id="checkout-target-label"></p>
-          </div>
-          <button type="button" class="signup-link-btn" id="checkout-back-btn">Change repository</button>
+      <div class="ds-banner is-warning" id="billing-closed-notice" hidden style="margin-bottom:16px">
+        <div>
+          <strong>Checkout availability check</strong>
+          <span style="margin-left:8px">Repository verification is saved. This account is not currently permitted for live Stripe Checkout on the current billing gate.</span>
         </div>
+      </div>
 
-        <div class="billing-closed-box" id="billing-closed-notice" hidden>
-          <div class="cloud-price-flag-inline">
-            <span aria-hidden="true">☁</span>
-            <div>
-              <strong>UNDER WRAPS</strong>
-              <small>Public Cloud purchasing is opening shortly.</small>
+      <div class="ds-banner" id="signup-intent-callout" hidden style="margin-bottom:16px">
+        <div>
+          <strong id="signup-intent-title">Pricing selection preserved</strong>
+          <span id="signup-intent-detail" style="margin-left:8px"></span>
+        </div>
+      </div>
+
+      <div class="checkout-workspace" id="billing-quote-controls" hidden>
+        <!-- Left column: Multi-Repo Allocation Table -->
+        <div class="checkout-repos-col">
+          <div class="ds-card ds-card-compact">
+            <div class="alloc-card-head">
+              <div>
+                <h3 class="alloc-heading">Verified repositories in this order</h3>
+                <p class="ds-hint" style="margin-top:2px">One organization per subscription. Paid capacities on existing repositories are preserved automatically.</p>
+              </div>
+              <span class="ds-badge ds-tabular" id="alloc-org-badge">Organization</span>
             </div>
-          </div>
-          <p class="signup-hint">Your repository verification is saved. Complete checkout here as soon as public sales open for your account.</p>
-        </div>
 
-        <div id="billing-quote-controls" hidden>
-          <div class="plan-config-grid">
-            <div class="signup-field">
-              <label for="billing-cadence">Billing cycle</label>
-              <select id="billing-cadence">
-                <option value="month">Monthly</option>
-                <option value="year">Annual (Save 8%)</option>
-              </select>
+            <div class="ds-table-wrap" style="margin-top:14px">
+              <table class="ds-table alloc-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Repository</th>
+                    <th scope="col">Current</th>
+                    <th scope="col">Seats</th>
+                    <th scope="col" class="alloc-col-act"><span class="sr-only">Actions</span></th>
+                  </tr>
+                </thead>
+                <tbody id="allocations-tbody"></tbody>
+              </table>
             </div>
-            <div class="signup-field">
-              <label for="seat-quantity">Seats for this repository</label>
+
+            <!-- Single-repo compatibility controls kept synchronized with primary row -->
+            <div class="single-seat-compat" id="single-seat-compat" hidden>
+              <label for="seat-quantity">Seats</label>
               <div class="seat-stepper">
                 <button type="button" class="stepper-btn" id="seat-minus-btn" aria-label="Decrease seats">−</button>
-                <input id="seat-quantity" type="number" min="1" max="1000" step="1" value="1" inputmode="numeric">
+                <input id="seat-quantity" class="ds-input ds-tabular" type="number" min="1" max="1000" step="1" value="1" inputmode="numeric">
                 <button type="button" class="stepper-btn" id="seat-plus-btn" aria-label="Increase seats">+</button>
               </div>
             </div>
-          </div>
 
-          <div class="subscription-summary" id="quote-summary">
-            <div class="summary-header">
-              <span>Subscription summary</span>
-              <span class="discount-pill" id="quote-discount-badge" hidden></span>
-            </div>
-            <dl class="summary-lines">
-              <div><dt>Repository</dt><dd id="summary-repo">—</dd></div>
-              <div><dt>Plan</dt><dd id="summary-plan">—</dd></div>
-              <div><dt>Seats</dt><dd id="summary-seats">—</dd></div>
-              <div id="summary-discount-row" hidden><dt>Discounts</dt><dd id="summary-discount">—</dd></div>
-            </dl>
-            <div class="summary-total-row">
-              <div>
-                <span class="summary-total-label">Total due today</span>
-                <p class="quote-commitment" id="quote-commitment"></p>
+            <form id="add-alloc-form" class="add-alloc-bar" novalidate>
+              <div class="ds-field" style="flex:1 1 220px">
+                <label for="add-alloc-repo-input">Add another repository in this organization</label>
+                <input id="add-alloc-repo-input" class="ds-input ds-mono" type="text" list="repo-suggestions" autocomplete="off" spellcheck="false" placeholder="org/another-repo" maxlength="201">
               </div>
-              <strong id="quote-amount" class="summary-total-amount">Calculating…</strong>
+              <div class="ds-field" style="width:92px">
+                <label for="add-alloc-seats-input">Seats</label>
+                <input id="add-alloc-seats-input" class="ds-input ds-tabular" type="number" min="1" max="1000" step="1" value="1" inputmode="numeric">
+              </div>
+              <button type="submit" class="ds-btn ds-btn-secondary" id="add-alloc-btn" style="align-self:flex-end">Verify &amp; add</button>
+            </form>
+            <p class="ds-hint" id="add-alloc-hint" role="status"></p>
+          </div>
+        </div>
+
+        <!-- Right column: Sticky Server Quote Summary -->
+        <aside class="checkout-summary-col">
+          <div class="ds-card ds-card-compact summary-panel">
+            <div class="ds-field" style="margin-bottom:14px">
+              <label for="billing-cadence">Billing cycle</label>
+              <select id="billing-cadence" class="ds-select">
+                <option value="month">Monthly ($50 / seat / mo)</option>
+                <option value="year">Annual ($552 / seat / yr · Save 8%)</option>
+              </select>
             </div>
-            <p class="quote-details" id="quote-details"></p>
-            <p class="quote-tax-note" id="quote-tax-note">Applicable taxes calculated at Stripe Checkout. Usage overages remain disabled.</p>
+
+            <div class="subscription-summary" id="quote-summary">
+              <div class="summary-header">
+                <span>Order summary</span>
+                <span class="ds-badge ds-badge-accent ds-tabular" id="quote-discount-badge" hidden></span>
+              </div>
+              <dl class="ds-dl ds-tabular">
+                <div><dt>Repositories</dt><dd id="summary-repo">—</dd></div>
+                <div><dt>Plan</dt><dd id="summary-plan">—</dd></div>
+                <div><dt>Total assignments</dt><dd id="summary-seats">—</dd></div>
+                <div id="summary-existing-row" hidden><dt>Existing capacity</dt><dd id="summary-existing">—</dd></div>
+                <div id="summary-discount-row" hidden><dt>Discounts</dt><dd id="summary-discount">—</dd></div>
+              </dl>
+
+              <div class="summary-total-box">
+                <div>
+                  <span class="summary-total-label">Total due today</span>
+                  <p class="quote-commitment" id="quote-commitment"></p>
+                </div>
+                <strong id="quote-amount" class="summary-total-amount ds-tabular">Calculating…</strong>
+              </div>
+              <p class="quote-details ds-tabular" id="quote-details"></p>
+              <p class="quote-tax-note" id="quote-tax-note">Taxes calculated at Stripe Checkout. Distinct-human discounts reflect verified assigned people only. Paid overages disabled by default.</p>
+            </div>
+
+            <p class="ds-hint is-error" id="quote-error-note" role="status" hidden></p>
+
+            <button type="button" class="ds-btn ds-btn-primary ds-btn-lg" id="checkout-btn" disabled style="width:100%;margin-top:14px">Continue to Stripe Checkout</button>
+            <p class="ds-hint" style="text-align:center;margin-top:8px">Encrypted checkout hosted by Stripe. No charge until you confirm.</p>
           </div>
+        </aside>
+      </div>
+    </section>
 
-          <p class="signup-hint is-error" id="quote-error-note" role="status" hidden></p>
+    <!-- Step 4: Server-Confirmed Active Subscription -->
+    <section class="ds-card signup-narrow-card" id="step-ready" hidden aria-labelledby="ready-heading">
+      <div class="ready-head">
+        <span class="ds-badge ds-badge-success"><span class="ds-dot"></span> Active</span>
+        <h2 class="ds-title" id="ready-heading" style="font-size:22px;margin-top:10px">Your Decapod Cloud subscription is active.</h2>
+        <p class="ds-subtitle" id="ready-summary"></p>
+      </div>
 
-          <div class="checkout-cta-row">
-            <button type="button" class="signup-btn signup-btn-primary signup-btn-lg" id="checkout-btn" disabled>Continue to secure checkout <span aria-hidden="true">→</span></button>
-            <span class="checkout-secure-note">Encrypted checkout hosted by Stripe. No charge until you confirm payment.</span>
-          </div>
+      <dl class="ds-dl ds-tabular" id="ready-details" hidden style="margin-top:16px">
+        <div><dt>Primary / CLI repository</dt><dd id="ready-repo">—</dd></div>
+        <div><dt>Plan</dt><dd id="ready-plan">—</dd></div>
+        <div><dt>Total purchased seats</dt><dd id="ready-seats">—</dd></div>
+        <div id="ready-renewal-row" hidden><dt>Current period through</dt><dd id="ready-renewal">—</dd></div>
+      </dl>
+
+      <div id="ready-allocations-wrap" hidden style="margin-top:16px">
+        <p class="ready-sublabel">Purchased repository capacities</p>
+        <div class="ds-table-wrap">
+          <table class="ds-table">
+            <thead>
+              <tr><th scope="col">Repository</th><th scope="col">Purchased seats</th></tr>
+            </thead>
+            <tbody id="ready-allocations-list"></tbody>
+          </table>
         </div>
-      </section>
+      </div>
 
-      <section class="signup-card signup-card-ready" id="step-ready" hidden aria-labelledby="ready-heading">
-        <div class="ready-badge">Active</div>
-        <h2 id="ready-heading">Your Decapod Cloud subscription is active.</h2>
-        <p class="signup-copy" id="ready-summary"></p>
+      <div class="cli-resume-box" style="margin-top:18px">
+        <strong>Continue in Decapod CLI</strong>
+        <p id="ready-cli-instruction">Return to your terminal — any waiting <code class="ds-mono">decapod init --backend cloud</code> session resumes automatically for this repository without manual Admin setup.</p>
+        <pre class="ds-mono"><code>decapod cloud status</code></pre>
+      </div>
 
-        <dl class="summary-lines ready-details" id="ready-details" hidden>
-          <div><dt>Repository</dt><dd id="ready-repo">—</dd></div>
-          <div><dt>Subscription</dt><dd id="ready-plan">—</dd></div>
-          <div><dt>Seats</dt><dd id="ready-seats">—</dd></div>
-          <div id="ready-renewal-row" hidden><dt>Current period through</dt><dd id="ready-renewal">—</dd></div>
-        </dl>
+      <div class="signup-actions" style="margin-top:18px">
+        <button type="button" class="ds-btn ds-btn-primary" id="ready-billing-portal-btn" hidden>Manage billing &amp; receipts ↗</button>
+        <a class="ds-btn ds-btn-secondary" id="ready-admin-link" href="/admin/">Open Organization Admin</a>
+        <button type="button" class="ds-btn ds-btn-ghost" id="ready-another-btn">Configure more repositories</button>
+      </div>
+      <p class="ds-hint" id="ready-portal-note" role="status" hidden></p>
+    </section>
 
-        <div class="cli-resume-box">
-          <strong>Continue in Decapod</strong>
-          <p>Return to your terminal — any running <code>decapod init --backend cloud</code> or <code>decapod cloud login</code> session activates automatically with no extra setup. You can also check status directly:</p>
-          <pre><code>decapod cloud status</code></pre>
-        </div>
-
-        <div class="signup-actions">
-          <button type="button" class="signup-btn signup-btn-primary" id="ready-billing-portal-btn" hidden>Manage billing &amp; receipts <span aria-hidden="true">↗</span></button>
-          <a class="signup-btn signup-btn-secondary" id="ready-admin-link" href="/admin/">Open Organization Admin <span aria-hidden="true">→</span></a>
-          <button type="button" class="signup-btn signup-btn-ghost" id="ready-another-btn">Add another repository</button>
-        </div>
-        <p class="signup-hint" id="ready-portal-note" role="status" hidden></p>
-      </section>
-    </div>
-  </section>
+  </div>
 </main>
-<footer class="footer"><div class="wrap footer-grid"><a href="/" class="footer-brand" aria-label="Decapod Labs home"><img class="site-wordmark" src="/assets/logo-c.png?v=20261118-footer" alt="Decapod Labs" width="420" height="140"></a><span>© 2026 Decapod Labs</span><div><a href="/pricing">Pricing ↗</a><a href="/admin/">Admin ↗</a><a href="/trust/index.html">Trust &amp; Privacy ↗</a><a href="https://github.com/DecapodLabs/decapod">GitHub ↗</a></div></div></footer>
+
+<footer class="ds-footer">
+  <div class="ds-footer-inner">
+    <span>© 2026 Decapod Labs</span>
+    <div class="ds-footer-links">
+      <a href="/pricing">Pricing</a>
+      <a href="/admin/">Admin</a>
+      <a href="/trust/index.html">Trust &amp; Privacy</a>
+      <a href="https://github.com/DecapodLabs/decapod" target="_blank" rel="noopener noreferrer">GitHub</a>
+    </div>
+  </div>
+</footer>
 </body>
 </html>

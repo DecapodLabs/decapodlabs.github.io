@@ -3,468 +3,516 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#fff9f0">
+<meta name="theme-color" content="#ffffff">
 <meta name="robots" content="noindex,nofollow">
 <meta name="referrer" content="no-referrer">
 <meta name="decapod-flow-contract" content="1">
-<meta name="decapod-asset-release" content="20261125-commercial">
-<meta name="description" content="Manage your Decapod Cloud organization: repositories, team members, subscription billing, usage limits, and security settings.">
+<meta name="decapod-asset-release" content="20261126-geist">
+<meta name="description" content="Manage your Decapod Cloud organization: repositories, contributor seats, team members, billing, usage thresholds, and device security.">
 <link rel="canonical" href="https://decapodlabs.ai/admin/">
 <link rel="icon" type="image/png" href="/assets/favicon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/styles.css?v=20261123-current-nav">
-<link rel="stylesheet" href="/admin/admin.css?v=20261125-commercial">
-<script src="/cloud-flow.js?v=20261125-commercial" defer></script>
-<script src="/admin/admin.js?v=20261125-commercial" defer></script>
+<link rel="stylesheet" href="/shared/commercial-ui.css?v=20261126-geist">
+<link rel="stylesheet" href="/admin/admin.css?v=20261126-geist">
+<script src="/cloud-flow.js?v=20261126-geist" defer></script>
+<script src="/admin/admin.js?v=20261126-geist" defer></script>
 <title>Organization Admin — Decapod Cloud</title>
 </head>
-<body class="admin-page site-footer-pinned">
-<a class="skip" href="#main">Skip to content</a>
-<header class="nav">
-  <div class="wrap nav-content">
-    <a href="/" class="brand" aria-label="Decapod Labs home"><img class="site-wordmark" src="/assets/logo-a.png" alt="Decapod Labs" width="420" height="140"></a>
-    <nav class="nav-links" aria-label="Site navigation">
-      <a href="/#showcase">Showcase</a>
-      <a href="/#features">Features</a>
-      <a href="/#architecture">Architecture</a>
-      <a href="/clack/index.html">Clack</a>
-      <a class="nav-pricing" href="/pricing">Pricing</a>
-      <a href="/signup">Signup</a>
-    </nav>
-    <a class="nav-cta" href="https://github.com/DecapodLabs/decapod" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>
+<body class="ds-body admin-page">
+<a class="ds-skip" href="#main">Skip to content</a>
+
+<header class="ds-app-header">
+  <div class="ds-app-header-inner">
+    <div class="ds-header-left">
+      <a href="/" class="ds-brand" aria-label="Decapod Labs home">
+        <img class="ds-brand-mark" src="/assets/mascot.png" alt="" width="24" height="24">
+        <span>Decapod Cloud</span>
+      </a>
+      <span class="ds-header-sep" aria-hidden="true">/</span>
+      <span class="admin-nav-label">Admin</span>
+      <div class="admin-org-switcher" id="admin-org-switcher-wrap" hidden>
+        <label class="sr-only" for="admin-org-select">Switch organization</label>
+        <select id="admin-org-select" class="ds-select admin-org-select" aria-label="Select organization"></select>
+      </div>
+    </div>
+    <div class="ds-header-right">
+      <a class="ds-nav-link" href="/pricing">Pricing</a>
+      <a class="ds-nav-link" id="add-repo-link" href="/signup">Add repositories</a>
+      <div class="admin-topbar-account" id="admin-account-bar" hidden>
+        <div class="admin-identity-pill">
+          <span class="ds-dot" style="color:var(--ds-success)" aria-hidden="true"></span>
+          <span id="admin-account-summary">GitHub</span>
+        </div>
+        <button type="button" class="ds-link-btn" id="admin-sign-out-btn">Sign out</button>
+      </div>
+    </div>
   </div>
 </header>
 
-<main id="main" class="admin-main">
-  <section class="admin-app-section" id="admin-app" aria-label="Decapod Cloud organization administration">
-    <div class="wrap admin-shell">
-      <header class="admin-topbar" id="admin-account-bar" hidden>
-        <div class="admin-topbar-org">
-          <span class="admin-eyebrow">Organization Admin</span>
-          <div class="admin-org-title-row">
-            <h1 id="admin-heading">Organization</h1>
-            <div class="admin-org-switcher" id="admin-org-switcher-wrap" hidden>
-              <label class="sr-only" for="admin-org-select">Switch organization</label>
-              <select id="admin-org-select" aria-label="Select organization"></select>
-            </div>
-          </div>
-        </div>
-        <div class="admin-topbar-user">
-          <div class="admin-identity-pill">
-            <span class="verified-dot" aria-hidden="true">✓</span>
-            <span class="admin-account-summary" id="admin-account-summary">GitHub verified</span>
-          </div>
-          <button type="button" class="admin-btn admin-btn-ghost admin-btn-sm" id="admin-sign-out-btn">Sign out</button>
-        </div>
-      </header>
+<main id="main" class="ds-main">
+  <div class="ds-container admin-shell" id="admin-app">
 
-      <div class="admin-banner" id="admin-route-banner" role="status" hidden>
+    <div class="ds-banner" id="admin-route-banner" role="status" hidden>
+      <div>
         <strong id="admin-route-banner-title"></strong>
-        <span id="admin-route-banner-note"></span>
+        <span id="admin-route-banner-note" style="margin-left:8px"></span>
+      </div>
+    </div>
+
+    <div class="ds-banner" id="admin-status" role="status" aria-live="polite" hidden></div>
+
+    <!-- Unauthenticated Gate -->
+    <section class="ds-card admin-auth-card" id="admin-auth-gate" aria-labelledby="admin-auth-heading">
+      <div class="admin-auth-head">
+        <img class="admin-clack-mark" src="/assets/mascot.png" alt="Decapod mark" width="36" height="36">
+        <div>
+          <h1 class="ds-section-title" id="admin-auth-heading">Sign in to Organization Admin</h1>
+          <p class="ds-subtitle">Manage repositories, contributor seats, billing, usage thresholds, and devices.</p>
+        </div>
+      </div>
+      <div class="admin-actions" style="margin-top:16px">
+        <button type="button" class="ds-btn ds-btn-primary ds-btn-lg" id="admin-auth-github" style="width:100%">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+          Continue with GitHub
+        </button>
+        <button type="button" class="ds-btn ds-btn-secondary" id="admin-auth-google" hidden style="width:100%">Continue with Google</button>
+        <button type="button" class="ds-btn ds-btn-ghost" id="admin-cancel-auth-btn" hidden style="width:100%">Cancel sign-in</button>
+      </div>
+      <p class="ds-hint" id="admin-auth-provider-note" role="status"></p>
+    </section>
+
+    <!-- Identity Verification / Quarantine -->
+    <section class="ds-card admin-narrow-card" id="admin-identity-panel" hidden>
+      <p class="ds-eyebrow">Identity check</p>
+      <h2 class="ds-section-title" id="admin-identity-heading">Connect a verified GitHub account</h2>
+      <p class="ds-copy" id="admin-identity-message" style="margin-top:6px"></p>
+      <div class="admin-actions" id="admin-identity-link-actions" hidden>
+        <button type="button" class="ds-btn ds-btn-primary" id="admin-link-github-btn">Link GitHub account</button>
+      </div>
+      <div class="admin-actions" id="admin-identity-quarantine-actions" hidden>
+        <button type="button" class="ds-btn ds-btn-primary" id="admin-confirm-provider-btn">Confirm sign-in method</button>
+        <button type="button" class="ds-btn ds-btn-danger" id="admin-revoke-provider-btn">Remove unverified method</button>
+      </div>
+    </section>
+
+    <!-- Fail-Closed / Denied -->
+    <section class="ds-card admin-narrow-card" id="admin-denied-panel" hidden>
+      <p class="ds-eyebrow" id="admin-denied-kicker">Access restricted</p>
+      <h2 class="ds-section-title" id="admin-denied-heading">Organization administration unavailable</h2>
+      <p class="ds-copy" id="admin-denied-message" style="margin-top:6px"></p>
+      <p class="ds-hint" id="admin-denied-detail" role="status"></p>
+      <div class="admin-actions" id="admin-denied-actions">
+        <button type="button" class="ds-btn ds-btn-primary" id="admin-open-authorized-org-btn" hidden>Open your organization</button>
+        <a class="ds-btn ds-btn-secondary" href="/signup">Set up subscription</a>
+        <a class="ds-btn ds-btn-ghost" href="/pricing">View plans</a>
+      </div>
+    </section>
+
+    <!-- Authenticated Organization Workspace -->
+    <div class="admin-workspace" id="admin-workspace" hidden>
+      <div class="admin-org-header">
+        <div>
+          <span class="admin-workspace-kicker">Organization</span>
+          <h1 class="ds-title" id="admin-heading">Organization</h1>
+        </div>
+        <div class="admin-org-header-actions">
+          <a class="ds-btn ds-btn-primary ds-btn-sm" id="overview-add-repo-link" href="/signup">Add subscription capacity</a>
+        </div>
       </div>
 
-      <div class="admin-status-line" id="admin-status" role="status" aria-live="polite" hidden></div>
+      <nav class="admin-tabs" role="tablist" aria-label="Admin sections">
+        <button type="button" role="tab" class="admin-tab is-active" id="tab-btn-overview" aria-selected="true" aria-controls="tab-panel-overview" data-tab="overview">Overview</button>
+        <button type="button" role="tab" class="admin-tab" id="tab-btn-repositories" aria-selected="false" aria-controls="tab-panel-repositories" data-tab="repositories">Repositories</button>
+        <button type="button" role="tab" class="admin-tab" id="tab-btn-people" aria-selected="false" aria-controls="tab-panel-people" data-tab="people">People</button>
+        <button type="button" role="tab" class="admin-tab" id="tab-btn-billing" aria-selected="false" aria-controls="tab-panel-billing" data-tab="billing">Billing</button>
+        <button type="button" role="tab" class="admin-tab" id="tab-btn-usage" aria-selected="false" aria-controls="tab-panel-usage" data-tab="usage">Usage</button>
+        <button type="button" role="tab" class="admin-tab" id="tab-btn-settings" aria-selected="false" aria-controls="tab-panel-settings" data-tab="settings">Settings</button>
+      </nav>
 
-      <section class="admin-card admin-auth-card" id="admin-auth-gate" aria-labelledby="admin-auth-heading">
-        <div class="admin-auth-header">
-          <img class="admin-mascot" src="/assets/mascot.png" alt="Clack the Decapod mascot" width="64" height="64">
-          <div>
-            <p class="admin-eyebrow">Decapod Cloud</p>
-            <h2 id="admin-auth-heading">Sign in to Organization Admin</h2>
+      <!-- OVERVIEW -->
+      <section role="tabpanel" class="admin-panel" id="tab-panel-overview" aria-labelledby="tab-btn-overview">
+        <div class="kpi-grid">
+          <article class="ds-card ds-card-compact kpi-card">
+            <span class="kpi-label">Subscription</span>
+            <strong class="kpi-value" id="overview-sub-status">—</strong>
+            <p class="kpi-meta" id="overview-sub-meta">Checking billing…</p>
+          </article>
+          <article class="ds-card ds-card-compact kpi-card">
+            <span class="kpi-label">Seats</span>
+            <strong class="kpi-value ds-tabular" id="overview-seats-value">—</strong>
+            <p class="kpi-meta" id="overview-seats-meta">Assigned vs purchased</p>
+          </article>
+          <article class="ds-card ds-card-compact kpi-card">
+            <span class="kpi-label">Repositories</span>
+            <strong class="kpi-value ds-tabular" id="overview-repos-value">0</strong>
+            <p class="kpi-meta" id="overview-repos-meta">Connected to Cloud</p>
+          </article>
+          <article class="ds-card ds-card-compact kpi-card">
+            <span class="kpi-label">Usage &amp; alerts</span>
+            <strong class="kpi-value" id="overview-usage-value">—</strong>
+            <p class="kpi-meta" id="overview-usage-meta">Included monthly capacity</p>
+          </article>
+        </div>
+
+        <div class="admin-two-col">
+          <article class="ds-card">
+            <h2 class="ds-section-title" id="overview-org-heading">Organization boundary</h2>
+            <p class="ds-subtitle" style="margin-bottom:12px">Administrative privilege and paid repository contributor seats remain strictly separate.</p>
+            <dl class="ds-dl">
+              <div><dt>Organization</dt><dd id="admin-active-org-slug">—</dd></div>
+              <div><dt>Code host</dt><dd id="admin-active-org-provider">GitHub</dd></div>
+              <div><dt>Your scope</dt><dd id="admin-orthogonality-summary">Organization administrator</dd></div>
+            </dl>
+          </article>
+
+          <article class="ds-card" id="overview-alerts-card">
+            <h2 class="ds-section-title">Attention &amp; alerts</h2>
+            <p class="ds-hint" id="overview-alerts-empty" style="margin-top:8px">No active alerts or pending items.</p>
+            <ul class="ds-list" id="admin-overview-alerts" style="margin-top:10px"></ul>
+          </article>
+        </div>
+      </section>
+
+      <!-- REPOSITORIES -->
+      <section role="tabpanel" class="admin-panel" id="tab-panel-repositories" aria-labelledby="tab-btn-repositories" hidden>
+        <article class="ds-card">
+          <div class="section-head-row">
+            <div>
+              <h2 class="ds-section-title">Enrolled repositories</h2>
+              <p class="ds-subtitle">Purchased capacity and contributor status per repository. Admin privilege alone grants zero access to repository governance data.</p>
+            </div>
           </div>
-        </div>
-        <p class="admin-copy">Manage your repositories, seats, team access, subscription billing, and security controls.</p>
-        <div class="admin-actions">
-          <button type="button" class="admin-btn admin-btn-primary" id="admin-auth-github">
-            <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
-            Continue with GitHub <span aria-hidden="true">→</span>
-          </button>
-          <button type="button" class="admin-btn admin-btn-secondary" id="admin-auth-google" hidden>Continue with Google <span aria-hidden="true">→</span></button>
-          <button type="button" class="admin-btn admin-btn-ghost" id="admin-cancel-auth-btn" hidden>Cancel sign-in</button>
-        </div>
-        <p class="admin-hint" id="admin-auth-provider-note" role="status"></p>
-      </section>
-
-      <section class="admin-card" id="admin-identity-panel" hidden>
-        <p class="admin-kicker">Identity verification</p>
-        <h2 id="admin-identity-heading">Connect a verified GitHub account</h2>
-        <p class="admin-copy" id="admin-identity-message"></p>
-        <div class="admin-actions" id="admin-identity-link-actions" hidden>
-          <button type="button" class="admin-btn admin-btn-primary" id="admin-link-github-btn">Link GitHub account <span aria-hidden="true">→</span></button>
-        </div>
-        <div class="admin-actions" id="admin-identity-quarantine-actions" hidden>
-          <button type="button" class="admin-btn admin-btn-primary" id="admin-confirm-provider-btn">Confirm sign-in method</button>
-          <button type="button" class="admin-btn admin-btn-danger" id="admin-revoke-provider-btn">Remove unverified method</button>
-        </div>
-      </section>
-
-      <section class="admin-card admin-card-denied" id="admin-denied-panel" hidden>
-        <p class="admin-kicker" id="admin-denied-kicker">Access restricted</p>
-        <h2 id="admin-denied-heading">Organization administration unavailable</h2>
-        <p class="admin-copy" id="admin-denied-message"></p>
-        <p class="admin-hint" id="admin-denied-detail" role="status"></p>
-        <div class="admin-actions" id="admin-denied-actions">
-          <button type="button" class="admin-btn admin-btn-primary" id="admin-open-authorized-org-btn" hidden>Open your organization</button>
-          <a class="admin-btn admin-btn-secondary" href="/signup">Activate Cloud <span aria-hidden="true">→</span></a>
-          <a class="admin-btn admin-btn-ghost" href="/pricing">View plans</a>
-        </div>
-      </section>
-
-      <div class="admin-workspace" id="admin-workspace" hidden>
-        <nav class="admin-tabs" role="tablist" aria-label="Admin sections">
-          <button type="button" role="tab" class="admin-tab is-active" id="tab-btn-overview" aria-selected="true" aria-controls="tab-panel-overview" data-tab="overview">Overview</button>
-          <button type="button" role="tab" class="admin-tab" id="tab-btn-repositories" aria-selected="false" aria-controls="tab-panel-repositories" data-tab="repositories">Repositories</button>
-          <button type="button" role="tab" class="admin-tab" id="tab-btn-people" aria-selected="false" aria-controls="tab-panel-people" data-tab="people">People</button>
-          <button type="button" role="tab" class="admin-tab" id="tab-btn-billing" aria-selected="false" aria-controls="tab-panel-billing" data-tab="billing">Billing</button>
-          <button type="button" role="tab" class="admin-tab" id="tab-btn-usage" aria-selected="false" aria-controls="tab-panel-usage" data-tab="usage">Usage</button>
-          <button type="button" role="tab" class="admin-tab" id="tab-btn-settings" aria-selected="false" aria-controls="tab-panel-settings" data-tab="settings">Settings</button>
-        </nav>
-
-        <!-- OVERVIEW -->
-        <section role="tabpanel" class="admin-panel" id="tab-panel-overview" aria-labelledby="tab-btn-overview">
-          <div class="kpi-grid">
-            <article class="kpi-card">
-              <span class="kpi-label">Subscription</span>
-              <strong class="kpi-value" id="overview-sub-status">—</strong>
-              <p class="kpi-meta" id="overview-sub-meta">Checking billing…</p>
-            </article>
-            <article class="kpi-card">
-              <span class="kpi-label">Seats</span>
-              <strong class="kpi-value" id="overview-seats-value">—</strong>
-              <p class="kpi-meta" id="overview-seats-meta">Purchased &amp; assigned</p>
-            </article>
-            <article class="kpi-card">
-              <span class="kpi-label">Repositories</span>
-              <strong class="kpi-value" id="overview-repos-value">0</strong>
-              <p class="kpi-meta" id="overview-repos-meta">Connected to Cloud</p>
-            </article>
-            <article class="kpi-card">
-              <span class="kpi-label">Usage &amp; alerts</span>
-              <strong class="kpi-value" id="overview-usage-value">—</strong>
-              <p class="kpi-meta" id="overview-usage-meta">Included monthly capacity</p>
-            </article>
+          <div class="ds-table-wrap" style="margin-top:14px">
+            <table class="ds-table">
+              <thead>
+                <tr>
+                  <th scope="col">Repository</th>
+                  <th scope="col">Assigned / purchased</th>
+                  <th scope="col">Your access</th>
+                </tr>
+              </thead>
+              <tbody id="admin-repos-list"></tbody>
+            </table>
           </div>
+          <p class="ds-empty" id="admin-repos-empty" hidden style="margin-top:12px">No repositories enrolled in this organization yet.</p>
+        </article>
 
-          <div class="admin-two-col">
-            <article class="admin-card">
-              <h2 id="overview-org-heading">Organization profile</h2>
-              <dl class="detail-list">
-                <div><dt>Organization</dt><dd id="admin-active-org-slug">—</dd></div>
-                <div><dt>Code host</dt><dd id="admin-active-org-provider">GitHub</dd></div>
-                <div><dt>Your access</dt><dd id="admin-orthogonality-summary">Organization administrator</dd></div>
-              </dl>
-              <div class="admin-actions">
-                <a class="admin-btn admin-btn-primary" id="overview-add-repo-link" href="/signup">Add subscription capacity <span aria-hidden="true">→</span></a>
+        <div class="admin-two-col">
+          <details class="ds-disclosure">
+            <summary>Enroll a repository</summary>
+            <div class="ds-disclosure-body">
+              <p class="ds-hint" style="margin:0 0 12px">Connect an organization repository where your GitHub account holds admin access.</p>
+              <div class="ds-field">
+                <label for="admin-enroll-repo-input">GitHub repository (owner/repo)</label>
+                <input id="admin-enroll-repo-input" class="ds-input ds-mono" type="text" autocomplete="off" spellcheck="false" placeholder="owner/repository" maxlength="201">
               </div>
-            </article>
+              <div class="admin-actions">
+                <button type="button" class="ds-btn ds-btn-primary" id="admin-enroll-repo-btn">Enroll repository</button>
+                <button type="button" class="ds-btn ds-btn-secondary" id="admin-authorize-github-btn" hidden>Authorize GitHub access</button>
+              </div>
+              <p class="ds-hint" id="admin-enroll-status" role="status"></p>
+            </div>
+          </details>
 
-            <article class="admin-card" id="overview-alerts-card">
-              <h2>Attention &amp; alerts</h2>
-              <p class="admin-copy" id="overview-alerts-empty">No active alerts or pending issues.</p>
-              <ul class="admin-list" id="admin-overview-alerts"></ul>
-            </article>
-          </div>
-        </section>
+          <details class="ds-disclosure">
+            <summary>Manage repository seat assignments</summary>
+            <div class="ds-disclosure-body">
+              <p class="ds-hint" style="margin:0 0 12px">Assign or revoke contributor seats for verified organization members.</p>
+              <div class="admin-form-grid">
+                <div class="ds-field">
+                  <label for="admin-assign-project-select">Repository</label>
+                  <select id="admin-assign-project-select" class="ds-select"></select>
+                </div>
+                <div class="ds-field">
+                  <label for="admin-assign-member-select">Member</label>
+                  <select id="admin-assign-member-select" class="ds-select"></select>
+                </div>
+              </div>
+              <div class="admin-actions">
+                <button type="button" class="ds-btn ds-btn-primary" id="admin-assign-seat-btn">Assign seat</button>
+                <button type="button" class="ds-btn ds-btn-danger" id="admin-revoke-seat-btn">Revoke seat</button>
+                <button type="button" class="ds-btn ds-btn-ghost" id="admin-more-billing-members-btn" hidden>Load more</button>
+              </div>
+              <p class="ds-hint" id="admin-seat-assign-status" role="status"></p>
+            </div>
+          </details>
+        </div>
+      </section>
 
-        <!-- REPOSITORIES -->
-        <section role="tabpanel" class="admin-panel" id="tab-panel-repositories" aria-labelledby="tab-btn-repositories" hidden>
-          <article class="admin-card">
-            <div class="section-header-row">
-              <div>
-                <h2>Enrolled repositories</h2>
-                <p class="admin-copy">View repository capacity and your own contributor seat status. Admin permission does not grant contributor access to repository data unless you hold an assigned seat.</p>
+      <!-- PEOPLE -->
+      <section role="tabpanel" class="admin-panel" id="tab-panel-people" aria-labelledby="tab-btn-people" hidden>
+        <div class="admin-two-col">
+          <article class="ds-card">
+            <h2 class="ds-section-title">Members</h2>
+            <p class="ds-subtitle" style="margin-bottom:12px">Verified people in this organization. Distinct-human volume tiers count active assigned contributors only.</p>
+            <ul class="ds-list" id="admin-members-list"></ul>
+            <div class="admin-actions">
+              <button type="button" class="ds-btn ds-btn-ghost ds-btn-sm" id="admin-next-members-btn" hidden>Load more members</button>
+            </div>
+            <p class="ds-hint" id="admin-members-status" role="status"></p>
+          </article>
+
+          <article class="ds-card">
+            <h2 class="ds-section-title">Invitations</h2>
+            <p class="ds-subtitle" style="margin-bottom:12px">Single-use invitations by GitHub username. Pending invitations do not count toward distinct-human discounts.</p>
+            <details class="ds-disclosure" style="margin-bottom:12px">
+              <summary>Invite a contributor</summary>
+              <div class="ds-disclosure-body">
+                <div class="ds-field">
+                  <label for="admin-invite-github-input">GitHub username</label>
+                  <input id="admin-invite-github-input" class="ds-input ds-mono" type="text" autocomplete="off" spellcheck="false" placeholder="github-handle" maxlength="100">
+                </div>
+                <div class="admin-actions">
+                  <button type="button" class="ds-btn ds-btn-primary" id="admin-invite-btn">Create invitation</button>
+                </div>
+              </div>
+            </details>
+            <div class="admin-invite-copy-box" id="admin-invitation-copy-box" hidden style="margin-bottom:12px">
+              <label for="admin-invitation-link">Single-use invitation link</label>
+              <div class="invite-copy-row">
+                <input id="admin-invitation-link" class="ds-input ds-mono" type="text" readonly>
+                <button type="button" class="ds-btn ds-btn-secondary ds-btn-sm" id="admin-copy-invitation-btn">Copy</button>
               </div>
             </div>
-            <div class="admin-table-wrap">
-              <table class="admin-table">
+            <ul class="ds-list" id="admin-invitations-list"></ul>
+            <div class="admin-actions">
+              <button type="button" class="ds-btn ds-btn-ghost ds-btn-sm" id="admin-more-invitations-btn" hidden>Load more invitations</button>
+            </div>
+            <p class="ds-hint" id="admin-invitations-status" role="status"></p>
+          </article>
+        </div>
+
+        <details class="ds-disclosure" id="admin-delegation-box">
+          <summary>Administrators &amp; ownership delegation</summary>
+          <div class="ds-disclosure-body">
+            <p class="ds-hint" id="admin-delegation-note" style="margin:0 0 6px">Organization administrators manage billing, seats, and settings without gaining contributor access to repository governance data.</p>
+            <p class="ds-hint" id="admin-delegation-meta" style="margin:0 0 12px"></p>
+            <ul class="ds-list" id="admin-delegation-list"></ul>
+            <ul class="ds-list" id="admin-delegation-invites-list" style="margin-top:8px"></ul>
+            <div class="admin-form-grid" style="margin-top:14px">
+              <div class="ds-field">
+                <label for="admin-delegate-member-select">Select member</label>
+                <select id="admin-delegate-member-select" class="ds-select"></select>
+              </div>
+            </div>
+            <div class="admin-actions">
+              <button type="button" class="ds-btn ds-btn-primary" id="admin-grant-admin-btn">Grant admin role</button>
+              <button type="button" class="ds-btn ds-btn-secondary" id="admin-invite-admin-btn">Invite as admin</button>
+              <button type="button" class="ds-btn ds-btn-danger" id="admin-revoke-admin-btn">Revoke admin</button>
+              <button type="button" class="ds-btn ds-btn-secondary" id="admin-transfer-owner-btn">Transfer ownership</button>
+            </div>
+            <p class="ds-hint" id="admin-delegation-status" role="status"></p>
+          </div>
+        </details>
+      </section>
+
+      <!-- BILLING -->
+      <section role="tabpanel" class="admin-panel" id="tab-panel-billing" aria-labelledby="tab-btn-billing" hidden>
+        <article class="ds-card">
+          <div class="section-head-row">
+            <div>
+              <h2 class="ds-section-title">Subscription &amp; invoices</h2>
+              <p class="ds-subtitle" id="admin-billing-status">Checking subscription status…</p>
+            </div>
+            <div class="admin-actions" style="margin-top:0">
+              <button type="button" class="ds-btn ds-btn-primary" id="admin-billing-portal-btn">Open billing &amp; invoices ↗</button>
+              <a class="ds-btn ds-btn-secondary" id="admin-add-capacity-link" href="/signup">Change seats or repositories</a>
+            </div>
+          </div>
+
+          <dl class="ds-dl ds-tabular" id="admin-billing-meta-list" hidden style="margin-top:16px">
+            <div><dt>Plan cadence</dt><dd id="admin-billing-cadence">—</dd></div>
+            <div><dt>Purchased seat capacity</dt><dd id="admin-billing-seats">0</dd></div>
+            <div><dt>Current period through</dt><dd id="admin-billing-renewal">—</dd></div>
+            <div><dt>Paid resource overages</dt><dd>Disabled ($0 exposure)</dd></div>
+          </dl>
+
+          <div id="admin-billing-capacities-wrap" hidden style="margin-top:16px">
+            <h3 class="billing-subhead">Purchased repository allocations</h3>
+            <div class="ds-table-wrap">
+              <table class="ds-table">
                 <thead>
-                  <tr>
-                    <th scope="col">Repository</th>
-                    <th scope="col">Purchased seats</th>
-                    <th scope="col">Your access</th>
-                  </tr>
+                  <tr><th scope="col">Repository</th><th scope="col">Assigned</th><th scope="col">Purchased capacity</th></tr>
                 </thead>
-                <tbody id="admin-repos-list"></tbody>
+                <tbody id="admin-billing-capacities"></tbody>
               </table>
             </div>
-            <p class="admin-hint" id="admin-repos-empty" hidden>No repositories connected to this organization yet.</p>
-          </article>
-
-          <div class="admin-two-col">
-            <article class="admin-card">
-              <h3>Add a repository</h3>
-              <p class="admin-hint" style="margin-top:0;margin-bottom:12px">Connect an organization repository where you hold GitHub admin access.</p>
-              <div class="admin-field">
-                <label for="admin-enroll-repo-input">GitHub repository (owner/repo)</label>
-                <input id="admin-enroll-repo-input" type="text" autocomplete="off" spellcheck="false" placeholder="DecapodLabs/decapod" maxlength="201">
-              </div>
-              <div class="admin-actions">
-                <button type="button" class="admin-btn admin-btn-primary" id="admin-enroll-repo-btn">Add repository</button>
-                <button type="button" class="admin-btn admin-btn-secondary" id="admin-authorize-github-btn" hidden>Authorize GitHub access <span aria-hidden="true">→</span></button>
-              </div>
-              <p class="admin-hint" id="admin-enroll-status" role="status"></p>
-            </article>
-
-            <article class="admin-card">
-              <h3>Assign repository seats</h3>
-              <p class="admin-hint" style="margin-top:0;margin-bottom:12px">Grant or remove paid contributor seats for organization members.</p>
-              <div class="admin-form-row">
-                <div class="admin-field">
-                  <label for="admin-assign-project-select">Repository</label>
-                  <select id="admin-assign-project-select"></select>
-                </div>
-                <div class="admin-field">
-                  <label for="admin-assign-member-select">Member</label>
-                  <select id="admin-assign-member-select"></select>
-                </div>
-              </div>
-              <div class="admin-actions">
-                <button type="button" class="admin-btn admin-btn-primary" id="admin-assign-seat-btn">Assign seat</button>
-                <button type="button" class="admin-btn admin-btn-danger" id="admin-revoke-seat-btn">Remove seat</button>
-                <button type="button" class="admin-btn admin-btn-ghost" id="admin-more-billing-members-btn" hidden>Load more members</button>
-              </div>
-              <p class="admin-hint" id="admin-seat-assign-status" role="status"></p>
-            </article>
-          </div>
-        </section>
-
-        <!-- PEOPLE -->
-        <section role="tabpanel" class="admin-panel" id="tab-panel-people" aria-labelledby="tab-btn-people" hidden>
-          <div class="admin-two-col">
-            <article class="admin-card">
-              <h2>Members</h2>
-              <p class="admin-copy">People with access to this organization and their assigned repository seats.</p>
-              <ul class="admin-list" id="admin-members-list"></ul>
-              <div class="admin-actions">
-                <button type="button" class="admin-btn admin-btn-ghost" id="admin-next-members-btn" hidden>Load more members</button>
-              </div>
-              <p class="admin-hint" id="admin-members-status" role="status"></p>
-            </article>
-
-            <article class="admin-card">
-              <h3>Invite a teammate</h3>
-              <p class="admin-hint" style="margin-top:0;margin-bottom:12px">Send a single-use organization invitation by GitHub username. You can assign a paid repository seat after they join.</p>
-              <div class="admin-field">
-                <label for="admin-invite-github-input">GitHub username</label>
-                <input id="admin-invite-github-input" type="text" autocomplete="off" spellcheck="false" placeholder="teammate-handle" maxlength="100">
-              </div>
-              <details class="admin-advanced-disclosure">
-                <summary>Or invite by Cloud Account ID</summary>
-                <div class="admin-field" style="margin-top:10px">
-                  <label for="admin-invite-recipient">Cloud Account ID (optional fallback)</label>
-                  <input id="admin-invite-recipient" type="text" autocomplete="off" spellcheck="false" placeholder="Account UUID" maxlength="36">
-                </div>
-              </details>
-              <div class="admin-actions">
-                <button type="button" class="admin-btn admin-btn-primary" id="admin-invite-btn">Create invitation</button>
-                <button type="button" class="admin-btn admin-btn-ghost" id="admin-more-invitations-btn" hidden>Load more invitations</button>
-              </div>
-              <div class="admin-invite-copy-box" id="admin-invitation-copy-box" hidden>
-                <label for="admin-invitation-link">Single-use invitation link</label>
-                <input id="admin-invitation-link" type="text" readonly>
-                <button type="button" class="admin-btn admin-btn-secondary admin-btn-sm" id="admin-copy-invitation-btn">Copy link</button>
-              </div>
-              <ul class="admin-list" id="admin-invitations-list"></ul>
-              <p class="admin-hint" id="admin-invitations-status" role="status"></p>
-            </article>
           </div>
 
-          <article class="admin-card" id="admin-delegation-box">
-            <h3>Administrators &amp; ownership</h3>
-            <p class="admin-copy" id="admin-delegation-note">Organization administrators manage billing, seats, and settings without automatically receiving contributor access to repository data.</p>
-            <p class="admin-hint" id="admin-delegation-meta" style="margin-top:0;margin-bottom:10px"></p>
-            <ul class="admin-list" id="admin-delegation-list"></ul>
-            <ul class="admin-list" id="admin-delegation-invites-list"></ul>
-            <div class="admin-form-row" style="margin-top:16px">
-              <div class="admin-field">
-                <label for="admin-delegate-member-select">Select member</label>
-                <select id="admin-delegate-member-select"></select>
-              </div>
-            </div>
-            <div class="admin-actions">
-              <button type="button" class="admin-btn admin-btn-primary" id="admin-grant-admin-btn">Grant admin role</button>
-              <button type="button" class="admin-btn admin-btn-secondary" id="admin-invite-admin-btn">Invite as admin</button>
-              <button type="button" class="admin-btn admin-btn-danger" id="admin-revoke-admin-btn">Revoke admin role</button>
-              <button type="button" class="admin-btn admin-btn-secondary" id="admin-transfer-owner-btn">Transfer ownership</button>
-            </div>
-            <p class="admin-hint" id="admin-delegation-status" role="status"></p>
-          </article>
-        </section>
+          <div class="ds-card-subtle" id="admin-pending-order-box" hidden style="margin-top:16px">
+            <p class="ds-hint" id="admin-pending-order-summary" style="margin:0 0 10px"></p>
+            <button type="button" class="ds-btn ds-btn-danger ds-btn-sm" id="admin-cancel-order-btn">Cancel pending billing change</button>
+          </div>
+          <p class="ds-hint" id="admin-billing-detail" role="status"></p>
+        </article>
+      </section>
 
-        <!-- BILLING -->
-        <section role="tabpanel" class="admin-panel" id="tab-panel-billing" aria-labelledby="tab-btn-billing" hidden>
-          <article class="admin-card">
-            <h2>Subscription &amp; invoices</h2>
-            <p class="admin-status-inline" id="admin-billing-status">Checking subscription status…</p>
-            <dl class="detail-list" id="admin-billing-meta-list" hidden>
-              <div><dt>Plan cadence</dt><dd id="admin-billing-cadence">—</dd></div>
-              <div><dt>Purchased seats</dt><dd id="admin-billing-seats">0</dd></div>
-              <div><dt>Active through</dt><dd id="admin-billing-renewal">—</dd></div>
-            </dl>
-            <div class="admin-subcard" id="admin-pending-order-box" hidden>
-              <p class="admin-hint" id="admin-pending-order-summary" style="margin-top:0"></p>
-              <div class="admin-actions">
-                <button type="button" class="admin-btn admin-btn-danger" id="admin-cancel-order-btn">Cancel pending billing change</button>
-              </div>
+      <!-- USAGE -->
+      <section role="tabpanel" class="admin-panel" id="tab-panel-usage" aria-labelledby="tab-btn-usage" hidden>
+        <article class="ds-card">
+          <div class="section-head-row">
+            <div>
+              <h2 class="ds-section-title">Usage &amp; included capacity</h2>
+              <p class="ds-subtitle">Measured utilization across included capacity pools. Alerts notify administrators early without enabling automatic charges.</p>
             </div>
-            <div class="admin-actions">
-              <button type="button" class="admin-btn admin-btn-primary" id="admin-billing-portal-btn">Open billing &amp; invoices <span aria-hidden="true">↗</span></button>
-              <a class="admin-btn admin-btn-secondary" id="admin-add-capacity-link" href="/signup">Add seats or repositories <span aria-hidden="true">→</span></a>
+            <div class="ds-badge ds-badge-success"><span class="ds-dot"></span> Overages off ($0)</div>
+          </div>
+
+          <div class="ds-card-subtle" style="margin-top:14px">
+            <p class="ds-hint" id="admin-overage-status" style="margin:0;color:var(--ds-fg);font-weight:500">Included capacity protection active · Paid overages disabled ($0 exposure)</p>
+            <p class="ds-hint" id="admin-overage-receipt" style="margin:4px 0 0"></p>
+            <div class="admin-actions" id="admin-overage-revoke-wrap" hidden style="margin-top:10px">
+              <button type="button" class="ds-btn ds-btn-danger ds-btn-sm" id="admin-overages-revoke-btn">Disable paid overages</button>
             </div>
-            <p class="admin-hint" id="admin-billing-detail" role="status"></p>
-          </article>
-        </section>
+            <p class="ds-hint" id="admin-overage-save-status" role="status"></p>
+          </div>
 
-        <!-- USAGE -->
-        <section role="tabpanel" class="admin-panel" id="tab-panel-usage" aria-labelledby="tab-btn-usage" hidden>
-          <article class="admin-card">
-            <h2>Usage &amp; limits</h2>
-            <p class="admin-copy">Monitor organization usage against your included capacity. Early alerts and hard operating limits help prevent surprises.</p>
+          <div class="admin-resource-grid" id="admin-resource-cards" style="margin-top:16px"></div>
+        </article>
 
-            <div class="admin-included-box">
-              <p class="admin-status-inline" id="admin-overage-status">Included capacity protection active · Paid overages disabled ($0 exposure)</p>
-              <p class="admin-hint" id="admin-overage-receipt" style="margin-top:4px"></p>
-              <div class="admin-actions" id="admin-overage-revoke-wrap" hidden>
-                <button type="button" class="admin-btn admin-btn-danger" id="admin-overages-revoke-btn">Disable paid overages</button>
-              </div>
-              <p class="admin-hint" id="admin-overage-save-status" role="status"></p>
-            </div>
-
-            <div class="admin-resource-grid" id="admin-resource-cards"></div>
-          </article>
-
-          <div class="admin-two-col">
-            <article class="admin-card">
-              <h3>Threshold &amp; operating limit</h3>
-              <div class="admin-form-row">
-                <div class="admin-field">
+        <div class="admin-two-col">
+          <details class="ds-disclosure">
+            <summary>Configure warning thresholds &amp; operating limits</summary>
+            <div class="ds-disclosure-body">
+              <div class="admin-form-grid">
+                <div class="ds-field">
                   <label for="admin-limit-metric">Resource metric</label>
-                  <select id="admin-limit-metric"></select>
+                  <select id="admin-limit-metric" class="ds-select"></select>
                 </div>
-                <div class="admin-field">
+                <div class="ds-field">
                   <label for="admin-limit-cap">Operating ceiling (optional)</label>
-                  <input id="admin-limit-cap" type="number" min="1" step="1" placeholder="Included default">
+                  <input id="admin-limit-cap" class="ds-input ds-tabular" type="number" min="1" step="1" placeholder="Included default">
                 </div>
-              </div>
-              <div class="admin-form-row">
-                <div class="admin-field">
+                <div class="ds-field">
                   <label for="admin-limit-warn">Warning threshold (%)</label>
-                  <input id="admin-limit-warn" type="number" min="1" max="99" step="1" value="80">
+                  <input id="admin-limit-warn" class="ds-input ds-tabular" type="number" min="1" max="99" step="1" value="80">
                 </div>
-                <div class="admin-field">
+                <div class="ds-field">
                   <label for="admin-limit-crit">Critical threshold (%)</label>
-                  <input id="admin-limit-crit" type="number" min="2" max="100" step="1" value="95">
+                  <input id="admin-limit-crit" class="ds-input ds-tabular" type="number" min="2" max="100" step="1" value="95">
                 </div>
               </div>
-              <fieldset class="notify-fieldset">
+              <fieldset class="notify-fieldset" style="margin-top:12px">
                 <legend>Alert notifications</legend>
                 <label class="checkbox-row"><input type="checkbox" id="admin-notify-warn" checked> Notify at warning threshold</label>
                 <label class="checkbox-row"><input type="checkbox" id="admin-notify-crit"> Notify at critical threshold</label>
-                <label class="checkbox-row"><input type="checkbox" id="admin-notify-limit"> Notify when operating limit blocks requests</label>
+                <label class="checkbox-row"><input type="checkbox" id="admin-notify-limit"> Notify when operating limit throttles requests</label>
               </fieldset>
               <div class="admin-actions">
-                <button type="button" class="admin-btn admin-btn-primary" id="admin-save-limit-btn">Save limit settings</button>
-                <button type="button" class="admin-btn admin-btn-ghost" id="admin-reset-limit-btn">Reset to default</button>
+                <button type="button" class="ds-btn ds-btn-primary" id="admin-save-limit-btn">Save limit settings</button>
+                <button type="button" class="ds-btn ds-btn-ghost" id="admin-reset-limit-btn">Reset default</button>
               </div>
-              <p class="admin-hint" id="admin-limit-save-status" role="status"></p>
-            </article>
+              <p class="ds-hint" id="admin-limit-save-status" role="status"></p>
+            </div>
+          </details>
 
-            <article class="admin-card">
-              <h3>Active usage alerts</h3>
-              <p class="admin-hint" id="admin-alerts-empty" style="margin-top:0">No active resource alerts.</p>
-              <ul class="admin-list" id="admin-resource-alerts"></ul>
-            </article>
-          </div>
-        </section>
+          <article class="ds-card ds-card-compact">
+            <h3 class="billing-subhead">Active usage alerts</h3>
+            <p class="ds-hint" id="admin-alerts-empty" style="margin-top:4px">No active resource alerts.</p>
+            <ul class="ds-list" id="admin-resource-alerts" style="margin-top:8px"></ul>
+          </article>
+        </div>
+      </section>
 
-        <!-- SETTINGS -->
-        <section role="tabpanel" class="admin-panel" id="tab-panel-settings" aria-labelledby="tab-btn-settings" hidden>
-          <div class="admin-two-col">
-            <article class="admin-card">
-              <h3>Repository display name</h3>
-              <p class="admin-hint" style="margin-top:0;margin-bottom:12px">Customize how a connected repository appears to members.</p>
-              <div class="admin-field">
+      <!-- SETTINGS -->
+      <section role="tabpanel" class="admin-panel" id="tab-panel-settings" aria-labelledby="tab-btn-settings" hidden>
+        <article class="ds-card" id="admin-devices-section">
+          <h2 class="ds-section-title">CLI devices &amp; sessions</h2>
+          <p class="ds-subtitle" style="margin-bottom:10px">Hardware-bound CLI keys authorized for your organization. Revoking a key immediately ends its Cloud session.</p>
+          <p class="ds-hint" id="admin-devices-status" role="status"></p>
+          <ul class="ds-list" id="admin-devices-list" style="margin-top:10px"></ul>
+        </article>
+
+        <div class="admin-two-col">
+          <details class="ds-disclosure">
+            <summary>Repository display name</summary>
+            <div class="ds-disclosure-body">
+              <div class="ds-field" style="margin-bottom:10px">
                 <label for="admin-settings-project-select">Repository</label>
-                <select id="admin-settings-project-select"></select>
+                <select id="admin-settings-project-select" class="ds-select"></select>
               </div>
-              <div class="admin-field">
-                <label for="admin-settings-project-name">Display name</label>
-                <input id="admin-settings-project-name" type="text" maxlength="200" placeholder="Organization / Repository">
+              <div class="ds-field">
+                <label for="admin-settings-project-name">Display label</label>
+                <input id="admin-settings-project-name" class="ds-input" type="text" maxlength="200" placeholder="Organization / Repository">
               </div>
               <div class="admin-actions">
-                <button type="button" class="admin-btn admin-btn-primary" id="admin-save-project-btn">Save display name</button>
+                <button type="button" class="ds-btn ds-btn-primary" id="admin-save-project-btn">Save display name</button>
               </div>
-              <p class="admin-hint" id="admin-project-settings-status" role="status"></p>
-            </article>
+              <p class="ds-hint" id="admin-project-settings-status" role="status"></p>
+            </div>
+          </details>
 
-            <article class="admin-card" id="admin-recovery-section">
-              <h3>Account continuity &amp; recovery</h3>
-              <p class="admin-hint" style="margin-top:0;margin-bottom:10px" id="admin-recovery-contact-summary">Designate a trusted member as a backup recovery contact for organization continuity.</p>
-              <div class="admin-field">
+          <details class="ds-disclosure" id="admin-recovery-section">
+            <summary>Account continuity &amp; backup recovery</summary>
+            <div class="ds-disclosure-body">
+              <p class="ds-hint" id="admin-recovery-contact-summary" style="margin:0 0 10px">Designate a trusted member as a backup recovery contact for organization continuity.</p>
+              <div class="ds-field">
                 <label for="admin-recovery-contact-select">Backup recovery contact</label>
-                <select id="admin-recovery-contact-select"></select>
+                <select id="admin-recovery-contact-select" class="ds-select"></select>
               </div>
               <div class="admin-actions">
-                <button type="button" class="admin-btn admin-btn-primary" id="admin-set-recovery-contact-btn">Save recovery contact</button>
-                <button type="button" class="admin-btn admin-btn-danger" id="admin-clear-recovery-contact-btn">Clear contact</button>
+                <button type="button" class="ds-btn ds-btn-primary" id="admin-set-recovery-contact-btn">Save recovery contact</button>
+                <button type="button" class="ds-btn ds-btn-danger" id="admin-clear-recovery-contact-btn">Clear</button>
               </div>
-              <p class="admin-hint" id="admin-recovery-status" role="status"></p>
-            </article>
+              <p class="ds-hint" id="admin-recovery-status" role="status"></p>
+            </div>
+          </details>
+        </div>
+
+        <details class="ds-disclosure" id="admin-templates-section">
+          <summary>Cross-organization policy templates</summary>
+          <div class="ds-disclosure-body">
+            <p class="ds-hint" style="margin:0 0 12px">Copy repository access-policy settings from a repository here into another organization you administer.</p>
+            <div class="admin-form-grid">
+              <div class="ds-field">
+                <label for="admin-template-source-project">Source repository</label>
+                <select id="admin-template-source-project" class="ds-select"></select>
+              </div>
+              <div class="ds-field">
+                <label for="admin-template-target-org">Destination organization</label>
+                <select id="admin-template-target-org" class="ds-select"></select>
+              </div>
+              <div class="ds-field">
+                <label for="admin-template-target-project">Destination repository</label>
+                <input id="admin-template-target-project" class="ds-input ds-mono" type="text" autocomplete="off" spellcheck="false" placeholder="TargetOrg/repo" maxlength="201">
+              </div>
+            </div>
+            <div class="admin-actions">
+              <button type="button" class="ds-btn ds-btn-secondary" id="admin-export-template-btn">Export policy</button>
+              <button type="button" class="ds-btn ds-btn-secondary" id="admin-preview-template-btn" disabled>Preview</button>
+              <button type="button" class="ds-btn ds-btn-primary" id="admin-import-template-btn" disabled>Apply policy</button>
+            </div>
+            <p class="ds-hint" id="admin-template-status" role="status"></p>
+            <ul class="ds-list" id="admin-template-audit-list" style="margin-top:8px"></ul>
           </div>
+        </details>
+      </section>
+    </div>
 
-          <article class="admin-card" id="admin-devices-section">
-            <h3>CLI devices &amp; sessions</h3>
-            <p class="admin-copy">Authorized CLI hardware keys linked to your organization. Revoking a key immediately ends its Cloud access.</p>
-            <p class="admin-hint" id="admin-devices-status" role="status"></p>
-            <ul class="admin-list" id="admin-devices-list"></ul>
-          </article>
-
-          <article class="admin-card" id="admin-templates-section">
-            <details class="admin-advanced-disclosure">
-              <summary>Cross-organization policy templates</summary>
-              <p class="admin-hint">Copy repository access-policy settings from a repository here into another organization you administer.</p>
-              <div class="admin-form-row" style="margin-top:12px">
-                <div class="admin-field">
-                  <label for="admin-template-source-project">Source repository</label>
-                  <select id="admin-template-source-project"></select>
-                </div>
-                <div class="admin-field">
-                  <label for="admin-template-target-org">Destination organization</label>
-                  <select id="admin-template-target-org"></select>
-                </div>
-                <div class="admin-field">
-                  <label for="admin-template-target-project">Destination repository</label>
-                  <input id="admin-template-target-project" type="text" autocomplete="off" spellcheck="false" placeholder="TargetOrg/repo" maxlength="201">
-                </div>
-              </div>
-              <div class="admin-actions">
-                <button type="button" class="admin-btn admin-btn-secondary" id="admin-export-template-btn">Export policy</button>
-                <button type="button" class="admin-btn admin-btn-secondary" id="admin-preview-template-btn" disabled>Preview</button>
-                <button type="button" class="admin-btn admin-btn-primary" id="admin-import-template-btn" disabled>Apply policy</button>
-              </div>
-              <p class="admin-hint" id="admin-template-status" role="status"></p>
-              <ul class="admin-list" id="admin-template-audit-list"></ul>
-            </details>
-          </article>
-        </section>
-      </div>
-
-      <!-- Accessible confirmation modal for consequential actions -->
-      <div class="admin-modal-backdrop" id="admin-confirm-modal" hidden role="dialog" aria-modal="true" aria-labelledby="admin-confirm-title">
-        <div class="admin-modal-card">
-          <h3 id="admin-confirm-title">Confirm action</h3>
-          <p class="admin-copy" id="admin-confirm-message"></p>
-          <div class="admin-actions">
-            <button type="button" class="admin-btn admin-btn-danger" id="admin-confirm-proceed-btn">Confirm</button>
-            <button type="button" class="admin-btn admin-btn-ghost" id="admin-confirm-cancel-btn">Cancel</button>
-          </div>
+    <!-- Confirmation Modal -->
+    <div class="ds-modal-backdrop" id="admin-confirm-modal" hidden role="dialog" aria-modal="true" aria-labelledby="admin-confirm-title">
+      <div class="ds-modal-card">
+        <h3 id="admin-confirm-title">Confirm action</h3>
+        <p class="ds-copy" id="admin-confirm-message" style="margin-top:6px"></p>
+        <div class="admin-actions">
+          <button type="button" class="ds-btn ds-btn-danger-solid" id="admin-confirm-proceed-btn">Confirm</button>
+          <button type="button" class="ds-btn ds-btn-ghost" id="admin-confirm-cancel-btn">Cancel</button>
         </div>
       </div>
     </div>
-  </section>
+
+  </div>
 </main>
-<footer class="footer"><div class="wrap footer-grid"><a href="/" class="footer-brand" aria-label="Decapod Labs home"><img class="site-wordmark" src="/assets/logo-c.png?v=20261118-footer" alt="Decapod Labs" width="420" height="140"></a><span>© 2026 Decapod Labs</span><div><a href="/pricing">Pricing ↗</a><a href="/signup">Signup ↗</a><a href="/trust/index.html">Trust &amp; Privacy ↗</a><a href="https://github.com/DecapodLabs/decapod">GitHub ↗</a></div></div></footer>
+
+<footer class="ds-footer">
+  <div class="ds-footer-inner">
+    <span>© 2026 Decapod Labs</span>
+    <div class="ds-footer-links">
+      <a href="/pricing">Pricing</a>
+      <a href="/signup">Signup</a>
+      <a href="/trust/index.html">Trust &amp; Privacy</a>
+      <a href="https://github.com/DecapodLabs/decapod" target="_blank" rel="noopener noreferrer">GitHub</a>
+    </div>
+  </div>
+</footer>
 </body>
 </html>

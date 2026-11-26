@@ -15,12 +15,20 @@ Deno.test('Published Cloud web bundle matches signed cloud-app-manifest.json dig
   assert(manifest.version === 1, 'manifest version === 1');
   assert(manifest.product === 'decapod-cloud-web', 'manifest product === decapod-cloud-web');
   assert(manifest.contract_version === 1, 'manifest contract_version === 1');
-  assert(typeof manifest.asset_release === 'string' && manifest.asset_release === '20261125-commercial', 'manifest asset_release');
+  assert(typeof manifest.asset_release === 'string' && manifest.asset_release === '20261126-geist', 'manifest asset_release');
   assert(typeof manifest.source_revision === 'string' && /^[a-f0-9]{40}$/.test(manifest.source_revision), 'source_revision 40-char git SHA');
   assert(manifest.source_clean === true, 'source_clean === true');
   assert(manifest.files && typeof manifest.files === 'object', 'manifest.files object present');
 
   const expectedPaths = [
+    'shared/commercial-ui.css',
+    'assets/fonts/Geist-Variable.woff2',
+    'assets/fonts/GeistMono-Variable.woff2',
+    'assets/fonts/OFL-LICENSE.txt',
+    'pricing.html',
+    'pricing/index.html',
+    'pricing.css',
+    'pricing.js',
     'cloud-flow.js',
     'signup/index.html',
     'signup/signup.css',
@@ -43,7 +51,25 @@ Deno.test('Published Cloud web bundle matches signed cloud-app-manifest.json dig
     assert(html.includes(`<meta name="decapod-asset-release" content="${manifest.asset_release}">`), `${htmlRel} asset release tag mismatch`);
   }
 
-  const pricingHtml = await Deno.readTextFile('pricing.html');
-  const pricingSub = await Deno.readTextFile('pricing/index.html');
-  assert(pricingHtml.includes('UNDER WRAPS') && pricingSub.includes('UNDER WRAPS'), 'UNDER WRAPS gate remains preserved');
+  for (const pricingPath of ['pricing.html', 'pricing/index.html']) {
+    const html = await Deno.readTextFile(pricingPath);
+    assert(!/UNDER WRAPS|coming soon|opening soon|\$550/i.test(html), `${pricingPath} must not contain pre-launch placeholders or $550`);
+    assert(html.includes('$50') && html.includes('$552'), `${pricingPath} must show real $50/$552 commercial pricing`);
+    assert(html.includes('Decapod Local') && html.includes('Free forever'), `${pricingPath} must include Decapod Local Free forever option`);
+  }
+
+  for (const removedInternalPath of [
+    'docs/asset-compatibility-matrix.md',
+    'docs/availability-readiness-slos.md',
+    'docs/decisions/0010-admin-route-hosting.md',
+    'tests/live_headers_check.ts',
+  ]) {
+    let exists = true;
+    try {
+      await Deno.lstat(removedInternalPath);
+    } catch {
+      exists = false;
+    }
+    assert(!exists, `internal operational artifact must stay removed from public repo: ${removedInternalPath}`);
+  }
 });

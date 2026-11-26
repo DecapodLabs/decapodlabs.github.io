@@ -1,15 +1,13 @@
 (() => {
   "use strict";
-  // Marketing preview only: paid assignments and distinct-human volume tiers
-  // are server-verified at purchase. The second slider shows the minimum
-  // distinct people implied by equal-sized repository assignment counts.
-  const byId = id => document.getElementById(id);
+
+  const byId = id => (typeof document !== "undefined" ? document.getElementById(id) : null);
   const repositories = byId("repo-count");
   const contributors = byId("seat-count");
   const flow = typeof DecapodCloudFlow !== "undefined" ? DecapodCloudFlow : null;
   if (!repositories || !contributors) return;
 
-  const PRICING_ASSET_RELEASE = "20261125-commercial";
+  const PRICING_ASSET_RELEASE = "20261126-geist";
   const PRICING_META_KEY = "decapod:pricing-meta";
   const ALLOWLISTED_RECOVERY_ERRORS = Object.freeze([
     "stale_quote",
@@ -50,8 +48,8 @@
   let annual = false;
   let showAnnualDetails = false;
 
-  // Live purchasing stays gated ('UNDER WRAPS') unless an explicit server profile
-  // enables commercial checkout. Client state never grants purchase authority.
+  // Live purchasing eligibility for general buyers is server-enforced; allowlisted
+  // pilot organizations can enter via the normal Pricing flow when discovered.
   let liveSaleEnabled = false;
   let activeProfile = null;
   let validatedRepoSlug = null;
@@ -80,12 +78,19 @@
   }
 
   const tier = (count, points) => points.reduce(
-    (amount, [minimum, discount]) => count >= minimum ? discount : amount, 0
+    (amount, [minimum, discount]) => (count >= minimum ? discount : amount),
+    0
   );
   const change = (id, value, property = "textContent") => {
     const node = byId(id);
     if (node) node[property] = value;
   };
+  const formatUsd = cents => new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    minimumFractionDigits: Number(cents) % 100 === 0 ? 0 : 2,
+    maximumFractionDigits: 2
+  }).format(Number(cents || 0) / 100);
 
   function siteOrigin() {
     if (hasCompatibleFlow(flow) && typeof location !== "undefined" && flow.isAllowedSiteOrigin(location.origin)) {
@@ -144,6 +149,23 @@
     } catch (_) {}
   }
 
+  function persistPricingIntent(repos, seats) {
+    if (typeof sessionStorage === "undefined") return;
+    try {
+      if (validatedRepoSlug) {
+        sessionStorage.setItem("decapod:pending-repo-intent", validatedRepoSlug);
+      }
+      sessionStorage.setItem("decapod:pending-checkout-intent", JSON.stringify({
+        repo: validatedRepoSlug || null,
+        originRepo: validatedRepoSlug || null,
+        reposCount: repos,
+        seats: seats,
+        billing: annual ? "year" : "month",
+        source: "pricing"
+      }));
+    } catch (_) {}
+  }
+
   function scrubPricingLocation() {
     if (typeof location === "undefined" || typeof history === "undefined" || !history.replaceState) return;
     if (hasCompatibleFlow(flow)) {
@@ -151,7 +173,11 @@
       return;
     }
     const search = new URLSearchParams(location.search || "");
-    const sensitive = ["repo", "return_to", "redirect_to", "code", "login_nonce", "access_token", "refresh_token", "provider_token", "token", "invitation_id", "invitation_secret", "error", "error_description", "pricing_error"];
+    const sensitive = [
+      "repo", "repos", "seats", "billing", "source", "return_to", "redirect_to",
+      "code", "login_nonce", "access_token", "refresh_token", "provider_token",
+      "token", "invitation_id", "invitation_secret", "error", "error_description", "pricing_error"
+    ];
     let changed = false;
     for (const k of sensitive) {
       if (search.has(k)) {
@@ -175,83 +201,64 @@
 
     if (skewBlocked) {
       banner.classList.add("is-invalid");
-      slugEl.textContent = "Stale pricing version or asset skew detected";
-      noteEl.textContent = "Reload the page to load the current pricing manifest before continuing to Cloud checkout.";
+      slugEl.textContent = "A newer release of Decapod Cloud is available";
+      noteEl.textContent = "Reload this page before continuing to Cloud setup.";
       banner.hidden = false;
       return;
     }
     if (repoBannerState === "hostile") {
       banner.classList.add("is-invalid");
-      slugEl.textContent = "Hostile URL token parameter ignored";
-      noteEl.textContent = "Authentication tokens cannot be supplied via URL query or fragment parameters.";
+      slugEl.textContent = "Unexpected URL token parameter ignored";
+      noteEl.textContent = "Sign in cleanly via GitHub during checkout setup.";
       banner.hidden = false;
       return;
     }
     if (crossTabMismatch) {
       banner.classList.add("is-invalid");
       if (crossTabMismatch.reason === "checkout_in_progress") {
-        slugEl.textContent = "Checkout already active in another tab (" + crossTabMismatch.otherRepo + ")";
-        noteEl.textContent = "Complete or cancel Checkout in your other tab, or reload after settlement to avoid duplicate charges.";
+        slugEl.textContent = "Checkout is active in another tab (" + crossTabMismatch.otherRepo + ")";
+        noteEl.textContent = "Finish or cancel in that tab to avoid duplicate charges.";
       } else if (crossTabMismatch.reason === "billing_mismatch") {
-        slugEl.textContent = "Cross-tab billing cadence mismatch for " + (validatedRepoSlug || crossTabMismatch.otherRepo);
-        noteEl.textContent = "Another tab selected " + (crossTabMismatch.otherBilling === "year" ? "annual" : "monthly") + " billing. Match the selection or reload before continuing.";
+        slugEl.textContent = "Billing cadence differs in another tab (" + (validatedRepoSlug || crossTabMismatch.otherRepo) + ")";
+        noteEl.textContent = "Match selections across tabs or reload before continuing.";
       } else {
-        slugEl.textContent = "Cross-tab repository intent mismatch (" + (validatedRepoSlug || "none") + " vs " + crossTabMismatch.otherRepo + ")";
-        noteEl.textContent = "Another tab changed target repository intent to " + crossTabMismatch.otherRepo + ". Reload or reconcile intent before continuing.";
+        slugEl.textContent = "Repository selection differs in another tab (" + crossTabMismatch.otherRepo + ")";
+        noteEl.textContent = "Reconcile selections across tabs or reload before continuing.";
       }
       banner.hidden = false;
       return;
     }
     if (repoBannerState === "invalid") {
       banner.classList.add("is-invalid");
-      slugEl.textContent = "Invalid repository parameter ignored";
-      noteEl.textContent = "Use owner/repo formatting or select your repository after signing in.";
+      slugEl.textContent = "Repository parameter ignored";
+      noteEl.textContent = "Use owner/repo formatting or choose your repositories after signing in.";
       banner.hidden = false;
       return;
     }
     if (recoveryNotice) {
-      banner.classList.add("is-invalid");
-      slugEl.textContent = validatedRepoSlug ? ("Target repository intent: " + validatedRepoSlug) : "Pricing quote or manifest refreshed";
-      const refSuffix = discoveryCorrelationId ? (" (Ref: " + discoveryCorrelationId + ")") : "";
-      noteEl.textContent = discoveryUnavailable
-        ? (recoveryNotice + " Cloud configuration is currently unavailable; checkout remains locked." + refSuffix)
-        : recoveryNotice;
+      banner.classList.remove("is-invalid");
+      slugEl.textContent = "Updated pricing estimate";
+      noteEl.textContent = recoveryNotice;
+      banner.hidden = false;
+      return;
+    }
+    if (discoveryUnavailable && !activeProfile) {
+      banner.classList.remove("is-invalid");
+      const refSuffix = discoveryCorrelationId ? " Ref: " + discoveryCorrelationId : "";
+      if (discoveryStatus === "rate_limited") {
+        slugEl.textContent = "Decapod Cloud status is temporarily rate-limited";
+        noteEl.textContent = (discoveryRetryAfterSec ? "Wait " + discoveryRetryAfterSec + "s and reload." : "Reload shortly.") + refSuffix;
+      } else {
+        slugEl.textContent = "Could not connect to Decapod Cloud";
+        noteEl.textContent = "Check your connection or reload to continue." + refSuffix;
+      }
       banner.hidden = false;
       return;
     }
     if (repoBannerState === "valid" && validatedRepoSlug) {
       banner.classList.remove("is-invalid");
-      slugEl.textContent = "Target repository intent: " + validatedRepoSlug;
-      const refSuffix = discoveryCorrelationId ? (" (Ref: " + discoveryCorrelationId + ")") : "";
-      noteEl.textContent = discoveryUnavailable
-        ? (discoveryStatus === "invalid"
-            ? "Malformed Cloud configuration was rejected. Checkout remains disabled." + refSuffix
-            : discoveryStatus === "rate_limited"
-              ? "Cloud pricing verification is rate-limited (429)." +
-                (discoveryRetryAfterSec ? " Retry after " + discoveryRetryAfterSec + "s." : " Wait briefly before retrying.") +
-                " Checkout remains disabled." + refSuffix
-              : "Cloud pricing verification is temporarily unavailable. Checkout remains disabled." + refSuffix)
-        : (liveSaleEnabled
-            ? "Organization and repository authority will be verified after managed sign-in."
-            : "Queued as unverified intent only. Cloud checkout opens after launch verification.");
-      banner.hidden = false;
-      return;
-    }
-    if (discoveryUnavailable) {
-      banner.classList.add("is-invalid");
-      const refSuffix = discoveryCorrelationId ? (" Support ref: " + discoveryCorrelationId + ".") : "";
-      if (discoveryStatus === "invalid") {
-        slugEl.textContent = "Malformed Cloud configuration rejected";
-        noteEl.textContent = "Cloud discovery returned invalid metadata. Checkout stays locked fail-closed." + refSuffix;
-      } else if (discoveryStatus === "rate_limited") {
-        slugEl.textContent = "Cloud verification rate-limited (429)";
-        noteEl.textContent = "Too many discovery requests." +
-          (discoveryRetryAfterSec ? " Retry after " + discoveryRetryAfterSec + "s." : " Please wait before retrying.") +
-          " Checkout remains disabled." + refSuffix;
-      } else {
-        slugEl.textContent = "Cloud verification temporarily unavailable";
-        noteEl.textContent = "Decapod Cloud discovery could not be reached. Local remains free and ready; Cloud checkout stays locked." + refSuffix;
-      }
+      slugEl.textContent = "Starting repository: " + validatedRepoSlug;
+      noteEl.textContent = "Preserved into GitHub sign-in where you can verify additional repositories.";
       banner.hidden = false;
       return;
     }
@@ -260,72 +267,65 @@
 
   function processUrlRepoIntent() {
     if (typeof location === "undefined") return;
-    if (skewBlocked || !hasCompatibleFlow(flow)) {
-      clearStalePricingState();
+    const rawSearch = location.search || "";
+    const rawHash = location.hash || "";
+    const priorMeta = readPricingMeta();
+    if (priorMeta && ((priorMeta.asset_release && priorMeta.asset_release !== PRICING_ASSET_RELEASE) ||
+        (flow && priorMeta.contract_version && priorMeta.contract_version !== flow.CONTRACT_VERSION))) {
+      clearStalePricingState(priorMeta.project_origin);
+    }
+
+    if (!hasCompatibleFlow(flow)) {
       scrubPricingLocation();
       renderRepoBanner();
       return;
     }
 
-    const cachedMeta = readPricingMeta();
-    if (cachedMeta && (
-      cachedMeta.asset_release !== PRICING_ASSET_RELEASE ||
-      cachedMeta.contract_version !== flow.CONTRACT_VERSION ||
-      Object.prototype.hasOwnProperty.call(cachedMeta, "quote_id") ||
-      Object.prototype.hasOwnProperty.call(cachedMeta, "cached_price") ||
-      Object.prototype.hasOwnProperty.call(cachedMeta, "live_sale_enabled")
-    )) {
-      clearStalePricingState(cachedMeta.project_origin);
-      recoveryNotice = "Stale cached pricing state was cleared. Re-verifying current pricing configuration from the server.";
+    const searchParams = new URLSearchParams(rawSearch);
+    const errParam = String(searchParams.get("pricing_error") || "").trim().toLowerCase();
+    if (errParam && ALLOWLISTED_RECOVERY_ERRORS.includes(errParam)) {
+      recoveryNotice = "Your previous quote expired or changed. Review the current terms before continuing.";
     }
 
-    const search = new URLSearchParams(location.search || "");
-    const hash = location.hash || "";
-    const hostileTokens = flow.hasHostileFragmentTokens(hash) ||
-      search.has("access_token") || search.has("refresh_token") || search.has("provider_token");
-
-    flow.parseSafeReturnParam(search, siteOrigin());
-
-    const rawErr = search.get("pricing_error") || search.get("error");
-    if (rawErr && ALLOWLISTED_RECOVERY_ERRORS.includes(rawErr)) {
-      clearStalePricingState(cachedMeta && cachedMeta.project_origin);
-      recoveryNotice = "Previous server quote expired or pricing changed (" + rawErr + "). Fresh server verification is required before Checkout.";
+    const billingCheck = flow.parseBillingParam ? flow.parseBillingParam(searchParams) : { status: "absent" };
+    if (billingCheck.status === "valid") {
+      annual = billingCheck.billing === "year";
+      showAnnualDetails = annual;
+    }
+    const repoCountCheck = flow.parseRepoCountParam ? flow.parseRepoCountParam(searchParams) : { status: "absent" };
+    if (repoCountCheck.status === "valid" && repositories) {
+      repositories.value = String(Math.min(10, Math.max(1, repoCountCheck.repos)));
+    }
+    const seatCheck = flow.parseSeatParam ? flow.parseSeatParam(searchParams) : { status: "absent" };
+    if (seatCheck.status === "valid" && contributors) {
+      contributors.value = String(Math.min(25, Math.max(1, seatCheck.seats)));
     }
 
-    if (hostileTokens) {
+    if (flow.hasHostileFragmentTokens(rawHash) ||
+        searchParams.has("access_token") ||
+        searchParams.has("refresh_token") ||
+        searchParams.has("provider_token")) {
       validatedRepoSlug = null;
       repoBannerState = "hostile";
-      try {
-        if (typeof sessionStorage !== "undefined") {
-          sessionStorage.removeItem("decapod:pending-repo-intent");
-        }
-      } catch (_) {}
-      clearStalePricingState(cachedMeta && cachedMeta.project_origin);
       scrubPricingLocation();
       renderRepoBanner();
       return;
     }
 
-    const parsed = flow.parseRepoSearch(search);
+    const ret = flow.parseSafeReturnParam(rawSearch, siteOrigin());
+    if (ret.status === "rejected") {
+      repoBannerState = "invalid";
+    }
+
+    const parsed = flow.parseRepoSearch(rawSearch);
     if (parsed.status === "valid") {
       validatedRepoSlug = parsed.slug;
       repoBannerState = "valid";
-      try {
-        if (typeof sessionStorage !== "undefined") {
-          sessionStorage.setItem("decapod:pending-repo-intent", parsed.slug);
-        }
-      } catch (_) {}
+      persistPricingIntent(Number(repositories.value) || 1, Number(contributors.value) || 1);
     } else if (parsed.status === "invalid") {
       validatedRepoSlug = null;
       repoBannerState = "invalid";
-      try {
-        if (typeof sessionStorage !== "undefined") {
-          sessionStorage.removeItem("decapod:pending-repo-intent");
-        }
-      } catch (_) {}
-    } else {
-      validatedRepoSlug = null;
-      repoBannerState = "none";
+    } else if (repoBannerState === "none") {
       try {
         if (typeof sessionStorage !== "undefined") {
           const saved = sessionStorage.getItem("decapod:pending-repo-intent");
@@ -346,32 +346,47 @@
     if (!button) return;
     const arrow = document.createElement("span");
     arrow.setAttribute("aria-hidden", "true");
-    arrow.textContent = "↗";
+    arrow.textContent = "→";
     button.replaceChildren(document.createTextNode(text + " "), arrow);
   }
 
   function syncPayButtons() {
     const cloudBtn = byId("cloud-pay-cta");
     const previewBtn = byId("preview-checkout");
+    const closingBtn = byId("closing-cloud-cta");
+    const availabilityNote = byId("pricing-availability-note");
     const enabled = Boolean(
       !skewBlocked &&
       !payInFlight &&
       !crossTabMismatch &&
       hasCompatibleFlow(flow) &&
-      liveSaleEnabled &&
       activeProfile
     );
 
     if (cloudBtn) {
       cloudBtn.disabled = !enabled;
-      cloudBtn.classList.toggle("plan-link-disabled", !enabled);
-      cloudBtn.classList.toggle("plan-link-ready", enabled);
-      setButtonLabel(cloudBtn, payInFlight ? "Continuing to Cloud signup…" : (enabled ? "Continue to Cloud signup" : "Cloud checkout opening soon"));
+      setButtonLabel(cloudBtn, payInFlight ? "Continuing to Cloud…" : "Get Decapod Cloud");
     }
     if (previewBtn) {
       previewBtn.disabled = !enabled;
-      previewBtn.classList.toggle("preview-checkout-ready", enabled);
-      setButtonLabel(previewBtn, payInFlight ? "Continuing to Cloud signup…" : (enabled ? "Continue to Cloud signup" : "Cloud checkout opening soon"));
+      setButtonLabel(previewBtn, payInFlight ? "Continuing to Cloud…" : "Continue to Decapod Cloud");
+    }
+    if (closingBtn) {
+      closingBtn.disabled = !enabled;
+      setButtonLabel(closingBtn, payInFlight ? "Continuing to Cloud…" : "Get Decapod Cloud");
+    }
+    if (availabilityNote) {
+      if (skewBlocked) {
+        availabilityNote.textContent = "Reload this page to use the latest release.";
+      } else if (!activeProfile) {
+        availabilityNote.textContent = discoveryUnavailable
+          ? "Could not reach Decapod Cloud discovery. Reload shortly."
+          : "Verifying live Decapod Cloud checkout status…";
+      } else if (liveSaleEnabled) {
+        availabilityNote.textContent = "Available now · Instant repository activation via Stripe Checkout.";
+      } else {
+        availabilityNote.textContent = "Sign in with GitHub to verify organization eligibility and activate Decapod Cloud.";
+      }
     }
   }
 
@@ -404,7 +419,7 @@
       if (activeProfile && activeProfile.pricingVersion && profile.pricingVersion &&
           activeProfile.pricingVersion !== profile.pricingVersion) {
         clearStalePricingState(profile.projectOrigin);
-        recoveryNotice = "Pricing manifest version changed on the server. Fresh server quote verification is required before Checkout.";
+        recoveryNotice = "Pricing schedule updated on the server. Fresh verification occurs automatically before Checkout.";
       }
       discoveryUnavailable = false;
       discoveryStatus = "ok";
@@ -431,16 +446,16 @@
   }
 
   async function handlePayClick() {
-    if (payInFlight || skewBlocked || crossTabMismatch || !hasCompatibleFlow(flow) || !liveSaleEnabled || !activeProfile) return;
+    if (payInFlight || skewBlocked || crossTabMismatch || !hasCompatibleFlow(flow) || !activeProfile) return;
     payInFlight = true;
     syncPayButtons();
     try {
       const now = Math.floor(Date.now() / 1000);
       if (!activeProfile.discoveredAt || (now - activeProfile.discoveredAt) > 300) {
         const refreshed = await refreshRuntimeDiscovery();
-        if (!refreshed || skewBlocked || crossTabMismatch || refreshed.liveSaleEnabled !== true) {
+        if (!refreshed || skewBlocked || crossTabMismatch) {
           if (!skewBlocked) {
-            recoveryNotice = "Stale Cloud readiness could not be re-verified from the server.";
+            recoveryNotice = "Could not verify Decapod Cloud status. Reload and try again.";
             renderRepoBanner();
           }
           return;
@@ -448,12 +463,19 @@
       }
       if (!flow.isTrustedAuthUrl(activeProfile.authBaseUrl)) return;
 
+      const repoCount = Math.max(1, Math.min(10, Number(repositories.value) || 1));
+      const seatPerRepo = Math.max(1, Math.min(25, Number(contributors.value) || 1));
+      const cadence = annual ? "year" : "month";
+      persistPricingIntent(repoCount, seatPerRepo);
+
       const origin = siteOrigin();
       const signupUrl = flow.buildSignupHandoffUrl({
         origin: origin,
         repo: validatedRepoSlug,
-        billing: annual ? "year" : "month",
-        seats: Number(contributors.value) || 1
+        repos: repoCount,
+        billing: cadence,
+        seats: seatPerRepo,
+        source: "pricing"
       });
 
       const existing = readExistingSession(activeProfile.projectOrigin);
@@ -472,9 +494,6 @@
       try {
         if (typeof sessionStorage !== "undefined") {
           const flowNamespace = "decapod-portal:" + activeProfile.projectOrigin + ":";
-          if (validatedRepoSlug) {
-            sessionStorage.setItem("decapod:pending-repo-intent", validatedRepoSlug);
-          }
           sessionStorage.setItem(flowNamespace + "flow", JSON.stringify({
             version: 1,
             contract_version: flow.CONTRACT_VERSION,
@@ -508,24 +527,31 @@
   function render() {
     const repos = Math.max(1, Math.min(10, Number(repositories.value) || 1));
     const perRepo = Math.max(1, Math.min(25, Number(contributors.value) || 1));
+    const totalAssignments = repos * perRepo;
     const repoDiscount = tier(repos, steps.repos);
-    // Every repository with N people implies at least N distinct humans.
-    // More non-overlapping humans may increase the actual verified discount.
+    // Conservative illustrative floor assuming equal distinct humans per repo.
     const peopleDiscountFloor = tier(perRepo, steps.people);
     const volumeFloor = repoDiscount + peopleDiscountFloor;
-    const annualUncapped = 8 + volumeFloor;
-    const annualFloor = Math.min(20, annualUncapped);
+    const effectiveDiscount = annual ? Math.min(20, 8 + volumeFloor) : volumeFloor;
+    const unitCents = annual
+      ? Math.round(60000 * (100 - effectiveDiscount) / 100)
+      : Math.round(5000 * (100 - effectiveDiscount) / 100);
+    const totalCents = totalAssignments * unitCents;
 
     change("repo-count-value", String(repos), "value");
     change("seat-count-value", String(perRepo), "value");
-    change("assignment-count", String(repos * perRepo));
+    change("assignment-count", String(totalAssignments));
     change("assignment-formula", repos + " " + (repos === 1 ? "repository" : "repositories") +
       " × " + perRepo + " " + (perRepo === 1 ? "contributor" : "contributors") + " each");
     change("repo-discount", "+" + repoDiscount + "%");
     change("contributor-discount", "+" + peopleDiscountFloor + "%");
     change("combined-discount", volumeFloor + "%");
     change("annual-volume", volumeFloor + "%");
-    change("annual-discount", annualFloor + "%");
+    change("annual-discount", Math.min(20, 8 + volumeFloor) + "%");
+    change("estimate-total", formatUsd(totalCents));
+    change("estimate-cadence", annual ? "/ year (billed upfront)" : "/ month");
+    change("estimate-unit-rate", formatUsd(unitCents) + (annual ? " / seat / yr" : " / seat / mo"));
+    change("estimate-list-rate", annual ? "$552 / seat / yr (8% off $600)" : "$50 / seat / month");
 
     const disclosure = byId("annual-savings");
     if (disclosure) disclosure.hidden = !annual || !showAnnualDetails;
@@ -548,6 +574,7 @@
         marker.classList.toggle("is-reached", value >= threshold);
       }
     }
+    persistPricingIntent(repos, perRepo);
   }
 
   const dismiss = byId("annual-dismiss");
@@ -570,8 +597,10 @@
 
   const cloudBtn = byId("cloud-pay-cta");
   const previewBtn = byId("preview-checkout");
+  const closingBtn = byId("closing-cloud-cta");
   if (cloudBtn) cloudBtn.addEventListener("click", () => { handlePayClick().catch(() => {}); });
   if (previewBtn) previewBtn.addEventListener("click", () => { handlePayClick().catch(() => {}); });
+  if (closingBtn) closingBtn.addEventListener("click", () => { handlePayClick().catch(() => {}); });
 
   let coherenceChannel = null;
   if (!skewBlocked && hasCompatibleFlow(flow)) {
@@ -687,10 +716,7 @@
       billing: annual ? "year" : "month"
     });
   }
-  syncPayButtons();
   render();
-
-  if (!skewBlocked && hasCompatibleFlow(flow) && typeof fetch === "function") {
-    refreshRuntimeDiscovery().catch(() => {});
-  }
+  syncPayButtons();
+  refreshRuntimeDiscovery().catch(() => {});
 })();

@@ -2,10 +2,10 @@
 
 Local is free and needs no signup. It uses the local repository SQLite database and works offline with the user's existing coding agents and Git workflow. Get started means navigation to the published quickstart, not a registration or transaction.
 
-Cloud is coming soon. Its planned benefits are a hosted logical Decapod database, managed identities/permissions and organization/repository/member administration in Propodus. No price or availability date is public on this preview. A visible benefit is not evidence of current production readiness. The disabled purchase control cannot create payment or account state.
+Decapod Cloud provides hosted logical Decapod storage, managed identities/permissions, and organization/repository/member administration at $50 per contributor per repository per month ($552 billed annually). Local remains free without signup.
 
 ## Domain Model
-The site owns static documents and existing film/install browser state only. Propodus owns cloud organizations, stable repository identity, assignments, subscriptions and authorization. Source code, Git history, specifications and worktrees remain repository-native.
+This static website owns public marketing documents, film/install browser state, and compiled Cloud UI presentation assets only. The Cloud service owns organizations, repository identities, seat assignments, subscriptions, and authorization.
 
 ## State Machines
 Local navigation opens documentation. Cloud has no purchase transition. Enabling it later requires a reviewed implementation and independent hosted acceptance. A webpage cannot confer exceptional governance authority, verified completion, dual-write permission or fallback after denied cloud access.
@@ -68,7 +68,7 @@ Generated capability obligations: `persistent-state` is declared for this projec
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `a4a53b3acac59284b71bd94627308c11dedc4c43e999a2decc1b99d2432e2f6c`
-- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (4 files)
+- Repository signal fingerprint: `e4c19b6cd95b96ab408a352006060f4358fb42f6372b56ed4721c171eca10a38`
+- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (3 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->

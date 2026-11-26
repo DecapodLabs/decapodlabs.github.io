@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "baseline": {
-    "accepted_commit": "a40621a837ba9351d1ed2056000e5a0573bd13e8",
+    "accepted_commit": "825087d2542f357133876c84f2d3a90278b929c2",
     "unresolved": {
       "claim:clack-download-latest": {
         "falsifier": "The page embeds a release version, either link fails signed out, the checksum or digest disagrees with the source stable build, or a newer published mirror requires editing the page.",
@@ -19,46 +19,36 @@
     }
   },
   "change": {
-    "id": "change_01M8B8F47KKA0YTJ7VJE41KJDV",
-    "base_commit": "a40621a837ba9351d1ed2056000e5a0573bd13e8",
+    "id": "commercial-bundle-261",
+    "base_commit": "825087d2542f357133876c84f2d3a90278b929c2",
     "target_base": "origin/main"
-  },
-  "claims": {
-    "claim:clack-v0100-download": {
-      "statement": "clack/index.html, clack/release.json, and .decapod/managed/specs/INTENT.md publish the verified Clack 0.10.0 Apple silicon disk image and SHA-256 checksum",
-      "falsifier": "deno run --no-remote --no-npm --allow-read=. scripts/check-site.ts or decapod validate fails",
-      "status": "supported",
-      "proof_refs": [
-        "cmd:deno run --no-remote --no-npm --allow-read=. scripts/check-site.ts"
-      ]
-    }
   },
   "checkpoints": [
     {
-      "id": "clack-download-0.10.0",
-      "summary": "Host the signed Clack 0.10.0 disk image and checksum.",
-      "input_digest": "sha256:fe16496725ec8220f89be932ab7f8f858344c7023b9535a2cffd2eaf4416b673"
+      "id": "commercial-bundle-261",
+      "summary": "Stamp 20261126-geist Cloud presentation bundle and scrub internal ops docs (#54)",
+      "input_digest": "sha256:d33ff43e5e08f44cedb72a57e351491e9f8b1dbebd2fcfec90324b72ad555da2"
     }
   ],
   "intents": {
-    "intent:change_01M8B8F47KKA0YTJ7VJE41KJDV": {
+    "intent:docs_01m8b86e1y64rmyk-run": {
       "acceptance_criteria": [],
       "assumptions": [],
       "boundaries": [
-        "Current claimed task and isolated work branch"
+        "Public static website presentation and docs only; keep index.html, styles.css, clack/, and check-site/check-launch untouched"
       ],
       "constraints": [
-        "root"
+        "pricing*, signup, admin, shared, assets/fonts, cloud-flow.js, cloud-app-manifest.json, docs, tests, .decapod/managed/specs"
       ],
       "created_sequence": 1,
-      "id": "intent:change_01M8B8F47KKA0YTJ7VJE41KJDV",
+      "id": "intent:docs_01m8b86e1y64rmyk-run",
       "instruction_origin": {
         "source_ref": "caller:unverified"
       },
       "out_of_scope": [],
       "proof_requirements": [],
-      "raw_intent": "Publish Clack 0.10.0 on decapodlabs.ai",
-      "refined_intent": "Publish Clack 0.10.0 on decapodlabs.ai",
+      "raw_intent": "Publish 20261126-geist commercial presentation bundle and scrub internal operational/prelaunch content (#54)",
+      "refined_intent": "Stamp 20261126-geist bundle from Propodus 955df35f, remove internal operational docs/tests, update Living Specs, verify offline suite",
       "status": "refined",
       "updated_sequence": 3
     }
@@ -71,59 +61,82 @@
       },
       "deferred_questions": [],
       "human_questions": [],
-      "intent": "Host the verified Clack 0.10.0 Apple silicon DMG, checksum, and in-app update manifest on decapodlabs.ai",
+      "intent": "Publish Geist Cloud-first pricing, multi-repo signup, and 6-tab admin presentation bundle from Propodus (#54) while scrubbing internal operational docs and pre-launch wording",
       "phases": [],
-      "proof_hooks": [],
+      "proof_hooks": [
+        "decapod validate"
+      ],
       "schema_version": "1.1.0",
       "spec_reviews": [
         {
-          "disposition": "unchanged_with_reason",
+          "disposition": "updated",
           "path": ".decapod/managed/specs/ARCHITECTURE.md",
-          "reason": "No architectural change for Clack 0.10.0 download manifest update (pinned clack/index.html, clack/release.json, and INTENT.md).",
-          "reviewed_code_fingerprint": "a4a53b3acac59284b71bd94627308c11dedc4c43e999a2decc1b99d2432e2f6c",
-          "spec_material_hash": "fb13d6e6f46e591a7c403993a88aa8f7ba5266f286639e1526381ac0355e0268"
+          "reason": "Updated architecture specs for 20261126-geist compiled bundle, Geist assets, and removal of internal backend/ops docs",
+          "reviewed_code_fingerprint": "e4c19b6cd95b96ab408a352006060f4358fb42f6372b56ed4721c171eca10a38",
+          "spec_material_hash": "05495811fbcf595d3cbd16826e701f6a5d2dd95fbcf3929b2615efcd04bcd167"
+        },
+        {
+          "disposition": "updated",
+          "path": ".decapod/managed/specs/INTERFACES.md",
+          "reason": "Updated interfaces for Cloud-first / pricing, file-resolved links, and cloud-app-manifest.json 20261126-geist",
+          "reviewed_code_fingerprint": "e4c19b6cd95b96ab408a352006060f4358fb42f6372b56ed4721c171eca10a38",
+          "spec_material_hash": "52477a7724b04fcaddd2754648bda231198f2ef38050607fe56ec9e46df00f21"
+        },
+        {
+          "disposition": "updated",
+          "path": ".decapod/managed/specs/SECURITY.md",
+          "reason": "Updated security posture reflecting removal of pre-launch gates and internal backend operational files from public repo",
+          "reviewed_code_fingerprint": "e4c19b6cd95b96ab408a352006060f4358fb42f6372b56ed4721c171eca10a38",
+          "spec_material_hash": "c90311b3c1ce76e39a1a12441abcc073925ce58f5dfc4c4ede6999dade480914"
         }
       ],
       "state": "APPROVED",
       "stop_conditions": [],
-      "title": "Publish Clack 0.10.0 on decapodlabs.ai",
+      "title": "Publish 20261126-geist Cloud commercial bundle and remove internal ops docs",
       "todo_ids": [
-        "code_01m8b8erekzbwc0y"
+        "docs_01m8b86e1y64rmyk"
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1795674630Z"
+      "updated_at": "1795675661Z"
     },
     "trajectory": {
       "active_boundaries": [
-        "Current claimed task and isolated work branch"
+        "Public static website presentation and docs only; keep index.html, styles.css, clack/, and check-site/check-launch untouched"
       ],
-      "artifact_hash": "sha256:411821b1bcd51503fad55cf20afd69020c0e4a374346ff21ed0b8bb272094404",
+      "artifact_hash": "sha256:a642b6f58795c014ae7968069d1c13761b356f9a2e6e57f9daef835a1f4a5e05",
       "checks": [
+        {
+          "name": "bundle-provenance",
+          "status": "passed"
+        },
+        {
+          "name": "deno-website-tests",
+          "status": "passed"
+        },
         {
           "name": "static-source",
           "status": "passed"
         }
       ],
-      "current_phase": "intent",
       "custody": {
         "events": [
           {
             "event_id": "event:2",
-            "intent_id": "intent:change_01M8B8F47KKA0YTJ7VJE41KJDV",
+            "intent_id": "intent:docs_01m8b86e1y64rmyk-run",
             "kind": "created",
             "sequence": 2
           },
           {
             "event_id": "event:3",
-            "intent_id": "intent:change_01M8B8F47KKA0YTJ7VJE41KJDV",
+            "intent_id": "intent:docs_01m8b86e1y64rmyk-run",
             "kind": "refined",
             "sequence": 3
           },
           {
-            "detail": "trajectory:branch_01M8B8F4A8Z6R32DHXXPVHBF47",
+            "detail": "trajectory:docs_01m8b86e1y64rmyk-run",
             "event_id": "event:4",
-            "intent_id": "intent:change_01M8B8F47KKA0YTJ7VJE41KJDV",
+            "intent_id": "intent:docs_01m8b86e1y64rmyk-run",
             "kind": "trajectory_step_recorded",
             "sequence": 4
           }
@@ -132,24 +145,45 @@
         "next_sequence": 4,
         "schema_version": "1.1.0",
         "trajectories": {
-          "branch_01M8B8F4A8Z6R32DHXXPVHBF47": {
+          "docs_01m8b86e1y64rmyk-run": {
             "evidence_only": true,
-            "id": "branch_01M8B8F4A8Z6R32DHXXPVHBF47",
-            "intent_id": "intent:change_01M8B8F47KKA0YTJ7VJE41KJDV",
+            "id": "docs_01m8b86e1y64rmyk-run",
+            "intent_id": "intent:docs_01m8b86e1y64rmyk-run",
             "steps": [
               {
                 "action": "trajectory.record",
+                "command": "deno run --allow-read scripts/check-site.ts && deno test --allow-read tests/trust_privacy_contract_test.ts tests/publication_provenance_test.ts tests/provenance_projection_72_test.ts",
                 "custody_event_id": "event:4",
                 "observations": [
-                  "clack/index.html",
-                  "clack/index.html",
-                  "clack/release.json"
+                  "scripts/check-site.ts",
+                  "tests/publication_provenance_test.ts",
+                  "pricing.html",
+                  "pricing/index.html",
+                  "pricing.css",
+                  "pricing.js",
+                  "signup/index.html",
+                  "signup/signup.css",
+                  "signup/signup.js",
+                  "admin/index.html",
+                  "admin/admin.css",
+                  "admin/admin.js",
+                  "cloud-flow.js",
+                  "cloud-app-manifest.json",
+                  "README.md",
+                  "docs/cloud-app-publication.md",
+                  "docs/decisions/0003-local-cloud-offerings.md",
+                  "tests/publication_provenance_test.ts",
+                  "tests/trust_privacy_contract_test.ts",
+                  "tests/publication_provenance_test.ts",
+                  "tests/trust_privacy_contract_test.ts"
                 ],
                 "proof_refs": [
-                  "static-source"
+                  "static-source",
+                  "deno-website-tests",
+                  "bundle-provenance"
                 ],
                 "scope": [
-                  "root"
+                  "pricing*, signup, admin, shared, assets/fonts, cloud-flow.js, cloud-app-manifest.json, docs, tests, .decapod/managed/specs"
                 ],
                 "sequence": 4,
                 "validation_findings": []
@@ -158,27 +192,44 @@
           }
         }
       },
-      "declared_commands": [],
-      "destination": "pull request",
-      "evidence": [],
+      "declared_commands": [
+        "deno run --allow-read scripts/check-site.ts && deno test --allow-read tests/trust_privacy_contract_test.ts tests/publication_provenance_test.ts tests/provenance_projection_72_test.ts"
+      ],
+      "evidence": [
+        "tests/publication_provenance_test.ts",
+        "tests/trust_privacy_contract_test.ts"
+      ],
       "inspected_files": [
-        "clack/index.html"
+        "scripts/check-site.ts",
+        "tests/publication_provenance_test.ts"
       ],
-      "intent_id": "intent:change_01M8B8F47KKA0YTJ7VJE41KJDV",
+      "intent_id": "intent:docs_01m8b86e1y64rmyk-run",
       "modified_files": [
-        "clack/index.html",
-        "clack/release.json"
-      ],
-      "next_transitions": [
-        "Refine plan and declare falsifiable checks"
+        "README.md",
+        "admin/admin.css",
+        "admin/admin.js",
+        "admin/index.html",
+        "cloud-app-manifest.json",
+        "cloud-flow.js",
+        "docs/cloud-app-publication.md",
+        "docs/decisions/0003-local-cloud-offerings.md",
+        "pricing.css",
+        "pricing.html",
+        "pricing.js",
+        "pricing/index.html",
+        "signup/index.html",
+        "signup/signup.css",
+        "signup/signup.js",
+        "tests/publication_provenance_test.ts",
+        "tests/trust_privacy_contract_test.ts"
       ],
       "repo_scope": [
-        "root"
+        "pricing*, signup, admin, shared, assets/fonts, cloud-flow.js, cloud-app-manifest.json, docs, tests, .decapod/managed/specs"
       ],
-      "run_id": "branch_01M8B8F4A8Z6R32DHXXPVHBF47",
+      "run_id": "docs_01m8b86e1y64rmyk-run",
       "schema_version": "1.1.0",
       "shortcut_risk_signals": [],
-      "task_id": "code_01m8b8erekzbwc0y",
+      "task_id": "docs_01m8b86e1y64rmyk",
       "tool_calls": [],
       "unresolved_assumptions": []
     }

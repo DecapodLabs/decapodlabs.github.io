@@ -2,7 +2,7 @@
 
 Publish the nontransactional pricing preview and verified launch film through the existing GitHub Pages main/root setup after exact-candidate governed validation. Rebase onto the latest accepted main and preserve other agents' design changes. Inspect actual Pages publication and all public documents; do not infer deployment from Git alone.
 
-Cloud remains Coming soon, with benefits visible, prices absent and purchasing disabled. Enabling sales is a later change requiring a working approved Admin destination and real Auth, signed payment reconciliation and repository-specific activation evidence in Propodus. This preview does not change the Stripe catalog or merchant settings.
+Public Cloud sales presentation (`20261126-geist`) is live on `/pricing`, `/signup`, and `/admin` using compiled static bundles published via `cloud-app-manifest.json`. Backend merchant configuration and webhook processing operate independently of static GitHub Pages deployments.
 
 ## Service Level Objectives
 No new uptime, support, backup, launch date or recovery commitment is declared.
@@ -11,7 +11,7 @@ No new uptime, support, backup, launch date or recovery commitment is declared.
 Verify homepage navigation, the standalone offering page, the exact quickstart destination, responsive layout and actual disabled Cloud control. Existing media publication remains a separate workflow; it does not attest hosted payments.
 
 ## Incident Response
-Repair or revert broken static navigation through governed Git. Keep purchasing disabled until separately authorized and verified. Propodus handles account/payment incidents; this site owns no customer records.
+Repair or revert broken static navigation or presentation bundles through governed Git. This static site holds no customer credentials, billing records, or operational secrets.
 
 ## Regenerate and publish the launch film
 
@@ -75,7 +75,7 @@ Generated capability obligations: `persistent-state` is declared for this projec
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `a4a53b3acac59284b71bd94627308c11dedc4c43e999a2decc1b99d2432e2f6c`
-- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (4 files)
+- Repository signal fingerprint: `e4c19b6cd95b96ab408a352006060f4358fb42f6372b56ed4721c171eca10a38`
+- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (3 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->
