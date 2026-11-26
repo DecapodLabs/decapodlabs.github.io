@@ -35,6 +35,11 @@
       "id": "clack-download-0.9.18",
       "summary": "Publish Clack 0.9.18 pinned download links, release.json manifest, and matching living specs for commit 026a2a8ab.",
       "input_digest": "sha256:a47e1bc5da9ddebbb8b1bc82141d39a6813c01d375ed86c57bbc3933347b7f7a"
+    },
+    {
+      "id": "decapod-0.166.0-refresh",
+      "summary": "Refresh release-bound entrypoints, Dockerfile pin, and specs manifest for Decapod 0.166.0.",
+      "input_digest": "sha256:57b70bb76d7a0ac4c929ec0fba430e60b8c75b00d26bb69ea438abfb82094fb4"
     }
   ],
   "intents": {
