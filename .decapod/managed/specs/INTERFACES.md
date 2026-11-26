@@ -2,15 +2,15 @@
 
 ## Public Pricing Handoff & Published Cloud Bundle Manifest (`pricing.js`, `cloud-app-manifest.json`)
 
-- **`pricing.js`**: Emits `?repo=`, `billing` (`month`/`year`), and `seats` (`1..1000`) through `DecapodCloudFlow.buildSignupHandoffUrl` and preserves the full URL across `/auth` PKCE `return_to` while retaining `UNDER WRAPS` / disabled public CTA posture before live customer activation.
-- **`cloud-app-manifest.json`**: Exposes signed SHA-256 digests (`files`), clean `DecapodLabs/propodus` source revision (`source_revision`, `source_clean: true`), and `asset_release: "20261125-commercial"` verified offline (`tests/publication_provenance_test.ts`) and live (`portal/verify-cloud-web-publication.mjs --url https://decapodlabs.ai`).
+- **`pricing.js`**: Emits `?repo=`, `billing` (`month`/`year`), and `seats` (`1..1000`) through `DecapodCloudFlow.buildSignupHandoffUrl`, preserves selection across `/auth` PKCE `return_to`, and links cleanly to live Cloud purchase initiation.
+- **`cloud-app-manifest.json`**: Exposes SHA-256 digests (`files`), clean upstream source revision (`source_revision`, `source_clean: true`), and `asset_release: "20261126-geist"` verified offline by `tests/publication_provenance_test.ts`.
 
 ## Behavioral Privacy & Trust Contract Interface (`/trust/index.html`)
 
 - **Version Metadata:** `<meta name="decapod-trust-contract-version" content="1.0.0">` and `<meta name="decapod-trust-effective-date" content="2026-11-24">` plus visible contract metadata, change-control guarantee, and changelog section.
 - **Footer Navigation:** All primary site pages (`index.html`, `pricing.html`, `pricing/index.html`, `signup/index.html`, `clack/index.html`, `tecr.html`, `admin/index.html`, `trust/index.html`) include `<a href="/trust/index.html">Trust &amp; Privacy ↗</a>` inside `.footer-grid`.
 
-index.html links to pricing.html from navigation and its highlighted hero entry. The dedicated document loads shared styles, pricing.css and local pricing.js controls with illustrative $X values. offerings.html is a noindex redirect. Its Get started links go to https://decapodlabs.github.io/decapod/quickstart.html. Cloud uses a disabled native button with an accessible availability description and a decorative Coming soon sticker; no anchor, form, click handler or purchase API is attached.
+index.html links to pricing.html from navigation and its highlighted hero entry. The dedicated document loads shared commercial Geist styling (`shared/commercial-ui.css`, `pricing.css`), self-hosted Geist fonts (`assets/fonts/*`), and `pricing.js` displaying live $50/mo and $552/yr Cloud rates alongside the compact Decapod Local free tier. Get started links for Local point to `https://decapodlabs.github.io/decapod/quickstart.html`.
 
 ## Inbound Contracts
 Public GET requests return static documents/assets. Existing homepage fragment and media/install controls remain intact. A future purchase integration requires a separate reviewed change and service acceptance.
@@ -19,7 +19,7 @@ Public GET requests return static documents/assets. Existing homepage fragment a
 Local onboarding uses the exact public quickstart URL. Documentation, GitHub and existing public font links remain ordinary navigation/assets. The pricing preview calls no Auth, checkout or payment API.
 
 ## Data Ownership
-This repository owns presentation and brand media. Propodus owns identity, organizations, stable repositories, assigned seats, subscriptions and hosted Decapod database state. No customer state crosses this preview.
+This repository owns public presentation and brand media. The Cloud API owns identity, organizations, stable repositories, assigned seats, subscriptions, and hosted Decapod state.
 
 ## Failure Semantics
 An unavailable documentation link does not create an account, charge, grant, retry or backend fallback. Cloud remains visibly unavailable. Existing film/clipboard failure behavior is unchanged.
@@ -80,12 +80,12 @@ The proof ledger binds visible terminal states to ordered byte offsets and the s
   - `GET /pricing` (`pricing/index.html`) and `GET /pricing.html` (`pricing.html`): Publicly readable plan comparison and team estimator accepting optional `?repo=<percent-encoded-owner%2Frepo>`. Rejects invalid/hostile `?repo=` or `?return_to=` values without DOM HTML injection.
   - `GET /signup` (`signup/index.html`): Authenticated Cloud purchasing sub-application (`noindex,nofollow`, `referrer=no-referrer`). Accepts optional `?repo=<owner%2Frepo>` preselection intent and OAuth PKCE callback parameters (`?code=...&login_nonce=...`), immediately scrubbing query and fragment state via `history.replaceState` and rejecting URL fragment tokens (`access_token`, `refresh_token`, `provider_token`).
 - **Outbound Managed Auth & Edge Onboarding Interfaces**:
-  - Runtime discovery probes `GET /functions/v1/decapod-onboarding/config?include_auth_providers=true` on trusted origins (`https://api.decapodlabs.ai`, fallback `https://goyxpcmxetztjlrrcwew.supabase.co`) and validates `project_origin` and `publishable_key`.
+  - Runtime discovery probes public discovery configuration on `https://api.decapodlabs.ai` and validates public gateway configuration.
   - Unauthenticated sign-in initiates PKCE S256 via `https://api.decapodlabs.ai/auth` (or discovered `/functions/v1/decapod-onboarding/auth`) with strictly same-origin validated `return_to` (`/signup`).
   - Authenticated `/signup` communicates exclusively via HTTPS (`redirect: 'error'`, `credentials: 'omit'`) with `/auth/v1/token?grant_type=pkce`, `/auth/v1/user`, `/auth/v1/user/identities/authorize`, `/auth/v1/authorize`, and `/functions/v1/decapod-onboarding/{account-register,account-status,repository-enroll,billing-manage,billing-quote,billing-checkout}`, plus read-only `https://api.github.com/{user,user/orgs,user/repos}` when an in-memory GitHub provider token is present.
   - Stripe Checkout redirects are accepted only for `https:` URLs on `checkout.stripe.com`, `invoice.stripe.com`, or `billing.stripe.com`, strictly after server-side quote generation; client slider math never authorizes quotes or charges.
 - **Failure & State Semantics**:
-  - Public `/pricing` remains `'UNDER WRAPS'` with disabled Pay controls unless server discovery explicitly signals live sales and billing are enabled.
+  - Public `/pricing` renders Cloud-first pricing controls ($50/mo, $552/yr) and initiates PKCE authentication toward `/signup`.
   - `/signup` fails closed on `billing_not_configured` / `live_sale_disabled`, `organization_already_enrolled`, `repository_already_enrolled`, `admin_approval_required`, `code_host_link_required`, `provider_link_stepup_required`, and bounded `pending_fulfillment` polling (12 checks max before manual retry), unlocking CLI-ready instructions only when server `account-status` returns `backend_authorized: true`.
 
 ## Release-Coherent Discovery, Deep-Link Scrubbing & Multi-Tab Coherence (#70, #54, #55, #56) — November 24, 2026
@@ -93,14 +93,14 @@ The proof ledger binds visible terminal states to ordered byte offsets and the s
 - **Static Asset & Contract Headers**: `pricing.html`, `pricing/index.html`, `signup/index.html`, and `admin/index.html` declare `decapod-flow-contract=1`, `decapod-asset-release=20261124-p3`, `referrer=no-referrer`, and `?v=20261124-p3` on `cloud-flow.js`, `pricing.js`, `signup/signup.js`, and `admin/admin.js`.
 - **Discovery & Edge Contract Verification**: `DecapodCloudFlow.discoverRuntimeStatus` / `discoverRuntimeConfig` probes `/functions/v1/decapod-onboarding/config?include_auth_providers=true` and `/auth/providers` with `cache: "no-store"`, checks `decapod-cloud-contract-version` (`1.x`) and payload `version === 1` (`schema === "dactyl_api"`), conservatively intersects provider flags, distinguishes `unavailable` / `rate_limited` / `invalid` / `incompatible`, and refuses untrusted `apiOrigin`, `authBaseUrl`, or `project_origin` without silent fallback on malformed `200` configs.
 - **Cross-Tab Coherence Channel & Idempotent Request Contracts**: `DecapodCloudFlow.createCoherenceChannel` supports `tab_hello`, `release_skew`, `auth_invalidated`, `intent_sync`, and checkout coordination events (`checkout_started`, `checkout_returned`, `fulfillment_status`) with zero tokens/PII. `signup/signup.js` passes stable `request_id` values on `repository-enroll`, `billing-quote`, and `billing-checkout` (retaining `checkoutRequestId` across `429`/`5xx`/lost-ack retries); `admin/admin.js` passes `expected_revision` on `org-admins`, `org-recovery`, `resource-limits`, and `billing-overage-policy`, re-fetches authoritative state on `409` conflicts, and separates `5xx`/`429` verification outages from `403` admin revocations.
-- **Live Read-Only Receipt & Synthetic Readiness Interfaces (`tests/live_headers_check.ts`, `tests/synthetic_readiness.ts`)**: Verify HTTP 200, `Cache-Control: no-store` on `/auth/providers`, `/config`, and `https://decapod-cloud-admin.pages.dev/`, `decapod-cloud-contract-version: 1.0`, `referrer-policy: no-referrer`, `x-content-type-options: nosniff`, strict CSP, `UNDER WRAPS` / `noindex,nofollow` on deployed GitHub Pages routes, and per-plane latency/status separation (`github_pages_web`, `api_auth_discovery`, `cloudflare_pages_admin`, `billing_entitlement_posture`).
+- **Publication & Trust Receipt Interfaces (`tests/publication_provenance_test.ts`, `tests/trust_privacy_contract_test.ts`)**: Verify SHA-256 manifest fidelity for release `20261126-geist`, absence of pre-launch placeholders or internal operational files, strict no-tracker privacy posture, and valid public footer trust links.
 
 ## Authenticated `/admin/<org>` Organization Admin Route Interfaces (November 21, 2026)
 
 - **Inbound Browser Routes**:
-  - `GET /admin/` (`admin/index.html`, supporting `/admin/?org=<org>` natively on GitHub Pages and `/admin/<org>` when paired with an optional edge subpath router documented in `docs/decisions/0010-admin-route-hosting.md`): Authenticated organization-scoped Admin UI (`noindex,nofollow`, `referrer=no-referrer`). Accepts optional OAuth PKCE callback parameters (`?code=...&login_nonce=...`), immediately scrubbing query and fragment state via `history.replaceState` and failing closed on malformed routes or fragment tokens.
+  - `GET /admin/` (`admin/index.html`, supporting `/admin/?org=<org>` natively on GitHub Pages and `/admin/<org>` via clean subpath routing): Authenticated organization-scoped Admin UI (`noindex,nofollow`, `referrer=no-referrer`). Accepts optional OAuth PKCE callback parameters (`?code=...&login_nonce=...`), immediately scrubbing query and fragment state via `history.replaceState` and failing closed on malformed routes or fragment tokens.
 - **Outbound Managed Auth & Admin Edge Interfaces**:
-  - Reuses `DecapodCloudFlow.discoverRuntimeConfig` (`https://api.decapodlabs.ai`, fallback `https://goyxpcmxetztjlrrcwew.supabase.co/functions/v1/decapod-onboarding`) and initiates PKCE S256 sign-in via `buildAdminAuthAuthorizeUrl` with same-origin validated `return_to` (`/admin/`).
+  - Reuses `DecapodCloudFlow.discoverRuntimeConfig` (`https://api.decapodlabs.ai`) and initiates PKCE S256 sign-in via `buildAdminAuthAuthorizeUrl` with same-origin validated `return_to` (`/admin/`).
   - After PKCE authentication and server-side `account-register` verification for the resolved immutable `cloud_org_id`, communicates over HTTPS (`redirect: 'error'`, `credentials: 'omit'`) with `/functions/v1/decapod-onboarding/{account-register,account-status,repository-enroll,billing-manage,billing-portal,billing-overage-policy,resource-limits,device-keys,device-revoke,org-admins,org-recovery,policy-templates}`.
   - Never calls repository governance-data query/batch endpoints (`/decapod/<org>/<repo>/{query,batch}`, `cloud-query`, `cloud-batch`).
 - **Failure & Isolation Semantics**:
@@ -141,8 +141,8 @@ Generated capability obligations: `public-api` is declared for this project. The
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `a4a53b3acac59284b71bd94627308c11dedc4c43e999a2decc1b99d2432e2f6c`
-- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (4 files)
+- Repository signal fingerprint: `e4c19b6cd95b96ab408a352006060f4358fb42f6372b56ed4721c171eca10a38`
+- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (3 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->
 

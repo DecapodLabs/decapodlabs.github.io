@@ -2,27 +2,27 @@
 
 ## Signed Decapod Cloud Web Publication (`cloud-app-manifest.json`, #54, #55, #56)
 
-Keep `DecapodLabs/decapodlabs.github.io` focused on public marketing, public documentation, public `/pricing`, and verified static distribution of the canonical Decapod Cloud web bundle built cleanly from `DecapodLabs/propodus` (`portal/app/` -> `cloud-app-manifest.json`, asset release `20261125-commercial`). Preserve `billing`, `seats`, and `repo` across `/pricing` -> `/auth` PKCE -> `/signup`, retain the public `UNDER WRAPS` pre-launch gate until genuine pilot customer live verification completes, and verify published artifact SHA-256 provenance via `tests/publication_provenance_test.ts` and `docs/cloud-app-publication.md` while running internal app tests in `DecapodLabs/propodus`.
+Keep `DecapodLabs/decapodlabs.github.io` focused on public marketing, public documentation, public Cloud-first `/pricing` ($50/mo, $552/yr, plus `Decapod Local — Free forever`), and verified static distribution of compiled Decapod Cloud presentation bundles (`cloud-app-manifest.json`, `asset_release: 20261126-geist`). Preserve `billing`, `seats`, and `repo` across `/pricing` -> `/auth` PKCE -> `/signup` without pre-launch gates, and verify published artifact SHA-256 provenance via `tests/publication_provenance_test.ts` while keeping internal application tests and operational secrets out of this repository.
 
 ## Behavioral Privacy & Trust Contract (`/trust/index.html`)
 
-Publish a versioned, public Behavioral Privacy & Trust Contract at `/trust/index.html` (`v1.0.0`, effective `2026-11-24`) linked cleanly from the footer across site pages (`index.html`, `pricing.html`, `pricing/index.html`, `signup/index.html`, `clack/index.html`, `tecr.html`, `admin/index.html`, `trust/index.html`). The contract preserves `UNDER WRAPS` pre-launch Cloud gating, commits that removing or weakening any guarantee requires an explicit version increment and changelog entry, discloses exact network boundaries for Decapod Local CLI (zero telemetry/analytics), Decapod Cloud (declared GitHub/GitLab, Supabase, Stripe, and Cloudflare API gateway endpoints), Dactyl (local SQLite = zero egress; optional remote modes), and Clack (local workspace isolation and explicit opt-in provider/Solana/browser boundaries), documents Cloudflare Workers relay transparency, states all nine permanent trust invariants, and provides incident accountability and self-service revocation channels.
+Publish a versioned, public Behavioral Privacy & Trust Contract at `/trust/index.html` (`v1.0.0`, effective `2026-11-24`) linked cleanly from the footer across site pages (`index.html`, `pricing.html`, `pricing/index.html`, `signup/index.html`, `clack/index.html`, `tecr.html`, `admin/index.html`, `trust/index.html`). The contract discloses exact network boundaries for Decapod Local CLI (zero telemetry/analytics), Decapod Cloud, Dactyl, and Clack, documents Cloudflare Workers relay transparency, states all nine permanent trust invariants, and provides incident accountability and revocation channels.
 
 The public Decapod Labs website explains the repo-native governance kernel and helps humans begin with their existing coding agents. The accepted pricing.html preview compares Local with the planned Cloud offering; the homepage links to it without replacing the accepted hero, capability catalog or closing layout.
 
-Local is free, works offline, and requires no signup. Every Get started link on the pricing page goes to https://decapodlabs.github.io/decapod/quickstart.html. Cloud displays Coming soon, shows its planned hosted database, managed sign-in and organization/repository/member management benefits, and has a genuinely disabled purchase button under a second Coming soon sticker. Pricing amounts remain illustrative $X placeholders; no approved quote, checkout URL or live availability promise is published.
+Local is free forever, works offline without signup, and links Get started to https://decapodlabs.github.io/decapod/quickstart.html. Decapod Cloud leads `/pricing` at $50 per contributor per repository per month ($552 billed annually) with transparent annual and volume discounts and live team configuration routing cleanly into authenticated Signup.
 
 ## Product Outcome
 Help visitors understand the two ways to use Decapod and begin local operation immediately.
 
 ## Scope
-Dedicated static pricing preview and verified launch film, a restrained homepage entry and preserved branding/media. Authentication, billing, entitlement and hosted storage remain Propodus responsibilities. A coordinated docs navigation change belongs to the Decapod repository.
+Dedicated static Cloud-first pricing experience, verified launch film, restrained homepage entry, and compiled presentation bundles for Signup and Admin. Authentication, billing, entitlement, and hosted storage live outside this static marketing repository. A coordinated docs navigation change belongs to the Decapod repository.
 
 ## Constraints
 Preserve current accepted site changes and GitHub Pages hosting. The informational preview does not alter the authoritative Stripe catalog or assert hosted readiness. Source code/history/specifications/worktrees stay repository-native.
 
 ## Acceptance Criteria
-Local clearly says free and no signup; Get started reaches the exact quickstart URL. Cloud benefits are visible with Coming soon status and a disabled control/sticker, with no public price or purchasing route. Public documents are readable on mobile and desktop. Exact-candidate governed validation precedes publication.
+Local clearly states free-forever no-signup usage; Cloud pricing displays live commercial rates ($50/mo, $552/yr), clear Cloud value proposition, and purchase entry into Signup. Public documents remain readable on desktop and mobile and pass exact-candidate governed validation.
 
 ## Verified autonomous engineering launch film (#9)
 
@@ -30,7 +30,7 @@ Deliver the actual Pi objective-to-PR lifecycle as a 56-second 1920x1080 launch 
 
 The evidence owner is Decapod #1757/#1758. The observer correlated actual failure, model-requested repair, fresh native checks and exact-head GitHub PR2 admission with zero post-objective input. Separately labelled operator controls prove post-creation quarantine, source rejection and target invalidation. Current admission is historical after the target advanced; never imply merge authorization. Public assertions must match source witnesses rather than agent narration.
 
-The delivery criteria are complete media files, reproducible rendering, independent encoded-media checks, native site qualification, desktop/mobile browser playback and separate actual deployed-site verification. A local render or preview does not prove publication. Cloud remains Coming soon unless its real hosted authorization and payment journey is independently evidenced; the film omits it.
+Delivery criteria cover complete static media/presentation files, reproducible rendering, encoded-media checks, native site checks, provenance checks, desktop/mobile browser visual inspection, and live published URL verification.
 
 ## Decapod Labs website intent
 
@@ -77,7 +77,7 @@ These declarations select authoring and proof obligations; they do not attest im
 
 ## Codebase Contract Snapshot
 
-- Tracked significant codebase files: 22 across `.github/` (1), `README.md/` (1), `admin/` (1), `cloud-flow.js/` (1), `evidence/` (4), `main.js/` (1), `pricing.js/` (1), `scripts/` (7), `signup/` (1), `tests/` (4)
+- Tracked significant codebase files: 21 across `.github/` (1), `README.md/` (1), `admin/` (1), `cloud-flow.js/` (1), `evidence/` (4), `main.js/` (1), `pricing.js/` (1), `scripts/` (7), `signup/` (1), `tests/` (3)
 - Core modules: 0 | Workflows: 1 | Integration targets: 0
 <!-- decapod:codebase-contract:end -->
 
@@ -85,8 +85,8 @@ These declarations select authoring and proof obligations; they do not attest im
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `a4a53b3acac59284b71bd94627308c11dedc4c43e999a2decc1b99d2432e2f6c`
-- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (4 files)
+- Repository signal fingerprint: `e4c19b6cd95b96ab408a352006060f4358fb42f6372b56ed4721c171eca10a38`
+- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (3 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->
 
@@ -123,17 +123,15 @@ The first textual mention of Waystead in the Showcase's game-development paragra
 ## P0 Pricing (`/pricing`) and Authenticated Cloud Signup (`/signup`) — November 21, 2026
 Deliver the canonical public `/pricing` route (`pricing/index.html`) alongside compatible `pricing.html` and the authenticated Cloud purchasing sub-application at `/signup` (`signup/index.html`, `signup/signup.js`, `signup/signup.css`, backed by pure helpers in `cloud-flow.js`).
 
-Public `/pricing` safely parses optional `?repo=<percent-encoded-org%2Frepo>` preselection intent (strictly validating `owner/repo` syntax via `DecapodCloudFlow.parseRepoSearch`, rendering solely through `textContent`, and ignoring invalid or hostile inputs). While server-side live sales remain disabled, both Cloud Pay actions (`#cloud-pay-cta` and `#preview-checkout`) stay visibly disabled under the `'UNDER WRAPS'` disclosure with zero fabricated prices or Checkout URLs; once server configuration enables live sales, Pay routes unauthenticated visitors through managed PKCE authentication (`https://api.decapodlabs.ai/auth`, with automatic fallback discovery to the hosted onboarding endpoint) before entering `/signup`.
+Public `/pricing` safely parses optional `?repo=<percent-encoded-org%2Frepo>` preselection intent (strictly validating `owner/repo` syntax via `DecapodCloudFlow.parseRepoSearch`, rendering solely through `textContent`, and ignoring invalid inputs), presents live commercial rates ($50/mo, $552/yr) and volume discounts without pre-launch placeholders, and routes paid enrollment cleanly through PKCE authentication at `https://api.decapodlabs.ai` into `/signup`.
 
 Direct visits to `/signup` enforce an authentication gate before showing any organization, repository, or billing details. After PKCE sign-in (including GitHub provider-link step-up for Google-signed-in users), `/signup` verifies or collects the target GitHub organization and repository, enforces fail-closed states (`organization_already_enrolled`, `admin_approval_required`, `pending_fulfillment`, `billing_disabled`), invokes server-quoted Checkout only when authenticated, repo-verified, and server-enabled, and displays return-to-CLI instructions once server authorization confirms `backend_authorized=true`.
 
-## Authenticated Organization-Scoped Admin UI (`/admin/<org>`) — November 21, 2026
-Deliver the authenticated organization-scoped Cloud Admin surface (`admin/index.html`, `admin/admin.js`, `admin/admin.css`, extended `cloud-flow.js` route/org-resolution helpers, and `docs/decisions/0010-admin-route-hosting.md`) compatible with GitHub Pages (`/admin/` and `/admin/?org=<org>`) and optional edge subpath routing (`/admin/<org>`), without altering existing public home, pricing, signup, proof, or documentation routes.
+## Authenticated Organization-Scoped Admin UI (`/admin/<org>`) & Release Coherence
+Distribute the compiled organization-scoped Cloud Admin presentation bundle (`admin/index.html`, `admin/admin.js`, `admin/admin.css`, `shared/commercial-ui.css`, `assets/fonts/*`, and shared `cloud-flow.js`) compatible with `/admin/` and `/admin/?org=<org>` without altering existing public home, pricing, signup, proof, or documentation routes and without storing internal backend configuration, operational runbooks, or internal test suites in this public repository.
 
-An unauthenticated visitor fails closed behind the PKCE sign-in gate before rendering or invoking organization APIs. After sign-in, untrusted `<org>` path or query locators are resolved solely through Propodus to an immutable canonical `cloud_org_id` UUID and verified server-side against current administrator grants; unaffiliated, non-admin, ambiguous, and malformed routes fail closed independent of client URLs. Verified organization administrators operate orthogonally with zero paid repository seats—managing repositories, seat assignments, members, invitations, admin delegation, resource limits, spend-cap policies, enrolled devices, recovery contacts, cross-org policy templates, and Stripe Billing Portal deep-links without accessing repository task, event, or evidence payloads.
+An unauthenticated visitor fails closed behind the PKCE sign-in gate before rendering or invoking organization APIs. Verified organization administrators operate without requiring paid repository seats—managing repositories, seat assignments, members, invitations, admin delegation, resource limits, spend-cap policies, enrolled devices, recovery contacts, cross-org policy templates, and Stripe Billing Portal deep-links via Cloud API endpoints without rendering private repository payloads.
 
-## Browser Asset Release Coherence & API Skew Compatibility (#70) — November 23, 2026
-Prove and enforce release coherence across GitHub Pages static assets (`max-age=600`), `$0/mo` Cloudflare edge routes, and Propodus APIs under CDN/browser cache skew, interrupted deployments, rollbacks, stale discovery, deep links (`?repo=...`), and multi-tab sessions. Document the compatibility and invalidation matrix in `docs/asset-compatibility-matrix.md`, fix client skew/scrubbing/discovery/cache defects in `cloud-flow.js`, `pricing.js`, `signup/signup.js`, `admin/admin.js`, and HTML entrypoints, and prove deterministic fail-closed or valid-progression behavior via offline Deno tests (`tests/asset_skew_test.ts`) plus read-only deployed header verification (`tests/live_headers_check.ts`).
+Enforce release coherence (`20261126-geist`) across GitHub Pages static assets and manifest SHA-256 verification (`tests/publication_provenance_test.ts`), keeping internal skew checks, availability runbooks, and backend tests upstream rather than in this static repository.
 
-## Phase 2 Browser Concurrency & Workflow Consistency Hardening (#54, #55, #56) — November 24, 2026
-Harden Pricing (`pricing.js`), Admin (`admin/admin.js`), Signup (`signup/signup.js`), and shared flow coordination (`cloud-flow.js`, release `20261124-p2`) against stale cached pricing/quote state, cross-tab intent mismatches, out-of-order async responses during org/repo switches or after sign-out, concurrent `409` revision conflicts, mid-flight `401`/`403` revocations, duplicate enrollment/quote/checkout clicks, two-tab checkout races, Browser Back/reload transitions, and transient lost-ack polling while preserving strict `pending_timeout` fail-closed locking and `'UNDER WRAPS'` defaults, verified via `tests/workflow_concurrency_p2_test.ts`.
+Public presentation bundles (`cloud-flow.js`, `pricing/*`, `signup/*`, `admin/*`, `20261126-geist`) use Geist styling tokens, fail-closed request guards, and coherent release metadata across Pricing, Signup, and Admin without pre-launch placeholders or withheld-pricing gates.

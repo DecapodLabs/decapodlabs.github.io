@@ -3,240 +3,266 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#fff5e9">
+<meta name="theme-color" content="#ffffff">
 <meta name="referrer" content="no-referrer">
 <meta name="decapod-flow-contract" content="1">
-<meta name="decapod-asset-release" content="20261125-commercial">
-<meta name="description" content="Decapod Local is free. Cloud adds a shared governance database, managed team access, transparent licensing, and usage controls for engineering teams.">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="Decapod Labs">
-<meta property="og:title" content="Pricing — Decapod Labs">
-<meta property="og:description" content="Keep your coding agents and control Cloud costs. Explore repository-based licensing, volume savings, included usage, and admin-approved overages.">
-<meta property="og:image" content="https://decapodlabs.ai/assets/social-preview.png">
-<meta property="og:url" content="https://decapodlabs.ai/pricing">
-<meta name="twitter:card" content="summary_large_image">
+<meta name="decapod-asset-release" content="20261126-geist">
+<meta name="description" content="Decapod Cloud pricing: $50/month or $552/year per human-repository assignment. Shared governance context across engineers and coding agents. Decapod Local stays free forever.">
 <link rel="canonical" href="https://decapodlabs.ai/pricing">
-<link rel="icon" type="image/png" href="assets/favicon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261123-current-nav">
-<link rel="stylesheet" href="pricing.css?v=20261123-clack-nav">
-<script src="cloud-flow.js?v=20261125-commercial" defer></script>
-<script src="pricing.js?v=20261125-commercial" defer></script>
-<title>Pricing — Decapod Labs</title>
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<link rel="stylesheet" href="/shared/commercial-ui.css?v=20261126-geist">
+<link rel="stylesheet" href="/pricing.css?v=20261126-geist">
+<script src="/cloud-flow.js?v=20261126-geist" defer></script>
+<script src="/pricing.js?v=20261126-geist" defer></script>
+<title>Pricing — Decapod Cloud</title>
 </head>
-<body class="pricing-page site-footer-pinned">
-<a class="skip" href="#main">Skip to content</a>
-<header class="nav">
-  <div class="wrap nav-content">
-    <a href="/" class="brand" aria-label="Decapod Labs home"><img class="site-wordmark" src="/assets/logo-a.png" alt="Decapod Labs" width="420" height="140"></a>
-    <nav class="nav-links" aria-label="Site navigation">
-      <a href="/#showcase">Showcase</a>
-      <a href="/#features">Features</a>
-      <a href="/#architecture">Architecture</a>
-      <a href="/tecr.html">Rework</a>
-      <a href="/clack/index.html">Clack</a>
-      <a class="nav-pricing" aria-current="page" href="/pricing.html">Pricing</a>
-    </nav>
-    <a class="nav-cta" href="https://github.com/DecapodLabs/decapod" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>
+<body class="ds-body pricing-page">
+<a class="ds-skip" href="#main">Skip to content</a>
+
+<header class="ds-app-header">
+  <div class="ds-app-header-inner">
+    <div class="ds-header-left">
+      <a href="/" class="ds-brand" aria-label="Decapod Labs home">
+        <img class="ds-brand-mark" src="/assets/mascot.png" alt="" width="24" height="24">
+        <span>Decapod</span>
+      </a>
+      <span class="ds-header-sep" aria-hidden="true">/</span>
+      <nav class="ds-header-nav" aria-label="Primary navigation">
+        <a class="ds-nav-link" href="/pricing/index.html" aria-current="page">Pricing</a>
+        <a class="ds-nav-link" href="https://decapodlabs.github.io/decapod/quickstart.html">Docs</a>
+        <a class="ds-nav-link" href="https://github.com/DecapodLabs/decapod" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </nav>
+    </div>
+    <div class="ds-header-right">
+      <a class="ds-nav-link" href="/admin/index.html">Admin</a>
+      <a class="ds-btn ds-btn-secondary ds-btn-sm" href="/signup/index.html">Sign in</a>
+    </div>
   </div>
 </header>
-<main id="main">
-  <section class="pricing-hero" aria-labelledby="pricing-heading">
-    <div class="wrap pricing-hero-grid">
+
+<main id="main" class="ds-main">
+  <div class="ds-container pricing-shell">
+
+    <div class="ds-banner" id="pricing-repo-banner" role="status" hidden>
       <div>
-        <p class="pricing-eyebrow">GOVERNED WORK. YOUR SCALE.</p>
-        <h1 id="pricing-heading">Scale the work.<br><span>Keep the proof.</span></h1>
-        <p class="pricing-intro">Keep the coding agents your engineers already use. Decapod gives their work clear ownership, defined boundaries, and evidence tied to the exact code delivered. Local is free. Cloud makes the governance database available across the team, with managed access, transparent licensing, and usage controls.</p>
-      </div>
-      <aside class="launch-notice" aria-label="Availability">
-        <span class="launch-notice-mark" aria-hidden="true">✳</span>
-        <strong>ONE KERNEL · TWO MODES</strong>
-        <p>Both options use the same repo-native Decapod application. Local stores its governance database on your machine; Cloud hosts it for your team.</p>
-        <div class="mode-status"><span><i></i> Local available</span><span><i></i> Cloud coming soon</span></div>
-      </aside>
-    </div>
-  </section>
-
-  <section class="pricing-plans" aria-label="Decapod plans">
-    <div class="wrap">
-      <div class="pricing-repo-banner" id="pricing-repo-banner" role="status" hidden>
         <strong id="pricing-repo-slug"></strong>
-        <span id="pricing-repo-note"></span>
+        <span id="pricing-repo-note" style="margin-left:8px"></span>
       </div>
     </div>
-    <div class="wrap pricing-plan-grid">
-      <article class="pricing-plan" aria-labelledby="local-title">
-        <div class="pricing-plan-top"><span class="plan-index">01 / LOCAL</span><span class="plan-availability">Available now</span></div>
-        <h2 id="local-title">Decapod Local</h2>
-        <p class="plan-price">Free <span>forever</span></p>
-        <p class="plan-subtitle">Your repository. Your agents. No subscription.</p>
-        <ul class="plan-bullets">
-          <li>Repo-native governance with a local database</li>
-          <li>Governed tasks, boundaries, and durable context</li>
-          <li>Global engineering Constitution with sensible defaults</li>
-          <li>Workspaces, handoffs, and commit-bound evidence</li>
-        </ul>
-        <a class="plan-link plan-link-active" href="https://decapodlabs.github.io/decapod/quickstart.html">Install for free <span aria-hidden="true">↗</span></a>
-        <p class="plan-fineprint">No account, payment details, or Cloud subscription needed.</p>
-      </article>
-      <article class="pricing-plan pricing-plan-cloud" aria-labelledby="cloud-title">
-        <div class="pricing-plan-top"><span class="plan-index">02 / CLOUD</span><span class="plan-availability plan-soon">Coming soon</span></div>
-        <h2 id="cloud-title">Decapod Cloud</h2>
-        <div class="cloud-price-flag" aria-label="Cloud subscription prices will be revealed at launch">
-          <span class="cloud-price-icon" aria-hidden="true">☁</span>
-          <span class="cloud-price-message"><strong>UNDER WRAPS</strong><small>Cloud pricing reveal coming soon</small></span>
-        </div>
-        <p class="plan-annual">Monthly or annual billing</p>
-        <p class="plan-subtitle">A shared governance database with managed access for engineering teams.</p>
-        <ul class="plan-bullets">
-          <li>Live governance data shared across engineers and coding agents</li>
-          <li>Shared context, explicit ownership, and evidence across machines</li>
-          <li>Google or GitHub sign-in with verified repository identity</li>
-          <li>One identity across organizations, with repository-specific access</li>
-          <li>Cloud Admin for team access, spending controls, usage alerts, and billing</li>
-        </ul>
-        <button id="cloud-pay-cta" class="plan-link plan-link-disabled" type="button" disabled aria-describedby="cloud-fineprint">Cloud checkout opening soon <span aria-hidden="true">↗</span></button>
-        <p class="plan-fineprint" id="cloud-fineprint">Cloud enrollment opens soon. Prices and included allowances will be disclosed before purchase. Paid overages are off by default and require separate admin approval and a spending cap.</p>
-        <div class="cloud-custom-contact">
-          <span>Beyond 10 repositories or 25 contributors?</span>
-          <a href="mailto:alexhraber@gmail.com?subject=Decapod%20Cloud%20Custom%20Plan&body=Hello%20Decapod%20Labs%2C%0A%0AWe%27d%20like%20to%20discuss%20a%20larger%20Cloud%20deployment.%0ARepositories%3A%0AContributors%3A%0ARequirements%3A">Custom pricing <span aria-hidden="true">↗</span></a>
-        </div>
-      </article>
 
-    </div>
-  </section>
+    <section class="pricing-hero" aria-labelledby="pricing-hero-heading">
+      <div class="pricing-hero-copy">
+        <p class="ds-eyebrow">Decapod Cloud · Available Now</p>
+        <h1 class="pricing-hero-title" id="pricing-hero-heading">One team. One source of proof.</h1>
+        <p class="pricing-hero-lead">Give every engineer and coding agent the same governed repository context, clear ownership, and evidence tied directly to delivered work. Configure your team below and activate Decapod Cloud in minutes.</p>
+        <div class="pricing-hero-actions">
+          <button type="button" class="ds-btn ds-btn-primary ds-btn-lg" id="cloud-pay-cta">Get Decapod Cloud <span aria-hidden="true">→</span></button>
+          <a class="ds-btn ds-btn-secondary ds-btn-lg" href="#configurator">Configure seats &amp; repos</a>
+        </div>
+      </div>
 
-  <section class="pricing-preview" aria-labelledby="preview-heading">
-    <div class="wrap">
-      <div class="preview-heading-row">
+      <aside class="ds-card local-compact-card" aria-labelledby="local-heading">
+        <div class="local-card-top">
+          <div>
+            <p class="local-kicker">Single-developer option</p>
+            <h2 class="ds-section-title" id="local-heading">Decapod Local</h2>
+          </div>
+          <span class="ds-badge">Free forever</span>
+        </div>
+        <p class="local-copy">Full local-first SQLite governance kernel with git worktrees and verification gates for solo workflows—zero account or network dependency.</p>
+        <div class="local-card-footer">
+          <code class="ds-mono local-cmd">decapod init</code>
+          <a class="ds-link-btn" href="https://decapodlabs.github.io/decapod/quickstart.html">Install Local ↗</a>
+        </div>
+      </aside>
+    </section>
+
+    <section class="ds-card cloud-config-card" id="configurator" aria-labelledby="configurator-heading">
+      <div class="cloud-config-header">
         <div>
-          <p class="pricing-eyebrow">TEAM PRICING</p>
-          <h2 id="preview-heading">Built for your team.<br><span>Priced for your scope.</span></h2>
+          <h2 class="ds-section-title" id="configurator-heading">Decapod Cloud — Organizational Governance</h2>
+          <p class="ds-subtitle">Shared repository-scoped tasks, human ownership, hardware-bound agent sessions, and centralized usage protection. Coding agents, subagents, worktrees, and devices never add seats.</p>
         </div>
-        <p>See how team size, repository access, and billing terms affect your subscription. Coding agents never add seats.</p>
+        <div class="billing-segmented" role="group" aria-label="Billing cadence">
+          <button type="button" class="billing-seg-btn is-selected" data-billing="month" aria-pressed="true">Monthly · $50</button>
+          <button type="button" class="billing-seg-btn" data-billing="year" aria-pressed="false" aria-expanded="false">Annual · $552 <span class="seg-save-tag">-8%</span></button>
+        </div>
       </div>
-      <div class="preview-panel">
-        <div class="preview-controls">
-          <div class="preview-control preview-discount-control">
-            <div class="preview-control-label">
+
+      <div class="cloud-config-grid">
+        <div class="config-controls-col">
+          <div class="pricing-slider-block">
+            <div class="slider-label-row">
               <label for="repo-count">Repositories</label>
-              <div class="preview-live-value"><output id="repo-count-value" for="repo-count">2</output><span class="preview-live-discount" id="repo-discount">+0%</span></div>
-            </div>
-            <input id="repo-count" type="range" min="1" max="10" step="1" value="2" aria-describedby="repo-tiers">
-            <div class="preview-tier-markers" id="repo-tiers" aria-label="Repository discount milestones">
-              <span class="preview-tier-marker" data-repo-threshold="3" style="--tier-at:22.2222%"><span>3+</span><strong>2%</strong></span>
-              <span class="preview-tier-marker" data-repo-threshold="6" style="--tier-at:55.5556%"><span>6+</span><strong>4%</strong></span>
-              <span class="preview-tier-marker" data-repo-threshold="10" style="--tier-at:100%"><span>10</span><strong>6%</strong></span>
-            </div>
-          </div>
-          <div class="preview-control preview-discount-control">
-            <div class="preview-control-label">
-              <label for="seat-count">Contributors per repository</label>
-              <div class="preview-live-value"><output id="seat-count-value" for="seat-count">5</output><span class="preview-live-discount" id="contributor-discount">+2%</span></div>
-            </div>
-            <input id="seat-count" type="range" min="1" max="25" step="1" value="5" aria-describedby="contributor-tiers">
-            <div class="preview-tier-markers" id="contributor-tiers" aria-label="Contributor discount milestones">
-              <span class="preview-tier-marker" data-contributor-threshold="5" style="--tier-at:16.6667%"><span>5+</span><strong>2%</strong></span>
-              <span class="preview-tier-marker" data-contributor-threshold="10" style="--tier-at:37.5%"><span>10+</span><strong>4%</strong></span>
-              <span class="preview-tier-marker" data-contributor-threshold="20" style="--tier-at:79.1667%"><span>20+</span><strong>6%</strong></span>
-            </div>
-          </div>
-          <p class="preview-explainer">Each person assigned to a repository counts as one paid assignment. Volume discounts also reflect distinct people across your team.</p>
-          <div class="preview-savings-row">
-            <div class="preview-volume-savings" aria-live="polite">
-              <span>Volume savings from</span><strong id="combined-discount">2%</strong>
-            </div>
-            <a class="preview-custom-link" href="mailto:alexhraber@gmail.com?subject=Decapod%20Cloud%20Custom%20Plan&body=Hello%20Decapod%20Labs%2C%0A%0AWe%27d%20like%20to%20discuss%20a%20larger%20Cloud%20deployment.%0ARepositories%3A%0AContributors%3A%0ARequirements%3A">Custom pricing <span aria-hidden="true">↗</span></a>
-            <div class="preview-annual-savings" id="annual-savings" hidden role="status" aria-label="Annual savings breakdown">
-              <div class="preview-annual-heading"><span>Annual savings</span></div>
-              <button type="button" class="preview-annual-dismiss" id="annual-dismiss" aria-label="Dismiss annual savings details">×</button>
-              <div class="preview-annual-equation">
-                <div class="preview-annual-factor"><strong>8%</strong><small>Annual</small></div>
-                <div class="preview-annual-factor"><strong id="annual-volume">2%</strong><small>Volume</small></div>
-                <div class="preview-annual-factor preview-annual-total"><strong id="annual-discount">10%</strong><small>Total</small></div>
+              <div class="slider-value-group">
+                <output class="slider-output ds-tabular" id="repo-count-value" for="repo-count">2</output>
+                <span class="ds-badge ds-tabular" id="repo-discount">+0%</span>
               </div>
             </div>
+            <input id="repo-count" class="ds-range" type="range" min="1" max="10" step="1" value="2" aria-describedby="repo-tiers">
+            <div class="tier-scale ds-tabular" id="repo-tiers" aria-label="Repository volume tiers">
+              <span>1–2 repos (0%)</span>
+              <span class="tier-stop" data-repo-threshold="3">3+ repos (+2%)</span>
+              <span class="tier-stop" data-repo-threshold="6">6+ repos (+4%)</span>
+              <span class="tier-stop" data-repo-threshold="10">10+ repos (+6%)</span>
+            </div>
+          </div>
+
+          <div class="pricing-slider-block">
+            <div class="slider-label-row">
+              <label for="seat-count">Contributors per repository</label>
+              <div class="slider-value-group">
+                <output class="slider-output ds-tabular" id="seat-count-value" for="seat-count">5</output>
+                <span class="ds-badge ds-tabular" id="contributor-discount">+2%</span>
+              </div>
+            </div>
+            <input id="seat-count" class="ds-range" type="range" min="1" max="25" step="1" value="5" aria-describedby="contributor-tiers">
+            <div class="tier-scale ds-tabular" id="contributor-tiers" aria-label="Distinct human volume tiers">
+              <span>1–4 people (0%)</span>
+              <span class="tier-stop" data-contributor-threshold="5">5+ people (+2%)</span>
+              <span class="tier-stop" data-contributor-threshold="10">10+ people (+4%)</span>
+              <span class="tier-stop" data-contributor-threshold="20">20+ people (+6%)</span>
+            </div>
+          </div>
+
+          <div class="tier-summary-bar">
+            <div>
+              <span class="tier-summary-label">Illustrative volume tier</span>
+              <p class="tier-summary-note">Distinct-human discounts count verified assigned contributors only—unassigned seats and pending invitations do not qualify.</p>
+            </div>
+            <strong class="tier-summary-pct ds-tabular" id="combined-discount">2%</strong>
+          </div>
+
+          <div class="annual-breakdown" id="annual-savings" hidden role="status" aria-label="Annual savings breakdown">
+            <div class="annual-breakdown-items ds-tabular">
+              <span>Annual commitment: <strong>8%</strong></span>
+              <span>+ Volume: <strong id="annual-volume">2%</strong></span>
+              <span>= Effective standard discount (20% cap): <strong id="annual-discount">10%</strong></span>
+            </div>
+            <button type="button" class="ds-link-btn" id="annual-dismiss" aria-label="Dismiss annual breakdown">Hide</button>
           </div>
         </div>
-        <div class="preview-result">
-          <div class="preview-result-top"><span>YOUR TEAM CONFIGURATION</span><span class="preview-dot" aria-hidden="true"></span></div>
-          <p class="preview-big" id="assignment-count">10</p>
-          <p class="preview-big-subtitle">paid assignments across repositories</p>
-          <p class="preview-formula" id="assignment-formula">2 repositories × 5 contributors each</p>
-          <fieldset class="preview-billing"><legend>Billing period</legend>
-            <div class="preview-billing-options">
-              <button type="button" class="preview-billing-option is-selected" data-billing="month" aria-pressed="true">Monthly</button>
-              <button type="button" class="preview-billing-option" data-billing="year" aria-pressed="false" aria-controls="annual-savings" aria-expanded="false">Annual</button>
+
+        <div class="config-quote-col">
+          <div class="estimate-card">
+            <div class="estimate-header">
+              <span class="estimate-eyebrow">Estimated subscription</span>
+              <span class="ds-badge ds-badge-accent ds-tabular" id="estimate-unit-rate">$49 / seat / mo</span>
             </div>
 
-          </fieldset>
-          <div class="preview-total" id="standard-preview">
-            <span>Cloud subscription</span>
-            <div class="cloud-price-flag cloud-price-flag-quote" role="img" aria-label="Cloud pricing under wraps until launch">
-              <span class="cloud-price-icon" aria-hidden="true">☁</span>
-              <span class="cloud-price-message"><strong>UNDER WRAPS</strong><small>Price reveal at launch</small></span>
+            <div class="estimate-amount-row">
+              <strong class="estimate-total ds-tabular" id="estimate-total">$490</strong>
+              <span class="estimate-cadence" id="estimate-cadence">/ month</span>
             </div>
+            <p class="estimate-formula ds-tabular" id="assignment-formula">2 repositories × 5 contributors each</p>
+
+            <dl class="ds-dl estimate-dl ds-tabular">
+              <div>
+                <dt>Purchased seat units</dt>
+                <dd><span id="assignment-count">10</span> assignments</dd>
+              </div>
+              <div>
+                <dt>Coding agents &amp; worktrees</dt>
+                <dd>$0 (unlimited)</dd>
+              </div>
+              <div>
+                <dt>Base list price</dt>
+                <dd id="estimate-list-rate">$50 / seat / month</dd>
+              </div>
+              <div>
+                <dt>Paid resource overages</dt>
+                <dd>Disabled by default ($0)</dd>
+              </div>
+            </dl>
+
+            <div class="estimate-cta-stack">
+              <button type="button" class="ds-btn ds-btn-primary ds-btn-lg" id="preview-checkout" style="width:100%">Continue to Decapod Cloud <span aria-hidden="true">→</span></button>
+              <p class="ds-hint" id="pricing-availability-note" role="status">Connecting to Decapod Cloud status…</p>
+            </div>
+
+            <p class="estimate-disclaimer" id="cloud-fineprint">Your selection carries into GitHub sign-in, where you verify exact repository slugs and per-repository seat counts before the final server quote and Stripe Checkout. Applicable taxes are calculated at Checkout.</p>
           </div>
-          <p class="preview-unpriced">Prices and included usage allowances will be published before enrollment. Paid overages require an admin opt-in and a spending cap.</p>
-          <button id="preview-checkout" type="button" disabled class="preview-checkout">Cloud checkout opening soon <span aria-hidden="true">↗</span></button>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="pricing-resources" aria-labelledby="resource-heading">
-    <div class="wrap">
-      <div class="resources-intro">
+    <section class="ds-card outcome-diagram-card" aria-labelledby="workflow-heading">
+      <div class="outcome-header">
         <div>
-          <p class="pricing-eyebrow">CLOUD CAPACITY</p>
-          <h2 id="resource-heading">Usage you can see.<br>Costs you can trace.</h2>
+          <p class="ds-eyebrow">How teams work in Cloud</p>
+          <h2 class="ds-section-title" id="workflow-heading">Shared governance from repository selection to verified delivery</h2>
         </div>
-        <p>See usage across transfer, compute, storage, and request traffic. Set alerts and stricter operating limits for each category. Included allowances and platform safeguards still apply. Paid overages remain disabled until an authorized admin opts in and sets a spending cap.</p>
+        <a class="ds-nav-link" href="mailto:alexhraber@gmail.com?subject=Decapod%20Cloud%20Custom%20Plan&body=Hello%20Decapod%20Labs%2C%0A%0AWe%27d%20like%20to%20discuss%20more%20than%2010%20repositories%20or%2025%20contributors%20per%20repository.%0ARepositories%3A%0AContributors%3A%0ARequirements%3A">Need &gt;10 repos or custom terms? Contact sales ↗</a>
       </div>
-      <div class="resource-highlights" aria-label="Cloud capacity commitments">
-        <div><span aria-hidden="true">01</span><strong>Included by default</strong><p>Every Cloud subscription includes published resource allowances.</p></div>
-        <div><span aria-hidden="true">02</span><strong>Limits &amp; alerts</strong><p>Receive early warnings and set stricter operating limits in Cloud Admin.</p></div>
-        <div><span aria-hidden="true">03</span><strong>Overages are opt-in</strong><p>Only an authorized admin can enable paid excess usage and set its spending cap.</p></div>
-      </div>
-      <details class="resources-advanced">
-        <summary><span>What counts as cloud usage?</span><span class="advanced-arrow" aria-hidden="true">+</span></summary>
-        <div class="advanced-content">
-          <p class="advanced-intro">Set alerts and operating limits for all four categories. Alerts never authorize charges, and customer limits cannot expand purchased allowances or override service safety controls.</p>
-          <div class="advanced-grid">
-            <div class="resource-type"><span class="resource-type-icon" aria-hidden="true">⇄</span><h3>Network transfer</h3><p>Set transfer limits and alerts for outbound usage, including exports and large responses.</p><small>Measured transfer · included allowance at launch</small></div>
-            <div class="resource-type"><span class="resource-type-icon" aria-hidden="true">⌘</span><h3>Compute &amp; operations</h3><p>Set workload limits and alerts for database operations and request processing.</p><small>Measured work · included allowance at launch</small></div>
-            <div class="resource-type"><span class="resource-type-icon" aria-hidden="true">▤</span><h3>Retained data</h3><p>Get alerts as your database or evidence storage fills, and set retention-related usage limits.</p><small>Retained storage · measured over time</small></div>
-            <div class="resource-type"><span class="resource-type-icon" aria-hidden="true">⟐</span><h3>Request pressure</h3><p>Set rate and concurrency alerts and stricter limits; service safety controls still apply.</p><small>Protective limits · independent of billing</small></div>
-          </div>
-          <div class="resource-billing-note">
-            <strong>No surprise overage charges.</strong>
-            <p>Paid overages are off by default. Billing admins can review published rates, approve excess usage, and set a spending cap. Without approval, new work beyond included limits is throttled or declined without extra charges. Approved excess use is itemized by resource. Alerts and operating limits never grant billing permission.</p>
-          </div>
-          <p class="advanced-footnote">Resource allowances and overage rates will be published before billing opens. Monthly consumption and retained storage have different measurement periods.</p>
+
+      <div class="workflow-grid" aria-label="Decapod Cloud workflow diagram">
+        <div class="workflow-node">
+          <span class="workflow-step ds-mono">01 · REPOSITORY</span>
+          <h3>GitHub org &amp; repo identity</h3>
+          <p>Bind exact repositories under verified organization administration. One organization per subscription; add uneven seat capacities per repo.</p>
         </div>
-      </details>
-    </div>
-  </section>
-  <section class="pricing-faq" aria-labelledby="faq-heading"><div class="wrap faq-layout"><div class="faq-header"><p class="pricing-eyebrow">GOOD TO KNOW</p><h2 id="faq-heading">Clear terms.<br><span>Real control.</span></h2><p>Clear answers on licensing, usage, and approvals.</p></div><div class="faq-items">
-<details><summary>Do we need to change our coding agents?</summary><p>No. Keep Codex, Claude Code, Cursor, Antigravity, or a combination. Your engineers keep working in those tools; the agents call Decapod for coordination and validation. Each call exits when finished, with no resident Decapod service.</p></details>
-<details><summary>What is a contributor–repository assignment?</summary><p>One human assigned to one repository is one paid assignment. The same human assigned to two repositories uses two assignments. Contributor-volume savings count distinct people only once per customer.</p></details>
-<details><summary>Do coding agents count as seats?</summary><p>No. Agents, subagents, and worktrees are not additional human seats. Their Cloud activity still consumes measured resources.</p></details>
-<details><summary>How does workforce sign-in work?</summary><p>Sign in with Google or GitHub. A single person can belong to multiple organizations, with explicit repository-specific access and paid assignments. GitHub repository linking requires verification of the corresponding GitHub identity.</p></details>
-<details><summary>How are subscription savings calculated?</summary><p>Repository count and distinct contributors each determine a volume tier. The preview shows the minimum for your selection; final pricing uses verified assignments. Annual billing adds 8 percentage points to volume savings, up to 20% total on the base subscription. Resource overages receive no discounts.</p></details>
-<details><summary>Can we set limits and alerts for each resource?</summary><p>Yes. Cloud Admin supports configurable limits and warnings for network transfer, compute and operations, retained database/evidence storage, and request pressure. These settings can warn you early or restrict your own usage; they cannot raise included allowances or bypass platform safety limits. Alerts never authorize billing.</p></details>
-<details><summary>Will Cloud charge me automatically if I exceed a resource limit?</summary><p>No. Paid overages are disabled by default. Without your organization's authorized admin explicitly enabling them in Cloud Admin, new usage beyond included limits is throttled or declined with no overage charge. Admins can opt in after reviewing disclosed per-resource rates and setting a spending cap. Only authorized excess usage is billed, itemized by resource.</p></details>
-<details><summary>What will we know before subscribing?</summary><p>Cloud prices, included resource allowances, and any excess-use rates will be disclosed before enrollment. Charges for excess use are off by default and require separate approval from an authorized billing admin, with a spending cap.</p></details>
-<details><summary>What if we're bigger than the sliders?</summary><p>Talk with sales for more than 10 repositories, more than 25 contributors per repository, or specialized deployment and capacity needs.</p></details>
-</div></div></section>
-<section class="pricing-ending" aria-labelledby="ending-heading">
-    <div class="wrap pricing-ending-layout">
-      <div><p class="pricing-eyebrow">SAME AGENTS. CLEAR BOUNDARIES.</p><h2 id="ending-heading">Start locally.<br><span>Grow with Cloud.</span></h2></div>
-      <div><p>Start with Decapod Local at no cost. Add Cloud when your team needs a shared governance database, managed repository access, and centralized usage controls.</p><a class="plan-link plan-link-active" href="https://decapodlabs.github.io/decapod/quickstart.html">Read the quickstart <span aria-hidden="true">↗</span></a></div>
-    </div>
-  </section>
+        <div class="workflow-arrow" aria-hidden="true">→</div>
+        <div class="workflow-node">
+          <span class="workflow-step ds-mono">02 · SHARED OWNERSHIP</span>
+          <h3>Contributors &amp; AI agents</h3>
+          <p>Engineers and agents running in separate terminals or containers read and claim tasks against the same server-enforced lease state.</p>
+        </div>
+        <div class="workflow-arrow" aria-hidden="true">→</div>
+        <div class="workflow-node">
+          <span class="workflow-step ds-mono">03 · PROOF LEDGER</span>
+          <h3>Exact-revision evidence</h3>
+          <p>Living specs, validation receipts, and resource usage thresholds stay scoped to the repository across machines without silent overages.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="pricing-faq-section" aria-labelledby="faq-heading">
+      <h2 class="ds-section-title" id="faq-heading" style="margin-bottom:12px">Billing &amp; resource disclosures</h2>
+      <div class="faq-stack">
+        <details class="ds-disclosure">
+          <summary>How is a seat defined in Decapod Cloud?</summary>
+          <div class="ds-disclosure-body">A billable seat is one human contributor assignment to one subscribed repository. Coding agents, subagents, concurrent CLI sessions, git worktrees, and enrolled hardware keys do not consume extra seats.</div>
+        </details>
+        <details class="ds-disclosure">
+          <summary>How do monthly and annual billing differ?</summary>
+          <div class="ds-disclosure-body">Monthly billing lists at $50 per seat per month. Annual billing lists at $552 per seat per year billed upfront (an 8% term concession off $600), stacking with repository and distinct-human volume discounts up to 20% combined standard cap.</div>
+        </details>
+        <details class="ds-disclosure">
+          <summary>Can a subscription cover multiple repositories with different seat counts?</summary>
+          <div class="ds-disclosure-body">Yes. After signing in with GitHub, you verify each repository under your organization and set exact per-repository seat counts—whether equal or uneven—before the server produces the authoritative Stripe quote.</div>
+        </details>
+        <details class="ds-disclosure">
+          <summary>Will Decapod Cloud charge me automatically if usage exceeds an included limit?</summary>
+          <div class="ds-disclosure-body">No. Paid overages are disabled by default ($0 automatic overage exposure). Usage above configured operating limits is throttled or blocked, and Admin threshold alerts notify your team early without authorizing billing charges.</div>
+        </details>
+      </div>
+    </section>
+
+    <section class="ds-card closing-cloud-cta" aria-labelledby="closing-cta-heading">
+      <div>
+        <h2 class="ds-section-title" id="closing-cta-heading">Ready to activate Decapod Cloud for your repositories?</h2>
+        <p class="ds-subtitle">Your repository count, seat selection, and billing cadence carry straight through GitHub sign-in into Stripe Checkout.</p>
+      </div>
+      <div class="closing-cta-actions">
+        <button type="button" class="ds-btn ds-btn-accent ds-btn-lg" id="closing-cloud-cta">Get Decapod Cloud <span aria-hidden="true">→</span></button>
+        <a class="ds-nav-link" href="mailto:alexhraber@gmail.com?subject=Decapod%20Cloud%20Custom%20Plan&body=Hello%20Decapod%20Labs%2C%0A%0AWe%27d%20like%20to%20discuss%20a%20custom%20Cloud%20deployment.%0ARepositories%3A%0AContributors%3A">Enterprise / custom plans ↗</a>
+      </div>
+    </section>
+
+  </div>
 </main>
-<footer class="footer"><div class="wrap footer-grid"><a href="/" class="footer-brand" aria-label="Decapod Labs home"><img class="site-wordmark" src="assets/logo-c.png?v=20261118-footer" alt="Decapod Labs" width="420" height="140"></a><span>© 2026 Decapod Labs</span><div><a href="pricing.html">Pricing ↗</a><a href="/trust/index.html">Trust &amp; Privacy ↗</a><a href="https://github.com/DecapodLabs/decapod">GitHub ↗</a><a href="https://decapodlabs.github.io/decapod/">Read the docs ↗</a></div></div></footer>
+
+<footer class="ds-footer">
+  <div class="ds-footer-inner">
+    <span>© 2026 Decapod Labs</span>
+    <div class="ds-footer-links">
+      <a href="/pricing/index.html">Pricing</a>
+      <a href="/signup/index.html">Signup</a>
+      <a href="/admin/index.html">Admin</a>
+      <a href="/trust/index.html">Trust &amp; Privacy</a>
+      <a href="https://github.com/DecapodLabs/decapod" target="_blank" rel="noopener noreferrer">GitHub</a>
+    </div>
+  </div>
+</footer>
 </body>
 </html>

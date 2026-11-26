@@ -81,6 +81,7 @@
     var lastCapacities = [];
     var billingStateSnapshot = null;
     var billingReady = false;
+    var billingSectionLoaded = false;
     var pendingBillingOrder = null;
     var orgMembersCache = [];
     var orgAdminsCache = [];
@@ -348,6 +349,7 @@
       lastCapacities = [];
       billingStateSnapshot = null;
       billingReady = false;
+      billingSectionLoaded = false;
       pendingBillingOrder = null;
       orgMembersCache = [];
       orgAdminsCache = [];
@@ -992,6 +994,10 @@
         }
         if (seatsValEl) seatsValEl.textContent = totalCap > 0 ? (totalAssigned + " / " + totalCap) : "0";
         if (seatsMetaEl) seatsMetaEl.textContent = totalCap > 0 ? "Assigned vs purchased seats" : "Purchase seats to enable repo access";
+      } else if (!billingSectionLoaded) {
+        if (subValEl) subValEl.textContent = "Loading…";
+        if (subMetaEl) subMetaEl.textContent = "Checking subscription status…";
+        if (seatsValEl) seatsValEl.textContent = "—";
       } else {
         if (subValEl) subValEl.textContent = billingReady ? "No plan" : "Unavailable";
         if (subMetaEl) subMetaEl.textContent = billingReady ? "No active subscription" : "Billing disabled on this environment";
@@ -1775,6 +1781,34 @@
         if (seatsEl) seatsEl.textContent = String(state.quantity || 0);
         if (renewalEl) renewalEl.textContent = untilLabel;
 
+        var capWrap = byId("admin-billing-capacities-wrap");
+        var capTbody = byId("admin-billing-capacities");
+        if (capWrap && capTbody) {
+          capTbody.replaceChildren();
+          if (lastCapacities.length > 0) {
+            for (var cIdx = 0; cIdx < lastCapacities.length; cIdx++) {
+              var capItem = lastCapacities[cIdx];
+              var cTr = doc.createElement("tr");
+              var cTdRepo = doc.createElement("td");
+              cTdRepo.className = "ds-mono";
+              cTdRepo.textContent = resolveProjectLabel(capItem.project_id);
+              var cTdAssigned = doc.createElement("td");
+              cTdAssigned.className = "ds-tabular";
+              cTdAssigned.textContent = String(capItem.assigned || 0);
+              var cTdCap = doc.createElement("td");
+              cTdCap.className = "ds-tabular";
+              cTdCap.textContent = String(capItem.capacity || 0) + (capItem.capacity === 1 ? " seat" : " seats");
+              cTr.appendChild(cTdRepo);
+              cTr.appendChild(cTdAssigned);
+              cTr.appendChild(cTdCap);
+              capTbody.appendChild(cTr);
+            }
+            capWrap.hidden = false;
+          } else {
+            capWrap.hidden = true;
+          }
+        }
+
         if (pendingBox && pendingSummary) {
           if (pendingBillingOrder && pendingBillingOrder.order_id) {
             pendingSummary.textContent = "Pending subscription change (" + (pendingBillingOrder.status || "pending") + ").";
@@ -1817,11 +1851,15 @@
         var code = error && error.message ? error.message : "billing_not_configured";
         if (statusEl) {
           statusEl.textContent = (code === "billing_not_configured" || code === "live_sale_disabled")
-            ? "UNDER WRAPS — Live billing is disabled on this environment."
+            ? "Billing checkout is currently restricted on this environment."
             : "Subscription status unavailable right now.";
         }
+        var capWrapErr = byId("admin-billing-capacities-wrap");
+        if (capWrapErr) capWrapErr.hidden = true;
       }
       if (!isActiveContext(ctx)) return;
+      billingSectionLoaded = true;
+      renderOverviewSection();
       renderRepositoriesSection();
       syncActionStates();
     }

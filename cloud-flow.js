@@ -1,7 +1,7 @@
 (function (root) {
   "use strict";
 
-  var ASSET_RELEASE = "20261125-commercial";
+  var ASSET_RELEASE = "20261126-geist";
   var CONTRACT_VERSION = 1;
   var SUPPORTED_API_CONTRACT_MAJORS = Object.freeze([1]);
   var CANONICAL_SITE_ORIGIN = "https://decapodlabs.ai";
@@ -25,8 +25,10 @@
   var PROVIDERS = Object.freeze(["github", "google", "gitlab"]);
   var SENSITIVE_QUERY_PARAMS = Object.freeze([
     "repo",
+    "repos",
     "billing",
     "seats",
+    "source",
     "checkout",
     "continuation",
     "return_to",
@@ -82,7 +84,7 @@
       ? search
       : new URLSearchParams(typeof search === "string" ? search : "");
 
-    if (pathname === "/admin" || pathname === "/admin/") {
+    if (pathname === "/admin" || pathname === "/admin/" || pathname === "/admin/index.html") {
       var orgValues = params.getAll("org");
       if (orgValues.length === 0) {
         return { status: "absent", reason: null, org: null, isUuid: false, source: "none", valid: false };
@@ -142,7 +144,8 @@
     if (!parsed) return "/admin/";
     var isSubpathMode = typeof currentPathname === "string" &&
       currentPathname.startsWith("/admin/") &&
-      currentPathname !== "/admin/";
+      currentPathname !== "/admin/" &&
+      currentPathname !== "/admin/index.html";
     if (isSubpathMode) {
       return "/admin/" + encodeURIComponent(parsed.slug);
     }
@@ -282,7 +285,7 @@
     if (target.origin !== originToMatch) return null;
     var paths = Array.isArray(allowedPaths) && allowedPaths.length
       ? allowedPaths
-      : ["/signup", "/signup/"];
+      : ["/signup", "/signup/", "/signup/index.html"];
     if (!paths.includes(target.pathname)) return null;
     return target.href;
   }
@@ -298,7 +301,7 @@
     if (rawValues.length !== 1) {
       return { status: "rejected", url: null, valid: false };
     }
-    var safe = sanitizeReturnUrl(rawValues[0], expectedOrigin, ["/signup", "/signup/", "/pricing", "/pricing/"]);
+    var safe = sanitizeReturnUrl(rawValues[0], expectedOrigin, ["/signup", "/signup/", "/signup/index.html", "/pricing", "/pricing/", "/pricing/index.html", "/pricing.html"]);
     if (!safe) {
       return { status: "rejected", url: null, valid: false };
     }
@@ -354,7 +357,7 @@
     var safeReturn = sanitizeReturnUrl(
       opts.returnTo || (expectedOrigin + "/signup"),
       expectedOrigin,
-      ["/signup", "/signup/"]
+      ["/signup", "/signup/", "/signup/index.html"]
     );
     if (!safeReturn) {
       throw new Error("hostile_return_url");
@@ -488,6 +491,36 @@
     return { status: "valid", continuation: val, valid: true };
   }
 
+  function parseRepoCountParam(search) {
+    var params = search instanceof URLSearchParams
+      ? search
+      : new URLSearchParams(typeof search === "string" ? search : "");
+    var values = params.getAll("repos");
+    if (values.length === 0) return { status: "absent", repos: null, valid: false };
+    if (values.length !== 1) return { status: "invalid", repos: null, valid: false };
+    var raw = String(values[0] || "").trim();
+    if (!/^[1-9][0-9]{0,2}$/.test(raw)) return { status: "invalid", repos: null, valid: false };
+    var count = Number(raw);
+    if (!Number.isSafeInteger(count) || count < 1 || count > 100) {
+      return { status: "invalid", repos: null, valid: false };
+    }
+    return { status: "valid", repos: count, valid: true };
+  }
+
+  function parseSourceParam(search) {
+    var params = search instanceof URLSearchParams
+      ? search
+      : new URLSearchParams(typeof search === "string" ? search : "");
+    var values = params.getAll("source");
+    if (values.length === 0) return { status: "absent", source: null, valid: false };
+    if (values.length !== 1) return { status: "invalid", source: null, valid: false };
+    var val = String(values[0] || "").trim().toLowerCase();
+    if (!["pricing", "cli", "admin"].includes(val)) {
+      return { status: "invalid", source: null, valid: false };
+    }
+    return { status: "valid", source: val, valid: true };
+  }
+
   function buildSignupHandoffUrl(options) {
     var opts = options || {};
     var origin = opts.origin || CANONICAL_SITE_ORIGIN;
@@ -502,6 +535,12 @@
         url.searchParams.set("repo", parsed.slug);
       }
     }
+    if (opts.repos !== undefined && opts.repos !== null) {
+      var repoNum = Math.floor(Number(opts.repos));
+      if (Number.isSafeInteger(repoNum) && repoNum >= 1 && repoNum <= 100) {
+        url.searchParams.set("repos", String(repoNum));
+      }
+    }
     var normalizedBilling = opts.billing === "annual" ? "year" : opts.billing;
     if (normalizedBilling === "month" || normalizedBilling === "year") {
       url.searchParams.set("billing", normalizedBilling);
@@ -511,6 +550,9 @@
       if (Number.isSafeInteger(seatNum) && seatNum >= 1 && seatNum <= 1000) {
         url.searchParams.set("seats", String(seatNum));
       }
+    }
+    if (typeof opts.source === "string" && ["pricing", "cli", "admin"].includes(opts.source.trim().toLowerCase())) {
+      url.searchParams.set("source", opts.source.trim().toLowerCase());
     }
     return url.href;
   }
@@ -1199,6 +1241,8 @@
     parseOrgSlug: parseOrgSlug,
     parseSeatParam: parseSeatParam,
     parseBillingParam: parseBillingParam,
+    parseRepoCountParam: parseRepoCountParam,
+    parseSourceParam: parseSourceParam,
     parseContinuationParam: parseContinuationParam,
     parseAdminRoute: parseAdminRoute,
     isAllowedAdminPathname: isAllowedAdminPathname,

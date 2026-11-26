@@ -93,7 +93,7 @@ Deno.test('/trust/index.html specifies versioned contract metadata, product scop
   assert(new Set(ids).size === ids.length, 'duplicate ID in trust/index.html');
 });
 
-Deno.test('Site footers link cleanly to /trust/index.html without breaking pre-launch UNDER WRAPS gating', async () => {
+Deno.test('Site footers link cleanly to /trust/index.html across all pages', async () => {
   for (const page of [
     'index.html',
     'pricing.html',

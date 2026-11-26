@@ -9,7 +9,7 @@ The first-adoption repo.pr-readiness.v1 profile declares a Deno static-source co
 Retain candidate/target identifiers and Decapod readiness proof. Use actual browser inspection at desktop and mobile sizes for visible content, overflow and disabled control behavior, then verify real published documents. Static proof does not establish hosted payment or cloud operation readiness.
 
 ## Promotion Gates
-Governed validation qualifies source publication. This preview can publish without live checkout because it exposes no purchase link, quoted price or active Cloud control. Removing Coming soon or enabling purchasing requires independent service acceptance; local fixtures cannot establish it.
+Governed validation qualifies static site publication, script compilation, trust/privacy contracts, and compiled Cloud presentation manifest integrity (`tests/publication_provenance_test.ts`). Hosted backend authorization and payment acceptance are verified separately in the upstream service repository.
 
 ## Regression Guardrails
 Preserve accepted hero/capabilities/closing, Cargo/Nix instructions, film controls, reduced-motion behavior, brand assets and workflow permissions. Keep exact quickstart navigation, free/no-signup local wording, planned Cloud benefits and disabled purchase status. No brittle test merely repeats marketing copy; browser review checks real interaction/layout.
@@ -150,7 +150,7 @@ Generated capability obligations: `public-api` is declared for this project. The
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `a4a53b3acac59284b71bd94627308c11dedc4c43e999a2decc1b99d2432e2f6c`
-- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (4 files)
+- Repository signal fingerprint: `e4c19b6cd95b96ab408a352006060f4358fb42f6372b56ed4721c171eca10a38`
+- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (3 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->
