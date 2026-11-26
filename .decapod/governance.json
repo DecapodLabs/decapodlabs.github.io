@@ -1,8 +1,7 @@
 {
   "schema_version": "1.0.0",
   "baseline": {
-    "accepted_commit": "2e20259660fa011cd350107189d54b62143d04ee",
-    "release": "clack-v0.9.17",
+    "accepted_commit": "a40621a837ba9351d1ed2056000e5a0573bd13e8",
     "unresolved": {
       "claim:clack-download-latest": {
         "falsifier": "The page embeds a release version, either link fails signed out, the checksum or digest disagrees with the source stable build, or a newer published mirror requires editing the page.",
@@ -20,19 +19,29 @@
     }
   },
   "change": {
-    "id": "change_01M8AXFCVH95BDRTVNRAZGHNAQ",
-    "base_commit": "2e20259660fa011cd350107189d54b62143d04ee",
+    "id": "change_01M8B8F47KKA0YTJ7VJE41KJDV",
+    "base_commit": "a40621a837ba9351d1ed2056000e5a0573bd13e8",
     "target_base": "origin/main"
+  },
+  "claims": {
+    "claim:clack-v0100-download": {
+      "statement": "clack/index.html, clack/release.json, and .decapod/managed/specs/INTENT.md publish the verified Clack 0.10.0 Apple silicon disk image and SHA-256 checksum",
+      "falsifier": "deno run --no-remote --no-npm --allow-read=. scripts/check-site.ts or decapod validate fails",
+      "status": "supported",
+      "proof_refs": [
+        "cmd:deno run --no-remote --no-npm --allow-read=. scripts/check-site.ts"
+      ]
+    }
   },
   "checkpoints": [
     {
-      "id": "commercial_bundle_publish",
-      "summary": "Publish signed 20261125-commercial Cloud web bundle from Propodus 971b4fe and provenance tests",
-      "input_digest": "sha256:edc943b6efe67fc054cbc303b99e8d4301f23d980f461c9c5acc27d7b26bfc18"
+      "id": "clack-download-0.10.0",
+      "summary": "Host the signed Clack 0.10.0 disk image and checksum.",
+      "input_digest": "sha256:fe16496725ec8220f89be932ab7f8f858344c7023b9535a2cffd2eaf4416b673"
     }
   ],
   "intents": {
-    "intent:change_01M8AXFCVH95BDRTVNRAZGHNAQ": {
+    "intent:change_01M8B8F47KKA0YTJ7VJE41KJDV": {
       "acceptance_criteria": [],
       "assumptions": [],
       "boundaries": [
@@ -42,14 +51,14 @@
         "root"
       ],
       "created_sequence": 1,
-      "id": "intent:change_01M8AXFCVH95BDRTVNRAZGHNAQ",
+      "id": "intent:change_01M8B8F47KKA0YTJ7VJE41KJDV",
       "instruction_origin": {
         "source_ref": "caller:unverified"
       },
       "out_of_scope": [],
       "proof_requirements": [],
-      "raw_intent": "Publish signed 20261125-commercial Cloud web bundle and provenance (#54 #55 #56)",
-      "refined_intent": "Publish signed 20261125-commercial Cloud web bundle and provenance (#54 #55 #56)",
+      "raw_intent": "Publish Clack 0.10.0 on decapodlabs.ai",
+      "refined_intent": "Publish Clack 0.10.0 on decapodlabs.ai",
       "status": "refined",
       "updated_sequence": 3
     }
@@ -62,65 +71,37 @@
       },
       "deferred_questions": [],
       "human_questions": [],
-      "intent": "Publish signed 20261125-commercial Cloud web bundle and provenance (#54 #55 #56)",
+      "intent": "Host the verified Clack 0.10.0 Apple silicon DMG, checksum, and in-app update manifest on decapodlabs.ai",
       "phases": [],
-      "proof_hooks": [
-        "decapod validate"
-      ],
+      "proof_hooks": [],
       "schema_version": "1.1.0",
       "spec_reviews": [
         {
-          "disposition": "updated",
+          "disposition": "unchanged_with_reason",
           "path": ".decapod/managed/specs/ARCHITECTURE.md",
-          "reason": "Document propodus/portal artifact ownership and cloud-app-manifest.json publication",
+          "reason": "No architectural change for Clack 0.10.0 download manifest update (pinned clack/index.html, clack/release.json, and INTENT.md).",
           "reviewed_code_fingerprint": "a4a53b3acac59284b71bd94627308c11dedc4c43e999a2decc1b99d2432e2f6c",
           "spec_material_hash": "fb13d6e6f46e591a7c403993a88aa8f7ba5266f286639e1526381ac0355e0268"
-        },
-        {
-          "disposition": "updated",
-          "path": ".decapod/managed/specs/INTERFACES.md",
-          "reason": "Document pricing.js billing/seats PKCE preservation and signed manifest contract",
-          "reviewed_code_fingerprint": "a4a53b3acac59284b71bd94627308c11dedc4c43e999a2decc1b99d2432e2f6c",
-          "spec_material_hash": "039768db0546175eba5df1b0c553e52dce49fda7be945a0ebb0fe963b7ef8af0"
-        },
-        {
-          "disposition": "updated",
-          "path": ".decapod/managed/specs/SECURITY.md",
-          "reason": "Document migrated internal test boundary and SHA-256 provenance verification",
-          "reviewed_code_fingerprint": "a4a53b3acac59284b71bd94627308c11dedc4c43e999a2decc1b99d2432e2f6c",
-          "spec_material_hash": "1b3bcdf4927af490dea97005b70296fa6154bd9d1bd05b11e669f4bbaf811a5c"
         }
       ],
       "state": "APPROVED",
       "stop_conditions": [],
-      "title": "Publish signed 20261125-commercial Cloud web bundle and provenance (#54 #55 #56)",
+      "title": "Publish Clack 0.10.0 on decapodlabs.ai",
       "todo_ids": [
-        "cicd_01m8axf2y8bbxxjy"
+        "code_01m8b8erekzbwc0y"
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1795662928Z"
+      "updated_at": "1795674630Z"
     },
     "trajectory": {
       "active_boundaries": [
         "Current claimed task and isolated work branch"
       ],
-      "artifact_hash": "sha256:73e65f74d9823e4d6ac1bd8a25af9cdb9db715eb33732ac5480cd638219ca6b7",
+      "artifact_hash": "sha256:411821b1bcd51503fad55cf20afd69020c0e4a374346ff21ed0b8bb272094404",
       "checks": [
         {
-          "name": "build_cloud_web",
-          "status": "passed"
-        },
-        {
-          "name": "deno_website_tests",
-          "status": "passed"
-        },
-        {
-          "name": "static_source",
-          "status": "passed"
-        },
-        {
-          "name": "verify_cloud_web_publication_dir",
+          "name": "static-source",
           "status": "passed"
         }
       ],
@@ -129,20 +110,20 @@
         "events": [
           {
             "event_id": "event:2",
-            "intent_id": "intent:change_01M8AXFCVH95BDRTVNRAZGHNAQ",
+            "intent_id": "intent:change_01M8B8F47KKA0YTJ7VJE41KJDV",
             "kind": "created",
             "sequence": 2
           },
           {
             "event_id": "event:3",
-            "intent_id": "intent:change_01M8AXFCVH95BDRTVNRAZGHNAQ",
+            "intent_id": "intent:change_01M8B8F47KKA0YTJ7VJE41KJDV",
             "kind": "refined",
             "sequence": 3
           },
           {
-            "detail": "trajectory:branch_01M8AXFCZ6JBA8SY0XGAPD26S6",
+            "detail": "trajectory:branch_01M8B8F4A8Z6R32DHXXPVHBF47",
             "event_id": "event:4",
-            "intent_id": "intent:change_01M8AXFCVH95BDRTVNRAZGHNAQ",
+            "intent_id": "intent:change_01M8B8F47KKA0YTJ7VJE41KJDV",
             "kind": "trajectory_step_recorded",
             "sequence": 4
           }
@@ -151,32 +132,21 @@
         "next_sequence": 4,
         "schema_version": "1.1.0",
         "trajectories": {
-          "branch_01M8AXFCZ6JBA8SY0XGAPD26S6": {
+          "branch_01M8B8F4A8Z6R32DHXXPVHBF47": {
             "evidence_only": true,
-            "id": "branch_01M8AXFCZ6JBA8SY0XGAPD26S6",
-            "intent_id": "intent:change_01M8AXFCVH95BDRTVNRAZGHNAQ",
+            "id": "branch_01M8B8F4A8Z6R32DHXXPVHBF47",
+            "intent_id": "intent:change_01M8B8F47KKA0YTJ7VJE41KJDV",
             "steps": [
               {
                 "action": "trajectory.record",
                 "custody_event_id": "event:4",
                 "observations": [
-                  "pricing.js",
-                  "pricing.html",
-                  "pricing/index.html",
-                  "pricing.js",
-                  "pricing.html",
-                  "pricing/index.html",
-                  "cloud-app-manifest.json",
-                  "cloud-flow.js",
-                  "404.html",
-                  "tests/publication_provenance_test.ts",
-                  "docs/cloud-app-publication.md"
+                  "clack/index.html",
+                  "clack/index.html",
+                  "clack/release.json"
                 ],
                 "proof_refs": [
-                  "build_cloud_web",
-                  "verify_cloud_web_publication_dir",
-                  "static_source",
-                  "deno_website_tests"
+                  "static-source"
                 ],
                 "scope": [
                   "root"
@@ -192,20 +162,12 @@
       "destination": "pull request",
       "evidence": [],
       "inspected_files": [
-        "pricing.html",
-        "pricing.js",
-        "pricing/index.html"
+        "clack/index.html"
       ],
-      "intent_id": "intent:change_01M8AXFCVH95BDRTVNRAZGHNAQ",
+      "intent_id": "intent:change_01M8B8F47KKA0YTJ7VJE41KJDV",
       "modified_files": [
-        "404.html",
-        "cloud-app-manifest.json",
-        "cloud-flow.js",
-        "docs/cloud-app-publication.md",
-        "pricing.html",
-        "pricing.js",
-        "pricing/index.html",
-        "tests/publication_provenance_test.ts"
+        "clack/index.html",
+        "clack/release.json"
       ],
       "next_transitions": [
         "Refine plan and declare falsifiable checks"
@@ -213,10 +175,10 @@
       "repo_scope": [
         "root"
       ],
-      "run_id": "branch_01M8AXFCZ6JBA8SY0XGAPD26S6",
+      "run_id": "branch_01M8B8F4A8Z6R32DHXXPVHBF47",
       "schema_version": "1.1.0",
       "shortcut_risk_signals": [],
-      "task_id": "cicd_01m8axf2y8bbxxjy",
+      "task_id": "code_01m8b8erekzbwc0y",
       "tool_calls": [],
       "unresolved_assumptions": []
     }
