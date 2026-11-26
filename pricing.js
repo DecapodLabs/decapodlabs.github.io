@@ -7,7 +7,7 @@
   const flow = typeof DecapodCloudFlow !== "undefined" ? DecapodCloudFlow : null;
   if (!repositories || !contributors) return;
 
-  const PRICING_ASSET_RELEASE = "20261126-geist";
+  const PRICING_ASSET_RELEASE = "20261126-brand";
   const PRICING_META_KEY = "decapod:pricing-meta";
   const ALLOWLISTED_RECOVERY_ERRORS = Object.freeze([
     "stale_quote",

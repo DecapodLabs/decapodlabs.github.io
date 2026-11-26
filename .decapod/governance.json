@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "baseline": {
-    "accepted_commit": "5082e58b34d799b4e670925802f2439f524ccaf5",
+    "accepted_commit": "4ecc80d1931776ce0a0a318eee1008dec33da869",
     "unresolved": {
       "claim:clack-download-latest": {
         "falsifier": "The page embeds a release version, either link fails signed out, the checksum or digest disagrees with the source stable build, or a newer published mirror requires editing the page.",
@@ -19,36 +19,36 @@
     }
   },
   "change": {
-    "id": "pricing-no-mailto",
-    "base_commit": "5082e58b34d799b4e670925802f2439f524ccaf5",
+    "id": "brand-unification-54",
+    "base_commit": "4ecc80d1931776ce0a0a318eee1008dec33da869",
     "target_base": "origin/main"
   },
   "checkpoints": [
     {
-      "id": "pricing-no-mailto",
-      "summary": "Stamp edge-safe 20261126-geist bundle from Propodus a4361194",
-      "input_digest": "sha256:93a2bd1ea68ae0e3fd417153365978e5c53f7b47bff92b66271e5d948a882102"
+      "id": "brand-unification-54-cp1",
+      "summary": "20261126-brand bundle built from Propodus e5f85185, trust card polished, all static & provenance tests pass.",
+      "input_digest": "sha256:0eb332f6dc62834a340c902698aecc58fb96d44ea43fa0f2f5fdd01f731e564d"
     }
   ],
   "intents": {
-    "intent:code_01m8bah27zpey4g2-run": {
+    "intent:run-website-brand-54": {
       "acceptance_criteria": [],
       "assumptions": [],
       "boundaries": [
-        "Stamped Cloud pricing bundle and Living Specs only; no unrelated page changes"
+        "Keep /, /clack/ untouched and keep internal Propodus secrets/tests out of website repo"
       ],
       "constraints": [
-        "pricing.html, pricing/index.html, cloud-app-manifest.json, .decapod/managed/specs"
+        "404.html,admin/*,cloud-app-manifest.json,cloud-flow.js,pricing*,shared/*,signup/*,trust/trust.css,tests/publication_provenance_test.ts,.decapod/managed/specs/*"
       ],
       "created_sequence": 1,
-      "id": "intent:code_01m8bah27zpey4g2-run",
+      "id": "intent:run-website-brand-54",
       "instruction_origin": {
         "source_ref": "caller:unverified"
       },
       "out_of_scope": [],
       "proof_requirements": [],
-      "raw_intent": "Refresh 20261126-geist bundle without mailto to pass live SHA-256 verification",
-      "refined_intent": "Stamp 20261126-geist from Propodus a4361194, update Living Specs, run offline suite and decapod validate",
+      "raw_intent": "Publish 20261126-brand bundle and trust card restraint (#54)",
+      "refined_intent": "Build cloud-app-manifest from clean Propodus e5f85185, polish trust.css, verify publication provenance",
       "status": "refined",
       "updated_sequence": 3
     }
@@ -61,61 +61,61 @@
       },
       "deferred_questions": [],
       "human_questions": [],
-      "intent": "Re-stamp pricing.html and pricing/index.html from Propodus a4361194 without raw mailto hrefs so Cloudflare edge proxy preserves exact SHA-256 bytes",
+      "intent": "Emit 20261126-brand commercial assets from accepted Propodus e5f85185 and soften trust/trust.css meta card styling while leaving homepage and clack untouched.",
       "phases": [],
       "proof_hooks": [
-        "decapod validate"
+        "static-source"
       ],
       "schema_version": "1.1.0",
       "spec_reviews": [
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/ARCHITECTURE.md",
-          "reason": "Updated architecture specs for edge-clean pricing bundle stamped from Propodus a4361194",
-          "reviewed_code_fingerprint": "e4c19b6cd95b96ab408a352006060f4358fb42f6372b56ed4721c171eca10a38",
-          "spec_material_hash": "bf817c5ec61b1e68f8ef6cc62f2e5d41fb330f30217bc2b2e4e1056567929e1b"
+          "reason": "Updated for 20261126-brand bundle e5f85185 and trust.css hairline polish.",
+          "reviewed_code_fingerprint": "8524b997a6b303773ca1dd873d37dc26efcf37e14684c1ef08a803a4f06414f3",
+          "spec_material_hash": "28c159fb0fea5e7b8e3ed1f27e4d25ab8b28fad979140c9ff5fd2a8ebc35bc23"
         },
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/INTERFACES.md",
-          "reason": "Updated cloud-app-manifest.json and HTTPS pricing contact links",
-          "reviewed_code_fingerprint": "e4c19b6cd95b96ab408a352006060f4358fb42f6372b56ed4721c171eca10a38",
-          "spec_material_hash": "0d9238caddfe4081949fd538995df628db80156c8b4106c38dafe485e3950c16"
+          "reason": "Updated manifest asset_release to 20261126-brand and source_revision e5f85185.",
+          "reviewed_code_fingerprint": "8524b997a6b303773ca1dd873d37dc26efcf37e14684c1ef08a803a4f06414f3",
+          "spec_material_hash": "b2dfe38315700d40a2b7d1fb64cc3a15871cbc23486c54f57c742d5788951ec5"
         },
         {
           "disposition": "unchanged_with_reason",
           "path": ".decapod/managed/specs/SECURITY.md",
-          "reason": "Eliminating raw mailto hrefs prevents third-party Cloudflare email-decode script injection while preserving SHA-256 integrity",
-          "reviewed_code_fingerprint": "e4c19b6cd95b96ab408a352006060f4358fb42f6372b56ed4721c171eca10a38",
+          "reason": "Static-only presentation bundle preserves inline-script/secret/zero-tracker boundaries.",
+          "reviewed_code_fingerprint": "8524b997a6b303773ca1dd873d37dc26efcf37e14684c1ef08a803a4f06414f3",
           "spec_material_hash": "c90311b3c1ce76e39a1a12441abcc073925ce58f5dfc4c4ede6999dade480914"
         }
       ],
       "state": "APPROVED",
       "stop_conditions": [],
-      "title": "Refresh 20261126-geist pricing bundle without mailto for edge SHA-256 verification",
+      "title": "Publish 20261126-brand commercial web bundle and trust card polish (#54)",
       "todo_ids": [
-        "code_01m8bah27zpey4g2"
+        "cicd_01m8bgm6m9a7ptzr"
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1795676753Z"
+      "updated_at": "1795683537Z"
     },
     "trajectory": {
       "active_boundaries": [
-        "Stamped Cloud pricing bundle and Living Specs only; no unrelated page changes"
+        "Keep /, /clack/ untouched and keep internal Propodus secrets/tests out of website repo"
       ],
-      "artifact_hash": "sha256:e255b7e0adf79206b8f44e7cd6170b40beb42986d97cf148761aa3d92fff3c57",
+      "artifact_hash": "sha256:6536d2028d7bc6d8d8ceba9dfddd18f3da97a2998d54dbf9a42895c6b356fd6c",
       "checks": [
         {
-          "name": "bundle-provenance",
+          "name": "check_site",
           "status": "passed"
         },
         {
-          "name": "deno-website-tests",
+          "name": "deno_website_tests",
           "status": "passed"
         },
         {
-          "name": "static-source",
+          "name": "verify_cloud_web_publication",
           "status": "passed"
         }
       ],
@@ -123,20 +123,20 @@
         "events": [
           {
             "event_id": "event:2",
-            "intent_id": "intent:code_01m8bah27zpey4g2-run",
+            "intent_id": "intent:run-website-brand-54",
             "kind": "created",
             "sequence": 2
           },
           {
             "event_id": "event:3",
-            "intent_id": "intent:code_01m8bah27zpey4g2-run",
+            "intent_id": "intent:run-website-brand-54",
             "kind": "refined",
             "sequence": 3
           },
           {
-            "detail": "trajectory:code_01m8bah27zpey4g2-run",
+            "detail": "trajectory:run-website-brand-54",
             "event_id": "event:4",
-            "intent_id": "intent:code_01m8bah27zpey4g2-run",
+            "intent_id": "intent:run-website-brand-54",
             "kind": "trajectory_step_recorded",
             "sequence": 4
           }
@@ -145,33 +145,27 @@
         "next_sequence": 4,
         "schema_version": "1.1.0",
         "trajectories": {
-          "code_01m8bah27zpey4g2-run": {
+          "run-website-brand-54": {
             "evidence_only": true,
-            "id": "code_01m8bah27zpey4g2-run",
-            "intent_id": "intent:code_01m8bah27zpey4g2-run",
+            "id": "run-website-brand-54",
+            "intent_id": "intent:run-website-brand-54",
             "steps": [
               {
                 "action": "trajectory.record",
-                "command": "deno run --allow-read scripts/check-site.ts && deno test --allow-read tests/trust_privacy_contract_test.ts tests/publication_provenance_test.ts tests/provenance_projection_72_test.ts",
                 "custody_event_id": "event:4",
                 "observations": [
-                  "scripts/check-site.ts",
-                  "pricing.html",
-                  "pricing/index.html",
                   "cloud-app-manifest.json",
-                  ".decapod/managed/specs/INTENT.md",
-                  ".decapod/managed/specs/ARCHITECTURE.md",
-                  ".decapod/managed/specs/INTERFACES.md",
-                  "tests/publication_provenance_test.ts",
-                  "tests/trust_privacy_contract_test.ts"
+                  "cloud-app-manifest.json",
+                  "trust/trust.css",
+                  "tests/publication_provenance_test.ts"
                 ],
                 "proof_refs": [
-                  "static-source",
-                  "deno-website-tests",
-                  "bundle-provenance"
+                  "check_site",
+                  "deno_website_tests",
+                  "verify_cloud_web_publication"
                 ],
                 "scope": [
-                  "pricing.html, pricing/index.html, cloud-app-manifest.json, .decapod/managed/specs"
+                  "404.html,admin/*,cloud-app-manifest.json,cloud-flow.js,pricing*,shared/*,signup/*,trust/trust.css,tests/publication_provenance_test.ts,.decapod/managed/specs/*"
                 ],
                 "sequence": 4,
                 "validation_findings": []
@@ -180,32 +174,24 @@
           }
         }
       },
-      "declared_commands": [
-        "deno run --allow-read scripts/check-site.ts && deno test --allow-read tests/trust_privacy_contract_test.ts tests/publication_provenance_test.ts tests/provenance_projection_72_test.ts"
-      ],
-      "evidence": [
-        "tests/publication_provenance_test.ts",
-        "tests/trust_privacy_contract_test.ts"
-      ],
+      "declared_commands": [],
+      "evidence": [],
       "inspected_files": [
-        "scripts/check-site.ts"
+        "cloud-app-manifest.json"
       ],
-      "intent_id": "intent:code_01m8bah27zpey4g2-run",
+      "intent_id": "intent:run-website-brand-54",
       "modified_files": [
-        ".decapod/managed/specs/ARCHITECTURE.md",
-        ".decapod/managed/specs/INTENT.md",
-        ".decapod/managed/specs/INTERFACES.md",
         "cloud-app-manifest.json",
-        "pricing.html",
-        "pricing/index.html"
+        "tests/publication_provenance_test.ts",
+        "trust/trust.css"
       ],
       "repo_scope": [
-        "pricing.html, pricing/index.html, cloud-app-manifest.json, .decapod/managed/specs"
+        "404.html,admin/*,cloud-app-manifest.json,cloud-flow.js,pricing*,shared/*,signup/*,trust/trust.css,tests/publication_provenance_test.ts,.decapod/managed/specs/*"
       ],
-      "run_id": "code_01m8bah27zpey4g2-run",
+      "run_id": "run-website-brand-54",
       "schema_version": "1.1.0",
       "shortcut_risk_signals": [],
-      "task_id": "code_01m8bah27zpey4g2",
+      "task_id": "cicd_01m8bgm6m9a7ptzr",
       "tool_calls": [],
       "unresolved_assumptions": []
     }

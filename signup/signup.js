@@ -82,6 +82,8 @@
     var activeOrganizationId = null;
     var orderAllocations = [];
     var existingOrgCapacities = [];
+    var orderReservations = [];
+    var existingOrgReservations = [];
     var activeQuoteOrder = null;
     var quoteRequestId = null;
     var quotePayloadKey = null;
@@ -301,6 +303,29 @@
       return out;
     }
 
+    function sanitizeDraftReservations(list) {
+      if (!Array.isArray(list)) return [];
+      var seen = new Set();
+      var out = [];
+      for (var i = 0; i < list.length && out.length < 100; i++) {
+        var row = list[i];
+        if (!row || typeof row !== "object") continue;
+        var rid = typeof row.reservation_id === "string" && flow.UUID_PATTERN.test(row.reservation_id.trim())
+          ? row.reservation_id.trim().toLowerCase()
+          : null;
+        if (rid) {
+          if (seen.has(rid)) continue;
+          seen.add(rid);
+        }
+        out.push({
+          reservation_id: rid,
+          capacity: clampSeats(row.capacity),
+          existing: Boolean(row.existing && rid)
+        });
+      }
+      return out;
+    }
+
     function savePendingIntent() {
       if (!storage) return;
       try {
@@ -326,6 +351,13 @@
               currentCapacity: a.currentCapacity || 0,
               isOrigin: Boolean(a.isOrigin)
             };
+          }),
+          reservations: orderReservations.map(function (r) {
+            return {
+              reservation_id: r.reservation_id || null,
+              capacity: clampSeats(r.capacity),
+              existing: Boolean(r.existing && r.reservation_id)
+            };
           })
         }));
       } catch (_) {}
@@ -339,6 +371,8 @@
       pricingReposCount = 1;
       orderAllocations = [];
       existingOrgCapacities = [];
+      orderReservations = [];
+      existingOrgReservations = [];
       if (!storage) return;
       try {
         storage.removeItem("decapod:pending-repo-intent");
@@ -1373,18 +1407,23 @@
     }
 
     function totalOrderSeats() {
-      if (!orderAllocations.length) return preferredSeats;
       var sum = 0;
       for (var i = 0; i < orderAllocations.length; i++) {
         sum += clampSeats(orderAllocations[i].capacity);
       }
-      return sum;
+      for (var j = 0; j < orderReservations.length; j++) {
+        sum += clampSeats(orderReservations[j].capacity);
+      }
+      return (orderAllocations.length || orderReservations.length) ? sum : preferredSeats;
     }
 
     function totalExistingSeats() {
       var sum = 0;
       for (var i = 0; i < existingOrgCapacities.length; i++) {
         sum += Number.isSafeInteger(existingOrgCapacities[i].capacity) ? existingOrgCapacities[i].capacity : 0;
+      }
+      for (var j = 0; j < existingOrgReservations.length; j++) {
+        sum += Number.isSafeInteger(existingOrgReservations[j].capacity) ? existingOrgReservations[j].capacity : 0;
       }
       return sum;
     }
@@ -1396,25 +1435,122 @@
       var existingRow = byId("summary-existing-row");
       var existingVal = byId("summary-existing");
       var count = orderAllocations.length;
+      var resCount = orderReservations.length;
       if (repoEl) {
+        var repoLabel = "";
         if (count > 1) {
-          repoEl.textContent = count + " repositories";
+          repoLabel = count + " repositories";
         } else if (count === 1) {
-          repoEl.textContent = orderAllocations[0].slug;
+          repoLabel = orderAllocations[0].slug;
         } else {
-          repoEl.textContent = preselectedRepo || activeProjectId || "—";
+          repoLabel = preselectedRepo || activeProjectId || (resCount ? "Reserved slots only" : "—");
         }
+        if (resCount > 0 && count > 0) {
+          repoLabel += " + " + resCount + " reserved slot" + (resCount === 1 ? "" : "s");
+        } else if (resCount > 0 && count === 0) {
+          repoLabel = resCount + " reserved slot" + (resCount === 1 ? "" : "s");
+        }
+        repoEl.textContent = repoLabel;
       }
       if (planEl) planEl.textContent = cadence === "year" ? "Decapod Cloud · Annual" : "Decapod Cloud · Monthly";
       if (seatsEl) seatsEl.textContent = String(totalSeats) + (totalSeats === 1 ? " seat" : " seats");
       var priorTotal = totalExistingSeats();
       if (existingRow && existingVal) {
         if (priorTotal > 0) {
-          existingVal.textContent = existingOrgCapacities.length + " repo" + (existingOrgCapacities.length === 1 ? "" : "s") + " · " + priorTotal + (priorTotal === 1 ? " seat" : " seats");
+          var existingSummary = existingOrgCapacities.length + " repo" + (existingOrgCapacities.length === 1 ? "" : "s");
+          if (existingOrgReservations.length > 0) {
+            existingSummary += " + " + existingOrgReservations.length + " reserved";
+          }
+          existingVal.textContent = existingSummary + " · " + priorTotal + (priorTotal === 1 ? " seat" : " seats");
           existingRow.hidden = false;
         } else {
           existingRow.hidden = true;
         }
+      }
+    }
+
+    function renderReservationsTable() {
+      var badge = byId("reservations-count-badge");
+      var wrap = byId("reservations-table-wrap");
+      var tbody = byId("reservations-tbody");
+      var resCount = orderReservations.length;
+      if (badge) badge.textContent = resCount + (resCount === 1 ? " slot" : " slots");
+      if (wrap) wrap.hidden = resCount === 0;
+      if (!tbody) return;
+      tbody.replaceChildren();
+      for (var i = 0; i < orderReservations.length; i++) {
+        (function (row, idx) {
+          var tr = doc.createElement("tr");
+          var tdSlot = doc.createElement("td");
+          tdSlot.className = "ds-mono";
+          tdSlot.textContent = "Future slot #" + (idx + 1);
+          var tdState = doc.createElement("td");
+          tdState.textContent = row.existing ? "Active reservation" : "New reservation";
+          var tdSeats = doc.createElement("td");
+          var stepper = doc.createElement("div");
+          stepper.className = "seat-stepper";
+          var minus = doc.createElement("button");
+          minus.type = "button";
+          minus.className = "stepper-btn";
+          minus.textContent = "−";
+          minus.disabled = row.existing || row.capacity <= 1;
+          minus.onclick = function () {
+            if (row.existing) return;
+            row.capacity = clampSeats(row.capacity - 1);
+            renderReservationsTable();
+            scheduleQuoteRefresh();
+          };
+          var inp = doc.createElement("input");
+          inp.type = "number";
+          inp.className = "ds-input ds-tabular";
+          inp.min = "1";
+          inp.max = "1000";
+          inp.value = String(row.capacity);
+          inp.disabled = Boolean(row.existing);
+          inp.onchange = function () {
+            if (row.existing) return;
+            row.capacity = clampSeats(inp.value);
+            inp.value = String(row.capacity);
+            renderReservationsTable();
+            scheduleQuoteRefresh();
+          };
+          var plus = doc.createElement("button");
+          plus.type = "button";
+          plus.className = "stepper-btn";
+          plus.textContent = "+";
+          plus.disabled = Boolean(row.existing);
+          plus.onclick = function () {
+            if (row.existing) return;
+            row.capacity = clampSeats(row.capacity + 1);
+            renderReservationsTable();
+            scheduleQuoteRefresh();
+          };
+          stepper.appendChild(minus);
+          stepper.appendChild(inp);
+          stepper.appendChild(plus);
+          tdSeats.appendChild(stepper);
+
+          var tdAct = doc.createElement("td");
+          tdAct.className = "alloc-col-act";
+          var rem = doc.createElement("button");
+          rem.type = "button";
+          rem.className = "ds-btn ds-btn-ghost ds-btn-sm";
+          rem.textContent = "Remove";
+          rem.disabled = Boolean(row.existing);
+          rem.onclick = function () {
+            if (row.existing) return;
+            orderReservations.splice(idx, 1);
+            renderReservationsTable();
+            savePendingIntent();
+            scheduleQuoteRefresh();
+          };
+          tdAct.appendChild(rem);
+          tr.appendChild(tdSlot);
+          tr.appendChild(tdState);
+          tr.appendChild(tdSeats);
+          tr.appendChild(tdAct);
+          tbody.appendChild(tr);
+        })(orderReservations[i], i);
       }
     }
 
@@ -1654,21 +1790,26 @@
         allocations: orderAllocations.map(function (a) {
           return { project_id: a.project_id, capacity: clampSeats(a.capacity) };
         }),
+        reservations: orderReservations.map(function (r) {
+          return r.reservation_id
+            ? { reservation_id: r.reservation_id, capacity: clampSeats(r.capacity) }
+            : { capacity: clampSeats(r.capacity) };
+        }),
         totalSeats: totalOrderSeats()
       };
     }
 
     async function requestAutomaticQuote() {
-      if (!activeOrganizationId || (!activeProjectId && !orderAllocations.length)) return null;
+      if (!activeOrganizationId || (!activeProjectId && !orderAllocations.length && !orderReservations.length)) return null;
       var selected = readSelectedPlanInputs();
-      if (!selected.allocations.length) return null;
+      if (!selected.allocations.length && !selected.reservations.length) return null;
       var targetOrgId = activeOrganizationId;
-      var targetProjId = activeProjectId || selected.allocations[0].project_id;
-      var payload = {
+      var targetProjId = activeProjectId || (selected.allocations[0] ? selected.allocations[0].project_id : null);
+      var payload = Object.assign({
         organization_id: targetOrgId,
         cadence: selected.cadence,
         allocations: selected.allocations
-      };
+      }, selected.reservations.length ? { reservations: selected.reservations } : {});
       var canonical = JSON.stringify(payload);
       if (quotePayloadKey !== canonical || !quoteRequestId) {
         var savedQ = storeGet("quote_req", 4096);
@@ -1875,6 +2016,28 @@
       }
 
       orderAllocations = Array.from(merged.values());
+
+      existingOrgReservations = Array.isArray(bStatus && bStatus.reservations)
+        ? bStatus.reservations.filter(function (r) { return r && r.status === "available" && r.reservation_id && Number.isSafeInteger(r.capacity) && r.capacity > 0; })
+        : [];
+      var mergedRes = new Map();
+      var draftNewRes = [];
+      for (var er = 0; er < existingOrgReservations.length; er++) {
+        var rRow = existingOrgReservations[er];
+        mergedRes.set(rRow.reservation_id.toLowerCase(), {
+          reservation_id: rRow.reservation_id,
+          capacity: clampSeats(rRow.capacity),
+          existing: true
+        });
+      }
+      for (var dr = 0; dr < orderReservations.length; dr++) {
+        var dRow = orderReservations[dr];
+        if (!dRow || typeof dRow !== "object") continue;
+        if (!dRow.reservation_id) {
+          draftNewRes.push({ reservation_id: null, capacity: clampSeats(dRow.capacity), existing: false });
+        }
+      }
+      orderReservations = Array.from(mergedRes.values()).concat(draftNewRes);
     }
 
     async function showCheckoutPanel(orgId, projectId, repoLabel, expectedViewGen, customStatus) {
@@ -1918,6 +2081,7 @@
           if (cadenceSelect) cadenceSelect.value = preferredBilling;
         }
         renderAllocationsTable();
+        renderReservationsTable();
 
         if (closedBox) closedBox.hidden = true;
         if (quoteControls) quoteControls.hidden = false;
@@ -2072,7 +2236,7 @@
           "admin_approval_required",
           "Approval needed",
           "Administrator approval required",
-          "An administrator of this organization must approve your access and assign a seat for " + (repoLabel || projectId) + ".",
+          "Contact your organization administrator to request access to this repository.",
           "",
           true,
           true,
@@ -2705,6 +2869,9 @@
             if (Array.isArray(savedCheckoutIntent.allocations)) {
               orderAllocations = sanitizeDraftAllocations(savedCheckoutIntent.allocations);
             }
+            if (Array.isArray(savedCheckoutIntent.reservations)) {
+              orderReservations = sanitizeDraftReservations(savedCheckoutIntent.reservations);
+            }
           }
         }
       } catch (_) {}
@@ -3124,6 +3291,23 @@
         };
       }
 
+      var addResBtn = byId("add-reservation-btn");
+      if (addResBtn) {
+        addResBtn.onclick = function () {
+          var seatInp = byId("add-reservation-seats-input");
+          var hintEl = byId("add-reservation-hint");
+          var cap = clampSeats(seatInp ? seatInp.value : 1);
+          if (orderAllocations.length + orderReservations.length >= 100) {
+            if (hintEl) hintEl.textContent = "Maximum 100 repositories and slots per subscription.";
+            return;
+          }
+          orderReservations.push({ reservation_id: null, capacity: cap, existing: false });
+          if (hintEl) hintEl.textContent = "Added future repository slot (" + cap + (cap === 1 ? " seat" : " seats") + ").";
+          renderReservationsTable();
+          savePendingIntent();
+          scheduleQuoteRefresh();
+        };
+      }
       var checkoutBtn = byId("checkout-btn");
       if (checkoutBtn) checkoutBtn.onclick = function () { handleCheckoutClick().catch(function () {}); };
       var portalBtn = byId("ready-billing-portal-btn");
@@ -3219,11 +3403,27 @@
         return true;
       },
       removeAllocationRepo: function (projectId) {
-        if (orderAllocations.length <= 1) return false;
+        if (orderAllocations.length <= 1 && orderReservations.length === 0) return false;
         var idx = orderAllocations.findIndex(function (a) { return a.project_id === projectId || a.slug === projectId; });
         if (idx === -1 || orderAllocations[idx].currentCapacity > 0) return false;
         orderAllocations.splice(idx, 1);
         renderAllocationsTable();
+        savePendingIntent();
+        scheduleQuoteRefresh();
+        return true;
+      },
+      addReservationSlot: function (capacity) {
+        if (orderAllocations.length + orderReservations.length >= 100) return false;
+        orderReservations.push({ reservation_id: null, capacity: clampSeats(capacity), existing: false });
+        renderReservationsTable();
+        savePendingIntent();
+        scheduleQuoteRefresh();
+        return true;
+      },
+      removeReservationSlot: function (idx) {
+        if (!orderReservations[idx] || orderReservations[idx].existing) return false;
+        orderReservations.splice(idx, 1);
+        renderReservationsTable();
         savePendingIntent();
         scheduleQuoteRefresh();
         return true;
@@ -3247,6 +3447,9 @@
           activeOrganizationId: activeOrganizationId,
           allocations: orderAllocations.map(function (a) {
             return { project_id: a.project_id, slug: a.slug, capacity: a.capacity, currentCapacity: a.currentCapacity, isOrigin: a.isOrigin };
+          }),
+          reservations: orderReservations.map(function (r) {
+            return { reservation_id: r.reservation_id || null, capacity: r.capacity, existing: Boolean(r.existing) };
           }),
           backendAuthorized: backendAuthorized,
           stateKind: lastStateKind,

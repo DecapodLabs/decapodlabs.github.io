@@ -1,5 +1,5 @@
 /*!
- * Decapod Cloud Commercial Design System (20261126-geist)
+ * Decapod Cloud Commercial Design System (20261126-brand)
  * Self-hosted Geist Sans & Geist Mono fonts under SIL Open Font License 1.1
  * (see /assets/fonts/OFL-LICENSE.txt). Zero external font CDNs or analytics.
  */
@@ -24,37 +24,44 @@
   --ds-font-sans: "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --ds-font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
 
-  /* Neutral surface & ink ladder */
-  --ds-bg: #ffffff;
-  --ds-bg-subtle: #fafafa;
-  --ds-bg-muted: #f4f4f5;
-  --ds-bg-hover: #f2f2f3;
+  /* Decapod Labs homepage-unified warm surface & espresso ink ladder */
+  --ds-bg: #fff9f0;
+  --ds-surface: #fffdfa;
+  --ds-bg-subtle: #fff1e0;
+  --ds-bg-muted: #f7e4cd;
+  --ds-bg-hover: #f2d9bc;
 
-  --ds-fg: #0a0a0a;
-  --ds-fg-secondary: #404040;
-  --ds-fg-muted: #666666;
-  --ds-fg-subtle: #737373;
+  --ds-fg: #17131a;
+  --ds-fg-secondary: #29212c;
+  --ds-fg-muted: #5c4e53;
+  --ds-fg-subtle: #786f72;
+  --ds-on-dark: #fffdfa;
 
-  /* Fine borders */
-  --ds-border: #eaeaea;
-  --ds-border-strong: #d4d4d4;
-  --ds-border-focus: #0a0a0a;
+  /* Fine warm espresso borders */
+  --ds-border: rgba(53, 39, 43, 0.14);
+  --ds-border-strong: rgba(53, 39, 43, 0.28);
+  --ds-border-hover: rgba(53, 39, 43, 0.44);
+  --ds-border-focus: #17131a;
 
-  /* Selective Decapod coral accent */
-  --ds-accent: #e0533c;
-  --ds-accent-hover: #c9442e;
-  --ds-accent-ink: #b93c28;
-  --ds-accent-soft: #fff5f3;
-  --ds-accent-border: #f5cfc8;
+  /* Decapod coral, sun gold, and rose identity accents */
+  --ds-accent: #f05b37;
+  --ds-accent-hover: #ff7642;
+  --ds-accent-ink: #b93c1b;
+  --ds-accent-soft: #fff1e0;
+  --ds-accent-border: rgba(240, 91, 55, 0.30);
+  --ds-sun: #ffc65b;
+  --ds-sun-soft: rgba(255, 198, 91, 0.24);
+  --ds-pink: #ffbed0;
+  --ds-pink-soft: rgba(255, 190, 208, 0.28);
 
   /* Semantic state tokens (strictly state-bound) */
   --ds-success: #0f766e;
   --ds-success-bg: #f0fdfa;
   --ds-success-border: #99f6e4;
 
-  --ds-warning: #b45309;
-  --ds-warning-bg: #fffbeb;
-  --ds-warning-border: #fde68a;
+  --ds-warning: #92400e;
+  --ds-warning-bg: rgba(255, 198, 91, 0.20);
+  --ds-warning-border: rgba(180, 83, 9, 0.32);
 
   --ds-danger: #dc2626;
   --ds-danger-bg: #fef2f2;
@@ -82,9 +89,9 @@
   --ds-radius-full: 9999px;
 
   /* Restrained shadows */
-  --ds-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
-  --ds-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
-  --ds-shadow-modal: 0 16px 40px rgba(0, 0, 0, 0.14);
+  --ds-shadow-xs: 0 1px 2px rgba(23, 19, 26, 0.05);
+  --ds-shadow-sm: 0 2px 10px rgba(23, 19, 26, 0.06);
+  --ds-shadow-modal: 0 18px 44px rgba(23, 19, 26, 0.18);
 }
 
 *, *::before, *::after {
@@ -133,7 +140,7 @@ body.ds-body {
   left: 16px;
   z-index: 1000;
   background: var(--ds-fg);
-  color: #fff;
+  color: var(--ds-on-dark);
   padding: 8px 14px;
   border-radius: var(--ds-radius-sm);
   font-size: 13px;
@@ -168,7 +175,7 @@ a:focus-visible {
   position: sticky;
   top: 0;
   z-index: 40;
-  background: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 249, 240, 0.94);
   backdrop-filter: saturate(180%) blur(8px);
   border-bottom: 1px solid var(--ds-border);
 }
@@ -253,7 +260,7 @@ a:focus-visible {
 .ds-main {
   flex: 1 0 auto;
   width: 100%;
-  background: var(--ds-bg-subtle);
+  background: var(--ds-bg);
 }
 
 .ds-container {
@@ -360,7 +367,7 @@ a:focus-visible {
 
 /* Surfaces & Cards */
 .ds-card {
-  background: var(--ds-bg);
+  background: var(--ds-surface);
   border: 1px solid var(--ds-border);
   border-radius: var(--ds-radius-lg);
   padding: var(--ds-space-6);
@@ -418,16 +425,16 @@ a:focus-visible {
 
 .ds-btn-primary {
   background: var(--ds-fg);
-  color: #ffffff;
+  color: var(--ds-on-dark);
 }
 
 .ds-btn-primary:hover:not(:disabled) {
-  background: #262626;
+  background: var(--ds-fg-secondary);
 }
 
 .ds-btn-accent {
   background: var(--ds-accent);
-  color: #ffffff;
+  color: var(--ds-on-dark);
 }
 
 .ds-btn-accent:hover:not(:disabled) {
@@ -435,7 +442,7 @@ a:focus-visible {
 }
 
 .ds-btn-secondary {
-  background: var(--ds-bg);
+  background: var(--ds-surface);
   color: var(--ds-fg);
   border-color: var(--ds-border-strong);
   box-shadow: var(--ds-shadow-xs);
@@ -443,7 +450,7 @@ a:focus-visible {
 
 .ds-btn-secondary:hover:not(:disabled) {
   background: var(--ds-bg-subtle);
-  border-color: #a3a3a3;
+  border-color: var(--ds-border-hover);
 }
 
 .ds-btn-ghost {
@@ -457,7 +464,7 @@ a:focus-visible {
 }
 
 .ds-btn-danger {
-  background: var(--ds-bg);
+  background: var(--ds-surface);
   color: var(--ds-danger);
   border-color: var(--ds-danger-border);
 }
@@ -469,7 +476,7 @@ a:focus-visible {
 
 .ds-btn-danger-solid {
   background: var(--ds-danger);
-  color: #ffffff;
+  color: var(--ds-on-dark);
 }
 
 .ds-btn-danger-solid:hover:not(:disabled) {
@@ -513,7 +520,7 @@ a:focus-visible {
   padding: 6px 10px;
   border-radius: var(--ds-radius-sm);
   border: 1px solid var(--ds-border-strong);
-  background: var(--ds-bg);
+  background: var(--ds-surface);
   color: var(--ds-fg);
   font-family: var(--ds-font-sans);
   font-size: 13px;
@@ -523,14 +530,14 @@ a:focus-visible {
 
 .ds-input:hover:not(:disabled),
 .ds-select:hover:not(:disabled) {
-  border-color: #a3a3a3;
+  border-color: var(--ds-border-hover);
 }
 
 .ds-input:focus,
 .ds-select:focus {
   outline: none;
   border-color: var(--ds-fg);
-  box-shadow: 0 0 0 3px rgba(10, 10, 10, 0.08);
+  box-shadow: 0 0 0 3px rgba(23, 19, 26, 0.08);
 }
 
 /* Status Badges */
@@ -597,7 +604,7 @@ a:focus-visible {
   padding: 10px 14px;
   border-radius: var(--ds-radius-md);
   border: 1px solid var(--ds-border);
-  background: var(--ds-bg);
+  background: var(--ds-surface);
   font-size: 13px;
   color: var(--ds-fg-secondary);
 }
@@ -626,7 +633,7 @@ a:focus-visible {
   overflow-x: auto;
   border: 1px solid var(--ds-border);
   border-radius: var(--ds-radius-md);
-  background: var(--ds-bg);
+  background: var(--ds-surface);
 }
 
 .ds-table {
@@ -698,7 +705,7 @@ a:focus-visible {
 .ds-disclosure {
   border: 1px solid var(--ds-border);
   border-radius: var(--ds-radius-md);
-  background: var(--ds-bg);
+  background: var(--ds-surface);
 }
 
 .ds-disclosure > summary {
@@ -756,7 +763,7 @@ a:focus-visible {
   padding: 10px 12px;
   border: 1px solid var(--ds-border);
   border-radius: var(--ds-radius-md);
-  background: var(--ds-bg);
+  background: var(--ds-surface);
   font-size: 13px;
 }
 
@@ -775,7 +782,7 @@ a:focus-visible {
   position: fixed;
   inset: 0;
   z-index: 200;
-  background: rgba(10, 10, 10, 0.45);
+  background: rgba(23, 19, 26, 0.45);
   display: grid;
   place-items: center;
   padding: var(--ds-space-4);
@@ -784,7 +791,7 @@ a:focus-visible {
 .ds-modal-card {
   width: 100%;
   max-width: 440px;
-  background: var(--ds-bg);
+  background: var(--ds-surface);
   border: 1px solid var(--ds-border);
   border-radius: var(--ds-radius-lg);
   padding: var(--ds-space-6);
