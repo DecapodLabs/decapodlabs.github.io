@@ -2,8 +2,8 @@
 
 ## Public Pricing Handoff & Published Cloud Bundle Manifest (`pricing.js`, `cloud-app-manifest.json`)
 
-- **`pricing.js`**: Emits `?repo=`, `billing` (`month`/`year`), and `seats` (`1..1000`) through `DecapodCloudFlow.buildSignupHandoffUrl`, preserves selection across `/auth` PKCE `return_to`, and links cleanly to live Cloud purchase initiation.
-- **`cloud-app-manifest.json`**: Exposes SHA-256 digests (`files`), clean upstream source revision (`source_revision`, `source_clean: true`), and `asset_release: "20261126-geist"` verified offline by `tests/publication_provenance_test.ts`.
+- **`pricing.js` & `pricing/index.html`**: Emits `?repo=`, `billing` (`month`/`year`), and `seats` (`1..1000`) through `DecapodCloudFlow.buildSignupHandoffUrl`, preserves selection across `/auth` PKCE `return_to`, uses HTTPS custom-plan issue links (`github.com/DecapodLabs/decapod/issues/new`) instead of raw `mailto:` hrefs to preserve byte-identical CDN delivery, and links cleanly to live Cloud purchase initiation.
+- **`cloud-app-manifest.json`**: Exposes SHA-256 digests (`files`), clean upstream source revision (`a4361194`, `source_clean: true`), and `asset_release: "20261126-geist"` verified offline by `tests/publication_provenance_test.ts`.
 
 ## Behavioral Privacy & Trust Contract Interface (`/trust/index.html`)
 

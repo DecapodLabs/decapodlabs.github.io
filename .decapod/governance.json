@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "baseline": {
-    "accepted_commit": "825087d2542f357133876c84f2d3a90278b929c2",
+    "accepted_commit": "5082e58b34d799b4e670925802f2439f524ccaf5",
     "unresolved": {
       "claim:clack-download-latest": {
         "falsifier": "The page embeds a release version, either link fails signed out, the checksum or digest disagrees with the source stable build, or a newer published mirror requires editing the page.",
@@ -19,36 +19,36 @@
     }
   },
   "change": {
-    "id": "commercial-bundle-261",
-    "base_commit": "825087d2542f357133876c84f2d3a90278b929c2",
+    "id": "pricing-no-mailto",
+    "base_commit": "5082e58b34d799b4e670925802f2439f524ccaf5",
     "target_base": "origin/main"
   },
   "checkpoints": [
     {
-      "id": "commercial-bundle-261",
-      "summary": "Stamp 20261126-geist Cloud presentation bundle and scrub internal ops docs (#54)",
-      "input_digest": "sha256:d33ff43e5e08f44cedb72a57e351491e9f8b1dbebd2fcfec90324b72ad555da2"
+      "id": "pricing-no-mailto",
+      "summary": "Stamp edge-safe 20261126-geist bundle from Propodus a4361194",
+      "input_digest": "sha256:93a2bd1ea68ae0e3fd417153365978e5c53f7b47bff92b66271e5d948a882102"
     }
   ],
   "intents": {
-    "intent:docs_01m8b86e1y64rmyk-run": {
+    "intent:code_01m8bah27zpey4g2-run": {
       "acceptance_criteria": [],
       "assumptions": [],
       "boundaries": [
-        "Public static website presentation and docs only; keep index.html, styles.css, clack/, and check-site/check-launch untouched"
+        "Stamped Cloud pricing bundle and Living Specs only; no unrelated page changes"
       ],
       "constraints": [
-        "pricing*, signup, admin, shared, assets/fonts, cloud-flow.js, cloud-app-manifest.json, docs, tests, .decapod/managed/specs"
+        "pricing.html, pricing/index.html, cloud-app-manifest.json, .decapod/managed/specs"
       ],
       "created_sequence": 1,
-      "id": "intent:docs_01m8b86e1y64rmyk-run",
+      "id": "intent:code_01m8bah27zpey4g2-run",
       "instruction_origin": {
         "source_ref": "caller:unverified"
       },
       "out_of_scope": [],
       "proof_requirements": [],
-      "raw_intent": "Publish 20261126-geist commercial presentation bundle and scrub internal operational/prelaunch content (#54)",
-      "refined_intent": "Stamp 20261126-geist bundle from Propodus 955df35f, remove internal operational docs/tests, update Living Specs, verify offline suite",
+      "raw_intent": "Refresh 20261126-geist bundle without mailto to pass live SHA-256 verification",
+      "refined_intent": "Stamp 20261126-geist from Propodus a4361194, update Living Specs, run offline suite and decapod validate",
       "status": "refined",
       "updated_sequence": 3
     }
@@ -61,7 +61,7 @@
       },
       "deferred_questions": [],
       "human_questions": [],
-      "intent": "Publish Geist Cloud-first pricing, multi-repo signup, and 6-tab admin presentation bundle from Propodus (#54) while scrubbing internal operational docs and pre-launch wording",
+      "intent": "Re-stamp pricing.html and pricing/index.html from Propodus a4361194 without raw mailto hrefs so Cloudflare edge proxy preserves exact SHA-256 bytes",
       "phases": [],
       "proof_hooks": [
         "decapod validate"
@@ -71,40 +71,40 @@
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/ARCHITECTURE.md",
-          "reason": "Updated architecture specs for 20261126-geist compiled bundle, Geist assets, and removal of internal backend/ops docs",
+          "reason": "Updated architecture specs for edge-clean pricing bundle stamped from Propodus a4361194",
           "reviewed_code_fingerprint": "e4c19b6cd95b96ab408a352006060f4358fb42f6372b56ed4721c171eca10a38",
-          "spec_material_hash": "05495811fbcf595d3cbd16826e701f6a5d2dd95fbcf3929b2615efcd04bcd167"
+          "spec_material_hash": "bf817c5ec61b1e68f8ef6cc62f2e5d41fb330f30217bc2b2e4e1056567929e1b"
         },
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/INTERFACES.md",
-          "reason": "Updated interfaces for Cloud-first / pricing, file-resolved links, and cloud-app-manifest.json 20261126-geist",
+          "reason": "Updated cloud-app-manifest.json and HTTPS pricing contact links",
           "reviewed_code_fingerprint": "e4c19b6cd95b96ab408a352006060f4358fb42f6372b56ed4721c171eca10a38",
-          "spec_material_hash": "52477a7724b04fcaddd2754648bda231198f2ef38050607fe56ec9e46df00f21"
+          "spec_material_hash": "0d9238caddfe4081949fd538995df628db80156c8b4106c38dafe485e3950c16"
         },
         {
-          "disposition": "updated",
+          "disposition": "unchanged_with_reason",
           "path": ".decapod/managed/specs/SECURITY.md",
-          "reason": "Updated security posture reflecting removal of pre-launch gates and internal backend operational files from public repo",
+          "reason": "Eliminating raw mailto hrefs prevents third-party Cloudflare email-decode script injection while preserving SHA-256 integrity",
           "reviewed_code_fingerprint": "e4c19b6cd95b96ab408a352006060f4358fb42f6372b56ed4721c171eca10a38",
           "spec_material_hash": "c90311b3c1ce76e39a1a12441abcc073925ce58f5dfc4c4ede6999dade480914"
         }
       ],
       "state": "APPROVED",
       "stop_conditions": [],
-      "title": "Publish 20261126-geist Cloud commercial bundle and remove internal ops docs",
+      "title": "Refresh 20261126-geist pricing bundle without mailto for edge SHA-256 verification",
       "todo_ids": [
-        "docs_01m8b86e1y64rmyk"
+        "code_01m8bah27zpey4g2"
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1795675661Z"
+      "updated_at": "1795676753Z"
     },
     "trajectory": {
       "active_boundaries": [
-        "Public static website presentation and docs only; keep index.html, styles.css, clack/, and check-site/check-launch untouched"
+        "Stamped Cloud pricing bundle and Living Specs only; no unrelated page changes"
       ],
-      "artifact_hash": "sha256:a642b6f58795c014ae7968069d1c13761b356f9a2e6e57f9daef835a1f4a5e05",
+      "artifact_hash": "sha256:e255b7e0adf79206b8f44e7cd6170b40beb42986d97cf148761aa3d92fff3c57",
       "checks": [
         {
           "name": "bundle-provenance",
@@ -123,20 +123,20 @@
         "events": [
           {
             "event_id": "event:2",
-            "intent_id": "intent:docs_01m8b86e1y64rmyk-run",
+            "intent_id": "intent:code_01m8bah27zpey4g2-run",
             "kind": "created",
             "sequence": 2
           },
           {
             "event_id": "event:3",
-            "intent_id": "intent:docs_01m8b86e1y64rmyk-run",
+            "intent_id": "intent:code_01m8bah27zpey4g2-run",
             "kind": "refined",
             "sequence": 3
           },
           {
-            "detail": "trajectory:docs_01m8b86e1y64rmyk-run",
+            "detail": "trajectory:code_01m8bah27zpey4g2-run",
             "event_id": "event:4",
-            "intent_id": "intent:docs_01m8b86e1y64rmyk-run",
+            "intent_id": "intent:code_01m8bah27zpey4g2-run",
             "kind": "trajectory_step_recorded",
             "sequence": 4
           }
@@ -145,10 +145,10 @@
         "next_sequence": 4,
         "schema_version": "1.1.0",
         "trajectories": {
-          "docs_01m8b86e1y64rmyk-run": {
+          "code_01m8bah27zpey4g2-run": {
             "evidence_only": true,
-            "id": "docs_01m8b86e1y64rmyk-run",
-            "intent_id": "intent:docs_01m8b86e1y64rmyk-run",
+            "id": "code_01m8bah27zpey4g2-run",
+            "intent_id": "intent:code_01m8bah27zpey4g2-run",
             "steps": [
               {
                 "action": "trajectory.record",
@@ -156,24 +156,12 @@
                 "custody_event_id": "event:4",
                 "observations": [
                   "scripts/check-site.ts",
-                  "tests/publication_provenance_test.ts",
                   "pricing.html",
                   "pricing/index.html",
-                  "pricing.css",
-                  "pricing.js",
-                  "signup/index.html",
-                  "signup/signup.css",
-                  "signup/signup.js",
-                  "admin/index.html",
-                  "admin/admin.css",
-                  "admin/admin.js",
-                  "cloud-flow.js",
                   "cloud-app-manifest.json",
-                  "README.md",
-                  "docs/cloud-app-publication.md",
-                  "docs/decisions/0003-local-cloud-offerings.md",
-                  "tests/publication_provenance_test.ts",
-                  "tests/trust_privacy_contract_test.ts",
+                  ".decapod/managed/specs/INTENT.md",
+                  ".decapod/managed/specs/ARCHITECTURE.md",
+                  ".decapod/managed/specs/INTERFACES.md",
                   "tests/publication_provenance_test.ts",
                   "tests/trust_privacy_contract_test.ts"
                 ],
@@ -183,7 +171,7 @@
                   "bundle-provenance"
                 ],
                 "scope": [
-                  "pricing*, signup, admin, shared, assets/fonts, cloud-flow.js, cloud-app-manifest.json, docs, tests, .decapod/managed/specs"
+                  "pricing.html, pricing/index.html, cloud-app-manifest.json, .decapod/managed/specs"
                 ],
                 "sequence": 4,
                 "validation_findings": []
@@ -200,36 +188,24 @@
         "tests/trust_privacy_contract_test.ts"
       ],
       "inspected_files": [
-        "scripts/check-site.ts",
-        "tests/publication_provenance_test.ts"
+        "scripts/check-site.ts"
       ],
-      "intent_id": "intent:docs_01m8b86e1y64rmyk-run",
+      "intent_id": "intent:code_01m8bah27zpey4g2-run",
       "modified_files": [
-        "README.md",
-        "admin/admin.css",
-        "admin/admin.js",
-        "admin/index.html",
+        ".decapod/managed/specs/ARCHITECTURE.md",
+        ".decapod/managed/specs/INTENT.md",
+        ".decapod/managed/specs/INTERFACES.md",
         "cloud-app-manifest.json",
-        "cloud-flow.js",
-        "docs/cloud-app-publication.md",
-        "docs/decisions/0003-local-cloud-offerings.md",
-        "pricing.css",
         "pricing.html",
-        "pricing.js",
-        "pricing/index.html",
-        "signup/index.html",
-        "signup/signup.css",
-        "signup/signup.js",
-        "tests/publication_provenance_test.ts",
-        "tests/trust_privacy_contract_test.ts"
+        "pricing/index.html"
       ],
       "repo_scope": [
-        "pricing*, signup, admin, shared, assets/fonts, cloud-flow.js, cloud-app-manifest.json, docs, tests, .decapod/managed/specs"
+        "pricing.html, pricing/index.html, cloud-app-manifest.json, .decapod/managed/specs"
       ],
-      "run_id": "docs_01m8b86e1y64rmyk-run",
+      "run_id": "code_01m8bah27zpey4g2-run",
       "schema_version": "1.1.0",
       "shortcut_risk_signals": [],
-      "task_id": "docs_01m8b86e1y64rmyk",
+      "task_id": "code_01m8bah27zpey4g2",
       "tool_calls": [],
       "unresolved_assumptions": []
     }

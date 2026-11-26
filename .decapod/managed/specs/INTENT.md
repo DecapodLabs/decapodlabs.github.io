@@ -2,7 +2,7 @@
 
 ## Signed Decapod Cloud Web Publication (`cloud-app-manifest.json`, #54, #55, #56)
 
-Keep `DecapodLabs/decapodlabs.github.io` focused on public marketing, public documentation, public Cloud-first `/pricing` ($50/mo, $552/yr, plus `Decapod Local — Free forever`), and verified static distribution of compiled Decapod Cloud presentation bundles (`cloud-app-manifest.json`, `asset_release: 20261126-geist`). Preserve `billing`, `seats`, and `repo` across `/pricing` -> `/auth` PKCE -> `/signup` without pre-launch gates, and verify published artifact SHA-256 provenance via `tests/publication_provenance_test.ts` while keeping internal application tests and operational secrets out of this repository.
+Keep `DecapodLabs/decapodlabs.github.io` focused on public marketing, public documentation, public Cloud-first `/pricing` ($50/mo, $552/yr, plus `Decapod Local — Free forever`, with HTTPS enterprise contact URLs rather than raw `mailto:` so edge proxies never inject `email-decode.min.js`), and verified static distribution of compiled Decapod Cloud presentation bundles (`cloud-app-manifest.json`, `asset_release: 20261126-geist`, source revision `a4361194`). Preserve `billing`, `seats`, and `repo` across `/pricing` -> `/auth` PKCE -> `/signup` without pre-launch gates, and verify published artifact SHA-256 provenance via `tests/publication_provenance_test.ts` while keeping internal application tests and operational secrets out of this repository.
 
 ## Behavioral Privacy & Trust Contract (`/trust/index.html`)
 
