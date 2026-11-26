@@ -1,48 +1,49 @@
 {
   "schema_version": "1.0.0",
   "baseline": {
-    "accepted_commit": "4ca4f7f73aa7357528ea0502e93fdeda030683f2",
+    "accepted_commit": "2e20259660fa011cd350107189d54b62143d04ee",
     "unresolved": {
+      "claim:clack-download-latest": {
+        "falsifier": "The page embeds a release version, either link fails signed out, the checksum or digest disagrees with the source stable build, or a newer published mirror requires editing the page.",
+        "statement": "The Clack landing page uses permanent public release links for the macOS DMG and SHA-256; the publisher can advance both by promoting a new release.",
+        "status": "open"
+      },
       "claim:clack-hero-mascot": {
         "falsifier": "The emoji remains, the mascot fails to load or appears on a line by itself, or either tagline is clipped.",
         "statement": "The Clack hero displays the repository mascot beside the tagline and keeps both tagline lines readable at mobile and desktop widths.",
         "status": "open"
-      }
+      },
+      "trajectory:3848f0711f1c471f": "The site has no public GitHub Release yet. A scheduled mirror would need authentication with Contents read on private Clack. Neither repo has a listed repository-level Actions secret. The organization-level secret inventory returned 403 with the current GitHub session.",
+      "trajectory:7f7a21200f37746d": "Website origin/main and workspace HEAD were 4ca4f7f73aa7357528ea0502e93fdeda030683f2. The public DMG, checksum file and GitHub v0.9.14 release metadata all gave SHA-256 8df5da4613b7da022644f6fd41704c45d76140d2066217fd4275c6a49a85e480.",
+      "trajectory:c8792d9ce24cf68b": "Normal Clack release distribution must use the upstream publisher; the latest public release remains reserved for Clack."
     }
   },
   "change": {
-    "id": "change_01M87WNTWESPPHB96EQN48PQRE",
-    "base_commit": "4ca4f7f73aa7357528ea0502e93fdeda030683f2",
+    "id": "change_01M8919GX5J8S1A519GDB3B6G9",
+    "base_commit": "2e20259660fa011cd350107189d54b62143d04ee",
     "target_base": "origin/main"
   },
   "claims": {
-    "clack-download-latest": {
-      "statement": "The Clack landing page uses permanent public release links for the macOS DMG and SHA-256; the publisher can advance both by promoting a new release.",
-      "falsifier": "The page embeds a release version, either link fails signed out, the checksum or digest disagrees with the source stable build, or a newer published mirror requires editing the page.",
+    "clack-public-0918": {
+      "statement": "The public Clack updater and site download resolve to the same build as the native v0.9.18 GitHub release and match the existing trailer.",
+      "falsifier": "The deployed manifest, tag, hash, page or trailer differs from the verified source and release files.",
       "status": "open"
     }
   },
   "checkpoints": [
     {
-      "id": "clack-site-stable-download",
-      "summary": "Use the stable public Clack installer, checksum, and release links and describe the browser contract in the living specs.",
-      "input_digest": "sha256:649896aa83454caf70a61bed4f9aa85105e7a762f6a8bde1947ca78c6ab6dac1",
-      "proof_refs": [
-        "GitHub release clack-v0.9.14 signed-out installer and companion checksum verified against the stable Clack release.",
-        "HTML anchor contract and nine publisher fixture tests at a440ab20d3821d356914767b250c62c55d0f7a98 including v0.9.14 to v0.9.15."
-      ]
+      "id": "clack-download-0.9.18",
+      "summary": "Publish Clack 0.9.18 pinned download links, release.json manifest, and matching living specs for commit 026a2a8ab.",
+      "input_digest": "sha256:a47e1bc5da9ddebbb8b1bc82141d39a6813c01d375ed86c57bbc3933347b7f7a"
     },
     {
-      "id": "reconcile-clack-download-website-main",
-      "summary": "Reconcile the latest public Clack links with accepted website main and verify current signed-out assets.",
-      "input_digest": "sha256:717e1c8d2bc1d0a8f207a4566e0e1251a7bfdee108ba97e58ccfe2cd1ac3161b",
-      "proof_refs": [
-        "GitHub Releases clack-v0.9.14, SHA-256 8df5da4613b7da022644f6fd41704c45d76140d2066217fd4275c6a49a85e480"
-      ]
+      "id": "decapod-0.166.0-refresh",
+      "summary": "Refresh release-bound entrypoints, Dockerfile pin, and specs manifest for Decapod 0.166.0.",
+      "input_digest": "sha256:57b70bb76d7a0ac4c929ec0fba430e60b8c75b00d26bb69ea438abfb82094fb4"
     }
   ],
   "intents": {
-    "intent:change_01M87WNTWESPPHB96EQN48PQRE": {
+    "intent:change_01M8919GX5J8S1A519GDB3B6G9": {
       "acceptance_criteria": [],
       "assumptions": [],
       "boundaries": [
@@ -52,14 +53,14 @@
         "root"
       ],
       "created_sequence": 1,
-      "id": "intent:change_01M87WNTWESPPHB96EQN48PQRE",
+      "id": "intent:change_01M8919GX5J8S1A519GDB3B6G9",
       "instruction_origin": {
         "source_ref": "caller:unverified"
       },
       "out_of_scope": [],
       "proof_requirements": [],
-      "raw_intent": "Clack repository note for Mira",
-      "refined_intent": "Clack repository note for Mira",
+      "raw_intent": "Clack repository note for June",
+      "refined_intent": "Clack repository note for June",
       "status": "refined",
       "updated_sequence": 3
     }
@@ -72,200 +73,130 @@
       },
       "deferred_questions": [],
       "human_questions": [],
-      "intent": "Point the public Clack page at fixed GitHub latest-release asset names using the Clack release command and Maris’s publisher. Verify the two signed-out assets against the source release before switching the live button and verify the same links across a release advance with fixture releases.",
+      "intent": "Publish the exact Apple silicon build from the accepted Clack release commit. Bind the public installer and SHA-256 to the in-app update manifest while preserving the live gameplay trailer.",
       "phases": [],
       "proof_hooks": [
-        "Full decapod validate for the website candidate",
-        "Signed-out public DMG and checksum match the current stable source release before merge",
-        "Publisher rollover fixture verifies unchanged asset URLs select a newer release"
+        "static-source"
       ],
       "schema_version": "1.1.0",
       "spec_reviews": [
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/ARCHITECTURE.md",
-          "reason": "Preserve the accepted trust contract and document the Clack download handoff to the verified stable mirror.",
+          "reason": "Describe the version-pinned DMG, public update manifest and matching macOS installer on both GitHub repositories.",
           "reviewed_code_fingerprint": "9a80a566a672bcc2f324a487b2e08c5a91eff24107b4b3922101389ff1e43469",
-          "spec_material_hash": "eac44f72110a1c4d57b40eb03c130cfb3a4c34d316ab4eeaf8ba426fd46d9da2"
+          "spec_material_hash": "c5e7a54633b97ca5d80cbd973076bcb99ea997c84897ed9da6ac6d40684431ff"
         },
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/INTERFACES.md",
-          "reason": "Preserve the accepted trust contract and document the Clack download handoff to the verified stable mirror.",
+          "reason": "Describe the version-pinned DMG, public update manifest and matching macOS installer on both GitHub repositories.",
           "reviewed_code_fingerprint": "9a80a566a672bcc2f324a487b2e08c5a91eff24107b4b3922101389ff1e43469",
-          "spec_material_hash": "85ff6ce400febc79289ef35e7421f188de18182ef9fa0a7dd611cb4bf5fde97c"
+          "spec_material_hash": "4f3cd8485a1d39069271fc1627dd0381fcc40477cb45c98a6791ad392e258578"
+        },
+        {
+          "disposition": "unchanged_with_reason",
+          "path": ".decapod/managed/specs/SECURITY.md",
+          "reason": "The endpoint serves public version, commit and checksum data. It introduces no credentials, authentication changes or request processing.",
+          "reviewed_code_fingerprint": "9a80a566a672bcc2f324a487b2e08c5a91eff24107b4b3922101389ff1e43469",
+          "spec_material_hash": "8ffaa11634369183e27f26afcb8b22b38e13187b8c20ff1ff4b50b45f78405fd"
         }
       ],
       "state": "APPROVED",
       "stop_conditions": [],
-      "title": "Keep the public Clack download current",
+      "title": "Publish Clack 0.9.18 on the public site",
       "todo_ids": [
-        "code_01m87wneqc1dn4yp"
+        "code_01m89194htw4hkvv"
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1795565725Z"
+      "updated_at": "1795600120Z"
     },
     "trajectory": {
       "active_boundaries": [
-        "Current claimed task and isolated work branch",
-        "Preserve the original checkout and private source visibility"
+        "Current claimed task and isolated work branch"
       ],
-      "artifact_hash": "sha256:c3b62b2486da0a2d4d150976ca554fee955c4681a04e0bc5b2dbe3d55469b3a5",
+      "artifact_hash": "sha256:7474a853bd92dfbcc3da7daab2aac6fc4a6e3d0da9f70b928ef95b0883f621d5",
       "checks": [
         {
-          "name": "current-stable-release",
+          "name": "clack-dmg-build-and-verify",
           "status": "passed"
         },
         {
-          "name": "current_public_dmg_matches_stable_release",
+          "name": "github-release-v0.9.18-verified",
           "status": "passed"
         },
         {
-          "name": "live-new-version-rollover",
-          "status": "unavailable"
-        },
-        {
-          "name": "private-installer-signed-out-404",
+          "name": "live-trailer-byte-match",
           "status": "passed"
         },
         {
-          "name": "public-installer-matches-published-release",
-          "status": "passed"
-        },
-        {
-          "name": "publisher-fixture-rollover",
-          "status": "passed"
-        },
-        {
-          "name": "publisher-live-promotion",
+          "name": "live-update-manifest-http-200",
           "status": "failed"
         },
         {
-          "name": "remote-main-reconciled",
+          "name": "site-mirror-clack-v0.9.18-verified",
           "status": "passed"
         },
         {
-          "name": "signed-out-dmg-digest",
+          "name": "static-source",
           "status": "passed"
         },
         {
-          "name": "signed-out-mirror-checksum",
-          "status": "passed"
-        },
-        {
-          "name": "signed-out-public-v0.9.14",
-          "status": "passed"
-        },
-        {
-          "name": "v0.9.16-unpublished",
-          "status": "passed"
-        },
-        {
-          "name": "website-download-link-contract",
-          "status": "passed"
-        },
-        {
-          "name": "website-main-reconciliation",
-          "status": "passed"
-        },
-        {
-          "name": "website-target",
+          "name": "trust-privacy-contract",
           "status": "passed"
         }
       ],
-      "current_phase": "verification",
+      "current_phase": "intent",
       "custody": {
         "events": [
           {
             "event_id": "event:2",
-            "intent_id": "intent:change_01M87WNTWESPPHB96EQN48PQRE",
+            "intent_id": "intent:change_01M8919GX5J8S1A519GDB3B6G9",
             "kind": "created",
             "sequence": 2
           },
           {
             "event_id": "event:3",
-            "intent_id": "intent:change_01M87WNTWESPPHB96EQN48PQRE",
+            "intent_id": "intent:change_01M8919GX5J8S1A519GDB3B6G9",
             "kind": "refined",
             "sequence": 3
           },
           {
-            "detail": "trajectory:branch_01M87WNTZGAF4HZFEKZBYN177A",
+            "detail": "trajectory:branch_01M8919H0EXYGK87GKXJX91B8P",
             "event_id": "event:4",
-            "intent_id": "intent:change_01M87WNTWESPPHB96EQN48PQRE",
+            "intent_id": "intent:change_01M8919GX5J8S1A519GDB3B6G9",
             "kind": "trajectory_step_recorded",
             "sequence": 4
           },
           {
-            "detail": "trajectory:branch_01M87WNTZGAF4HZFEKZBYN177A",
+            "detail": "trajectory:branch_01M8919H0EXYGK87GKXJX91B8P",
             "event_id": "event:5",
-            "intent_id": "intent:change_01M87WNTWESPPHB96EQN48PQRE",
+            "intent_id": "intent:change_01M8919GX5J8S1A519GDB3B6G9",
             "kind": "trajectory_step_recorded",
             "sequence": 5
-          },
-          {
-            "detail": "trajectory:branch_01M87WNTZGAF4HZFEKZBYN177A",
-            "event_id": "event:6",
-            "intent_id": "intent:change_01M87WNTWESPPHB96EQN48PQRE",
-            "kind": "trajectory_step_recorded",
-            "sequence": 6
-          },
-          {
-            "detail": "trajectory:branch_01M87WNTZGAF4HZFEKZBYN177A",
-            "event_id": "event:7",
-            "intent_id": "intent:change_01M87WNTWESPPHB96EQN48PQRE",
-            "kind": "trajectory_step_recorded",
-            "sequence": 7
-          },
-          {
-            "detail": "trajectory:branch_01M87WNTZGAF4HZFEKZBYN177A",
-            "event_id": "event:8",
-            "intent_id": "intent:change_01M87WNTWESPPHB96EQN48PQRE",
-            "kind": "trajectory_step_recorded",
-            "sequence": 8
-          },
-          {
-            "detail": "trajectory:branch_01M87WNTZGAF4HZFEKZBYN177A",
-            "event_id": "event:9",
-            "intent_id": "intent:change_01M87WNTWESPPHB96EQN48PQRE",
-            "kind": "trajectory_step_recorded",
-            "sequence": 9
-          },
-          {
-            "detail": "trajectory:branch_01M87WNTZGAF4HZFEKZBYN177A",
-            "event_id": "event:10",
-            "intent_id": "intent:change_01M87WNTWESPPHB96EQN48PQRE",
-            "kind": "trajectory_step_recorded",
-            "sequence": 10
-          },
-          {
-            "detail": "trajectory:branch_01M87WNTZGAF4HZFEKZBYN177A",
-            "event_id": "event:11",
-            "intent_id": "intent:change_01M87WNTWESPPHB96EQN48PQRE",
-            "kind": "trajectory_step_recorded",
-            "sequence": 11
           }
         ],
         "knowledge_candidates": [],
-        "next_sequence": 11,
+        "next_sequence": 5,
         "schema_version": "1.1.0",
         "trajectories": {
-          "branch_01M87WNTZGAF4HZFEKZBYN177A": {
+          "branch_01M8919H0EXYGK87GKXJX91B8P": {
             "evidence_only": true,
-            "id": "branch_01M87WNTZGAF4HZFEKZBYN177A",
-            "intent_id": "intent:change_01M87WNTWESPPHB96EQN48PQRE",
+            "id": "branch_01M8919H0EXYGK87GKXJX91B8P",
+            "intent_id": "intent:change_01M8919GX5J8S1A519GDB3B6G9",
             "steps": [
               {
-                "action": "discovery",
+                "action": "trajectory.record",
                 "custody_event_id": "event:4",
                 "observations": [
                   "clack/index.html",
-                  "scripts/check-site.ts",
-                  "HEAD and remote default main both 4ca4f7f73aa7357528ea0502e93fdeda030683f2. Signed-out Clack 0.9.14 DMG matches Pages checksum and the official authenticated release asset digest 8df5da4613b7da022644f6fd41704c45d76140d2066217fd4275c6a49a85e480. Private release notes return signed-out HTTP 404."
+                  "clack/gameplay-trailer.vtt",
+                  "clack/clack-gameplay-trailer.mp4"
                 ],
                 "proof_refs": [
-                  "website-target",
-                  "signed-out-dmg-digest"
+                  "live-trailer-byte-match",
+                  "live-update-manifest-http-200"
                 ],
                 "scope": [
                   "root"
@@ -278,138 +209,23 @@
                 "custody_event_id": "event:5",
                 "observations": [
                   "clack/index.html",
-                  "README.md",
-                  "GitHub origin HEAD and main and the website worktree HEAD are 4ca4f7f73aa7357528ea0502e93fdeda030683f2. Signed-out Pages /clack/ links to v0.9.14; its 6761262-byte DMG SHA-256 is 8df5da4613b7da022644f6fd41704c45d76140d2066217fd4275c6a49a85e480, equal to the companion checksum and authenticated stable Clack release asset digest. Direct private GitHub download returns 404 signed out.",
-                  "Pages serves main/root. The public website repository currently has no GitHub Releases; the private Clack repository has no registered Actions workflows. Website PR #80 touches clack/index.html for the footer. The original checkout has unrelated index.html and styles.css edits."
+                  "clack/release.json",
+                  ".decapod/managed/specs/INTENT.md",
+                  ".decapod/managed/specs/ARCHITECTURE.md",
+                  ".decapod/managed/specs/INTERFACES.md"
                 ],
                 "proof_refs": [
-                  "current_public_dmg_matches_stable_release"
+                  "clack-dmg-build-and-verify",
+                  "github-release-v0.9.18-verified",
+                  "site-mirror-clack-v0.9.18-verified",
+                  "static-source",
+                  "trust-privacy-contract"
                 ],
                 "scope": [
-                  "Public Clack download, checksum, and release handoff",
                   "root"
                 ],
                 "sequence": 5,
                 "validation_findings": []
-              },
-              {
-                "action": "trajectory.record",
-                "custody_event_id": "event:6",
-                "observations": [
-                  "clack/index.html",
-                  ".github/workflows/site-bootstrap.yml",
-                  "README.md"
-                ],
-                "proof_refs": [
-                  "remote-main-reconciled",
-                  "public-installer-matches-published-release",
-                  "private-installer-signed-out-404",
-                  "v0.9.16-unpublished"
-                ],
-                "scope": [
-                  "Public Clack download, checksum, and release handoff",
-                  "root"
-                ],
-                "sequence": 6,
-                "validation_findings": [
-                  "Website origin/main and workspace HEAD were 4ca4f7f73aa7357528ea0502e93fdeda030683f2. The public DMG, checksum file and GitHub v0.9.14 release metadata all gave SHA-256 8df5da4613b7da022644f6fd41704c45d76140d2066217fd4275c6a49a85e480.",
-                  "The site has no public GitHub Release yet. A scheduled mirror would need authentication with Contents read on private Clack. Neither repo has a listed repository-level Actions secret. The organization-level secret inventory returned 403 with the current GitHub session."
-                ]
-              },
-              {
-                "action": "trajectory.record",
-                "custody_event_id": "event:7",
-                "observations": [
-                  "GitHub organization installation 109996675 is decapod-release-manager. GitHub reports selected repositories, Contents write and no subscribed events. Access to Clack or the public website and an existing CI placement remain unverified."
-                ],
-                "proof_refs": [],
-                "scope": [
-                  "Public Clack download, checksum, and release handoff",
-                  "root"
-                ],
-                "sequence": 7,
-                "validation_findings": []
-              },
-              {
-                "action": "discovery",
-                "custody_event_id": "event:8",
-                "observations": [
-                  "clack/index.html",
-                  "scripts/check-site.ts",
-                  "Authenticated GitHub still reports v0.9.14 and DMG SHA-256 8df5da4613b7da022644f6fd41704c45d76140d2066217fd4275c6a49a85e480. The public website repository has no releases and no repository Actions secrets. Clack has no default-branch release workflow.",
-                  "Clack branch commit d403918 includes scripts/release-app.sh, which validates and publishes the private release and a public mirror but also rewrites clack/index.html. Both repository viewer permissions are ADMIN. The selected-repository decapod-release-manager installation exists, but its authorization for the two repositories and runtime credentials are unverified."
-                ],
-                "proof_refs": [
-                  "current-stable-release"
-                ],
-                "scope": [
-                  "Public Clack download, checksum, and release handoff",
-                  "root"
-                ],
-                "sequence": 8,
-                "validation_findings": []
-              },
-              {
-                "action": "verification",
-                "custody_event_id": "event:9",
-                "observations": [
-                  "clack/index.html",
-                  ".decapod/managed/specs/INTENT.md",
-                  ".decapod/managed/specs/ARCHITECTURE.md",
-                  ".decapod/managed/specs/INTERFACES.md",
-                  "Parsed the website anchors and matched the two stable asset paths to Maris’s authenticated-GitHub mock and signed-out HTTP fixture. All nine fixtures passed at a440ab20d3821d356914767b250c62c55d0f7a98, including v0.9.14 to v0.9.15 rollover, idempotence, and corrupted asset rejection."
-                ],
-                "proof_refs": [
-                  "website-download-link-contract",
-                  "publisher-fixture-rollover"
-                ],
-                "scope": [
-                  "Public Clack download, checksum, and release handoff",
-                  "root"
-                ],
-                "sequence": 9,
-                "validation_findings": []
-              },
-              {
-                "action": "trajectory.record",
-                "custody_event_id": "event:10",
-                "observations": [
-                  "The publisher uploaded the two correct assets to draft release 457468950, then gh rejected unsupported release view JSON field isLatest. REST readback verified the exact draft state, both uploaded asset sizes and both SHA-256 digests. Promoted only that draft with the supported CLI. GitHub latest API returned clack-v0.9.14, and unauthenticated curl downloaded both fixed-name assets with shasum -a 256 -c passing. Official installer SHA-256 is 8df5da4613b7da022644f6fd41704c45d76140d2066217fd4275c6a49a85e480."
-                ],
-                "proof_refs": [
-                  "publisher-live-promotion",
-                  "signed-out-public-v0.9.14"
-                ],
-                "scope": [
-                  "Public Clack download, checksum, and release handoff",
-                  "root"
-                ],
-                "sequence": 10,
-                "validation_findings": []
-              },
-              {
-                "action": "verification",
-                "custody_event_id": "event:11",
-                "observations": [
-                  "clack/index.html",
-                  "scripts/check-site.ts",
-                  "Accepted website main b77ac2baafdd9862ec22a099fd998400361bba2b integrated, including the trust contract.",
-                  "Signed-out DMG and .sha256 extracted from candidate HTML; shasum and hdiutil verified SHA-256 8df5da4613b7da022644f6fd41704c45d76140d2066217fd4275c6a49a85e480 against private stable v0.9.14.",
-                  "Maris receipt e5d0dfd5dc89c558f96b08dddbd79a488d8106c3 reports 11 passing fixture tests, including stable URLs across rollover, and a successful signed-out live replay for the current release."
-                ],
-                "proof_refs": [
-                  "website-main-reconciliation",
-                  "signed-out-mirror-checksum",
-                  "live-new-version-rollover"
-                ],
-                "scope": [
-                  "Public Clack download, checksum, and release handoff",
-                  "root"
-                ],
-                "sequence": 11,
-                "validation_findings": [
-                  "Normal Clack release distribution must use the upstream publisher; the latest public release remains reserved for Clack."
-                ]
               }
             ]
           }
@@ -417,53 +233,32 @@
       },
       "declared_commands": [],
       "destination": "pull request",
-      "evidence": [
-        "Accepted website main b77ac2baafdd9862ec22a099fd998400361bba2b integrated, including the trust contract.",
-        "Authenticated GitHub still reports v0.9.14 and DMG SHA-256 8df5da4613b7da022644f6fd41704c45d76140d2066217fd4275c6a49a85e480. The public website repository has no releases and no repository Actions secrets. Clack has no default-branch release workflow.",
-        "Clack branch commit d403918 includes scripts/release-app.sh, which validates and publishes the private release and a public mirror but also rewrites clack/index.html. Both repository viewer permissions are ADMIN. The selected-repository decapod-release-manager installation exists, but its authorization for the two repositories and runtime credentials are unverified.",
-        "GitHub organization installation 109996675 is decapod-release-manager. GitHub reports selected repositories, Contents write and no subscribed events. Access to Clack or the public website and an existing CI placement remain unverified.",
-        "GitHub origin HEAD and main and the website worktree HEAD are 4ca4f7f73aa7357528ea0502e93fdeda030683f2. Signed-out Pages /clack/ links to v0.9.14; its 6761262-byte DMG SHA-256 is 8df5da4613b7da022644f6fd41704c45d76140d2066217fd4275c6a49a85e480, equal to the companion checksum and authenticated stable Clack release asset digest. Direct private GitHub download returns 404 signed out.",
-        "HEAD and remote default main both 4ca4f7f73aa7357528ea0502e93fdeda030683f2. Signed-out Clack 0.9.14 DMG matches Pages checksum and the official authenticated release asset digest 8df5da4613b7da022644f6fd41704c45d76140d2066217fd4275c6a49a85e480. Private release notes return signed-out HTTP 404.",
-        "Maris receipt e5d0dfd5dc89c558f96b08dddbd79a488d8106c3 reports 11 passing fixture tests, including stable URLs across rollover, and a successful signed-out live replay for the current release.",
-        "Pages serves main/root. The public website repository currently has no GitHub Releases; the private Clack repository has no registered Actions workflows. Website PR #80 touches clack/index.html for the footer. The original checkout has unrelated index.html and styles.css edits.",
-        "Parsed the website anchors and matched the two stable asset paths to Maris’s authenticated-GitHub mock and signed-out HTTP fixture. All nine fixtures passed at a440ab20d3821d356914767b250c62c55d0f7a98, including v0.9.14 to v0.9.15 rollover, idempotence, and corrupted asset rejection.",
-        "Signed-out DMG and .sha256 extracted from candidate HTML; shasum and hdiutil verified SHA-256 8df5da4613b7da022644f6fd41704c45d76140d2066217fd4275c6a49a85e480 against private stable v0.9.14.",
-        "The publisher uploaded the two correct assets to draft release 457468950, then gh rejected unsupported release view JSON field isLatest. REST readback verified the exact draft state, both uploaded asset sizes and both SHA-256 digests. Promoted only that draft with the supported CLI. GitHub latest API returned clack-v0.9.14, and unauthenticated curl downloaded both fixed-name assets with shasum -a 256 -c passing. Official installer SHA-256 is 8df5da4613b7da022644f6fd41704c45d76140d2066217fd4275c6a49a85e480."
-      ],
+      "evidence": [],
       "inspected_files": [
-        ".github/workflows/site-bootstrap.yml",
-        "README.md",
-        "clack/index.html",
-        "scripts/check-site.ts"
+        "clack/clack-gameplay-trailer.mp4",
+        "clack/gameplay-trailer.vtt",
+        "clack/index.html"
       ],
-      "intent_id": "intent:change_01M87WNTWESPPHB96EQN48PQRE",
+      "intent_id": "intent:change_01M8919GX5J8S1A519GDB3B6G9",
       "modified_files": [
         ".decapod/managed/specs/ARCHITECTURE.md",
         ".decapod/managed/specs/INTENT.md",
         ".decapod/managed/specs/INTERFACES.md",
-        "clack/index.html"
+        "clack/index.html",
+        "clack/release.json"
       ],
       "next_transitions": [
-        "Ask Maris to identify whether the installed decapod-release-manager can mint separate CI tokens for private Clack Contents read and the public website release writer, then implement and validate stable public release asset links.",
-        "Assign Maris custody of the Clack-side publisher in a separate task. Mira owns the website CTA integration, reconciliation with PR 80, proof and publication.",
-        "Confirm with Maris whether the public website repository can host Clack-only releases and whether an approved automation identity is available for private release reads. Then wire a verified stable DMG and checksum to the site and run publication proof.",
-        "Consult Maris on the authorized public release handoff before coupling the website to an endpoint",
         "Refine plan and declare falsifiable checks"
       ],
       "repo_scope": [
-        "Public Clack download, checksum, and release handoff",
         "root"
       ],
-      "run_id": "branch_01M87WNTZGAF4HZFEKZBYN177A",
+      "run_id": "branch_01M8919H0EXYGK87GKXJX91B8P",
       "schema_version": "1.1.0",
       "shortcut_risk_signals": [],
-      "task_id": "code_01m87wneqc1dn4yp",
+      "task_id": "code_01m89194htw4hkvv",
       "tool_calls": [],
-      "unresolved_assumptions": [
-        "Normal Clack release distribution must use the upstream publisher; the latest public release remains reserved for Clack.",
-        "The site has no public GitHub Release yet. A scheduled mirror would need authentication with Contents read on private Clack. Neither repo has a listed repository-level Actions secret. The organization-level secret inventory returned 403 with the current GitHub session.",
-        "Website origin/main and workspace HEAD were 4ca4f7f73aa7357528ea0502e93fdeda030683f2. The public DMG, checksum file and GitHub v0.9.14 release metadata all gave SHA-256 8df5da4613b7da022644f6fd41704c45d76140d2066217fd4275c6a49a85e480."
-      ]
+      "unresolved_assumptions": []
     }
   }
 }
