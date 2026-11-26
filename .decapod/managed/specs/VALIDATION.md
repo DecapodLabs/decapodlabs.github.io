@@ -150,7 +150,7 @@ Generated capability obligations: `public-api` is declared for this project. The
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `8524b997a6b303773ca1dd873d37dc26efcf37e14684c1ef08a803a4f06414f3`
+- Repository signal fingerprint: `ff9d13a3ca79a802b6609101652cc6d77683dcc92a5d72786cf6d9f9727817d1`
 - Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (3 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->

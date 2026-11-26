@@ -2,7 +2,13 @@
 
 ## Signed Decapod Cloud Web Publication (`cloud-app-manifest.json`, #54, #55, #56)
 
-Keep `DecapodLabs/decapodlabs.github.io` focused on public marketing, public documentation, public Cloud-first `/pricing` ($50/mo, $552/yr, plus `Decapod Local — Free forever`, with HTTPS enterprise contact URLs rather than raw `mailto:` so edge proxies never inject `email-decode.min.js`), and verified static distribution of compiled Decapod Cloud presentation bundles (`cloud-app-manifest.json`, `asset_release: 20261126-brand`, source revision `e5f85185` unifying the warm homepage palette with Geist typography, Signup future-repo reservation slots, and Cloud Admin reservation/policy controls, plus refined `trust/trust.css` card borders/shadows). Preserve `billing`, `seats`, `repo`, and `repos` across `/pricing` -> `/auth` PKCE -> `/signup` without pre-launch gates, and verify published artifact SHA-256 provenance via `tests/publication_provenance_test.ts` while keeping internal application tests and operational secrets out of this repository.
+Keep `DecapodLabs/decapodlabs.github.io` focused on public marketing, public documentation, public Cloud-first `/pricing` ($50/mo, $552/yr, plus `Decapod Local — Free forever`, with HTTPS enterprise contact URLs rather than raw `mailto:` so edge proxies never inject `email-decode.min.js`), and verified static distribution of compiled Decapod Cloud presentation bundles (`cloud-app-manifest.json`, `asset_release: 20261126-brand`, source revision `ac2124c0` unifying the warm homepage palette with Geist typography, Signup future-repo reservation slots, and simplified Organization Admin UX across PRs #266 and #267, plus refined `trust/trust.css` card borders/shadows). Preserve `billing`, `seats`, `repo`, and `repos` across `/pricing` -> `/auth` PKCE -> `/signup` without pre-launch gates, and verify published artifact SHA-256 provenance via `tests/publication_provenance_test.ts` while keeping internal application tests and operational secrets out of this repository.
+
+## Simplified Organization Admin UX (`admin/*`, Propodus PRs #266 & #267)
+
+Deliver the calm, approachable Organization Admin surface compiled from upstream Propodus `ac2124c0` (`asset_release: 20261126-brand`):
+- Unauthenticated `#admin-auth-gate` presents `"Welcome to Decapod Cloud Admin"`, an `Organization Admin` badge, three plain-English capability highlights, GitHub sign-in CTA, and a `/signup` link.
+- Authenticated shell pairs the warm organization header (`+ Add seats or repos` CTA) with soft segmented pill navigation (`Overview`, `Repositories`, `Team` preserving `#tab-btn-people`, `Billing`, `Usage`, `Settings`), KPI cards, title-cased `GitHub` code host label, 1-click Overview Quick Actions, promoted Everyday Actions + inline GitHub invitations, collapsed advanced disclosures with clean count spacing (`Bind reserved repository slot (N available)`), `$0 surprise overages — disabled by default` reassurance badges, and responsive `390px` mobile grid containment (`min-width: 0` around `.ds-table-wrap`).
 
 ## Behavioral Privacy & Trust Contract (`/trust/index.html`)
 
@@ -85,7 +91,7 @@ These declarations select authoring and proof obligations; they do not attest im
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `8524b997a6b303773ca1dd873d37dc26efcf37e14684c1ef08a803a4f06414f3`
+- Repository signal fingerprint: `ff9d13a3ca79a802b6609101652cc6d77683dcc92a5d72786cf6d9f9727817d1`
 - Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (3 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->

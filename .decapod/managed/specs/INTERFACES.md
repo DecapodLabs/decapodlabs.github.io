@@ -3,7 +3,8 @@
 ## Public Pricing Handoff & Published Cloud Bundle Manifest (`pricing.js`, `cloud-app-manifest.json`)
 
 - **`pricing.js` & `pricing/index.html`**: Emits `?repo=`, `billing` (`month`/`year`), and `seats` (`1..1000`) through `DecapodCloudFlow.buildSignupHandoffUrl`, preserves selection across `/auth` PKCE `return_to`, uses HTTPS custom-plan issue links (`github.com/DecapodLabs/decapod/issues/new`) instead of raw `mailto:` hrefs to preserve byte-identical CDN delivery, and links cleanly to live Cloud purchase initiation.
-- **`cloud-app-manifest.json`**: Exposes SHA-256 digests (`files`), clean upstream source revision (`e5f85185`, `source_clean: true`), and `asset_release: "20261126-brand"` verified offline by `tests/publication_provenance_test.ts`.
+- **`cloud-app-manifest.json`**: Exposes SHA-256 digests (`files`), clean upstream source revision (`ac2124c0`, `source_clean: true`), and `asset_release: "20261126-brand"` verified offline by `tests/publication_provenance_test.ts`.
+- **`admin/*` Presentation Surface (Propodus PRs #266 & #267)**: Preserves all existing DOM IDs (`#admin-auth-gate`, `#tab-btn-{overview,repositories,people,billing,usage,settings}`, `#tab-panel-*`, `#admin-avail-res-count`, `#admin-repos-list`, `#admin-billing-*`), wires Overview `#overview-qa-*` quick actions in `bindEvents()` with zero inline scripts, title-cases `formatProviderName("github")` to `"GitHub"`, and constrains `.admin-shell`/`.admin-workspace`/`.admin-panel`/`.ds-card` grid tracks with `minmax(0, 1fr)` and `min-width: 0` for `390px` horizontal table scrolling.
 
 ## Behavioral Privacy & Trust Contract Interface (`/trust/index.html`)
 
@@ -141,7 +142,7 @@ Generated capability obligations: `public-api` is declared for this project. The
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `8524b997a6b303773ca1dd873d37dc26efcf37e14684c1ef08a803a4f06414f3`
+- Repository signal fingerprint: `ff9d13a3ca79a802b6609101652cc6d77683dcc92a5d72786cf6d9f9727817d1`
 - Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (3 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->
