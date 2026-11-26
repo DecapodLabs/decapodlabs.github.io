@@ -39,6 +39,11 @@
       "id": "clack-download-0.10.1",
       "summary": "Host the signed Clack 0.10.1 disk image and checksum.",
       "input_digest": "sha256:933ea6afe527d4646da62a64ff5643a05c8a1206b11d4211ec89385033747b39"
+    },
+    {
+      "id": "clack-download-0.10.1-plan",
+      "summary": "Bind website release plan to code_01m8bp85dmkxnchn.",
+      "input_digest": "sha256:9cfe289cd6b546e727ad733c6be973ed2471fc25e747976e1896d60822107110"
     }
   ],
   "intents": {
@@ -88,10 +93,12 @@
       "state": "APPROVED",
       "stop_conditions": [],
       "title": "Publish Clack 0.10.1 download",
-      "todo_ids": [],
+      "todo_ids": [
+        "code_01m8bp85dmkxnchn"
+      ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1795689135Z"
+      "updated_at": "1795689439Z"
     },
     "trajectory": {
       "active_boundaries": [
