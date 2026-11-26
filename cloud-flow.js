@@ -152,21 +152,44 @@
     return "/admin/?org=" + encodeURIComponent(parsed.slug);
   }
 
+  function isObsoleteBootstrapOrgId(raw) {
+    return typeof raw === "string" && raw.trim().toLowerCase().startsWith("account:");
+  }
+
+  function formatOrganizationDisplayName(org) {
+    if (!org || typeof org !== "object" || Array.isArray(org)) return "";
+    if (typeof org.scm_owner_slug !== "string") return "";
+    var slug = org.scm_owner_slug.trim();
+    if (!slug || isObsoleteBootstrapOrgId(slug) || /^github-org:/i.test(slug) || UUID_PATTERN.test(slug)) {
+      return "";
+    }
+    return slug;
+  }
+
+  function isVerifiedCustomerOrganization(org) {
+    if (!org || typeof org !== "object" || Array.isArray(org)) return false;
+    if (typeof org.id !== "string" || !org.id || org.id.length > 512) return false;
+    if (isObsoleteBootstrapOrgId(org.id)) return false;
+    if (typeof org.cloud_org_id !== "string" || !UUID_PATTERN.test(org.cloud_org_id)) return false;
+    if (isObsoleteBootstrapOrgId(org.cloud_org_id)) return false;
+    if (typeof org.scm_provider !== "string" || !org.scm_provider.trim()) return false;
+    if (!formatOrganizationDisplayName(org)) return false;
+    return true;
+  }
+
   function listAdminOrganizations(organizations) {
     if (!Array.isArray(organizations)) return [];
     var out = [];
     for (var i = 0; i < organizations.length; i++) {
       var item = organizations[i];
-      if (!item || typeof item !== "object" || Array.isArray(item)) continue;
+      if (!isVerifiedCustomerOrganization(item)) continue;
       if (item.admin !== true) continue;
-      if (typeof item.id !== "string" || !item.id || item.id.length > 512) continue;
-      if (typeof item.cloud_org_id !== "string" || !UUID_PATTERN.test(item.cloud_org_id)) continue;
       out.push({
         id: item.id,
         cloud_org_id: item.cloud_org_id.toLowerCase(),
-        scm_provider: typeof item.scm_provider === "string" ? item.scm_provider : null,
+        scm_provider: item.scm_provider.trim(),
         scm_owner_id: typeof item.scm_owner_id === "string" ? item.scm_owner_id : null,
-        scm_owner_slug: typeof item.scm_owner_slug === "string" ? item.scm_owner_slug : null,
+        scm_owner_slug: formatOrganizationDisplayName(item),
         admin: true
       });
     }
@@ -176,6 +199,9 @@
   function resolveAdminOrganization(organizations, requestedOrg) {
     if (!Array.isArray(organizations)) {
       return { status: "denied", reason: "organization_access_denied", org: null };
+    }
+    if (isObsoleteBootstrapOrgId(requestedOrg)) {
+      return { status: "denied", reason: "obsolete_bootstrap_workspace", org: null };
     }
     var parsed = parseOrgSlug(requestedOrg);
     if (!parsed) {
@@ -200,12 +226,14 @@
       return { status: "denied", reason: "ambiguous_organization", org: null };
     }
     var match = matches[0];
+    if (isObsoleteBootstrapOrgId(match.id) || typeof match.scm_provider !== "string" || !match.scm_provider.trim()) {
+      return { status: "denied", reason: "obsolete_bootstrap_workspace", org: null };
+    }
+    if (!isVerifiedCustomerOrganization(match)) {
+      return { status: "denied", reason: "organization_access_denied", org: null };
+    }
     if (match.admin !== true) {
       return { status: "denied", reason: "admin_required", org: null };
-    }
-    if (typeof match.id !== "string" || !match.id || match.id.length > 512 ||
-        typeof match.cloud_org_id !== "string" || !UUID_PATTERN.test(match.cloud_org_id)) {
-      return { status: "denied", reason: "invalid_org_identity", org: null };
     }
     return {
       status: "authorized",
@@ -213,9 +241,9 @@
       org: {
         id: match.id,
         cloud_org_id: match.cloud_org_id.toLowerCase(),
-        scm_provider: typeof match.scm_provider === "string" ? match.scm_provider : null,
+        scm_provider: match.scm_provider.trim(),
         scm_owner_id: typeof match.scm_owner_id === "string" ? match.scm_owner_id : null,
-        scm_owner_slug: typeof match.scm_owner_slug === "string" ? match.scm_owner_slug : null,
+        scm_owner_slug: formatOrganizationDisplayName(match),
         admin: true
       }
     };
@@ -1247,6 +1275,9 @@
     parseAdminRoute: parseAdminRoute,
     isAllowedAdminPathname: isAllowedAdminPathname,
     buildAdminBrowserPath: buildAdminBrowserPath,
+    isObsoleteBootstrapOrgId: isObsoleteBootstrapOrgId,
+    isVerifiedCustomerOrganization: isVerifiedCustomerOrganization,
+    formatOrganizationDisplayName: formatOrganizationDisplayName,
     listAdminOrganizations: listAdminOrganizations,
     resolveAdminOrganization: resolveAdminOrganization,
     sanitizeAdminReturnUrl: sanitizeAdminReturnUrl,

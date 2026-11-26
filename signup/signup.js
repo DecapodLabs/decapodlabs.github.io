@@ -927,8 +927,13 @@
     function findOrgById(orgId) {
       if (!orgId || !accountSnapshot || !Array.isArray(accountSnapshot.organizations)) return null;
       var target = String(orgId).toLowerCase();
+      if (flow.isObsoleteBootstrapOrgId && flow.isObsoleteBootstrapOrgId(target)) return null;
       return accountSnapshot.organizations.find(function (o) {
-        return o && ((typeof o.id === "string" && o.id.toLowerCase() === target) ||
+        if (!o) return false;
+        if (typeof flow.isVerifiedCustomerOrganization === "function" && !flow.isVerifiedCustomerOrganization(o)) {
+          return false;
+        }
+        return ((typeof o.id === "string" && o.id.toLowerCase() === target) ||
           (typeof o.cloud_org_id === "string" && o.cloud_org_id.toLowerCase() === target));
       }) || null;
     }
@@ -938,8 +943,13 @@
         ? accountSnapshot.organizations
         : [];
       var target = String(orgId || "").toLowerCase();
+      if (flow.isObsoleteBootstrapOrgId && flow.isObsoleteBootstrapOrgId(target)) return false;
       return orgs.some(function (o) {
-        return o && o.admin === true && ((typeof o.id === "string" && o.id.toLowerCase() === target) ||
+        if (!o || o.admin !== true) return false;
+        if (typeof flow.isVerifiedCustomerOrganization === "function" && !flow.isVerifiedCustomerOrganization(o)) {
+          return false;
+        }
+        return ((typeof o.id === "string" && o.id.toLowerCase() === target) ||
           (typeof o.cloud_org_id === "string" && o.cloud_org_id.toLowerCase() === target));
       });
     }
@@ -1074,7 +1084,16 @@
       }
       if (adminLink) {
         var orgObj = findOrgById(activeOrganizationId);
-        var orgSlug = (lastReadyMeta.organization_slug) || (orgObj && (orgObj.scm_owner_slug || orgObj.cloud_org_id)) || null;
+        var slugCandidate = (lastReadyMeta && typeof lastReadyMeta.organization_slug === "string")
+          ? lastReadyMeta.organization_slug.trim()
+          : "";
+        if (slugCandidate && ((flow.isObsoleteBootstrapOrgId && flow.isObsoleteBootstrapOrgId(slugCandidate)) || /^github-org:/i.test(slugCandidate))) {
+          slugCandidate = "";
+        }
+        var orgSlug = slugCandidate ||
+          (orgObj && typeof flow.formatOrganizationDisplayName === "function" ? flow.formatOrganizationDisplayName(orgObj) : "") ||
+          (orgObj && orgObj.cloud_org_id) ||
+          null;
         adminLink.href = orgSlug ? ("/admin/?org=" + encodeURIComponent(orgSlug)) : "/admin/";
       }
 
@@ -1574,7 +1593,10 @@
       var orgBadge = byId("alloc-org-badge");
       if (orgBadge) {
         var orgObj = findOrgById(activeOrganizationId);
-        orgBadge.textContent = (orgObj && orgObj.scm_owner_slug) ? ("Org: " + orgObj.scm_owner_slug) : "Single organization order";
+        var orgSlugLabel = orgObj && typeof flow.formatOrganizationDisplayName === "function"
+          ? flow.formatOrganizationDisplayName(orgObj)
+          : "";
+        orgBadge.textContent = orgSlugLabel ? ("Org: " + orgSlugLabel) : "Single organization order";
       }
       var tbody = byId("allocations-tbody");
       var seatCompatInput = byId("seat-quantity");

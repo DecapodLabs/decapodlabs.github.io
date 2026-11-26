@@ -2,7 +2,7 @@
 
 ## Signed Cloud Web Artifact Distribution (`docs/cloud-app-publication.md`, `cloud-app-manifest.json`)
 
-Compiled Decapod Cloud web presentation assets (`cloud-flow.js`, `pricing/*`, `signup/*`, `admin/*`, `404.html`, `shared/commercial-ui.css`, `assets/fonts/*`) are stamped into this repository together with `cloud-app-manifest.json` (`asset_release: 20261126-brand`, `source_revision: ac2124c0`, `source_clean: true`, warm homepage `#fff9f0`/`#17131a`/`#f05b37` tokens paired with Geist typography, and SHA-256 digests). Upstream Propodus PRs #266 and #267 simplify `admin/*` presentation (`#admin-auth-gate`, segmented pill tabs, Overview quick actions, promoted Repository/Team actions, collapsed advanced disclosures, and `grid-template-columns: minmax(0, 1fr); min-width: 0` grid containment on `.admin-shell`, `.admin-workspace`, `.admin-panel`, `.admin-section-group`, and `.ds-card` so `.ds-table-wrap` scrolls horizontally without clipping on `390px` viewports) while preserving homepage `/` and `/clack/` untouched; all public pages pass `scripts/check-site.ts`, `tests/publication_provenance_test.ts`, and `tests/trust_privacy_contract_test.ts`.
+Compiled Decapod Cloud web presentation assets (`cloud-flow.js`, `pricing/*`, `signup/*`, `admin/*`, `404.html`, `shared/commercial-ui.css`, `assets/fonts/*`) are stamped into this repository together with `cloud-app-manifest.json` (`asset_release: 20261126-brand`, `source_revision: 069086c5`, `source_clean: true`, warm homepage `#fff9f0`/`#17131a`/`#f05b37` tokens paired with Geist typography, and SHA-256 digests). Upstream Propodus PRs #266, #267, and #269 enforce verified SCM customer-organization filtering (`isVerifiedCustomerOrganization`, `isObsoleteBootstrapOrgId`, `formatOrganizationDisplayName`) in `cloud-flow.js`, `admin/admin.js`, and `signup/signup.js` while simplifying `admin/*` presentation (`#admin-auth-gate`, segmented pill tabs, Overview quick actions, promoted Repository/Team actions, collapsed advanced disclosures, and `grid-template-columns: minmax(0, 1fr); min-width: 0` grid containment on `.admin-shell`, `.admin-workspace`, `.admin-panel`, `.admin-section-group`, and `.ds-card` so `.ds-table-wrap` scrolls horizontally without clipping on `390px` viewports) and preserving homepage `/` and `/clack/` untouched; all public pages pass `scripts/check-site.ts`, `tests/publication_provenance_test.ts`, and `tests/trust_privacy_contract_test.ts`.
 
 ## Privacy & Trust Contract Surface (`trust/index.html`, `trust/trust.css`, `tests/trust_privacy_contract_test.ts`)
 
@@ -117,7 +117,7 @@ Generated capability obligations: `persistent-state` is declared for this projec
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `ff9d13a3ca79a802b6609101652cc6d77683dcc92a5d72786cf6d9f9727817d1`
+- Repository signal fingerprint: `871a35a2084296c6a904c5f342be516ea4cc4090145576335ac5006ba75835fb`
 - Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (3 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->
