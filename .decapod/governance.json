@@ -47,6 +47,17 @@
         "static-source",
         "verify-directory-publication"
       ]
+    },
+    {
+      "id": "account-bootstrap-portal-cp2",
+      "summary": "Recorded spec reviews on ARCHITECTURE.md and INTERFACES.md for Propodus 069086c5 bundle.",
+      "input_digest": "sha256:a02688e1f1e3d813e068b6ae50566e10e8d6d730dafe3f52c20489c47f591cc9",
+      "proof_refs": [
+        "chrome-verify",
+        "deno-test",
+        "static-source",
+        "verify-directory-publication"
+      ]
     }
   ],
   "intents": {
@@ -88,6 +99,22 @@
         "node /Users/arx/.local/share/propodus-runner-repo/portal/verify-cloud-web-publication.mjs --dir ."
       ],
       "schema_version": "1.1.0",
+      "spec_reviews": [
+        {
+          "disposition": "updated",
+          "path": ".decapod/managed/specs/ARCHITECTURE.md",
+          "reason": "Updated ARCHITECTURE.md for Propodus 069086c5 verified-org filtering in cloud-flow.js, admin.js, and signup.js.",
+          "reviewed_code_fingerprint": "871a35a2084296c6a904c5f342be516ea4cc4090145576335ac5006ba75835fb",
+          "spec_material_hash": "cb6da16e536bfec0811f894b1845d48d0d14abcf4de231fbe5cfcabfc4e6121a"
+        },
+        {
+          "disposition": "updated",
+          "path": ".decapod/managed/specs/INTERFACES.md",
+          "reason": "Updated INTERFACES.md for isVerifiedCustomerOrganization, obsolete_bootstrap_workspace recovery, and clean org selector contract.",
+          "reviewed_code_fingerprint": "871a35a2084296c6a904c5f342be516ea4cc4090145576335ac5006ba75835fb",
+          "spec_material_hash": "4d03a5cdbbbb433c083ca04f798126fa1a6fa3580680edfd11bff46c9380a081"
+        }
+      ],
       "state": "APPROVED",
       "stop_conditions": [],
       "title": "Publish verified-org Admin/Signup bundle (Propodus PR #269)",
@@ -96,7 +123,7 @@
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1795698448Z"
+      "updated_at": "1795698527Z"
     },
     "trajectory": {
       "active_boundaries": [
