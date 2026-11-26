@@ -3,7 +3,7 @@
   "product": "decapod-cloud-web",
   "asset_release": "20261126-brand",
   "contract_version": 1,
-  "source_revision": "e5f85185132b298eb9442a01fb02177cbe587018",
+  "source_revision": "ac2124c01c64a7188776fb8346ed6e24090abab7",
   "source_clean": true,
   "files": {
     "cloud-flow.js": "87b97d194bf9ca76435e546cad3368b67b61ed3186feb0fd24f4af8133484262",
@@ -18,9 +18,9 @@
     "signup/index.html": "0096fabfddccabf1fb3a4217fe7c6fe973f09bf1feb26b0e932daaa486cd0d5a",
     "signup/signup.css": "eb22537bc9b2a47f2ccc2fc3785baa7456302f650d58827a9f4766d817bd23aa",
     "signup/signup.js": "c5d7d6fedf49a9c973cf7100b5dd119dd0c1187f9b5ed5e248c5747a2c6d5cc4",
-    "admin/index.html": "34c911dff87aada18205355b0b7e607edaed2fdd600e03dbc4d129d638edf6df",
-    "admin/admin.css": "95fedad9c27ffba5ed2b32951474bddd42c69cc3cb1407d78d67b00e144e0f14",
-    "admin/admin.js": "1e073ae32aca485d39043f9e86efceeaa2da558703c2dddc905f0f46dca5c104",
+    "admin/index.html": "1c0bedacb93f6bddc96d6d95efca4125396a9fde05be6f7a0a6865b2bd7377e2",
+    "admin/admin.css": "a60aa0ec45a52a07ccbffa170550a358f45cacac9a6ea47e87f8db36a59d7d98",
+    "admin/admin.js": "5201608fef5f286b3229e985ad951c9a77fdce8f1d750170034d8948a4468a58",
     "404.html": "0804fbafd1ad5d02317913cd463261044fe1b5415b196e4b99cf21ef2603ee32"
   }
 }

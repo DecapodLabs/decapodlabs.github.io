@@ -946,13 +946,21 @@
       return new Date(value).toISOString().slice(0, 10);
     }
 
+    function formatProviderName(provider) {
+      var raw = typeof provider === "string" ? provider.trim().toLowerCase() : "";
+      if (!raw || raw === "github") return "GitHub";
+      if (raw === "gitlab") return "GitLab";
+      if (raw === "bitbucket") return "Bitbucket";
+      return raw.charAt(0).toUpperCase() + raw.slice(1);
+    }
+
     function renderOverviewSection() {
       if (!activeOrg) return;
       var slugEl = byId("admin-active-org-slug");
       var provEl = byId("admin-active-org-provider");
       var orthoEl = byId("admin-orthogonality-summary");
       if (slugEl) slugEl.textContent = activeOrg.scm_owner_slug || activeOrg.id;
-      if (provEl) provEl.textContent = activeOrg.scm_provider ? activeOrg.scm_provider.toUpperCase() : "GitHub";
+      if (provEl) provEl.textContent = formatProviderName(activeOrg.scm_provider);
 
       var assignedCount = 0;
       for (var i = 0; i < orgProjects.length; i++) {
@@ -2200,6 +2208,8 @@
       if (signupLink) signupLink.href = addUrl;
       var ovLink = byId("overview-add-repo-link");
       if (ovLink) ovLink.href = addUrl;
+      var qaSignupLink = byId("overview-qa-signup");
+      if (qaSignupLink) qaSignupLink.href = addUrl;
 
       await Promise.all([
         loadBillingSection(ctx),
@@ -2538,6 +2548,13 @@
           if (btn) btn.onclick = function () { selectTab(tabName); };
         })(TAB_NAMES[t]);
       }
+
+      var qaReposBtn = byId("overview-qa-repositories");
+      if (qaReposBtn) qaReposBtn.onclick = function () { selectTab("repositories"); };
+      var qaPeopleBtn = byId("overview-qa-people");
+      if (qaPeopleBtn) qaPeopleBtn.onclick = function () { selectTab("people"); };
+      var qaBillingBtn = byId("overview-qa-billing");
+      if (qaBillingBtn) qaBillingBtn.onclick = function () { selectTab("billing"); };
 
       var proceedModalBtn = byId("admin-confirm-proceed-btn");
       if (proceedModalBtn) proceedModalBtn.onclick = function () { resolveConfirmModal(true); };

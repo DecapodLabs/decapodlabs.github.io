@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "baseline": {
-    "accepted_commit": "4ecc80d1931776ce0a0a318eee1008dec33da869",
+    "accepted_commit": "ee97d9a41ad5cf9354240218422ad230bb5a52a5",
     "unresolved": {
       "claim:clack-download-latest": {
         "falsifier": "The page embeds a release version, either link fails signed out, the checksum or digest disagrees with the source stable build, or a newer published mirror requires editing the page.",
@@ -19,36 +19,42 @@
     }
   },
   "change": {
-    "id": "brand-unification-54",
-    "base_commit": "4ecc80d1931776ce0a0a318eee1008dec33da869",
+    "id": "admin-ux-publish-266",
+    "base_commit": "ee97d9a41ad5cf9354240218422ad230bb5a52a5",
     "target_base": "origin/main"
   },
   "checkpoints": [
     {
-      "id": "brand-unification-54-cp1",
-      "summary": "20261126-brand bundle built from Propodus e5f85185, trust card polished, all static & provenance tests pass.",
-      "input_digest": "sha256:0eb332f6dc62834a340c902698aecc58fb96d44ea43fa0f2f5fdd01f731e564d"
+      "id": "admin-ux-publish-266-cp1",
+      "summary": "Built 20261126-brand Admin UX bundle from Propodus ac2124c0, updated Living Specs, passed check-site, deno test (7/7), directory provenance (16/16), and 42 Chrome screenshots (0 overflows/clipped).",
+      "input_digest": "sha256:87a10ed2e812819cf69aab2c2ee44725cfab90010d61a34cda5b56304c8c0fe7",
+      "proof_refs": [
+        "check-site",
+        "chrome-verify-42",
+        "deno-test",
+        "verify-directory-publication"
+      ]
     }
   ],
   "intents": {
-    "intent:run-website-brand-54": {
+    "intent:run-website-admin-ux-266": {
       "acceptance_criteria": [],
       "assumptions": [],
       "boundaries": [
-        "Keep /, /clack/ untouched and keep internal Propodus secrets/tests out of website repo"
+        "Keep /, /clack/, /pricing/, /signup/, /trust/ untouched and keep internal Propodus secrets/tests out of website repo"
       ],
       "constraints": [
-        "404.html,admin/*,cloud-app-manifest.json,cloud-flow.js,pricing*,shared/*,signup/*,trust/trust.css,tests/publication_provenance_test.ts,.decapod/managed/specs/*"
+        "admin/*,cloud-app-manifest.json,.decapod/managed/specs/*,.decapod/managed/.manifest.json,.decapod/governance.json"
       ],
       "created_sequence": 1,
-      "id": "intent:run-website-brand-54",
+      "id": "intent:run-website-admin-ux-266",
       "instruction_origin": {
         "source_ref": "caller:unverified"
       },
       "out_of_scope": [],
       "proof_requirements": [],
-      "raw_intent": "Publish 20261126-brand bundle and trust card restraint (#54)",
-      "refined_intent": "Build cloud-app-manifest from clean Propodus e5f85185, polish trust.css, verify publication provenance",
+      "raw_intent": "Publish simplified Cloud Admin UI bundle from Propodus PRs #266 & #267",
+      "refined_intent": "Build cloud-app-manifest from Propodus ac2124c0, verify check-site/deno tests/chrome screenshots, update Living Specs & governance",
       "status": "refined",
       "updated_sequence": 3
     }
@@ -61,61 +67,67 @@
       },
       "deferred_questions": [],
       "human_questions": [],
-      "intent": "Emit 20261126-brand commercial assets from accepted Propodus e5f85185 and soften trust/trust.css meta card styling while leaving homepage and clack untouched.",
+      "intent": "Stamp 20261126-brand Cloud web bundle from Propodus ac2124c0 into admin/* and cloud-app-manifest.json while leaving homepage / and /clack/ untouched.",
       "phases": [],
       "proof_hooks": [
-        "static-source"
+        "static-source",
+        "deno-test",
+        "directory-publication"
       ],
       "schema_version": "1.1.0",
       "spec_reviews": [
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/ARCHITECTURE.md",
-          "reason": "Updated for 20261126-brand bundle e5f85185 and trust.css hairline polish.",
-          "reviewed_code_fingerprint": "8524b997a6b303773ca1dd873d37dc26efcf37e14684c1ef08a803a4f06414f3",
-          "spec_material_hash": "28c159fb0fea5e7b8e3ed1f27e4d25ab8b28fad979140c9ff5fd2a8ebc35bc23"
+          "reason": "Documented simplified Organization Admin UI bundle (PR #266/#267) and 390px grid containment at ac2124c0.",
+          "reviewed_code_fingerprint": "ff9d13a3ca79a802b6609101652cc6d77683dcc92a5d72786cf6d9f9727817d1",
+          "spec_material_hash": "197c7dd03983d2aa349b742a0e38c4c7c5011e4f2d5b12264e9357d1926ce46f"
         },
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/INTERFACES.md",
-          "reason": "Updated manifest asset_release to 20261126-brand and source_revision e5f85185.",
-          "reviewed_code_fingerprint": "8524b997a6b303773ca1dd873d37dc26efcf37e14684c1ef08a803a4f06414f3",
-          "spec_material_hash": "b2dfe38315700d40a2b7d1fb64cc3a15871cbc23486c54f57c742d5788951ec5"
+          "reason": "Documented ac2124c0 cloud-app-manifest provenance and admin/* DOM/responsive interface surfaces.",
+          "reviewed_code_fingerprint": "ff9d13a3ca79a802b6609101652cc6d77683dcc92a5d72786cf6d9f9727817d1",
+          "spec_material_hash": "b2a9c6820b666c7e1491515447abb702736e9804818e1b7017b83513f645706f"
         },
         {
           "disposition": "unchanged_with_reason",
           "path": ".decapod/managed/specs/SECURITY.md",
-          "reason": "Static-only presentation bundle preserves inline-script/secret/zero-tracker boundaries.",
-          "reviewed_code_fingerprint": "8524b997a6b303773ca1dd873d37dc26efcf37e14684c1ef08a803a4f06414f3",
+          "reason": "No security boundary changes; bundle compiled cleanly from Propodus ac2124c0 preserving PKCE gate, no-inline-scripts, zero innerHTML/localStorage, and SHA-256 provenance.",
+          "reviewed_code_fingerprint": "ff9d13a3ca79a802b6609101652cc6d77683dcc92a5d72786cf6d9f9727817d1",
           "spec_material_hash": "c90311b3c1ce76e39a1a12441abcc073925ce58f5dfc4c4ede6999dade480914"
         }
       ],
       "state": "APPROVED",
       "stop_conditions": [],
-      "title": "Publish 20261126-brand commercial web bundle and trust card polish (#54)",
+      "title": "Publish simplified Cloud Admin UI bundle (Propodus PR #266 & #267)",
       "todo_ids": [
-        "cicd_01m8bgm6m9a7ptzr"
+        "fend_01m8bkdjj3ez3hgy"
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1795683537Z"
+      "updated_at": "1795687316Z"
     },
     "trajectory": {
       "active_boundaries": [
-        "Keep /, /clack/ untouched and keep internal Propodus secrets/tests out of website repo"
+        "Keep /, /clack/, /pricing/, /signup/, /trust/ untouched and keep internal Propodus secrets/tests out of website repo"
       ],
-      "artifact_hash": "sha256:6536d2028d7bc6d8d8ceba9dfddd18f3da97a2998d54dbf9a42895c6b356fd6c",
+      "artifact_hash": "sha256:fafb214f9bd00f7dedaa7c40a6cf1b626be9ef9d660fd876080390f37639c0d2",
       "checks": [
         {
-          "name": "check_site",
+          "name": "check-site",
           "status": "passed"
         },
         {
-          "name": "deno_website_tests",
+          "name": "chrome-verify-42",
           "status": "passed"
         },
         {
-          "name": "verify_cloud_web_publication",
+          "name": "deno-test",
+          "status": "passed"
+        },
+        {
+          "name": "verify-directory-publication",
           "status": "passed"
         }
       ],
@@ -123,20 +135,20 @@
         "events": [
           {
             "event_id": "event:2",
-            "intent_id": "intent:run-website-brand-54",
+            "intent_id": "intent:run-website-admin-ux-266",
             "kind": "created",
             "sequence": 2
           },
           {
             "event_id": "event:3",
-            "intent_id": "intent:run-website-brand-54",
+            "intent_id": "intent:run-website-admin-ux-266",
             "kind": "refined",
             "sequence": 3
           },
           {
-            "detail": "trajectory:run-website-brand-54",
+            "detail": "trajectory:run-website-admin-ux-266",
             "event_id": "event:4",
-            "intent_id": "intent:run-website-brand-54",
+            "intent_id": "intent:run-website-admin-ux-266",
             "kind": "trajectory_step_recorded",
             "sequence": 4
           }
@@ -145,27 +157,35 @@
         "next_sequence": 4,
         "schema_version": "1.1.0",
         "trajectories": {
-          "run-website-brand-54": {
+          "run-website-admin-ux-266": {
             "evidence_only": true,
-            "id": "run-website-brand-54",
-            "intent_id": "intent:run-website-brand-54",
+            "id": "run-website-admin-ux-266",
+            "intent_id": "intent:run-website-admin-ux-266",
             "steps": [
               {
                 "action": "trajectory.record",
                 "custody_event_id": "event:4",
                 "observations": [
+                  "admin/admin.css",
+                  "admin/index.html",
+                  "shared/commercial-ui.css",
+                  "admin/admin.css",
+                  "admin/admin.js",
+                  "admin/index.html",
                   "cloud-app-manifest.json",
-                  "cloud-app-manifest.json",
-                  "trust/trust.css",
-                  "tests/publication_provenance_test.ts"
+                  ".decapod/managed/specs/INTENT.md",
+                  ".decapod/managed/specs/ARCHITECTURE.md",
+                  ".decapod/managed/specs/INTERFACES.md",
+                  "check-site.ts documents=4 local_assets=105; deno test 7 passed 0 failed; verify-cloud-web-publication 16/16 sha256 verified at ac2124c0; chrome_verify 42 screenshots overflows=[] clipped=[]"
                 ],
                 "proof_refs": [
-                  "check_site",
-                  "deno_website_tests",
-                  "verify_cloud_web_publication"
+                  "check-site",
+                  "deno-test",
+                  "verify-directory-publication",
+                  "chrome-verify-42"
                 ],
                 "scope": [
-                  "404.html,admin/*,cloud-app-manifest.json,cloud-flow.js,pricing*,shared/*,signup/*,trust/trust.css,tests/publication_provenance_test.ts,.decapod/managed/specs/*"
+                  "admin/*,cloud-app-manifest.json,.decapod/managed/specs/*,.decapod/managed/.manifest.json,.decapod/governance.json"
                 ],
                 "sequence": 4,
                 "validation_findings": []
@@ -175,23 +195,31 @@
         }
       },
       "declared_commands": [],
-      "evidence": [],
+      "evidence": [
+        "check-site.ts documents=4 local_assets=105; deno test 7 passed 0 failed; verify-cloud-web-publication 16/16 sha256 verified at ac2124c0; chrome_verify 42 screenshots overflows=[] clipped=[]"
+      ],
       "inspected_files": [
+        "admin/admin.css",
+        "admin/index.html",
+        "shared/commercial-ui.css"
+      ],
+      "intent_id": "intent:run-website-admin-ux-266",
+      "modified_files": [
+        ".decapod/managed/specs/ARCHITECTURE.md",
+        ".decapod/managed/specs/INTENT.md",
+        ".decapod/managed/specs/INTERFACES.md",
+        "admin/admin.css",
+        "admin/admin.js",
+        "admin/index.html",
         "cloud-app-manifest.json"
       ],
-      "intent_id": "intent:run-website-brand-54",
-      "modified_files": [
-        "cloud-app-manifest.json",
-        "tests/publication_provenance_test.ts",
-        "trust/trust.css"
-      ],
       "repo_scope": [
-        "404.html,admin/*,cloud-app-manifest.json,cloud-flow.js,pricing*,shared/*,signup/*,trust/trust.css,tests/publication_provenance_test.ts,.decapod/managed/specs/*"
+        "admin/*,cloud-app-manifest.json,.decapod/managed/specs/*,.decapod/managed/.manifest.json,.decapod/governance.json"
       ],
-      "run_id": "run-website-brand-54",
+      "run_id": "run-website-admin-ux-266",
       "schema_version": "1.1.0",
       "shortcut_risk_signals": [],
-      "task_id": "cicd_01m8bgm6m9a7ptzr",
+      "task_id": "fend_01m8bkdjj3ez3hgy",
       "tool_calls": [],
       "unresolved_assumptions": []
     }
