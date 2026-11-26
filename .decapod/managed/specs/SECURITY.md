@@ -1,5 +1,9 @@
 # Security
 
+## Signed Cloud Bundle Provenance & Secret Boundary (`tests/publication_provenance_test.ts`)
+
+`DecapodLabs/decapodlabs.github.io` receives only compiled/static Cloud web artifacts (`cloud-flow.js`, `signup/*`, `admin/*`, `404.html`, `cloud-app-manifest.json`) stamped from a clean `DecapodLabs/propodus` commit (`971b4fe`), keeping internal billing/auth tests, signing helpers, and backend code out of the public marketing repository. `tests/publication_provenance_test.ts` and `tests/trust_privacy_contract_test.ts` enforce byte-level SHA-256 integrity, zero third-party trackers/cookies, and zero exposed secrets alongside the preserved `UNDER WRAPS` gate.
+
 ## Public Privacy Contract & Zero-Tracker Verification (`tests/trust_privacy_contract_test.ts`)
 
 `tests/trust_privacy_contract_test.ts` enforces that zero third-party analytics, tracking pixels, fingerprinting scripts, or external telemetry beacons exist across all HTML and JS assets in the site, and confirms `trust/index.html` discloses exact product boundaries, Cloudflare Worker relay non-persistence, all nine permanent trust invariants, and GitHub Security Advisories / `/admin` revocation channels without leaking private backend identifiers or altering `UNDER WRAPS` pre-launch commercial gating.
@@ -128,7 +132,7 @@ Generated capability obligations: `public-api` is declared for this project. The
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `9a80a566a672bcc2f324a487b2e08c5a91eff24107b4b3922101389ff1e43469`
-- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (9 files)
+- Repository signal fingerprint: `a4a53b3acac59284b71bd94627308c11dedc4c43e999a2decc1b99d2432e2f6c`
+- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (4 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->

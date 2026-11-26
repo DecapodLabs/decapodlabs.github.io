@@ -9,7 +9,7 @@
   const flow = typeof DecapodCloudFlow !== "undefined" ? DecapodCloudFlow : null;
   if (!repositories || !contributors) return;
 
-  const PRICING_ASSET_RELEASE = "20261124-p3";
+  const PRICING_ASSET_RELEASE = "20261125-commercial";
   const PRICING_META_KEY = "decapod:pricing-meta";
   const ALLOWLISTED_RECOVERY_ERRORS = Object.freeze([
     "stale_quote",
@@ -452,7 +452,8 @@
       const signupUrl = flow.buildSignupHandoffUrl({
         origin: origin,
         repo: validatedRepoSlug,
-        billing: annual ? "year" : "month"
+        billing: annual ? "year" : "month",
+        seats: Number(contributors.value) || 1
       });
 
       const existing = readExistingSession(activeProfile.projectOrigin);
@@ -465,7 +466,7 @@
       const nonce = flow.randomSecret();
       const challenge = await flow.sha256Base64Url(verifier);
       if (skewBlocked || crossTabMismatch) return;
-      const returnUrl = new URL(origin + "/signup");
+      const returnUrl = new URL(signupUrl);
       returnUrl.searchParams.set("login_nonce", nonce);
 
       try {

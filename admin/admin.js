@@ -1,13 +1,14 @@
 (function (root) {
   "use strict";
 
-  var TERMS_VERSION = "v7_2026_11_18";
   var CATEGORY_LABELS = {
     network_transfer: "Network transfer",
     compute_operations: "Compute & operations",
     retained_data: "Retained data",
-    request_pressure: "Request pressure"
+    request_pressure: "Request traffic"
   };
+
+  var TAB_NAMES = ["overview", "repositories", "people", "billing", "usage", "settings"];
 
   function hasCompatibleFlow(candidate) {
     return Boolean(
@@ -58,6 +59,7 @@
     var fetchFn = d.fetch || (typeof fetch !== "undefined" ? fetch.bind(root) : null);
     var navigateFn = d.navigateFn || function (url) { winLocation.assign(url); };
     var nowSec = d.nowSec || function () { return Math.floor(Date.now() / 1000); };
+    var confirmActionFn = typeof d.confirmAction === "function" ? d.confirmAction : null;
 
     var flowOk = hasCompatibleFlow(flow);
     var profile = d.initialProfile ? (isValidProfile(d.initialProfile, flow) ? d.initialProfile : null) : null;
@@ -77,9 +79,13 @@
     var orgProjects = [];
     var projectStates = new Map();
     var lastCapacities = [];
+    var billingStateSnapshot = null;
     var billingReady = false;
     var pendingBillingOrder = null;
+    var orgMembersCache = [];
+    var orgAdminsCache = [];
 
+    var activeTab = "overview";
     var sessionEpoch = 0;
     var renderGeneration = 0;
     var devicesGeneration = 0;
@@ -99,17 +105,19 @@
     var exportedTemplate = null;
     var recoveryRevision = 0;
     var recoveryContact = null;
+    var pendingModalResolve = null;
+
     var coherenceChannel = flowOk
       ? flow.createCoherenceChannel({
           BroadcastChannel: d.broadcastChannel,
           onSkew: function () {
             skewBlocked = true;
             skewReason = "multi_tab_release_skew";
-            handleExpiredOrRevokedSession("A newer release of Decapod Cloud is active in another tab. Reload this page to continue safely.", false);
+            handleExpiredOrRevokedSession("A newer release of Decapod Cloud is active in another tab. Reload to continue safely.", false);
           },
           onAuthInvalidated: function (msg) {
             if (msg && msg.projectOrigin && profile && msg.projectOrigin !== profile.projectOrigin) return;
-            handleExpiredOrRevokedSession("Signed out in another tab. Authenticate again to administer organizations.", false);
+            handleExpiredOrRevokedSession("Signed out in another tab. Authenticate again to continue.", false);
           }
         })
       : { announceReady: function () {}, broadcastAuthInvalidated: function () {}, close: function () {} };
@@ -154,8 +162,15 @@
     function setStatus(text, isError) {
       var el = byId("admin-status");
       if (!el) return;
+      if (!text) {
+        el.textContent = "";
+        el.hidden = true;
+        el.classList.remove("is-error");
+        return;
+      }
       el.textContent = text;
       el.classList.toggle("is-error", Boolean(isError));
+      el.hidden = false;
     }
 
     function setBanner(kind, title, note) {
@@ -171,7 +186,7 @@
       }
       banner.classList.toggle("is-invalid", kind === "invalid");
       titleEl.textContent = title;
-      noteEl.textContent = note;
+      noteEl.textContent = note || "";
       banner.hidden = false;
     }
 
@@ -184,7 +199,7 @@
     function formatSupportRef(err, fallbackId) {
       var ref = (err && typeof err.correlationId === "string" && err.correlationId) ||
         (typeof fallbackId === "string" && fallbackId ? fallbackId : null);
-      return ref ? "Support ref: " + ref : "";
+      return ref ? "Ref: " + ref : "";
     }
 
     function createAbortError() {
@@ -284,12 +299,58 @@
       );
     }
 
+    function resolveConfirmModal(accepted) {
+      var modal = byId("admin-confirm-modal");
+      if (modal) modal.hidden = true;
+      var resolver = pendingModalResolve;
+      pendingModalResolve = null;
+      if (typeof resolver === "function") resolver(Boolean(accepted));
+    }
+
+    function requestConfirm(title, message) {
+      if (confirmActionFn) {
+        return Promise.resolve(confirmActionFn(title, message));
+      }
+      var modal = byId("admin-confirm-modal");
+      var titleEl = byId("admin-confirm-title");
+      var msgEl = byId("admin-confirm-message");
+      if (!modal || !titleEl || !msgEl) return Promise.resolve(true);
+      if (pendingModalResolve) resolveConfirmModal(false);
+      titleEl.textContent = title;
+      msgEl.textContent = message;
+      modal.hidden = false;
+      return new Promise(function (resolve) {
+        pendingModalResolve = resolve;
+      });
+    }
+
+    function selectTab(name) {
+      if (!TAB_NAMES.includes(name)) return;
+      activeTab = name;
+      for (var i = 0; i < TAB_NAMES.length; i++) {
+        var tab = TAB_NAMES[i];
+        var isCurrent = tab === name;
+        var btn = byId("tab-btn-" + tab);
+        var panel = byId("tab-panel-" + tab);
+        if (btn) {
+          btn.classList.toggle("is-active", isCurrent);
+          if (typeof btn.setAttribute === "function") {
+            btn.setAttribute("aria-selected", isCurrent ? "true" : "false");
+          }
+        }
+        if (panel) panel.hidden = !isCurrent;
+      }
+    }
+
     function clearWorkspaceUi() {
       orgProjects = [];
       projectStates = new Map();
       lastCapacities = [];
+      billingStateSnapshot = null;
       billingReady = false;
       pendingBillingOrder = null;
+      orgMembersCache = [];
+      orgAdminsCache = [];
       memberCursor = null;
       billingMemberCursor = null;
       invitationCursor = null;
@@ -301,98 +362,107 @@
       exportedTemplate = null;
       recoveryRevision = 0;
       recoveryContact = null;
+      resolveConfirmModal(false);
 
       var clearTextIds = [
-        "admin-active-org-uuid", "admin-active-org-slug", "admin-active-org-provider",
-        "admin-orthogonality-summary", "admin-route-mode-note", "admin-enroll-status",
-        "admin-project-settings-status", "admin-seat-assign-status", "admin-members-status",
-        "admin-invitations-status", "admin-delegation-meta", "admin-delegation-status",
-        "admin-template-status", "admin-overage-status",
-        "admin-overage-receipt", "admin-overage-save-status", "admin-limit-save-status",
-        "admin-billing-status", "admin-pending-order-summary", "admin-billing-detail",
-        "admin-devices-status", "admin-recovery-contact-summary", "admin-recovery-status"
+        "admin-active-org-slug", "admin-active-org-provider", "admin-orthogonality-summary",
+        "admin-enroll-status", "admin-project-settings-status", "admin-seat-assign-status",
+        "admin-members-status", "admin-invitations-status", "admin-delegation-meta",
+        "admin-delegation-status", "admin-template-status", "admin-overage-receipt",
+        "admin-overage-save-status", "admin-limit-save-status", "admin-billing-detail",
+        "admin-devices-status", "admin-recovery-status"
       ];
       for (var i = 0; i < clearTextIds.length; i++) {
-        var tEl = byId(clearTextIds[i]);
-        if (tEl) tEl.textContent = "";
+        var el = byId(clearTextIds[i]);
+        if (el) el.textContent = "";
+      }
+      var clearValueIds = [
+        "admin-enroll-repo-input", "admin-invite-github-input", "admin-invite-recipient",
+        "admin-delegate-member-select", "admin-recovery-contact-select", "admin-assign-member-select",
+        "admin-settings-project-name", "admin-limit-cap"
+      ];
+      for (var v = 0; v < clearValueIds.length; v++) {
+        var valEl = byId(clearValueIds[v]);
+        if (valEl) valEl.value = "";
       }
 
-      var clearListIds = [
-        "admin-repos-list", "admin-members-list", "admin-invitations-list",
-        "admin-delegation-list", "admin-delegation-invites-list", "admin-template-audit-list",
-        "admin-template-source-project", "admin-template-target-org",
-        "admin-overage-ledger-list", "admin-resource-cards",
-        "admin-resource-alerts", "admin-devices-list",
-        "admin-settings-project-select", "admin-assign-project-select",
-        "admin-assign-member-select", "admin-limit-metric"
+      var listIds = [
+        "admin-repos-list", "admin-overview-alerts", "admin-members-list",
+        "admin-invitations-list", "admin-delegation-list", "admin-delegation-invites-list",
+        "admin-template-audit-list", "admin-resource-cards", "admin-resource-alerts",
+        "admin-devices-list", "admin-assign-project-select", "admin-assign-member-select",
+        "admin-delegate-member-select", "admin-recovery-contact-select",
+        "admin-settings-project-select", "admin-template-source-project",
+        "admin-template-target-org", "admin-limit-metric"
       ];
-      for (var j = 0; j < clearListIds.length; j++) {
-        var lEl = byId(clearListIds[j]);
-        if (lEl) lEl.replaceChildren();
+      for (var j = 0; j < listIds.length; j++) {
+        var listEl = byId(listIds[j]);
+        if (listEl && typeof listEl.replaceChildren === "function") {
+          listEl.replaceChildren();
+        }
       }
 
-      var clearInputIds = [
-        "admin-enroll-repo-input", "admin-settings-project-name", "admin-invite-recipient",
-        "admin-delegate-account", "admin-template-target-project", "admin-recovery-contact-input",
-        "admin-overage-cap-usd", "admin-limit-cap"
+      var resetIds = [
+        "admin-enroll-repo-input", "admin-settings-project-name", "admin-invite-github-input",
+        "admin-invite-recipient", "admin-template-target-project", "admin-invitation-link",
+        "admin-limit-cap"
       ];
-      for (var ii = 0; ii < clearInputIds.length; ii++) {
-        var inp = byId(clearInputIds[ii]);
+      for (var k = 0; k < resetIds.length; k++) {
+        var inp = byId(resetIds[k]);
         if (inp) inp.value = "";
       }
-      var termsCheck = byId("admin-overage-terms-check");
-      if (termsCheck) termsCheck.checked = false;
 
-      var invBox = byId("admin-invitation-copy-box");
-      if (invBox) invBox.hidden = true;
-      var invLink = byId("admin-invitation-link");
-      if (invLink) invLink.value = "";
+      var copyBox = byId("admin-invitation-copy-box");
+      if (copyBox) copyBox.hidden = true;
       var pendingOrderBox = byId("admin-pending-order-box");
       if (pendingOrderBox) pendingOrderBox.hidden = true;
-      var reposEmpty = byId("admin-repos-empty");
-      if (reposEmpty) reposEmpty.hidden = true;
-      var workspace = byId("admin-workspace");
-      if (workspace) workspace.hidden = true;
+      var revokeWrap = byId("admin-overage-revoke-wrap");
+      if (revokeWrap) revokeWrap.hidden = true;
+      var billingMeta = byId("admin-billing-meta-list");
+      if (billingMeta) billingMeta.hidden = true;
     }
 
     function hideAllProtectedPanels() {
-      var ids = [
-        "admin-account-bar", "admin-identity-panel",
-        "admin-denied-panel", "admin-workspace"
-      ];
+      var ids = ["admin-account-bar", "admin-identity-panel", "admin-denied-panel", "admin-workspace"];
       for (var i = 0; i < ids.length; i++) {
         var el = byId(ids[i]);
         if (el) el.hidden = true;
       }
-      clearWorkspaceUi();
+      resolveConfirmModal(false);
     }
 
-    function clearAllSessionState(bumpEpoch) {
-      if (bumpEpoch) {
-        sessionEpoch++;
-        abortAllInFlight();
-      }
+    function clearAllSessionState(keepBanner) {
+      sessionEpoch++;
       renderGeneration++;
       devicesGeneration++;
+      abortAllInFlight();
       busy = false;
       pendingActions.clear();
-      activeOrg = null;
-      adminOrgs = [];
-      currentUser = null;
-      accountSnapshot = null;
       inMemoryProviderToken = null;
       pendingStepupProvider = null;
-      enrollRequestId = null;
-      enrollRepoSlug = null;
+      currentUser = null;
+      accountSnapshot = null;
+      activeOrg = null;
+      adminOrgs = [];
+      clearWorkspaceUi();
       hideAllProtectedPanels();
       var summary = byId("admin-account-summary");
       if (summary) summary.textContent = "";
-      var orgSelect = byId("admin-org-select");
-      if (orgSelect) orgSelect.replaceChildren();
-      var orgBadge = byId("admin-org-uuid-badge");
-      if (orgBadge) orgBadge.textContent = "";
       var switcherWrap = byId("admin-org-switcher-wrap");
       if (switcherWrap) switcherWrap.hidden = true;
+      if (!keepBanner) setBanner(null);
+    }
+
+    function handleExpiredOrRevokedSession(message, broadcast) {
+      storeRemove("flow");
+      storeRemove("session");
+      session = null;
+      clearAllSessionState(false);
+      syncAuthGateUi();
+      if (broadcast && flowOk && profile) {
+        coherenceChannel.broadcastAuthInvalidated(profile.projectOrigin);
+      }
+      setStatus(message || "Your session expired. Sign in again to continue.", true);
     }
 
     function syncAuthGateUi() {
@@ -402,191 +472,124 @@
         profile &&
         flow.validateSessionRecord(session, profile.projectOrigin, nowSec())
       );
-      var authGate = byId("admin-auth-gate");
-      if (authGate) authGate.hidden = signedIn;
+      var gate = byId("admin-auth-gate");
+      if (gate) gate.hidden = signedIn;
       var cancelBtn = byId("admin-cancel-auth-btn");
       if (cancelBtn) cancelBtn.hidden = skewBlocked || !storeGet("flow", 8192);
       if (!signedIn) {
-        clearAllSessionState(false);
+        hideAllProtectedPanels();
       }
       var providers = profile ? profile.authProviders : { github: true, google: false };
       var ghBtn = byId("admin-auth-github");
       var googleBtn = byId("admin-auth-google");
-      if (ghBtn) ghBtn.disabled = skewBlocked || busy || !providers.github;
-      if (googleBtn) googleBtn.disabled = skewBlocked || busy || !providers.google;
+      if (ghBtn) {
+        ghBtn.hidden = providers.github !== true;
+        ghBtn.disabled = skewBlocked || busy || providers.github !== true;
+      }
+      if (googleBtn) {
+        googleBtn.hidden = providers.google !== true;
+        googleBtn.disabled = skewBlocked || busy || providers.google !== true;
+      }
       var noteEl = byId("admin-auth-provider-note");
       if (noteEl) {
-        if (skewBlocked) {
-          noteEl.textContent = "Client asset version skew detected. Reload the page before signing in.";
-        } else {
-          var disabled = [];
-          if (!providers.github) disabled.push("GitHub");
-          if (!providers.google) disabled.push("Google");
-          noteEl.textContent = disabled.length
-            ? "Currently disabled on this deployment: " + disabled.join(", ") + "."
-            : "Sign in with GitHub or Google via PKCE.";
-        }
+        noteEl.textContent = skewBlocked
+          ? "A newer version is available. Reload this page before signing in."
+          : "";
       }
     }
 
-    async function boundedJson(response, maxBytes) {
-      var limit = maxBytes || 65536;
-      if (!response.body || typeof response.body.getReader !== "function") {
-        return await response.json();
-      }
-      var reader = response.body.getReader();
-      var chunks = [];
-      var total = 0;
-      try {
-        while (true) {
-          var step = await reader.read();
-          if (step.done) break;
-          total += step.value.length;
-          if (total > limit) throw new Error("payload_too_large");
-          chunks.push(step.value);
-        }
-      } finally {
-        if (typeof reader.cancel === "function") await reader.cancel().catch(function () {});
-      }
-      var buf = new Uint8Array(total);
-      var offset = 0;
-      for (var i = 0; i < chunks.length; i++) {
-        buf.set(chunks[i], offset);
-        offset += chunks[i].length;
-      }
-      var text = new TextDecoder("utf-8", { fatal: true }).decode(buf);
-      try {
-        return JSON.parse(text);
-      } catch (_) {
-        if (!response.ok) {
-          if (response.status === 429) return { error: { code: "rate_limited" } };
-          if (response.status === 403) return { error: { code: "forbidden" } };
-          return { error: { code: "service_unavailable" } };
-        }
-        throw new Error("invalid_response");
-      }
+    function orgReqOpts(ctx) {
+      return {
+        sessionEpoch: ctx ? ctx.sessionEpoch : sessionEpoch,
+        signal: ctx && ctx.signal ? ctx.signal : (orgAbortController ? orgAbortController.signal : null)
+      };
     }
 
     async function apiRequest(url, body, bearer, method, reqOptions) {
-      if (skewBlocked || !flowOk) throw new Error("client_version_skew");
-      if (!profile || !isValidProfile(profile, flow)) throw new Error("service_unavailable");
       var opts = reqOptions || {};
-      var expectedSessionEpoch = typeof opts.sessionEpoch === "number" ? opts.sessionEpoch : sessionEpoch;
-      var parentSignal = opts.signal || (sessionAbortController ? sessionAbortController.signal : null);
-      if ((parentSignal && parentSignal.aborted) || expectedSessionEpoch !== sessionEpoch) {
-        throw createAbortError();
-      }
-      var parsed = new URL(url);
-      if (!flow.isTrustedApiOrigin(parsed.origin)) throw new Error("untrusted_api_origin");
+      var mySessionEpoch = typeof opts.sessionEpoch === "number" ? opts.sessionEpoch : sessionEpoch;
+      var linked = createLinkedSignal(12000, opts.signal || null);
       var headers = { apikey: profile.publishableKey };
-      if (body !== undefined) headers["Content-Type"] = "application/json";
       if (bearer) headers.Authorization = "Bearer " + bearer;
-      var fallbackCorr = (body && typeof body.request_id === "string" && body.request_id) ? body.request_id : makeRequestId();
-      var linked = createLinkedSignal(15000, parentSignal);
-      var response;
+      if (body !== undefined) headers["Content-Type"] = "application/json";
+      var res;
       try {
-        response = await fetchFn(url, {
-          method: method || (body === undefined ? "GET" : "POST"),
-          redirect: "error",
+        res = await fetchFn(url, {
+          method: method || (body !== undefined ? "POST" : "GET"),
+          headers: headers,
+          body: body !== undefined ? JSON.stringify(body) : undefined,
           credentials: "omit",
           cache: "no-store",
-          signal: linked.signal || undefined,
-          headers: headers,
-          body: body === undefined ? undefined : JSON.stringify(body)
+          redirect: "error",
+          signal: linked.signal
         });
-      } catch (netErr) {
-        if ((parentSignal && parentSignal.aborted) || expectedSessionEpoch !== sessionEpoch) {
-          throw createAbortError();
-        }
-        var isTimeout = Boolean(netErr && (netErr.name === "TimeoutError" || netErr.name === "AbortError"));
-        var wrappedNet = new Error(isTimeout ? "request_timeout" : "service_unavailable");
-        wrappedNet.status = isTimeout ? 504 : 503;
-        wrappedNet.correlationId = typeof flow.extractCorrelationRef === "function"
-          ? flow.extractCorrelationRef(null, null, fallbackCorr)
-          : fallbackCorr;
-        throw wrappedNet;
-      } finally {
+      } catch (fetchErr) {
         linked.cleanup();
+        if (fetchErr && fetchErr.name === "AbortError") throw createAbortError();
+        var netErr = new Error("service_unavailable");
+        netErr.status = 503;
+        throw netErr;
       }
-      if ((parentSignal && parentSignal.aborted) || expectedSessionEpoch !== sessionEpoch) {
-        if (response && response.body && typeof response.body.cancel === "function") {
-          await response.body.cancel().catch(function () {});
-        }
+      linked.cleanup();
+      if (mySessionEpoch !== sessionEpoch || (opts.signal && opts.signal.aborted)) {
         throw createAbortError();
       }
-      var contractHeader = response.headers && typeof response.headers.get === "function"
-        ? response.headers.get("decapod-cloud-contract-version")
+      if (!res.ok) {
+        var errBody = await res.json().catch(function () { return {}; });
+        var code = (errBody.error && errBody.error.code) || errBody.error_code || errBody.msg || ("http_" + res.status);
+        var e = new Error(code);
+        e.status = res.status;
+        e.correlationId = flow.extractCorrelationRef(res, errBody, body && body.request_id ? body.request_id : null);
+        if (res.status === 429) {
+          var retrySec = flow.parseRetryAfterSeconds(res.headers && res.headers.get ? res.headers.get("retry-after") : null);
+          if (retrySec) {
+            e.retryAfterSec = retrySec;
+            e.retryAfterMs = retrySec * 1000;
+          }
+        }
+        throw e;
+      }
+      var resVersion = res.headers && typeof res.headers.get === "function"
+        ? res.headers.get("decapod-cloud-contract-version")
         : null;
-      if (!flow.isSupportedApiContractVersion(contractHeader)) {
-        if (response.body && typeof response.body.cancel === "function") await response.body.cancel().catch(function () {});
+      if (!flow.isSupportedApiContractVersion(resVersion)) {
         skewBlocked = true;
         skewReason = "api_contract_mismatch";
-        handleExpiredOrRevokedSession("API contract version mismatch. Reload this page to continue safely.", false);
         throw new Error("contract_version_mismatch");
       }
-      var data = await boundedJson(response);
-      if ((parentSignal && parentSignal.aborted) || expectedSessionEpoch !== sessionEpoch) {
-        throw createAbortError();
-      }
-      if (data && typeof data === "object" && !Array.isArray(data) &&
-          data.version !== undefined && data.version !== flow.CONTRACT_VERSION) {
+      var parsed = await res.json();
+      if (parsed && typeof parsed === "object" && !Array.isArray(parsed) &&
+          !flow.isSupportedApiContractVersion(parsed.contract_version)) {
         skewBlocked = true;
-        skewReason = "api_payload_version_mismatch";
-        handleExpiredOrRevokedSession("API payload version mismatch. Reload this page to continue safely.", false);
+        skewReason = "api_contract_payload_mismatch";
         throw new Error("contract_version_mismatch");
       }
-      if (!response.ok) {
-        var errCode = data && ((data.error && data.error.code) || data.error_code || data.code) ||
-          (response.status === 429 ? "rate_limited" : response.status === 403 ? "forbidden" : response.status >= 500 ? "service_unavailable" : "request_failed");
-        if ((response.status === 401 || errCode === "invalid_token") && expectedSessionEpoch === sessionEpoch) {
-          handleExpiredOrRevokedSession(null, true);
-        }
-        var retryAfterSec = typeof flow.parseRetryAfterSeconds === "function"
-          ? flow.parseRetryAfterSeconds(response.headers && typeof response.headers.get === "function" ? response.headers.get("retry-after") : null)
-          : null;
-        var err = new Error(errCode);
-        err.status = response.status;
-        err.payload = data;
-        err.correlationId = typeof flow.extractCorrelationRef === "function"
-          ? flow.extractCorrelationRef(response, data, fallbackCorr)
-          : fallbackCorr;
-        if (retryAfterSec !== null) {
-          err.retryAfterSec = retryAfterSec;
-          err.retryAfterMs = retryAfterSec * 1000;
-        }
-        throw err;
-      }
-      return data;
-    }
-
-    function handleExpiredOrRevokedSession(customStatus, broadcast) {
-      session = null;
-      storeRemove("session");
-      storeRemove("flow");
-      clearAllSessionState(true);
-      syncAuthGateUi();
-      if (broadcast !== false && flowOk && profile) {
-        coherenceChannel.broadcastAuthInvalidated(profile.projectOrigin);
-      }
-      setStatus(customStatus || "Your session expired or was revoked. Authenticate again to administer organizations.", true);
+      return parsed;
     }
 
     function handleOrgAccessRevoked(ctx, errorCode) {
-      if (!ctx || ctx.sessionEpoch !== sessionEpoch) return;
-      adminOrgs = adminOrgs.filter(function (o) { return o.cloud_org_id !== ctx.cloudOrgId; });
+      if (!ctx || ctx.sessionEpoch !== sessionEpoch || !activeOrg || ctx.cloudOrgId !== activeOrg.cloud_org_id) {
+        return;
+      }
+      pendingActions.delete(ctx.cloudOrgId);
       if (orgAbortController) {
         try { orgAbortController.abort(); } catch (_) {}
-        orgAbortController = null;
       }
+      adminOrgs = adminOrgs.filter(function (o) {
+        return o.cloud_org_id !== ctx.cloudOrgId;
+      });
+      activeOrg = null;
       devicesGeneration++;
+      clearWorkspaceUi();
+      renderAccountBar();
       showDeniedPanel(
-        "ADMIN REVOKED",
+        "Access restricted",
         "Administrator authorization required",
-        "Your administrator grant for this organization is no longer active.",
-        "Refresh or contact an existing organization administrator.",
+        "You do not hold an active administrator role for this organization.",
+        "Contact an existing administrator or switch to another organization you manage.",
         adminOrgs.length > 0
       );
-      setStatus("Administrator grant revoked or unavailable (" + (errorCode || "admin_required") + ").", true);
+      setStatus("Administrator permission required for this organization.", true);
     }
 
     function requireToken() {
@@ -597,22 +600,40 @@
     }
 
     async function edgePost(action, body, reqOptions) {
+      var opts = reqOptions || {};
+      var mySessionEpoch = typeof opts.sessionEpoch === "number" ? opts.sessionEpoch : sessionEpoch;
       var bearer = requireToken();
-      return await apiRequest(
-        profile.onboardingPrefix + "/" + action,
-        Object.assign({ version: 1 }, body || {}),
-        bearer,
-        "POST",
-        reqOptions
-      );
+      try {
+        return await apiRequest(
+          profile.apiOrigin + flow.CANONICAL_ONBOARDING_PREFIX + "/" + action,
+          Object.assign({ version: 1 }, body || {}),
+          bearer,
+          "POST",
+          opts
+        );
+      } catch (err) {
+        if (err && err.status === 401 && mySessionEpoch === sessionEpoch && session) {
+          handleExpiredOrRevokedSession("Your session expired. Sign in again to continue.", true);
+        }
+        throw err;
+      }
     }
 
     async function fetchUser(bearer, reqOptions) {
-      var u = await apiRequest(profile.projectOrigin + "/auth/v1/user", undefined, bearer, "GET", reqOptions);
-      if (!u || !flow.UUID_PATTERN.test(u.id || "") || !Array.isArray(u.identities) || u.identities.length > 100) {
-        throw new Error("invalid_response");
+      var opts = reqOptions || {};
+      var mySessionEpoch = typeof opts.sessionEpoch === "number" ? opts.sessionEpoch : sessionEpoch;
+      try {
+        var u = await apiRequest(profile.projectOrigin + "/auth/v1/user", undefined, bearer, "GET", opts);
+        if (!u || !flow.UUID_PATTERN.test(u.id || "") || !Array.isArray(u.identities) || u.identities.length > 100) {
+          throw new Error("invalid_response");
+        }
+        return u;
+      } catch (err) {
+        if (err && err.status === 401 && mySessionEpoch === sessionEpoch && session) {
+          handleExpiredOrRevokedSession("Your session expired. Sign in again to continue.", true);
+        }
+        throw err;
       }
-      return u;
     }
 
     async function beginAuth(provider, kind, repoVerification) {
@@ -719,27 +740,102 @@
       }
     }
 
+    function extractGitHubHandle(user) {
+      if (!user || typeof user !== "object") return "GitHub verified";
+      if (user.user_metadata && typeof user.user_metadata.user_name === "string" && user.user_metadata.user_name.trim()) {
+        return "@" + user.user_metadata.user_name.trim();
+      }
+      if (Array.isArray(user.identities)) {
+        for (var i = 0; i < user.identities.length; i++) {
+          var ident = user.identities[i];
+          if (ident && ident.provider === "github" && ident.identity_data) {
+            var uname = ident.identity_data.user_name || ident.identity_data.preferred_username;
+            if (typeof uname === "string" && uname.trim()) return "@" + uname.trim();
+          }
+        }
+      }
+      return flow.hasVerifiedProvider(user, "github") ? "GitHub verified" : "Signed in";
+    }
+
+    function memberDisplayName(entry) {
+      if (!entry) return "Member";
+      if (currentUser && entry.account_id === currentUser.id) {
+        return extractGitHubHandle(currentUser) + " (You · " + (entry.role || "member") + ")";
+      }
+      var hosts = Array.isArray(entry.providers) && entry.providers.length
+        ? entry.providers.map(function (p) { return p === "github" ? "GitHub" : p; }).join(", ")
+        : "unlinked";
+      var slotNum = Number.isSafeInteger(entry.slot) ? entry.slot : "?";
+      var roleLabel = entry.role ? (" · " + entry.role) : "";
+      return "Member #" + slotNum + roleLabel + " · " + hosts;
+    }
+
+    function populateMemberSelectors() {
+      var delegateSel = byId("admin-delegate-member-select");
+      var recoverySel = byId("admin-recovery-contact-select");
+      var list = orgMembersCache.slice();
+      if (delegateSel) {
+        var prevDel = delegateSel.value;
+        delegateSel.replaceChildren();
+        if (!list.length) {
+          var dEmpty = doc.createElement("option");
+          dEmpty.value = "";
+          dEmpty.textContent = "No eligible members yet";
+          delegateSel.appendChild(dEmpty);
+        } else {
+          for (var i = 0; i < list.length; i++) {
+            var dOpt = doc.createElement("option");
+            dOpt.value = list[i].account_id;
+            dOpt.textContent = memberDisplayName(list[i]);
+            delegateSel.appendChild(dOpt);
+          }
+          if (list.some(function (m) { return m.account_id === prevDel; })) delegateSel.value = prevDel;
+        }
+      }
+      if (recoverySel) {
+        var prevRec = recoverySel.value;
+        recoverySel.replaceChildren();
+        if (!list.length) {
+          var rEmpty = doc.createElement("option");
+          rEmpty.value = "";
+          rEmpty.textContent = "No members available";
+          recoverySel.appendChild(rEmpty);
+        } else {
+          for (var j = 0; j < list.length; j++) {
+            var rOpt = doc.createElement("option");
+            rOpt.value = list[j].account_id;
+            rOpt.textContent = memberDisplayName(list[j]);
+            recoverySel.appendChild(rOpt);
+          }
+          if (recoveryContact && list.some(function (m) { return m.account_id === recoveryContact; })) {
+            recoverySel.value = recoveryContact;
+          } else if (list.some(function (m) { return m.account_id === prevRec; })) {
+            recoverySel.value = prevRec;
+          }
+        }
+      }
+    }
+
     function renderAccountBar() {
       var bar = byId("admin-account-bar");
+      var heading = byId("admin-heading");
       var summary = byId("admin-account-summary");
       var switcherWrap = byId("admin-org-switcher-wrap");
       var orgSelect = byId("admin-org-select");
-      var badge = byId("admin-org-uuid-badge");
       if (!bar || !summary || !currentUser) return;
-      var providers = flow.listVerifiedProviders(currentUser).map(function (p) {
-        return p === "github" ? "GitHub" : p === "google" ? "Google" : p;
-      });
-      summary.textContent = "Account " + currentUser.id +
-        (providers.length ? " · Linked: " + providers.join(", ") : " · No code host linked");
-
+      summary.textContent = extractGitHubHandle(currentUser);
+      if (heading) {
+        heading.textContent = activeOrg
+          ? (activeOrg.scm_owner_slug || activeOrg.id)
+          : "Organizations";
+      }
       if (orgSelect) {
         orgSelect.replaceChildren();
         for (var i = 0; i < adminOrgs.length; i++) {
           var orgItem = adminOrgs[i];
           var opt = doc.createElement("option");
           opt.value = orgItem.cloud_org_id;
-          var labelSlug = orgItem.scm_owner_slug || orgItem.id;
-          opt.textContent = labelSlug + " (" + orgItem.cloud_org_id.slice(0, 8) + "…)";
+          opt.textContent = orgItem.scm_owner_slug || orgItem.id;
           orgSelect.appendChild(opt);
         }
         if (activeOrg && adminOrgs.some(function (o) { return o.cloud_org_id === activeOrg.cloud_org_id; })) {
@@ -747,10 +843,7 @@
         }
       }
       if (switcherWrap) {
-        switcherWrap.hidden = adminOrgs.length === 0;
-      }
-      if (badge) {
-        badge.textContent = activeOrg ? ("Org UUID: " + activeOrg.cloud_org_id) : "";
+        switcherWrap.hidden = adminOrgs.length <= 1;
       }
       bar.hidden = false;
     }
@@ -766,19 +859,17 @@
       if (!panel) return;
       if (mode === "quarantine") {
         pendingStepupProvider = pendingProvider || null;
-        heading.textContent = "Confirm attached sign-in provider";
-        msg.textContent = "An unconfirmed provider attachment (" + (pendingStepupProvider || "provider") +
-          ") requires explicit confirmation or revocation before organization administration continues.";
+        heading.textContent = "Confirm your sign-in method";
+        msg.textContent = "An additional sign-in method (" + (pendingStepupProvider || "provider") +
+          ") requires confirmation or removal before organization settings open.";
         if (linkActions) linkActions.hidden = true;
         if (qActions) qActions.hidden = false;
-        setStatus("Step-up verification required before entering organization administration.", true);
       } else {
         pendingStepupProvider = null;
-        heading.textContent = "Link your GitHub identity";
-        msg.textContent = "A verified GitHub identity is required for organization administration actions.";
+        heading.textContent = "Link your GitHub account";
+        msg.textContent = "Connect a verified GitHub account to administer your Decapod Cloud organization.";
         if (linkActions) linkActions.hidden = false;
         if (qActions) qActions.hidden = true;
-        setStatus("Link a verified GitHub account to access organization administration.", false);
       }
       panel.hidden = false;
     }
@@ -815,8 +906,23 @@
       return "$" + (Number(cents || 0) / 100).toFixed(2);
     }
 
+    function resolveProjectLabel(projectId) {
+      var target = typeof projectId === "string" ? projectId.trim() : "";
+      if (!target) return "";
+      var lower = target.toLowerCase();
+      for (var i = 0; i < orgProjects.length; i++) {
+        var proj = orgProjects[i];
+        if (!proj) continue;
+        if ((typeof proj.project_id === "string" && proj.project_id.toLowerCase() === lower) ||
+            (typeof proj.name === "string" && proj.name.toLowerCase() === lower)) {
+          return (typeof proj.name === "string" && proj.name.trim()) ? proj.name.trim() : target;
+        }
+      }
+      return target;
+    }
+
     function formatMetricValue(val, unit) {
-      if (val === null || val === undefined) return "Default ceiling";
+      if (val === null || val === undefined) return "Included limit";
       if (unit === "bytes") {
         if (val >= 1099511627776) return (val / 1099511627776).toFixed(2) + " TiB";
         if (val >= 1073741824) return (val / 1073741824).toFixed(2) + " GiB";
@@ -824,26 +930,27 @@
         if (val >= 1024) return (val / 1024).toFixed(2) + " KiB";
         return val + " B";
       }
-      return String(val) + (unit ? " " + unit : "");
+      var numStr = Number.isFinite(Number(val)) ? Number(val).toLocaleString("en-US") : String(val);
+      if (unit === "requests_per_minute") return numStr + " req/min";
+      if (unit === "concurrent_requests") return numStr + " concurrent";
+      if (unit === "operations") return numStr + " ops";
+      return numStr + (unit ? " " + unit : "");
     }
 
     function formatDeviceDate(value) {
       if (typeof value !== "string" || value.length > 64 || !Number.isFinite(Date.parse(value))) {
         throw new Error("invalid_response");
       }
-      return new Date(value).toISOString().replace("T", " ").slice(0, 19) + " UTC";
+      return new Date(value).toISOString().slice(0, 10);
     }
 
-    function renderOrgContextSummary() {
+    function renderOverviewSection() {
       if (!activeOrg) return;
-      var uuidEl = byId("admin-active-org-uuid");
       var slugEl = byId("admin-active-org-slug");
       var provEl = byId("admin-active-org-provider");
       var orthoEl = byId("admin-orthogonality-summary");
-      var modeNoteEl = byId("admin-route-mode-note");
-      if (uuidEl) uuidEl.textContent = activeOrg.cloud_org_id;
       if (slugEl) slugEl.textContent = activeOrg.scm_owner_slug || activeOrg.id;
-      if (provEl) provEl.textContent = activeOrg.scm_provider ? activeOrg.scm_provider.toUpperCase() : "MANAGED";
+      if (provEl) provEl.textContent = activeOrg.scm_provider ? activeOrg.scm_provider.toUpperCase() : "GitHub";
 
       var assignedCount = 0;
       for (var i = 0; i < orgProjects.length; i++) {
@@ -852,15 +959,72 @@
       }
       if (orthoEl) {
         orthoEl.textContent = assignedCount === 0
-          ? "0 paid repo seats held · Admin works orthogonally with zero repo task/event/evidence access"
-          : assignedCount + " of " + orgProjects.length + " repositories explicitly assigned · Unassigned repo data stays denied";
+          ? "Organization administrator (no contributor repo seats held)"
+          : "Organization administrator · " + assignedCount + " of " + orgProjects.length + " repositories accessible";
       }
-      if (modeNoteEl) {
-        var slugLabel = activeOrg.scm_owner_slug || activeOrg.cloud_org_id;
-        modeNoteEl.textContent = routeMode === "path"
-          ? "Active route: /admin/" + slugLabel + " (resolved to immutable Cloud Org UUID " + activeOrg.cloud_org_id + ")."
-          : "GitHub Pages static-safe route: /admin/?org=" + encodeURIComponent(slugLabel) +
-            " (clean subpath /admin/" + slugLabel + " resolves identically when edge subpath routing is active).";
+
+      var reposValEl = byId("overview-repos-value");
+      var reposMetaEl = byId("overview-repos-meta");
+      if (reposValEl) reposValEl.textContent = String(orgProjects.length);
+      if (reposMetaEl) {
+        reposMetaEl.textContent = orgProjects.length === 1 ? "1 repository enrolled" : orgProjects.length + " repositories enrolled";
+      }
+
+      var subValEl = byId("overview-sub-status");
+      var subMetaEl = byId("overview-sub-meta");
+      var seatsValEl = byId("overview-seats-value");
+      var seatsMetaEl = byId("overview-seats-meta");
+      if (billingStateSnapshot) {
+        var b = billingStateSnapshot;
+        var totalCap = Number(b.quantity || 0);
+        var totalAssigned = lastCapacities.reduce(function (acc, c) { return acc + Number(c.assigned || 0); }, 0);
+        if (subValEl) {
+          subValEl.textContent = b.risk_hold
+            ? "Action needed"
+            : (totalCap > 0 ? "Active" : "No plan");
+        }
+        if (subMetaEl) {
+          var cadLabel = b.cadence === "year" ? "Annual plan" : (b.cadence === "month" ? "Monthly plan" : "Activate from Signup");
+          var until = typeof b.paid_until === "string" && Number.isFinite(Date.parse(b.paid_until))
+            ? " · through " + new Date(b.paid_until).toISOString().slice(0, 10)
+            : "";
+          subMetaEl.textContent = b.risk_hold ? "Billing hold active — open Billing" : (cadLabel + until);
+        }
+        if (seatsValEl) seatsValEl.textContent = totalCap > 0 ? (totalAssigned + " / " + totalCap) : "0";
+        if (seatsMetaEl) seatsMetaEl.textContent = totalCap > 0 ? "Assigned vs purchased seats" : "Purchase seats to enable repo access";
+      } else {
+        if (subValEl) subValEl.textContent = billingReady ? "No plan" : "Unavailable";
+        if (subMetaEl) subMetaEl.textContent = billingReady ? "No active subscription" : "Billing disabled on this environment";
+        if (seatsValEl) seatsValEl.textContent = "0";
+      }
+
+      var usageValEl = byId("overview-usage-value");
+      var usageMetaEl = byId("overview-usage-meta");
+      var overviewAlerts = byId("admin-overview-alerts");
+      var alertsEmpty = byId("overview-alerts-empty");
+      var alerts = limitsSnapshot && Array.isArray(limitsSnapshot.alerts) ? limitsSnapshot.alerts : [];
+      var activeAlerts = alerts.filter(function (a) { return a.state === "pending" || a.state === "dispatched"; });
+      if (usageValEl) usageValEl.textContent = activeAlerts.length ? (activeAlerts.length + " alert" + (activeAlerts.length > 1 ? "s" : "")) : "Healthy";
+      if (usageMetaEl) usageMetaEl.textContent = activeAlerts.length ? "Thresholds triggered in Usage" : "All metrics within included limits";
+
+      if (overviewAlerts && alertsEmpty) {
+        overviewAlerts.replaceChildren();
+        var items = [];
+        if (billingStateSnapshot && billingStateSnapshot.risk_hold) {
+          items.push("Billing payment issue — resolve in Billing portal.");
+        }
+        if (pendingBillingOrder && pendingBillingOrder.order_id) {
+          items.push("Pending subscription update (" + (pendingBillingOrder.status || "in progress") + ").");
+        }
+        for (var j = 0; j < activeAlerts.length; j++) {
+          items.push(String(activeAlerts[j].level || "Alert").toUpperCase() + ": " + activeAlerts[j].key + " near limit.");
+        }
+        alertsEmpty.hidden = items.length > 0;
+        for (var k = 0; k < items.length; k++) {
+          var li = doc.createElement("li");
+          li.textContent = items[k];
+          overviewAlerts.appendChild(li);
+        }
       }
     }
 
@@ -883,22 +1047,20 @@
         var capEntry = lastCapacities.find(function (c) { return c.project_id === proj.project_id; });
         var capLabel = billingReady && capEntry
           ? (String(capEntry.assigned || 0) + " / " + String(capEntry.capacity || 0) + " seats")
-          : (billingReady ? "0 / 0 seats" : "Billing disabled");
-        var dataAccessLabel = st.backend_authorized === true
-          ? "Assigned seat (repo access active)"
-          : "No repo seat (governance data denied)";
+          : (billingReady ? "0 seats" : "No plan");
+        var granted = st.backend_authorized === true;
 
         var tr = doc.createElement("tr");
         var tdName = doc.createElement("td");
         tdName.textContent = proj.name || proj.project_id;
-        var tdId = doc.createElement("td");
-        tdId.textContent = proj.project_id;
         var tdCap = doc.createElement("td");
         tdCap.textContent = capLabel;
         var tdAccess = doc.createElement("td");
-        tdAccess.textContent = dataAccessLabel;
+        var pill = doc.createElement("span");
+        pill.className = "access-pill " + (granted ? "is-granted" : "is-admin-only");
+        pill.textContent = granted ? "Contributor access" : "Admin only (no seat)";
+        tdAccess.appendChild(pill);
         tr.appendChild(tdName);
-        tr.appendChild(tdId);
         tr.appendChild(tdCap);
         tr.appendChild(tdAccess);
         tbody.appendChild(tr);
@@ -906,7 +1068,7 @@
         if (settingsSelect) {
           var sOpt = doc.createElement("option");
           sOpt.value = proj.project_id;
-          sOpt.textContent = (proj.name || proj.project_id) + " (" + proj.project_id + ")";
+          sOpt.textContent = proj.name || proj.project_id;
           settingsSelect.appendChild(sOpt);
         }
         if (assignSelect) {
@@ -922,7 +1084,7 @@
         }) || orgProjects[0];
         settingsName.value = selectedProj ? (selectedProj.name || "") : "";
       }
-      renderOrgContextSummary();
+      renderOverviewSection();
     }
 
     function syncActionStates() {
@@ -931,12 +1093,10 @@
       var hasRepos = orgProjects.length > 0;
 
       var alwaysAdminIds = [
-        "admin-enroll-repo-btn", "admin-refresh-members-btn", "admin-invite-btn",
-        "admin-refresh-invitations-btn", "admin-grant-admin-btn", "admin-invite-admin-btn",
-        "admin-revoke-admin-btn", "admin-transfer-owner-btn", "admin-overages-enable-btn",
-        "admin-overages-update-btn", "admin-overages-revoke-btn", "admin-save-limit-btn",
-        "admin-reset-limit-btn", "admin-refresh-limits-btn", "admin-refresh-devices-btn",
-        "admin-set-recovery-contact-btn", "admin-clear-recovery-contact-btn", "admin-refresh-recovery-btn"
+        "admin-enroll-repo-btn", "admin-invite-btn", "admin-grant-admin-btn",
+        "admin-invite-admin-btn", "admin-revoke-admin-btn", "admin-transfer-owner-btn",
+        "admin-overages-revoke-btn", "admin-save-limit-btn", "admin-reset-limit-btn",
+        "admin-set-recovery-contact-btn", "admin-clear-recovery-contact-btn"
       ];
       for (var i = 0; i < alwaysAdminIds.length; i++) {
         var el = byId(alwaysAdminIds[i]);
@@ -1001,9 +1161,9 @@
           }
           var actionRef = formatSupportRef(error, ctx.cloudOrgId);
           var actionWait = error && Number.isSafeInteger(error.retryAfterSec) && error.retryAfterSec > 0
-            ? " Wait " + error.retryAfterSec + "s before retrying."
+            ? " Wait " + error.retryAfterSec + " seconds before retrying."
             : "";
-          setStatus("Action failed (" + (error && error.message ? error.message : "error") + ")." + actionWait + (actionRef ? " " + actionRef + "." : ""), true);
+          setStatus("Action could not be completed." + actionWait + (actionRef ? " " + actionRef : ""), true);
         } finally {
           if (pendingActions.get(ctx.cloudOrgId) === ctx) {
             pendingActions.delete(ctx.cloudOrgId);
@@ -1013,68 +1173,35 @@
       };
     }
 
-    function orgReqOpts(ctx) {
-      return { sessionEpoch: ctx.sessionEpoch, signal: ctx.signal };
-    }
-
     function renderResourceLimits(ctx, snap) {
       if (!isActiveContext(ctx)) return;
       limitsSnapshot = snap;
+
       var ovg = snap.paid_overages || {};
+      var active = ovg.opted_in === true || ovg.enabled === true;
+      var statusEl = byId("admin-overage-status");
       var capCents = ovg.monthly_spend_cap_cents !== undefined ? ovg.monthly_spend_cap_cents : ovg.spending_ceiling_cents;
-      var active = Boolean(ovg.opted_in !== undefined ? ovg.opted_in : ovg.enabled);
-      var capStatus = "";
-      if (ovg.cap_exhausted || ovg.spend_cap_status === "overage_cap_exhausted") {
-        capStatus = "CAP EXHAUSTED (100%) — billable overage admission halted; ";
-      } else if (ovg.spend_cap_status === "warning") {
-        capStatus = "80%+ SPEND CAP WARNING; ";
-      }
-
-      var overageStatusEl = byId("admin-overage-status");
-      if (overageStatusEl) {
-        var utilText = Number.isFinite(ovg.spend_utilization_pct)
-          ? ", utilization " + String(ovg.spend_utilization_pct) + "%"
-          : "";
-        var warnThresholdText = Number.isSafeInteger(ovg.warning_threshold_cents)
-          ? ", warning at " + formatCents(ovg.warning_threshold_cents)
-          : "";
-        overageStatusEl.textContent = active
-          ? "Paid resource overages: ACTIVE (" + capStatus + "cap " + formatCents(capCents) +
-            ", spent " + formatCents(ovg.spent_cents) +
-            ", remaining " + formatCents(ovg.remaining_spend_cents !== undefined ? ovg.remaining_spend_cents : Math.max((capCents || 0) - (ovg.spent_cents || 0), 0)) +
-            utilText + warnThresholdText +
-            ", rev " + (ovg.revision || 0) + ")."
-          : "Paid resource overages: OFF (default, $0 exposure). Request pressure is strictly protective and never overage-eligible.";
-      }
-
-      var enableBtn = byId("admin-overages-enable-btn");
-      var updateBtn = byId("admin-overages-update-btn");
-      var revokeBtn = byId("admin-overages-revoke-btn");
-      if (enableBtn) enableBtn.hidden = active;
-      if (updateBtn) updateBtn.hidden = !active;
-      if (revokeBtn) revokeBtn.hidden = !active;
-
-      var capInput = byId("admin-overage-cap-usd");
-      if (capInput && capCents && !capInput.value) capInput.value = (capCents / 100).toFixed(2);
-
+      var spentCents = Number(ovg.spent_cents || 0);
+      var capStatus = ovg.spend_cap_status || (active ? "within_cap" : "disabled");
+      var revokeWrap = byId("admin-overage-revoke-wrap");
       var receiptEl = byId("admin-overage-receipt");
-      if (receiptEl) {
-        receiptEl.textContent = ovg.consent_receipt_id
-          ? "Latest consent receipt: " + ovg.consent_receipt_id + " (" + (ovg.window_month || "") + ")"
-          : "";
-      }
 
-      var ledgerEl = byId("admin-overage-ledger-list");
-      if (ledgerEl) {
-        ledgerEl.replaceChildren();
-        var ledger = Array.isArray(ovg.ledger) ? ovg.ledger : [];
-        for (var i = 0; i < ledger.length; i++) {
-          var item = ledger[i];
-          var li = doc.createElement("li");
-          li.textContent = item.action + " · cap " + formatCents(item.monthly_spend_cap_cents) +
-            " · spent " + formatCents(item.spent_cents_at_event) + " · receipt " + item.receipt_id;
-          ledgerEl.appendChild(li);
+      if (statusEl) {
+        if (!active) {
+          statusEl.textContent = "Included capacity protection active · Paid overages disabled ($0 exposure)";
+        } else if (capStatus === "overage_cap_exhausted") {
+          statusEl.textContent = "Paid overages active — monthly cap reached (" + formatCents(spentCents) + " / " + formatCents(capCents) + ")";
+        } else if (capStatus === "warning") {
+          statusEl.textContent = "Paid overages active — 80%+ cap warning (" + formatCents(spentCents) + " / " + formatCents(capCents) + ")";
+        } else {
+          statusEl.textContent = "Paid overages active · Monthly cap " + formatCents(capCents) + " (" + formatCents(spentCents) + " used)";
         }
+      }
+      if (revokeWrap) revokeWrap.hidden = !active;
+      if (receiptEl) {
+        receiptEl.textContent = active && ovg.consent_receipt_id
+          ? "Consent receipt: " + ovg.consent_receipt_id
+          : "";
       }
 
       var cardsEl = byId("admin-resource-cards");
@@ -1091,18 +1218,37 @@
           card.className = "admin-resource-card";
           var heading = doc.createElement("h3");
           heading.textContent = CATEGORY_LABELS[cat] || cat;
-          var ul = doc.createElement("ul");
+          card.appendChild(heading);
+
           for (var m = 0; m < items.length; m++) {
             var metric = items[m];
-            var mLi = doc.createElement("li");
-            mLi.textContent = metric.key + ": used " + formatMetricValue(metric.used, metric.unit) +
-              " · remaining " + formatMetricValue(metric.remaining, metric.unit) +
-              " · cap " + formatMetricValue(metric.effective_limit, metric.unit) +
-              " · window " + metric.window + " · alert " + metric.alert_state + " (rev " + metric.revision + ")";
-            ul.appendChild(mLi);
+            var row = doc.createElement("div");
+            row.className = "usage-metric-row";
+            var head = doc.createElement("div");
+            head.className = "usage-metric-head";
+            var labelSpan = doc.createElement("span");
+            labelSpan.textContent = metric.key.replaceAll("_", " ");
+            var valSpan = doc.createElement("span");
+            valSpan.textContent = formatMetricValue(metric.used, metric.unit) + " / " + formatMetricValue(metric.effective_limit, metric.unit);
+            head.appendChild(labelSpan);
+            head.appendChild(valSpan);
+
+            var track = doc.createElement("div");
+            track.className = "usage-meter-track";
+            var fill = doc.createElement("div");
+            var pct = (Number.isFinite(Number(metric.effective_limit)) && Number(metric.effective_limit) > 0)
+              ? Math.max(0, Math.min(100, Math.round((Number(metric.used || 0) * 100) / Number(metric.effective_limit))))
+              : 0;
+            fill.className = "usage-meter-fill" +
+              (metric.alert_state === "critical" || metric.alert_state === "blocked" ? " is-crit" : (metric.alert_state === "warning" ? " is-warn" : ""));
+            if (fill.style && typeof fill.style.setProperty === "function") {
+              fill.style.setProperty("width", pct + "%");
+            }
+            track.appendChild(fill);
+            row.appendChild(head);
+            row.appendChild(track);
+            card.appendChild(row);
           }
-          card.appendChild(heading);
-          card.appendChild(ul);
           cardsEl.appendChild(card);
         }
       }
@@ -1113,7 +1259,7 @@
         for (var k = 0; k < list.length; k++) {
           var opt = doc.createElement("option");
           opt.value = String(list[k].metric);
-          opt.textContent = list[k].key + " (" + (CATEGORY_LABELS[list[k].category] || list[k].category) + ", " + list[k].window + ")";
+          opt.textContent = list[k].key.replaceAll("_", " ") + " (" + list[k].window + ")";
           metricSelect.appendChild(opt);
         }
         if (list.length) {
@@ -1125,16 +1271,18 @@
       }
 
       var alertsEl = byId("admin-resource-alerts");
+      var alertsEmpty = byId("admin-alerts-empty");
       if (alertsEl) {
         alertsEl.replaceChildren();
         var alerts = Array.isArray(snap.alerts) ? snap.alerts : [];
+        if (alertsEmpty) alertsEmpty.hidden = alerts.length > 0;
         for (var a = 0; a < alerts.length; a++) {
           (function (alertItem) {
             var aLi = doc.createElement("li");
             var span = doc.createElement("span");
-            span.textContent = String(alertItem.level || "info").toUpperCase() + " " +
-              alertItem.key + " (" + alertItem.window_key + "): " +
-              alertItem.observed_value + " / " + alertItem.effective_limit + " [" + alertItem.state + "]";
+            span.textContent = String(alertItem.level || "info").toUpperCase() + " · " +
+              alertItem.key.replaceAll("_", " ") + " (" + alertItem.window_key + "): " +
+              alertItem.observed_value + " / " + alertItem.effective_limit;
             aLi.appendChild(span);
             if (alertItem.state === "pending" || alertItem.state === "dispatched") {
               var btn = doc.createElement("button");
@@ -1153,7 +1301,7 @@
                 } catch (err) {
                   if (!isActiveContext(activeCtx) || isAdminRevocationError(err) || (err && (err.name === "AbortError" || err.status === 401))) throw err;
                   if (isRevisionConflictError(err)) {
-                    if (statusSaveEl) statusSaveEl.textContent = "Concurrent revision conflict (409). Refreshing resource limits…";
+                    if (statusSaveEl) statusSaveEl.textContent = "Limits updated elsewhere; refreshing…";
                     await loadResourceLimits(activeCtx);
                     return;
                   }
@@ -1166,6 +1314,7 @@
           })(alerts[a]);
         }
       }
+      renderOverviewSection();
     }
 
     function syncLimitInputs() {
@@ -1175,18 +1324,25 @@
       var capEl = byId("admin-limit-cap");
       var warnEl = byId("admin-limit-warn");
       var critEl = byId("admin-limit-crit");
-      var notifyEl = byId("admin-limit-notify");
+      var nWarn = byId("admin-notify-warn");
+      var nCrit = byId("admin-notify-crit");
+      var nLim = byId("admin-notify-limit");
       if (!selected) {
         if (capEl) capEl.value = "";
         if (warnEl) warnEl.value = "";
         if (critEl) critEl.value = "";
-        if (notifyEl) notifyEl.value = "";
+        if (nWarn) nWarn.checked = true;
+        if (nCrit) nCrit.checked = false;
+        if (nLim) nLim.checked = false;
         return;
       }
       if (capEl) capEl.value = selected.operating_limit === null || selected.operating_limit === undefined ? "" : String(selected.operating_limit);
       if (warnEl) warnEl.value = String(selected.warning_pct !== undefined ? selected.warning_pct : 80);
       if (critEl) critEl.value = String(selected.critical_pct !== undefined ? selected.critical_pct : 95);
-      if (notifyEl) notifyEl.value = String(selected.notify_flags !== undefined ? selected.notify_flags : 1);
+      var flags = Number.isSafeInteger(selected.notify_flags) ? selected.notify_flags : 1;
+      if (nWarn) nWarn.checked = Boolean(flags & 1);
+      if (nCrit) nCrit.checked = Boolean(flags & 2);
+      if (nLim) nLim.checked = Boolean(flags & 4);
     }
 
     async function loadResourceLimits(ctx) {
@@ -1206,7 +1362,7 @@
           return;
         }
         var statusEl = byId("admin-overage-status");
-        if (statusEl) statusEl.textContent = "Resource limit telemetry unavailable (" + (error && error.message ? error.message : "error") + ").";
+        if (statusEl) statusEl.textContent = "Usage telemetry unavailable right now.";
       }
     }
 
@@ -1222,6 +1378,10 @@
         }, after !== undefined ? { after: after } : {}), orgReqOpts(ctx));
         if (!isActiveContext(ctx)) return;
         var entries = Array.isArray(res.members) ? res.members : [];
+        if (after === undefined) orgMembersCache = entries.slice();
+        else orgMembersCache = orgMembersCache.concat(entries);
+        populateMemberSelectors();
+
         memberCursor = res.next !== undefined ? res.next : null;
         if (nextBtn) nextBtn.hidden = memberCursor === null;
         if (listEl) {
@@ -1230,21 +1390,21 @@
             (function (entry) {
               var li = doc.createElement("li");
               var span = doc.createElement("span");
-              var hosts = Array.isArray(entry.providers) && entry.providers.length
-                ? entry.providers.join(", ") + " linked"
-                : "no code host linked";
               var assigned = Array.isArray(entry.assigned_projects) && entry.assigned_projects.length
-                ? "Assigned repos: " + entry.assigned_projects.join(", ")
-                : "0 paid repo seats";
-              span.textContent = "Seat " + entry.slot + " (" + entry.role + ") · Account " +
-                entry.account_id + " · " + hosts + " · " + assigned;
+                ? "Repos: " + entry.assigned_projects.map(resolveProjectLabel).join(", ")
+                : "No repo seats assigned";
+              span.textContent = memberDisplayName(entry) + " · " + assigned;
               li.appendChild(span);
 
               if (entry.role !== "owner" && entry.slot !== 1) {
+                var actionsWrap = doc.createElement("div");
+                actionsWrap.className = "list-item-actions";
                 var revokeSeatBtn = doc.createElement("button");
                 revokeSeatBtn.type = "button";
                 revokeSeatBtn.textContent = "Remove seat";
                 revokeSeatBtn.onclick = withOrgLock(async function (activeCtx) {
+                  var ok = await requestConfirm("Remove organization seat", "Remove seat assignment for " + memberDisplayName(entry) + "?");
+                  if (!ok) return;
                   await edgePost("account-register", {
                     operation: "revoke_seat",
                     organization_id: activeCtx.orgId,
@@ -1254,12 +1414,14 @@
                   if (!isActiveContext(activeCtx)) return;
                   await refreshActiveOrganization();
                 });
-                li.appendChild(revokeSeatBtn);
+                actionsWrap.appendChild(revokeSeatBtn);
 
                 var revokeMemBtn = doc.createElement("button");
                 revokeMemBtn.type = "button";
-                revokeMemBtn.textContent = "Revoke membership";
+                revokeMemBtn.textContent = "Revoke access";
                 revokeMemBtn.onclick = withOrgLock(async function (activeCtx) {
+                  var ok = await requestConfirm("Revoke organization access", "Remove " + memberDisplayName(entry) + " from this organization?");
+                  if (!ok) return;
                   await edgePost("account-register", {
                     operation: "revoke_membership",
                     organization_id: activeCtx.orgId,
@@ -1268,7 +1430,8 @@
                   if (!isActiveContext(activeCtx)) return;
                   await refreshActiveOrganization();
                 });
-                li.appendChild(revokeMemBtn);
+                actionsWrap.appendChild(revokeMemBtn);
+                li.appendChild(actionsWrap);
               }
               listEl.appendChild(li);
             })(entries[i]);
@@ -1276,8 +1439,8 @@
         }
         if (statusEl) {
           statusEl.textContent = entries.length
-            ? "Showing " + entries.length + " seated organization account(s)."
-            : "No seated organization members.";
+            ? entries.length + (entries.length === 1 ? " member" : " members")
+            : "No members in this organization yet.";
         }
       } catch (error) {
         if ((error && error.name === "AbortError") || !isActiveContext(ctx)) return;
@@ -1285,7 +1448,7 @@
           handleOrgAccessRevoked(ctx, error.message);
           return;
         }
-        if (statusEl) statusEl.textContent = "Members could not be loaded (" + (error && error.message ? error.message : "error") + ").";
+        if (statusEl) statusEl.textContent = "Members could not be loaded right now.";
       }
     }
 
@@ -1323,12 +1486,14 @@
               var li = doc.createElement("li");
               var span = doc.createElement("span");
               var expired = Date.parse(entry.expires_at) <= Date.now();
-              span.textContent = "Invitation slot " + entry.slot + " · " +
+              span.textContent = "Invite slot #" + entry.slot + " · " +
                 (expired ? "Expired" : "Expires " + formatDeviceDate(entry.expires_at));
               var btn = doc.createElement("button");
               btn.type = "button";
               btn.textContent = "Cancel invitation";
               btn.onclick = withOrgLock(async function (activeCtx) {
+                var ok = await requestConfirm("Cancel invitation", "Revoke this pending invitation?");
+                if (!ok) return;
                 try {
                   await edgePost("account-register", {
                     operation: "revoke_invitation",
@@ -1348,9 +1513,7 @@
           }
         }
         if (statusEl) {
-          statusEl.textContent = entries.length
-            ? "Showing " + entries.length + " active/pending invitation(s)."
-            : "No unused invitations.";
+          statusEl.textContent = entries.length ? "" : "No pending invitations.";
         }
       } catch (error) {
         if ((error && error.name === "AbortError") || !isActiveContext(ctx)) return;
@@ -1358,7 +1521,7 @@
           handleOrgAccessRevoked(ctx, error.message);
           return;
         }
-        if (statusEl) statusEl.textContent = "Invitations unavailable (" + (error && error.message ? error.message : "error") + ").";
+        if (statusEl) statusEl.textContent = "Invitations unavailable right now.";
       }
     }
 
@@ -1378,25 +1541,30 @@
         }, orgReqOpts(ctx));
         if (!isActiveContext(ctx)) return;
         adminRevision = Number.isSafeInteger(res.admin_revision) ? res.admin_revision : 0;
-        if (metaEl) {
-          metaEl.textContent = "Admin revision " + adminRevision +
-            " · Authority generation " + (res.authority_generation !== undefined ? res.authority_generation : 1) +
-            " · Primary owner " + (res.primary_owner_account_id || "verified") +
-            (res.actor_role ? " · Your role: " + res.actor_role : "");
-        }
         var admins = Array.isArray(res.admins) ? res.admins : [];
+        orgAdminsCache = admins.slice();
+        if (metaEl) {
+          metaEl.textContent = res.actor_role
+            ? ("Your organization role: " + res.actor_role)
+            : "";
+        }
         for (var i = 0; i < admins.length; i++) {
           (function (a) {
             var li = doc.createElement("li");
             var span = doc.createElement("span");
-            span.textContent = "Account " + a.account_id + " · Role: " + (a.role || "admin") +
-              (a.revoked_at ? " · Revoked" : " · Active");
+            var matchedMember = orgMembersCache.find(function (m) { return m.account_id === a.account_id; });
+            var who = (currentUser && a.account_id === currentUser.id)
+              ? (extractGitHubHandle(currentUser) + " (You)")
+              : (matchedMember ? memberDisplayName(matchedMember) : "Administrator");
+            span.textContent = who + " · " + (a.role || "admin") + (a.revoked_at ? " (Revoked)" : "");
             li.appendChild(span);
             if (!a.revoked_at && a.role !== "owner") {
               var revBtn = doc.createElement("button");
               revBtn.type = "button";
               revBtn.textContent = "Revoke admin";
               revBtn.onclick = withOrgLock(async function (activeCtx) {
+                var ok = await requestConfirm("Revoke admin role", "Remove administrator permissions for " + who + "?");
+                if (!ok) return;
                 try {
                   await edgePost("org-admins", {
                     operation: "revoke",
@@ -1409,14 +1577,11 @@
                 } catch (err) {
                   if (!isActiveContext(activeCtx) || isAdminRevocationError(err) || (err && (err.name === "AbortError" || err.status === 401))) throw err;
                   if (isRevisionConflictError(err)) {
-                    if (statusEl) statusEl.textContent = "Concurrent revision conflict (409). Refreshing authoritative admin state…";
+                    if (statusEl) statusEl.textContent = "Admin list updated elsewhere; refreshing…";
                     await loadAdminDelegation(activeCtx);
-                    if (isActiveContext(activeCtx) && statusEl) {
-                      statusEl.textContent = "Concurrent revision conflict detected; reloaded admin revision " + adminRevision + ".";
-                    }
                     return;
                   }
-                  if (statusEl) statusEl.textContent = "Admin revocation failed (" + (err && err.message ? err.message : "error") + ").";
+                  if (statusEl) statusEl.textContent = "Could not revoke admin role (" + (err && err.message ? err.message : "error") + ").";
                 }
               });
               li.appendChild(revBtn);
@@ -1430,11 +1595,13 @@
             (function (inv) {
               var iLi = doc.createElement("li");
               var iSpan = doc.createElement("span");
-              iSpan.textContent = "Pending admin invite " + inv.invitation_id + " · Recipient " + (inv.recipient_account_id || "account");
+              iSpan.textContent = "Pending admin invite";
               var cBtn = doc.createElement("button");
               cBtn.type = "button";
-              cBtn.textContent = "Revoke admin invite";
+              cBtn.textContent = "Cancel admin invite";
               cBtn.onclick = withOrgLock(async function (activeCtx) {
+                var ok = await requestConfirm("Cancel admin invitation", "Revoke this pending administrator invitation?");
+                if (!ok) return;
                 try {
                   await edgePost("org-admins", {
                     operation: "revoke_invite",
@@ -1447,14 +1614,10 @@
                 } catch (err) {
                   if (!isActiveContext(activeCtx) || isAdminRevocationError(err) || (err && (err.name === "AbortError" || err.status === 401))) throw err;
                   if (isRevisionConflictError(err)) {
-                    if (statusEl) statusEl.textContent = "Concurrent revision conflict (409). Refreshing authoritative admin state…";
                     await loadAdminDelegation(activeCtx);
-                    if (isActiveContext(activeCtx) && statusEl) {
-                      statusEl.textContent = "Concurrent revision conflict detected; reloaded admin revision " + adminRevision + ".";
-                    }
                     return;
                   }
-                  if (statusEl) statusEl.textContent = "Admin invite revocation failed (" + (err && err.message ? err.message : "error") + ").";
+                  if (statusEl) statusEl.textContent = "Could not cancel admin invite.";
                 }
               });
               iLi.appendChild(iSpan);
@@ -1463,7 +1626,6 @@
             })(pendingInvites[j]);
           }
         }
-        if (statusEl) statusEl.textContent = admins.length ? String(admins.length) + " listed organization admin(s)." : "";
       } catch (error) {
         if ((error && error.name === "AbortError") || !isActiveContext(ctx)) return;
         if (isAdminRevocationError(error)) {
@@ -1472,8 +1634,8 @@
         }
         if (statusEl) {
           statusEl.textContent = (error && (error.message === "not_found" || error.message === "invalid_request"))
-            ? "Primary owner transfer is active; delegated org-admin list activates with Wave 2 /org-admins rollout."
-            : "Delegated admin list unavailable (" + (error && error.message ? error.message : "error") + ").";
+            ? ""
+            : "Administrator directory unavailable right now.";
         }
       }
     }
@@ -1499,7 +1661,7 @@
           if (adminOrgs[j].cloud_org_id === ctx.cloudOrgId) continue;
           var dOpt = doc.createElement("option");
           dOpt.value = adminOrgs[j].cloud_org_id;
-          dOpt.textContent = (adminOrgs[j].scm_owner_slug || adminOrgs[j].id) + " (" + adminOrgs[j].cloud_org_id.slice(0, 8) + "…)";
+          dOpt.textContent = adminOrgs[j].scm_owner_slug || adminOrgs[j].id;
           dstOrgSelect.appendChild(dOpt);
         }
       }
@@ -1515,7 +1677,7 @@
         var entries = Array.isArray(res.audit_entries) ? res.audit_entries : (Array.isArray(res.events) ? res.events : []);
         for (var k = 0; k < entries.length; k++) {
           var li = doc.createElement("li");
-          li.textContent = (entries[k].operation || "template_op") + " · " + (entries[k].target_project_id || entries[k].source_project_id || ctx.cloudOrgId);
+          li.textContent = (entries[k].operation || "Policy update") + " · " + (entries[k].target_project_id || entries[k].source_project_id || "");
           auditList.appendChild(li);
         }
       } catch (error) {
@@ -1525,7 +1687,7 @@
           return;
         }
         if (statusEl && error && error.message !== "not_found") {
-          statusEl.textContent = "Policy template audit unavailable (" + (error.message || "error") + ").";
+          statusEl.textContent = "Policy history unavailable right now.";
         }
       }
     }
@@ -1534,7 +1696,7 @@
       if (!isActiveContext(ctx)) return;
       var summaryEl = byId("admin-recovery-contact-summary");
       var statusEl = byId("admin-recovery-status");
-      var inputEl = byId("admin-recovery-contact-input");
+      var selEl = byId("admin-recovery-contact-select");
       try {
         var contactRes = await edgePost("org-recovery", {
           operation: "get_recovery_contact",
@@ -1543,11 +1705,15 @@
         if (!isActiveContext(ctx)) return;
         recoveryContact = contactRes.contact_account_id || null;
         recoveryRevision = Number.isSafeInteger(contactRes.revision) ? contactRes.revision : 0;
-        if (inputEl && recoveryContact) inputEl.value = recoveryContact;
+        populateMemberSelectors();
+        if (selEl && recoveryContact && Array.from(selEl.options || []).some(function (o) { return o.value === recoveryContact; })) {
+          selEl.value = recoveryContact;
+        }
         if (summaryEl) {
+          var matched = recoveryContact ? orgMembersCache.find(function (m) { return m.account_id === recoveryContact; }) : null;
           summaryEl.textContent = recoveryContact
-            ? "Designated secondary recovery contact: " + recoveryContact + " (rev " + recoveryRevision + ")"
-            : "No secondary recovery contact designated yet (optional continuity protection).";
+            ? ("Current backup recovery contact: " + (matched ? memberDisplayName(matched) : "Designated member"))
+            : "No backup recovery contact designated yet.";
         }
         var recStatus = await edgePost("org-recovery", {
           operation: "status",
@@ -1555,8 +1721,7 @@
         }, orgReqOpts(ctx));
         if (!isActiveContext(ctx)) return;
         if (statusEl && recStatus && recStatus.recovery_request_id) {
-          statusEl.textContent = "Active recovery request " + recStatus.recovery_request_id +
-            " · state " + recStatus.state + " (" + (recStatus.proof_count || 0) + "/" + (recStatus.required_proofs || 2) + " proofs).";
+          statusEl.textContent = "Recovery verification in progress (" + (recStatus.proof_count || 0) + "/" + (recStatus.required_proofs || 2) + " proofs verified).";
         }
       } catch (error) {
         if ((error && error.name === "AbortError") || !isActiveContext(ctx)) return;
@@ -1565,9 +1730,7 @@
           return;
         }
         if (summaryEl) {
-          summaryEl.textContent = (error && (error.message === "not_found" || error.message === "invalid_request"))
-            ? "Recovery contact management activates with Wave 2 /org-recovery rollout."
-            : "Recovery contact status unavailable (" + (error && error.message ? error.message : "error") + ").";
+          summaryEl.textContent = "Backup recovery settings unavailable right now.";
         }
       }
     }
@@ -1576,6 +1739,10 @@
       if (!isActiveContext(ctx)) return;
       var statusEl = byId("admin-billing-status");
       var detailEl = byId("admin-billing-detail");
+      var metaList = byId("admin-billing-meta-list");
+      var cadenceEl = byId("admin-billing-cadence");
+      var seatsEl = byId("admin-billing-seats");
+      var renewalEl = byId("admin-billing-renewal");
       var pendingBox = byId("admin-pending-order-box");
       var pendingSummary = byId("admin-pending-order-summary");
       var memberSelect = byId("admin-assign-member-select");
@@ -1587,26 +1754,30 @@
           organization_id: ctx.orgId
         }, orgReqOpts(ctx));
         if (!isActiveContext(ctx)) return;
+        billingStateSnapshot = state;
         billingReady = true;
         lastCapacities = Array.isArray(state.capacities) ? state.capacities : [];
         pendingBillingOrder = state.pending_order || null;
 
-        var cadenceDetail = state.cadence === "year" ? "Annual upfront plan" : state.cadence === "month" ? "Monthly plan" : null;
-        var untilDetail = typeof state.paid_until === "string" && Number.isFinite(Date.parse(state.paid_until))
-          ? " paid through " + new Date(state.paid_until).toISOString().slice(0, 10)
-          : "";
+        var cadenceLabel = state.cadence === "year" ? "Annual" : state.cadence === "month" ? "Monthly" : "None";
+        var untilLabel = typeof state.paid_until === "string" && Number.isFinite(Date.parse(state.paid_until))
+          ? new Date(state.paid_until).toISOString().slice(0, 10)
+          : "—";
         if (statusEl) {
           statusEl.textContent = state.risk_hold
-            ? "Billing status: risk hold — use Stripe Billing Portal to resolve."
-            : state.quantity
-              ? "Active subscription: " + state.quantity + " paid seat unit(s)" +
-                (cadenceDetail ? " (" + cadenceDetail + untilDetail + ")" : "") + ". Paid overages OFF by default."
-              : "No active paid repository capacity yet. Use Cloud Signup to purchase initial repository seats.";
+            ? "Action needed: open billing & invoices to resolve a payment issue."
+            : (state.quantity
+              ? "Your Decapod Cloud subscription is active."
+              : "No active repository subscription yet.");
         }
+        if (metaList) metaList.hidden = !state.quantity;
+        if (cadenceEl) cadenceEl.textContent = cadenceLabel;
+        if (seatsEl) seatsEl.textContent = String(state.quantity || 0);
+        if (renewalEl) renewalEl.textContent = untilLabel;
+
         if (pendingBox && pendingSummary) {
           if (pendingBillingOrder && pendingBillingOrder.order_id) {
-            pendingSummary.textContent = "Pending billing order " + pendingBillingOrder.order_id +
-              " (" + (pendingBillingOrder.status || "pending") + ").";
+            pendingSummary.textContent = "Pending subscription change (" + (pendingBillingOrder.status || "pending") + ").";
             pendingBox.hidden = false;
           } else {
             pendingBox.hidden = true;
@@ -1625,7 +1796,7 @@
           for (var i = 0; i < mList.length; i++) {
             var opt = doc.createElement("option");
             opt.value = mList[i].account_id;
-            opt.textContent = "Member " + mList[i].slot + " · " + (mList[i].providers || []).join(", ");
+            opt.textContent = memberDisplayName(mList[i]);
             memberSelect.appendChild(opt);
           }
           billingMemberCursor = mRes.next || null;
@@ -1637,15 +1808,17 @@
           handleOrgAccessRevoked(ctx, error.message);
           return;
         }
+        billingStateSnapshot = null;
         billingReady = false;
         lastCapacities = [];
         pendingBillingOrder = null;
         if (pendingBox) pendingBox.hidden = true;
+        if (metaList) metaList.hidden = true;
         var code = error && error.message ? error.message : "billing_not_configured";
         if (statusEl) {
           statusEl.textContent = (code === "billing_not_configured" || code === "live_sale_disabled")
-            ? "UNDER WRAPS — Purchasing and Stripe Billing Portal are disabled on this deployment."
-            : "Billing status unavailable (" + code + ").";
+            ? "UNDER WRAPS — Live billing is disabled on this environment."
+            : "Subscription status unavailable right now.";
         }
       }
       if (!isActiveContext(ctx)) return;
@@ -1695,13 +1868,10 @@
             seen.add(key.device_key_id);
             var li = doc.createElement("li");
             var span = doc.createElement("span");
-            var label = key.label || "Unnamed device";
-            var text = label + " · JKT " + key.jkt +
-              (key.account_id ? " · Account " + key.account_id : "") +
-              " · Enrolled " + formatDeviceDate(key.enrolled_at) +
-              " · Last seen " + (key.last_seen_at == null ? "never" : formatDeviceDate(key.last_seen_at)) +
-              " · " + (key.enrolled_aal === "aal2" ? "MFA step-up" : String(key.enrolled_aal || "standard")) +
-              (key.status ? " · " + key.status : "");
+            var label = key.label || "CLI device";
+            var text = label + " · Enrolled " + formatDeviceDate(key.enrolled_at) +
+              " · Last active " + (key.last_seen_at == null ? "never" : formatDeviceDate(key.last_seen_at)) +
+              (key.enrolled_aal === "aal2" ? " · MFA verified" : "");
             if (key.revoked_at !== null && key.revoked_at !== undefined) {
               text += " · Revoked " + formatDeviceDate(key.revoked_at);
             }
@@ -1711,8 +1881,11 @@
             if ((key.revoked_at === null || key.revoked_at === undefined) && key.status !== "revoked") {
               var btn = doc.createElement("button");
               btn.type = "button";
-              btn.textContent = "Revoke " + label;
+              btn.textContent = "Revoke device";
               btn.onclick = async function () {
+                if (!isActiveContext(ctx) || myDevGen !== devicesGeneration) return;
+                var ok = await requestConfirm("Revoke CLI device", "Revoke \"" + label + "\"? It will immediately lose Cloud access.");
+                if (!ok) return;
                 if (!isActiveContext(ctx) || myDevGen !== devicesGeneration) return;
                 devicesGeneration++;
                 if (statusEl) statusEl.textContent = "Revoking device…";
@@ -1727,7 +1900,7 @@
                   }, orgReqOpts(ctx));
                   if (!isActiveContext(ctx)) return;
                   if (revRes.status !== "device_revoked") throw new Error("invalid_response");
-                  if (statusEl) statusEl.textContent = "Device revoked. Refreshing device inventory…";
+                  if (statusEl) statusEl.textContent = "Device revoked.";
                   await loadDevices(ctx);
                 } catch (err) {
                   if ((err && err.name === "AbortError") || !isActiveContext(ctx)) return;
@@ -1735,7 +1908,7 @@
                     handleOrgAccessRevoked(ctx, err.message);
                     return;
                   }
-                  if (statusEl) statusEl.textContent = "Device revocation failed (" + (err && err.message ? err.message : "error") + ").";
+                  if (statusEl) statusEl.textContent = "Could not revoke device.";
                 }
               };
               li.appendChild(btn);
@@ -1746,9 +1919,7 @@
         if (!isActiveContext(ctx) || myDevGen !== devicesGeneration) return;
         if (listEl) listEl.replaceChildren.apply(listEl, rows);
         if (statusEl) {
-          statusEl.textContent = rows.length
-            ? ""
-            : (adminMode ? "No enrolled CLI devices in this organization." : "No enrolled CLI devices on this account.");
+          statusEl.textContent = rows.length ? "" : "No CLI devices enrolled yet.";
         }
       } catch (error) {
         if ((error && error.name === "AbortError") || !isActiveContext(ctx) || myDevGen !== devicesGeneration) return;
@@ -1756,7 +1927,7 @@
           handleOrgAccessRevoked(ctx, error.message);
           return;
         }
-        if (statusEl) statusEl.textContent = "Enrolled devices unavailable (" + (error && error.message ? error.message : "error") + ").";
+        if (statusEl) statusEl.textContent = "CLI device list unavailable right now.";
       }
     }
 
@@ -1784,7 +1955,7 @@
         } catch (err) {
           if ((err && err.name === "AbortError") || !isActiveContext(ctx)) return;
           if (isAdminRevocationError(err)) {
-            handleOrgAccessRevoked(ctx, err.message);
+            handleOrgAccessRevoked(ctx, err && err.message ? err.message : "admin_required");
             return;
           }
         }
@@ -1813,7 +1984,6 @@
         bearer: session.access_token
       };
 
-      // Server-side verification of org admin grant for this exact cloud_org_id.
       try {
         var orgVerified = await edgePost("account-register", {
           operation: "account",
@@ -1829,36 +1999,18 @@
         var orgErrRef = formatSupportRef(error, orgObj.cloud_org_id);
         if (isAdminRevocationError(error)) {
           handleOrgAccessRevoked(ctx, code);
-        } else if (error && (error.status === 429 || code === "rate_limited")) {
-          var orgWait = Number.isSafeInteger(error.retryAfterSec) && error.retryAfterSec > 0
-            ? " Wait " + error.retryAfterSec + "s before retrying."
-            : " Wait briefly before retrying.";
-          showDeniedPanel(
-            "RATE LIMITED (429)",
-            "Organization verification rate limited",
-            "Cloud API rate limit prevented verifying your administrator grant. Workspace panels stay locked until verification completes." + orgWait,
-            (orgErrRef ? orgErrRef + ". " : "") + "Use Refresh organization after waiting.",
-            adminOrgs.length > 0
-          );
-          setStatus("Organization verification rate-limited (429)." + orgWait + (orgErrRef ? " " + orgErrRef + "." : ""), true);
-        } else if (error && (error.status >= 500 || code === "service_unavailable" || code === "request_timeout")) {
-          showDeniedPanel(
-            "SERVICE UNAVAILABLE",
-            "Organization verification temporarily unavailable",
-            "The Decapod Cloud API could not verify your organization administrator grant right now. Protected panels remain locked.",
-            (orgErrRef ? orgErrRef + ". " : "") + "Use Refresh organization or reload once connectivity recovers.",
-            adminOrgs.length > 0
-          );
-          setStatus("Organization verification unavailable (" + code + ")." + (orgErrRef ? " " + orgErrRef + "." : ""), true);
         } else {
           showDeniedPanel(
-            "AUTHORIZATION DENIED",
-            "Organization administrator access denied",
-            "You do not hold a verified administrator grant for this organization.",
-            "Server verification returned: " + code + "." + (orgErrRef ? " " + orgErrRef + "." : ""),
-            true
+            error && (error.status === 429 || code === "rate_limited") ? "Rate limited" : (error && error.status >= 500 ? "Connection issue" : "Access restricted"),
+            "Organization unavailable",
+            error && error.status >= 500
+              ? "Could not reach Decapod Cloud to verify your organization access."
+              : "You do not hold an administrator role for this organization.",
+            orgErrRef || "",
+            adminOrgs.length > 0
           );
-          setStatus("Access denied for organization (" + code + ")." + (orgErrRef ? " " + orgErrRef + "." : ""), true);
+          var waitNote = error && error.retryAfterSec ? (" Wait " + error.retryAfterSec + "s before retrying.") : "";
+          setStatus("Could not open organization." + waitNote + (orgErrRef ? " " + orgErrRef : ""), true);
         }
         return;
       }
@@ -1868,23 +2020,21 @@
       if (deniedPanel) deniedPanel.hidden = true;
       var workspace = byId("admin-workspace");
       if (workspace) workspace.hidden = false;
+      selectTab(activeTab);
 
-      var signupLink = byId("admin-add-capacity-link");
-      if (signupLink) {
-        var firstRepo = orgProjects[0] ? orgProjects[0].name || orgProjects[0].project_id : null;
-        signupLink.href = flow.buildSignupHandoffUrl({ origin: siteOrigin(), repo: firstRepo });
-      }
-
-      renderOrgContextSummary();
+      renderOverviewSection();
       syncActionStates();
-      setStatus("Administering organization " + (orgObj.scm_owner_slug || orgObj.cloud_org_id) + " (" + orgObj.cloud_org_id + ").", false);
+      setStatus("", false);
 
       await loadOrganizationProjects(ctx);
       if (!isActiveContext(ctx)) return;
-      if (signupLink) {
-        var loadedFirstRepo = orgProjects[0] ? orgProjects[0].name || orgProjects[0].project_id : null;
-        signupLink.href = flow.buildSignupHandoffUrl({ origin: siteOrigin(), repo: loadedFirstRepo });
-      }
+      var firstRepo = orgProjects[0] ? orgProjects[0].name || orgProjects[0].project_id : null;
+      var addUrl = flow.buildSignupHandoffUrl({ origin: siteOrigin(), repo: firstRepo });
+      var signupLink = byId("admin-add-capacity-link");
+      if (signupLink) signupLink.href = addUrl;
+      var ovLink = byId("overview-add-repo-link");
+      if (ovLink) ovLink.href = addUrl;
+
       await Promise.all([
         loadBillingSection(ctx),
         loadMembers(ctx),
@@ -1895,6 +2045,9 @@
         loadResourceLimits(ctx),
         loadDevices(ctx)
       ]);
+      if (isActiveContext(ctx)) {
+        renderOverviewSection();
+      }
     }
 
     async function refreshActiveOrganization() {
@@ -1902,8 +2055,7 @@
         await loadAuthenticatedAccount(sessionEpoch);
         return;
       }
-      var targetUuid = activeOrg.cloud_org_id;
-      requestedOrgLocator = targetUuid;
+      requestedOrgLocator = activeOrg.cloud_org_id;
       await loadAuthenticatedAccount(sessionEpoch);
     }
 
@@ -1964,28 +2116,27 @@
         var resolved = flow.resolveAdminOrganization(result.organizations, requestedOrgLocator);
         if (resolved.status !== "authorized") {
           showDeniedPanel(
-            "ORGANIZATION ACCESS DENIED",
-            "Organization unavailable or unauthorized",
-            "You do not have verified administrator authority for the requested organization, or it could not be resolved for your account.",
-            "Navigation slugs never grant authority. Switch to an organization where you hold an active org_admin role or return to Pricing/Signup.",
+            "Access restricted",
+            "Organization access denied",
+            "You do not hold an administrator grant for the requested organization.",
+            adminOrgs.length ? "Switch to one of your administered organizations below." : "Activate Decapod Cloud for a repository you administer.",
             adminOrgs.length > 0
           );
-          setStatus("Organization resolution denied (" + resolved.reason + ").", true);
+          setStatus("Access denied for requested organization.", true);
           return;
         }
         await activateOrganization(resolved.org, mySessionEpoch);
         return;
       }
 
-      if (adminOrgs.length === 0) {
+      if (!adminOrgs.length) {
         showDeniedPanel(
-          "NO ADMINISTERED ORGANIZATIONS",
-          "No organization administrator grants found",
-          "Your signed-in account does not currently administer any Decapod Cloud organization.",
-          "Enroll a repository on /signup or accept an organization admin invitation first.",
+          "No organizations yet",
+          "No organizations to administer",
+          "Sign in with the GitHub account that enrolled your repository or accept an organization invitation.",
+          "",
           false
         );
-        setStatus("Signed in with zero administered organizations.", false);
         return;
       }
 
@@ -2008,7 +2159,7 @@
 
       var returnCheck = flow.parseSafeAdminReturnParam(query, siteOrigin());
       if (returnCheck.status === "rejected") {
-        setStatus("Hostile or external return URL rejected.", true);
+        setStatus("Invalid return URL ignored.", true);
       }
 
       var code = query.get("code");
@@ -2023,17 +2174,13 @@
       var pendingFlowBeforeScrub = storeGet("flow", 8192);
       if (routeCheck.status === "valid") {
         requestedOrgLocator = routeCheck.org;
-        setBanner(
-          "valid",
-          "Requested organization locator: " + routeCheck.org,
-          "Untrusted locator pending server-side verification against your authenticated admin grants."
-        );
+        setBanner(null);
       } else if (routeCheck.status === "invalid") {
         requestedOrgLocator = null;
         setBanner(
           "invalid",
-          "Malformed organization route rejected",
-          "Use /admin/<org> or /admin/?org=<org> with a valid organization slug or UUID."
+          "Invalid organization link",
+          "Select one of your organizations below."
         );
       } else if ((query.has("code") || query.has("error")) && pendingFlowBeforeScrub &&
                  typeof pendingFlowBeforeScrub.requested_org === "string" &&
@@ -2045,7 +2192,6 @@
         setBanner(null);
       }
 
-      // Scrub callback params, query secrets, and hostile fragments immediately before network calls.
       if ((currentUrl.search || currentUrl.hash || routeCheck.status === "invalid") &&
           winHistory && typeof winHistory.replaceState === "function") {
         var cleanPath = routeCheck.status === "valid"
@@ -2067,17 +2213,13 @@
             skewReason = discovery.reason || "api_contract_mismatch";
           }
           syncAuthGateUi();
-          var dRef = discovery && discovery.correlationId ? (" Support ref: " + discovery.correlationId + ".") : "";
-          if (dStatus === "invalid") {
-            setStatus("Cloud authentication configuration failed validation (malformed config)." + dRef, true);
-          } else if (dStatus === "rate_limited") {
-            var dWait = discovery.retryAfterSec ? (" Wait " + discovery.retryAfterSec + "s before reloading.") : "";
-            setStatus("Cloud authentication discovery rate-limited (429)." + dWait + dRef, true);
-          } else if (dStatus === "incompatible") {
-            setStatus("API contract version mismatch. Reload this page to continue safely." + dRef, true);
-          } else {
-            setStatus("Cloud authentication configuration is currently unavailable." + dRef, true);
-          }
+          var dRef = discovery && discovery.correlationId ? (" Ref: " + discovery.correlationId) : "";
+          setStatus(
+            dStatus === "incompatible"
+              ? "Please reload this page to continue with the latest release." + (dRef ? " " + dRef : "")
+              : "Decapod Cloud is currently unavailable. Please reload shortly." + (dRef ? " " + dRef : ""),
+            true
+          );
           return;
         }
       }
@@ -2094,7 +2236,7 @@
         session = null;
         storeRemove("session");
         syncAuthGateUi();
-        setStatus("Rejected URL fragment tokens. Sign in through the managed PKCE button below.", true);
+        setStatus("Please sign in using the GitHub button below.", true);
         return;
       }
 
@@ -2109,14 +2251,14 @@
           accountSnapshot = acct;
           adminOrgs = flow.listAdminOrganizations(acct.organizations);
           showDeniedPanel(
-            "MALFORMED ROUTE",
-            "Malformed organization path rejected",
-            "The requested /admin route could not be parsed as a valid organization locator.",
-            "Select an administered organization from the switcher or return to /admin/.",
+            "Invalid organization link",
+            "Organization could not be found",
+            "The requested organization link is malformed.",
+            "Choose one of your administered organizations below.",
             adminOrgs.length > 0
           );
         }
-        setStatus("Rejected malformed admin route (" + routeCheck.reason + ").", true);
+        setStatus("Invalid organization link.", true);
         return;
       }
 
@@ -2145,14 +2287,14 @@
         if (!validFlow) {
           storeRemove("flow");
           syncAuthGateUi();
-          setStatus("Sign-in callback expired or failed state validation. Please sign in again.", true);
+          setStatus("Your sign-in session expired. Please sign in with GitHub again.", true);
           return;
         }
 
         if (oauthError) {
           storeRemove("flow");
           syncAuthGateUi();
-          setStatus("Sign-in canceled or declined.", false);
+          setStatus("Sign-in canceled.", false);
           if (session) await loadAuthenticatedAccount(mySessionEpoch);
           return;
         }
@@ -2160,7 +2302,7 @@
         if (codeList.length !== 1 || typeof code !== "string" || !code || code.length > 2048) {
           storeRemove("flow");
           syncAuthGateUi();
-          setStatus("Invalid authorization callback code.", true);
+          setStatus("Invalid sign-in response. Please try again.", true);
           return;
         }
 
@@ -2219,20 +2361,29 @@
 
       if (mySessionEpoch !== sessionEpoch) return;
       syncAuthGateUi();
-      if (!session) {
-        setStatus("Sign in with GitHub or Google to open organization administration.", false);
-        return;
-      }
+      if (!session) return;
       await loadAuthenticatedAccount(mySessionEpoch);
     }
 
     function bindEvents() {
+      for (var t = 0; t < TAB_NAMES.length; t++) {
+        (function (tabName) {
+          var btn = byId("tab-btn-" + tabName);
+          if (btn) btn.onclick = function () { selectTab(tabName); };
+        })(TAB_NAMES[t]);
+      }
+
+      var proceedModalBtn = byId("admin-confirm-proceed-btn");
+      if (proceedModalBtn) proceedModalBtn.onclick = function () { resolveConfirmModal(true); };
+      var cancelModalBtn = byId("admin-confirm-cancel-btn");
+      if (cancelModalBtn) cancelModalBtn.onclick = function () { resolveConfirmModal(false); };
+
       var ghBtn = byId("admin-auth-github");
-      if (ghBtn) ghBtn.onclick = function () { beginAuth("github", "sign_in", false).catch(function (e) { setStatus("Sign-in error: " + e.message, true); }); };
+      if (ghBtn) ghBtn.onclick = function () { beginAuth("github", "sign_in", false).catch(function () { setStatus("Could not start GitHub sign-in.", true); }); };
       var googleBtn = byId("admin-auth-google");
-      if (googleBtn) googleBtn.onclick = function () { beginAuth("google", "sign_in", false).catch(function (e) { setStatus("Sign-in error: " + e.message, true); }); };
+      if (googleBtn) googleBtn.onclick = function () { beginAuth("google", "sign_in", false).catch(function () { setStatus("Could not start Google sign-in.", true); }); };
       var cancelBtn = byId("admin-cancel-auth-btn");
-      if (cancelBtn) cancelBtn.onclick = function () { storeRemove("flow"); syncAuthGateUi(); setStatus("Pending sign-in canceled.", false); };
+      if (cancelBtn) cancelBtn.onclick = function () { storeRemove("flow"); syncAuthGateUi(); setStatus("Sign-in canceled.", false); };
 
       var signOutBtn = byId("admin-sign-out-btn");
       if (signOutBtn) {
@@ -2246,12 +2397,9 @@
           if (flowOk && profile) {
             coherenceChannel.broadcastAuthInvalidated(profile.projectOrigin);
           }
-          setStatus("Signed out. Authenticate to continue.", false);
+          setStatus("Signed out.", false);
         };
       }
-
-      var refreshBtn = byId("admin-refresh-btn");
-      if (refreshBtn) refreshBtn.onclick = function () { refreshActiveOrganization().catch(function (e) { setStatus("Refresh failed: " + e.message, true); }); };
 
       var orgSelect = byId("admin-org-select");
       if (orgSelect) {
@@ -2259,7 +2407,7 @@
           var chosen = adminOrgs.find(function (o) { return o.cloud_org_id === orgSelect.value; });
           if (!chosen) return;
           requestedOrgLocator = chosen.scm_owner_slug || chosen.cloud_org_id;
-          activateOrganization(chosen, sessionEpoch).catch(function (e) { setStatus("Organization switch failed: " + e.message, true); });
+          activateOrganization(chosen, sessionEpoch).catch(function () { setStatus("Could not switch organization.", true); });
         };
       }
 
@@ -2268,12 +2416,12 @@
         openAuthorizedBtn.onclick = function () {
           if (!adminOrgs.length) return;
           requestedOrgLocator = adminOrgs[0].scm_owner_slug || adminOrgs[0].cloud_org_id;
-          activateOrganization(adminOrgs[0], sessionEpoch).catch(function (e) { setStatus("Organization switch failed: " + e.message, true); });
+          activateOrganization(adminOrgs[0], sessionEpoch).catch(function () { setStatus("Could not open organization.", true); });
         };
       }
 
       var linkGhBtn = byId("admin-link-github-btn");
-      if (linkGhBtn) linkGhBtn.onclick = function () { beginAuth("github", "link", true).catch(function (e) { setStatus("GitHub linking failed: " + e.message, true); }); };
+      if (linkGhBtn) linkGhBtn.onclick = function () { beginAuth("github", "link", true).catch(function () { setStatus("Could not link GitHub.", true); }); };
 
       var confirmProvBtn = byId("admin-confirm-provider-btn");
       if (confirmProvBtn) {
@@ -2286,7 +2434,7 @@
             decision: "confirm"
           }, { sessionEpoch: myEpoch, signal: sessionAbortController ? sessionAbortController.signal : null })
             .then(function () { if (myEpoch === sessionEpoch) return loadAuthenticatedAccount(myEpoch); })
-            .catch(function (e) { if (e && e.name !== "AbortError" && myEpoch === sessionEpoch) setStatus("Provider confirmation failed: " + e.message, true); });
+            .catch(function () { if (myEpoch === sessionEpoch) setStatus("Could not confirm sign-in method.", true); });
         };
       }
 
@@ -2301,7 +2449,7 @@
             decision: "revoke"
           }, { sessionEpoch: myEpoch, signal: sessionAbortController ? sessionAbortController.signal : null })
             .then(function () { if (myEpoch === sessionEpoch) return loadAuthenticatedAccount(myEpoch); })
-            .catch(function (e) { if (e && e.name !== "AbortError" && myEpoch === sessionEpoch) setStatus("Provider revocation failed: " + e.message, true); });
+            .catch(function () { if (myEpoch === sessionEpoch) setStatus("Could not remove sign-in method.", true); });
         };
       }
 
@@ -2318,12 +2466,12 @@
           if (!inMemoryProviderToken) {
             var authBtn = byId("admin-authorize-github-btn");
             if (authBtn) authBtn.hidden = false;
-            if (statusEl) statusEl.textContent = "GitHub repository lookup token required. Click Authorize GitHub repo lookup.";
+            if (statusEl) statusEl.textContent = "GitHub repository authorization is required before adding a new repository.";
             return;
           }
           if (enrollRepoSlug !== parsed.slug || !enrollRequestId) {
             enrollRepoSlug = parsed.slug;
-            enrollRequestId = typeof crypto !== "undefined" && crypto.randomUUID ? crypto.randomUUID() : flow.randomSecret();
+            enrollRequestId = makeRequestId();
           }
           var enrolled = await edgePost("repository-enroll", {
             request_id: enrollRequestId,
@@ -2334,19 +2482,20 @@
           }, orgReqOpts(ctx));
           if (!isActiveContext(ctx)) return;
           if (enrolled.status !== "repository_enrolled") {
-            if (statusEl) statusEl.textContent = "Repository enrollment status: " + enrolled.status;
+            if (statusEl) statusEl.textContent = "Status: " + enrolled.status;
             return;
           }
           enrollRepoSlug = null;
           enrollRequestId = null;
-          if (statusEl) statusEl.textContent = "Enrolled " + parsed.slug + " without altering seat assignments.";
+          if (input) input.value = "";
+          if (statusEl) statusEl.textContent = "Added " + parsed.slug + ".";
           await refreshActiveOrganization();
         });
       }
 
       var authGhRepoBtn = byId("admin-authorize-github-btn");
       if (authGhRepoBtn) {
-        authGhRepoBtn.onclick = function () { beginAuth("github", "sign_in", true).catch(function (e) { setStatus("GitHub authorization error: " + e.message, true); }); };
+        authGhRepoBtn.onclick = function () { beginAuth("github", "sign_in", true).catch(function () { setStatus("Could not open GitHub authorization.", true); }); };
       }
 
       var saveProjBtn = byId("admin-save-project-btn");
@@ -2358,7 +2507,7 @@
           var projId = sel ? sel.value : "";
           var newName = nameInput ? nameInput.value.trim() : "";
           if (!projId || !newName || newName.length > 200) {
-            if (statusEl) statusEl.textContent = "Select a repository and enter a display name (1–200 chars).";
+            if (statusEl) statusEl.textContent = "Select a repository and enter a display name (1–200 characters).";
             return;
           }
           var updated = await edgePost("account-register", {
@@ -2368,7 +2517,7 @@
             project_name: newName
           }, orgReqOpts(ctx));
           if (!isActiveContext(ctx)) return;
-          if (statusEl) statusEl.textContent = "Saved display name for " + updated.project_id + ".";
+          if (statusEl) statusEl.textContent = "Updated display name for " + updated.project_id + ".";
           await refreshActiveOrganization();
         });
       }
@@ -2386,7 +2535,7 @@
             account_id: memSel ? memSel.value : ""
           }, orgReqOpts(ctx));
           if (!isActiveContext(ctx)) return;
-          if (statusEl) statusEl.textContent = "Assigned paid repository seat.";
+          if (statusEl) statusEl.textContent = "Seat assigned.";
           await refreshActiveOrganization();
         });
       }
@@ -2397,6 +2546,8 @@
           var projSel = byId("admin-assign-project-select");
           var memSel = byId("admin-assign-member-select");
           var statusEl = byId("admin-seat-assign-status");
+          var ok = await requestConfirm("Remove repository seat", "Revoke this member's contributor seat for " + (projSel ? projSel.value : "this repository") + "?");
+          if (!ok) return;
           await edgePost("billing-manage", {
             action: "revoke",
             organization_id: ctx.orgId,
@@ -2404,32 +2555,54 @@
             account_id: memSel ? memSel.value : ""
           }, orgReqOpts(ctx));
           if (!isActiveContext(ctx)) return;
-          if (statusEl) statusEl.textContent = "Revoked paid repository seat. Organization admin authority remains unchanged.";
+          if (statusEl) statusEl.textContent = "Repository seat removed.";
           await refreshActiveOrganization();
         });
       }
 
-      var refreshMembersBtn = byId("admin-refresh-members-btn");
-      if (refreshMembersBtn) refreshMembersBtn.onclick = withOrgLock(function (ctx) { return loadMembers(ctx); });
       var nextMembersBtn = byId("admin-next-members-btn");
       if (nextMembersBtn) nextMembersBtn.onclick = withOrgLock(function (ctx) { return memberCursor === null ? undefined : loadMembers(ctx, memberCursor); });
 
       var inviteBtn = byId("admin-invite-btn");
       if (inviteBtn) {
         inviteBtn.onclick = withOrgLock(async function (ctx) {
+          var ghInput = byId("admin-invite-github-input");
           var recipientInput = byId("admin-invite-recipient");
           var statusEl = byId("admin-invitations-status");
-          var recipient = recipientInput ? recipientInput.value.trim() : "";
-          if (!flow.UUID_PATTERN.test(recipient)) {
-            if (statusEl) statusEl.textContent = "Enter a valid recipient Cloud Account UUID.";
+          var ghLogin = ghInput ? ghInput.value.trim().replace(/^@/, "") : "";
+          var recipientUuid = recipientInput ? recipientInput.value.trim() : "";
+
+          var reqBody;
+          if (ghLogin) {
+            if (ghLogin.length > 100 || /[\s\u0000-\u001f\u007f/]/.test(ghLogin) || ghLogin === "." || ghLogin === "..") {
+              if (statusEl) statusEl.textContent = "Enter a valid GitHub username.";
+              return;
+            }
+            reqBody = {
+              operation: "invite",
+              organization_id: ctx.orgId,
+              recipient_provider: "github",
+              recipient_provider_login: ghLogin
+            };
+            if (inMemoryProviderToken) reqBody.provider_token = inMemoryProviderToken;
+          } else if (recipientUuid) {
+            if (!flow.UUID_PATTERN.test(recipientUuid)) {
+              if (statusEl) statusEl.textContent = "Enter a valid Cloud Account ID or GitHub username.";
+              return;
+            }
+            reqBody = {
+              operation: "invite",
+              organization_id: ctx.orgId,
+              recipient_account_id: recipientUuid
+            };
+          } else {
+            if (statusEl) statusEl.textContent = "Enter a teammate's GitHub username.";
             return;
           }
-          var res = await edgePost("account-register", {
-            operation: "invite",
-            organization_id: ctx.orgId,
-            recipient_account_id: recipient
-          }, orgReqOpts(ctx));
+
+          var res = await edgePost("account-register", reqBody, orgReqOpts(ctx));
           if (!isActiveContext(ctx)) return;
+          if (ghInput) ghInput.value = "";
           if (recipientInput) recipientInput.value = "";
           var safeUrl = validateInvitationUrl(res.invitation_url);
           createdInvitation = { url: safeUrl, id: res.invitation_id };
@@ -2437,7 +2610,7 @@
           var linkInput = byId("admin-invitation-link");
           if (linkInput) linkInput.value = safeUrl;
           if (copyBox) copyBox.hidden = false;
-          if (statusEl) statusEl.textContent = "Invitation created (membership only; assign repository seats separately).";
+          if (statusEl) statusEl.textContent = "Invitation ready. Share this single-use link with your teammate.";
           await loadInvitations(ctx);
         });
       }
@@ -2450,19 +2623,21 @@
         };
       }
 
-      var refreshInvBtn = byId("admin-refresh-invitations-btn");
-      if (refreshInvBtn) refreshInvBtn.onclick = withOrgLock(function (ctx) { return loadInvitations(ctx); });
       var moreInvBtn = byId("admin-more-invitations-btn");
       if (moreInvBtn) moreInvBtn.onclick = withOrgLock(function (ctx) { return invitationCursor === null ? undefined : loadInvitations(ctx, invitationCursor); });
+
+      function selectedDelegateMemberId() {
+        var sel = byId("admin-delegate-member-select");
+        return sel ? String(sel.value || "").trim() : "";
+      }
 
       var grantAdminBtn = byId("admin-grant-admin-btn");
       if (grantAdminBtn) {
         grantAdminBtn.onclick = withOrgLock(async function (ctx) {
-          var targetInput = byId("admin-delegate-account");
           var statusEl = byId("admin-delegation-status");
-          var targetUuid = targetInput ? targetInput.value.trim() : "";
+          var targetUuid = selectedDelegateMemberId();
           if (!flow.UUID_PATTERN.test(targetUuid)) {
-            if (statusEl) statusEl.textContent = "Enter a valid member Account UUID.";
+            if (statusEl) statusEl.textContent = "Select an organization member first.";
             return;
           }
           try {
@@ -2474,19 +2649,16 @@
               expected_revision: adminRevision
             }, orgReqOpts(ctx));
             if (!isActiveContext(ctx)) return;
-            if (statusEl) statusEl.textContent = "Granted admin role to " + targetUuid + " (0 repo seats added).";
+            if (statusEl) statusEl.textContent = "Administrator role granted.";
             await loadAdminDelegation(ctx);
           } catch (error) {
             if ((error && (error.name === "AbortError" || error.status === 401)) || isAdminRevocationError(error) || !isActiveContext(ctx)) throw error;
             if (isRevisionConflictError(error)) {
-              if (statusEl) statusEl.textContent = "Concurrent revision conflict (409). Refreshing authoritative admin state…";
+              if (statusEl) statusEl.textContent = "Admin list updated elsewhere; refreshing…";
               await loadAdminDelegation(ctx);
-              if (isActiveContext(ctx) && statusEl) {
-                statusEl.textContent = "Concurrent revision conflict detected; reloaded authoritative admin revision " + adminRevision + ".";
-              }
               return;
             }
-            if (statusEl) statusEl.textContent = "Admin grant failed (" + (error && error.message ? error.message : "error") + ").";
+            if (statusEl) statusEl.textContent = "Could not grant admin role (" + (error && error.message ? error.message : "error") + ").";
           }
         });
       }
@@ -2494,34 +2666,29 @@
       var inviteAdminBtn = byId("admin-invite-admin-btn");
       if (inviteAdminBtn) {
         inviteAdminBtn.onclick = withOrgLock(async function (ctx) {
-          var targetInput = byId("admin-delegate-account");
           var statusEl = byId("admin-delegation-status");
-          var targetUuid = targetInput ? targetInput.value.trim() : "";
+          var targetUuid = selectedDelegateMemberId();
           if (!flow.UUID_PATTERN.test(targetUuid)) {
-            if (statusEl) statusEl.textContent = "Enter a valid recipient Account UUID.";
+            if (statusEl) statusEl.textContent = "Select a member first.";
             return;
           }
           try {
-            var res = await edgePost("org-admins", {
+            await edgePost("org-admins", {
               operation: "invite",
               organization_id: ctx.orgId,
               recipient_account_id: targetUuid,
               expected_revision: adminRevision
             }, orgReqOpts(ctx));
             if (!isActiveContext(ctx)) return;
-            if (statusEl) statusEl.textContent = "Created admin invitation " + (res.invitation_id || "") + " (identity-bound).";
+            if (statusEl) statusEl.textContent = "Admin invitation sent.";
             await loadAdminDelegation(ctx);
           } catch (error) {
             if ((error && (error.name === "AbortError" || error.status === 401)) || isAdminRevocationError(error) || !isActiveContext(ctx)) throw error;
             if (isRevisionConflictError(error)) {
-              if (statusEl) statusEl.textContent = "Concurrent revision conflict (409). Refreshing authoritative admin state…";
               await loadAdminDelegation(ctx);
-              if (isActiveContext(ctx) && statusEl) {
-                statusEl.textContent = "Concurrent revision conflict detected; reloaded authoritative admin revision " + adminRevision + ".";
-              }
               return;
             }
-            if (statusEl) statusEl.textContent = "Admin invitation failed (" + (error && error.message ? error.message : "error") + ").";
+            if (statusEl) statusEl.textContent = "Could not send admin invite.";
           }
         });
       }
@@ -2529,13 +2696,14 @@
       var revokeAdminBtn = byId("admin-revoke-admin-btn");
       if (revokeAdminBtn) {
         revokeAdminBtn.onclick = withOrgLock(async function (ctx) {
-          var targetInput = byId("admin-delegate-account");
           var statusEl = byId("admin-delegation-status");
-          var targetUuid = targetInput ? targetInput.value.trim() : "";
+          var targetUuid = selectedDelegateMemberId();
           if (!flow.UUID_PATTERN.test(targetUuid)) {
-            if (statusEl) statusEl.textContent = "Enter a valid admin Account UUID.";
+            if (statusEl) statusEl.textContent = "Select an administrator first.";
             return;
           }
+          var ok = await requestConfirm("Revoke administrator role", "Remove organization administrator permissions for this member?");
+          if (!ok) return;
           try {
             await edgePost("org-admins", {
               operation: "revoke",
@@ -2544,19 +2712,15 @@
               expected_revision: adminRevision
             }, orgReqOpts(ctx));
             if (!isActiveContext(ctx)) return;
-            if (statusEl) statusEl.textContent = "Revoked admin role for " + targetUuid + ".";
+            if (statusEl) statusEl.textContent = "Administrator role revoked.";
             await loadAdminDelegation(ctx);
           } catch (error) {
             if ((error && (error.name === "AbortError" || error.status === 401)) || isAdminRevocationError(error) || !isActiveContext(ctx)) throw error;
             if (isRevisionConflictError(error)) {
-              if (statusEl) statusEl.textContent = "Concurrent revision conflict (409). Refreshing authoritative admin state…";
               await loadAdminDelegation(ctx);
-              if (isActiveContext(ctx) && statusEl) {
-                statusEl.textContent = "Concurrent revision conflict detected; reloaded authoritative admin revision " + adminRevision + ".";
-              }
               return;
             }
-            if (statusEl) statusEl.textContent = "Admin revocation failed (" + (error && error.message ? error.message : "error") + ").";
+            if (statusEl) statusEl.textContent = "Could not revoke admin role.";
           }
         });
       }
@@ -2564,13 +2728,14 @@
       var transferOwnerBtn = byId("admin-transfer-owner-btn");
       if (transferOwnerBtn) {
         transferOwnerBtn.onclick = withOrgLock(async function (ctx) {
-          var targetInput = byId("admin-delegate-account");
           var statusEl = byId("admin-delegation-status");
-          var targetUuid = targetInput ? targetInput.value.trim() : "";
+          var targetUuid = selectedDelegateMemberId();
           if (!flow.UUID_PATTERN.test(targetUuid)) {
-            if (statusEl) statusEl.textContent = "Enter a valid seated member Account UUID for ownership transfer.";
+            if (statusEl) statusEl.textContent = "Select a member to receive primary ownership.";
             return;
           }
+          var ok = await requestConfirm("Transfer primary ownership", "Transfer primary organization ownership to the selected member? This change takes effect immediately.");
+          if (!ok) return;
           try {
             await edgePost("org-admins", {
               operation: "transfer_ownership",
@@ -2581,11 +2746,7 @@
           } catch (err) {
             if ((err && (err.name === "AbortError" || err.status === 401)) || isAdminRevocationError(err) || !isActiveContext(ctx)) throw err;
             if (isRevisionConflictError(err)) {
-              if (statusEl) statusEl.textContent = "Concurrent revision conflict (409). Refreshing authoritative admin state…";
               await loadAdminDelegation(ctx);
-              if (isActiveContext(ctx) && statusEl) {
-                statusEl.textContent = "Concurrent revision conflict detected; reloaded authoritative admin revision " + adminRevision + ".";
-              }
               return;
             }
             if (err && (err.message === "not_found" || err.message === "invalid_request")) {
@@ -2599,7 +2760,7 @@
             }
           }
           if (!isActiveContext(ctx)) return;
-          if (statusEl) statusEl.textContent = "Primary ownership transferred to " + targetUuid + ".";
+          if (statusEl) statusEl.textContent = "Primary ownership transferred.";
           await refreshActiveOrganization();
         });
       }
@@ -2613,7 +2774,7 @@
           var srcProj = srcSel ? srcSel.value : "";
           var dstOrgId = dstSel ? dstSel.value : "";
           if (!srcProj || !dstOrgId || dstOrgId === ctx.cloudOrgId) {
-            if (statusEl) statusEl.textContent = "Select a source repository and a different administered destination organization.";
+            if (statusEl) statusEl.textContent = "Choose a source repository and a different destination organization.";
             return;
           }
           var res = await edgePost("policy-templates", {
@@ -2624,7 +2785,7 @@
           }, orgReqOpts(ctx));
           if (!isActiveContext(ctx)) return;
           exportedTemplate = res.template || res;
-          if (statusEl) statusEl.textContent = "Exported policy template from " + srcProj + " for destination " + dstOrgId + ".";
+          if (statusEl) statusEl.textContent = "Exported policy settings from " + srcProj + ".";
           syncActionStates();
         });
       }
@@ -2636,7 +2797,7 @@
           var statusEl = byId("admin-template-status");
           var targetProj = dstProjInput ? dstProjInput.value.trim() : "";
           if (!exportedTemplate || !targetProj) {
-            if (statusEl) statusEl.textContent = "Export a policy template and specify target repository first.";
+            if (statusEl) statusEl.textContent = "Export a policy first and enter a destination repository.";
             return;
           }
           var res = await edgePost("policy-templates", {
@@ -2645,7 +2806,7 @@
             target_project_id: targetProj
           }, orgReqOpts(ctx));
           if (!isActiveContext(ctx)) return;
-          if (statusEl) statusEl.textContent = "Preview ready for " + targetProj + " (" + (res.status || "preview_ready") + ").";
+          if (statusEl) statusEl.textContent = "Preview ready (" + (res.status || "valid") + ").";
         });
       }
 
@@ -2656,7 +2817,7 @@
           var statusEl = byId("admin-template-status");
           var targetProj = dstProjInput ? dstProjInput.value.trim() : "";
           if (!exportedTemplate || !targetProj) {
-            if (statusEl) statusEl.textContent = "Export a policy template and specify target repository first.";
+            if (statusEl) statusEl.textContent = "Export a policy first and enter a destination repository.";
             return;
           }
           await edgePost("policy-templates", {
@@ -2666,7 +2827,7 @@
           }, orgReqOpts(ctx));
           if (!isActiveContext(ctx)) return;
           exportedTemplate = null;
-          if (statusEl) statusEl.textContent = "Applied repository policy template to " + targetProj + " (seats and governance data untouched).";
+          if (statusEl) statusEl.textContent = "Applied policy template to " + targetProj + ".";
           await loadPolicyTemplates(ctx);
         });
       }
@@ -2674,11 +2835,11 @@
       var setRecBtn = byId("admin-set-recovery-contact-btn");
       if (setRecBtn) {
         setRecBtn.onclick = withOrgLock(async function (ctx) {
-          var inputEl = byId("admin-recovery-contact-input");
+          var selEl = byId("admin-recovery-contact-select");
           var statusEl = byId("admin-recovery-status");
-          var contactUuid = inputEl ? inputEl.value.trim() : "";
+          var contactUuid = selEl ? selEl.value.trim() : "";
           if (!flow.UUID_PATTERN.test(contactUuid)) {
-            if (statusEl) statusEl.textContent = "Enter a valid Cloud Account UUID for the recovery contact.";
+            if (statusEl) statusEl.textContent = "Select a member to serve as backup recovery contact.";
             return;
           }
           try {
@@ -2689,19 +2850,16 @@
               expected_revision: recoveryRevision
             }, orgReqOpts(ctx));
             if (!isActiveContext(ctx)) return;
-            if (statusEl) statusEl.textContent = "Designated recovery contact saved.";
+            if (statusEl) statusEl.textContent = "Backup recovery contact saved.";
             await loadRecoverySection(ctx);
           } catch (error) {
             if ((error && (error.name === "AbortError" || error.status === 401)) || isAdminRevocationError(error) || !isActiveContext(ctx)) throw error;
             if (isRevisionConflictError(error)) {
-              if (statusEl) statusEl.textContent = "Concurrent revision conflict (409). Refreshing authoritative recovery state…";
+              if (statusEl) statusEl.textContent = "Recovery settings updated elsewhere; refreshing…";
               await loadRecoverySection(ctx);
-              if (isActiveContext(ctx) && statusEl) {
-                statusEl.textContent = "Concurrent revision conflict detected; reloaded authoritative recovery revision " + recoveryRevision + ".";
-              }
               return;
             }
-            if (statusEl) statusEl.textContent = "Recovery contact update failed (" + (error && error.message ? error.message : "error") + ").";
+            if (statusEl) statusEl.textContent = "Could not save recovery contact.";
           }
         });
       }
@@ -2710,6 +2868,8 @@
       if (clearRecBtn) {
         clearRecBtn.onclick = withOrgLock(async function (ctx) {
           var statusEl = byId("admin-recovery-status");
+          var ok = await requestConfirm("Clear recovery contact", "Remove the designated backup recovery contact?");
+          if (!ok) return;
           try {
             await edgePost("org-recovery", {
               operation: "clear_recovery_contact",
@@ -2717,31 +2877,21 @@
               expected_revision: recoveryRevision
             }, orgReqOpts(ctx));
             if (!isActiveContext(ctx)) return;
-            if (statusEl) statusEl.textContent = "Cleared secondary recovery contact.";
+            if (statusEl) statusEl.textContent = "Cleared backup recovery contact.";
             await loadRecoverySection(ctx);
           } catch (error) {
             if ((error && (error.name === "AbortError" || error.status === 401)) || isAdminRevocationError(error) || !isActiveContext(ctx)) throw error;
             if (isRevisionConflictError(error)) {
-              if (statusEl) statusEl.textContent = "Concurrent revision conflict (409). Refreshing authoritative recovery state…";
               await loadRecoverySection(ctx);
-              if (isActiveContext(ctx) && statusEl) {
-                statusEl.textContent = "Concurrent revision conflict detected; reloaded authoritative recovery revision " + recoveryRevision + ".";
-              }
               return;
             }
-            if (statusEl) statusEl.textContent = "Recovery contact clear failed (" + (error && error.message ? error.message : "error") + ").";
+            if (statusEl) statusEl.textContent = "Could not clear recovery contact.";
           }
         });
       }
 
-      var refreshRecBtn = byId("admin-refresh-recovery-btn");
-      if (refreshRecBtn) refreshRecBtn.onclick = withOrgLock(function (ctx) { return loadRecoverySection(ctx); });
-
       var metricSel = byId("admin-limit-metric");
       if (metricSel) metricSel.onchange = syncLimitInputs;
-
-      var refreshLimitsBtn = byId("admin-refresh-limits-btn");
-      if (refreshLimitsBtn) refreshLimitsBtn.onclick = withOrgLock(function (ctx) { return loadResourceLimits(ctx); });
 
       var saveLimitBtn = byId("admin-save-limit-btn");
       if (saveLimitBtn) {
@@ -2755,12 +2905,14 @@
           var opLimit = rawCap === "" ? null : Number(rawCap);
           var warnPct = Number(byId("admin-limit-warn") ? byId("admin-limit-warn").value : 80);
           var critPct = Number(byId("admin-limit-crit") ? byId("admin-limit-crit").value : 95);
-          var notifyFlags = Number(byId("admin-limit-notify") ? byId("admin-limit-notify").value : 1);
+          var notifyFlags = (byId("admin-notify-warn") && byId("admin-notify-warn").checked ? 1 : 0) |
+            (byId("admin-notify-crit") && byId("admin-notify-crit").checked ? 2 : 0) |
+            (byId("admin-notify-limit") && byId("admin-notify-limit").checked ? 4 : 0);
           if ((opLimit !== null && (!Number.isSafeInteger(opLimit) || opLimit < 1)) ||
               !Number.isSafeInteger(warnPct) || warnPct < 1 || warnPct > 99 ||
               !Number.isSafeInteger(critPct) || critPct < 2 || critPct > 100 ||
-              warnPct >= critPct || !Number.isSafeInteger(notifyFlags) || notifyFlags < 0 || notifyFlags > 7) {
-            if (statusEl) statusEl.textContent = "Invalid limit or threshold values.";
+              warnPct >= critPct) {
+            if (statusEl) statusEl.textContent = "Enter valid threshold percentages (warning < critical) and optional positive limit.";
             return;
           }
           try {
@@ -2776,18 +2928,15 @@
             }, orgReqOpts(ctx));
             if (!isActiveContext(ctx)) return;
             renderResourceLimits(ctx, updated);
-            if (statusEl) statusEl.textContent = "Saved limit for " + selected.key + ".";
+            if (statusEl) statusEl.textContent = "Limit settings saved.";
           } catch (error) {
             if ((error && (error.name === "AbortError" || error.status === 401)) || isAdminRevocationError(error) || !isActiveContext(ctx)) throw error;
             if (isRevisionConflictError(error)) {
-              if (statusEl) statusEl.textContent = "Concurrent revision conflict (409). Refreshing authoritative resource limits…";
+              if (statusEl) statusEl.textContent = "Limits updated elsewhere; refreshing…";
               await loadResourceLimits(ctx);
-              if (isActiveContext(ctx) && statusEl) {
-                statusEl.textContent = "Concurrent revision conflict detected; reloaded authoritative resource limits.";
-              }
               return;
             }
-            if (statusEl) statusEl.textContent = "Limit update failed (" + (error && error.message ? error.message : "error") + ").";
+            if (statusEl) statusEl.textContent = "Could not save limit settings.";
           }
         });
       }
@@ -2809,98 +2958,14 @@
             }, orgReqOpts(ctx));
             if (!isActiveContext(ctx)) return;
             renderResourceLimits(ctx, updated);
-            if (statusEl) statusEl.textContent = "Reset " + selected.key + " to default ceiling.";
+            if (statusEl) statusEl.textContent = "Reset to included default limit.";
           } catch (error) {
             if ((error && (error.name === "AbortError" || error.status === 401)) || isAdminRevocationError(error) || !isActiveContext(ctx)) throw error;
             if (isRevisionConflictError(error)) {
-              if (statusEl) statusEl.textContent = "Concurrent revision conflict (409). Refreshing authoritative resource limits…";
               await loadResourceLimits(ctx);
-              if (isActiveContext(ctx) && statusEl) {
-                statusEl.textContent = "Concurrent revision conflict detected; reloaded authoritative resource limits.";
-              }
               return;
             }
-            if (statusEl) statusEl.textContent = "Limit reset failed (" + (error && error.message ? error.message : "error") + ").";
-          }
-        });
-      }
-
-      function parseSpendCapCents() {
-        var raw = (byId("admin-overage-cap-usd") ? byId("admin-overage-cap-usd").value : "").trim();
-        var num = Number(raw);
-        if (!raw || !Number.isFinite(num) || num <= 0) return null;
-        var cents = Math.round(num * 100);
-        if (!Number.isSafeInteger(cents) || cents < 1 || cents > 100000000) return null;
-        return cents;
-      }
-
-      var overagesEnableBtn = byId("admin-overages-enable-btn");
-      if (overagesEnableBtn) {
-        overagesEnableBtn.onclick = withOrgLock(async function (ctx) {
-          var statusEl = byId("admin-overage-save-status");
-          var capCents = parseSpendCapCents();
-          var checked = Boolean(byId("admin-overage-terms-check") && byId("admin-overage-terms-check").checked);
-          if (!capCents || !checked) {
-            if (statusEl) statusEl.textContent = "Enter a valid monthly spend cap and accept the V7 paid overage terms.";
-            return;
-          }
-          var rev = limitsSnapshot && limitsSnapshot.paid_overages ? limitsSnapshot.paid_overages.revision : undefined;
-          try {
-            var updated = await edgePost("billing-overage-policy", Object.assign({
-              action: "enable",
-              organization_id: ctx.orgId,
-              monthly_spend_cap_cents: capCents,
-              accepted_terms: true,
-              terms_version: TERMS_VERSION
-            }, Number.isSafeInteger(rev) ? { expected_revision: rev } : {}), orgReqOpts(ctx));
-            if (!isActiveContext(ctx)) return;
-            renderResourceLimits(ctx, updated);
-            if (statusEl) statusEl.textContent = "Enabled paid overages with " + formatCents(capCents) + " monthly spend cap.";
-          } catch (error) {
-            if ((error && (error.name === "AbortError" || error.status === 401)) || isAdminRevocationError(error) || !isActiveContext(ctx)) throw error;
-            if (isRevisionConflictError(error)) {
-              if (statusEl) statusEl.textContent = "Concurrent revision conflict (409). Refreshing authoritative overage policy…";
-              await loadResourceLimits(ctx);
-              if (isActiveContext(ctx) && statusEl) {
-                statusEl.textContent = "Concurrent revision conflict detected; reloaded authoritative overage policy.";
-              }
-              return;
-            }
-            if (statusEl) statusEl.textContent = "Enable overages failed (" + (error && error.message ? error.message : "error") + ").";
-          }
-        });
-      }
-
-      var overagesUpdateBtn = byId("admin-overages-update-btn");
-      if (overagesUpdateBtn) {
-        overagesUpdateBtn.onclick = withOrgLock(async function (ctx) {
-          var statusEl = byId("admin-overage-save-status");
-          var capCents = parseSpendCapCents();
-          if (!capCents) {
-            if (statusEl) statusEl.textContent = "Enter a valid monthly spend cap.";
-            return;
-          }
-          var rev = limitsSnapshot && limitsSnapshot.paid_overages ? limitsSnapshot.paid_overages.revision : undefined;
-          try {
-            var updated = await edgePost("billing-overage-policy", Object.assign({
-              action: "update_cap",
-              organization_id: ctx.orgId,
-              monthly_spend_cap_cents: capCents
-            }, Number.isSafeInteger(rev) ? { expected_revision: rev } : {}), orgReqOpts(ctx));
-            if (!isActiveContext(ctx)) return;
-            renderResourceLimits(ctx, updated);
-            if (statusEl) statusEl.textContent = "Updated monthly spend cap to " + formatCents(capCents) + ".";
-          } catch (error) {
-            if ((error && (error.name === "AbortError" || error.status === 401)) || isAdminRevocationError(error) || !isActiveContext(ctx)) throw error;
-            if (isRevisionConflictError(error)) {
-              if (statusEl) statusEl.textContent = "Concurrent revision conflict (409). Refreshing authoritative overage policy…";
-              await loadResourceLimits(ctx);
-              if (isActiveContext(ctx) && statusEl) {
-                statusEl.textContent = "Concurrent revision conflict detected; reloaded authoritative overage policy.";
-              }
-              return;
-            }
-            if (statusEl) statusEl.textContent = "Update spend cap failed (" + (error && error.message ? error.message : "error") + ").";
+            if (statusEl) statusEl.textContent = "Could not reset limit.";
           }
         });
       }
@@ -2909,6 +2974,8 @@
       if (overagesRevokeBtn) {
         overagesRevokeBtn.onclick = withOrgLock(async function (ctx) {
           var statusEl = byId("admin-overage-save-status");
+          var ok = await requestConfirm("Disable paid overages", "Restore $0 paid-overage protection immediately?");
+          if (!ok) return;
           var rev = limitsSnapshot && limitsSnapshot.paid_overages ? limitsSnapshot.paid_overages.revision : undefined;
           try {
             var updated = await edgePost("billing-overage-policy", Object.assign({
@@ -2917,18 +2984,14 @@
             }, Number.isSafeInteger(rev) ? { expected_revision: rev } : {}), orgReqOpts(ctx));
             if (!isActiveContext(ctx)) return;
             renderResourceLimits(ctx, updated);
-            if (statusEl) statusEl.textContent = "Revoked paid resource overages ($0 overage exposure restored).";
+            if (statusEl) statusEl.textContent = "Paid overages disabled ($0 exposure restored).";
           } catch (error) {
             if ((error && (error.name === "AbortError" || error.status === 401)) || isAdminRevocationError(error) || !isActiveContext(ctx)) throw error;
             if (isRevisionConflictError(error)) {
-              if (statusEl) statusEl.textContent = "Concurrent revision conflict (409). Refreshing authoritative overage policy…";
               await loadResourceLimits(ctx);
-              if (isActiveContext(ctx) && statusEl) {
-                statusEl.textContent = "Concurrent revision conflict detected; reloaded authoritative overage policy.";
-              }
               return;
             }
-            if (statusEl) statusEl.textContent = "Revoke overages failed (" + (error && error.message ? error.message : "error") + ").";
+            if (statusEl) statusEl.textContent = "Could not disable paid overages.";
           }
         });
       }
@@ -2951,6 +3014,8 @@
       if (cancelOrderBtn) {
         cancelOrderBtn.onclick = withOrgLock(async function (ctx) {
           if (!pendingBillingOrder || !pendingBillingOrder.order_id) return;
+          var ok = await requestConfirm("Cancel pending billing change", "Cancel the pending subscription update?");
+          if (!ok) return;
           await edgePost("billing-manage", {
             action: "order_cancel",
             organization_id: ctx.orgId,
@@ -2959,22 +3024,6 @@
           if (!isActiveContext(ctx)) return;
           await loadBillingSection(ctx);
         });
-      }
-
-      var refreshDevicesBtn = byId("admin-refresh-devices-btn");
-      if (refreshDevicesBtn) {
-        refreshDevicesBtn.onclick = function () {
-          if (!activeOrg || !currentUser || !session) return;
-          loadDevices({
-            sessionEpoch: sessionEpoch,
-            generation: renderGeneration,
-            signal: orgAbortController ? orgAbortController.signal : null,
-            cloudOrgId: activeOrg.cloud_org_id,
-            orgId: activeOrg.id,
-            actor: currentUser.id,
-            bearer: session.access_token
-          }).catch(function () {});
-        };
       }
     }
 
@@ -3000,7 +3049,7 @@
         var googleBtn = byId("admin-auth-google");
         if (ghBtn) ghBtn.disabled = true;
         if (googleBtn) googleBtn.disabled = true;
-        setStatus("Client asset or HTML/JS version skew detected (" + (skewReason || "mismatch") + "). Reload the page to continue safely.", true);
+        setStatus("A newer version of this page is required (" + (skewReason || "mismatch") + "). Reload to continue.", true);
         return;
       }
 
@@ -3028,16 +3077,14 @@
         if (mySessionEpoch !== sessionEpoch) return;
         try { syncAuthGateUi(); } catch (_) {}
         var initRef = formatSupportRef(error, null);
-        var initWait = error && Number.isSafeInteger(error.retryAfterSec) && error.retryAfterSec > 0
-          ? " Wait " + error.retryAfterSec + "s before retrying."
-          : "";
-        setStatus("Organization Admin could not be initialized (" + (error && error.message ? error.message : "error") + ")." + initWait + (initRef ? " " + initRef + "." : ""), true);
+        setStatus("Could not load Organization Admin." + (initRef ? " " + initRef : ""), true);
       }
     }
 
     return {
       init: init,
       beginAuth: beginAuth,
+      selectTab: selectTab,
       switchOrganization: async function (cloudOrgId) {
         var target = adminOrgs.find(function (o) { return o.cloud_org_id === cloudOrgId; });
         if (!target) throw new Error("organization_access_denied");
@@ -3054,6 +3101,7 @@
           authenticated: Boolean(!skewBlocked && flowOk && profile && flow.validateSessionRecord(session, profile.projectOrigin, nowSec())),
           skewBlocked: skewBlocked,
           skewReason: skewReason,
+          activeTab: activeTab,
           requestedOrgLocator: requestedOrgLocator,
           activeOrg: activeOrg ? Object.assign({}, activeOrg) : null,
           adminOrgIds: adminOrgs.map(function (o) { return o.cloud_org_id; }),

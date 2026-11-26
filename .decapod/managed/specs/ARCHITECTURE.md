@@ -1,5 +1,9 @@
 # Architecture
 
+## Signed Cloud Web Artifact Distribution (`docs/cloud-app-publication.md`, `cloud-app-manifest.json`)
+
+Authenticated Decapod Cloud web applications (`cloud-flow.js`, `signup/*`, `admin/*`, `404.html`) are authored and unit-tested inside `DecapodLabs/propodus/portal/app/` and stamped into this repository by `portal/build-cloud-web.mjs` together with `cloud-app-manifest.json` (`asset_release: 20261125-commercial`, `source_revision`, `source_clean: true`, and SHA-256 digests). Public marketing pages (`pricing.html`, `pricing/index.html`, `pricing.js`) synchronize cleanly with the published asset release and pass `scripts/check-site.ts`, `tests/publication_provenance_test.ts`, and `tests/trust_privacy_contract_test.ts`.
+
 ## Privacy & Trust Contract Surface (`trust/index.html`, `trust/trust.css`, `tests/trust_privacy_contract_test.ts`)
 
 `trust/index.html` is a static semantic HTML page styled with `styles.css` and `trust/trust.css` using the existing Decapod Labs typography and palette, with zero third-party scripts, tracking pixels, or analytics beacons. `tests/trust_privacy_contract_test.ts` scans every `.html` and `.js` asset in the repository to fail closed on third-party trackers, external `<script src>` embeds, fingerprinting scripts, missing contract metadata/disclosures, or missing footer links.
@@ -113,8 +117,8 @@ Generated capability obligations: `persistent-state` is declared for this projec
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `9a80a566a672bcc2f324a487b2e08c5a91eff24107b4b3922101389ff1e43469`
-- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (9 files)
+- Repository signal fingerprint: `a4a53b3acac59284b71bd94627308c11dedc4c43e999a2decc1b99d2432e2f6c`
+- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (4 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->
 
