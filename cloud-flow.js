@@ -1,7 +1,7 @@
 (function (root) {
   "use strict";
 
-  var ASSET_RELEASE = "20261124-p3";
+  var ASSET_RELEASE = "20261125-commercial";
   var CONTRACT_VERSION = 1;
   var SUPPORTED_API_CONTRACT_MAJORS = Object.freeze([1]);
   var CANONICAL_SITE_ORIGIN = "https://decapodlabs.ai";
@@ -20,10 +20,15 @@
   var OWNER_PATTERN = /^[A-Za-z0-9](?:[A-Za-z0-9._-]{0,98}[A-Za-z0-9])?$/;
   var REPO_PATTERN = /^(?!\.{1,2}$)(?!.*\.\.)[A-Za-z0-9._-]{1,100}$/;
   var UUID_PATTERN = /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i;
+  var CONTINUATION_PATTERN = /^v1\.[a-f0-9]{32}\.[A-Za-z0-9_-]{22}$/;
   var PKCE_HASH_PATTERN = /^[A-Za-z0-9_-]{43}$/;
   var PROVIDERS = Object.freeze(["github", "google", "gitlab"]);
   var SENSITIVE_QUERY_PARAMS = Object.freeze([
     "repo",
+    "billing",
+    "seats",
+    "checkout",
+    "continuation",
     "return_to",
     "redirect_to",
     "code",
@@ -443,6 +448,46 @@
     return url.href;
   }
 
+  function parseSeatParam(search) {
+    var params = search instanceof URLSearchParams
+      ? search
+      : new URLSearchParams(typeof search === "string" ? search : "");
+    var values = params.getAll("seats");
+    if (values.length === 0) return { status: "absent", seats: null, valid: false };
+    if (values.length !== 1) return { status: "invalid", seats: null, valid: false };
+    var raw = String(values[0] || "").trim();
+    if (!/^[1-9][0-9]{0,3}$/.test(raw)) return { status: "invalid", seats: null, valid: false };
+    var count = Number(raw);
+    if (!Number.isSafeInteger(count) || count < 1 || count > 1000) {
+      return { status: "invalid", seats: null, valid: false };
+    }
+    return { status: "valid", seats: count, valid: true };
+  }
+
+  function parseBillingParam(search) {
+    var params = search instanceof URLSearchParams
+      ? search
+      : new URLSearchParams(typeof search === "string" ? search : "");
+    var values = params.getAll("billing");
+    if (values.length === 0) return { status: "absent", billing: null, valid: false };
+    if (values.length !== 1) return { status: "invalid", billing: null, valid: false };
+    var val = String(values[0] || "").trim();
+    if (val !== "month" && val !== "year") return { status: "invalid", billing: null, valid: false };
+    return { status: "valid", billing: val, valid: true };
+  }
+
+  function parseContinuationParam(search) {
+    var params = search instanceof URLSearchParams
+      ? search
+      : new URLSearchParams(typeof search === "string" ? search : "");
+    var values = params.getAll("continuation");
+    if (values.length === 0) return { status: "absent", continuation: null, valid: false };
+    if (values.length !== 1) return { status: "invalid", continuation: null, valid: false };
+    var val = String(values[0] || "").trim();
+    if (!CONTINUATION_PATTERN.test(val)) return { status: "invalid", continuation: null, valid: false };
+    return { status: "valid", continuation: val, valid: true };
+  }
+
   function buildSignupHandoffUrl(options) {
     var opts = options || {};
     var origin = opts.origin || CANONICAL_SITE_ORIGIN;
@@ -457,8 +502,15 @@
         url.searchParams.set("repo", parsed.slug);
       }
     }
-    if (opts.billing === "month" || opts.billing === "year") {
-      url.searchParams.set("billing", opts.billing);
+    var normalizedBilling = opts.billing === "annual" ? "year" : opts.billing;
+    if (normalizedBilling === "month" || normalizedBilling === "year") {
+      url.searchParams.set("billing", normalizedBilling);
+    }
+    if (opts.seats !== undefined && opts.seats !== null) {
+      var seatNum = Math.floor(Number(opts.seats));
+      if (Number.isSafeInteger(seatNum) && seatNum >= 1 && seatNum <= 1000) {
+        url.searchParams.set("seats", String(seatNum));
+      }
     }
     return url.href;
   }
@@ -735,8 +787,8 @@
     if (payload.status === "code_host_link_required") return "code_host_link_required";
     if (payload.status === "organization_already_enrolled") return "organization_already_enrolled";
     if (payload.status === "admin_approval_required") return "admin_approval_required";
-    if (payload.status === "pending_fulfillment") return "pending_fulfillment";
-    if (payload.backend_authorized === true && payload.status === "active") return "ready";
+    if (payload.status === "pending_fulfillment" || payload.status === "payment_pending") return "pending_fulfillment";
+    if (payload.backend_authorized === true && (payload.status === "active" || payload.status === "ready")) return "ready";
     if (payload.status === "entitlement_required") return "entitlement_required";
     if (payload.status === "registration_required") return "registration_required";
     return "pending_verification";
@@ -1137,6 +1189,7 @@
     FALLBACK_CLOUD_ORIGIN: FALLBACK_CLOUD_ORIGIN,
     CANONICAL_ONBOARDING_PREFIX: CANONICAL_ONBOARDING_PREFIX,
     UUID_PATTERN: UUID_PATTERN,
+    CONTINUATION_PATTERN: CONTINUATION_PATTERN,
     PKCE_HASH_PATTERN: PKCE_HASH_PATTERN,
     isSupportedApiContractVersion: isSupportedApiContractVersion,
     readDocumentContractMeta: readDocumentContractMeta,
@@ -1144,6 +1197,9 @@
     scrubSensitiveLocation: scrubSensitiveLocation,
     createCoherenceChannel: createCoherenceChannel,
     parseOrgSlug: parseOrgSlug,
+    parseSeatParam: parseSeatParam,
+    parseBillingParam: parseBillingParam,
+    parseContinuationParam: parseContinuationParam,
     parseAdminRoute: parseAdminRoute,
     isAllowedAdminPathname: isAllowedAdminPathname,
     buildAdminBrowserPath: buildAdminBrowserPath,
@@ -1176,4 +1232,15 @@
     randomSecret: randomSecret,
     sha256Base64Url: sha256Base64Url
   });
+
+  var is404Page = typeof document !== "undefined" && document.body && (
+    (typeof document.body.getAttribute === "function" && document.body.getAttribute("data-decapod-404") === "true") ||
+    (document.body.dataset && (document.body.dataset["decapod-404"] === "true" || document.body.dataset.decapod404 === "true"))
+  );
+  if (is404Page && typeof location !== "undefined") {
+    var deepParsed = parseAdminRoute(location.pathname || "/", "");
+    if (deepParsed && deepParsed.status === "valid" && deepParsed.source === "path" && deepParsed.org) {
+      location.replace("/admin/?org=" + encodeURIComponent(deepParsed.org));
+    }
+  }
 })(typeof globalThis !== "undefined" ? globalThis : window);

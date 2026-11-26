@@ -1,5 +1,9 @@
 # Intent
 
+## Signed Decapod Cloud Web Publication (`cloud-app-manifest.json`, #54, #55, #56)
+
+Keep `DecapodLabs/decapodlabs.github.io` focused on public marketing, public documentation, public `/pricing`, and verified static distribution of the canonical Decapod Cloud web bundle built cleanly from `DecapodLabs/propodus` (`portal/app/` -> `cloud-app-manifest.json`, asset release `20261125-commercial`). Preserve `billing`, `seats`, and `repo` across `/pricing` -> `/auth` PKCE -> `/signup`, retain the public `UNDER WRAPS` pre-launch gate until genuine pilot customer live verification completes, and verify published artifact SHA-256 provenance via `tests/publication_provenance_test.ts` and `docs/cloud-app-publication.md` while running internal app tests in `DecapodLabs/propodus`.
+
 ## Behavioral Privacy & Trust Contract (`/trust/index.html`)
 
 Publish a versioned, public Behavioral Privacy & Trust Contract at `/trust/index.html` (`v1.0.0`, effective `2026-11-24`) linked cleanly from the footer across site pages (`index.html`, `pricing.html`, `pricing/index.html`, `signup/index.html`, `clack/index.html`, `tecr.html`, `admin/index.html`, `trust/index.html`). The contract preserves `UNDER WRAPS` pre-launch Cloud gating, commits that removing or weakening any guarantee requires an explicit version increment and changelog entry, discloses exact network boundaries for Decapod Local CLI (zero telemetry/analytics), Decapod Cloud (declared GitHub/GitLab, Supabase, Stripe, and Cloudflare API gateway endpoints), Dactyl (local SQLite = zero egress; optional remote modes), and Clack (local workspace isolation and explicit opt-in provider/Solana/browser boundaries), documents Cloudflare Workers relay transparency, states all nine permanent trust invariants, and provides incident accountability and self-service revocation channels.
@@ -73,7 +77,7 @@ These declarations select authoring and proof obligations; they do not attest im
 
 ## Codebase Contract Snapshot
 
-- Tracked significant codebase files: 27 across `.github/` (1), `README.md/` (1), `admin/` (1), `cloud-flow.js/` (1), `evidence/` (4), `main.js/` (1), `pricing.js/` (1), `scripts/` (7), `signup/` (1), `tests/` (9)
+- Tracked significant codebase files: 22 across `.github/` (1), `README.md/` (1), `admin/` (1), `cloud-flow.js/` (1), `evidence/` (4), `main.js/` (1), `pricing.js/` (1), `scripts/` (7), `signup/` (1), `tests/` (4)
 - Core modules: 0 | Workflows: 1 | Integration targets: 0
 <!-- decapod:codebase-contract:end -->
 
@@ -81,8 +85,8 @@ These declarations select authoring and proof obligations; they do not attest im
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `9a80a566a672bcc2f324a487b2e08c5a91eff24107b4b3922101389ff1e43469`
-- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (9 files)
+- Repository signal fingerprint: `a4a53b3acac59284b71bd94627308c11dedc4c43e999a2decc1b99d2432e2f6c`
+- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (4 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->
 
