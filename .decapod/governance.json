@@ -58,6 +58,17 @@
         "static-source",
         "verify-directory-publication"
       ]
+    },
+    {
+      "id": "account-bootstrap-portal-cp3",
+      "summary": "Recorded SECURITY.md spec review for Propodus 069086c5 Cloud web bundle.",
+      "input_digest": "sha256:2d8fcdad950aaa03f0705fa85c8f802dcd7bf8033bfc6da6ed3ea58452a5aa4b",
+      "proof_refs": [
+        "chrome-verify",
+        "deno-test",
+        "static-source",
+        "verify-directory-publication"
+      ]
     }
   ],
   "intents": {
@@ -113,6 +124,13 @@
           "reason": "Updated INTERFACES.md for isVerifiedCustomerOrganization, obsolete_bootstrap_workspace recovery, and clean org selector contract.",
           "reviewed_code_fingerprint": "871a35a2084296c6a904c5f342be516ea4cc4090145576335ac5006ba75835fb",
           "spec_material_hash": "4d03a5cdbbbb433c083ca04f798126fa1a6fa3580680edfd11bff46c9380a081"
+        },
+        {
+          "disposition": "unchanged_with_reason",
+          "path": ".decapod/managed/specs/SECURITY.md",
+          "reason": "Static presentation bundle adds no server secrets, rejects obsolete bootstrap workspaces fail-closed, and passes trust_privacy_contract_test.ts.",
+          "reviewed_code_fingerprint": "871a35a2084296c6a904c5f342be516ea4cc4090145576335ac5006ba75835fb",
+          "spec_material_hash": "c90311b3c1ce76e39a1a12441abcc073925ce58f5dfc4c4ede6999dade480914"
         }
       ],
       "state": "APPROVED",
@@ -123,7 +141,7 @@
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1795698527Z"
+      "updated_at": "1795698561Z"
     },
     "trajectory": {
       "active_boundaries": [
