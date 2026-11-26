@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "baseline": {
-    "accepted_commit": "ee97d9a41ad5cf9354240218422ad230bb5a52a5",
+    "accepted_commit": "4fbf66ad5ce6b95a6a0cac3431280b96f85af022",
     "unresolved": {
       "claim:clack-download-latest": {
         "falsifier": "The page embeds a release version, either link fails signed out, the checksum or digest disagrees with the source stable build, or a newer published mirror requires editing the page.",
@@ -19,42 +19,57 @@
     }
   },
   "change": {
-    "id": "admin-ux-publish-266",
-    "base_commit": "ee97d9a41ad5cf9354240218422ad230bb5a52a5",
+    "id": "change_01M8BPA4RP9PKD911TDPSDRQ2T",
+    "base_commit": "4fbf66ad5ce6b95a6a0cac3431280b96f85af022",
     "target_base": "origin/main"
+  },
+  "claims": {
+    "claim:clack-v0101-download": {
+      "statement": "Clack 0.10.1 download assets and release.json match signed macOS arm64 DMG built from main dde7d68367b2ddf58b428305d35c8d729779309f.",
+      "falsifier": "Checksum mismatch, signing failure, or decapod validate failure on website release PR.",
+      "status": "supported",
+      "proof_refs": [
+        "clack/index.html",
+        "clack/release.json"
+      ]
+    }
   },
   "checkpoints": [
     {
-      "id": "admin-ux-publish-266-cp1",
-      "summary": "Built 20261126-brand Admin UX bundle from Propodus ac2124c0, updated Living Specs, passed check-site, deno test (7/7), directory provenance (16/16), and 42 Chrome screenshots (0 overflows/clipped).",
-      "input_digest": "sha256:87a10ed2e812819cf69aab2c2ee44725cfab90010d61a34cda5b56304c8c0fe7",
-      "proof_refs": [
-        "check-site",
-        "chrome-verify-42",
-        "deno-test",
-        "verify-directory-publication"
-      ]
+      "id": "clack-download-0.10.1",
+      "summary": "Host the signed Clack 0.10.1 disk image and checksum.",
+      "input_digest": "sha256:933ea6afe527d4646da62a64ff5643a05c8a1206b11d4211ec89385033747b39"
+    },
+    {
+      "id": "clack-download-0.10.1-plan",
+      "summary": "Bind website release plan to code_01m8bp85dmkxnchn.",
+      "input_digest": "sha256:9cfe289cd6b546e727ad733c6be973ed2471fc25e747976e1896d60822107110"
+    },
+    {
+      "id": "clack-download-0.10.1-r2",
+      "summary": "Host the signed Clack 0.10.1 disk image and checksum.",
+      "input_digest": "sha256:3f08020a81eef3be7607424dfa3c73176ddf8ef372efa0ccbc241e6d1ce342e5"
     }
   ],
   "intents": {
-    "intent:run-website-admin-ux-266": {
+    "intent:change_01M8BPA4RP9PKD911TDPSDRQ2T": {
       "acceptance_criteria": [],
       "assumptions": [],
       "boundaries": [
-        "Keep /, /clack/, /pricing/, /signup/, /trust/ untouched and keep internal Propodus secrets/tests out of website repo"
+        "Current claimed task and isolated work branch"
       ],
       "constraints": [
-        "admin/*,cloud-app-manifest.json,.decapod/managed/specs/*,.decapod/managed/.manifest.json,.decapod/governance.json"
+        "root"
       ],
       "created_sequence": 1,
-      "id": "intent:run-website-admin-ux-266",
+      "id": "intent:change_01M8BPA4RP9PKD911TDPSDRQ2T",
       "instruction_origin": {
         "source_ref": "caller:unverified"
       },
       "out_of_scope": [],
       "proof_requirements": [],
-      "raw_intent": "Publish simplified Cloud Admin UI bundle from Propodus PRs #266 & #267",
-      "refined_intent": "Build cloud-app-manifest from Propodus ac2124c0, verify check-site/deno tests/chrome screenshots, update Living Specs & governance",
+      "raw_intent": "Publish Clack 0.10.1 on decapodlabs.ai",
+      "refined_intent": "Publish Clack 0.10.1 on decapodlabs.ai",
       "status": "refined",
       "updated_sequence": 3
     }
@@ -67,127 +82,111 @@
       },
       "deferred_questions": [],
       "human_questions": [],
-      "intent": "Stamp 20261126-brand Cloud web bundle from Propodus ac2124c0 into admin/* and cloud-app-manifest.json while leaving homepage / and /clack/ untouched.",
+      "intent": "Host signed Clack 0.10.1 macOS arm64 DMG and update manifest",
       "phases": [],
-      "proof_hooks": [
-        "static-source",
-        "deno-test",
-        "directory-publication"
-      ],
+      "proof_hooks": [],
       "schema_version": "1.1.0",
       "spec_reviews": [
         {
-          "disposition": "updated",
+          "disposition": "unchanged_with_reason",
           "path": ".decapod/managed/specs/ARCHITECTURE.md",
-          "reason": "Documented simplified Organization Admin UI bundle (PR #266/#267) and 390px grid containment at ac2124c0.",
+          "reason": "No architectural change for Clack 0.10.1 download manifest update (pinned clack/index.html, clack/release.json, and INTENT.md).",
           "reviewed_code_fingerprint": "ff9d13a3ca79a802b6609101652cc6d77683dcc92a5d72786cf6d9f9727817d1",
           "spec_material_hash": "197c7dd03983d2aa349b742a0e38c4c7c5011e4f2d5b12264e9357d1926ce46f"
-        },
-        {
-          "disposition": "updated",
-          "path": ".decapod/managed/specs/INTERFACES.md",
-          "reason": "Documented ac2124c0 cloud-app-manifest provenance and admin/* DOM/responsive interface surfaces.",
-          "reviewed_code_fingerprint": "ff9d13a3ca79a802b6609101652cc6d77683dcc92a5d72786cf6d9f9727817d1",
-          "spec_material_hash": "b2a9c6820b666c7e1491515447abb702736e9804818e1b7017b83513f645706f"
-        },
-        {
-          "disposition": "unchanged_with_reason",
-          "path": ".decapod/managed/specs/SECURITY.md",
-          "reason": "No security boundary changes; bundle compiled cleanly from Propodus ac2124c0 preserving PKCE gate, no-inline-scripts, zero innerHTML/localStorage, and SHA-256 provenance.",
-          "reviewed_code_fingerprint": "ff9d13a3ca79a802b6609101652cc6d77683dcc92a5d72786cf6d9f9727817d1",
-          "spec_material_hash": "c90311b3c1ce76e39a1a12441abcc073925ce58f5dfc4c4ede6999dade480914"
         }
       ],
       "state": "APPROVED",
       "stop_conditions": [],
-      "title": "Publish simplified Cloud Admin UI bundle (Propodus PR #266 & #267)",
+      "title": "Publish Clack 0.10.1 download",
       "todo_ids": [
-        "fend_01m8bkdjj3ez3hgy"
+        "code_01m8bp85dmkxnchn"
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1795687316Z"
+      "updated_at": "1795689625Z"
     },
     "trajectory": {
       "active_boundaries": [
-        "Keep /, /clack/, /pricing/, /signup/, /trust/ untouched and keep internal Propodus secrets/tests out of website repo"
+        "Current claimed task and isolated work branch"
       ],
-      "artifact_hash": "sha256:fafb214f9bd00f7dedaa7c40a6cf1b626be9ef9d660fd876080390f37639c0d2",
+      "artifact_hash": "sha256:b9ab5e6f9721c09c79c1b4c724eb5e47590ecf91fe32b3c4ed79eabb6b5d9661",
       "checks": [
         {
-          "name": "check-site",
-          "status": "passed"
-        },
-        {
-          "name": "chrome-verify-42",
-          "status": "passed"
-        },
-        {
-          "name": "deno-test",
-          "status": "passed"
-        },
-        {
-          "name": "verify-directory-publication",
+          "name": "static-source",
           "status": "passed"
         }
       ],
+      "current_phase": "intent",
       "custody": {
         "events": [
           {
             "event_id": "event:2",
-            "intent_id": "intent:run-website-admin-ux-266",
+            "intent_id": "intent:change_01M8BPA4RP9PKD911TDPSDRQ2T",
             "kind": "created",
             "sequence": 2
           },
           {
             "event_id": "event:3",
-            "intent_id": "intent:run-website-admin-ux-266",
+            "intent_id": "intent:change_01M8BPA4RP9PKD911TDPSDRQ2T",
             "kind": "refined",
             "sequence": 3
           },
           {
-            "detail": "trajectory:run-website-admin-ux-266",
+            "detail": "trajectory:branch_01M8BPA4VADRKH7JFPVAZD98XD",
             "event_id": "event:4",
-            "intent_id": "intent:run-website-admin-ux-266",
+            "intent_id": "intent:change_01M8BPA4RP9PKD911TDPSDRQ2T",
             "kind": "trajectory_step_recorded",
             "sequence": 4
+          },
+          {
+            "detail": "trajectory:branch_01M8BPA4VADRKH7JFPVAZD98XD",
+            "event_id": "event:5",
+            "intent_id": "intent:change_01M8BPA4RP9PKD911TDPSDRQ2T",
+            "kind": "trajectory_step_recorded",
+            "sequence": 5
           }
         ],
         "knowledge_candidates": [],
-        "next_sequence": 4,
+        "next_sequence": 5,
         "schema_version": "1.1.0",
         "trajectories": {
-          "run-website-admin-ux-266": {
+          "branch_01M8BPA4VADRKH7JFPVAZD98XD": {
             "evidence_only": true,
-            "id": "run-website-admin-ux-266",
-            "intent_id": "intent:run-website-admin-ux-266",
+            "id": "branch_01M8BPA4VADRKH7JFPVAZD98XD",
+            "intent_id": "intent:change_01M8BPA4RP9PKD911TDPSDRQ2T",
             "steps": [
               {
                 "action": "trajectory.record",
                 "custody_event_id": "event:4",
                 "observations": [
-                  "admin/admin.css",
-                  "admin/index.html",
-                  "shared/commercial-ui.css",
-                  "admin/admin.css",
-                  "admin/admin.js",
-                  "admin/index.html",
-                  "cloud-app-manifest.json",
-                  ".decapod/managed/specs/INTENT.md",
-                  ".decapod/managed/specs/ARCHITECTURE.md",
-                  ".decapod/managed/specs/INTERFACES.md",
-                  "check-site.ts documents=4 local_assets=105; deno test 7 passed 0 failed; verify-cloud-web-publication 16/16 sha256 verified at ac2124c0; chrome_verify 42 screenshots overflows=[] clipped=[]"
+                  "clack/index.html",
+                  "clack/index.html",
+                  "clack/release.json"
                 ],
                 "proof_refs": [
-                  "check-site",
-                  "deno-test",
-                  "verify-directory-publication",
-                  "chrome-verify-42"
+                  "static-source"
                 ],
                 "scope": [
-                  "admin/*,cloud-app-manifest.json,.decapod/managed/specs/*,.decapod/managed/.manifest.json,.decapod/governance.json"
+                  "root"
                 ],
                 "sequence": 4,
+                "validation_findings": []
+              },
+              {
+                "action": "trajectory.record",
+                "custody_event_id": "event:5",
+                "observations": [
+                  "clack/index.html",
+                  "clack/index.html",
+                  "clack/release.json"
+                ],
+                "proof_refs": [
+                  "static-source"
+                ],
+                "scope": [
+                  "root"
+                ],
+                "sequence": 5,
                 "validation_findings": []
               }
             ]
@@ -195,31 +194,26 @@
         }
       },
       "declared_commands": [],
-      "evidence": [
-        "check-site.ts documents=4 local_assets=105; deno test 7 passed 0 failed; verify-cloud-web-publication 16/16 sha256 verified at ac2124c0; chrome_verify 42 screenshots overflows=[] clipped=[]"
-      ],
+      "destination": "pull request",
+      "evidence": [],
       "inspected_files": [
-        "admin/admin.css",
-        "admin/index.html",
-        "shared/commercial-ui.css"
+        "clack/index.html"
       ],
-      "intent_id": "intent:run-website-admin-ux-266",
+      "intent_id": "intent:change_01M8BPA4RP9PKD911TDPSDRQ2T",
       "modified_files": [
-        ".decapod/managed/specs/ARCHITECTURE.md",
-        ".decapod/managed/specs/INTENT.md",
-        ".decapod/managed/specs/INTERFACES.md",
-        "admin/admin.css",
-        "admin/admin.js",
-        "admin/index.html",
-        "cloud-app-manifest.json"
+        "clack/index.html",
+        "clack/release.json"
+      ],
+      "next_transitions": [
+        "Refine plan and declare falsifiable checks"
       ],
       "repo_scope": [
-        "admin/*,cloud-app-manifest.json,.decapod/managed/specs/*,.decapod/managed/.manifest.json,.decapod/governance.json"
+        "root"
       ],
-      "run_id": "run-website-admin-ux-266",
+      "run_id": "branch_01M8BPA4VADRKH7JFPVAZD98XD",
       "schema_version": "1.1.0",
       "shortcut_risk_signals": [],
-      "task_id": "fend_01m8bkdjj3ez3hgy",
+      "task_id": "code_01m8bp85dmkxnchn",
       "tool_calls": [],
       "unresolved_assumptions": []
     }
