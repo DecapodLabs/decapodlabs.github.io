@@ -818,6 +818,11 @@
       }
     }
 
+    function orgDisplayName(org) {
+      if (!org || typeof flow.formatOrganizationDisplayName !== "function") return "Organization";
+      return flow.formatOrganizationDisplayName(org) || "Organization";
+    }
+
     function renderAccountBar() {
       var bar = byId("admin-account-bar");
       var heading = byId("admin-heading");
@@ -828,7 +833,7 @@
       summary.textContent = extractGitHubHandle(currentUser);
       if (heading) {
         heading.textContent = activeOrg
-          ? (activeOrg.scm_owner_slug || activeOrg.id)
+          ? orgDisplayName(activeOrg)
           : "Organizations";
       }
       if (orgSelect) {
@@ -837,7 +842,7 @@
           var orgItem = adminOrgs[i];
           var opt = doc.createElement("option");
           opt.value = orgItem.cloud_org_id;
-          opt.textContent = orgItem.scm_owner_slug || orgItem.id;
+          opt.textContent = orgDisplayName(orgItem);
           orgSelect.appendChild(opt);
         }
         if (activeOrg && adminOrgs.some(function (o) { return o.cloud_org_id === activeOrg.cloud_org_id; })) {
@@ -959,7 +964,7 @@
       var slugEl = byId("admin-active-org-slug");
       var provEl = byId("admin-active-org-provider");
       var orthoEl = byId("admin-orthogonality-summary");
-      if (slugEl) slugEl.textContent = activeOrg.scm_owner_slug || activeOrg.id;
+      if (slugEl) slugEl.textContent = orgDisplayName(activeOrg);
       if (provEl) provEl.textContent = formatProviderName(activeOrg.scm_provider);
 
       var assignedCount = 0;
@@ -1770,7 +1775,7 @@
           if (adminOrgs[j].cloud_org_id === ctx.cloudOrgId) continue;
           var dOpt = doc.createElement("option");
           dOpt.value = adminOrgs[j].cloud_org_id;
-          dOpt.textContent = adminOrgs[j].scm_owner_slug || adminOrgs[j].id;
+          dOpt.textContent = orgDisplayName(adminOrgs[j]);
           dstOrgSelect.appendChild(dOpt);
         }
       }
@@ -2291,14 +2296,17 @@
       if (requestedOrgLocator) {
         var resolved = flow.resolveAdminOrganization(result.organizations, requestedOrgLocator);
         if (resolved.status !== "authorized") {
+          var isObsolete = resolved.reason === "obsolete_bootstrap_workspace";
           showDeniedPanel(
-            "Access restricted",
-            "Organization access denied",
-            "You do not hold an administrator grant for the requested organization.",
+            isObsolete ? "Obsolete workspace" : "Access restricted",
+            isObsolete ? "This bootstrap workspace is no longer active" : "Organization access denied",
+            isObsolete
+              ? "Legacy personal bootstrap links have been retired. Open one of your verified organizations or connect a repository on signup."
+              : "You do not hold an administrator grant for the requested organization.",
             adminOrgs.length ? "Switch to one of your administered organizations below." : "Activate Decapod Cloud for a repository you administer.",
             adminOrgs.length > 0
           );
-          setStatus("Access denied for requested organization.", true);
+          setStatus(isObsolete ? "Obsolete bootstrap workspace is unavailable." : "Access denied for requested organization.", true);
           return;
         }
         await activateOrganization(resolved.org, mySessionEpoch);
@@ -2308,8 +2316,8 @@
       if (!adminOrgs.length) {
         showDeniedPanel(
           "No organizations yet",
-          "No organizations to administer",
-          "Sign in with the GitHub account that enrolled your repository or accept an organization invitation.",
+          "No organizations yet",
+          "You are signed in, and no verified organizations are connected yet. Connect a GitHub repository on signup or accept an organization invitation.",
           "",
           false
         );
@@ -2347,6 +2355,14 @@
       var invSecret = fragment.get("invitation_secret");
       var hostileFragment = flow.hasHostileFragmentTokens(rawHash);
 
+      var rawRequestedOrg = query.get("org") || "";
+      if (!rawRequestedOrg && currentUrl.pathname.indexOf("/admin/") === 0) {
+        rawRequestedOrg = currentUrl.pathname.slice("/admin/".length).split("/")[0] || "";
+        try { rawRequestedOrg = decodeURIComponent(rawRequestedOrg); } catch (_) {}
+      }
+      var requestedObsoleteBootstrap = typeof flow.isObsoleteBootstrapOrgId === "function" &&
+        flow.isObsoleteBootstrapOrgId(rawRequestedOrg);
+
       var pendingFlowBeforeScrub = storeGet("flow", 8192);
       if (routeCheck.status === "valid") {
         requestedOrgLocator = routeCheck.org;
@@ -2355,8 +2371,8 @@
         requestedOrgLocator = null;
         setBanner(
           "invalid",
-          "Invalid organization link",
-          "Select one of your organizations below."
+          requestedObsoleteBootstrap ? "Obsolete bootstrap workspace" : "Invalid organization link",
+          adminOrgs.length ? "Select one of your verified organizations below." : "Connect a verified repository on signup."
         );
       } else if ((query.has("code") || query.has("error")) && pendingFlowBeforeScrub &&
                  typeof pendingFlowBeforeScrub.requested_org === "string" &&
@@ -2427,14 +2443,16 @@
           accountSnapshot = acct;
           adminOrgs = flow.listAdminOrganizations(acct.organizations);
           showDeniedPanel(
-            "Invalid organization link",
-            "Organization could not be found",
-            "The requested organization link is malformed.",
-            "Choose one of your administered organizations below.",
+            requestedObsoleteBootstrap ? "Obsolete workspace" : "Invalid organization link",
+            requestedObsoleteBootstrap ? "This bootstrap workspace is no longer active" : "Organization could not be found",
+            requestedObsoleteBootstrap
+              ? "Legacy personal bootstrap links have been retired. Open one of your verified organizations or connect a repository on signup."
+              : "The requested organization link is malformed.",
+            adminOrgs.length ? "Choose one of your administered organizations below." : "Connect a verified repository on signup.",
             adminOrgs.length > 0
           );
         }
-        setStatus("Invalid organization link.", true);
+        setStatus(requestedObsoleteBootstrap ? "Obsolete bootstrap workspace is unavailable." : "Invalid organization link.", true);
         return;
       }
 

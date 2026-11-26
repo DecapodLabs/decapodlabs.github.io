@@ -3,10 +3,10 @@
   "product": "decapod-cloud-web",
   "asset_release": "20261126-brand",
   "contract_version": 1,
-  "source_revision": "ac2124c01c64a7188776fb8346ed6e24090abab7",
+  "source_revision": "069086c573dfcff7c4b2e26ab9065949360ad73e",
   "source_clean": true,
   "files": {
-    "cloud-flow.js": "87b97d194bf9ca76435e546cad3368b67b61ed3186feb0fd24f4af8133484262",
+    "cloud-flow.js": "59ab3bcbc6a7c88a05350dd2d0bd66b10d88144ce29c35cb813bd3a05dcb9c87",
     "shared/commercial-ui.css": "ae13f834580e6a32edad1ff4ab3c7016286fe1d1b08e69705dfe384ba5cdb79b",
     "assets/fonts/Geist-Variable.woff2": "3626eba547294501c8a4d662c7d9ea3b49734409a4c5a1ccf12fa86429b1687e",
     "assets/fonts/GeistMono-Variable.woff2": "5d93ee62680bbec1abc5405c2658311f9396f6f9a821ef8551ec463887e600d4",
@@ -17,10 +17,10 @@
     "pricing.js": "b657267fc91516fa9e9fc4c25bd62875b1a66f30b6de5acd2b6afe05060f519d",
     "signup/index.html": "0096fabfddccabf1fb3a4217fe7c6fe973f09bf1feb26b0e932daaa486cd0d5a",
     "signup/signup.css": "eb22537bc9b2a47f2ccc2fc3785baa7456302f650d58827a9f4766d817bd23aa",
-    "signup/signup.js": "c5d7d6fedf49a9c973cf7100b5dd119dd0c1187f9b5ed5e248c5747a2c6d5cc4",
+    "signup/signup.js": "292bc8b5f996eb1558726b62f5958c2df22822d534a8791ae984c7ba3309b21b",
     "admin/index.html": "1c0bedacb93f6bddc96d6d95efca4125396a9fde05be6f7a0a6865b2bd7377e2",
     "admin/admin.css": "a60aa0ec45a52a07ccbffa170550a358f45cacac9a6ea47e87f8db36a59d7d98",
-    "admin/admin.js": "5201608fef5f286b3229e985ad951c9a77fdce8f1d750170034d8948a4468a58",
+    "admin/admin.js": "76df9a1b5613788e15b1e12e3da5ec79ed868d0f391ae41805528da4355e3270",
     "404.html": "0804fbafd1ad5d02317913cd463261044fe1b5415b196e4b99cf21ef2603ee32"
   }
 }
