@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "baseline": {
-    "accepted_commit": "9aa1c9fd4ac64390d7d2225179cecccc023c8bba",
+    "accepted_commit": "96a5245be772d52b416f6b11167197e7d29466f9",
     "unresolved": {
       "claim:clack-download-latest": {
         "falsifier": "The page embeds a release version, either link fails signed out, the checksum or digest disagrees with the source stable build, or a newer published mirror requires editing the page.",
@@ -19,24 +19,19 @@
     }
   },
   "change": {
-    "id": "change_01M8DV0JBCHPENHH7QS4366BH8",
-    "base_commit": "9aa1c9fd4ac64390d7d2225179cecccc023c8bba",
+    "id": "change_01M8E83B44QJP9DM468KAC2YS3",
+    "base_commit": "96a5245be772d52b416f6b11167197e7d29466f9",
     "target_base": "origin/main"
   },
   "checkpoints": [
     {
-      "id": "chk-decapod-refresh-0110-2",
-      "summary": "Refresh Decapod 0.166.4 entrypoints and approve Clack 0.11.0 website plan",
-      "input_digest": "sha256:f34fc01af4b8c0280902c6fe7466d7096d1e64c5867a8c1fdd0e6bf020f512c0"
-    },
-    {
-      "id": "clack-download-0.11.0",
-      "summary": "Host the signed Clack 0.11.0 disk image and checksum.",
-      "input_digest": "sha256:34d5a832f11446c7111c6d90d1b260667066f179540315abfd99df92c90ba8d3"
+      "id": "chk-decapod-refresh-0111",
+      "summary": "Refresh Decapod 0.167.0 entrypoints and approve Clack 0.11.1 website plan",
+      "input_digest": "sha256:4f50db44b79963e8e11082e3be20a8ad63031062c17123593d1e44b710e7a1b1"
     }
   ],
   "intents": {
-    "intent:change_01M8DV0JBCHPENHH7QS4366BH8": {
+    "intent:change_01M8E83B44QJP9DM468KAC2YS3": {
       "acceptance_criteria": [],
       "assumptions": [],
       "boundaries": [
@@ -46,14 +41,14 @@
         "root"
       ],
       "created_sequence": 1,
-      "id": "intent:change_01M8DV0JBCHPENHH7QS4366BH8",
+      "id": "intent:change_01M8E83B44QJP9DM468KAC2YS3",
       "instruction_origin": {
         "source_ref": "caller:unverified"
       },
       "out_of_scope": [],
       "proof_requirements": [],
-      "raw_intent": "Publish Clack v0.11.0 website download",
-      "refined_intent": "Publish Clack v0.11.0 website download",
+      "raw_intent": "Publish Clack v0.11.1 release",
+      "refined_intent": "Publish Clack v0.11.1 release",
       "status": "refined",
       "updated_sequence": 3
     }
@@ -66,116 +61,65 @@
       },
       "deferred_questions": [],
       "human_questions": [],
-      "intent": "Publish Clack v0.11.0 website download",
+      "intent": "Publish Clack v0.11.1 release",
       "phases": [],
       "proof_hooks": [
         "decapod validate"
       ],
       "schema_version": "1.1.0",
-      "spec_reviews": [
-        {
-          "disposition": "unchanged_with_reason",
-          "path": ".decapod/managed/specs/ARCHITECTURE.md",
-          "reason": "No architectural change for Clack 0.11.0 download manifest update (pinned clack/index.html, clack/release.json, and INTENT.md).",
-          "reviewed_code_fingerprint": "871a35a2084296c6a904c5f342be516ea4cc4090145576335ac5006ba75835fb",
-          "spec_material_hash": "cb6da16e536bfec0811f894b1845d48d0d14abcf4de231fbe5cfcabfc4e6121a"
-        }
-      ],
       "state": "APPROVED",
       "stop_conditions": [],
-      "title": "Publish Clack v0.11.0 website download",
+      "title": "Publish Clack v0.11.1 release",
       "todo_ids": [
-        "fend_01m8dv04q52x17e9"
+        "code_01m8e82wxq6cd0cw"
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1795760900Z"
+      "updated_at": "1795774595Z"
     },
     "trajectory": {
       "active_boundaries": [
         "Current claimed task and isolated work branch"
       ],
-      "artifact_hash": "sha256:c7c51c05dacf95ca4b33143197cc7c2f2d4222a1806f41afd23663487f9458fe",
-      "checks": [
-        {
-          "name": "static-source",
-          "status": "passed"
-        }
-      ],
+      "artifact_hash": "sha256:9f3556ada8fc6b63ba5184cbf45fe9c492581a2a0f9cae48adea7fc0e26a5356",
+      "checks": [],
       "current_phase": "intent",
       "custody": {
         "events": [
           {
             "event_id": "event:2",
-            "intent_id": "intent:change_01M8DV0JBCHPENHH7QS4366BH8",
+            "intent_id": "intent:change_01M8E83B44QJP9DM468KAC2YS3",
             "kind": "created",
             "sequence": 2
           },
           {
             "event_id": "event:3",
-            "intent_id": "intent:change_01M8DV0JBCHPENHH7QS4366BH8",
+            "intent_id": "intent:change_01M8E83B44QJP9DM468KAC2YS3",
             "kind": "refined",
             "sequence": 3
-          },
-          {
-            "detail": "trajectory:branch_01M8DV0JE9P9AD9ZGRBNCFR1AV",
-            "event_id": "event:4",
-            "intent_id": "intent:change_01M8DV0JBCHPENHH7QS4366BH8",
-            "kind": "trajectory_step_recorded",
-            "sequence": 4
           }
         ],
         "knowledge_candidates": [],
-        "next_sequence": 4,
+        "next_sequence": 3,
         "schema_version": "1.1.0",
-        "trajectories": {
-          "branch_01M8DV0JE9P9AD9ZGRBNCFR1AV": {
-            "evidence_only": true,
-            "id": "branch_01M8DV0JE9P9AD9ZGRBNCFR1AV",
-            "intent_id": "intent:change_01M8DV0JBCHPENHH7QS4366BH8",
-            "steps": [
-              {
-                "action": "trajectory.record",
-                "custody_event_id": "event:4",
-                "observations": [
-                  "clack/index.html",
-                  "clack/index.html",
-                  "clack/release.json"
-                ],
-                "proof_refs": [
-                  "static-source"
-                ],
-                "scope": [
-                  "root"
-                ],
-                "sequence": 4,
-                "validation_findings": []
-              }
-            ]
-          }
-        }
+        "trajectories": {}
       },
       "declared_commands": [],
       "destination": "pull request",
       "evidence": [],
-      "inspected_files": [
-        "clack/index.html"
-      ],
-      "intent_id": "intent:change_01M8DV0JBCHPENHH7QS4366BH8",
-      "modified_files": [
-        "clack/index.html",
-        "clack/release.json"
-      ],
+      "inspected_files": [],
+      "intent_id": "intent:change_01M8E83B44QJP9DM468KAC2YS3",
+      "modified_files": [],
       "next_transitions": [
         "Refine plan and declare falsifiable checks"
       ],
       "repo_scope": [
         "root"
       ],
-      "run_id": "branch_01M8DV0JE9P9AD9ZGRBNCFR1AV",
+      "run_id": "branch_01M8E83BAW2JQM6H42M8ZG6YPB",
       "schema_version": "1.1.0",
       "shortcut_risk_signals": [],
-      "task_id": "fend_01m8dv04q52x17e9",
+      "task_id": "code_01m8e82wxq6cd0cw",
       "tool_calls": [],
       "unresolved_assumptions": []
     }
