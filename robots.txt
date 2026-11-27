@@ -1,0 +1,13 @@
+# Public marketing and documentation are crawlable.
+# Crawl directives do not authenticate users or guarantee removal from search.
+# The application retains its noindex metadata and server-side access controls.
+User-agent: *
+Disallow: /admin
+Disallow: /signup
+Disallow: /auth
+Disallow: /callback
+Disallow: /checkout
+Disallow: /billing
+Disallow: /.decapod/
+
+Sitemap: https://decapodlabs.ai/sitemap.xml

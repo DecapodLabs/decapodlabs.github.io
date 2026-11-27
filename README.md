@@ -2,15 +2,15 @@
 
 This is the Decapod homepage and pricing preview, published from the **organization-level** GitHub Pages repository:
 
-**https://decapodlabs.github.io/**
+**https://decapodlabs.ai/**
 
-It is separate from the [Decapod documentation](https://decapodlabs.github.io/decapod/), and it does not replace the open-source kernel at [DecapodLabs/decapod](https://github.com/DecapodLabs/decapod).
+It is separate from the [Decapod documentation](https://decapodlabs.ai/decapod/), and it does not replace the open-source kernel at [DecapodLabs/decapod](https://github.com/DecapodLabs/decapod).
 
 ## Publication
 
 GitHub Pages: Settings → Pages → **Deploy from a branch** → **main** → **/(root)** → Save.
 
-The GitHub Pages domain is derived from the exact repository name `DecapodLabs/decapodlabs.github.io`. No DNS records or hosted service are required.
+The canonical public domain is `https://decapodlabs.ai`, configured by `CNAME` on the organization-level GitHub Pages repository. The `decapodlabs.github.io` hostname remains the hosting origin and redirects to the custom domain.
 
 The [pricing page](https://decapodlabs.ai/pricing) presents both Decapod Local (`Free forever` offline governance kernel without signup) and Decapod Cloud (`$50`/contributor/repository/month, or `$552`/contributor/repository/year billed upfront with verified multi-seat/multi-repo volume tiers). The former `/offerings.html` path is a noindex redirect to `/pricing.html`.
 
@@ -62,3 +62,11 @@ The source intent and acceptance criteria are in [the site decision record](docs
 
 See [site intent and acceptance](docs/decisions/0001-site-intent.md).
 The film’s single Pi engineering objective was selected by the controller under the human-authorized launch mission. Its separately pinned [provenance disclosure](evidence/pi-1758-20261117-01/objective-provenance.json) distinguishes that selection from direct human prompt authorship, while the actual capture records zero subsequent input and no controller repair.
+
+## Search and agent discovery
+
+Public pages use canonical `https://decapodlabs.ai` URLs. `sitemap.xml` lists seven canonical public entrypoints, including the documentation root; the documentation repository owns its generated chapter pages. `robots.txt` excludes account and transaction routes from cooperative crawling. Existing application `noindex` metadata and server authorization remain separate controls; robots rules alone do not remove a URL from a search index.
+
+`llms.txt` is a concise public agent navigation index, discoverable from the homepage footer and `rel="describedby"` metadata on website-owned public pages. It grants no account authority and makes no indexing or ranking promise. Cloudflare Search for Agents and any content conversion are managed zone features whose operation must be verified independently; no search backend or claim of availability is added by these static files.
+
+SEO changes to `pricing.html`, `pricing/index.html`, Signup, Admin, or other files listed in `cloud-app-manifest.json` must be authored and republished from Propodus. Preserve their published bytes and provenance here.
