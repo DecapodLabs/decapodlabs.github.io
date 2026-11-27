@@ -1,5 +1,9 @@
 # Intent
 
+## Public search and agent discovery
+
+Make the public website and documentation discoverable at the canonical `https://decapodlabs.ai` origin. Website-owned marketing pages supply descriptive titles, canonical links, social metadata, and a concise `/llms.txt` index; `/sitemap.xml` lists canonical public entrypoints. Account and transaction routes remain excluded from cooperative crawling, while existing noindex metadata and server authorization retain their separate roles. These surfaces make existing public information easier to find without changing product claims, UI behavior, hosted authority, or promising search rankings.
+
 ## Signed Decapod Cloud Web Publication (`cloud-app-manifest.json`, #54, #55, #56)
 
 Keep `DecapodLabs/decapodlabs.github.io` focused on public marketing, public documentation, public Cloud-first `/pricing` ($50/mo, $552/yr, plus `Decapod Local — Free forever`, with HTTPS enterprise contact URLs rather than raw `mailto:` so edge proxies never inject `email-decode.min.js`), and verified static distribution of compiled Decapod Cloud presentation bundles (`cloud-app-manifest.json`, `asset_release: 20261126-brand`, source revision `069086c5` enforcing verified customer organization boundaries in PR #269 atop PRs #266/#267, unifying the warm homepage palette with Geist typography, Signup future-repo reservation slots, and simplified Organization Admin UX, plus refined `trust/trust.css` card borders/shadows). Preserve `billing`, `seats`, `repo`, and `repos` across `/pricing` -> `/auth` PKCE -> `/signup` without pre-launch gates, and verify published artifact SHA-256 provenance via `tests/publication_provenance_test.ts` while keeping internal application tests and operational secrets out of this repository.
@@ -91,7 +95,7 @@ These declarations select authoring and proof obligations; they do not attest im
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `871a35a2084296c6a904c5f342be516ea4cc4090145576335ac5006ba75835fb`
+- Repository signal fingerprint: `8ff16d5b31cbdbd35a476e98778d5f571d60c0ffcf4b78519dd9a58e568c2929`
 - Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (3 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->

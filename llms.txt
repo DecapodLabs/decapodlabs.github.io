@@ -1,0 +1,33 @@
+# Decapod Labs
+
+> Decapod is a local-first, repo-native governance kernel for AI coding agents. It preserves task ownership, intent, repository boundaries, and evidence tied to the work delivered across agent sessions.
+
+Decapod runs when an agent invokes it and then exits. Agents perform the engineering work; the kernel governs accepted work. Decapod Local is free and works without signup. Decapod Cloud provides an optional shared service for teams. Current commands and their contracts are available from the installed binary through `decapod docs ingest`.
+
+This index covers public product information and documentation. Authenticated account, organization, billing, and repository data are outside its scope. The linked pages are the current sources for product details and limitations.
+
+## Start here
+
+- [Decapod Labs](https://decapodlabs.ai/): Product overview, capabilities, and examples of governed agent work.
+- [Documentation](https://decapodlabs.ai/decapod/): Public Decapod documentation and chapter index.
+- [Quickstart](https://decapodlabs.ai/decapod/quickstart.html): Install Decapod and initialize a repository.
+- [Mental model](https://decapodlabs.ai/decapod/mental-model.html): The relationship between agents, repository state, and governance.
+- [Agent-first architecture](https://decapodlabs.ai/decapod/concepts/agent-first.html): How coding agents invoke the kernel.
+- [CLI reference](https://decapodlabs.ai/decapod/reference/cli.html): Public command reference; consult the installed binary for version-matched contracts.
+- [Errors and recovery](https://decapodlabs.ai/decapod/reference/errors.html): Interpret failures and supported recovery paths.
+
+## Proof and boundaries
+
+- [Proof concepts](https://decapodlabs.ai/decapod/concepts/proof.html): Evidence and validation boundaries.
+- [Recorded engineering proof](https://decapodlabs.ai/proof.html): An observed failure, repair, validation, and publication, with evidence and explicit limits.
+- [Trust and privacy](https://decapodlabs.ai/trust/): Public network, privacy, credential, and service boundaries.
+
+## Products
+
+- [Pricing](https://decapodlabs.ai/pricing): Current Decapod Cloud terms and the free Decapod Local option.
+- [Clack for macOS](https://decapodlabs.ai/clack/): The coding workspace, its current download, and release information.
+
+## Optional
+
+- [The End of Continuous Rework](https://decapodlabs.ai/tecr.html): The founder's statement on intent and verifiable engineering outcomes.
+- [Decapod source](https://github.com/DecapodLabs/decapod): Public source code, releases, and issues.

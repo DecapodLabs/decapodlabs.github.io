@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "baseline": {
-    "accepted_commit": "96a5245be772d52b416f6b11167197e7d29466f9",
+    "accepted_commit": "c757e8551af88a5e060eb4ee6de17bbf720400bf",
     "unresolved": {
       "claim:clack-download-latest": {
         "falsifier": "The page embeds a release version, either link fails signed out, the checksum or digest disagrees with the source stable build, or a newer published mirror requires editing the page.",
@@ -19,24 +19,43 @@
     }
   },
   "change": {
-    "id": "change_01M8E83B44QJP9DM468KAC2YS3",
-    "base_commit": "96a5245be772d52b416f6b11167197e7d29466f9",
+    "id": "change_01M8FE6922DA8ATN1929DWTCA1",
+    "base_commit": "c757e8551af88a5e060eb4ee6de17bbf720400bf",
     "target_base": "origin/main"
+  },
+  "claims": {
+    "claim:site-discovery-files": {
+      "statement": "Root robots.txt, sitemap.xml (7 public entrypoints), and llms.txt are valid, linked via rel=describedby and homepage footer, and exclude auth/admin/signup/transaction routes.",
+      "falsifier": "Invalid sitemap XML, missing robots/llms targets, or inclusion of authenticated/transaction routes.",
+      "status": "supported",
+      "proof_refs": [
+        "tests/trust_privacy_contract_test.ts"
+      ]
+    },
+    "claim:site-seo-canonicals": {
+      "statement": "Website-owned public pages use https://decapodlabs.ai canonicals, Open Graph/Twitter metadata, JSON-LD on homepage, and direct /decapod/ links without modifying clack/* or Propodus bundle assets.",
+      "falsifier": "Any modified Clack or cloud-app-manifest file, duplicate/missing canonical, invalid JSON-LD, or check-site.ts failure.",
+      "status": "supported",
+      "proof_refs": [
+        "scripts/check-site.ts",
+        "tests/publication_provenance_test.ts"
+      ]
+    }
   },
   "checkpoints": [
     {
-      "id": "chk-decapod-refresh-0111",
-      "summary": "Refresh Decapod 0.167.0 entrypoints and approve Clack 0.11.1 website plan",
-      "input_digest": "sha256:4f50db44b79963e8e11082e3be20a8ad63031062c17123593d1e44b710e7a1b1"
-    },
-    {
-      "id": "clack-download-0.11.1",
-      "summary": "Host the signed Clack 0.11.1 disk image and checksum.",
-      "input_digest": "sha256:4742b354f6849e3152348a9f55cb60e0afea3d685592f4df41ef477c0f816d04"
+      "id": "chk-site-seo-100",
+      "summary": "Apply #100 canonical metadata, robots.txt, sitemap.xml, llms.txt (excluding clack/index.html) and refresh v0.169.1 entrypoints/specs",
+      "input_digest": "sha256:fd04dc7e3322866a0b99ea6b1fab83d1fb16f40fd6338bf1d6cc5d9ab6a106d4",
+      "proof_refs": [
+        "scripts/check-site.ts",
+        "tests/publication_provenance_test.ts",
+        "tests/trust_privacy_contract_test.ts"
+      ]
     }
   ],
   "intents": {
-    "intent:change_01M8E83B44QJP9DM468KAC2YS3": {
+    "intent:change_01M8FE6922DA8ATN1929DWTCA1": {
       "acceptance_criteria": [],
       "assumptions": [],
       "boundaries": [
@@ -46,14 +65,14 @@
         "root"
       ],
       "created_sequence": 1,
-      "id": "intent:change_01M8E83B44QJP9DM468KAC2YS3",
+      "id": "intent:change_01M8FE6922DA8ATN1929DWTCA1",
       "instruction_origin": {
         "source_ref": "caller:unverified"
       },
       "out_of_scope": [],
       "proof_requirements": [],
-      "raw_intent": "Publish Clack v0.11.1 release",
-      "refined_intent": "Publish Clack v0.11.1 release",
+      "raw_intent": "Execute Website SEO & Discovery (#100, #99)",
+      "refined_intent": "Execute Website SEO & Discovery (#100, #99)",
       "status": "refined",
       "updated_sequence": 3
     }
@@ -66,7 +85,7 @@
       },
       "deferred_questions": [],
       "human_questions": [],
-      "intent": "Publish Clack v0.11.1 release",
+      "intent": "Execute Website SEO & Discovery (#100, #99)",
       "phases": [],
       "proof_hooks": [
         "decapod validate"
@@ -74,53 +93,71 @@
       "schema_version": "1.1.0",
       "spec_reviews": [
         {
-          "disposition": "unchanged_with_reason",
+          "disposition": "updated",
           "path": ".decapod/managed/specs/ARCHITECTURE.md",
-          "reason": "No architectural change for Clack 0.11.1 download manifest update (pinned clack/index.html, clack/release.json, and INTENT.md).",
-          "reviewed_code_fingerprint": "871a35a2084296c6a904c5f342be516ea4cc4090145576335ac5006ba75835fb",
-          "spec_material_hash": "cb6da16e536bfec0811f894b1845d48d0d14abcf4de231fbe5cfcabfc4e6121a"
+          "reason": "Documented static search/discovery assets (robots.txt, sitemap.xml, llms.txt) and external Cloudflare boundary (#100)",
+          "reviewed_code_fingerprint": "8ff16d5b31cbdbd35a476e98778d5f571d60c0ffcf4b78519dd9a58e568c2929",
+          "spec_material_hash": "6ae6f4932975d150a1d4f5e2b0e1b518960517078d675e43cbdc9811096a837b"
+        },
+        {
+          "disposition": "updated",
+          "path": ".decapod/managed/specs/INTERFACES.md",
+          "reason": "Documented GET /robots.txt, GET /sitemap.xml, GET /llms.txt, and canonical/describedby metadata (#100)",
+          "reviewed_code_fingerprint": "8ff16d5b31cbdbd35a476e98778d5f571d60c0ffcf4b78519dd9a58e568c2929",
+          "spec_material_hash": "1444339db55ef17bd2bf1816dfa24f59b9565a7e79092d95a66ce6e0c9c6f3a8"
+        },
+        {
+          "disposition": "unchanged_with_reason",
+          "path": ".decapod/managed/specs/SECURITY.md",
+          "reason": "Only generated codebase attestation fingerprint refreshed for v0.169.1; no security boundary change",
+          "reviewed_code_fingerprint": "8ff16d5b31cbdbd35a476e98778d5f571d60c0ffcf4b78519dd9a58e568c2929",
+          "spec_material_hash": "c90311b3c1ce76e39a1a12441abcc073925ce58f5dfc4c4ede6999dade480914"
         }
       ],
       "state": "APPROVED",
       "stop_conditions": [],
-      "title": "Publish Clack v0.11.1 release",
+      "title": "Execute Website SEO & Discovery (#100, #99)",
       "todo_ids": [
-        "code_01m8e82wxq6cd0cw"
+        "fend_01m8fe470m9bmekz"
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1795774974Z"
+      "updated_at": "1795814677Z"
     },
     "trajectory": {
       "active_boundaries": [
         "Current claimed task and isolated work branch"
       ],
-      "artifact_hash": "sha256:b58c21995de7b30fdbab53a438c5f8627c76cf4bf713eac1757c170fc0a8ca57",
+      "artifact_hash": "sha256:c6e3fa365601aac10cf965b6de5418fc943a7011dee839327edba2e1d8c61fcc",
       "checks": [
+        {
+          "name": "deno-tests",
+          "status": "passed"
+        },
         {
           "name": "static-source",
           "status": "passed"
         }
       ],
-      "current_phase": "intent",
+      "current_phase": "implementation",
       "custody": {
         "events": [
           {
             "event_id": "event:2",
-            "intent_id": "intent:change_01M8E83B44QJP9DM468KAC2YS3",
+            "intent_id": "intent:change_01M8FE6922DA8ATN1929DWTCA1",
             "kind": "created",
             "sequence": 2
           },
           {
             "event_id": "event:3",
-            "intent_id": "intent:change_01M8E83B44QJP9DM468KAC2YS3",
+            "intent_id": "intent:change_01M8FE6922DA8ATN1929DWTCA1",
             "kind": "refined",
             "sequence": 3
           },
           {
-            "detail": "trajectory:branch_01M8E83BAW2JQM6H42M8ZG6YPB",
+            "detail": "trajectory:branch_01M8FE696GSN22DXDHWA2C9X8S",
             "event_id": "event:4",
-            "intent_id": "intent:change_01M8E83B44QJP9DM468KAC2YS3",
+            "intent_id": "intent:change_01M8FE6922DA8ATN1929DWTCA1",
             "kind": "trajectory_step_recorded",
             "sequence": 4
           }
@@ -129,21 +166,39 @@
         "next_sequence": 4,
         "schema_version": "1.1.0",
         "trajectories": {
-          "branch_01M8E83BAW2JQM6H42M8ZG6YPB": {
+          "branch_01M8FE696GSN22DXDHWA2C9X8S": {
             "evidence_only": true,
-            "id": "branch_01M8E83BAW2JQM6H42M8ZG6YPB",
-            "intent_id": "intent:change_01M8E83B44QJP9DM468KAC2YS3",
+            "id": "branch_01M8FE696GSN22DXDHWA2C9X8S",
+            "intent_id": "intent:change_01M8FE6922DA8ATN1929DWTCA1",
             "steps": [
               {
-                "action": "trajectory.record",
+                "action": "implementation",
+                "command": "deno run --no-remote --no-npm --allow-read=. scripts/check-site.ts",
                 "custody_event_id": "event:4",
                 "observations": [
-                  "clack/index.html",
-                  "clack/index.html",
-                  "clack/release.json"
+                  "index.html",
+                  "offerings.html",
+                  "proof.html",
+                  "tecr.html",
+                  "trust/index.html",
+                  "README.md",
+                  "index.html",
+                  "offerings.html",
+                  "proof.html",
+                  "tecr.html",
+                  "trust/index.html",
+                  "README.md",
+                  "robots.txt",
+                  "sitemap.xml",
+                  "llms.txt",
+                  ".decapod/managed/specs/INTENT.md",
+                  ".decapod/managed/specs/ARCHITECTURE.md",
+                  ".decapod/managed/specs/INTERFACES.md",
+                  "scripts/check-site.ts passed (documents=4, local_assets=103, fragment_links=20); tests/ 7/7 passed; #100 patch sha256 60cd3fc6c638e64433bbcbc85f08ceb33302444d52855633a8f721788c22f121 applied excluding clack/index.html"
                 ],
                 "proof_refs": [
-                  "static-source"
+                  "static-source",
+                  "deno-tests"
                 ],
                 "scope": [
                   "root"
@@ -155,16 +210,36 @@
           }
         }
       },
-      "declared_commands": [],
-      "destination": "pull request",
-      "evidence": [],
-      "inspected_files": [
-        "clack/index.html"
+      "declared_commands": [
+        "deno run --no-remote --no-npm --allow-read=. scripts/check-site.ts",
+        "deno test --no-remote --no-npm --allow-read=. tests/"
       ],
-      "intent_id": "intent:change_01M8E83B44QJP9DM468KAC2YS3",
+      "destination": "pull request",
+      "evidence": [
+        "scripts/check-site.ts passed (documents=4, local_assets=103, fragment_links=20); tests/ 7/7 passed; #100 patch sha256 60cd3fc6c638e64433bbcbc85f08ceb33302444d52855633a8f721788c22f121 applied excluding clack/index.html"
+      ],
+      "inspected_files": [
+        "README.md",
+        "index.html",
+        "offerings.html",
+        "proof.html",
+        "tecr.html",
+        "trust/index.html"
+      ],
+      "intent_id": "intent:change_01M8FE6922DA8ATN1929DWTCA1",
       "modified_files": [
-        "clack/index.html",
-        "clack/release.json"
+        ".decapod/managed/specs/ARCHITECTURE.md",
+        ".decapod/managed/specs/INTENT.md",
+        ".decapod/managed/specs/INTERFACES.md",
+        "README.md",
+        "index.html",
+        "llms.txt",
+        "offerings.html",
+        "proof.html",
+        "robots.txt",
+        "sitemap.xml",
+        "tecr.html",
+        "trust/index.html"
       ],
       "next_transitions": [
         "Refine plan and declare falsifiable checks"
@@ -172,10 +247,10 @@
       "repo_scope": [
         "root"
       ],
-      "run_id": "branch_01M8E83BAW2JQM6H42M8ZG6YPB",
+      "run_id": "branch_01M8FE696GSN22DXDHWA2C9X8S",
       "schema_version": "1.1.0",
       "shortcut_risk_signals": [],
-      "task_id": "code_01m8e82wxq6cd0cw",
+      "task_id": "fend_01m8fe470m9bmekz",
       "tool_calls": [],
       "unresolved_assumptions": []
     }

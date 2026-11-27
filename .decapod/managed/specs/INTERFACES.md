@@ -1,5 +1,12 @@
 # Interfaces
 
+## Public discovery interfaces
+
+- `GET /robots.txt` publishes cooperative crawl exclusions for account/authentication/transaction paths and the absolute sitemap URL. It is neither access control nor proof of noindex.
+- `GET /sitemap.xml` returns a standard sitemap of canonical HTTPS public entrypoints, without customer query parameters or authenticated pages.
+- `GET /llms.txt` returns a short Markdown navigation index with links to current public product, documentation, pricing, trust, and evidence sources. Website-owned HTML links it through `rel="describedby"`, and the homepage footer exposes a For agents link.
+- Canonical and social metadata use `https://decapodlabs.ai`; website documentation links point directly to `/decapod/` on that origin. Existing application noindex metadata, bundle digests, page IDs, media, and behavior remain unchanged.
+
 ## Public Pricing Handoff & Published Cloud Bundle Manifest (`pricing.js`, `cloud-app-manifest.json`)
 
 - **`pricing.js` & `pricing/index.html`**: Emits `?repo=`, `billing` (`month`/`year`), and `seats` (`1..1000`) through `DecapodCloudFlow.buildSignupHandoffUrl`, preserves selection across `/auth` PKCE `return_to`, uses HTTPS custom-plan issue links (`github.com/DecapodLabs/decapod/issues/new`) instead of raw `mailto:` hrefs to preserve byte-identical CDN delivery, and links cleanly to live Cloud purchase initiation.
@@ -142,7 +149,7 @@ Generated capability obligations: `public-api` is declared for this project. The
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `871a35a2084296c6a904c5f342be516ea4cc4090145576335ac5006ba75835fb`
+- Repository signal fingerprint: `8ff16d5b31cbdbd35a476e98778d5f571d60c0ffcf4b78519dd9a58e568c2929`
 - Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (3 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->
