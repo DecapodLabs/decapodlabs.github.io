@@ -23,6 +23,19 @@
     "base_commit": "d78ec9f3a47007710419f0bdfc5d73f1d2efaa68",
     "target_base": "origin/main"
   },
+  "claims": {
+    "claim:site-uplift-103-106": {
+      "statement": "Website studio uplift (#103, #104, #106, #101) unifies self-hosted Geist typography, proof/trust/secondary chrome, discovery links, and verified Propodus 20261127-uplift (7e4aba65) Cloud bundle with zero external font CDNs and zero check-site or Playwright viewport regressions.",
+      "falsifier": "scripts/check-site.ts fails, deno test tests/ fails, cloud-app-manifest.json disagrees with DecapodLabs/propodus@main 7e4aba65d2ad80707ed030b0fd14e4dbaaaada26, evidence/ or Clack DMG links/checksums change, or 320/390/1024/1440px Chrome views overflow or reference external font CDNs.",
+      "status": "supported",
+      "proof_refs": [
+        "scripts/check-site.ts",
+        "tests/provenance_projection_72_test.ts",
+        "tests/publication_provenance_test.ts",
+        "tests/trust_privacy_contract_test.ts"
+      ]
+    }
+  },
   "checkpoints": [
     {
       "id": "chk-1-design-system",
@@ -58,6 +71,11 @@
       "id": "chk-7-specs-final",
       "summary": "Refresh living specs, record spec reviews, and pass final verification (#103, #104, #106, #101)",
       "input_digest": "sha256:f8ed35f17e4e2e0b05f07f2dfc7617389777f147bdaafa011ea0c7081a6c60f4"
+    },
+    {
+      "id": "chk-8-governance-claim",
+      "summary": "Record PR claim, plan approval, and trajectory checks for code_01m8fjny6bveczsn",
+      "input_digest": "sha256:7772d28fc40ce040109fd343c64a3147a654fb4f7d3957d7a715eadeb5e73e70"
     }
   ],
   "intents": {
@@ -120,7 +138,7 @@
           "spec_material_hash": "62bb344f61469fd3f75f5c09e37936d8b4912412b38d5593b58f2503a16f9d5a"
         }
       ],
-      "state": "DRAFT",
+      "state": "APPROVED",
       "stop_conditions": [],
       "title": "Studio uplift (#103, #104, #106): positioning contract, homepage overhaul, proof/trust/secondary pages alignment",
       "todo_ids": [
@@ -128,14 +146,23 @@
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1795832606Z"
+      "updated_at": "1795832803Z"
     },
     "trajectory": {
       "active_boundaries": [
         "Current claimed task and isolated work branch"
       ],
-      "artifact_hash": "sha256:5ac879b2748652746981a7534788759ef84bf38ece313f135b15c8203cbdb87d",
-      "checks": [],
+      "artifact_hash": "sha256:df7f81ba967389c2f2071f4ca54b54a011af83ab0bd0440374e347361ab30992",
+      "checks": [
+        {
+          "name": "check_site",
+          "status": "passed"
+        },
+        {
+          "name": "deno_tests",
+          "status": "passed"
+        }
+      ],
       "current_phase": "intent",
       "custody": {
         "events": [
@@ -150,19 +177,71 @@
             "intent_id": "intent:change_01M8FZDCV5W770563BACPGMTK2",
             "kind": "refined",
             "sequence": 3
+          },
+          {
+            "detail": "trajectory:branch_01M8FZDCXW4B5NBA4JRCMW68MX",
+            "event_id": "event:4",
+            "intent_id": "intent:change_01M8FZDCV5W770563BACPGMTK2",
+            "kind": "trajectory_step_recorded",
+            "sequence": 4
           }
         ],
         "knowledge_candidates": [],
-        "next_sequence": 3,
+        "next_sequence": 4,
         "schema_version": "1.1.0",
-        "trajectories": {}
+        "trajectories": {
+          "branch_01M8FZDCXW4B5NBA4JRCMW68MX": {
+            "evidence_only": true,
+            "id": "branch_01M8FZDCXW4B5NBA4JRCMW68MX",
+            "intent_id": "intent:change_01M8FZDCV5W770563BACPGMTK2",
+            "steps": [
+              {
+                "action": "trajectory.record",
+                "custody_event_id": "event:4",
+                "observations": [
+                  "scripts/check-site.ts",
+                  "cloud-app-manifest.json",
+                  "index.html",
+                  "styles.css",
+                  "proof.html",
+                  "trust/index.html",
+                  "tecr.html",
+                  "clack/index.html",
+                  "robots.txt",
+                  "llms.txt"
+                ],
+                "proof_refs": [
+                  "check_site",
+                  "deno_tests"
+                ],
+                "scope": [
+                  "root"
+                ],
+                "sequence": 4,
+                "validation_findings": []
+              }
+            ]
+          }
+        }
       },
       "declared_commands": [],
       "destination": "pull request",
       "evidence": [],
-      "inspected_files": [],
+      "inspected_files": [
+        "cloud-app-manifest.json",
+        "scripts/check-site.ts"
+      ],
       "intent_id": "intent:change_01M8FZDCV5W770563BACPGMTK2",
-      "modified_files": [],
+      "modified_files": [
+        "clack/index.html",
+        "index.html",
+        "llms.txt",
+        "proof.html",
+        "robots.txt",
+        "styles.css",
+        "tecr.html",
+        "trust/index.html"
+      ],
       "next_transitions": [
         "Refine plan and declare falsifiable checks"
       ],
