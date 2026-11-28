@@ -68,12 +68,13 @@
 ### 4.2 Exploration-Led Shared Navigation & Proportionate Pinned Footer
 - **Sticky Header (`<header class="nav">`):**
   - Wordmark (`/assets/logo-a.png`)
-  - Top Links (`8` clean routes): `Features` (`/#capabilities`), `Architecture` (`/#architecture`), `Showcase` (`/#showcase`), `Research` (`/#research`), `Docs` (`https://decapodlabs.ai/decapod/`), `Rework` (`/tecr.html`), `Clack` (`/clack/index.html`), `Pricing` (`https://decapodlabs.ai/pricing`, `.nav-pricing` pill)
+  - Top Links (`6` clean routes): `Architecture` (`/#architecture`), `Capabilities` (`/#capabilities`), `Research` (`/#research`), `Docs` (`https://decapodlabs.ai/decapod/`), `Clack` (`/clack/index.html`), `Pricing` (`https://decapodlabs.ai/pricing`, `.nav-pricing` pill)
   - Primary CTA: `GitHub ↗` (`https://github.com/DecapodLabs/decapod`)
-  - Single-row at `1024px` and `1440px` (`clamp`/compact spacing at `961px–1180px`); clean two-row/wrapped mobile layout at `<= 960px` without horizontal overflow or crowding at `320px`.
+  - Single-row at `1024px` and `1440px` (`clamp`/compact spacing at `961px–1180px`); at `<= 760px`, `.nav-links` becomes a compact single-row horizontal strip (`flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; white-space: nowrap`) so sticky mobile header height stays around `~90px` with zero multi-row crowding.
+- **Link Arrow Convention:** Internal and first-party product navigation uses `→` (`Docs →`, `Quickstart →`, `Team Cloud →`, `Pricing →`, `Trust & Privacy →`, `Architecture →`), while external sites (`GitHub ↗`, `Crates.io ↗`, `Decapod Cachix ↗`, Whop) use `↗`.
 - **Proportionate Pinned Footer (`<footer class="footer">`):**
-  - Links: `Docs ↗`, `Evaluation` (`/proof.html`), `Pricing ↗`, `Trust & Privacy ↗` (`/trust/index.html`), `Rework` (`/tecr.html`), `GitHub ↗`, `For agents` (`/llms.txt`).
-  - `--site-footer-reserve` ensures bottom sections, closing CTAs, and focusable links never sit hidden behind the pinned footer across desktop and mobile viewports.
+  - Links: `Docs →`, `Evaluation` (`/proof.html`), `Pricing →`, `Trust & Privacy →` (`/trust/index.html`), `Rework` (`/tecr.html`), `GitHub ↗`, `For agents` (`/llms.txt`).
+  - Trimmed vertical padding (`10px 0` desktop, `8px 0` mobile) and matching `--site-footer-reserve` keep the fixed footer sleek over scrolled content while preserving full CTA and link clearance.
 
 ---
 
