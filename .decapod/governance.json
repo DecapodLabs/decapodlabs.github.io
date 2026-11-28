@@ -23,6 +23,17 @@
     "base_commit": "d06ee23bd4e6d120a2f94145eeae2275efa07308",
     "target_base": "origin/main"
   },
+  "claims": {
+    "claim:site-ia-clack-writing-20261128": {
+      "statement": "Website IA polish, Writing hub, Clack showcase, single-row 8-link nav across viewports, arrow convention, PR #109 privacy preservation, and Propodus 20261128-ia bundle (364d8a2f) pass all static, provenance, trust, and delivered-privacy checks.",
+      "falsifier": "Any waystead/whop/abaxi/blog string remains outside governance history, check-site.ts or deno test tests/ fails, cloud-app-manifest.json disagrees with 364d8a2f, or nav wraps into multiple rows.",
+      "status": "supported",
+      "proof_refs": [
+        "deno test tests/",
+        "scripts/check-site.ts"
+      ]
+    }
+  },
   "checkpoints": [
     {
       "id": "chk-1-ia-phase-a",
@@ -54,6 +65,11 @@
       "id": "chk-5-cloud-bundle-20261128-ia",
       "summary": "Ingest Propodus 20261128-ia Cloud web bundle from origin/main 364d8a2f6901d9be4588b808a8001cd522fcf777 and update provenance release assertion",
       "input_digest": "sha256:bf53e661c13c5fbe33cc22aeff63c38bf023e30a3da9344cb77bf08d5e4b3a19"
+    },
+    {
+      "id": "chk-6-specs-and-govern",
+      "summary": "Update living specs (INTENT, ARCHITECTURE, INTERFACES), refresh v0.169.5 surfaces, approve plan, and record claim/trajectory for Track 3",
+      "input_digest": "sha256:c12083d3e0372a1864ea31d0f1620a9fcbe0ed6b21fe0f339f9f5d72e7b1329e"
     }
   ],
   "intents": {
@@ -81,26 +97,48 @@
   },
   "sections": {
     "plan": {
-      "constraints": {},
+      "constraints": {
+        "file_touch_budget": null,
+        "forbidden_paths": []
+      },
+      "deferred_questions": [],
+      "human_questions": [],
       "intent": "Track 3 IA polish: 6-link compact nav, sleek footer, arrow consistency, and 20261128-ia bundle",
+      "phases": [],
       "proof_hooks": [
         "decapod validate"
       ],
       "schema_version": "1.1.0",
-      "state": "DRAFT",
+      "state": "APPROVED",
+      "stop_conditions": [],
       "title": "Track 3 IA polish: 6-link compact nav, sleek footer, arrow consistency, and 20261128-ia bundle",
       "todo_ids": [
         "code_01m8gc7ej3dpeg96"
       ],
-      "updated_at": "1795846046Z"
+      "unknowns": [],
+      "unresolved_contradictions": [],
+      "updated_at": "1795850162Z"
     },
     "trajectory": {
       "active_boundaries": [
         "Current claimed task and isolated work branch"
       ],
-      "artifact_hash": "sha256:43cf7da87075977ad03a1e127b11494cc2db1104018833d1ce7f2f67c38c47dd",
-      "checks": [],
-      "current_phase": "intent",
+      "artifact_hash": "sha256:f192141563b35352c2e4b5b6680128bb63eaf22347011674fdaf154f2778cf02",
+      "checks": [
+        {
+          "name": "check-site",
+          "status": "passed"
+        },
+        {
+          "name": "deno-test",
+          "status": "passed"
+        },
+        {
+          "name": "verify-cloud-web-publication",
+          "status": "passed"
+        }
+      ],
+      "current_phase": "verification",
       "custody": {
         "events": [
           {
@@ -114,19 +152,105 @@
             "intent_id": "intent:change_01M8GC808VBGVK0M8AYJA5H9CK",
             "kind": "refined",
             "sequence": 3
+          },
+          {
+            "detail": "trajectory:branch_01M8GC80D5XPNKJTKCD67XYAAY",
+            "event_id": "event:4",
+            "intent_id": "intent:change_01M8GC808VBGVK0M8AYJA5H9CK",
+            "kind": "trajectory_step_recorded",
+            "sequence": 4
           }
         ],
         "knowledge_candidates": [],
-        "next_sequence": 3,
+        "next_sequence": 4,
         "schema_version": "1.1.0",
-        "trajectories": {}
+        "trajectories": {
+          "branch_01M8GC80D5XPNKJTKCD67XYAAY": {
+            "evidence_only": true,
+            "id": "branch_01M8GC80D5XPNKJTKCD67XYAAY",
+            "intent_id": "intent:change_01M8GC808VBGVK0M8AYJA5H9CK",
+            "steps": [
+              {
+                "action": "verification",
+                "custody_event_id": "event:4",
+                "observations": [
+                  "index.html",
+                  "styles.css",
+                  "main.js",
+                  "writing/index.html",
+                  "proof.html",
+                  "trust/index.html",
+                  "tecr.html",
+                  "clack/index.html",
+                  "cloud-app-manifest.json",
+                  "index.html",
+                  "styles.css",
+                  "main.js",
+                  "writing/index.html",
+                  "proof.html",
+                  "trust/index.html",
+                  "tecr.html",
+                  "offerings.html",
+                  "clack/index.html",
+                  "clack/gameplay-trailer.vtt",
+                  "llms.txt",
+                  "sitemap.xml",
+                  "docs/website-egress-inventory.md",
+                  "cloud-app-manifest.json",
+                  "tests/publication_provenance_test.ts",
+                  "check-site.ts PASS; deno test tests/ 9 passed 0 failed; Propodus 20261128-ia 16/16 verified from 364d8a2f6901d9be4588b808a8001cd522fcf777"
+                ],
+                "proof_refs": [
+                  "check-site",
+                  "deno-test",
+                  "verify-cloud-web-publication"
+                ],
+                "scope": [
+                  "root"
+                ],
+                "sequence": 4,
+                "validation_findings": [
+                  "Live after-deploy screenshots pending PR merge to origin/main"
+                ]
+              }
+            ]
+          }
+        }
       },
       "declared_commands": [],
       "destination": "pull request",
-      "evidence": [],
-      "inspected_files": [],
+      "evidence": [
+        "check-site.ts PASS; deno test tests/ 9 passed 0 failed; Propodus 20261128-ia 16/16 verified from 364d8a2f6901d9be4588b808a8001cd522fcf777"
+      ],
+      "inspected_files": [
+        "clack/index.html",
+        "cloud-app-manifest.json",
+        "index.html",
+        "main.js",
+        "proof.html",
+        "styles.css",
+        "tecr.html",
+        "trust/index.html",
+        "writing/index.html"
+      ],
       "intent_id": "intent:change_01M8GC808VBGVK0M8AYJA5H9CK",
-      "modified_files": [],
+      "modified_files": [
+        "clack/gameplay-trailer.vtt",
+        "clack/index.html",
+        "cloud-app-manifest.json",
+        "docs/website-egress-inventory.md",
+        "index.html",
+        "llms.txt",
+        "main.js",
+        "offerings.html",
+        "proof.html",
+        "sitemap.xml",
+        "styles.css",
+        "tecr.html",
+        "tests/publication_provenance_test.ts",
+        "trust/index.html",
+        "writing/index.html"
+      ],
       "next_transitions": [
         "Refine plan and declare falsifiable checks"
       ],
@@ -138,7 +262,9 @@
       "shortcut_risk_signals": [],
       "task_id": "code_01m8gc7ej3dpeg96",
       "tool_calls": [],
-      "unresolved_assumptions": []
+      "unresolved_assumptions": [
+        "Live after-deploy screenshots pending PR merge to origin/main"
+      ]
     }
   }
 }
