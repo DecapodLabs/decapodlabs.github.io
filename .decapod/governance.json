@@ -36,6 +36,11 @@
       "proof_refs": [
         "scripts/check-site.ts"
       ]
+    },
+    {
+      "id": "chk-3-founder-ia-clack-writing",
+      "summary": "Apply #456 founder IA update: Architecture->Features->Showcase(Clack)->Research order, 8-link single-row nav, Writing routes/styles, zero Waystead/Whop/ABAXI",
+      "input_digest": "sha256:e7e451c07c1d56fff40b532436cd1be6b2546012e889124a36a35316eb04e713"
     }
   ],
   "intents": {

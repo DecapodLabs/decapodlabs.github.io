@@ -262,13 +262,9 @@
     const slides = [...showcase.querySelectorAll("[data-showcase-slide]")];
     const dots = [...showcase.querySelectorAll("[data-showcase-go]")];
     const details = [
-      ["A character of your own.", "Character creation, appearance, identity, and the start of a personal journey."],
-      ["A world to explore.", "Playable terrain, vegetation, camera movement, and a persistent character."],
-      ["Geography with depth.", "Procedurally realized environments viewed at multiple scales."],
-      ["History worth keeping.", "Observation and discovery become lasting records in the player's journal."],
-      ["Survive. Build. Continue.", "Survival systems, resource constraints, and construction options."],
-      ["A connected survival system.", "Equipment, inventory, resources, and crafting belong to one persistent simulation."],
-      ["By the water.", "A playable character among trees, grasses, and water in the developing world."]
+      ["The town of Siltwick.", "Explore the playable deep-sea world where your native macOS coding workspace lives."],
+      ["Agents Mode over your project.", "Select a Siltwick resident, delegate a repository task, and review proposed edits before applying them."],
+      ["Work and play on macOS.", "Apple silicon app uniting governed multi-agent engineering with a playable underwater adventure."]
     ];
     const stage = showcase.querySelector(".showcase-gallery-stage");
     const title = showcase.querySelector("[data-showcase-title]");
@@ -276,7 +272,11 @@
     const counter = showcase.querySelector("[data-showcase-count]");
     const topline = showcase.querySelector(".showcase-gallery-topline span:last-child");
     const fullImageLink = showcase.querySelector("[data-showcase-full]");
-    const imageFiles = ["character", "exploration", "landscape", "journal", "construction", "inventory", "waterside"];
+    const imagePaths = [
+      "/clack/siltwick.webp",
+      "/clack/agents-mode.webp",
+      "/clack/clack-gameplay-poster.webp"
+    ];
     let current = 0;
 
     function choose(index) {
@@ -291,11 +291,11 @@
         dot.setAttribute("aria-pressed", String(i === current));
       });
       const number = String(current + 1).padStart(2, "0") + " / " + String(slides.length).padStart(2, "0");
-      if (counter) counter.textContent = number + " · IN DEVELOPMENT";
+      if (counter) counter.textContent = number + " · CLACK FOR MACOS";
       if (topline) topline.textContent = number;
       if (title) title.textContent = details[current][0];
       if (caption) caption.textContent = details[current][1];
-      if (fullImageLink) fullImageLink.href = "assets/waystead-" + imageFiles[current] + ".webp";
+      if (fullImageLink) fullImageLink.href = imagePaths[current];
     }
 
     showcase.querySelector("[data-showcase-prev]")?.addEventListener("click", () => choose(current - 1));

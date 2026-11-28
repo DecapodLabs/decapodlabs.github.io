@@ -63,8 +63,10 @@
     <a href="/" class="brand" aria-label="Decapod Labs home"><img class="site-wordmark" src="/assets/logo-a.png" alt="Decapod Labs" width="420" height="140"></a>
     <nav class="nav-links" aria-label="Site navigation">
       <a href="/#architecture">Architecture</a>
-      <a href="/#capabilities">Capabilities</a>
+      <a href="/#features">Features</a>
+      <a href="/#showcase">Showcase</a>
       <a href="/#research">Research</a>
+      <a href="/writing/index.html">Writing</a>
       <a href="https://decapodlabs.ai/decapod/">Docs</a>
       <a href="/clack/index.html">Clack</a>
       <a class="nav-pricing" href="https://decapodlabs.ai/pricing">Pricing</a>
@@ -138,40 +140,8 @@
   </div>
 </section>
 
-<section class="section-band" id="features" aria-labelledby="statementHeading">
-  <span id="kernel" class="sr-only" aria-hidden="true"></span>
-  <div class="wrap">
-    <div class="statement-block">
-      <p class="kicker">FEATURES / THE GOVERNED WORKFLOW</p>
-      <h2 id="statementHeading">The agent can write code.<br><span>Who makes sure the work <em>holds?</em></span></h2>
-    </div>
-
-    <div class="feature-grid">
-      <article class="feature-card feature-orange">
-        <span class="feature-symbol" aria-hidden="true">▱</span>
-        <h3>Persistent<br>State.</h3>
-        <p>Intent, living specs, task claims, decisions, and recovery context stay attached to the repo across sessions and tool switches.</p>
-      </article>
-      <article class="feature-card feature-cream">
-        <span class="feature-symbol" aria-hidden="true">⬡</span>
-        <h3>Enforced<br>Boundaries.</h3>
-        <p>Each task works in an isolated branch and Git worktree while repository rules and authority gates fail closed before publication.</p>
-      </article>
-      <article class="feature-card feature-ink">
-        <span class="feature-symbol" aria-hidden="true">✓</span>
-        <h3>Commit-Bound<br>Proof.</h3>
-        <p>Validation binds configured check evidence to exact candidate commits and target bases—and expires immediately when code changes.</p>
-      </article>
-      <article class="feature-card feature-pink">
-        <span class="feature-symbol" aria-hidden="true">↗</span>
-        <h3>Bring Your<br>Own Agents.</h3>
-        <p>Keep Codex, Claude Code, Cursor, Antigravity, or Pi. Different agents coordinate on one project through one CLI and structured RPC.</p>
-      </article>
-    </div>
-  </div>
-</section>
-
 <section class="section-band is-paper" id="architecture" aria-labelledby="flowHeading">
+  <span id="kernel" class="sr-only" aria-hidden="true"></span>
   <div class="wrap">
     <div class="flow-grid">
       <div class="flow-copy">
@@ -213,14 +183,38 @@
         <p>The result records the requested change, the accepted revision or delivery location, and the checks that apply. Repository and forge policy determine which publication actions the agent can perform.</p>
       </article>
     </div>
+
+    <div class="feature-grid">
+      <article class="feature-card feature-orange">
+        <span class="feature-symbol" aria-hidden="true">▱</span>
+        <h3>Persistent<br>State.</h3>
+        <p>Intent, living specs, task claims, decisions, and recovery context stay attached to the repo across sessions and tool switches.</p>
+      </article>
+      <article class="feature-card feature-cream">
+        <span class="feature-symbol" aria-hidden="true">⬡</span>
+        <h3>Enforced<br>Boundaries.</h3>
+        <p>Each task works in an isolated branch and Git worktree while repository rules and authority gates fail closed before publication.</p>
+      </article>
+      <article class="feature-card feature-ink">
+        <span class="feature-symbol" aria-hidden="true">✓</span>
+        <h3>Commit-Bound<br>Proof.</h3>
+        <p>Validation binds configured check evidence to exact candidate commits and target bases—and expires immediately when code changes.</p>
+      </article>
+      <article class="feature-card feature-pink">
+        <span class="feature-symbol" aria-hidden="true">↗</span>
+        <h3>Bring Your<br>Own Agents.</h3>
+        <p>Keep Codex, Claude Code, Cursor, Antigravity, or Pi. Different agents coordinate on one project through one CLI and structured RPC.</p>
+      </article>
+    </div>
   </div>
 </section>
 
-<section class="capabilities-section" id="capabilities" aria-labelledby="capabilitiesHeading">
+<section class="capabilities-section" id="features" aria-labelledby="capabilitiesHeading">
+  <span id="capabilities" class="sr-only" aria-hidden="true"></span>
   <div class="wrap">
     <div class="capabilities-heading">
       <div>
-        <p class="kicker">THE GOVERNED WORKFLOW · 14 CAPABILITIES</p>
+        <p class="kicker">FEATURES / THE GOVERNED WORKFLOW</p>
         <h2 id="capabilitiesHeading">A kernel for<br><span>the whole job.</span></h2>
       </div>
       <p>Your coding agents call Decapod throughout the job. The application keeps decisions, curated domain knowledge, ownership, boundaries, and validation evidence available across tools, engineers, and sessions.</p>
@@ -318,76 +312,59 @@
 </section>
 
 <div class="showcase-suite" id="showcase">
-<section class="waystead-section" id="waystead" aria-labelledby="showcaseHeading">
+<section class="clack-showcase-section" id="clack-showcase" aria-labelledby="showcaseHeading">
   <div class="wrap showcase-intro">
     <p class="kicker">SHOWCASE / DECAPOD AT WORK</p>
     <h2 id="showcaseHeading">One kernel.<br><span>Across disciplines.</span></h2>
-    <p>Software is built in many domains. Decapod keeps agent work coordinated, bounded, and verifiable across them. Here are two very different applications.</p>
+    <p>Software is built in many domains. Decapod keeps agent work coordinated, bounded, and verifiable across interactive native apps and parallel engineering teams.</p>
   </div>
 
   <div class="wrap showcase-case">
     <div class="showcase-case-copy">
-      <p class="showcase-case-index">01 / GAME DEVELOPMENT</p>
-      <h3>Complex systems.<br>Coordinated agents.</h3>
-      <p><strong><a class="showcase-waystead-inline" href="https://whop.com/abaxi-studios/waystead-waitlist/" target="_blank" rel="noopener noreferrer" aria-label="Waystead waitlist (opens in a new tab)">Waystead</a></strong> is a procedurally generated, planet-scale survival RPG and dungeon crawler by ABAXI in active development. Its Godot codebase spans world generation, character systems, persistence, rendering, and delivery.</p>
-      <p>Decapod governs the coding agents working across those systems—preserving task ownership, context, boundaries, and evidence as the project evolves.</p>
-      <a class="waystead-link" href="#quickstart">Use Decapod in your project <span aria-hidden="true">→</span></a>
+      <p class="showcase-case-index">01 / AI CODING WORKSPACE &amp; PLAYABLE WORLD</p>
+      <h3>Code with the crabs.<br>Governed by Decapod.</h3>
+      <p><strong><a class="showcase-inline-link" href="/clack/index.html">Clack for macOS</a></strong> (<code>v0.11.2</code> · Apple silicon · macOS 14+) is Decapod Labs’ native macOS coding workspace set in the playable deep-sea town of Siltwick.</p>
+      <p>Open a project on your Mac, delegate coding tasks to Siltwick residents, review proposed diffs before applying them, and explore the town while your AI crew works.</p>
+      <a class="showcase-cta-link" href="/clack/index.html">Explore Clack for macOS <span aria-hidden="true">→</span></a>
     </div>
-    <a class="showcase-case-link" href="https://whop.com/abaxi-studios/waystead-waitlist/" target="_blank" rel="noopener noreferrer" aria-label="Join the Waystead waitlist on Whop (opens in a new tab)">
+    <a class="showcase-case-link" href="/clack/index.html" aria-label="Explore Clack for macOS">
       <figure class="showcase-case-media">
-        <div class="showcase-brandmarks" aria-label="Waystead by ABAXI">
-          <img class="showcase-abaxi-mark" src="assets/abaxi-logo.png" width="706" height="246" loading="lazy" alt="ABAXI">
-          <img class="showcase-waystead-mark" src="assets/waystead-wordmark-transparent.webp" width="1689" height="343" loading="lazy" alt="WAYSTEAD">
+        <div class="showcase-brandmarks" aria-label="Clack by Decapod Labs">
+          <img class="showcase-clack-mark" src="/clack/logo.png" width="750" height="240" loading="lazy" alt="Clack">
         </div>
-        <img class="showcase-case-still" src="assets/waystead-key-art.webp" width="1672" height="941" loading="lazy" decoding="async" alt="Illustrated Waystead world vision: a sweeping fantasy landscape, an adventurer, and AI-assisted game development">
-        <figcaption>WAYSTEAD BY ABAXI <span aria-hidden="true">·</span> IN ACTIVE DEVELOPMENT <span class="showcase-card-action">Join the waitlist <span aria-hidden="true">↗</span></span></figcaption>
+        <img class="showcase-case-still" src="/clack/siltwick.webp" width="1448" height="1086" loading="lazy" decoding="async" alt="Clack’s deep-sea town of Siltwick on macOS">
+        <figcaption>CLACK FOR MACOS <span aria-hidden="true">·</span> v0.11.2 · APPLE SILICON <span class="showcase-card-action">Explore Clack for macOS <span aria-hidden="true">→</span></span></figcaption>
       </figure>
     </a>
   </div>
 
-  <div class="wrap showcase-gallery" data-showcase-carousel aria-label="Waystead in-development gameplay screenshots">
-    <div class="showcase-gallery-topline"><span>WAYSTEAD / DEVELOPMENT BUILDS</span><span>01 / 07</span></div>
-    <div class="showcase-gallery-stage" role="region" aria-roledescription="carousel" aria-label="Seven screenshots from Waystead in development" tabindex="0">
+  <div class="wrap showcase-gallery" data-showcase-carousel aria-label="Clack for macOS screenshots">
+    <div class="showcase-gallery-topline"><span>CLACK FOR MACOS / SILTWICK &amp; AGENTS MODE</span><span>01 / 03</span></div>
+    <div class="showcase-gallery-stage" role="region" aria-roledescription="carousel" aria-label="Three screenshots from Clack for macOS" tabindex="0">
       <figure class="showcase-gallery-slide is-active" data-showcase-slide="0">
-        <img src="assets/waystead-character.webp" width="1440" height="930" fetchpriority="high" decoding="async" alt="Waystead character creation interface with a fully rendered customizable adventurer">
+        <img src="/clack/siltwick.webp" width="1448" height="1086" fetchpriority="high" decoding="async" alt="The deep-sea town of Siltwick in Clack for macOS">
       </figure>
       <figure class="showcase-gallery-slide" data-showcase-slide="1" hidden>
-        <img src="assets/waystead-exploration.webp" width="1440" height="930" loading="lazy" decoding="async" alt="Waystead player character standing among grasses, flowers, and procedurally generated foliage">
+        <img src="/clack/agents-mode.webp" width="1200" height="848" loading="lazy" decoding="async" alt="Clack’s Agents Mode over Siltwick with Mira selected and a proposed code edit ready to review">
       </figure>
       <figure class="showcase-gallery-slide" data-showcase-slide="2" hidden>
-        <img src="assets/waystead-landscape.webp" width="1440" height="930" loading="lazy" decoding="async" alt="Overhead view of Waystead's generated terrain with groves of trees and a player character">
+        <img src="/clack/clack-gameplay-poster.webp" width="1280" height="720" loading="lazy" decoding="async" alt="Clack gameplay scene on Apple silicon macOS">
       </figure>
-      <figure class="showcase-gallery-slide" data-showcase-slide="3" hidden>
-        <img src="assets/waystead-journal.webp" width="1440" height="930" loading="lazy" decoding="async" alt="Waystead field journal recording a first sighting of a sheep with date and descriptive notes">
-      </figure>
-      <figure class="showcase-gallery-slide" data-showcase-slide="4" hidden>
-        <img src="assets/waystead-construction.webp" width="1440" height="930" loading="lazy" decoding="async" alt="Waystead construction menu showing fire rings, tents, camp facilities, and other craftable structures">
-      </figure>
-      <figure class="showcase-gallery-slide" data-showcase-slide="5" hidden>
-        <img src="assets/waystead-inventory.webp" width="1440" height="930" loading="lazy" decoding="async" alt="Waystead inventory screen with character equipment, storage and crafting resources">
-      </figure>
-      <figure class="showcase-gallery-slide" data-showcase-slide="6" hidden>
-        <img src="assets/waystead-waterside.webp" width="1280" height="720" loading="lazy" decoding="async" alt="A Waystead adventurer stands beneath a tree beside a lake in the playable Godot game">
-      </figure>
-      <button class="showcase-gallery-arrow showcase-gallery-prev" type="button" data-showcase-prev aria-label="Previous gameplay screenshot">←</button>
-      <button class="showcase-gallery-arrow showcase-gallery-next" type="button" data-showcase-next aria-label="Next gameplay screenshot">→</button>
+      <button class="showcase-gallery-arrow showcase-gallery-prev" type="button" data-showcase-prev aria-label="Previous Clack screenshot">←</button>
+      <button class="showcase-gallery-arrow showcase-gallery-next" type="button" data-showcase-next aria-label="Next Clack screenshot">→</button>
     </div>
     <div class="showcase-gallery-detail">
       <div class="showcase-gallery-caption" aria-live="polite" aria-atomic="true">
-        <p class="showcase-gallery-index" data-showcase-count>01 / 07 · IN DEVELOPMENT</p>
-        <h3 data-showcase-title>A character of your own.</h3>
-        <p data-showcase-description>Character creation, appearance, identity, and the start of a personal journey.</p>
+        <p class="showcase-gallery-index" data-showcase-count>01 / 03 · CLACK FOR MACOS</p>
+        <h3 data-showcase-title>The town of Siltwick.</h3>
+        <p data-showcase-description>Explore the playable deep-sea world where your native macOS coding workspace lives.</p>
       </div>
-      <div class="showcase-gallery-dots" role="group" aria-label="Choose gameplay screenshot">
-        <button type="button" data-showcase-go="0" aria-label="View screenshot 1: A character of your own." aria-pressed="true" class="is-active"></button>
-        <button type="button" data-showcase-go="1" aria-label="View screenshot 2: A world to explore." aria-pressed="false"></button>
-        <button type="button" data-showcase-go="2" aria-label="View screenshot 3: Geography with depth." aria-pressed="false"></button>
-        <button type="button" data-showcase-go="3" aria-label="View screenshot 4: History worth keeping." aria-pressed="false"></button>
-        <button type="button" data-showcase-go="4" aria-label="View screenshot 5: Survive. Build. Continue." aria-pressed="false"></button>
-        <button type="button" data-showcase-go="5" aria-label="View screenshot 6: A connected survival system." aria-pressed="false"></button>
-        <button type="button" data-showcase-go="6" aria-label="View screenshot 7: By the water." aria-pressed="false"></button>
+      <div class="showcase-gallery-dots" role="group" aria-label="Choose Clack screenshot">
+        <button type="button" data-showcase-go="0" aria-label="View screenshot 1: The town of Siltwick." aria-pressed="true" class="is-active"></button>
+        <button type="button" data-showcase-go="1" aria-label="View screenshot 2: Agents Mode over your project." aria-pressed="false"></button>
+        <button type="button" data-showcase-go="2" aria-label="View screenshot 3: Work and play on macOS." aria-pressed="false"></button>
       </div>
-      <a class="showcase-gallery-full" data-showcase-full href="assets/waystead-character.webp" target="_blank" rel="noopener noreferrer">View full screenshot →</a>
+      <a class="showcase-gallery-full" data-showcase-full href="/clack/siltwick.webp" target="_blank" rel="noopener noreferrer">View full screenshot →</a>
     </div>
   </div>
 </section>
@@ -469,7 +446,7 @@
         <p>Coding agents rarely fail because they cannot edit syntax—they fail when intent, prior architectural choices, task ownership, and boundary constraints evaporate between runs. Putting continuity and proof inside the repository ends the loop of re-explaining and redoing work.</p>
         <div class="research-links">
           <a class="btn btn-outline" href="/tecr.html">Read the essay →</a>
-          <a class="text-link" href="/trust/index.html">Inspect Trust &amp; Privacy →</a>
+          <a class="text-link" href="/writing/index.html">All Writing →</a>
         </div>
       </article>
     </div>
@@ -577,7 +554,8 @@
       <a href="/proof.html">Evaluation</a>
       <a href="https://decapodlabs.ai/pricing">Pricing →</a>
       <a href="/trust/index.html">Trust &amp; Privacy →</a>
-      <a href="/tecr.html">Rework</a>
+      <a href="/writing/index.html">Writing</a>
+      <a href="/clack/index.html">Clack</a>
       <a href="https://github.com/DecapodLabs/decapod" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
       <a href="/llms.txt">For agents</a>
     </div>
