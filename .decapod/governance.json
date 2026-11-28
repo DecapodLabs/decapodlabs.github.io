@@ -33,6 +33,11 @@
       "id": "chk-2-editorial-recovery",
       "summary": "Phase A editorial & IA recovery (#103/#104): restore lab identity, visible film/14 capabilities/Waystead/swarms/research, and exploration nav",
       "input_digest": "sha256:a3b7c70770b962a4e26182fdb64766a0d7a50fe5cd6970b9ee293e182009f263"
+    },
+    {
+      "id": "chk-3-secondary-and-proof-reframe",
+      "summary": "Phase B (#103, #106): reframe proof.html as Engineering Case Study & Evaluation Record and sync exploration-led nav/footer across Trust, Rework, offerings, and Clack",
+      "input_digest": "sha256:84f16db22e3b8d089851936fee38c6b0acca96abbc1e930fe3287e3939e26cfd"
     }
   ],
   "intents": {
