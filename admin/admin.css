@@ -1,4 +1,4 @@
-/* Decapod Cloud Organization Admin Shell (20261127-uplift) */
+/* Decapod Cloud Organization Admin Shell (20261128-ia) */
 
 .admin-shell {
   display: grid;
@@ -57,10 +57,10 @@
 
 /* Welcoming Unauthenticated Gate */
 .admin-auth-card {
-  max-width: 480px;
+  max-width: 500px;
   width: 100%;
-  margin: var(--ds-space-8) auto 0;
-  padding: var(--ds-space-8);
+  margin: var(--ds-space-5) auto 0;
+  padding: var(--ds-space-7, var(--ds-space-8));
   box-shadow: var(--ds-shadow-sm);
 }
 
@@ -164,7 +164,7 @@
 /* Warm Organization Header */
 .admin-org-header {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: space-between;
   gap: var(--ds-space-4);
   flex-wrap: wrap;
@@ -187,8 +187,8 @@
 .admin-tabs {
   display: flex;
   align-items: center;
-  gap: 4px;
-  padding: 4px;
+  gap: 6px;
+  padding: 5px;
   background: var(--ds-bg-subtle);
   border: 1px solid var(--ds-border);
   border-radius: var(--ds-radius-lg);

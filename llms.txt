@@ -19,9 +19,10 @@ This index covers public product information and documentation. Authenticated ac
 
 ## Research and applications
 
-- [Capabilities](https://decapodlabs.ai/#capabilities) explains how intent, the Constitution, living specs, context, durable memory, and work ownership fit together.
-- [Applied work](https://decapodlabs.ai/#showcase) describes the Waystead development example and introduces the kernel.
+- [Features & capabilities](https://decapodlabs.ai/#features) explains how intent, the Constitution, living specs, context, durable memory, and work ownership fit together.
+- [Applied work](https://decapodlabs.ai/#showcase) showcases Clack for macOS and concurrent multi-agent engineering swarms governed by Decapod.
 - [Accountable Agentic Execution](https://github.com/DecapodLabs/accountable-agentic-execution) is a public technical report and reproducible evaluation harness in pre-results status.
+- [Writing & announcements](https://decapodlabs.ai/writing/): Published essays, architectural writings, and release dispatches from Decapod Labs.
 
 ## Evaluation and boundaries
 

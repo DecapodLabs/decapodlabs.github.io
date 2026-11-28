@@ -9,7 +9,7 @@
   const flow = typeof DecapodCloudFlow !== "undefined" ? DecapodCloudFlow : null;
   if (!repositories || !contributors) return;
 
-  const PRICING_ASSET_RELEASE = "20261127-uplift";
+  const PRICING_ASSET_RELEASE = "20261128-ia";
   const PRICING_META_KEY = "decapod:pricing-meta";
   const ALLOWLISTED_RECOVERY_ERRORS = Object.freeze([
     "stale_quote",
@@ -562,7 +562,8 @@
     change("seat-count-value", String(perRepo), "value");
     change("assignment-count", String(totalAssignments));
     change("assignment-formula", repos + " " + (repos === 1 ? "repository" : "repositories") +
-      " × " + perRepo + " " + (perRepo === 1 ? "contributor" : "contributors") + " each");
+      " × " + perRepo + " " + (perRepo === 1 ? "contributor" : "contributors") +
+      (repos === 1 ? "" : " each"));
     change("repo-discount", "+" + repoDiscount + "%");
     change("contributor-discount", "+" + peopleDiscountFloor + "%");
     change("combined-discount", volumeFloor + "%");

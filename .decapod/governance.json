@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "baseline": {
-    "accepted_commit": "5bad19cb74b00bbc77a3bfa1d62fddee6750857d",
+    "accepted_commit": "d06ee23bd4e6d120a2f94145eeae2275efa07308",
     "unresolved": {
       "claim:clack-download-latest": {
         "falsifier": "The page embeds a release version, either link fails signed out, the checksum or digest disagrees with the source stable build, or a newer published mirror requires editing the page.",
@@ -19,58 +19,66 @@
     }
   },
   "change": {
-    "id": "change_01M8G4C64SNH9QPRXYRRWTD0WD",
-    "base_commit": "5bad19cb74b00bbc77a3bfa1d62fddee6750857d",
+    "id": "change_01M8GC808VBGVK0M8AYJA5H9CK",
+    "base_commit": "d06ee23bd4e6d120a2f94145eeae2275efa07308",
     "target_base": "origin/main"
   },
   "claims": {
-    "website-learning-privacy": {
-      "statement": "The revised site explains the autonomous work lifecycle ahead of supporting proof, and the deployed scoped paths reject undeclared browser analytics.",
-      "falsifier": "Capabilities or film remain in closed disclosures, historical verification fails, or the delivered privacy guard accepts injected analytics and undeclared reporting.",
+    "claim:site-ia-clack-writing-20261128": {
+      "statement": "Website IA polish, Writing hub, Clack showcase, single-row 8-link nav across viewports, arrow convention, PR #109 privacy preservation, and Propodus 20261128-ia bundle (364d8a2f) pass all static, provenance, trust, and delivered-privacy checks.",
+      "falsifier": "Any waystead/whop/abaxi/blog string remains outside governance history, check-site.ts or deno test tests/ fails, cloud-app-manifest.json disagrees with 364d8a2f, or nav wraps into multiple rows.",
       "status": "supported",
       "proof_refs": [
-        "docs/design-system/content-recovery-103.md",
-        "tests/website_delivered_privacy_test.ts"
+        "deno test tests/",
+        "scripts/check-site.ts"
       ]
     }
   },
   "checkpoints": [
     {
-      "id": "website-owner-learning-privacy",
-      "summary": "Restore product education and preserve historical evidence while verifying delivered privacy on scoped website routes.",
-      "input_digest": "sha256:2522896bdd5c33de4bd0c7a7f89ef84e58e6506b270987a2abcc154c8accc0b6",
+      "id": "chk-1-ia-phase-a",
+      "summary": "Track 3 Phase A (#103): 6-link nav, single-row mobile header strip, compact footer, inline Quickstart/Team Cloud hero links, and internal -> vs external up-right arrow consistency",
+      "input_digest": "sha256:1bc21541b20528a4a1ee13500ac3313a7850acbe4320c16fe63b6254cc5454c4"
+    },
+    {
+      "id": "chk-2-ia-phase-b",
+      "summary": "Sync streamlined 6-link nav, 20261128-ia stylesheet, footer, and arrow conventions across secondary pages (#103, #106)",
+      "input_digest": "sha256:2ecc35d9b486ee90c0b93c55f5d7f5066492eeeaa693bd9d5479735fd0b30b3f",
       "proof_refs": [
-        "docs/design-system/content-recovery-103.md",
-        "tests/website_delivered_privacy_test.ts"
+        "scripts/check-site.ts"
       ]
     },
     {
-      "id": "website-owner-probe-test-helper",
-      "summary": "Keep the independent delivered privacy probe with its regression harness and preserve the accepted publication command profile.",
-      "input_digest": "sha256:db9feb4bbf0954ef07677a983aaf3e4ba69891bb04314b6a359f21ff237e51dd",
+      "id": "chk-3-founder-ia-clack-writing",
+      "summary": "Apply #456 founder IA update: Architecture->Features->Showcase(Clack)->Research order, 8-link single-row nav, Writing routes/styles, zero Waystead/Whop/ABAXI",
+      "input_digest": "sha256:e7e451c07c1d56fff40b532436cd1be6b2546012e889124a36a35316eb04e713"
+    },
+    {
+      "id": "chk-4-writing-and-nav-sync",
+      "summary": "Add Writing & Announcements hub (/writing/index.html), add All Writing back-link to tecr.html, and sync 8-link single-row nav & footer across secondary pages",
+      "input_digest": "sha256:384747b323371b6964206ebfb16932047bc6ed6fc72622a4cee776990393b3b9",
       "proof_refs": [
-        "tests/website_delivered_privacy_test.ts"
+        "scripts/check-site.ts"
       ]
     },
     {
-      "id": "website-final-reviewed-source",
-      "summary": "Bind spec reviews to the final source and record independent browser observations.",
-      "input_digest": "sha256:0ff3798d69bfe2eb922119f4bc1381c253a469d2aca922cbb50d386c41980035",
-      "proof_refs": [
-        "docs/website-egress-inventory.md"
-      ]
+      "id": "chk-5-cloud-bundle-20261128-ia",
+      "summary": "Ingest Propodus 20261128-ia Cloud web bundle from origin/main 364d8a2f6901d9be4588b808a8001cd522fcf777 and update provenance release assertion",
+      "input_digest": "sha256:bf53e661c13c5fbe33cc22aeff63c38bf023e30a3da9344cb77bf08d5e4b3a19"
     },
     {
-      "id": "website-accepted-108-integration",
-      "summary": "Reconcile accepted website PR 108 with the remaining workflow examples and independent deployed-privacy control",
-      "input_digest": "sha256:84e065b5251cdf8645b901547f9d0a1bd55a66d16e01f751226b4c7864fefb1a",
-      "proof_refs": [
-        "GitHub Pages accepted target 9c551191bbcf970e3263661fc10b590826ed129b"
-      ]
+      "id": "chk-6-specs-and-govern",
+      "summary": "Update living specs (INTENT, ARCHITECTURE, INTERFACES), refresh v0.169.5 surfaces, approve plan, and record claim/trajectory for Track 3",
+      "input_digest": "sha256:c12083d3e0372a1864ea31d0f1620a9fcbe0ed6b21fe0f339f9f5d72e7b1329e"
+    },
+    {
+      "id": "cp_code_01m8gc7ej3dpeg96_refresh_v0169_5",
+      "summary": "Refresh v0.169.5 Dockerfile pin, entrypoints, and spec review dispositions",
+      "input_digest": "sha256:728a05dbc09823935c0e91ca50224cb278745e788b3a592b63782a20c5fae7c6"
     }
   ],
   "intents": {
-    "intent:change_01M8G4C64SNH9QPRXYRRWTD0WD": {
+    "intent:change_01M8GC808VBGVK0M8AYJA5H9CK": {
       "acceptance_criteria": [],
       "assumptions": [],
       "boundaries": [
@@ -80,14 +88,14 @@
         "root"
       ],
       "created_sequence": 1,
-      "id": "intent:change_01M8G4C64SNH9QPRXYRRWTD0WD",
+      "id": "intent:change_01M8GC808VBGVK0M8AYJA5H9CK",
       "instruction_origin": {
         "source_ref": "caller:unverified"
       },
       "out_of_scope": [],
       "proof_requirements": [],
-      "raw_intent": "Restore Decapod Labs product education and verify the public website privacy boundary",
-      "refined_intent": "Restore Decapod Labs product education and verify the public website privacy boundary",
+      "raw_intent": "Track 3 IA polish: 6-link compact nav, sleek footer, arrow consistency, and 20261128-ia bundle",
+      "refined_intent": "Track 3 IA polish: 6-link compact nav, sleek footer, arrow consistency, and 20261128-ia bundle",
       "status": "refined",
       "updated_sequence": 3
     }
@@ -96,76 +104,65 @@
     "plan": {
       "constraints": {
         "file_touch_budget": null,
-        "forbidden_paths": [
-          "clack/"
-        ]
+        "forbidden_paths": []
       },
       "deferred_questions": [],
       "human_questions": [],
-      "intent": "Restore newcomer education about Decapod Labs and autonomous engineering, preserve historical case-study evidence, and check the delivered website for undeclared browser analytics. Keep Clack outside the change.",
+      "intent": "Track 3 IA polish: 6-link compact nav, sleek footer, arrow consistency, and 20261128-ia bundle",
       "phases": [],
       "proof_hooks": [
-        "decapod validate",
-        "deployed route analytics check"
+        "decapod validate"
       ],
       "schema_version": "1.1.0",
       "spec_reviews": [
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/ARCHITECTURE.md",
-          "reason": "Preserves accepted #108 and models independent origin, browser and Cloudflare privacy evidence.",
-          "reviewed_code_fingerprint": "90fc5e430a2003d07c5179b7763b43ee2cefa3e96df435bbd07f238357ca552c",
-          "spec_material_hash": "5c8ea6cd2e19e44471d10cf66676c847ecef09cf2cc09106e5655c9b0333d89d"
+          "reason": "Refreshed v0.169.5 entrypoints and Dockerfile pin alongside IA reorder, Clack showcase, Writing hub, and Propodus 20261128-ia bundle.",
+          "reviewed_code_fingerprint": "c31154b61bbcb27bcfd3ab872a6567ad44b43bc5f47765bfce175ddb7eca2369",
+          "spec_material_hash": "a9355f428c5d6cc0fe5dee9d2a4319f360b33ee6fcb94e126e9bf2432c901003"
         },
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/INTERFACES.md",
-          "reason": "Binds Trust version 1.0.1 and the delivered response check to the published routes.",
-          "reviewed_code_fingerprint": "90fc5e430a2003d07c5179b7763b43ee2cefa3e96df435bbd07f238357ca552c",
-          "spec_material_hash": "0bdf54854def2342aba08698f36562da59591057380a8995935b929a744e65e6"
+          "reason": "Refreshed v0.169.5 entrypoints and Dockerfile pin alongside 8-link nav, /writing/ hub, fragment aliases, and Propodus 20261128-ia manifest interfaces.",
+          "reviewed_code_fingerprint": "c31154b61bbcb27bcfd3ab872a6567ad44b43bc5f47765bfce175ddb7eca2369",
+          "spec_material_hash": "8b39ccec8e529d3586dc2fbb84aef32aa07ded2e537acc377697c61b5e31f8f8"
         },
         {
           "disposition": "unchanged_with_reason",
           "path": ".decapod/managed/specs/SECURITY.md",
-          "reason": "The accepted authority, credential boundaries, and signed commercial artifact stay in place. The new edge control turns off browser analytics for Decapod routes.",
-          "reviewed_code_fingerprint": "90fc5e430a2003d07c5179b7763b43ee2cefa3e96df435bbd07f238357ca552c",
+          "reason": "Static site privacy, zero external CDN/analytics, and verified Cloud provenance boundaries unchanged; only generated codebase attestation refreshed.",
+          "reviewed_code_fingerprint": "c31154b61bbcb27bcfd3ab872a6567ad44b43bc5f47765bfce175ddb7eca2369",
           "spec_material_hash": "62bb344f61469fd3f75f5c09e37936d8b4912412b38d5593b58f2503a16f9d5a"
         }
       ],
       "state": "APPROVED",
       "stop_conditions": [],
-      "title": "Restore Decapod Labs product education and verify the public website privacy boundary",
+      "title": "Track 3 IA polish: 6-link compact nav, sleek footer, arrow consistency, and 20261128-ia bundle",
       "todo_ids": [
-        "fend_01m8g49fna58hztd"
+        "code_01m8gc7ej3dpeg96"
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1795838881Z"
+      "updated_at": "1795850374Z"
     },
     "trajectory": {
       "active_boundaries": [
         "Current claimed task and isolated work branch"
       ],
-      "artifact_hash": "sha256:a396cde4e5b677b060e8130161b1941f96324a07b5e4ab80c6ac2f09011d36f2",
+      "artifact_hash": "sha256:f192141563b35352c2e4b5b6680128bb63eaf22347011674fdaf154f2778cf02",
       "checks": [
         {
-          "name": "chrome_candidate_reading_order",
+          "name": "check-site",
           "status": "passed"
         },
         {
-          "name": "clack_paths_unchanged_from_accepted_base",
+          "name": "deno-test",
           "status": "passed"
         },
         {
-          "name": "delivered_route_privacy",
-          "status": "passed"
-        },
-        {
-          "name": "live_browser_analytics",
-          "status": "passed"
-        },
-        {
-          "name": "site_source_regressions",
+          "name": "verify-cloud-web-publication",
           "status": "passed"
         }
       ],
@@ -174,124 +171,75 @@
         "events": [
           {
             "event_id": "event:2",
-            "intent_id": "intent:change_01M8G4C64SNH9QPRXYRRWTD0WD",
+            "intent_id": "intent:change_01M8GC808VBGVK0M8AYJA5H9CK",
             "kind": "created",
             "sequence": 2
           },
           {
             "event_id": "event:3",
-            "intent_id": "intent:change_01M8G4C64SNH9QPRXYRRWTD0WD",
+            "intent_id": "intent:change_01M8GC808VBGVK0M8AYJA5H9CK",
             "kind": "refined",
             "sequence": 3
           },
           {
-            "detail": "trajectory:branch_01M8G4C680G8E43W5Z8G1BVJ3T",
+            "detail": "trajectory:branch_01M8GC80D5XPNKJTKCD67XYAAY",
             "event_id": "event:4",
-            "intent_id": "intent:change_01M8G4C64SNH9QPRXYRRWTD0WD",
+            "intent_id": "intent:change_01M8GC808VBGVK0M8AYJA5H9CK",
             "kind": "trajectory_step_recorded",
             "sequence": 4
-          },
-          {
-            "detail": "trajectory:branch_01M8G4C680G8E43W5Z8G1BVJ3T",
-            "event_id": "event:5",
-            "intent_id": "intent:change_01M8G4C64SNH9QPRXYRRWTD0WD",
-            "kind": "trajectory_step_recorded",
-            "sequence": 5
-          },
-          {
-            "detail": "trajectory:branch_01M8G4C680G8E43W5Z8G1BVJ3T",
-            "event_id": "event:6",
-            "intent_id": "intent:change_01M8G4C64SNH9QPRXYRRWTD0WD",
-            "kind": "trajectory_step_recorded",
-            "sequence": 6
-          },
-          {
-            "detail": "trajectory:branch_01M8G4C680G8E43W5Z8G1BVJ3T",
-            "event_id": "event:7",
-            "intent_id": "intent:change_01M8G4C64SNH9QPRXYRRWTD0WD",
-            "kind": "trajectory_step_recorded",
-            "sequence": 7
           }
         ],
         "knowledge_candidates": [],
-        "next_sequence": 7,
+        "next_sequence": 4,
         "schema_version": "1.1.0",
         "trajectories": {
-          "branch_01M8G4C680G8E43W5Z8G1BVJ3T": {
+          "branch_01M8GC80D5XPNKJTKCD67XYAAY": {
             "evidence_only": true,
-            "id": "branch_01M8G4C680G8E43W5Z8G1BVJ3T",
-            "intent_id": "intent:change_01M8G4C64SNH9QPRXYRRWTD0WD",
+            "id": "branch_01M8GC80D5XPNKJTKCD67XYAAY",
+            "intent_id": "intent:change_01M8GC808VBGVK0M8AYJA5H9CK",
             "steps": [
               {
                 "action": "verification",
                 "custody_event_id": "event:4",
                 "observations": [
                   "index.html",
-                  "docs/design-system/positioning-and-design-contract.md",
+                  "styles.css",
+                  "main.js",
+                  "writing/index.html",
+                  "proof.html",
+                  "trust/index.html",
+                  "tecr.html",
+                  "clack/index.html",
+                  "cloud-app-manifest.json",
                   "index.html",
-                  "scripts/check-website-privacy.ts",
-                  "Deno all site suites 9/9. Cloudflare rule disables automatic analytics on scoped paths, excluding Clack. Nine live HTML destinations with cold and warm probes passed script and declared reporting checks. Website HTML candidate and external participant evidence remain distinct."
+                  "styles.css",
+                  "main.js",
+                  "writing/index.html",
+                  "proof.html",
+                  "trust/index.html",
+                  "tecr.html",
+                  "offerings.html",
+                  "clack/index.html",
+                  "clack/gameplay-trailer.vtt",
+                  "llms.txt",
+                  "sitemap.xml",
+                  "docs/website-egress-inventory.md",
+                  "cloud-app-manifest.json",
+                  "tests/publication_provenance_test.ts",
+                  "check-site.ts PASS; deno test tests/ 9 passed 0 failed; Propodus 20261128-ia 16/16 verified from 364d8a2f6901d9be4588b808a8001cd522fcf777"
                 ],
                 "proof_refs": [
-                  "site_source_regressions",
-                  "delivered_route_privacy"
+                  "check-site",
+                  "deno-test",
+                  "verify-cloud-web-publication"
                 ],
                 "scope": [
                   "root"
                 ],
                 "sequence": 4,
-                "validation_findings": []
-              },
-              {
-                "action": "verification",
-                "custody_event_id": "event:5",
-                "observations": [
-                  "tests/support/delivered-website-privacy.ts",
-                  "Nine Deno checks passed after keeping the optional deployed check with the regression tests. Accepted configured proof command and proof-source inputs are unchanged."
-                ],
-                "proof_refs": [
-                  "site_source_regressions"
-                ],
-                "scope": [
-                  "root"
-                ],
-                "sequence": 5,
-                "validation_findings": []
-              },
-              {
-                "action": "verification",
-                "custody_event_id": "event:6",
-                "observations": [
-                  "Chrome 158.0.8127.38, local 320/390/1440 widths with zero horizontal overflow and 14 visible capabilities. Live navigation across seven pages detected zero analytics requests; incumbent Quickstart loaded third-party fonts separately. No external participant study or authenticated Cloud workflow is claimed."
-                ],
-                "proof_refs": [
-                  "chrome_candidate_reading_order",
-                  "live_browser_analytics"
-                ],
-                "scope": [
-                  "root"
-                ],
-                "sequence": 6,
-                "validation_findings": []
-              },
-              {
-                "action": "trajectory.record",
-                "custody_event_id": "event:7",
-                "observations": [
-                  "docs/design-system/content-recovery-inventory.md",
-                  "index.html",
-                  "trust/index.html",
-                  "index.html",
-                  "PR #108 merged during preflight. Its accepted editorial, navigation and Clack bytes were preserved. Integrated the remaining editorial examples, historical qualification link and privacy documentation against 9c551191bbcf970e3263661fc10b590826ed129b."
-                ],
-                "proof_refs": [
-                  "clack_paths_unchanged_from_accepted_base"
-                ],
-                "scope": [
-                  "root"
-                ],
-                "sequence": 7,
-                "validation_findings": []
+                "validation_findings": [
+                  "Live after-deploy screenshots pending PR merge to origin/main"
+                ]
               }
             ]
           }
@@ -300,22 +248,36 @@
       "declared_commands": [],
       "destination": "pull request",
       "evidence": [
-        "Chrome 158.0.8127.38, local 320/390/1440 widths with zero horizontal overflow and 14 visible capabilities. Live navigation across seven pages detected zero analytics requests; incumbent Quickstart loaded third-party fonts separately. No external participant study or authenticated Cloud workflow is claimed.",
-        "Deno all site suites 9/9. Cloudflare rule disables automatic analytics on scoped paths, excluding Clack. Nine live HTML destinations with cold and warm probes passed script and declared reporting checks. Website HTML candidate and external participant evidence remain distinct.",
-        "Nine Deno checks passed after keeping the optional deployed check with the regression tests. Accepted configured proof command and proof-source inputs are unchanged.",
-        "PR #108 merged during preflight. Its accepted editorial, navigation and Clack bytes were preserved. Integrated the remaining editorial examples, historical qualification link and privacy documentation against 9c551191bbcf970e3263661fc10b590826ed129b."
+        "check-site.ts PASS; deno test tests/ 9 passed 0 failed; Propodus 20261128-ia 16/16 verified from 364d8a2f6901d9be4588b808a8001cd522fcf777"
       ],
       "inspected_files": [
-        "docs/design-system/content-recovery-inventory.md",
-        "docs/design-system/positioning-and-design-contract.md",
-        "index.html"
-      ],
-      "intent_id": "intent:change_01M8G4C64SNH9QPRXYRRWTD0WD",
-      "modified_files": [
+        "clack/index.html",
+        "cloud-app-manifest.json",
         "index.html",
-        "scripts/check-website-privacy.ts",
-        "tests/support/delivered-website-privacy.ts",
-        "trust/index.html"
+        "main.js",
+        "proof.html",
+        "styles.css",
+        "tecr.html",
+        "trust/index.html",
+        "writing/index.html"
+      ],
+      "intent_id": "intent:change_01M8GC808VBGVK0M8AYJA5H9CK",
+      "modified_files": [
+        "clack/gameplay-trailer.vtt",
+        "clack/index.html",
+        "cloud-app-manifest.json",
+        "docs/website-egress-inventory.md",
+        "index.html",
+        "llms.txt",
+        "main.js",
+        "offerings.html",
+        "proof.html",
+        "sitemap.xml",
+        "styles.css",
+        "tecr.html",
+        "tests/publication_provenance_test.ts",
+        "trust/index.html",
+        "writing/index.html"
       ],
       "next_transitions": [
         "Refine plan and declare falsifiable checks"
@@ -323,12 +285,14 @@
       "repo_scope": [
         "root"
       ],
-      "run_id": "branch_01M8G4C680G8E43W5Z8G1BVJ3T",
+      "run_id": "branch_01M8GC80D5XPNKJTKCD67XYAAY",
       "schema_version": "1.1.0",
       "shortcut_risk_signals": [],
-      "task_id": "fend_01m8g49fna58hztd",
+      "task_id": "code_01m8gc7ej3dpeg96",
       "tool_calls": [],
-      "unresolved_assumptions": []
+      "unresolved_assumptions": [
+        "Live after-deploy screenshots pending PR merge to origin/main"
+      ]
     }
   }
 }

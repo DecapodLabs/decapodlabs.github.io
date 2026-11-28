@@ -7,14 +7,14 @@
 <meta name="robots" content="noindex,nofollow">
 <meta name="referrer" content="no-referrer">
 <meta name="decapod-flow-contract" content="1">
-<meta name="decapod-asset-release" content="20261127-uplift">
+<meta name="decapod-asset-release" content="20261128-ia">
 <meta name="description" content="Manage your Decapod Cloud organization: repositories, contributor seats, team members, billing, usage thresholds, and device security.">
 <link rel="canonical" href="https://decapodlabs.ai/admin/">
 <link rel="icon" type="image/png" href="/assets/favicon.png">
-<link rel="stylesheet" href="/shared/commercial-ui.css?v=20261127-uplift">
-<link rel="stylesheet" href="/admin/admin.css?v=20261127-uplift">
-<script src="/cloud-flow.js?v=20261127-uplift" defer></script>
-<script src="/admin/admin.js?v=20261127-uplift" defer></script>
+<link rel="stylesheet" href="/shared/commercial-ui.css?v=20261128-ia">
+<link rel="stylesheet" href="/admin/admin.css?v=20261128-ia">
+<script src="/cloud-flow.js?v=20261128-ia" defer></script>
+<script src="/admin/admin.js?v=20261128-ia" defer></script>
 <title>Organization Admin — Decapod Cloud</title>
 </head>
 <body class="ds-body admin-page">
@@ -29,25 +29,29 @@
       </a>
       <span class="ds-header-sep" aria-hidden="true">/</span>
       <span class="admin-nav-label">Admin</span>
+      <span class="ds-header-sep" aria-hidden="true">/</span>
+      <nav class="ds-header-nav" aria-label="Primary navigation">
+        <a class="ds-nav-link" href="https://decapodlabs.ai/decapod/">Docs</a>
+        <a class="ds-nav-link" href="/pricing/index.html">Pricing</a>
+        <a class="ds-nav-link" href="/admin/index.html" aria-current="page">Admin</a>
+        <a class="ds-nav-link" href="/trust/index.html">Trust</a>
+        <a class="ds-nav-link" href="https://github.com/DecapodLabs/decapod" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+      </nav>
       <div class="admin-org-switcher" id="admin-org-switcher-wrap" hidden>
         <label class="sr-only" for="admin-org-select">Switch organization</label>
         <select id="admin-org-select" class="ds-select admin-org-select" aria-label="Select organization"></select>
       </div>
     </div>
     <div class="ds-header-right">
-      <a class="ds-nav-link" href="https://decapodlabs.ai/decapod/">Docs</a>
-      <a class="ds-nav-link" href="/proof.html">Proof</a>
-      <a class="ds-nav-link" href="/pricing/index.html">Pricing</a>
-      <a class="ds-nav-link" href="/admin/index.html" aria-current="page">Admin</a>
-      <a class="ds-nav-link" href="/trust/index.html">Trust</a>
-      <a class="ds-nav-link" href="https://github.com/DecapodLabs/decapod" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
-      <a class="ds-nav-link" id="add-repo-link" href="/signup">Add repositories</a>
-      <div class="admin-topbar-account" id="admin-account-bar" hidden>
-        <div class="admin-identity-pill">
-          <span class="ds-dot" style="color:var(--ds-success)" aria-hidden="true"></span>
-          <span id="admin-account-summary">GitHub</span>
+      <div class="ds-header-actions">
+        <a class="ds-btn ds-btn-secondary ds-btn-sm" id="add-repo-link" href="/signup">Add repositories</a>
+        <div class="admin-topbar-account" id="admin-account-bar" hidden>
+          <div class="admin-identity-pill">
+            <span class="ds-dot" style="color:var(--ds-success)" aria-hidden="true"></span>
+            <span id="admin-account-summary">GitHub</span>
+          </div>
+          <button type="button" class="ds-link-btn" id="admin-sign-out-btn">Sign out</button>
         </div>
-        <button type="button" class="ds-link-btn" id="admin-sign-out-btn">Sign out</button>
       </div>
     </div>
   </div>
@@ -644,7 +648,7 @@
     <span>© 2026 Decapod Labs</span>
     <div class="ds-footer-links">
       <a href="https://decapodlabs.ai/decapod/">Docs</a>
-      <a href="/proof.html">Proof</a>
+      <a href="/proof.html">Evaluation</a>
       <a href="/pricing/index.html">Pricing</a>
       <a href="/signup/index.html">Signup</a>
       <a href="/trust/index.html">Trust &amp; Privacy</a>
