@@ -43,6 +43,14 @@
         "docs/design-system/content-recovery-103.md",
         "tests/website_delivered_privacy_test.ts"
       ]
+    },
+    {
+      "id": "website-owner-probe-test-helper",
+      "summary": "Keep the independent delivered privacy probe with its regression harness and preserve the accepted publication command profile.",
+      "input_digest": "sha256:db9feb4bbf0954ef07677a983aaf3e4ba69891bb04314b6a359f21ff237e51dd",
+      "proof_refs": [
+        "tests/website_delivered_privacy_test.ts"
+      ]
     }
   ],
   "intents": {
@@ -103,9 +111,9 @@
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/SECURITY.md",
-          "reason": "Declares the operator-configured analytics exclusion, separate transport diagnostics, and independent deployment negative controls.",
-          "reviewed_code_fingerprint": "5b956d539f592f1bdf78407c96851615a0bf485d0ef9612da68666858e3c3420",
-          "spec_material_hash": "fede92ef0de04bb6b377981ac039865a428529316124e59732c9f9f7b4ace9f4"
+          "reason": "Records the independent served-response check as a test helper outside the publication workflow, with the public analytics and transport-reporting boundary.",
+          "reviewed_code_fingerprint": "a964046afa09158113f410b9b98bf9d6641b3715d482b8417149c0c74ac8b4e3",
+          "spec_material_hash": "344c67721d4393d2aab7d6d04a5016b3c7774f59346e04f812e533c7b0db6ec1"
         }
       ],
       "state": "APPROVED",
@@ -116,13 +124,13 @@
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1795838239Z"
+      "updated_at": "1795838394Z"
     },
     "trajectory": {
       "active_boundaries": [
         "Current claimed task and isolated work branch"
       ],
-      "artifact_hash": "sha256:8ed63d4222646ba2ea896c82ffb909cdd2e9cd120ba5f0acf8c978a632a6a085",
+      "artifact_hash": "sha256:4ecdcbe07bad140621f7b49fcb55c43eb9bc600d1e4aabc22bab52f7a0a2be6a",
       "checks": [
         {
           "name": "delivered_route_privacy",
@@ -154,10 +162,17 @@
             "intent_id": "intent:change_01M8G4C64SNH9QPRXYRRWTD0WD",
             "kind": "trajectory_step_recorded",
             "sequence": 4
+          },
+          {
+            "detail": "trajectory:branch_01M8G4C680G8E43W5Z8G1BVJ3T",
+            "event_id": "event:5",
+            "intent_id": "intent:change_01M8G4C64SNH9QPRXYRRWTD0WD",
+            "kind": "trajectory_step_recorded",
+            "sequence": 5
           }
         ],
         "knowledge_candidates": [],
-        "next_sequence": 4,
+        "next_sequence": 5,
         "schema_version": "1.1.0",
         "trajectories": {
           "branch_01M8G4C680G8E43W5Z8G1BVJ3T": {
@@ -184,6 +199,22 @@
                 ],
                 "sequence": 4,
                 "validation_findings": []
+              },
+              {
+                "action": "verification",
+                "custody_event_id": "event:5",
+                "observations": [
+                  "tests/support/delivered-website-privacy.ts",
+                  "Nine Deno checks passed after keeping the optional deployed check with the regression tests. Accepted configured proof command and proof-source inputs are unchanged."
+                ],
+                "proof_refs": [
+                  "site_source_regressions"
+                ],
+                "scope": [
+                  "root"
+                ],
+                "sequence": 5,
+                "validation_findings": []
               }
             ]
           }
@@ -192,7 +223,8 @@
       "declared_commands": [],
       "destination": "pull request",
       "evidence": [
-        "Deno all site suites 9/9. Cloudflare rule disables automatic analytics on scoped paths, excluding Clack. Nine live HTML destinations with cold and warm probes passed script and declared reporting checks. Website HTML candidate and external participant evidence remain distinct."
+        "Deno all site suites 9/9. Cloudflare rule disables automatic analytics on scoped paths, excluding Clack. Nine live HTML destinations with cold and warm probes passed script and declared reporting checks. Website HTML candidate and external participant evidence remain distinct.",
+        "Nine Deno checks passed after keeping the optional deployed check with the regression tests. Accepted configured proof command and proof-source inputs are unchanged."
       ],
       "inspected_files": [
         "docs/design-system/positioning-and-design-contract.md",
@@ -201,7 +233,8 @@
       "intent_id": "intent:change_01M8G4C64SNH9QPRXYRRWTD0WD",
       "modified_files": [
         "index.html",
-        "scripts/check-website-privacy.ts"
+        "scripts/check-website-privacy.ts",
+        "tests/support/delivered-website-privacy.ts"
       ],
       "next_transitions": [
         "Refine plan and declare falsifiable checks"

@@ -14,7 +14,7 @@ Cloudflare automatically injected its Web Analytics beacon through an enabled RU
 
 ## Release check
 
-Run `deno test tests/website_delivered_privacy_test.ts` for the deterministic negative control, then `deno run --allow-net=decapodlabs.ai scripts/check-website-privacy.ts` on the published site. The latter uses independent cold and warm probes and reports URL paths, timestamps, response digests and declared network-reporting presence. It rejects edge-injected analytics and undeclared reporting. The output carries no raw payloads, script configuration or analytics identifiers. Use clean-state browser network observation as a separate check, and label header observation independently from browser report execution.
+Run `deno test tests/website_delivered_privacy_test.ts` for the deterministic negative control, then `deno run --allow-net=decapodlabs.ai tests/support/delivered-website-privacy.ts` on the published site. The latter uses independent cold and warm probes and reports URL paths, timestamps, response digests and declared network-reporting presence. It rejects edge-injected analytics and undeclared reporting. The output carries no raw payloads, script configuration or analytics identifiers. Use clean-state browser network observation as a separate check, and label header observation independently from browser report execution.
 
 If a deployed check detects new instrumentation, inspect the delivered response and its hosting rules, compare against the same accepted source and artifact, fix the responsible control, and run the checks again. Preserve distinct source, service, and delivered evidence.
 

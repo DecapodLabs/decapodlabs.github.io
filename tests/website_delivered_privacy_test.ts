@@ -1,4 +1,4 @@
-import { inspectDeliveredPrivacy } from '../scripts/check-website-privacy.ts';
+import { inspectDeliveredPrivacy } from './support/delivered-website-privacy.ts';
 
 const page = new URL('https://decapodlabs.ai/trust/');
 const source = '<!doctype html><html><script src="/main.js"></script></html>';
