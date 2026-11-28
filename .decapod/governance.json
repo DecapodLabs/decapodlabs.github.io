@@ -28,6 +28,11 @@
       "id": "chk-1-design-system",
       "summary": "Positioning brief, journey maps, 4-pillar Cloud value, and cross-surface design contract (#103)",
       "input_digest": "sha256:918a2c2e8497043e6a743b24e38286d39257ec5b584f418538cc0c23c7bc4d6e"
+    },
+    {
+      "id": "chk-2-home-uplift",
+      "summary": "Self-hosted Geist homepage, immediate Pi proof preview, 320/390/1024/1440 reflow, and Cloud 4 pillars (#103, #104)",
+      "input_digest": "sha256:b8243621c7aaab56744a767817d17c2c07f88a5425dde7eca7b9a745670ff407"
     }
   ],
   "intents": {
