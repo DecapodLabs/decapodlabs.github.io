@@ -1,5 +1,5 @@
 /*!
- * Decapod Cloud Commercial Design System (20261126-brand)
+ * Decapod Cloud Commercial Design System (20261127-uplift)
  * Self-hosted Geist Sans & Geist Mono fonts under SIL Open Font License 1.1
  * (see /assets/fonts/OFL-LICENSE.txt). Zero external font CDNs or analytics.
  */
@@ -109,13 +109,22 @@ body.ds-body {
   background: var(--ds-bg);
   color: var(--ds-fg);
   font-family: var(--ds-font-sans);
-  font-size: 14px;
-  line-height: 1.5;
+  font-size: 16px;
+  line-height: 1.55;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: flex;
   flex-direction: column;
   overflow-x: clip;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 [hidden] {

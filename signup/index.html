@@ -7,14 +7,14 @@
 <meta name="robots" content="noindex,nofollow">
 <meta name="referrer" content="no-referrer">
 <meta name="decapod-flow-contract" content="1">
-<meta name="decapod-asset-release" content="20261126-brand">
+<meta name="decapod-asset-release" content="20261127-uplift">
 <meta name="description" content="Verify GitHub repository ownership, configure repositories and seats, and complete Decapod Cloud subscription checkout.">
 <link rel="canonical" href="https://decapodlabs.ai/signup">
 <link rel="icon" type="image/png" href="/assets/favicon.png">
-<link rel="stylesheet" href="/shared/commercial-ui.css?v=20261126-brand">
-<link rel="stylesheet" href="/signup/signup.css?v=20261126-brand">
-<script src="/cloud-flow.js?v=20261126-brand" defer></script>
-<script src="/signup/signup.js?v=20261126-brand" defer></script>
+<link rel="stylesheet" href="/shared/commercial-ui.css?v=20261127-uplift">
+<link rel="stylesheet" href="/signup/signup.css?v=20261127-uplift">
+<script src="/cloud-flow.js?v=20261127-uplift" defer></script>
+<script src="/signup/signup.js?v=20261127-uplift" defer></script>
 <title>Subscribe — Decapod Cloud</title>
 </head>
 <body class="ds-body signup-page">
@@ -31,8 +31,12 @@
       <span class="signup-nav-title">Subscription</span>
     </div>
     <div class="ds-header-right">
-      <a class="ds-nav-link" href="/pricing">Pricing</a>
-      <a class="ds-nav-link" href="/admin/">Admin</a>
+      <a class="ds-nav-link" href="https://decapodlabs.ai/decapod/">Docs</a>
+      <a class="ds-nav-link" href="/proof.html">Proof</a>
+      <a class="ds-nav-link" href="/pricing/index.html">Pricing</a>
+      <a class="ds-nav-link" href="/admin/index.html">Admin</a>
+      <a class="ds-nav-link" href="/trust/index.html">Trust</a>
+      <a class="ds-nav-link" href="https://github.com/DecapodLabs/decapod" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
       <div class="signup-account-pill" id="account-bar" hidden>
         <span class="ds-dot" style="color:var(--ds-success)" aria-hidden="true"></span>
         <span class="account-summary" id="account-summary">GitHub</span>
@@ -48,13 +52,14 @@
     <div class="signup-header-row">
       <div>
         <h1 class="ds-title" id="signup-heading">Set up Decapod Cloud</h1>
-        <p class="ds-subtitle" id="signup-subtitle">Authenticate with GitHub, verify repository administration, and review your server quote.</p>
+        <p class="ds-subtitle" id="signup-subtitle">Sign in, connect your repositories, and resume work in your terminal.</p>
       </div>
-      <ol class="signup-stepper" id="signup-stepper" aria-label="Purchase steps">
+      <ol class="signup-stepper" id="signup-stepper" aria-label="Setup steps">
         <li class="step-item is-active" id="step-pill-auth"><span>1</span>Sign in</li>
-        <li class="step-item" id="step-pill-repo"><span>2</span>Repositories</li>
+        <li class="step-item" id="step-pill-repo"><span>2</span>Connect repositories</li>
         <li class="step-item" id="step-pill-review"><span>3</span>Review</li>
-        <li class="step-item" id="step-pill-ready"><span>4</span>Active</li>
+        <li class="step-item" id="step-pill-confirm"><span>4</span>Confirm</li>
+        <li class="step-item" id="step-pill-ready"><span>5</span>Resume</li>
       </ol>
     </div>
 
@@ -214,38 +219,37 @@
             <p class="ds-hint" id="add-alloc-hint" role="status"></p>
           </div>
 
-          <div class="ds-card ds-card-compact" style="margin-top:14px">
-            <div class="alloc-card-head">
-              <div>
-                <h3 class="alloc-heading">Reserve future repository slots</h3>
-                <p class="ds-hint" style="margin-top:2px">Pre-purchase unassigned repository slots for future rollouts. Bind them in Admin when ready; unbound slots do not count toward verified-repository volume discounts.</p>
-              </div>
-              <span class="ds-badge ds-tabular" id="reservations-count-badge">0 slots</span>
-            </div>
+          <details class="ds-disclosure reservations-disclosure" id="reservations-disclosure" style="margin-top:14px">
+            <summary>
+              <span>Optional: Reserve future repository slots (<span id="reservations-count-badge" class="ds-tabular">0 slots</span>)</span>
+            </summary>
+            <div class="ds-disclosure-body">
+              <p class="ds-hint" style="margin-top:0">Pre-purchase unassigned repository slots for future rollouts. Each reserved seat bills at the same per-seat rate and stays ready to bind in Admin; unbound slots do not count toward verified-repository volume discounts.</p>
 
-            <div class="ds-table-wrap" id="reservations-table-wrap" hidden style="margin-top:12px">
-              <table class="ds-table alloc-table">
-                <thead>
-                  <tr>
-                    <th scope="col">Slot</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Seats</th>
-                    <th scope="col" class="alloc-col-act"><span class="sr-only">Actions</span></th>
-                  </tr>
-                </thead>
-                <tbody id="reservations-tbody"></tbody>
-              </table>
-            </div>
-
-            <div class="add-alloc-bar">
-              <div class="ds-field" style="width:120px">
-                <label for="add-reservation-seats-input">Seats per slot</label>
-                <input id="add-reservation-seats-input" class="ds-input ds-tabular" type="number" min="1" max="1000" step="1" value="1" inputmode="numeric">
+              <div class="ds-table-wrap" id="reservations-table-wrap" hidden style="margin-top:12px">
+                <table class="ds-table alloc-table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Slot</th>
+                      <th scope="col">Status</th>
+                      <th scope="col">Seats</th>
+                      <th scope="col" class="alloc-col-act"><span class="sr-only">Actions</span></th>
+                    </tr>
+                  </thead>
+                  <tbody id="reservations-tbody"></tbody>
+                </table>
               </div>
-              <button type="button" class="ds-btn ds-btn-secondary" id="add-reservation-btn" style="align-self:flex-end">Add reserved slot</button>
+
+              <div class="add-alloc-bar">
+                <div class="ds-field" style="width:120px">
+                  <label for="add-reservation-seats-input">Seats per slot</label>
+                  <input id="add-reservation-seats-input" class="ds-input ds-tabular" type="number" min="1" max="1000" step="1" value="1" inputmode="numeric">
+                </div>
+                <button type="button" class="ds-btn ds-btn-secondary" id="add-reservation-btn" style="align-self:flex-end">Add reserved slot</button>
+              </div>
+              <p class="ds-hint" id="add-reservation-hint" role="status"></p>
             </div>
-            <p class="ds-hint" id="add-reservation-hint" role="status"></p>
-          </div>
+          </details>
         </div>
 
         <!-- Right column: Sticky Server Quote Summary -->
@@ -340,10 +344,12 @@
   <div class="ds-footer-inner">
     <span>© 2026 Decapod Labs</span>
     <div class="ds-footer-links">
-      <a href="/pricing">Pricing</a>
-      <a href="/admin/">Admin</a>
+      <a href="https://decapodlabs.ai/decapod/">Docs</a>
+      <a href="/proof.html">Proof</a>
+      <a href="/pricing/index.html">Pricing</a>
+      <a href="/admin/index.html">Admin</a>
       <a href="/trust/index.html">Trust &amp; Privacy</a>
-      <a href="https://github.com/DecapodLabs/decapod" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="https://github.com/DecapodLabs/decapod" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
     </div>
   </div>
 </footer>

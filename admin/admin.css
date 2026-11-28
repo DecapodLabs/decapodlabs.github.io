@@ -1,4 +1,4 @@
-/* Decapod Cloud Organization Admin Shell (20261126-brand) */
+/* Decapod Cloud Organization Admin Shell (20261127-uplift) */
 
 .admin-shell {
   display: grid;
@@ -277,6 +277,22 @@
   letter-spacing: -0.025em;
   line-height: 1.2;
   color: var(--ds-fg);
+}
+
+.kpi-value.is-healthy {
+  color: var(--ds-success);
+}
+
+.kpi-value.is-warning {
+  color: var(--ds-warning);
+}
+
+.kpi-value.is-danger {
+  color: var(--ds-danger);
+}
+
+.kpi-value.is-muted {
+  color: var(--ds-fg-muted);
 }
 
 .kpi-meta {

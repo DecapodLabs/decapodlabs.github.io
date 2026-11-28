@@ -48,6 +48,11 @@
       "id": "chk-5-seo-discovery",
       "summary": "Link live /decapod/sitemap.xml and /decapod/llms.txt in root discovery files (#101)",
       "input_digest": "sha256:1edfb9a1c6a609a26441808da1706d111554ea9d8071535985c3fd4de9582831"
+    },
+    {
+      "id": "chk-6-propodus-bundle",
+      "summary": "Layer Propodus 20261127-uplift Cloud bundle (7e4aba65) and update provenance assertion",
+      "input_digest": "sha256:de83a22b526a21ffce5bc27c3e265e1b159cae2ca05e9f487ae48305158edebb"
     }
   ],
   "intents": {
