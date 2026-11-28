@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "baseline": {
-    "accepted_commit": "d06ee23bd4e6d120a2f94145eeae2275efa07308",
+    "accepted_commit": "c9852910b0f8884ea184fe8220dcb847b6ffdb59",
     "unresolved": {
       "claim:clack-download-latest": {
         "falsifier": "The page embeds a release version, either link fails signed out, the checksum or digest disagrees with the source stable build, or a newer published mirror requires editing the page.",
@@ -14,19 +14,20 @@
         "status": "open"
       },
       "trajectory:3848f0711f1c471f": "The site has no public GitHub Release yet. A scheduled mirror would need authentication with Contents read on private Clack. Neither repo has a listed repository-level Actions secret. The organization-level secret inventory returned 403 with the current GitHub session.",
+      "trajectory:41b73ae67ec24f4a": "Live after-deploy screenshots pending PR merge to origin/main",
       "trajectory:7f7a21200f37746d": "Website origin/main and workspace HEAD were 4ca4f7f73aa7357528ea0502e93fdeda030683f2. The public DMG, checksum file and GitHub v0.9.14 release metadata all gave SHA-256 8df5da4613b7da022644f6fd41704c45d76140d2066217fd4275c6a49a85e480.",
       "trajectory:c8792d9ce24cf68b": "Normal Clack release distribution must use the upstream publisher; the latest public release remains reserved for Clack."
     }
   },
   "change": {
-    "id": "change_01M8GC808VBGVK0M8AYJA5H9CK",
-    "base_commit": "d06ee23bd4e6d120a2f94145eeae2275efa07308",
+    "id": "change_01M8GW9F0KSV4FKNT2AJ7M53XB",
+    "base_commit": "c9852910b0f8884ea184fe8220dcb847b6ffdb59",
     "target_base": "origin/main"
   },
   "claims": {
-    "claim:site-ia-clack-writing-20261128": {
-      "statement": "Website IA polish, Writing hub, Clack showcase, single-row 8-link nav across viewports, arrow convention, PR #109 privacy preservation, and Propodus 20261128-ia bundle (364d8a2f) pass all static, provenance, trust, and delivered-privacy checks.",
-      "falsifier": "Any waystead/whop/abaxi/blog string remains outside governance history, check-site.ts or deno test tests/ fails, cloud-app-manifest.json disagrees with 364d8a2f, or nav wraps into multiple rows.",
+    "claim:clack-showcase-theater-20261128": {
+      "statement": "index.html#clack-showcase renders a bespoke deep-sea Clack Showcase Theater with live 30s gameplay trailer video, interactive scene-jump pills synced on timeupdate, accessible 3-mode tablist switcher (Gameplay Trailer, Agents Mode, World of Siltwick), zero duplicate images, Explore Clack and Download DMG CTAs, and ?v=20261128-clack cache bust across static HTML pages without touching Propodus manifest assets.",
+      "falsifier": "Any duplicate siltwick.webp/agents-mode.webp image appears in index.html, #clackTrailerVideo fails to load or play, tab switching throws JS errors or leaves overflowX > 0, or check-site.ts / deno test tests/ / pre-build validate fails.",
       "status": "supported",
       "proof_refs": [
         "deno test tests/",
@@ -36,49 +37,18 @@
   },
   "checkpoints": [
     {
-      "id": "chk-1-ia-phase-a",
-      "summary": "Track 3 Phase A (#103): 6-link nav, single-row mobile header strip, compact footer, inline Quickstart/Team Cloud hero links, and internal -> vs external up-right arrow consistency",
-      "input_digest": "sha256:1bc21541b20528a4a1ee13500ac3313a7850acbe4320c16fe63b6254cc5454c4"
+      "id": "chk-1-clack-showcase-theater",
+      "summary": "Build bespoke deep-sea Clack Showcase Theater (#clack-showcase) with live trailer video, scene-jump pills, 3-mode tablist, zero duplicate photos, ?v=20261128-clack cache bust, and updated living specs",
+      "input_digest": "sha256:6c9adcd7c005baa42c69ec09a730a152658a91e7890ba8f28113b1726aa6debb"
     },
     {
-      "id": "chk-2-ia-phase-b",
-      "summary": "Sync streamlined 6-link nav, 20261128-ia stylesheet, footer, and arrow conventions across secondary pages (#103, #106)",
-      "input_digest": "sha256:2ecc35d9b486ee90c0b93c55f5d7f5066492eeeaa693bd9d5479735fd0b30b3f",
-      "proof_refs": [
-        "scripts/check-site.ts"
-      ]
-    },
-    {
-      "id": "chk-3-founder-ia-clack-writing",
-      "summary": "Apply #456 founder IA update: Architecture->Features->Showcase(Clack)->Research order, 8-link single-row nav, Writing routes/styles, zero Waystead/Whop/ABAXI",
-      "input_digest": "sha256:e7e451c07c1d56fff40b532436cd1be6b2546012e889124a36a35316eb04e713"
-    },
-    {
-      "id": "chk-4-writing-and-nav-sync",
-      "summary": "Add Writing & Announcements hub (/writing/index.html), add All Writing back-link to tecr.html, and sync 8-link single-row nav & footer across secondary pages",
-      "input_digest": "sha256:384747b323371b6964206ebfb16932047bc6ed6fc72622a4cee776990393b3b9",
-      "proof_refs": [
-        "scripts/check-site.ts"
-      ]
-    },
-    {
-      "id": "chk-5-cloud-bundle-20261128-ia",
-      "summary": "Ingest Propodus 20261128-ia Cloud web bundle from origin/main 364d8a2f6901d9be4588b808a8001cd522fcf777 and update provenance release assertion",
-      "input_digest": "sha256:bf53e661c13c5fbe33cc22aeff63c38bf023e30a3da9344cb77bf08d5e4b3a19"
-    },
-    {
-      "id": "chk-6-specs-and-govern",
-      "summary": "Update living specs (INTENT, ARCHITECTURE, INTERFACES), refresh v0.169.5 surfaces, approve plan, and record claim/trajectory for Track 3",
-      "input_digest": "sha256:c12083d3e0372a1864ea31d0f1620a9fcbe0ed6b21fe0f339f9f5d72e7b1329e"
-    },
-    {
-      "id": "cp_code_01m8gc7ej3dpeg96_refresh_v0169_5",
-      "summary": "Refresh v0.169.5 Dockerfile pin, entrypoints, and spec review dispositions",
-      "input_digest": "sha256:728a05dbc09823935c0e91ca50224cb278745e788b3a592b63782a20c5fae7c6"
+      "id": "cp_code_01m8gw8mjkf4x1jg_spec_review",
+      "summary": "Record explicit spec review dispositions for ARCHITECTURE, INTERFACES, and SECURITY",
+      "input_digest": "sha256:ab1768e175cec953c8b6147885383b8e45a63ad6899d3ce44cdb8c8afdde7d7d"
     }
   ],
   "intents": {
-    "intent:change_01M8GC808VBGVK0M8AYJA5H9CK": {
+    "intent:change_01M8GW9F0KSV4FKNT2AJ7M53XB": {
       "acceptance_criteria": [],
       "assumptions": [],
       "boundaries": [
@@ -88,14 +58,14 @@
         "root"
       ],
       "created_sequence": 1,
-      "id": "intent:change_01M8GC808VBGVK0M8AYJA5H9CK",
+      "id": "intent:change_01M8GW9F0KSV4FKNT2AJ7M53XB",
       "instruction_origin": {
         "source_ref": "caller:unverified"
       },
       "out_of_scope": [],
       "proof_requirements": [],
-      "raw_intent": "Track 3 IA polish: 6-link compact nav, sleek footer, arrow consistency, and 20261128-ia bundle",
-      "refined_intent": "Track 3 IA polish: 6-link compact nav, sleek footer, arrow consistency, and 20261128-ia bundle",
+      "raw_intent": "Bespoke Clack Showcase Theater in index.html#showcase",
+      "refined_intent": "Bespoke Clack Showcase Theater in index.html#showcase",
       "status": "refined",
       "updated_sequence": 3
     }
@@ -108,7 +78,7 @@
       },
       "deferred_questions": [],
       "human_questions": [],
-      "intent": "Track 3 IA polish: 6-link compact nav, sleek footer, arrow consistency, and 20261128-ia bundle",
+      "intent": "Bespoke Clack Showcase Theater in index.html#showcase",
       "phases": [],
       "proof_hooks": [
         "decapod validate"
@@ -118,51 +88,51 @@
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/ARCHITECTURE.md",
-          "reason": "Refreshed v0.169.5 entrypoints and Dockerfile pin alongside IA reorder, Clack showcase, Writing hub, and Propodus 20261128-ia bundle.",
-          "reviewed_code_fingerprint": "c31154b61bbcb27bcfd3ab872a6567ad44b43bc5f47765bfce175ddb7eca2369",
-          "spec_material_hash": "a9355f428c5d6cc0fe5dee9d2a4319f360b33ee6fcb94e126e9bf2432c901003"
+          "reason": "Documented bespoke Clack Showcase Theater (#clackTrailerVideo, 3-mode tablist switcher, scene-jump pills, ?v=20261128-clack cache versioning) in ARCHITECTURE.md.",
+          "reviewed_code_fingerprint": "a33d7b973753f1dcbae64677d107f394357d2b847276bd0315041ef6c070ab55",
+          "spec_material_hash": "e412ee6e70f5df451b6b912021b3aa3d1682bd708206f970786aec2379c33072"
         },
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/INTERFACES.md",
-          "reason": "Refreshed v0.169.5 entrypoints and Dockerfile pin alongside 8-link nav, /writing/ hub, fragment aliases, and Propodus 20261128-ia manifest interfaces.",
-          "reviewed_code_fingerprint": "c31154b61bbcb27bcfd3ab872a6567ad44b43bc5f47765bfce175ddb7eca2369",
-          "spec_material_hash": "8b39ccec8e529d3586dc2fbb84aef32aa07ded2e537acc377697c61b5e31f8f8"
+          "reason": "Documented Clack Showcase Theater interactive tablist, trailer playback/seek HUD, and /clack/index.html + DMG CTA contracts in INTERFACES.md.",
+          "reviewed_code_fingerprint": "a33d7b973753f1dcbae64677d107f394357d2b847276bd0315041ef6c070ab55",
+          "spec_material_hash": "e2cc4e550ad6d45b16941c0a86f11bf54faaa3451023d5334c4e118ba3d60023"
         },
         {
           "disposition": "unchanged_with_reason",
           "path": ".decapod/managed/specs/SECURITY.md",
-          "reason": "Static site privacy, zero external CDN/analytics, and verified Cloud provenance boundaries unchanged; only generated codebase attestation refreshed.",
-          "reviewed_code_fingerprint": "c31154b61bbcb27bcfd3ab872a6567ad44b43bc5f47765bfce175ddb7eca2369",
+          "reason": "Static-only self-hosted media theater; zero external CDN/analytics and Propodus Cloud provenance boundaries unchanged.",
+          "reviewed_code_fingerprint": "a33d7b973753f1dcbae64677d107f394357d2b847276bd0315041ef6c070ab55",
           "spec_material_hash": "62bb344f61469fd3f75f5c09e37936d8b4912412b38d5593b58f2503a16f9d5a"
         }
       ],
       "state": "APPROVED",
       "stop_conditions": [],
-      "title": "Track 3 IA polish: 6-link compact nav, sleek footer, arrow consistency, and 20261128-ia bundle",
+      "title": "Bespoke Clack Showcase Theater in index.html#showcase",
       "todo_ids": [
-        "code_01m8gc7ej3dpeg96"
+        "code_01m8gw8mjkf4x1jg"
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1795850374Z"
+      "updated_at": "1795863393Z"
     },
     "trajectory": {
       "active_boundaries": [
         "Current claimed task and isolated work branch"
       ],
-      "artifact_hash": "sha256:f192141563b35352c2e4b5b6680128bb63eaf22347011674fdaf154f2778cf02",
+      "artifact_hash": "sha256:0135d8eb685b62c19baa7a3c9f55598b0d9480351bd76b320fc9fb07c5b9beae",
       "checks": [
         {
           "name": "check-site",
           "status": "passed"
         },
         {
-          "name": "deno-test",
+          "name": "chrome-cdp-1440-390",
           "status": "passed"
         },
         {
-          "name": "verify-cloud-web-publication",
+          "name": "deno-test",
           "status": "passed"
         }
       ],
@@ -171,20 +141,20 @@
         "events": [
           {
             "event_id": "event:2",
-            "intent_id": "intent:change_01M8GC808VBGVK0M8AYJA5H9CK",
+            "intent_id": "intent:change_01M8GW9F0KSV4FKNT2AJ7M53XB",
             "kind": "created",
             "sequence": 2
           },
           {
             "event_id": "event:3",
-            "intent_id": "intent:change_01M8GC808VBGVK0M8AYJA5H9CK",
+            "intent_id": "intent:change_01M8GW9F0KSV4FKNT2AJ7M53XB",
             "kind": "refined",
             "sequence": 3
           },
           {
-            "detail": "trajectory:branch_01M8GC80D5XPNKJTKCD67XYAAY",
+            "detail": "trajectory:branch_01M8GW9F42GKJRA6NRM20MGTH5",
             "event_id": "event:4",
-            "intent_id": "intent:change_01M8GC808VBGVK0M8AYJA5H9CK",
+            "intent_id": "intent:change_01M8GW9F0KSV4FKNT2AJ7M53XB",
             "kind": "trajectory_step_recorded",
             "sequence": 4
           }
@@ -193,10 +163,10 @@
         "next_sequence": 4,
         "schema_version": "1.1.0",
         "trajectories": {
-          "branch_01M8GC80D5XPNKJTKCD67XYAAY": {
+          "branch_01M8GW9F42GKJRA6NRM20MGTH5": {
             "evidence_only": true,
-            "id": "branch_01M8GC80D5XPNKJTKCD67XYAAY",
-            "intent_id": "intent:change_01M8GC808VBGVK0M8AYJA5H9CK",
+            "id": "branch_01M8GW9F42GKJRA6NRM20MGTH5",
+            "intent_id": "intent:change_01M8GW9F0KSV4FKNT2AJ7M53XB",
             "steps": [
               {
                 "action": "verification",
@@ -205,40 +175,32 @@
                   "index.html",
                   "styles.css",
                   "main.js",
-                  "writing/index.html",
-                  "proof.html",
-                  "trust/index.html",
-                  "tecr.html",
                   "clack/index.html",
-                  "cloud-app-manifest.json",
                   "index.html",
                   "styles.css",
                   "main.js",
-                  "writing/index.html",
-                  "proof.html",
-                  "trust/index.html",
-                  "tecr.html",
-                  "offerings.html",
                   "clack/index.html",
-                  "clack/gameplay-trailer.vtt",
-                  "llms.txt",
-                  "sitemap.xml",
-                  "docs/website-egress-inventory.md",
-                  "cloud-app-manifest.json",
-                  "tests/publication_provenance_test.ts",
-                  "check-site.ts PASS; deno test tests/ 9 passed 0 failed; Propodus 20261128-ia 16/16 verified from 364d8a2f6901d9be4588b808a8001cd522fcf777"
+                  "writing/index.html",
+                  "tecr.html",
+                  "proof.html",
+                  "offerings.html",
+                  "trust/index.html",
+                  ".decapod/managed/specs/INTENT.md",
+                  ".decapod/managed/specs/ARCHITECTURE.md",
+                  ".decapod/managed/specs/INTERFACES.md",
+                  "check-site.ts PASS; deno test tests/ 9/9 PASS; Chrome CDP 1440x900 & 390x844 readyState=4 playing=true siltwickImgs=1 agentsImgs=1 posterImgs=0 overflowX=0 jsErrors=[]"
                 ],
                 "proof_refs": [
                   "check-site",
                   "deno-test",
-                  "verify-cloud-web-publication"
+                  "chrome-cdp-1440-390"
                 ],
                 "scope": [
                   "root"
                 ],
                 "sequence": 4,
                 "validation_findings": [
-                  "Live after-deploy screenshots pending PR merge to origin/main"
+                  "Live Pages screenshot capture pending PR merge and Pages deployment"
                 ]
               }
             ]
@@ -248,34 +210,26 @@
       "declared_commands": [],
       "destination": "pull request",
       "evidence": [
-        "check-site.ts PASS; deno test tests/ 9 passed 0 failed; Propodus 20261128-ia 16/16 verified from 364d8a2f6901d9be4588b808a8001cd522fcf777"
+        "check-site.ts PASS; deno test tests/ 9/9 PASS; Chrome CDP 1440x900 & 390x844 readyState=4 playing=true siltwickImgs=1 agentsImgs=1 posterImgs=0 overflowX=0 jsErrors=[]"
       ],
       "inspected_files": [
         "clack/index.html",
-        "cloud-app-manifest.json",
         "index.html",
         "main.js",
-        "proof.html",
-        "styles.css",
-        "tecr.html",
-        "trust/index.html",
-        "writing/index.html"
+        "styles.css"
       ],
-      "intent_id": "intent:change_01M8GC808VBGVK0M8AYJA5H9CK",
+      "intent_id": "intent:change_01M8GW9F0KSV4FKNT2AJ7M53XB",
       "modified_files": [
-        "clack/gameplay-trailer.vtt",
+        ".decapod/managed/specs/ARCHITECTURE.md",
+        ".decapod/managed/specs/INTENT.md",
+        ".decapod/managed/specs/INTERFACES.md",
         "clack/index.html",
-        "cloud-app-manifest.json",
-        "docs/website-egress-inventory.md",
         "index.html",
-        "llms.txt",
         "main.js",
         "offerings.html",
         "proof.html",
-        "sitemap.xml",
         "styles.css",
         "tecr.html",
-        "tests/publication_provenance_test.ts",
         "trust/index.html",
         "writing/index.html"
       ],
@@ -285,13 +239,13 @@
       "repo_scope": [
         "root"
       ],
-      "run_id": "branch_01M8GC80D5XPNKJTKCD67XYAAY",
+      "run_id": "branch_01M8GW9F42GKJRA6NRM20MGTH5",
       "schema_version": "1.1.0",
       "shortcut_risk_signals": [],
-      "task_id": "code_01m8gc7ej3dpeg96",
+      "task_id": "code_01m8gw8mjkf4x1jg",
       "tool_calls": [],
       "unresolved_assumptions": [
-        "Live after-deploy screenshots pending PR merge to origin/main"
+        "Live Pages screenshot capture pending PR merge and Pages deployment"
       ]
     }
   }

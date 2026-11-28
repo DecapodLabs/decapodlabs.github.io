@@ -257,67 +257,153 @@
     }, { passive: true });
   }
 
-  const showcase = document.querySelector("[data-showcase-carousel]");
-  if (showcase) {
-    const slides = [...showcase.querySelectorAll("[data-showcase-slide]")];
-    const dots = [...showcase.querySelectorAll("[data-showcase-go]")];
-    const details = [
-      ["The town of Siltwick.", "Explore the playable deep-sea world where your native macOS coding workspace lives."],
-      ["Agents Mode over your project.", "Select a Siltwick resident, delegate a repository task, and review proposed edits before applying them."],
-      ["Work and play on macOS.", "Apple silicon app uniting governed multi-agent engineering with a playable underwater adventure."]
-    ];
-    const stage = showcase.querySelector(".showcase-gallery-stage");
-    const title = showcase.querySelector("[data-showcase-title]");
-    const caption = showcase.querySelector("[data-showcase-description]");
-    const counter = showcase.querySelector("[data-showcase-count]");
-    const topline = showcase.querySelector(".showcase-gallery-topline span:last-child");
-    const fullImageLink = showcase.querySelector("[data-showcase-full]");
-    const imagePaths = [
-      "/clack/siltwick.webp",
-      "/clack/agents-mode.webp",
-      "/clack/clack-gameplay-poster.webp"
-    ];
-    let current = 0;
+  const clackStage = document.querySelector("[data-clack-stage]");
+  if (clackStage) {
+    const tabs = Array.from(clackStage.querySelectorAll("[data-clack-tab]"));
+    const panels = Array.from(clackStage.querySelectorAll("[data-clack-panel]"));
+    const trailer = document.getElementById("clackTrailerVideo");
+    const soundBtn = document.getElementById("clackSoundBtn");
+    const soundLabel = document.getElementById("clackSoundLabel");
+    const playBtn = document.getElementById("clackPlayBtn");
+    const playIcon = document.getElementById("clackPlayIcon");
+    const playLabel = document.getElementById("clackPlayLabel");
+    const scenePills = Array.from(clackStage.querySelectorAll("[data-clack-seek]"));
+    const sceneTimes = scenePills.map(pill => Number(pill.dataset.clackSeek) || 0);
+    let userPausedTrailer = reducedMotion;
+    let hasReplayedWithSound = false;
 
-    function choose(index) {
-      current = (index + slides.length) % slides.length;
-      slides.forEach((slide, i) => {
-        const active = i === current;
-        slide.hidden = !active;
-        slide.classList.toggle("is-active", active);
-      });
-      dots.forEach((dot, i) => {
-        dot.classList.toggle("is-active", i === current);
-        dot.setAttribute("aria-pressed", String(i === current));
-      });
-      const number = String(current + 1).padStart(2, "0") + " / " + String(slides.length).padStart(2, "0");
-      if (counter) counter.textContent = number + " · CLACK FOR MACOS";
-      if (topline) topline.textContent = number;
-      if (title) title.textContent = details[current][0];
-      if (caption) caption.textContent = details[current][1];
-      if (fullImageLink) fullImageLink.href = imagePaths[current];
+    function syncTrailerControls() {
+      if (!trailer) return;
+      const playing = !trailer.paused && !trailer.ended;
+      if (playLabel) playLabel.textContent = playing ? "Pause" : "Play";
+      if (playIcon) playIcon.textContent = playing ? "Ⅱ" : "▶";
+      if (playBtn) playBtn.setAttribute("aria-label", playing ? "Pause trailer" : "Play trailer");
+      if (soundLabel) soundLabel.textContent = trailer.muted ? "Sound on ♫" : "Mute";
+      if (soundBtn) {
+        soundBtn.classList.toggle("is-unmuted", !trailer.muted);
+        soundBtn.setAttribute("aria-label", trailer.muted ? (hasReplayedWithSound ? "Unmute trailer" : "Replay trailer with sound") : "Mute trailer");
+      }
     }
 
-    showcase.querySelector("[data-showcase-prev]")?.addEventListener("click", () => choose(current - 1));
-    showcase.querySelector("[data-showcase-next]")?.addEventListener("click", () => choose(current + 1));
-    dots.forEach((dot, i) => dot.addEventListener("click", () => choose(i)));
-    stage?.addEventListener("keydown", event => {
-      if (event.key === "ArrowLeft") { event.preventDefault(); choose(current - 1); }
-      if (event.key === "ArrowRight") { event.preventDefault(); choose(current + 1); }
-      if (event.key === "Home") { event.preventDefault(); choose(0); }
-      if (event.key === "End") { event.preventDefault(); choose(slides.length - 1); }
+    function highlightSceneForTime(seconds) {
+      let activeIndex = 0;
+      for (let i = 0; i < sceneTimes.length; i++) {
+        if (seconds + 0.15 >= sceneTimes[i]) activeIndex = i;
+      }
+      scenePills.forEach((pill, i) => {
+        const active = i === activeIndex;
+        pill.classList.toggle("is-active", active);
+        pill.setAttribute("aria-pressed", String(active));
+      });
+    }
+
+    function activateTab(tabName, moveFocus) {
+      tabs.forEach(tab => {
+        const active = tab.dataset.clackTab === tabName;
+        tab.classList.toggle("is-active", active);
+        tab.setAttribute("aria-selected", String(active));
+        tab.tabIndex = active ? 0 : -1;
+        if (active && moveFocus) tab.focus();
+      });
+      panels.forEach(panel => {
+        const active = panel.dataset.clackPanel === tabName;
+        panel.hidden = !active;
+        panel.classList.toggle("is-active", active);
+      });
+      if (trailer) {
+        if (tabName !== "trailer") {
+          if (!trailer.paused) trailer.pause();
+        } else if (!userPausedTrailer) {
+          trailer.play().catch(() => {});
+        }
+        syncTrailerControls();
+      }
+    }
+
+    tabs.forEach((tab, index) => {
+      tab.addEventListener("click", () => activateTab(tab.dataset.clackTab, false));
+      tab.addEventListener("keydown", event => {
+        if (event.key === "ArrowRight") {
+          event.preventDefault();
+          activateTab(tabs[(index + 1) % tabs.length].dataset.clackTab, true);
+        } else if (event.key === "ArrowLeft") {
+          event.preventDefault();
+          activateTab(tabs[(index - 1 + tabs.length) % tabs.length].dataset.clackTab, true);
+        } else if (event.key === "Home") {
+          event.preventDefault();
+          activateTab(tabs[0].dataset.clackTab, true);
+        } else if (event.key === "End") {
+          event.preventDefault();
+          activateTab(tabs[tabs.length - 1].dataset.clackTab, true);
+        }
+      });
     });
-    let touchX = null;
-    stage?.addEventListener("touchstart", event => {
-      if (event.touches.length === 1) touchX = event.touches[0].clientX;
-    }, { passive: true });
-    stage?.addEventListener("touchend", event => {
-      if (touchX === null || !event.changedTouches.length) return;
-      const delta = event.changedTouches[0].clientX - touchX;
-      touchX = null;
-      if (Math.abs(delta) > 48) choose(current + (delta < 0 ? 1 : -1));
-    }, { passive: true });
-    choose(0);
+
+    if (trailer) {
+      trailer.muted = true;
+      if (reducedMotion) {
+        trailer.autoplay = false;
+        trailer.pause();
+      }
+      for (const ev of ["play", "pause", "ended", "volumechange", "loadedmetadata"]) {
+        trailer.addEventListener(ev, syncTrailerControls);
+      }
+      trailer.addEventListener("timeupdate", () => highlightSceneForTime(trailer.currentTime));
+
+      scenePills.forEach(pill => {
+        pill.addEventListener("click", async () => {
+          const target = Number(pill.dataset.clackSeek) || 0;
+          activateTab("trailer", false);
+          userPausedTrailer = false;
+          trailer.currentTime = target;
+          highlightSceneForTime(target);
+          try {
+            await trailer.play();
+          } catch {
+            trailer.controls = true;
+          }
+          syncTrailerControls();
+        });
+      });
+
+      soundBtn?.addEventListener("click", async () => {
+        if (trailer.muted) {
+          trailer.muted = false;
+          if (!hasReplayedWithSound) {
+            trailer.currentTime = 0;
+            highlightSceneForTime(0);
+            hasReplayedWithSound = true;
+          }
+          userPausedTrailer = false;
+          try {
+            await trailer.play();
+          } catch {
+            trailer.controls = true;
+          }
+        } else {
+          trailer.muted = true;
+        }
+        syncTrailerControls();
+      });
+
+      playBtn?.addEventListener("click", async () => {
+        if (trailer.paused) {
+          userPausedTrailer = false;
+          try {
+            await trailer.play();
+          } catch {
+            trailer.controls = true;
+          }
+        } else {
+          userPausedTrailer = true;
+          trailer.pause();
+        }
+        syncTrailerControls();
+      });
+
+      syncTrailerControls();
+      highlightSceneForTime(0);
+    }
   }
 
   const progress = document.getElementById("scrollProgress");

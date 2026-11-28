@@ -22,9 +22,9 @@
 <link rel="canonical" href="https://decapodlabs.ai/">
 <link rel="describedby" href="/llms.txt" type="text/plain">
 <link rel="icon" type="image/png" href="assets/favicon.png">
-<link rel="stylesheet" href="styles.css?v=20261128-ia">
+<link rel="stylesheet" href="styles.css?v=20261128-clack">
 <script>if (window.location.hash === "#tecr") window.location.replace("/tecr.html");</script>
-<script src="main.js?v=20261128-ia" defer></script>
+<script src="main.js?v=20261128-clack" defer></script>
 <title>Decapod — Governance for AI Coding Agents | Decapod Labs</title>
 <script type="application/ld+json">
 {
@@ -319,52 +319,88 @@
     <p>Software is built in many domains. Decapod keeps agent work coordinated, bounded, and verifiable across interactive native apps and parallel engineering teams.</p>
   </div>
 
-  <div class="wrap showcase-case">
-    <div class="showcase-case-copy">
-      <p class="showcase-case-index">01 / AI CODING WORKSPACE &amp; PLAYABLE WORLD</p>
-      <h3>Code with the crabs.<br>Governed by Decapod.</h3>
-      <p><strong><a class="showcase-inline-link" href="/clack/index.html">Clack for macOS</a></strong> (<code>v0.11.2</code> · Apple silicon · macOS 14+) is Decapod Labs’ native macOS coding workspace set in the playable deep-sea town of Siltwick.</p>
-      <p>Open a project on your Mac, delegate coding tasks to Siltwick residents, review proposed diffs before applying them, and explore the town while your AI crew works.</p>
-      <a class="showcase-cta-link" href="/clack/index.html">Explore Clack for macOS <span aria-hidden="true">→</span></a>
-    </div>
-    <a class="showcase-case-link" href="/clack/index.html" aria-label="Explore Clack for macOS">
-      <figure class="showcase-case-media">
-        <div class="showcase-brandmarks" aria-label="Clack by Decapod Labs">
-          <img class="showcase-clack-mark" src="/clack/logo.png" width="750" height="240" loading="lazy" alt="Clack">
+  <div class="wrap">
+    <div class="clack-stage" data-clack-stage>
+      <div class="clack-stage-bar">
+        <div class="clack-stage-brand">
+          <img class="clack-stage-icon" src="/clack/icon.png" width="128" height="128" alt="Clack app icon">
+          <div class="clack-stage-titlegroup">
+            <span class="clack-stage-wordmark">Clack</span>
+            <span class="clack-stage-badge">01 / MACOS WORKSPACE &amp; PLAYABLE WORLD · v0.11.2 · APPLE SILICON</span>
+          </div>
         </div>
-        <img class="showcase-case-still" src="/clack/siltwick.webp" width="1448" height="1086" loading="lazy" decoding="async" alt="Clack’s deep-sea town of Siltwick on macOS">
-        <figcaption>CLACK FOR MACOS <span aria-hidden="true">·</span> v0.11.2 · APPLE SILICON <span class="showcase-card-action">Explore Clack for macOS <span aria-hidden="true">→</span></span></figcaption>
-      </figure>
-    </a>
-  </div>
+        <div class="clack-stage-tabs" role="tablist" aria-label="Clack showcase views">
+          <button type="button" class="clack-stage-tab is-active" id="clack-tab-trailer" role="tab" aria-selected="true" aria-controls="clack-panel-trailer" tabindex="0" data-clack-tab="trailer"><span aria-hidden="true">▶</span> Gameplay Trailer <span class="clack-tab-meta">0:30</span></button>
+          <button type="button" class="clack-stage-tab" id="clack-tab-agents" role="tab" aria-selected="false" aria-controls="clack-panel-agents" tabindex="-1" data-clack-tab="agents"><span aria-hidden="true">⌘Q</span> Agents Mode</button>
+          <button type="button" class="clack-stage-tab" id="clack-tab-siltwick" role="tab" aria-selected="false" aria-controls="clack-panel-siltwick" tabindex="-1" data-clack-tab="siltwick"><span aria-hidden="true">✦</span> World of Siltwick</button>
+        </div>
+      </div>
 
-  <div class="wrap showcase-gallery" data-showcase-carousel aria-label="Clack for macOS screenshots">
-    <div class="showcase-gallery-topline"><span>CLACK FOR MACOS / SILTWICK &amp; AGENTS MODE</span><span>01 / 03</span></div>
-    <div class="showcase-gallery-stage" role="region" aria-roledescription="carousel" aria-label="Three screenshots from Clack for macOS" tabindex="0">
-      <figure class="showcase-gallery-slide is-active" data-showcase-slide="0">
-        <img src="/clack/siltwick.webp" width="1448" height="1086" fetchpriority="high" decoding="async" alt="The deep-sea town of Siltwick in Clack for macOS">
-      </figure>
-      <figure class="showcase-gallery-slide" data-showcase-slide="1" hidden>
-        <img src="/clack/agents-mode.webp" width="1200" height="848" loading="lazy" decoding="async" alt="Clack’s Agents Mode over Siltwick with Mira selected and a proposed code edit ready to review">
-      </figure>
-      <figure class="showcase-gallery-slide" data-showcase-slide="2" hidden>
-        <img src="/clack/clack-gameplay-poster.webp" width="1280" height="720" loading="lazy" decoding="async" alt="Clack gameplay scene on Apple silicon macOS">
-      </figure>
-      <button class="showcase-gallery-arrow showcase-gallery-prev" type="button" data-showcase-prev aria-label="Previous Clack screenshot">←</button>
-      <button class="showcase-gallery-arrow showcase-gallery-next" type="button" data-showcase-next aria-label="Next Clack screenshot">→</button>
-    </div>
-    <div class="showcase-gallery-detail">
-      <div class="showcase-gallery-caption" aria-live="polite" aria-atomic="true">
-        <p class="showcase-gallery-index" data-showcase-count>01 / 03 · CLACK FOR MACOS</p>
-        <h3 data-showcase-title>The town of Siltwick.</h3>
-        <p data-showcase-description>Explore the playable deep-sea world where your native macOS coding workspace lives.</p>
+      <div class="clack-stage-viewport">
+        <div class="clack-stage-panel is-active" id="clack-panel-trailer" role="tabpanel" aria-labelledby="clack-tab-trailer" data-clack-panel="trailer">
+          <div class="clack-stage-frame is-video">
+            <video id="clackTrailerVideo" muted autoplay loop playsinline preload="metadata" poster="/clack/clack-gameplay-poster.webp" width="1280" height="720" aria-label="Clack 30-second macOS gameplay trailer">
+              <source src="/clack/clack-gameplay-trailer.mp4" type="video/mp4">
+              <track kind="captions" srclang="en" label="English" src="/clack/gameplay-trailer.vtt">
+              <p><a href="/clack/clack-gameplay-trailer.mp4">Download the Clack gameplay trailer</a>.</p>
+            </video>
+          </div>
+          <div class="clack-hud">
+            <div class="clack-chapters" role="group" aria-label="Jump to trailer scene">
+              <button type="button" class="clack-scene-pill is-active" data-clack-seek="0" aria-pressed="true"><time datetime="PT0S">0:00</time><span>Siltwick</span></button>
+              <button type="button" class="clack-scene-pill" data-clack-seek="5.8" aria-pressed="false"><time datetime="PT6S">0:06</time><span>Caves &amp; Combat</span></button>
+              <button type="button" class="clack-scene-pill" data-clack-seek="18.3" aria-pressed="false"><time datetime="PT18S">0:18</time><span>Palace Upgrade</span></button>
+              <button type="button" class="clack-scene-pill" data-clack-seek="21.8" aria-pressed="false"><time datetime="PT22S">0:22</time><span>Imperial Dome</span></button>
+            </div>
+            <div class="clack-playback-controls" role="group" aria-label="Trailer playback controls">
+              <button type="button" class="clack-hud-btn clack-hud-sound" id="clackSoundBtn" aria-label="Replay trailer with sound"><span id="clackSoundLabel">Sound on ♫</span></button>
+              <button type="button" class="clack-hud-btn" id="clackPlayBtn" aria-label="Pause trailer"><span id="clackPlayIcon" aria-hidden="true">Ⅱ</span> <span id="clackPlayLabel">Pause</span></button>
+            </div>
+          </div>
+        </div>
+
+        <div class="clack-stage-panel" id="clack-panel-agents" role="tabpanel" aria-labelledby="clack-tab-agents" data-clack-panel="agents" hidden>
+          <div class="clack-stage-frame">
+            <img src="/clack/agents-mode.webp" width="1200" height="848" loading="lazy" decoding="async" alt="Clack’s Agents Mode over Siltwick with Mira selected, OpenAI Codex configured, and one proposed diff ready for review">
+          </div>
+          <div class="clack-callout-strip">
+            <div class="clack-callout-items">
+              <span class="clack-callout-chip is-strong">Mira · OpenAI Codex</span>
+              <span class="clack-callout-chip">Scoped local folder</span>
+              <span class="clack-callout-chip">1 proposed diff gated for human review before apply</span>
+            </div>
+            <a class="clack-callout-link" href="/clack/agents-mode.webp" target="_blank" rel="noopener noreferrer">View full size →</a>
+          </div>
+        </div>
+
+        <div class="clack-stage-panel" id="clack-panel-siltwick" role="tabpanel" aria-labelledby="clack-tab-siltwick" data-clack-panel="siltwick" hidden>
+          <div class="clack-stage-frame">
+            <img src="/clack/siltwick.webp" width="1448" height="1086" loading="lazy" decoding="async" alt="The playable deep-sea town of Siltwick in Clack for macOS">
+          </div>
+          <div class="clack-callout-strip">
+            <div class="clack-callout-items">
+              <span class="clack-callout-chip is-strong">~/ becomes your seaside house</span>
+              <span class="clack-callout-chip">Mine copper &amp; forge the Sunclaw Scepter</span>
+              <span class="clack-callout-chip">Battle in the Pearl Ring while checks run</span>
+            </div>
+            <a class="clack-callout-link" href="/clack/siltwick.webp" target="_blank" rel="noopener noreferrer">View full size →</a>
+          </div>
+        </div>
       </div>
-      <div class="showcase-gallery-dots" role="group" aria-label="Choose Clack screenshot">
-        <button type="button" data-showcase-go="0" aria-label="View screenshot 1: The town of Siltwick." aria-pressed="true" class="is-active"></button>
-        <button type="button" data-showcase-go="1" aria-label="View screenshot 2: Agents Mode over your project." aria-pressed="false"></button>
-        <button type="button" data-showcase-go="2" aria-label="View screenshot 3: Work and play on macOS." aria-pressed="false"></button>
+
+      <div class="clack-stage-deck">
+        <div class="clack-stage-story">
+          <h3>Code with the crabs. <span>Explore Siltwick while your crew ships.</span></h3>
+          <p>Open a local Mac repo, assign tasks to residents running Codex, Claude, Gemini, or local models, inspect diffs in the Journal, and roam a playable deep-sea town governed with Decapod.</p>
+        </div>
+        <div class="clack-stage-actions">
+          <div class="clack-stage-cta-row">
+            <a class="clack-btn-primary" href="/clack/index.html">Explore Clack <span aria-hidden="true">→</span></a>
+            <a class="clack-btn-secondary" href="https://github.com/DecapodLabs/decapodlabs.github.io/releases/download/clack-v0.11.2/Clack-0.11.2-macOS-arm64.dmg">Download for Mac · DMG <span aria-hidden="true">↗</span></a>
+          </div>
+          <span class="clack-stage-req">v0.11.2 · Apple silicon · macOS 14+</span>
+        </div>
       </div>
-      <a class="showcase-gallery-full" data-showcase-full href="/clack/siltwick.webp" target="_blank" rel="noopener noreferrer">View full screenshot →</a>
     </div>
   </div>
 </section>
