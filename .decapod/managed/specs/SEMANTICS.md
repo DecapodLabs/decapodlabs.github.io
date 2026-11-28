@@ -68,7 +68,7 @@ Generated capability obligations: `persistent-state` is declared for this projec
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `a33d7b973753f1dcbae64677d107f394357d2b847276bd0315041ef6c070ab55`
+- Repository signal fingerprint: `2c8152e0771886d00ade60245ba36a91b636215a8154fcef775433674d9ec62a`
 - Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (5 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->
