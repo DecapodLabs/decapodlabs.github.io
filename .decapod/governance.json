@@ -28,6 +28,11 @@
       "id": "chk-1-research-script",
       "summary": "Draft first-use research script and connected review protocol for #103 (with 0.169.3 release entrypoint refresh)",
       "input_digest": "sha256:bf4eeaaed5fcedd1d17752949455cbf16631b2d05c7a186464e6c8c1ee762021"
+    },
+    {
+      "id": "chk-2-editorial-recovery",
+      "summary": "Phase A editorial & IA recovery (#103/#104): restore lab identity, visible film/14 capabilities/Waystead/swarms/research, and exploration nav",
+      "input_digest": "sha256:a3b7c70770b962a4e26182fdb64766a0d7a50fe5cd6970b9ee293e182009f263"
     }
   ],
   "intents": {

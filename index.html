@@ -4,27 +4,27 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#fff9f0">
-<meta name="description" content="Keep your existing coding agents. Decapod is a local-first, daemonless governance kernel giving Codex, Claude Code, Cursor, Antigravity, and Pi durable ownership, repository boundaries, and commit-bound proof.">
+<meta name="description" content="Decapod is an agent-agnostic metacognitive governance kernel coding agents call to keep engineering aligned with intent, within clear repository boundaries, and backed by commit-bound evidence. No background service required.">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Decapod Labs">
-<meta property="og:title" content="Decapod — Delegate Coding Work with Commit-Bound Proof | Decapod Labs">
-<meta property="og:description" content="Keep your coding agents. Decapod gives their work durable ownership, isolated branches, enforced boundaries, and commit-bound check evidence.">
+<meta property="og:title" content="Decapod — Governance for AI Coding Agents | Decapod Labs">
+<meta property="og:description" content="Keep your coding agents. Decapod gives their work durable ownership, living specifications, curated engineering standards, and exact-commit proof.">
 <meta property="og:image" content="https://decapodlabs.ai/assets/social-preview.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Decapod Labs: Local-first governance kernel for AI coding agents with persistent state and commit-bound proof.">
+<meta property="og:image:alt" content="Decapod Labs: Harness AI metacognition. Persistent state, boundaries, and proof for coding agents.">
 <meta property="og:url" content="https://decapodlabs.ai/">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Decapod — Delegate Coding Work with Commit-Bound Proof | Decapod Labs">
-<meta name="twitter:description" content="One local-first governance kernel for your coding agents. Clear ownership, bounded work, and exact-commit proof.">
+<meta name="twitter:title" content="Decapod — Governance for AI Coding Agents | Decapod Labs">
+<meta name="twitter:description" content="One daemonless governance kernel for your coding agents. Clear ownership, curated standards, bounded work, and exact-commit evidence.">
 <meta name="twitter:image" content="https://decapodlabs.ai/assets/social-preview.png">
-<meta name="twitter:image:alt" content="Decapod Labs: Local-first governance kernel for AI coding agents with persistent state and commit-bound proof.">
+<meta name="twitter:image:alt" content="Decapod Labs: Harness AI metacognition. Persistent state, boundaries, and proof for coding agents.">
 <link rel="canonical" href="https://decapodlabs.ai/">
 <link rel="describedby" href="/llms.txt" type="text/plain">
 <link rel="icon" type="image/png" href="assets/favicon.png">
-<link rel="stylesheet" href="styles.css?v=20261127-uplift">
+<link rel="stylesheet" href="styles.css?v=20261127-recovery">
 <script>if (window.location.hash === "#tecr") window.location.replace("/tecr.html");</script>
-<script src="main.js?v=20261127-uplift" defer></script>
+<script src="main.js?v=20261127-recovery" defer></script>
 <title>Decapod — Governance for AI Coding Agents | Decapod Labs</title>
 <script type="application/ld+json">
 {
@@ -62,12 +62,14 @@
   <div class="wrap nav-content">
     <a href="/" class="brand" aria-label="Decapod Labs home"><img class="site-wordmark" src="/assets/logo-a.png" alt="Decapod Labs" width="420" height="140"></a>
     <nav class="nav-links" aria-label="Site navigation">
+      <a href="/#capabilities">Features</a>
+      <a href="/#architecture">Architecture</a>
+      <a href="/#showcase">Showcase</a>
+      <a href="/#research">Research</a>
       <a href="https://decapodlabs.ai/decapod/">Docs</a>
-      <a href="/proof.html">Proof</a>
-      <a class="nav-pricing" href="https://decapodlabs.ai/pricing">Pricing</a>
       <a href="/tecr.html">Rework</a>
       <a href="/clack/index.html">Clack</a>
-      <a href="/trust/index.html">Trust</a>
+      <a class="nav-pricing" href="https://decapodlabs.ai/pricing">Pricing</a>
     </nav>
     <a class="nav-cta" href="https://github.com/DecapodLabs/decapod" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>
   </div>
@@ -77,14 +79,15 @@
 <section class="hero" aria-labelledby="heroHeading">
   <div class="wrap hero-grid">
     <div class="hero-text">
-      <p class="hero-identity">Local-first governance kernel · Harness AI metacognition</p>
-      <h1 id="heroHeading">Delegate engineering work.<span class="hero-accent">Keep the proof.</span></h1>
-      <p class="hero-body">Keep Codex, Claude Code, Cursor, Antigravity, or Pi. Your coding agents call Decapod locally to claim work, isolate branches, enforce repository boundaries, and bind check evidence to exact commits. Daemonless, free forever locally, and ready in one command.</p>
+      <p class="hero-identity">Decapod Labs · Metacognitive Governance Kernel</p>
+      <h1 id="heroHeading">HARNESS AI <span class="hero-accent">METACOGNITION.</span></h1>
+      <p class="hero-lead">A new way to manage your agentic engineering workflow.</p>
+      <p class="hero-body">Decapod is an application your coding agents call to keep engineering work aligned with your intent, within clear boundaries, and backed by evidence. Its agent-agnostic, daemonless metacognitive governance kernel works with Codex, Claude Code, Cursor, Antigravity, Pi, and other compatible agents. Each call runs, returns structured guidance, and exits—leaving living specifications, task ownership, durable context, and exact-commit proof available across sessions.</p>
 
       <div class="hero-quickstart" id="quickstart" aria-label="Install Decapod locally">
         <span id="install" class="sr-only" aria-hidden="true"></span>
         <div class="hero-quickstart-heading">
-          <span>FREE LOCAL START · NO SIGNUP</span>
+          <span>FREE, LOCAL &amp; READY TO BUILD</span>
           <div class="install-methods" role="group" aria-label="Install method">
             <button type="button" class="install-method is-active" id="installBinstall" aria-pressed="true">Cargo binstall</button>
             <button type="button" class="install-method" id="installCargo" aria-pressed="false">Cargo source</button>
@@ -96,11 +99,12 @@
           <code id="installCommand">cargo binstall decapod &amp;&amp; decapod init</code>
           <button type="button" id="copyBtn" aria-label="Copy installation command">Copy</button>
         </div>
-        <p class="hero-install-promise" id="copyStatus" aria-live="polite">Requires cargo-binstall (or switch to Cargo source). Initializes <code>.decapod/</code> once per repo—then tell your agent what to build.</p>
+        <p class="hero-install-promise" id="copyStatus" aria-live="polite">One initialization per project. No daemon, no signup.</p>
+        <p class="hero-install-finish">Now just <strong>tell your agent what you want.</strong></p>
         <div class="hero-install-links">
           <a id="installSource" href="https://crates.io/crates/decapod">Crates.io ↗</a>
-          <a href="https://decapodlabs.ai/decapod/quickstart.html">Prerequisites &amp; quickstart ↗</a>
-          <a class="hero-proof-route" href="#proofs">Inspect recorded Pi proof ↓</a>
+          <a href="https://decapodlabs.ai/decapod/quickstart.html">Quickstart ↗</a>
+          <a class="hero-pricing" href="https://decapodlabs.ai/pricing">Explore pricing ↗</a>
         </div>
       </div>
     </div>
@@ -114,112 +118,265 @@
   </div>
 </section>
 
-<section class="launch-proof" id="proofs" aria-labelledby="proofHeading">
-  <span id="proof" aria-hidden="true"></span>
-  <div class="wrap">
-    <div class="launch-heading">
-      <div>
-        <p class="kicker kicker-light">01 / OBSERVED HISTORICAL RUN · PI 0.73.1 + DECAPOD 0.148.8</p>
-        <h2 id="proofHeading">A real failed check.<br><span>A repair. Verified proof.</span></h2>
+<section class="film-section" id="film" aria-labelledby="filmHeading">
+  <div class="wrap film-layout">
+    <div class="film-copy">
+      <p class="kicker">INTRODUCTION · DECAPOD LABS</p>
+      <h2 id="filmHeading">Meet the<br><span>kernel.</span></h2>
+      <p>See how Decapod gives coding agents shared memory, curated standards, isolated worktrees, and commit-bound checks—without replacing the agents or tools you already run.</p>
+    </div>
+    <div class="film-media">
+      <div class="video-shell">
+        <video id="filmVideo" autoplay muted loop playsinline preload="metadata" poster="assets/decapod-poster.png" aria-label="Decapod film showing the metacognitive governance kernel">
+          <source src="assets/decapod-showcase.mp4" type="video/mp4">
+          <p><a href="assets/decapod-showcase.mp4">Download the introductory film</a>.</p>
+        </video>
       </div>
-      <p>Model confidence is not completion evidence. In this recorded run, Pi received one prompt and zero follow-up help—hit an actual authorization test failure, repaired the source, passed fresh checks, and published GitHub PR #7.</p>
-    </div>
-
-    <div class="proof-summary-strip" aria-label="Summary of observed proof events">
-      <article class="proof-beat">
-        <p class="proof-beat-tag">STEP 1 · CHECK REJECTED</p>
-        <h3>Failed candidate <code>ed086de6</code></h3>
-        <p><code>decapod validate</code> ran <code>authorization-contract</code> and exited <code>1</code> because an ungranted member still passed a repository read check.</p>
-      </article>
-      <article class="proof-beat">
-        <p class="proof-beat-tag">STEP 2 · SOURCE REPAIR</p>
-        <h3>Fresh validation <code>a063de90</code></h3>
-        <p>Pi inspected the failure output, patched repository-scoped read authorization, and re-ran validation with 2/2 checks exiting <code>0</code>.</p>
-      </article>
-      <article class="proof-beat">
-        <p class="proof-beat-tag">STEP 3 · RECORDED ADMISSION</p>
-        <h3>GitHub PR #7 on base <code>ada3eb89</code></h3>
-        <p>Decapod recorded the commit-bound receipt and created PR #7. Later source edits expire that proof—and admission never forces merge.</p>
-      </article>
-    </div>
-
-    <div class="launch-player proof-player">
-      <video id="proofVideo" controls playsinline preload="none" poster="assets/decapod-proof-poster.png" aria-label="Pi and Decapod terminal proof recording" aria-describedby="proofDescription">
-        <source src="assets/decapod-proof.mp4" type="video/mp4">
-        <track kind="captions" src="assets/decapod-proof.vtt" srclang="en" label="English">
-        <p><a href="assets/decapod-proof.mp4">Download the proof video</a>.</p>
-      </video>
-    </div>
-
-    <nav class="proof-chapters" aria-label="Proof video chapters">
-      <a href="#proofVideo" data-proof-seek="52"><time datetime="PT52S">0:52</time>First failed check</a>
-      <a href="#proofVideo" data-proof-seek="108"><time datetime="PT108S">1:48</time>Fresh validation</a>
-      <a href="#proofVideo" data-proof-seek="140"><time datetime="PT140S">2:20</time>Verified publication</a>
-    </nav>
-
-    <div class="launch-foot">
-      <p id="proofDescription">Selected moments from historical Pi session <code>pi-1758-tui-06</code> at original tool speed. Every hash and artifact below is verifiable offline.</p>
-      <nav aria-label="Inspect the demonstration">
-        <a href="proof.html#recorded-run">Inspect hashes &amp; 5-step story ↗</a>
-        <a href="proof.html#case-study">Watch 56-second case study ↗</a>
-        <a href="https://github.com/alexhraber/decapod-admission-acceptance-20261117-1747-06/pull/7">View GitHub PR #7 ↗</a>
-      </nav>
+      <div class="video-controls" role="group" aria-label="Film playback">
+        <button type="button" class="sound-control" id="soundBtn" aria-label="Replay film with sound"><span aria-hidden="true">↻</span> <span id="soundLabel">Replay with sound</span></button>
+        <button type="button" class="film-toggle" id="pauseBtn" aria-label="Pause film"><span id="pauseIcon" aria-hidden="true">Ⅱ</span> <span id="pauseLabel">Pause</span></button>
+        <button type="button" class="film-toggle" id="muteBtn" aria-label="Unmute film"><span id="muteIcon" aria-hidden="true">♪</span> <span id="muteLabel">Unmute</span></button>
+      </div>
     </div>
   </div>
 </section>
 
-<section class="section-band" id="architecture" aria-labelledby="flowHeading">
-  <span id="features" class="sr-only" aria-hidden="true"></span>
+<section class="section-band" id="features" aria-labelledby="statementHeading">
   <span id="kernel" class="sr-only" aria-hidden="true"></span>
   <div class="wrap">
-    <div class="flow-grid">
-      <div class="flow-copy">
-        <p class="kicker">02 / HOW IT WORKS WITH EXISTING AGENTS</p>
-        <h2 id="flowHeading">The agent writes code.<br><span>Decapod holds the contract.</span></h2>
-        <p>You don’t switch editors or give up Claude Code, Codex, Cursor, or Antigravity. When your agent starts a task, it acquires a Decapod session, claims work, isolates a Git branch/worktree, checks its own specs and risks, and runs configured validation before proposing a PR.</p>
-        <p>Every call executes locally and exits cleanly—no background daemon required, while durable state lives right beside your repository.</p>
-        <a class="text-link" href="https://decapodlabs.ai/decapod/mental-model.html">Read the architecture &amp; mental model ↗</a>
-      </div>
-
-      <div class="flow-diagram" aria-label="You give intent to your existing coding agents. They invoke Decapod for bounded execution and proof.">
-        <div class="diagram-unit">
-          <span class="diagram-symbol" aria-hidden="true">✳</span>
-          <div><b>Your intent</b><span class="diagram-sub">Feature goal, bug fix, or review scope in plain prose</span></div>
-        </div>
-        <div class="diagram-arrow" aria-hidden="true">↓</div>
-        <div class="diagram-unit">
-          <span class="diagram-symbol" aria-hidden="true">⌘</span>
-          <div><b>Your existing coding agents</b><span class="diagram-sub">Codex, Claude Code, Cursor, Antigravity, or Pi</span></div>
-        </div>
-        <div class="diagram-arrow" aria-hidden="true">↓</div>
-        <div class="diagram-unit diagram-hot">
-          <img src="assets/mascot.svg" alt="" width="30" height="30">
-          <div><b>Decapod governance kernel</b><span class="diagram-sub">Task claims · Worktree custody · Living specs · Commit-bound proof</span></div>
-        </div>
-      </div>
+    <div class="statement-block">
+      <p class="kicker">FEATURES / THE GOVERNED WORKFLOW</p>
+      <h2 id="statementHeading">The agent can write code.<br><span>Who makes sure the work <em>holds?</em></span></h2>
     </div>
 
     <div class="feature-grid">
       <article class="feature-card feature-orange">
         <span class="feature-symbol" aria-hidden="true">▱</span>
-        <h3>Persistent state</h3>
-        <p>Todos, specs, decisions, and recovery state survive across restarts and handoffs.</p>
+        <h3>Persistent<br>State.</h3>
+        <p>Intent, living specs, task claims, decisions, and recovery context stay attached to the repo across sessions and tool switches.</p>
       </article>
       <article class="feature-card feature-cream">
         <span class="feature-symbol" aria-hidden="true">⬡</span>
-        <h3>Enforced boundaries</h3>
-        <p>Main stays clean via isolated worktrees; protected authority gates fail closed.</p>
+        <h3>Enforced<br>Boundaries.</h3>
+        <p>Each task works in an isolated branch and Git worktree while repository rules and authority gates fail closed before publication.</p>
       </article>
       <article class="feature-card feature-ink">
         <span class="feature-symbol" aria-hidden="true">✓</span>
-        <h3>Commit-bound proof</h3>
-        <p>Validation receipts bind to the exact candidate SHA and accepted target base.</p>
+        <h3>Commit-Bound<br>Proof.</h3>
+        <p>Validation binds configured check evidence to exact candidate commits and target bases—and expires immediately when code changes.</p>
       </article>
       <article class="feature-card feature-pink">
         <span class="feature-symbol" aria-hidden="true">↗</span>
-        <h3>Agent-agnostic</h3>
-        <p>Mix coding agents on the same repository through one CLI and structured RPC.</p>
+        <h3>Bring Your<br>Own Agents.</h3>
+        <p>Keep Codex, Claude Code, Cursor, Antigravity, or Pi. Different agents coordinate on one project through one CLI and structured RPC.</p>
       </article>
+    </div>
+  </div>
+</section>
+
+<section class="section-band is-paper" id="architecture" aria-labelledby="flowHeading">
+  <div class="wrap">
+    <div class="flow-grid">
+      <div class="flow-copy">
+        <p class="kicker">OPERATING MODEL &amp; ARCHITECTURE</p>
+        <h2 id="flowHeading">The agent does the work.<br><span>Decapod governs it.</span></h2>
+        <p>Describe the outcome in plain prose using the editor and coding agent you already run. Before writing code, your agent queries the global <strong>Constitution</strong>, resolves task <strong>context capsules</strong>, updates versioned <strong>living specifications</strong>, and isolates work in its own Git worktree.</p>
+        <p><strong>Durable memory</strong>, explicit <strong>task ownership</strong>, and structured handoffs preserve state across sessions and teammates. Failed checks surface recovery guidance, and <code>decapod validate</code> binds proof to exact commits under standing repository policy—admission never self-grants merge authority beyond your forge rules.</p>
+        <a class="text-link" href="https://decapodlabs.ai/decapod/mental-model.html">Explore the architecture ↗</a>
+      </div>
+
+      <div class="flow-diagram" aria-label="You describe the objective to your chosen coding agents. They invoke Decapod for governed execution.">
+        <div class="diagram-unit">
+          <span class="diagram-symbol" aria-hidden="true">✳</span>
+          <div><b>Your idea</b><span class="diagram-sub">Plain-language outcome, architectural boundary, and target repo</span></div>
+        </div>
+        <div class="diagram-arrow" aria-hidden="true">↓</div>
+        <div class="diagram-unit">
+          <span class="diagram-symbol" aria-hidden="true">⌘</span>
+          <div><b>Your coding agents</b><span class="diagram-sub">Codex, Claude Code, Cursor, Antigravity, or Pi</span></div>
+        </div>
+        <div class="diagram-arrow" aria-hidden="true">↓</div>
+        <div class="diagram-unit diagram-hot">
+          <img src="assets/mascot.svg" alt="" width="30" height="30">
+          <div><b>Decapod</b><span class="diagram-sub">Constitution · Living specs · Context · Worktree custody · Proof</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="capabilities-section" id="capabilities" aria-labelledby="capabilitiesHeading">
+  <div class="wrap">
+    <div class="capabilities-heading">
+      <div>
+        <p class="kicker">THE GOVERNED WORKFLOW · 14 CAPABILITIES</p>
+        <h2 id="capabilitiesHeading">A kernel for<br><span>the whole job.</span></h2>
+      </div>
+      <p>Your coding agents call Decapod throughout the job. The application keeps decisions, curated domain knowledge, ownership, boundaries, and validation evidence available across tools, engineers, and sessions.</p>
+    </div>
+
+    <div class="capability-grid">
+      <a class="capability-card capability-featured capability-tasks" href="https://decapodlabs.ai/decapod/quickstart.html">
+        <span class="capability-index">01 / TASKS + CUSTODY</span>
+        <h3>Tasks with ownership.</h3>
+        <p>Create, claim, prioritize, hand off, and complete work with an explicit owner and recorded outcome.</p>
+        <span class="capability-link">Task lifecycle <span aria-hidden="true">↗</span></span>
+      </a>
+      <a class="capability-card capability-featured capability-constitution" href="https://decapodlabs.ai/decapod/concepts/constitution.html">
+        <span class="capability-index">02 / CONSTITUTION</span>
+        <h3>The global Constitution.</h3>
+        <p>Sensible defaults for agent decisions, backed by curated engineering golden paths, research, architecture, and software-business knowledge. Embedded in the kernel, agent-queryable, and open to community PRs.</p>
+        <span class="capability-link">Explore the Constitution <span aria-hidden="true">↗</span></span>
+      </a>
+      <a class="capability-card" href="https://decapodlabs.ai/decapod/concepts/intent.html">
+        <span class="capability-index">03 / INTENT</span>
+        <h3>Intent &amp; living specs.</h3>
+        <p>Keep the original request and the agent’s interpretation in reviewable, versioned specifications right beside the source.</p>
+        <span class="capability-link">Intent &amp; decisions <span aria-hidden="true">↗</span></span>
+      </a>
+      <a class="capability-card" href="https://decapodlabs.ai/decapod/concepts/agent-first.html">
+        <span class="capability-index">04 / CONTEXT</span>
+        <h3>Context capsules.</h3>
+        <p>Resolve the relevant rules, architectural boundaries, and project context for a task with traceable provenance.</p>
+        <span class="capability-link">Agent-first architecture <span aria-hidden="true">↗</span></span>
+      </a>
+      <a class="capability-card" href="https://decapodlabs.ai/decapod/concepts/workspaces.html">
+        <span class="capability-index">05 / WORKSPACES</span>
+        <h3>Worktree isolation.</h3>
+        <p>Give work its own branch and isolated Git worktree, with optional container boundaries so primary branches stay clean.</p>
+        <span class="capability-link">Workspace model <span aria-hidden="true">↗</span></span>
+      </a>
+      <a class="capability-card" href="https://decapodlabs.ai/decapod/workflows/multi-agent.html">
+        <span class="capability-index">06 / CONCURRENCY</span>
+        <h3>Cross-agent coordination.</h3>
+        <p>Codex, Claude Code, Cursor, Antigravity, and other agents coordinate in one project through task claims, custody, and handoffs—even across engineers.</p>
+        <span class="capability-link">Multi-agent workflows <span aria-hidden="true">↗</span></span>
+      </a>
+      <a class="capability-card" href="https://decapodlabs.ai/decapod/concepts/agent-first.html">
+        <span class="capability-index">07 / MEMORY</span>
+        <h3>Durable state &amp; memory.</h3>
+        <p>Keep knowledge, decisions, and work state available across ephemeral sessions, agent tools, engineers, and handoffs.</p>
+        <span class="capability-link">Persistent context <span aria-hidden="true">↗</span></span>
+      </a>
+      <a class="capability-card" href="https://decapodlabs.ai/decapod/concepts/workspaces.html">
+        <span class="capability-index">08 / BOUNDARIES</span>
+        <h3>Scoped authority.</h3>
+        <p>Make repository rules, ownership, and delegated execution boundaries explicit before edits or commands run.</p>
+        <span class="capability-link">Bounded execution <span aria-hidden="true">↗</span></span>
+      </a>
+      <a class="capability-card" href="https://decapodlabs.ai/decapod/concepts/proof.html">
+        <span class="capability-index">09 / VALIDATION</span>
+        <h3>Validation &amp; recovery.</h3>
+        <p>Run required checks, inspect structured failure guidance, repair supported problems cleanly, and revalidate on the same work branch.</p>
+        <span class="capability-link">Proof &amp; validation <span aria-hidden="true">↗</span></span>
+      </a>
+      <a class="capability-card" href="https://decapodlabs.ai/decapod/concepts/proof.html">
+        <span class="capability-index">10 / EVIDENCE</span>
+        <h3>Commit-bound proof.</h3>
+        <p>Tie validation evidence to the exact candidate repository state, base commit, and checks that produced it.</p>
+        <span class="capability-link">Proof contracts <span aria-hidden="true">↗</span></span>
+      </a>
+      <a class="capability-card" href="https://decapodlabs.ai/decapod/workflows/single-agent.html">
+        <span class="capability-index">11 / DELIVERY</span>
+        <h3>Governed publication.</h3>
+        <p>Keep PR creation and merge gates bounded until required checks, living specs, checkpoints, and repository policy are satisfied.</p>
+        <span class="capability-link">Delivery workflow <span aria-hidden="true">↗</span></span>
+      </a>
+      <a class="capability-card" href="https://decapodlabs.ai/decapod/reference/artifacts.html">
+        <span class="capability-index">12 / HISTORY</span>
+        <h3>Epistemic custody.</h3>
+        <p>Preserve the chain from original intent and assumptions to work, decisions, receipts, and completion.</p>
+        <span class="capability-link">Artifact inventory <span aria-hidden="true">↗</span></span>
+      </a>
+      <a class="capability-card" href="https://decapodlabs.ai/decapod/mental-model.html">
+        <span class="capability-index">13 / RUNTIME</span>
+        <h3>Local-first. Daemonless.</h3>
+        <p>Decapod runs when an agent calls it, returns structured results, and exits cleanly. Governance state lives beside your repo.</p>
+        <span class="capability-link">Mental model <span aria-hidden="true">↗</span></span>
+      </a>
+      <a class="capability-card" href="https://decapodlabs.ai/decapod/concepts/agent-first.html">
+        <span class="capability-index">14 / INTERFACE</span>
+        <h3>Agent-invoked CLI &amp; RPC.</h3>
+        <p>Keep your coding agents. They invoke one surface for orientation, claims, reflection, spec refreshes, and validation.</p>
+        <span class="capability-link">Agent API <span aria-hidden="true">↗</span></span>
+      </a>
+    </div>
+
+    <a class="capabilities-all" href="https://decapodlabs.ai/decapod/">Explore the complete documentation <span aria-hidden="true">↗</span></a>
+  </div>
+</section>
+
+<div class="showcase-suite" id="showcase">
+<section class="waystead-section" id="waystead" aria-labelledby="showcaseHeading">
+  <div class="wrap showcase-intro">
+    <p class="kicker">SHOWCASE / DECAPOD AT WORK</p>
+    <h2 id="showcaseHeading">One kernel.<br><span>Across disciplines.</span></h2>
+    <p>Software is built in many domains. Decapod keeps agent work coordinated, bounded, and verifiable across them. Here are two very different applications.</p>
+  </div>
+
+  <div class="wrap showcase-case">
+    <div class="showcase-case-copy">
+      <p class="showcase-case-index">01 / GAME DEVELOPMENT</p>
+      <h3>Complex systems.<br>Coordinated agents.</h3>
+      <p><strong><a class="showcase-waystead-inline" href="https://whop.com/abaxi-studios/waystead-waitlist/" target="_blank" rel="noopener noreferrer" aria-label="Waystead waitlist (opens in a new tab)">Waystead</a></strong> is a procedurally generated, planet-scale survival RPG and dungeon crawler by ABAXI in active development. Its Godot codebase spans world generation, character systems, persistence, rendering, and delivery.</p>
+      <p>Decapod governs the coding agents working across those systems—preserving task ownership, context, boundaries, and evidence as the project evolves.</p>
+      <a class="waystead-link" href="#quickstart">Use Decapod in your project <span aria-hidden="true">↗</span></a>
+    </div>
+    <a class="showcase-case-link" href="https://whop.com/abaxi-studios/waystead-waitlist/" target="_blank" rel="noopener noreferrer" aria-label="Join the Waystead waitlist on Whop (opens in a new tab)">
+      <figure class="showcase-case-media">
+        <div class="showcase-brandmarks" aria-label="Waystead by ABAXI">
+          <img class="showcase-abaxi-mark" src="assets/abaxi-logo.png" width="706" height="246" loading="lazy" alt="ABAXI">
+          <img class="showcase-waystead-mark" src="assets/waystead-wordmark-transparent.webp" width="1689" height="343" loading="lazy" alt="WAYSTEAD">
+        </div>
+        <img class="showcase-case-still" src="assets/waystead-key-art.webp" width="1672" height="941" loading="lazy" decoding="async" alt="Illustrated Waystead world vision: a sweeping fantasy landscape, an adventurer, and AI-assisted game development">
+        <figcaption>WAYSTEAD BY ABAXI <span aria-hidden="true">·</span> IN ACTIVE DEVELOPMENT <span class="showcase-card-action">Join the waitlist <span aria-hidden="true">↗</span></span></figcaption>
+      </figure>
+    </a>
+  </div>
+
+  <div class="wrap showcase-gallery" data-showcase-carousel aria-label="Waystead in-development gameplay screenshots">
+    <div class="showcase-gallery-topline"><span>WAYSTEAD / DEVELOPMENT BUILDS</span><span>01 / 07</span></div>
+    <div class="showcase-gallery-stage" role="region" aria-roledescription="carousel" aria-label="Seven screenshots from Waystead in development" tabindex="0">
+      <figure class="showcase-gallery-slide is-active" data-showcase-slide="0">
+        <img src="assets/waystead-character.webp" width="1440" height="930" fetchpriority="high" decoding="async" alt="Waystead character creation interface with a fully rendered customizable adventurer">
+      </figure>
+      <figure class="showcase-gallery-slide" data-showcase-slide="1" hidden>
+        <img src="assets/waystead-exploration.webp" width="1440" height="930" loading="lazy" decoding="async" alt="Waystead player character standing among grasses, flowers, and procedurally generated foliage">
+      </figure>
+      <figure class="showcase-gallery-slide" data-showcase-slide="2" hidden>
+        <img src="assets/waystead-landscape.webp" width="1440" height="930" loading="lazy" decoding="async" alt="Overhead view of Waystead's generated terrain with groves of trees and a player character">
+      </figure>
+      <figure class="showcase-gallery-slide" data-showcase-slide="3" hidden>
+        <img src="assets/waystead-journal.webp" width="1440" height="930" loading="lazy" decoding="async" alt="Waystead field journal recording a first sighting of a sheep with date and descriptive notes">
+      </figure>
+      <figure class="showcase-gallery-slide" data-showcase-slide="4" hidden>
+        <img src="assets/waystead-construction.webp" width="1440" height="930" loading="lazy" decoding="async" alt="Waystead construction menu showing fire rings, tents, camp facilities, and other craftable structures">
+      </figure>
+      <figure class="showcase-gallery-slide" data-showcase-slide="5" hidden>
+        <img src="assets/waystead-inventory.webp" width="1440" height="930" loading="lazy" decoding="async" alt="Waystead inventory screen with character equipment, storage and crafting resources">
+      </figure>
+      <figure class="showcase-gallery-slide" data-showcase-slide="6" hidden>
+        <img src="assets/waystead-waterside.webp" width="1280" height="720" loading="lazy" decoding="async" alt="A Waystead adventurer stands beneath a tree beside a lake in the playable Godot game">
+      </figure>
+      <button class="showcase-gallery-arrow showcase-gallery-prev" type="button" data-showcase-prev aria-label="Previous gameplay screenshot">←</button>
+      <button class="showcase-gallery-arrow showcase-gallery-next" type="button" data-showcase-next aria-label="Next gameplay screenshot">→</button>
+    </div>
+    <div class="showcase-gallery-detail">
+      <div class="showcase-gallery-caption" aria-live="polite" aria-atomic="true">
+        <p class="showcase-gallery-index" data-showcase-count>01 / 07 · IN DEVELOPMENT</p>
+        <h3 data-showcase-title>A character of your own.</h3>
+        <p data-showcase-description>Character creation, appearance, identity, and the start of a personal journey.</p>
+      </div>
+      <div class="showcase-gallery-dots" role="group" aria-label="Choose gameplay screenshot">
+        <button type="button" data-showcase-go="0" aria-label="View screenshot 1: A character of your own." aria-pressed="true" class="is-active"></button>
+        <button type="button" data-showcase-go="1" aria-label="View screenshot 2: A world to explore." aria-pressed="false"></button>
+        <button type="button" data-showcase-go="2" aria-label="View screenshot 3: Geography with depth." aria-pressed="false"></button>
+        <button type="button" data-showcase-go="3" aria-label="View screenshot 4: History worth keeping." aria-pressed="false"></button>
+        <button type="button" data-showcase-go="4" aria-label="View screenshot 5: Survive. Build. Continue." aria-pressed="false"></button>
+        <button type="button" data-showcase-go="5" aria-label="View screenshot 6: A connected survival system." aria-pressed="false"></button>
+        <button type="button" data-showcase-go="6" aria-label="View screenshot 7: By the water." aria-pressed="false"></button>
+      </div>
+      <a class="showcase-gallery-full" data-showcase-full href="assets/waystead-character.webp" target="_blank" rel="noopener noreferrer">View full screenshot ↗</a>
     </div>
   </div>
 </section>
@@ -228,24 +385,24 @@
   <div class="wrap">
     <div class="swarm-heading">
       <div>
-        <p class="kicker kicker-light">03 / PARALLEL MULTI-AGENT COORDINATION (INTERNAL WORKFLOW)</p>
-        <h2 id="swarmHeading">Multiple agents.<br><span>One shared truth.</span></h2>
+        <p class="kicker kicker-light">02 / STARTUP &amp; MULTI-AGENT ENGINEERING</p>
+        <h2 id="swarmHeading">Get the<br><span>work done.</span></h2>
       </div>
-      <p class="swarm-intro">Internal development workflow shown in three concurrent Ghostty + Antigravity CLI sessions on November 18, 2026: separate workers claim non-overlapping tasks, isolate branches, revalidate after upstream merges, and pass independent verification.</p>
+      <p class="swarm-intro">Agents can build the software behind an ambitious startup: features, infrastructure, identity, billing, and delivery. Decapod governs the work as teams and agents coordinate, review, and ship.</p>
     </div>
 
     <div class="swarm-carousel" data-swarm-carousel aria-label="Three concurrent engineering swarms">
       <div class="swarm-stage">
         <button class="swarm-arrow swarm-prev" type="button" aria-label="Previous swarm screenshot" data-swarm-prev>←</button>
-        <div class="swarm-deck" role="region" aria-roledescription="carousel" aria-label="Concurrent Decapod swarm screenshots" tabindex="0">
+        <div class="swarm-deck" role="region" aria-roledescription="carousel" aria-label="Carbon/Hydrogen swarm screenshots" tabindex="0">
           <a class="swarm-slide is-active" data-swarm-slide="0" href="assets/swarm-decapod-wog.webp" target="_blank" rel="noopener noreferrer" aria-label="Open full-resolution screenshot of Decapod kernel swarm">
-            <img src="assets/swarm-decapod-wog.webp" width="2048" height="1323" loading="lazy" decoding="async" alt="Ghostty terminal with an Antigravity CLI swarm handling Decapod issues, revalidation, and verifier checkpoints.">
+            <img src="assets/swarm-decapod-wog.webp" width="2048" height="1323" loading="lazy" decoding="async" alt="Ghostty terminal with an Antigravity CLI Carbon/Hydrogen swarm handling Decapod issues, revalidation, and verifier checkpoints.">
           </a>
           <a class="swarm-slide" data-swarm-slide="1" href="assets/swarm-decapod-p0s.webp" target="_blank" rel="noopener noreferrer" aria-label="Open full-resolution screenshot of Decapod delivery swarm">
-            <img src="assets/swarm-decapod-p0s.webp" width="2048" height="1323" loading="lazy" decoding="async" alt="A separate Ghostty Antigravity CLI swarm coordinating Decapod reviews, publication, and merges.">
+            <img src="assets/swarm-decapod-p0s.webp" width="2048" height="1323" loading="lazy" decoding="async" alt="A separate Ghostty Antigravity CLI Carbon/Hydrogen swarm coordinating Decapod reviews, publication, and merges.">
           </a>
           <a class="swarm-slide" data-swarm-slide="2" href="assets/swarm-propodus-delivery.webp" target="_blank" rel="noopener noreferrer" aria-label="Open full-resolution screenshot of Propodus delivery swarm">
-            <img src="assets/swarm-propodus-delivery.webp" width="2048" height="1323" loading="lazy" decoding="async" alt="A third Ghostty Antigravity CLI swarm coordinating Propodus billing, identity, limits, and deployment work.">
+            <img src="assets/swarm-propodus-delivery.webp" width="2048" height="1323" loading="lazy" decoding="async" alt="A third Ghostty Antigravity CLI Carbon/Hydrogen swarm coordinating Propodus billing, identity, limits, and deployment work.">
           </a>
         </div>
         <button class="swarm-arrow swarm-next" type="button" aria-label="Next swarm screenshot" data-swarm-next>→</button>
@@ -266,36 +423,43 @@
         </div>
       </div>
     </div>
-    <p class="swarm-note">Internal engineering sessions (not third-party customer endorsements). Each instance runs in its own isolated Decapod worktree.</p>
+    <p class="swarm-note">November 18, 2026 — three Ghostty terminals, three separate Antigravity CLI instances, each running its own Carbon/Hydrogen swarm.</p>
   </div>
 </section>
+</div>
 
-<section class="section-band is-paper" id="completion" aria-labelledby="completionHeading">
+<section class="section-band is-paper" id="research" aria-labelledby="researchHeading">
   <div class="wrap">
     <div class="section-head">
       <div>
-        <p class="kicker">04 / HOW COMPLETION IS JUDGED</p>
-        <h2 id="completionHeading">Proof expires when<br><span>code changes.</span></h2>
+        <p class="kicker">RESEARCH &amp; THESIS</p>
+        <h2 id="researchHeading">Studying accountable<br><span>agentic execution.</span></h2>
       </div>
-      <p>Decapod does not declare success because an agent sounded confident. It separates what your configured checks actually verified from what remains outside automated scope.</p>
+      <p>Decapod Labs investigates how software engineering moves from brittle prompt supervision to verifiable delegation across heterogeneous agents.</p>
     </div>
 
-    <div class="boundary-grid">
-      <article class="boundary-card">
-        <h3>What Decapod verifies</h3>
-        <ul>
-          <li><strong>Exact commit &amp; target match:</strong> Checks run against the current candidate SHA and accepted target base; changing either immediately invalidates older proof.</li>
-          <li><strong>Fail-closed authority:</strong> Missing governance checkpoints, unresolved reflection blockers, or failed checks block PR publication rather than guessing through.</li>
-          <li><strong>Zero hidden local telemetry:</strong> Everything in the local CLI runs on your machine without analytics or mandatory accounts.</li>
-        </ul>
+    <div class="research-grid">
+      <article class="research-card research-featured">
+        <span class="research-badge">TECHNICAL REPORT &amp; HARNESS</span>
+        <h3>Accountable Agentic Execution</h3>
+        <p class="research-subtitle">Intent, Custody, Trajectory, and Proof: Toward Accountable Execution in Agentic Software Engineering</p>
+        <p>Examines the model where an engineer can <strong>type the outcome and walk away</strong> without surrendering fleet coherence across diverse coding agents. Formalizes four kernel primitives—<strong>Intent</strong>, <strong>Custody</strong>, <strong>Trajectory</strong>, and <strong>Proof</strong>—and proposes a candidate <strong>thin-waist interoperability profile</strong> across agent runtimes.</p>
+        <p class="research-status">Pre-results technical report — paper, terminology, and reproducible evaluation harness public; empirical benchmark not yet executed.</p>
+        <div class="research-links">
+          <a class="btn btn-dark" href="https://github.com/DecapodLabs/accountable-agentic-execution" target="_blank" rel="noopener noreferrer">GitHub repository &amp; paper ↗</a>
+          <a class="text-link" href="https://decapodlabs.github.io/accountable-agentic-execution/" target="_blank" rel="noopener noreferrer">Project dashboard ↗</a>
+        </div>
       </article>
-      <article class="boundary-card">
-        <h3>What Decapod never claims</h3>
-        <ul>
-          <li><strong>Not a semantic correctness oracle:</strong> Decapod proves your configured checks passed; if tests omit a behavior, Decapod cannot invent test coverage.</li>
-          <li><strong>Not a universal OS sandbox:</strong> Host isolation uses your container/OS runtime and repository policy rather than promising impossible syscall containment.</li>
-          <li><strong>Admission ≠ automatic merge:</strong> Human reviewers and branch protections keep final merge authority. <a class="text-link" href="/trust/index.html">Inspect Trust &amp; Privacy ↗</a></li>
-        </ul>
+
+      <article class="research-card">
+        <span class="research-badge">FOUNDER THESIS</span>
+        <h3>The End of Continuous Rework</h3>
+        <p class="research-subtitle">Why repository-resident custody replaces prompt repetition</p>
+        <p>Coding agents rarely fail because they cannot edit syntax—they fail when intent, prior architectural choices, task ownership, and boundary constraints evaporate between runs. Putting continuity and proof inside the repository ends the loop of re-explaining and redoing work.</p>
+        <div class="research-links">
+          <a class="btn btn-outline" href="/tecr.html">Read the essay ↗</a>
+          <a class="text-link" href="/trust/index.html">Inspect Trust &amp; Privacy ↗</a>
+        </div>
       </article>
     </div>
   </div>
@@ -305,7 +469,7 @@
   <div class="wrap">
     <div class="section-head">
       <div>
-        <p class="kicker">05 / LOCAL FOREVER VS. TEAM CLOUD</p>
+        <p class="kicker">LOCAL FOREVER VS. TEAM CLOUD</p>
         <h2 id="cloudHeading">Start free locally.<br><span>Add Cloud for teams.</span></h2>
       </div>
       <p>There are no artificial rate limits, local seat caps, or forced logins on the open local kernel. Choose Cloud only when multiple engineers or shared repositories need hosted custody and seat management.</p>
@@ -319,7 +483,7 @@
         <p>Run Decapod directly inside any Git repository with Codex, Claude Code, Cursor, Antigravity, or Pi.</p>
         <ul>
           <li>Unlimited local repositories, coding agents, worktrees, and runs.</li>
-          <li>All specs, todos, reflection, trajectory, and <code>decapod validate</code> gates.</li>
+          <li>All specs, Constitution doctrine, reflection, trajectory, and <code>decapod validate</code> gates.</li>
           <li>Local SQLite state—zero outbound telemetry or Cloud account required.</li>
         </ul>
         <a class="btn btn-dark" href="#quickstart">Initialize locally ↑</a>
@@ -342,114 +506,39 @@
   </div>
 </section>
 
-<section class="section-band" id="capabilities" aria-labelledby="capabilitiesHeading">
+<section class="launch-proof" id="proofs" aria-labelledby="proofHeading">
+  <span id="proof" aria-hidden="true"></span>
   <div class="wrap">
-    <div class="section-head">
+    <div class="launch-heading">
       <div>
-        <p class="kicker">06 / DEEPER REFERENCE &amp; SHOWCASES</p>
-        <h2 id="capabilitiesHeading">Explore the full<br><span>kernel surface.</span></h2>
+        <p class="kicker kicker-light">OBSERVED EXECUTION · REFERENCE RECORD</p>
+        <h2 id="proofHeading">Watch Pi<br><span>use Decapod.</span></h2>
       </div>
-      <p>Ready to dig past the overview? Expand the 14 governed capabilities, inspect the Waystead game-development showcase, watch the introductory film, or read <a class="text-link" href="/tecr.html">The End of Continuous Rework ↗</a>.</p>
+      <p>To inspect how Decapod operates in an end-to-end terminal run, watch the native Pi session call Decapod, inspect a rejected check, repair the source, pass fresh validation, and publish GitHub PR #7.</p>
     </div>
 
-    <details class="explore-details">
-      <summary>Explore all 14 kernel capabilities (Tasks, Constitution, Specs, Workspaces, Proof &amp; Recovery)</summary>
-      <div class="explore-body">
-        <div class="capability-grid">
-          <a class="capability-card" href="https://decapodlabs.ai/decapod/quickstart.html"><span class="capability-index">01 / TASKS + CUSTODY</span><h4>Tasks with ownership</h4><p>Create, claim, prioritize, hand off, and complete work with an explicit owner and recorded outcome.</p><span class="capability-link">Task lifecycle ↗</span></a>
-          <a class="capability-card" href="https://decapodlabs.ai/decapod/concepts/constitution.html"><span class="capability-index">02 / CONSTITUTION</span><h4>The global Constitution</h4><p>Engineering defaults and curated architecture/delivery doctrine embedded directly in the kernel.</p><span class="capability-link">Explore the Constitution ↗</span></a>
-          <a class="capability-card" href="https://decapodlabs.ai/decapod/concepts/intent.html"><span class="capability-index">03 / INTENT</span><h4>Intent &amp; living specs</h4><p>Keep original user intent and the agent’s source-grounded interpretation in versioned repository specs.</p><span class="capability-link">Intent &amp; decisions ↗</span></a>
-          <a class="capability-card" href="https://decapodlabs.ai/decapod/concepts/agent-first.html"><span class="capability-index">04 / CONTEXT</span><h4>Context capsules</h4><p>Resolve relevant project rules and task constraints with traceable provenance.</p><span class="capability-link">Agent-first architecture ↗</span></a>
-          <a class="capability-card" href="https://decapodlabs.ai/decapod/concepts/workspaces.html"><span class="capability-index">05 / WORKSPACES</span><h4>Worktree isolation</h4><p>Give every task its own branch and isolated Git worktree, with optional container boundaries.</p><span class="capability-link">Workspace model ↗</span></a>
-          <a class="capability-card" href="https://decapodlabs.ai/decapod/workflows/multi-agent.html"><span class="capability-index">06 / CONCURRENCY</span><h4>Cross-agent coordination</h4><p>Codex, Claude Code, Cursor, and Antigravity coordinate in one project via task claims and handoffs.</p><span class="capability-link">Multi-agent workflows ↗</span></a>
-          <a class="capability-card" href="https://decapodlabs.ai/decapod/concepts/agent-first.html"><span class="capability-index">07 / MEMORY</span><h4>Durable state &amp; memory</h4><p>Preserve context across ephemeral sessions, engineers, and tool transitions.</p><span class="capability-link">Persistent context ↗</span></a>
-          <a class="capability-card" href="https://decapodlabs.ai/decapod/concepts/workspaces.html"><span class="capability-index">08 / BOUNDARIES</span><h4>Scoped authority</h4><p>Make repository rules, ownership, and approval gates explicit before work runs.</p><span class="capability-link">Bounded execution ↗</span></a>
-          <a class="capability-card" href="https://decapodlabs.ai/decapod/concepts/proof.html"><span class="capability-index">09 / VALIDATION</span><h4>Validation &amp; recovery</h4><p>Run configured checks, inspect failures cleanly, repair root causes, and revalidate.</p><span class="capability-link">Proof &amp; validation ↗</span></a>
-          <a class="capability-card" href="https://decapodlabs.ai/decapod/concepts/proof.html"><span class="capability-index">10 / EVIDENCE</span><h4>Commit-bound proof</h4><p>Bind check outputs to the exact repository state and base commit that produced them.</p><span class="capability-link">Proof contracts ↗</span></a>
-          <a class="capability-card" href="https://decapodlabs.ai/decapod/workflows/single-agent.html"><span class="capability-index">11 / DELIVERY</span><h4>Governed publication</h4><p>Block PR publication until required checks, specs, and authority criteria pass.</p><span class="capability-link">Delivery workflow ↗</span></a>
-          <a class="capability-card" href="https://decapodlabs.ai/decapod/reference/artifacts.html"><span class="capability-index">12 / HISTORY</span><h4>Epistemic custody</h4><p>Preserve the chain from original intent and assumptions to decisions, checks, and receipts.</p><span class="capability-link">Artifact inventory ↗</span></a>
-          <a class="capability-card" href="https://decapodlabs.ai/decapod/mental-model.html"><span class="capability-index">13 / RUNTIME</span><h4>Local-first. Daemonless.</h4><p>Runs when an agent calls it, returns structured output, and exits with zero lingering daemons.</p><span class="capability-link">Mental model ↗</span></a>
-          <a class="capability-card" href="https://decapodlabs.ai/decapod/concepts/agent-first.html"><span class="capability-index">14 / INTERFACE</span><h4>Agent-invoked CLI &amp; RPC</h4><p>Agents call one unified surface for orientation, claims, reflection, and validation.</p><span class="capability-link">Agent API ↗</span></a>
-        </div>
-      </div>
-    </details>
+    <div class="launch-player proof-player">
+      <video id="proofVideo" controls playsinline preload="none" poster="assets/decapod-proof-poster.png" aria-label="Pi and Decapod terminal execution recording" aria-describedby="proofDescription">
+        <source src="assets/decapod-proof.mp4" type="video/mp4">
+        <track kind="captions" src="assets/decapod-proof.vtt" srclang="en" label="English">
+        <p><a href="assets/decapod-proof.mp4">Download the session recording</a>.</p>
+      </video>
+    </div>
 
-    <details class="explore-details" id="showcase">
-      <summary>Development Showcase: Waystead (Godot RPG) &amp; Introductory Kernel Film</summary>
-      <div class="explore-body">
-        <div class="showcase-case" id="waystead">
-          <div class="showcase-case-copy">
-            <p class="kicker">INTERNAL / RELATED DEVELOPMENT EXAMPLE (NOT A CUSTOMER ENDORSEMENT)</p>
-            <h3>Waystead — governed game development</h3>
-            <p><strong>Waystead</strong> is an active procedurally generated Godot survival RPG spanning world generation, inventory, persistence, and rendering. Decapod coordinates agents across subsystems without losing ownership or validation boundaries.</p>
-            <p><a class="text-link" href="https://whop.com/abaxi-studios/waystead-waitlist/" target="_blank" rel="noopener noreferrer">View Waystead waitlist ↗</a></p>
-          </div>
-          <a class="showcase-case-link" href="https://whop.com/abaxi-studios/waystead-waitlist/" target="_blank" rel="noopener noreferrer" aria-label="Join the Waystead waitlist on Whop (opens in a new tab)">
-            <figure class="showcase-case-media">
-              <div class="showcase-brandmarks" aria-label="Waystead by ABAXI">
-                <img class="showcase-abaxi-mark" src="assets/abaxi-logo.png" width="706" height="246" loading="lazy" alt="ABAXI">
-                <img class="showcase-waystead-mark" src="assets/waystead-wordmark-transparent.webp" width="1689" height="343" loading="lazy" alt="WAYSTEAD">
-              </div>
-              <img class="showcase-case-still" src="assets/waystead-key-art.webp" width="1672" height="941" loading="lazy" decoding="async" alt="Illustrated Waystead world vision">
-              <figcaption>WAYSTEAD · IN-DEVELOPMENT GAME BUILDS <span aria-hidden="true">·</span> Join the waitlist ↗</figcaption>
-            </figure>
-          </a>
-        </div>
+    <nav class="proof-chapters" aria-label="Recording chapters">
+      <a href="#proofVideo" data-proof-seek="52"><time datetime="PT52S">0:52</time>First failed check</a>
+      <a href="#proofVideo" data-proof-seek="108"><time datetime="PT108S">1:48</time>Fresh validation</a>
+      <a href="#proofVideo" data-proof-seek="140"><time datetime="PT140S">2:20</time>Verified publication</a>
+    </nav>
 
-        <div class="showcase-gallery" data-showcase-carousel aria-label="Waystead in-development gameplay screenshots">
-          <div class="showcase-gallery-topline"><span>WAYSTEAD / DEVELOPMENT BUILDS</span><span>01 / 07</span></div>
-          <div class="showcase-gallery-stage" role="region" aria-roledescription="carousel" aria-label="Seven screenshots from Waystead in development" tabindex="0">
-            <figure class="showcase-gallery-slide is-active" data-showcase-slide="0"><img src="assets/waystead-character.webp" width="1440" height="930" loading="lazy" decoding="async" alt="Waystead character creation interface"></figure>
-            <figure class="showcase-gallery-slide" data-showcase-slide="1" hidden><img src="assets/waystead-exploration.webp" width="1440" height="930" loading="lazy" decoding="async" alt="Waystead player character exploring foliage"></figure>
-            <figure class="showcase-gallery-slide" data-showcase-slide="2" hidden><img src="assets/waystead-landscape.webp" width="1440" height="930" loading="lazy" decoding="async" alt="Overhead view of Waystead terrain"></figure>
-            <figure class="showcase-gallery-slide" data-showcase-slide="3" hidden><img src="assets/waystead-journal.webp" width="1440" height="930" loading="lazy" decoding="async" alt="Waystead field journal entry"></figure>
-            <figure class="showcase-gallery-slide" data-showcase-slide="4" hidden><img src="assets/waystead-construction.webp" width="1440" height="930" loading="lazy" decoding="async" alt="Waystead camp construction menu"></figure>
-            <figure class="showcase-gallery-slide" data-showcase-slide="5" hidden><img src="assets/waystead-inventory.webp" width="1440" height="930" loading="lazy" decoding="async" alt="Waystead inventory and crafting screen"></figure>
-            <figure class="showcase-gallery-slide" data-showcase-slide="6" hidden><img src="assets/waystead-waterside.webp" width="1280" height="720" loading="lazy" decoding="async" alt="Waystead character standing beside a lake"></figure>
-            <button class="showcase-gallery-arrow showcase-gallery-prev" type="button" data-showcase-prev aria-label="Previous gameplay screenshot">←</button>
-            <button class="showcase-gallery-arrow showcase-gallery-next" type="button" data-showcase-next aria-label="Next gameplay screenshot">→</button>
-          </div>
-          <div class="showcase-gallery-detail">
-            <div class="showcase-gallery-caption" aria-live="polite" aria-atomic="true">
-              <p class="kicker" data-showcase-count>01 / 07 · IN DEVELOPMENT</p>
-              <h4 data-showcase-title>A character of your own.</h4>
-              <p data-showcase-description>Character creation, appearance, identity, and the start of a personal journey.</p>
-            </div>
-            <div class="showcase-gallery-dots" role="group" aria-label="Choose gameplay screenshot">
-              <button type="button" data-showcase-go="0" aria-label="View screenshot 1" aria-pressed="true" class="is-active"></button>
-              <button type="button" data-showcase-go="1" aria-label="View screenshot 2" aria-pressed="false"></button>
-              <button type="button" data-showcase-go="2" aria-label="View screenshot 3" aria-pressed="false"></button>
-              <button type="button" data-showcase-go="3" aria-label="View screenshot 4" aria-pressed="false"></button>
-              <button type="button" data-showcase-go="4" aria-label="View screenshot 5" aria-pressed="false"></button>
-              <button type="button" data-showcase-go="5" aria-label="View screenshot 6" aria-pressed="false"></button>
-              <button type="button" data-showcase-go="6" aria-label="View screenshot 7" aria-pressed="false"></button>
-            </div>
-            <a class="text-link" data-showcase-full href="assets/waystead-character.webp" target="_blank" rel="noopener noreferrer">View full screenshot ↗</a>
-          </div>
-        </div>
-
-        <hr style="border:0;border-top:1px solid var(--border);margin:28px 0;">
-
-        <div class="film-compact">
-          <div>
-            <p class="kicker">INTRODUCTORY FILM</p>
-            <h3>Meet the governance kernel</h3>
-            <p style="font-size:15px;color:var(--ink-secondary);">Short animated introduction to Decapod’s metacognitive governance thesis. Loads only when played.</p>
-            <div class="video-controls" role="group" aria-label="Film playback">
-              <button type="button" class="sound-control" id="soundBtn" aria-label="Replay film with sound"><span aria-hidden="true">↻</span> <span id="soundLabel">Play with sound</span></button>
-              <button type="button" class="film-toggle" id="pauseBtn" aria-label="Play film"><span id="pauseIcon" aria-hidden="true">▶</span> <span id="pauseLabel">Play</span></button>
-              <button type="button" class="film-toggle" id="muteBtn" aria-label="Unmute film"><span id="muteIcon" aria-hidden="true">♪</span> <span id="muteLabel">Unmute</span></button>
-            </div>
-          </div>
-          <div class="video-shell">
-            <video id="filmVideo" controls playsinline preload="none" poster="assets/decapod-poster.png" aria-label="Decapod introductory film">
-              <source src="assets/decapod-showcase.mp4" type="video/mp4">
-              <p><a href="assets/decapod-showcase.mp4">Download the introductory film</a>.</p>
-            </video>
-          </div>
-        </div>
-      </div>
-    </details>
+    <div class="launch-foot">
+      <p id="proofDescription">Selected moments from historical session <code>pi-1758-tui-06</code> (Pi 0.73.1 + Decapod 0.148.8) at original tool speed.</p>
+      <nav aria-label="Inspect evaluation material">
+        <a href="proof.html#case-study">Engineering case study ↗</a>
+        <a href="proof.html#recorded-run">Evaluation method &amp; artifacts ↗</a>
+        <a href="https://github.com/alexhraber/decapod-admission-acceptance-20261117-1747-06/pull/7">View GitHub PR #7 ↗</a>
+      </nav>
+    </div>
   </div>
 </section>
 
@@ -457,10 +546,10 @@
   <div class="wrap closing-layout">
     <h2>HARNESS AI <span>METACOGNITION.</span></h2>
     <div class="closing-action">
-      <p>Keep your agents. Keep the evidence. Read the full thesis or start locally now.</p>
+      <p>Bring your own agents. Decapod governs their work.</p>
       <div class="closing-buttons">
         <a class="btn btn-dark" href="https://decapodlabs.ai/decapod/quickstart.html">Read Quickstart ↗</a>
-        <a class="btn btn-light" href="/tecr.html">Read Rework thesis ↗</a>
+        <a class="btn btn-light" href="https://decapodlabs.ai/decapod/">Explore documentation ↗</a>
         <a class="btn btn-light" href="https://github.com/DecapodLabs/decapod" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
       </div>
     </div>
@@ -474,7 +563,7 @@
     <span class="footer-copy">© <span id="year">2026</span> Decapod Labs</span>
     <div class="footer-links">
       <a href="https://decapodlabs.ai/decapod/">Docs ↗</a>
-      <a href="/proof.html">Proof</a>
+      <a href="/proof.html">Evaluation</a>
       <a href="https://decapodlabs.ai/pricing">Pricing ↗</a>
       <a href="/trust/index.html">Trust &amp; Privacy ↗</a>
       <a href="/tecr.html">Rework</a>

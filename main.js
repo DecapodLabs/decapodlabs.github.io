@@ -15,6 +15,7 @@
   syncCurrentSection();
   window.addEventListener("hashchange", syncCurrentSection);
 
+  const reducedMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const film = document.getElementById("filmVideo");
   const replay = document.getElementById("soundBtn");
   const replayLabel = document.getElementById("soundLabel");
@@ -37,6 +38,10 @@
     }
 
     film.muted = true;
+    if (reducedMotion) {
+      film.autoplay = false;
+      film.pause();
+    }
     for (const event of ["play", "pause", "ended", "volumechange", "loadedmetadata"]) {
       film.addEventListener(event, syncPlaybackControls);
     }
@@ -78,13 +83,13 @@
   const installMeta = Object.freeze({
     binstall: {
       command: "cargo binstall decapod && decapod init",
-      note: "Requires cargo-binstall (or switch to Cargo source). Initializes .decapod/ once per repo—then tell your agent what to build.",
+      note: "One initialization per project. No daemon, no signup.",
       href: "https://crates.io/crates/decapod",
       label: "Crates.io ↗"
     },
     cargo: {
       command: "cargo install decapod --locked && decapod init",
-      note: "Requires Rust toolchain (cargo). Compiles locked release locally and initializes .decapod/ once per repository.",
+      note: "Compiles the locked Rust release locally and initializes .decapod/ once per repo.",
       href: "https://crates.io/crates/decapod",
       label: "Crates.io ↗"
     },
@@ -94,7 +99,7 @@
         "nix profile install github:DecapodLabs/decapod &&",
         "decapod init"
       ].join("\n"),
-      note: "Requires Nix with flakes enabled. Pulls binary cache via Cachix and initializes .decapod/ once per project.",
+      note: "Pulls the cached Nix flake build via Cachix and initializes .decapod/ once per project.",
       href: "https://app.cachix.org/organization/decapodlabs/cache/decapod#pull",
       label: "Decapod Cachix ↗"
     }

@@ -1,128 +1,118 @@
 # Decapod First-Use Research Script & Connected Review Protocol
 
-- **Issue:** [DecapodLabs/decapodlabs.github.io#103](https://github.com/DecapodLabs/decapodlabs.github.io/issues/103) (Connected Cross-Repo Review — Track 4)
-- **Companion Contract:** [Positioning & Shared Design Contract](./positioning-and-design-contract.md)
-- **Status:** Method & Protocol Drafted; Live Cross-Repo Walkthrough Pending `#1977` & `#1978` Docs Deployment
-- **Methodology Label:** **Internal Expert Review / Technical Walkthrough** (combined with a structured protocol for future external sessions). Zero external engineering participants, interview quotes, conversion lifts, or time-on-task benchmarks are claimed or fabricated in this repository.
+- **Issue:** [DecapodLabs/decapodlabs.github.io#103](https://github.com/DecapodLabs/decapodlabs.github.io/issues/103) (`#104`, `#106` — Connected Cross-Repo Review)
+- **Companion Docs:** [Positioning & Shared Design Contract](./positioning-and-design-contract.md) · [Content Recovery Inventory](./content-recovery-inventory.md)
+- **Methodology Label:** **Internal Expert Review / Technical Walkthrough** paired with a neutral protocol for future external participant sessions. Zero external engineering participants, interview quotes, conversion lifts, or unmeasured time-on-task benchmarks are claimed or fabricated in this repository (`0 external sessions run`).
 
 ---
 
 ## 1. Study Framing, Evidence Rules, and Ethics
 
-1. **Purpose:** Test whether a developer or engineering lead moving across `decapodlabs.ai` (`/`), Proof (`/proof.html`), Trust (`/trust/`), Documentation (`/decapod/`), Pricing (`/pricing`), Signup (`/signup/`), and Admin (`/admin/`) understands:
-   - what Decapod is for (delegating real coding work while keeping project intent, task ownership, and falsifiable proof attached to the repository),
-   - where Decapod Local (free, zero-egress) stops and Decapod Cloud (`$50/mo` or `$552/yr` per `repo × contributor`, `$0` per agent/device) begins,
-   - how to run `decapod init`, prompt an existing coding agent, and judge the first governed result without relying on hidden telemetry or synthetic success indicators.
-2. **Evidence Separation:**
-   - **Observed Implementation & Browser Behavior:** Measured facts observed directly in source tests (`check-site.ts`, `deno test`, `cargo test`, `propodus-cloud-smoke`) and real headless Chrome / interactive browser walkthroughs (`320×800`, `390×844`, `1024×768`, `1440×900`, plus `1.25×` text enlargement).
-   - **Expert Review Findings:** Friction identified by internal engineering/design walkthroughs. Always labeled explicitly as **Expert Review**.
-   - **External Participant Observations:** Reserved for moderated or unmoderated sessions with external developers who did not build Decapod. Until conducted, this repository records `0 external sessions run` and retains all audience comprehension claims as **Untested Hypotheses**.
-3. **Neutral Facilitation Rules:**
-   - Give scenarios and goals, never button names, CLI subcommands, or pricing answers in the prompt.
-   - Ask participants to think aloud while pointing at what they notice first, second, and third on each page.
-   - When a participant hesitates or interprets a status pill wrongly (e.g., mistaking `Unavailable` for an error or assuming Local uses a cloud login), wait 10 seconds before prompting; never defend the interface or explain intended behavior mid-task.
-   - Do not run synthetic live payments during live-site testing; end paid Cloud walkthroughs at checkout handoff or disposable staging/readiness verification.
+1. **Purpose:** Evaluate whether a developer or engineering lead unfamiliar with Decapod moving across `https://decapodlabs.ai/` (`/`), Architecture/Capabilities (`/#architecture`, `/#capabilities`), Showcase/Research (`/#showcase`, `/#research`), Documentation (`/decapod/`), Evaluation Case Study (`/proof.html`), Trust (`/trust/`), Pricing (`/pricing`), Signup (`/signup/`), and Admin (`/admin/`) understands Decapod's role, operating model, boundaries, and starting path without guesswork.
+2. **Six Core Newcomer Comprehension Outcomes (`#104`):**
+   Every first-time reader following the normal homepage + Quickstart flow should be able to answer, in ordinary language, without expanding hidden drawers or reading SHA receipts:
+   1. *What is this, and what problem is Decapod Labs addressing?*
+   2. *How does it work with the coding agent I already use?*
+   3. *What does Decapod contribute before and during the work (Constitution, living specs, context capsules, boundaries)?*
+   4. *How do knowledge, intent, ownership, and progress survive across people, agents, and sessions?*
+   5. *What kinds of work can I apply it to?*
+   6. *Where do I explore the architecture, research, or capabilities, and how do I start?*
+3. **Evidence Separation:**
+   - **Observed Implementation & Browser Behavior:** Measured facts observed directly in source checks (`scripts/check-site.ts`, `deno test`, `cargo test`, `propodus-cloud-smoke`) and headless/interactive Chrome inspections (`320×800`, `390×844`, `1024×768`, `1440×900`, plus `1.25×` enlarged text).
+   - **Expert Review Findings:** Walkthrough notes recorded by engineers/reviewers inside the team. Always labeled explicitly as **Expert Review**.
+   - **External Participant Observations:** Strictly reserved for external developers with no prior Decapod build context. Until run, audience claims remain **Untested Hypotheses**.
+4. **Neutral Facilitation Rules:**
+   - Read scenarios verbatim; never name target nav items, CLI flags, or pricing figures.
+   - Wait 10 seconds before prompting when a participant hesitates; never defend copy or clarify intended hierarchy mid-task.
+   - Stop paid Cloud walkthroughs cleanly before any live payment submission (`Checkout` handoff or disposable readiness inspection only).
 
 ---
 
 ## 2. Participant Screening & Session Setup (For Future External Sessions)
 
-- **Target Cohorts (2–3 participants per cohort recommended):**
-  - **Cohort A — Individual / Staff Maintainer (Local-First):** Regularly delegates coding tasks to Claude Code, Codex, Gemini CLI, OpenCode, or Pi in terminal/IDE workflows; has experienced agent context drift or premature "done" claims.
-  - **Cohort B — Engineering Lead / Platform Owner (Team Cloud Evaluation):** Evaluates shared governance, audit trails, CI validation gates, and per-repo/contributor spend across 2–10 engineers.
-- **Starting State:** Clean private browser window (`1440×900` desktop or `390×844` mobile) opened to `https://decapodlabs.ai/`, plus a terminal in a scratch Git repository with Rust/Cargo or Nix available (or clear expectation to simulate through prompt inspection).
+- **Cohort A — Individual / Staff Maintainer (Local-First):** Regularly delegates coding tasks via Codex, Claude Code, Cursor, Antigravity, or Pi.
+- **Cohort B — Engineering Lead / Platform Owner (Team Cloud Evaluation):** Evaluates shared governance, audit trails, CI validation gates, and per-repo/contributor spend across 2–10 engineers.
+- **Setup:** Clean private browser window (`1440×900` desktop or `390×844` mobile) opened to `https://decapodlabs.ai/`.
 
 ---
 
 ## 3. Moderated Task Prompts & Neutral Observation Questions
 
-### Journey 1 — Local Discovery to First Governed Result (`Homepage -> Proof -> Trust -> Quickstart -> First Result`)
+### Journey 1 — Lab Discovery & Product Comprehension to First Governed Result (`/` -> Docs -> Evaluation Reference)
 
-**Scenario Prompt (read verbatim to participant):**
-> "You lead maintenance on an active repository where coding agents keep forgetting architectural decisions and claiming tasks are done before checks actually pass. Someone sends you `https://decapodlabs.ai/`. Take 5–7 minutes to decide what this tool actually does, whether you trust what it sends off your laptop, and how you would try it on one local repo using the coding agent you already run."
+**Scenario Prompt (read verbatim):**
+> "You maintain an engineering codebase where coding agents repeatedly forget architectural decisions across sessions and mark work done before checks pass. Someone sends you `https://decapodlabs.ai/`. Take 5–7 minutes to understand what Decapod Labs is building, how the tool fits alongside the coding agent you already use, what survives across sessions, and how you would try it on one repository—without relying on any external pitch."
 
-**Neutral Observation Questions (ask after natural pause or at journey milestones):**
-1. **Above-the-fold (`/`):** *"Without scrolling yet, what is this product and who would use it? What stands out first, second, and third on this screen?"*
-2. **Proof & Trust (`/#proofs`, `/proof.html`, `/trust/`):** *"What makes you believe—or doubt—whether the tool worked on a real task? What data, if any, would leave your machine if you initialized it locally right now?"*
-3. **Transition to Docs (`/decapod/` -> `/decapod/quickstart.html`):** *"If you decided to try this for ten minutes today, where do you click next, and what do you expect to happen in your terminal versus your coding agent?"*
-4. **First Governed Result (`/decapod/quickstart.html`):** *"Looking at this page, which commands do you run yourself, and what do you hand to your agent? How would you know the first governed result succeeded versus failed?"*
-5. **Visual & Chrome Checkpoints:** Note whether mobile sticky header clearance, code block contrast (light/dark/Warm Cream themes), `"Copy for your agent"`, and `Proof` ↔ `Docs` cross-links behave without hesitation.
+**Neutral Observation Questions:**
+1. **First Screen & Film (`/` hero + `Meet the kernel.`):** *"Without scrolling past the opening and film, what problem does Decapod address, and who runs it—you or your coding agent?"*
+2. **Operating Model & Pillars (`#features`, `#architecture`):** *"In your own words, what happens to your idea before your agent edits code, and what stays on disk after a call exits?"*
+3. **Capabilities & Constitution (`#capabilities`):** *"Pick two capabilities that seem essential to multi-session engineering. What is the Constitution, and how do agents use it?"*
+4. **Applied Work & Research (`#showcase`, `#research`):** *"What kinds of software projects are shown here, and how would you describe the lab's ongoing research report?"*
+5. **Starting Locally (`#quickstart` -> `/decapod/quickstart.html`):** *"If you wanted to start on one repo today, what commands do you run yourself versus what do you tell your coding agent?"*
+6. **Technical Reference (`/proof.html`, `/trust/index.html`):** *"If a teammate asked for a concrete engineering case study or wanted to verify what data leaves your laptop locally, where would you send them?"*
 
-**Success Signals (Observable):**
-- Participant accurately summarizes Decapod within ~30 seconds without confusing it with an autonomous cloud coding SaaS.
-- Participant locates both the `#proofs` / `/proof.html` evidence trail and `/trust/` zero-egress guarantee unprompted.
-- Participant distinguishes human initialization (`cargo binstall`/`cargo install`/`decapod init`) from agent execution (`decapod docs ingest`, claimed workspace, `decapod validate`).
+**Observable Success Signals (mapped to the 6 newcomer outcomes):**
+- Answers all 6 newcomer comprehension questions accurately in plain prose without clicking closed drawers or deciphering commit hashes first.
+- Recognizes that existing coding agents remain in use (`Codex`, `Claude Code`, `Cursor`, `Antigravity`, `Pi`) and call Decapod on demand with zero background daemon.
+- Distinguishes the whole kernel (Constitution, living specs, context capsules, durable memory, worktree custody, recovery, publication) from a single validation script or case study.
+- Separates human bootstrap (`cargo binstall decapod && decapod init`) from short outcome-based agent delegation (`decapod validate` / PR policy).
 
 ---
 
-### Journey 2 — Team Evaluation to Cloud Readiness (`Pricing -> Signup -> Readiness -> CLI Task`)
+### Journey 2 — Team Evaluation to Cloud Readiness (`/#cloud` -> `/pricing` -> `/signup/` -> CLI Task)
 
-**Scenario Prompt (read verbatim to participant):**
-> "Suppose you tried Decapod locally on one service and now want your team of three engineers to share governed validation, repository policy, and workspace telemetry across one production repo. Starting from the site navigation, figure out what that would cost, what you actually get beyond the free CLI, and start the setup flow up to the point where you would connect GitHub or confirm billing."
+**Scenario Prompt (read verbatim):**
+> "Suppose your team of three engineers wants shared governance telemetry, repository-bound custody, and seat management across one production repository. Starting from the site navigation, figure out what Decapod Cloud costs compared to staying local, what each engineer's AI coding agents cost, and walk through setup up to GitHub sign-in and readiness checks."
 
 **Neutral Observation Questions:**
-1. **Pricing Entry (`/pricing`):** *"Before interacting with the controls, what is the base price and what unit is being priced? Why would a team pay for this instead of staying on the free version?"*
-2. **Configurator (`1 × 1 = $50/mo` / Annual `$552/yr`):** *"Walk through configuring 1 repository and 3 contributors. What happens to the price if each engineer runs three different AI coding agents on two laptops?"*
-3. **Value Clarity:** *"Which part of the paid offering feels essential versus unclear or over-claimed?"*
-4. **Signup & Continuity (`/signup/`):** *"Click through to get started. When you land on Signup, did your repo/seat/billing intent carry over? What permissions or steps does this screen ask of you before anything is billed?"*
-5. **CLI Continuation:** *"After repository and billing readiness are verified, what do you expect the next command in your terminal to be?"*
-
-**Success Signals (Observable):**
-- Participant computes `$147/mo` (`1` repo × `3` contributors or understands seat/repo scaling) and explicitly recognizes `$0` per coding agent / device.
-- Participant does not mistake free-tier Local capabilities for gated Cloud features.
-- Query-parameter intent (`?repo=...&billing=...&seats=...`) and GitHub PKCE sign-in explanation feel continuous and fail-closed rather than abrupt.
+1. **Pricing Entry (`/pricing`):** *"Before changing controls, what is being priced (`repo × contributor`), what stays free forever, and why would a team upgrade?"*
+2. **Configurator (`1 × 1 = $50/mo` / Annual `$552/yr`):** *"Configure 1 repository and 3 contributors (`$147/mo`). Does adding more AI agents or laptops change the monthly bill?"*
+3. **Signup Continuity (`/signup/`):** *"When you advance from Pricing to Signup, did your repo/seat/billing selection stay intact? What permissions or verification checks appear before any billing step?"*
+4. **CLI Continuation:** *"After repo and plan readiness succeed, what does the engineer run locally to connect that workspace?"*
 
 ---
 
-### Journey 3 — Returning Administrator Triage (`Admin Entry -> Usage/Readiness State -> Next Action`)
+### Journey 3 — Returning Administrator Triage (`/admin/`)
 
-**Scenario Prompt (read verbatim to participant):**
-> "You set up Decapod Cloud last week, and a teammate pings you saying their agent cannot validate or their repo seat looks missing. Open the Admin console (`https://decapodlabs.ai/admin/` or signed-in workspace snapshot) and explain what state the workspace is in, whether usage data can be trusted right now, and what action you would take next."
+**Scenario Prompt (read verbatim):**
+> "A teammate pings you saying their agent cannot validate or their repo seat looks missing. Open `/admin/` and explain what state the workspace is in, whether usage figures can be trusted right now, and what step comes next."
 
 **Neutral Observation Questions:**
-1. **Initial Triage:** *"What is the single most important status on this screen right now? Would you describe the workspace as healthy, broken, or unknown?"*
-2. **State Semantics (`loading` / `unavailable` / `stale` / `action_needed` / `measured_healthy`):** *"Look at the usage and readiness badges. Where do you think those numbers came from, and what does the current label tell you NOT to assume?"*
-3. **Seat & Repository Capacity (`purchased / assigned / available`):** *"How do you tell which contributor holds a seat, which repository is verified, and how to fix a missing seat or stale telemetry snapshot?"*
-4. **Recovery Confidence:** *"If telemetry is unavailable or stale right now, what is your next concrete step?"*
-
-**Success Signals (Observable):**
-- Participant never reads `unavailable`, `stale`, or `loading` as `"Healthy"` or `"No usage issues"`.
-- Participant separates `purchased / assigned / available` seat capacity from repository verification state and limits/webhook freshness.
-- Participant identifies the exact remediation control or refresh check without hunting across hidden menus.
+1. **Status Separation (`loading` / `unavailable` / `stale` / `action_needed` / `measured_healthy`):** *"Would you call this workspace healthy, broken, or unmeasured right now—and why?"*
+2. **Capacity & Verification:** *"Which engineer holds a seat (`purchased / assigned / available`), and which repository is verified?"*
+3. **Next Step:** *"What exact action resolves a missing seat, unverified repository, or stale usage snapshot?"*
 
 ---
 
 ## 4. Explicit Untested Hypotheses Inventory
 
-The following assumptions motivate the `#103` uplift across `decapodlabs.github.io`, `decapod`, and `propodus`. **None of these are validated by external user telemetry yet; treat them as open hypotheses until real external sessions are logged:**
+**Zero external usability sessions have been executed (`0 external sessions run`).** Retain these hypotheses explicitly until validated with external developers:
 
 | ID | Surface | Untested Hypothesis | Falsification / Refutation Signal |
 | --- | --- | --- | --- |
-| **H1** | Homepage (`/`) | Lead framing around delegating serious work with continuity and verifiable proof ("governance kernel" kept intelligible in context) conveys practical value faster than abstract protocol terminology. | External first-time developers still cannot explain what Decapod prevents or changes in their workflow after reading the hero + first scroll. |
-| **H2** | Immediate Proof (`/#proofs`, `/proof.html`) | Showing a short 3-beat failure -> repair -> fresh-check -> PR trail directly below the fold improves engineering credibility before asking for an install. | Developers skip `/proof.html` or dismiss the terminal replay as staged because receipt links/claims feel dense. |
-| **H3** | Quickstart (`/decapod/quickstart.html`) | Splitting Human actions (`install`, `decapod init`) from Agent actions (`decapod docs ingest`, prompt handoff, `decapod validate`) reduces mid-setup abandonment. | First-time users still type agent-only commands manually or fail to hand the exact onboarding prompt to their coding agent. |
-| **H4** | Pricing (`/pricing`) | Anchoring the configurator at `1 × 1 = $50/mo` (`$552/yr`) with explicit `$0` per agent/device and a 4-pillar justification avoids starter-shock compared to multi-seat default anchors. | Individual/small-team evaluators still read `$50` as per-agent pricing or do not understand why a governance control plane costs `$50/mo`. |
-| **H5** | Signup & Readiness (`/signup/`) | Preserving URL intent across GitHub PKCE OAuth and showing explicit readiness gates before Checkout increases trust and reduces drop-off. | Users feel disoriented returning from GitHub OAuth or hesitate at GitHub App repository scope prompts. |
-| **H6** | Admin (`/admin/`) | Separating `loading`, `unavailable`, `stale`, `action_needed`, and `measured_healthy` prevents false operator reassurance when backend limits data is absent or delayed. | Returning admins still confuse `stale`/`unavailable` warnings with "system down" or miss the seat/repo remediation step. |
-| **H7** | Mobile & Accessibility (`320px`, `390px`, `1.25×` zoom) | Self-hosted `Geist` / `Geist Mono`, warm cream contrast, and sticky-header `scroll-margin-top` clearances support effortless reading on mobile viewports. | Mobile readers struggle with long terminal commands wrapping inside `.shell` or miss right-rail collapsed TOC controls. |
+| **H1** | Hero & Film (`/`) | Leading with `HARNESS AI METACOGNITION.`, plain-language explanation, install card, and the visible kernel film answers *what Decapod is* faster and with stronger lab stature than leading with commit-SHA test failures. | External newcomers still struggle after scrolling past the hero/film to explain what problem Decapod solves or why an agent invokes it. |
+| **H2** | Architecture & Constitution (`#architecture`, `#capabilities`) | Making all 14 capabilities (including full Constitution doctrine on curated golden paths, research, architecture, business knowledge, and PR openness) visibly browsable clarifies how Decapod differs from an ad-hoc prompt checklist. | Readers skim past the capability grid without grasping the relationship between Constitution, living specs, context capsules, and worktree custody. |
+| **H3** | Showcases & Research (`#showcase`, `#research`) | Visible Waystead + concurrent swarm carousels paired with *Accountable Agentic Execution* and *The End of Continuous Rework* demonstrate real breadth without defensive disclaimers. | Visitors confuse internal showcases (`Waystead`, concurrent Ghostty swarms) for third-party customer testimonials or find pre-results research status ambiguous. |
+| **H4** | Quickstart (`/decapod/quickstart.html`) | Splitting human bootstrap (`decapod init`) from short outcome-only agent delegation (`Fix the failing retry-backoff test.`) and clarifying standing PR/merge policy lowers setup friction. | First-time users still copy internal CLI commands into manual prompts or assume validation implies automatic merge. |
+| **H5** | Evaluation Case Study (`/proof.html`) | Presenting the historical Pi run as a concrete Engineering Case Study & Evaluation Record (`objective, setup, mechanism, observed behavior, result, method`) answers technical verification questions cleanly in context. | Engineers cannot distinguish the primary observed run from synthetic/operator negative controls or locate artifact SHA-256 links quickly. |
+| **H6** | Pricing & Signup (`/pricing`, `/signup/`) | Defaulting to `1 × 1 = $50/mo` (`$552/yr`, `$0` per coding agent/device) and carrying `?repo=&billing=&seats=` across GitHub PKCE OAuth prevents pricing shock and intent loss. | Teams still misread `$50` as per-agent pricing or lose context during GitHub App installation. |
+| **H7** | Admin (`/admin/`) | Explicit `loading` / `unavailable` / `stale` / `action_needed` / `measured_healthy` badges eliminate false `"Healthy"` confidence when telemetry is absent. | Returning admins mistake `unavailable` or `stale` telemetry for platform downtime instead of snapshot/scope diagnostics. |
 
 ---
 
 ## 5. Connected Cross-Repo Review Log (Expert Review)
 
-> Every entry below records **observed static/live inspection results** only. Never extrapolate uninspected routes or post-deploy state before observing the live URL.
+### Entry 1 — Pre-Recovery & Pre-Docs-Deploy Baseline (`2026-11-27`)
+- **Method:** Internal Expert Walkthrough + `check-site.ts` + `deno test tests/` + Track 3 live Cloud qualification (`propodus-cloud-smoke`, Chrome CDP).
+- **Observed Live PASS (`20261127-uplift` Commercial & Trust Foundations):**
+  - `/pricing` (`1 × 1 = $50/mo`, `$552/yr`, 4 pillars, continuous `?repo=&billing=&seats=` -> `/signup/` -> GitHub PKCE `302`), `/admin/` (fail-closed usage states), `/trust/` (`1.0.0` privacy contract), self-hosted `Geist`/`Geist Mono`, warm palette, `320px`/`1.25×` responsive baseline, and `decapod v0.169.4` + `dactyl-db v0.21.0` Cloud auth gating (`backend = "cloud"` fails closed at `onboarding_pending` with zero leaked `.db` files) all passed source and live checks.
+- **Confirmed Gaps Triggering Track 4 Recovery:**
+  - Website homepage & `/proof.html` (`5bad19cb`) pushed product education and all 14 capabilities into closed drawers while leading with commit-SHA defensive proof (`#103`/`#104`/`#106` reopened).
+  - Live `https://decapodlabs.ai/decapod/` awaits Track 2 (`#1977`/`#1978`) deployment (`PR` / `Deploy Docs` underway after `v0.169.4` install).
 
-### Entry 1 — Pre-Docs-Deploy Baseline (`2026-11-27`)
-- **Method:** Internal Expert Walkthrough + Headless Chrome CDP + `check-site.ts` + `deno test tests/` (`DecapodLabs/decapodlabs.github.io#107` at `5bad19cb`, Propodus `20261127-uplift` at `7e4aba65`).
-- **Observed Live PASS (`https://decapodlabs.ai/`):**
-  - **Marketing, Proof & Trust:** `/`, `/proof.html`, `/trust/`, `/tecr.html`, `/clack/` render cleanly across `320×800`, `390×844`, `1024×768`, `1440×900`, and `1440×900 @ 1.25×` with `0px` horizontal overflow, self-hosted `Geist` (`zero` Google Fonts CDN requests), `17.53:1` body contrast, `#proofs` surfaced directly below the hero, and sticky-footer clearances unobstructed.
-  - **Commercial Bundle (`/pricing`, `/signup/`, `/admin/`):** `1 × 1 = $50/mo` (`$552/yr` annual), `3 × 1 = $147/mo`, 4-pillar `$50` value justification, continuous `?repo=...&billing=...&seats=...` handoff into `/signup/`, and fail-closed `/admin/` usage states (no false `"Healthy"` inference on missing data) verified live.
-- **Known Cross-Repo Gap Remaining at Baseline:**
-  - Live `https://decapodlabs.ai/decapod/` (`/decapod/quickstart.html`) has not yet received `DecapodLabs/decapod` `#1977` & `#1978` (blocked locally by `CONTROLLER_CONTRACT_UNSUPPORTED` until a supported `v0.169.4`+ controller lands and `Deploy Docs` publishes). Live `/decapod/quickstart.html` therefore still shows the pre-uplift sticky `#menu-bar` heading clip (`-45px` on `320/390px`) and Google Fonts requests until Track 2 completes.
-
-### Entry 2 — Full Live 3-Journey Connected Walkthrough (Pending Track 2 Docs Deploy + Track 3 Verification)
-- **Status:** `PENDING` (`Track 2` `#1977`/`#1978` live deployment to `https://decapodlabs.ai/decapod/` + `Track 3` `verify-cloud-web-publication.mjs` / Chrome journey verification).
+### Entry 2 — Post-Recovery Full 3-Journey Live Connected Walkthrough (Pending Dual Deployment)
+- **Status:** `PENDING` (`DecapodLabs/decapodlabs.github.io` editorial recovery PR merge + `DecapodLabs/decapod` `#1977`/`#1978` `Deploy Docs`).
 - **Planned Joint Verification (`@wave3b-ux-art-story` + `@quant-laya-ops`):**
-  1. Walk Journey 1 end-to-end live across `https://decapodlabs.ai/` -> `/#proofs` -> `/proof.html` -> `/trust/` -> `https://decapodlabs.ai/decapod/` -> `/decapod/quickstart.html` at `390×844` and `1440×900`, confirming zero sticky-bar clip, readable 5-theme `pre > code`, self-hosted `Geist`/`Geist Mono`, `"Copy for your agent"`, and bidirectional `/proof.html` ↔ `/decapod/quickstart.html` navigation.
-  2. Cross-check Journey 2 (`Pricing -> Signup -> Readiness -> CLI Task`) and Journey 3 (`Returning Admin -> Usage/Readiness State -> Next Action`) against Track 3 Chrome + `propodus-cloud-smoke` observations.
-  3. Record any remaining cross-repo friction, apply any website-owned fixes cleanly in this workspace (without editing `pricing*`, `signup/`, `admin/`, `shared/`, `cloud-flow/`, `404*`, or `cloud-app-manifest.json`), and update `#103` closure criteria honestly.
+  1. Inspect live `https://decapodlabs.ai/` top-to-bottom across `320×800`, `390×844`, `1024×768`, `1440×900`, and `1440×900 @ 1.25×` against the **6 Newcomer Comprehension Questions** (Hero -> Film -> Thesis/4 Pillars/Architecture -> 14 Visible Capabilities -> Waystead & Swarms -> Research -> Local vs Cloud -> Supporting Observed Execution -> Closing CTA).
+  2. Walk live `https://decapodlabs.ai/decapod/` (`/decapod/quickstart.html`) across themes & viewports once `#1977`/`#1978` deploys, verifying single-row `#menu-bar`, readable `pre > code`, self-hosted fonts, `"Copy for your agent"`, and bidirectional `/proof.html` <-> `/decapod/` links.
+  3. Inspect `/proof.html` as Engineering Case Study & Evaluation Record (`objective -> method & findings -> artifacts`), `/trust/`, `/tecr.html`, `/clack/index.html`, `/pricing`, `/signup/`, and `/admin/` end-to-end.
