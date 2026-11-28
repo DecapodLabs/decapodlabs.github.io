@@ -70,6 +70,11 @@
       "id": "chk-6-specs-and-govern",
       "summary": "Update living specs (INTENT, ARCHITECTURE, INTERFACES), refresh v0.169.5 surfaces, approve plan, and record claim/trajectory for Track 3",
       "input_digest": "sha256:c12083d3e0372a1864ea31d0f1620a9fcbe0ed6b21fe0f339f9f5d72e7b1329e"
+    },
+    {
+      "id": "cp_code_01m8gc7ej3dpeg96_refresh_v0169_5",
+      "summary": "Refresh v0.169.5 Dockerfile pin, entrypoints, and spec review dispositions",
+      "input_digest": "sha256:728a05dbc09823935c0e91ca50224cb278745e788b3a592b63782a20c5fae7c6"
     }
   ],
   "intents": {
@@ -109,6 +114,29 @@
         "decapod validate"
       ],
       "schema_version": "1.1.0",
+      "spec_reviews": [
+        {
+          "disposition": "updated",
+          "path": ".decapod/managed/specs/ARCHITECTURE.md",
+          "reason": "Refreshed v0.169.5 entrypoints and Dockerfile pin alongside IA reorder, Clack showcase, Writing hub, and Propodus 20261128-ia bundle.",
+          "reviewed_code_fingerprint": "c31154b61bbcb27bcfd3ab872a6567ad44b43bc5f47765bfce175ddb7eca2369",
+          "spec_material_hash": "a9355f428c5d6cc0fe5dee9d2a4319f360b33ee6fcb94e126e9bf2432c901003"
+        },
+        {
+          "disposition": "updated",
+          "path": ".decapod/managed/specs/INTERFACES.md",
+          "reason": "Refreshed v0.169.5 entrypoints and Dockerfile pin alongside 8-link nav, /writing/ hub, fragment aliases, and Propodus 20261128-ia manifest interfaces.",
+          "reviewed_code_fingerprint": "c31154b61bbcb27bcfd3ab872a6567ad44b43bc5f47765bfce175ddb7eca2369",
+          "spec_material_hash": "8b39ccec8e529d3586dc2fbb84aef32aa07ded2e537acc377697c61b5e31f8f8"
+        },
+        {
+          "disposition": "unchanged_with_reason",
+          "path": ".decapod/managed/specs/SECURITY.md",
+          "reason": "Static site privacy, zero external CDN/analytics, and verified Cloud provenance boundaries unchanged; only generated codebase attestation refreshed.",
+          "reviewed_code_fingerprint": "c31154b61bbcb27bcfd3ab872a6567ad44b43bc5f47765bfce175ddb7eca2369",
+          "spec_material_hash": "62bb344f61469fd3f75f5c09e37936d8b4912412b38d5593b58f2503a16f9d5a"
+        }
+      ],
       "state": "APPROVED",
       "stop_conditions": [],
       "title": "Track 3 IA polish: 6-link compact nav, sleek footer, arrow consistency, and 20261128-ia bundle",
@@ -117,7 +145,7 @@
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1795850162Z"
+      "updated_at": "1795850374Z"
     },
     "trajectory": {
       "active_boundaries": [

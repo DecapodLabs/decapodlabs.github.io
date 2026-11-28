@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1.0",
   "template_version": "scaffold-v5",
-  "generated_at": "1795850160Z",
+  "generated_at": "1795850326Z",
   "repo_signal_fingerprint": "c31154b61bbcb27bcfd3ab872a6567ad44b43bc5f47765bfce175ddb7eca2369",
   "declared_capabilities": [
     "authentication",
@@ -19,25 +19,25 @@
     {
       "path": "AGENTS.md",
       "template_hash": "a9706187c8f5b9cc24108347f47f731ebb6e00439c0dbe2d9454a74d446066a3",
-      "content_hash": "b2fb1b3f9665bcd400619303ffed82302d4c6ee81004dce48297b7c0ef44bf2b",
+      "content_hash": "a9706187c8f5b9cc24108347f47f731ebb6e00439c0dbe2d9454a74d446066a3",
       "fingerprint": "7ed62e8e06bc4d32d4490cde9df6edfd67aab71c6dfee4a7fa08678547d86807"
     },
     {
       "path": "CLAUDE.md",
       "template_hash": "19f875fb97b9288435e6a9984e9706254b8265665b636093e9068906df3210e7",
-      "content_hash": "02e4bc624ec9f69d670f1d7b7ade7475b69c743ade91ee49114b5d765267df1c",
+      "content_hash": "19f875fb97b9288435e6a9984e9706254b8265665b636093e9068906df3210e7",
       "fingerprint": "71852c28362d9787041864d8b9b9c58b921e740c68c70a3f3583fbb1c398e34e"
     },
     {
       "path": "GEMINI.md",
       "template_hash": "ca33b81f9663269151ff25d079c13db5348c6ee6c248f0e338df091dc5e86983",
-      "content_hash": "ec1b0f987f37e0c08e9ce35b9422a2954f34231fb4f8f6aaf9258967d9132088",
+      "content_hash": "ca33b81f9663269151ff25d079c13db5348c6ee6c248f0e338df091dc5e86983",
       "fingerprint": "ff27eef5e557a2f582a746864e51bd5748908c66f1c0d6d0b5ad6955083e6876"
     },
     {
       "path": "CODEX.md",
       "template_hash": "ba2738f409881780d6607c263499bf4243a9097b0aefd6f1992cca0b731ceeee",
-      "content_hash": "4b54a476ce40d91a2c43a1a949da1e95f493cf68363066501f0098603430e5ba",
+      "content_hash": "ba2738f409881780d6607c263499bf4243a9097b0aefd6f1992cca0b731ceeee",
       "fingerprint": "4097b2f17c3ed39bcfa3290987a6936ce82e5be9cf5c2a813846593c61604b78"
     }
   ],
