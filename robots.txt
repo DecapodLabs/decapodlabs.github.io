@@ -11,3 +11,4 @@ Disallow: /billing
 Disallow: /.decapod/
 
 Sitemap: https://decapodlabs.ai/sitemap.xml
+Sitemap: https://decapodlabs.ai/decapod/sitemap.xml

@@ -10,6 +10,7 @@ This index covers public product information and documentation. Authenticated ac
 
 - [Decapod Labs](https://decapodlabs.ai/): Product overview, capabilities, and examples of governed agent work.
 - [Documentation](https://decapodlabs.ai/decapod/): Public Decapod documentation and chapter index.
+- [Documentation agent index](https://decapodlabs.ai/decapod/llms.txt): Full chapter-level Markdown navigation index generated from the Decapod mdBook.
 - [Quickstart](https://decapodlabs.ai/decapod/quickstart.html): Install Decapod and initialize a repository.
 - [Mental model](https://decapodlabs.ai/decapod/mental-model.html): The relationship between agents, repository state, and governance.
 - [Agent-first architecture](https://decapodlabs.ai/decapod/concepts/agent-first.html): How coding agents invoke the kernel.
