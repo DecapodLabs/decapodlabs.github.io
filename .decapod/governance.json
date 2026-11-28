@@ -42,6 +42,11 @@
       "id": "chk-1-clack-showcase-polish",
       "summary": "Polish Clack Showcase Theater: CLACK_START=3.35s gameplay cut, 0:27 badge, wrapped 390px tabs, 1440x900 viewport fit above footer, ?v=20261128-clack2 across 7 pages, updated living specs",
       "input_digest": "sha256:62b8c70aacb4f520558208c9cc03a381c7a5109f347a049b69ea2bf33e67fb65"
+    },
+    {
+      "id": "cp_code_01m8gxb2379t7yqv_spec_review",
+      "summary": "Record explicit spec review dispositions for Clack Showcase Theater polish",
+      "input_digest": "sha256:86a51e6186ed7f368ba49072e3538f2328f7732e00e52c55ae45c9d938491f5a"
     }
   ],
   "intents": {
@@ -81,6 +86,29 @@
         "decapod validate"
       ],
       "schema_version": "1.1.0",
+      "spec_reviews": [
+        {
+          "disposition": "updated",
+          "path": ".decapod/managed/specs/ARCHITECTURE.md",
+          "reason": "Documented Clack gameplay-only 3.35s start/loop cut, wrapped mobile tab layout, desktop stage viewport clamp, and ?v=20261128-clack2 cache token.",
+          "reviewed_code_fingerprint": "2c8152e0771886d00ade60245ba36a91b636215a8154fcef775433674d9ec62a",
+          "spec_material_hash": "135cd14a92aa869c660401515937fe9ee70b328ab3d0119661dc674e9aeaecee"
+        },
+        {
+          "disposition": "updated",
+          "path": ".decapod/managed/specs/INTERFACES.md",
+          "reason": "Documented 0:27 gameplay cut badge, 01-04 scene-jump pills (3.35/5.8/18.3/21.8s), Sound on restart at 3.35s, and responsive 3-tab wrap contract.",
+          "reviewed_code_fingerprint": "2c8152e0771886d00ade60245ba36a91b636215a8154fcef775433674d9ec62a",
+          "spec_material_hash": "416ede61688fef3776888bcfe7fb160243ba73252e786e5fbfee91fc77273137"
+        },
+        {
+          "disposition": "unchanged_with_reason",
+          "path": ".decapod/managed/specs/SECURITY.md",
+          "reason": "Static-only self-hosted media polish; zero external CDN/analytics and Propodus Cloud provenance boundaries unchanged.",
+          "reviewed_code_fingerprint": "2c8152e0771886d00ade60245ba36a91b636215a8154fcef775433674d9ec62a",
+          "spec_material_hash": "62bb344f61469fd3f75f5c09e37936d8b4912412b38d5593b58f2503a16f9d5a"
+        }
+      ],
       "state": "APPROVED",
       "stop_conditions": [],
       "title": "Polish Clack Showcase Theater: skip 3.35s intro, mobile tabs, desktop fit",
@@ -89,7 +117,7 @@
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1795864459Z"
+      "updated_at": "1795864706Z"
     },
     "trajectory": {
       "active_boundaries": [
