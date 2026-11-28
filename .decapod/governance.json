@@ -51,6 +51,14 @@
       "proof_refs": [
         "tests/website_delivered_privacy_test.ts"
       ]
+    },
+    {
+      "id": "website-final-reviewed-source",
+      "summary": "Bind spec reviews to the final source and record independent browser observations.",
+      "input_digest": "sha256:0ff3798d69bfe2eb922119f4bc1381c253a469d2aca922cbb50d386c41980035",
+      "proof_refs": [
+        "docs/website-egress-inventory.md"
+      ]
     }
   ],
   "intents": {
@@ -97,21 +105,21 @@
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/ARCHITECTURE.md",
-          "reason": "Updates public reading order, establishes visible capabilities and applications, and preserves the case-study provenance layer.",
-          "reviewed_code_fingerprint": "5b956d539f592f1bdf78407c96851615a0bf485d0ef9612da68666858e3c3420",
+          "reason": "Reviews the final source and builds the page around the visible operating model, capabilities, applications, and supporting historical record.",
+          "reviewed_code_fingerprint": "a964046afa09158113f410b9b98bf9d6641b3715d482b8417149c0c74ac8b4e3",
           "spec_material_hash": "97515522663b058cd97783e8de734b377e71e391a81f8fc5d87f7fdf9af65f97"
         },
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/INTERFACES.md",
-          "reason": "Records supported navigation, stable publication routes, and the generated commerce boundary.",
-          "reviewed_code_fingerprint": "5b956d539f592f1bdf78407c96851615a0bf485d0ef9612da68666858e3c3420",
+          "reason": "Reviews the final navigation, compatibility routes, and unchanged generated Cloud app authority.",
+          "reviewed_code_fingerprint": "a964046afa09158113f410b9b98bf9d6641b3715d482b8417149c0c74ac8b4e3",
           "spec_material_hash": "bfa499f43dfff8c5e48dd006208800b20a22508d0daa89499271057d1fb0a107"
         },
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/SECURITY.md",
-          "reason": "Records the independent served-response check as a test helper outside the publication workflow, with the public analytics and transport-reporting boundary.",
+          "reason": "Reviews the final privacy test helper, observed scoped analytics exclusion, and separately declared network reporting.",
           "reviewed_code_fingerprint": "a964046afa09158113f410b9b98bf9d6641b3715d482b8417149c0c74ac8b4e3",
           "spec_material_hash": "344c67721d4393d2aab7d6d04a5016b3c7774f59346e04f812e533c7b0db6ec1"
         }
@@ -124,16 +132,24 @@
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1795838394Z"
+      "updated_at": "1795838529Z"
     },
     "trajectory": {
       "active_boundaries": [
         "Current claimed task and isolated work branch"
       ],
-      "artifact_hash": "sha256:4ecdcbe07bad140621f7b49fcb55c43eb9bc600d1e4aabc22bab52f7a0a2be6a",
+      "artifact_hash": "sha256:c193752d5ebebe3bb0be9cf0cc105cc078d1db59203864695067d3d8dc7ea9c0",
       "checks": [
         {
+          "name": "chrome_candidate_reading_order",
+          "status": "passed"
+        },
+        {
           "name": "delivered_route_privacy",
+          "status": "passed"
+        },
+        {
+          "name": "live_browser_analytics",
           "status": "passed"
         },
         {
@@ -169,10 +185,17 @@
             "intent_id": "intent:change_01M8G4C64SNH9QPRXYRRWTD0WD",
             "kind": "trajectory_step_recorded",
             "sequence": 5
+          },
+          {
+            "detail": "trajectory:branch_01M8G4C680G8E43W5Z8G1BVJ3T",
+            "event_id": "event:6",
+            "intent_id": "intent:change_01M8G4C64SNH9QPRXYRRWTD0WD",
+            "kind": "trajectory_step_recorded",
+            "sequence": 6
           }
         ],
         "knowledge_candidates": [],
-        "next_sequence": 5,
+        "next_sequence": 6,
         "schema_version": "1.1.0",
         "trajectories": {
           "branch_01M8G4C680G8E43W5Z8G1BVJ3T": {
@@ -215,6 +238,22 @@
                 ],
                 "sequence": 5,
                 "validation_findings": []
+              },
+              {
+                "action": "verification",
+                "custody_event_id": "event:6",
+                "observations": [
+                  "Chrome 158.0.8127.38, local 320/390/1440 widths with zero horizontal overflow and 14 visible capabilities. Live navigation across seven pages detected zero analytics requests; incumbent Quickstart loaded third-party fonts separately. No external participant study or authenticated Cloud workflow is claimed."
+                ],
+                "proof_refs": [
+                  "chrome_candidate_reading_order",
+                  "live_browser_analytics"
+                ],
+                "scope": [
+                  "root"
+                ],
+                "sequence": 6,
+                "validation_findings": []
               }
             ]
           }
@@ -223,6 +262,7 @@
       "declared_commands": [],
       "destination": "pull request",
       "evidence": [
+        "Chrome 158.0.8127.38, local 320/390/1440 widths with zero horizontal overflow and 14 visible capabilities. Live navigation across seven pages detected zero analytics requests; incumbent Quickstart loaded third-party fonts separately. No external participant study or authenticated Cloud workflow is claimed.",
         "Deno all site suites 9/9. Cloudflare rule disables automatic analytics on scoped paths, excluding Clack. Nine live HTML destinations with cold and warm probes passed script and declared reporting checks. Website HTML candidate and external participant evidence remain distinct.",
         "Nine Deno checks passed after keeping the optional deployed check with the regression tests. Accepted configured proof command and proof-source inputs are unchanged."
       ],
