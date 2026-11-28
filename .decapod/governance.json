@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "baseline": {
-    "accepted_commit": "c9852910b0f8884ea184fe8220dcb847b6ffdb59",
+    "accepted_commit": "015a37ee40de337fbe73ee7aaa38dcebef03257d",
     "unresolved": {
       "claim:clack-download-latest": {
         "falsifier": "The page embeds a release version, either link fails signed out, the checksum or digest disagrees with the source stable build, or a newer published mirror requires editing the page.",
@@ -16,20 +16,22 @@
       "trajectory:3848f0711f1c471f": "The site has no public GitHub Release yet. A scheduled mirror would need authentication with Contents read on private Clack. Neither repo has a listed repository-level Actions secret. The organization-level secret inventory returned 403 with the current GitHub session.",
       "trajectory:41b73ae67ec24f4a": "Live after-deploy screenshots pending PR merge to origin/main",
       "trajectory:7f7a21200f37746d": "Website origin/main and workspace HEAD were 4ca4f7f73aa7357528ea0502e93fdeda030683f2. The public DMG, checksum file and GitHub v0.9.14 release metadata all gave SHA-256 8df5da4613b7da022644f6fd41704c45d76140d2066217fd4275c6a49a85e480.",
-      "trajectory:c8792d9ce24cf68b": "Normal Clack release distribution must use the upstream publisher; the latest public release remains reserved for Clack."
+      "trajectory:c8792d9ce24cf68b": "Normal Clack release distribution must use the upstream publisher; the latest public release remains reserved for Clack.",
+      "trajectory:d7a59a07d39cca5d": "Live Pages screenshot capture pending PR merge and Pages deployment"
     }
   },
   "change": {
-    "id": "change_01M8GW9F0KSV4FKNT2AJ7M53XB",
-    "base_commit": "c9852910b0f8884ea184fe8220dcb847b6ffdb59",
+    "id": "change_01M8GXBKFRJBD77NHBM5GR3Y8C",
+    "base_commit": "015a37ee40de337fbe73ee7aaa38dcebef03257d",
     "target_base": "origin/main"
   },
   "claims": {
-    "claim:clack-showcase-theater-20261128": {
-      "statement": "index.html#clack-showcase renders a bespoke deep-sea Clack Showcase Theater with live 30s gameplay trailer video, interactive scene-jump pills synced on timeupdate, accessible 3-mode tablist switcher (Gameplay Trailer, Agents Mode, World of Siltwick), zero duplicate images, Explore Clack and Download DMG CTAs, and ?v=20261128-clack cache bust across static HTML pages without touching Propodus manifest assets.",
-      "falsifier": "Any duplicate siltwick.webp/agents-mode.webp image appears in index.html, #clackTrailerVideo fails to load or play, tab switching throws JS errors or leaves overflowX > 0, or check-site.ts / deno test tests/ / pre-build validate fails.",
+    "claim:clack-showcase-polish-112": {
+      "statement": "Clack Showcase Theater starts and loops at CLACK_START=3.35s skipping 0..3.3s intro, wraps all 3 tabs cleanly at 390px, fits video+pills+CTA above pinned footer at 1440x900, and bumps ?v=20261128-clack2 across all 7 non-Propodus pages",
+      "falsifier": "Video plays before 3.35s, any tab clips at 390px, Explore Clack CTA falls below pinned footer at 1440x900, check-site.ts/deno tests fail, or any non-Propodus page keeps stale ?v=20261128-clack",
       "status": "supported",
       "proof_refs": [
+        "chrome-cdp:1440x900+390x844",
         "deno test tests/",
         "scripts/check-site.ts"
       ]
@@ -37,18 +39,18 @@
   },
   "checkpoints": [
     {
-      "id": "chk-1-clack-showcase-theater",
-      "summary": "Build bespoke deep-sea Clack Showcase Theater (#clack-showcase) with live trailer video, scene-jump pills, 3-mode tablist, zero duplicate photos, ?v=20261128-clack cache bust, and updated living specs",
-      "input_digest": "sha256:6c9adcd7c005baa42c69ec09a730a152658a91e7890ba8f28113b1726aa6debb"
+      "id": "chk-1-clack-showcase-polish",
+      "summary": "Polish Clack Showcase Theater: CLACK_START=3.35s gameplay cut, 0:27 badge, wrapped 390px tabs, 1440x900 viewport fit above footer, ?v=20261128-clack2 across 7 pages, updated living specs",
+      "input_digest": "sha256:62b8c70aacb4f520558208c9cc03a381c7a5109f347a049b69ea2bf33e67fb65"
     },
     {
-      "id": "cp_code_01m8gw8mjkf4x1jg_spec_review",
-      "summary": "Record explicit spec review dispositions for ARCHITECTURE, INTERFACES, and SECURITY",
-      "input_digest": "sha256:ab1768e175cec953c8b6147885383b8e45a63ad6899d3ce44cdb8c8afdde7d7d"
+      "id": "cp_code_01m8gxb2379t7yqv_spec_review",
+      "summary": "Record explicit spec review dispositions for Clack Showcase Theater polish",
+      "input_digest": "sha256:86a51e6186ed7f368ba49072e3538f2328f7732e00e52c55ae45c9d938491f5a"
     }
   ],
   "intents": {
-    "intent:change_01M8GW9F0KSV4FKNT2AJ7M53XB": {
+    "intent:change_01M8GXBKFRJBD77NHBM5GR3Y8C": {
       "acceptance_criteria": [],
       "assumptions": [],
       "boundaries": [
@@ -58,14 +60,14 @@
         "root"
       ],
       "created_sequence": 1,
-      "id": "intent:change_01M8GW9F0KSV4FKNT2AJ7M53XB",
+      "id": "intent:change_01M8GXBKFRJBD77NHBM5GR3Y8C",
       "instruction_origin": {
         "source_ref": "caller:unverified"
       },
       "out_of_scope": [],
       "proof_requirements": [],
-      "raw_intent": "Bespoke Clack Showcase Theater in index.html#showcase",
-      "refined_intent": "Bespoke Clack Showcase Theater in index.html#showcase",
+      "raw_intent": "Polish Clack Showcase Theater: skip 3.35s intro, mobile tabs, desktop fit",
+      "refined_intent": "Polish Clack Showcase Theater: skip 3.35s intro, mobile tabs, desktop fit",
       "status": "refined",
       "updated_sequence": 3
     }
@@ -78,7 +80,7 @@
       },
       "deferred_questions": [],
       "human_questions": [],
-      "intent": "Bespoke Clack Showcase Theater in index.html#showcase",
+      "intent": "Polish Clack Showcase Theater: skip 3.35s intro, mobile tabs, desktop fit",
       "phases": [],
       "proof_hooks": [
         "decapod validate"
@@ -88,51 +90,51 @@
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/ARCHITECTURE.md",
-          "reason": "Documented bespoke Clack Showcase Theater (#clackTrailerVideo, 3-mode tablist switcher, scene-jump pills, ?v=20261128-clack cache versioning) in ARCHITECTURE.md.",
-          "reviewed_code_fingerprint": "a33d7b973753f1dcbae64677d107f394357d2b847276bd0315041ef6c070ab55",
-          "spec_material_hash": "e412ee6e70f5df451b6b912021b3aa3d1682bd708206f970786aec2379c33072"
+          "reason": "Documented Clack gameplay-only 3.35s start/loop cut, wrapped mobile tab layout, desktop stage viewport clamp, and ?v=20261128-clack2 cache token.",
+          "reviewed_code_fingerprint": "2c8152e0771886d00ade60245ba36a91b636215a8154fcef775433674d9ec62a",
+          "spec_material_hash": "135cd14a92aa869c660401515937fe9ee70b328ab3d0119661dc674e9aeaecee"
         },
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/INTERFACES.md",
-          "reason": "Documented Clack Showcase Theater interactive tablist, trailer playback/seek HUD, and /clack/index.html + DMG CTA contracts in INTERFACES.md.",
-          "reviewed_code_fingerprint": "a33d7b973753f1dcbae64677d107f394357d2b847276bd0315041ef6c070ab55",
-          "spec_material_hash": "e2cc4e550ad6d45b16941c0a86f11bf54faaa3451023d5334c4e118ba3d60023"
+          "reason": "Documented 0:27 gameplay cut badge, 01-04 scene-jump pills (3.35/5.8/18.3/21.8s), Sound on restart at 3.35s, and responsive 3-tab wrap contract.",
+          "reviewed_code_fingerprint": "2c8152e0771886d00ade60245ba36a91b636215a8154fcef775433674d9ec62a",
+          "spec_material_hash": "416ede61688fef3776888bcfe7fb160243ba73252e786e5fbfee91fc77273137"
         },
         {
           "disposition": "unchanged_with_reason",
           "path": ".decapod/managed/specs/SECURITY.md",
-          "reason": "Static-only self-hosted media theater; zero external CDN/analytics and Propodus Cloud provenance boundaries unchanged.",
-          "reviewed_code_fingerprint": "a33d7b973753f1dcbae64677d107f394357d2b847276bd0315041ef6c070ab55",
+          "reason": "Static-only self-hosted media polish; zero external CDN/analytics and Propodus Cloud provenance boundaries unchanged.",
+          "reviewed_code_fingerprint": "2c8152e0771886d00ade60245ba36a91b636215a8154fcef775433674d9ec62a",
           "spec_material_hash": "62bb344f61469fd3f75f5c09e37936d8b4912412b38d5593b58f2503a16f9d5a"
         }
       ],
       "state": "APPROVED",
       "stop_conditions": [],
-      "title": "Bespoke Clack Showcase Theater in index.html#showcase",
+      "title": "Polish Clack Showcase Theater: skip 3.35s intro, mobile tabs, desktop fit",
       "todo_ids": [
-        "code_01m8gw8mjkf4x1jg"
+        "code_01m8gxb2379t7yqv"
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1795863393Z"
+      "updated_at": "1795864706Z"
     },
     "trajectory": {
       "active_boundaries": [
         "Current claimed task and isolated work branch"
       ],
-      "artifact_hash": "sha256:0135d8eb685b62c19baa7a3c9f55598b0d9480351bd76b320fc9fb07c5b9beae",
+      "artifact_hash": "sha256:990338996a8c6f0c2df2a887bb7a35afb81e5263273a4d1ea84699576aff55ea",
       "checks": [
         {
-          "name": "check-site",
+          "name": "check-site.ts",
           "status": "passed"
         },
         {
-          "name": "chrome-cdp-1440-390",
+          "name": "chrome-cdp-desktop-mobile",
           "status": "passed"
         },
         {
-          "name": "deno-test",
+          "name": "deno-tests",
           "status": "passed"
         }
       ],
@@ -141,20 +143,20 @@
         "events": [
           {
             "event_id": "event:2",
-            "intent_id": "intent:change_01M8GW9F0KSV4FKNT2AJ7M53XB",
+            "intent_id": "intent:change_01M8GXBKFRJBD77NHBM5GR3Y8C",
             "kind": "created",
             "sequence": 2
           },
           {
             "event_id": "event:3",
-            "intent_id": "intent:change_01M8GW9F0KSV4FKNT2AJ7M53XB",
+            "intent_id": "intent:change_01M8GXBKFRJBD77NHBM5GR3Y8C",
             "kind": "refined",
             "sequence": 3
           },
           {
-            "detail": "trajectory:branch_01M8GW9F42GKJRA6NRM20MGTH5",
+            "detail": "trajectory:branch_01M8GXBKJXEKVXM3NNBDWAJFP6",
             "event_id": "event:4",
-            "intent_id": "intent:change_01M8GW9F0KSV4FKNT2AJ7M53XB",
+            "intent_id": "intent:change_01M8GXBKFRJBD77NHBM5GR3Y8C",
             "kind": "trajectory_step_recorded",
             "sequence": 4
           }
@@ -163,22 +165,18 @@
         "next_sequence": 4,
         "schema_version": "1.1.0",
         "trajectories": {
-          "branch_01M8GW9F42GKJRA6NRM20MGTH5": {
+          "branch_01M8GXBKJXEKVXM3NNBDWAJFP6": {
             "evidence_only": true,
-            "id": "branch_01M8GW9F42GKJRA6NRM20MGTH5",
-            "intent_id": "intent:change_01M8GW9F0KSV4FKNT2AJ7M53XB",
+            "id": "branch_01M8GXBKJXEKVXM3NNBDWAJFP6",
+            "intent_id": "intent:change_01M8GXBKFRJBD77NHBM5GR3Y8C",
             "steps": [
               {
                 "action": "verification",
                 "custody_event_id": "event:4",
                 "observations": [
                   "index.html",
-                  "styles.css",
                   "main.js",
-                  "clack/index.html",
-                  "index.html",
                   "styles.css",
-                  "main.js",
                   "clack/index.html",
                   "writing/index.html",
                   "tecr.html",
@@ -188,20 +186,18 @@
                   ".decapod/managed/specs/INTENT.md",
                   ".decapod/managed/specs/ARCHITECTURE.md",
                   ".decapod/managed/specs/INTERFACES.md",
-                  "check-site.ts PASS; deno test tests/ 9/9 PASS; Chrome CDP 1440x900 & 390x844 readyState=4 playing=true siltwickImgs=1 agentsImgs=1 posterImgs=0 overflowX=0 jsErrors=[]"
+                  "Desktop 1440x900: currentTime=5.59s, is-ready=true, stageRect.bottom=829<=830, ctaAboveFooter=true, overflowX=0; Sound on restarted to 3.57s. Mobile 390x844: all 3 tabs 32..358 inside 27..363, overflowX=0, jsErrors=0. check-site.ts ok, 9/9 deno tests passed."
                 ],
                 "proof_refs": [
-                  "check-site",
-                  "deno-test",
-                  "chrome-cdp-1440-390"
+                  "check-site.ts",
+                  "deno-tests",
+                  "chrome-cdp-desktop-mobile"
                 ],
                 "scope": [
                   "root"
                 ],
                 "sequence": 4,
-                "validation_findings": [
-                  "Live Pages screenshot capture pending PR merge and Pages deployment"
-                ]
+                "validation_findings": []
               }
             ]
           }
@@ -210,15 +206,10 @@
       "declared_commands": [],
       "destination": "pull request",
       "evidence": [
-        "check-site.ts PASS; deno test tests/ 9/9 PASS; Chrome CDP 1440x900 & 390x844 readyState=4 playing=true siltwickImgs=1 agentsImgs=1 posterImgs=0 overflowX=0 jsErrors=[]"
+        "Desktop 1440x900: currentTime=5.59s, is-ready=true, stageRect.bottom=829<=830, ctaAboveFooter=true, overflowX=0; Sound on restarted to 3.57s. Mobile 390x844: all 3 tabs 32..358 inside 27..363, overflowX=0, jsErrors=0. check-site.ts ok, 9/9 deno tests passed."
       ],
-      "inspected_files": [
-        "clack/index.html",
-        "index.html",
-        "main.js",
-        "styles.css"
-      ],
-      "intent_id": "intent:change_01M8GW9F0KSV4FKNT2AJ7M53XB",
+      "inspected_files": [],
+      "intent_id": "intent:change_01M8GXBKFRJBD77NHBM5GR3Y8C",
       "modified_files": [
         ".decapod/managed/specs/ARCHITECTURE.md",
         ".decapod/managed/specs/INTENT.md",
@@ -239,14 +230,12 @@
       "repo_scope": [
         "root"
       ],
-      "run_id": "branch_01M8GW9F42GKJRA6NRM20MGTH5",
+      "run_id": "branch_01M8GXBKJXEKVXM3NNBDWAJFP6",
       "schema_version": "1.1.0",
       "shortcut_risk_signals": [],
-      "task_id": "code_01m8gw8mjkf4x1jg",
+      "task_id": "code_01m8gxb2379t7yqv",
       "tool_calls": [],
-      "unresolved_assumptions": [
-        "Live Pages screenshot capture pending PR merge and Pages deployment"
-      ]
+      "unresolved_assumptions": []
     }
   }
 }

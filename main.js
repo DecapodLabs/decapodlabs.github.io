@@ -268,9 +268,24 @@
     const playIcon = document.getElementById("clackPlayIcon");
     const playLabel = document.getElementById("clackPlayLabel");
     const scenePills = Array.from(clackStage.querySelectorAll("[data-clack-seek]"));
-    const sceneTimes = scenePills.map(pill => Number(pill.dataset.clackSeek) || 0);
+    const CLACK_START = 3.35;
+    const sceneTimes = scenePills.map(pill => Number(pill.dataset.clackSeek) || CLACK_START);
     let userPausedTrailer = reducedMotion;
     let hasReplayedWithSound = false;
+
+    function enforceGameplayStart() {
+      if (!trailer) return;
+      if (trailer.currentTime < CLACK_START - 0.05) {
+        try {
+          trailer.currentTime = CLACK_START;
+        } catch {
+          // Seek deferred until metadata loads
+        }
+      }
+      if (trailer.currentTime >= CLACK_START - 0.05 && trailer.readyState >= 2) {
+        trailer.classList.add("is-ready");
+      }
+    }
 
     function syncTrailerControls() {
       if (!trailer) return;
@@ -348,14 +363,33 @@
       for (const ev of ["play", "pause", "ended", "volumechange", "loadedmetadata"]) {
         trailer.addEventListener(ev, syncTrailerControls);
       }
-      trailer.addEventListener("timeupdate", () => highlightSceneForTime(trailer.currentTime));
+      for (const ev of ["loadedmetadata", "loadeddata", "canplay", "seeked", "play"]) {
+        trailer.addEventListener(ev, enforceGameplayStart);
+      }
+      trailer.addEventListener("timeupdate", () => {
+        if (trailer.currentTime < CLACK_START - 0.08) {
+          trailer.currentTime = CLACK_START;
+          return;
+        }
+        if (trailer.readyState >= 2) trailer.classList.add("is-ready");
+        highlightSceneForTime(trailer.currentTime);
+      });
+      trailer.addEventListener("ended", () => {
+        trailer.currentTime = CLACK_START;
+        highlightSceneForTime(CLACK_START);
+        if (!userPausedTrailer) {
+          trailer.play().catch(() => {});
+        }
+        syncTrailerControls();
+      });
 
       scenePills.forEach(pill => {
         pill.addEventListener("click", async () => {
-          const target = Number(pill.dataset.clackSeek) || 0;
+          const target = Math.max(CLACK_START, Number(pill.dataset.clackSeek) || CLACK_START);
           activateTab("trailer", false);
           userPausedTrailer = false;
           trailer.currentTime = target;
+          trailer.classList.add("is-ready");
           highlightSceneForTime(target);
           try {
             await trailer.play();
@@ -370,8 +404,8 @@
         if (trailer.muted) {
           trailer.muted = false;
           if (!hasReplayedWithSound) {
-            trailer.currentTime = 0;
-            highlightSceneForTime(0);
+            trailer.currentTime = CLACK_START;
+            highlightSceneForTime(CLACK_START);
             hasReplayedWithSound = true;
           }
           userPausedTrailer = false;
@@ -389,6 +423,9 @@
       playBtn?.addEventListener("click", async () => {
         if (trailer.paused) {
           userPausedTrailer = false;
+          if (trailer.currentTime < CLACK_START - 0.05) {
+            trailer.currentTime = CLACK_START;
+          }
           try {
             await trailer.play();
           } catch {
@@ -401,8 +438,9 @@
         syncTrailerControls();
       });
 
+      enforceGameplayStart();
       syncTrailerControls();
-      highlightSceneForTime(0);
+      highlightSceneForTime(CLACK_START);
     }
   }
 
