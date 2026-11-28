@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "baseline": {
-    "accepted_commit": "d78ec9f3a47007710419f0bdfc5d73f1d2efaa68",
+    "accepted_commit": "5bad19cb74b00bbc77a3bfa1d62fddee6750857d",
     "unresolved": {
       "claim:clack-download-latest": {
         "falsifier": "The page embeds a release version, either link fails signed out, the checksum or digest disagrees with the source stable build, or a newer published mirror requires editing the page.",
@@ -19,67 +19,19 @@
     }
   },
   "change": {
-    "id": "change_01M8FZDCV5W770563BACPGMTK2",
-    "base_commit": "d78ec9f3a47007710419f0bdfc5d73f1d2efaa68",
+    "id": "change_01M8G1SRHCP3JSPXXEF813B8MZ",
+    "base_commit": "5bad19cb74b00bbc77a3bfa1d62fddee6750857d",
     "target_base": "origin/main"
-  },
-  "claims": {
-    "claim:site-uplift-103-106": {
-      "statement": "Website studio uplift (#103, #104, #106, #101) unifies self-hosted Geist typography, proof/trust/secondary chrome, discovery links, and verified Propodus 20261127-uplift (7e4aba65) Cloud bundle with zero external font CDNs and zero check-site or Playwright viewport regressions.",
-      "falsifier": "scripts/check-site.ts fails, deno test tests/ fails, cloud-app-manifest.json disagrees with DecapodLabs/propodus@main 7e4aba65d2ad80707ed030b0fd14e4dbaaaada26, evidence/ or Clack DMG links/checksums change, or 320/390/1024/1440px Chrome views overflow or reference external font CDNs.",
-      "status": "supported",
-      "proof_refs": [
-        "scripts/check-site.ts",
-        "tests/provenance_projection_72_test.ts",
-        "tests/publication_provenance_test.ts",
-        "tests/trust_privacy_contract_test.ts"
-      ]
-    }
   },
   "checkpoints": [
     {
-      "id": "chk-1-design-system",
-      "summary": "Positioning brief, journey maps, 4-pillar Cloud value, and cross-surface design contract (#103)",
-      "input_digest": "sha256:918a2c2e8497043e6a743b24e38286d39257ec5b584f418538cc0c23c7bc4d6e"
-    },
-    {
-      "id": "chk-2-home-uplift",
-      "summary": "Self-hosted Geist homepage, immediate Pi proof preview, 320/390/1024/1440 reflow, and Cloud 4 pillars (#103, #104)",
-      "input_digest": "sha256:b8243621c7aaab56744a767817d17c2c07f88a5425dde7eca7b9a745670ff407"
-    },
-    {
-      "id": "chk-3-proof-trust",
-      "summary": "Causal 5-step Proof story and reader-question Trust layout (#106)",
-      "input_digest": "sha256:b700e6ce76c1d986129f42075c05e6cba8b5a6893dfa0fe5ef2a634aeb9f2a91"
-    },
-    {
-      "id": "chk-4-secondary-chrome",
-      "summary": "Align Rework, offerings redirect, and Clack chrome with self-hosted Geist system (#103)",
-      "input_digest": "sha256:a89246beee9c9551d4a3e37538b15699811f15ab5e7843b7b7ad7b27dad98d3b"
-    },
-    {
-      "id": "chk-5-seo-discovery",
-      "summary": "Link live /decapod/sitemap.xml and /decapod/llms.txt in root discovery files (#101)",
-      "input_digest": "sha256:1edfb9a1c6a609a26441808da1706d111554ea9d8071535985c3fd4de9582831"
-    },
-    {
-      "id": "chk-6-propodus-bundle",
-      "summary": "Layer Propodus 20261127-uplift Cloud bundle (7e4aba65) and update provenance assertion",
-      "input_digest": "sha256:de83a22b526a21ffce5bc27c3e265e1b159cae2ca05e9f487ae48305158edebb"
-    },
-    {
-      "id": "chk-7-specs-final",
-      "summary": "Refresh living specs, record spec reviews, and pass final verification (#103, #104, #106, #101)",
-      "input_digest": "sha256:f8ed35f17e4e2e0b05f07f2dfc7617389777f147bdaafa011ea0c7081a6c60f4"
-    },
-    {
-      "id": "chk-8-governance-claim",
-      "summary": "Record PR claim, plan approval, and trajectory checks for code_01m8fjny6bveczsn",
-      "input_digest": "sha256:7772d28fc40ce040109fd343c64a3147a654fb4f7d3957d7a715eadeb5e73e70"
+      "id": "chk-1-research-script",
+      "summary": "Draft first-use research script and connected review protocol for #103 (with 0.169.3 release entrypoint refresh)",
+      "input_digest": "sha256:bf4eeaaed5fcedd1d17752949455cbf16631b2d05c7a186464e6c8c1ee762021"
     }
   ],
   "intents": {
-    "intent:change_01M8FZDCV5W770563BACPGMTK2": {
+    "intent:change_01M8G1SRHCP3JSPXXEF813B8MZ": {
       "acceptance_criteria": [],
       "assumptions": [],
       "boundaries": [
@@ -89,169 +41,76 @@
         "root"
       ],
       "created_sequence": 1,
-      "id": "intent:change_01M8FZDCV5W770563BACPGMTK2",
+      "id": "intent:change_01M8G1SRHCP3JSPXXEF813B8MZ",
       "instruction_origin": {
         "source_ref": "caller:unverified"
       },
       "out_of_scope": [],
       "proof_requirements": [],
-      "raw_intent": "Studio uplift (#103, #104, #106): positioning contract, homepage overhaul, proof/trust/secondary pages alignment",
-      "refined_intent": "Studio uplift (#103, #104, #106): positioning contract, homepage overhaul, proof/trust/secondary pages alignment",
+      "raw_intent": "Track 4 (#103): connected cross-repo review and first-use research script",
+      "refined_intent": "Track 4 (#103): connected cross-repo review and first-use research script",
       "status": "refined",
       "updated_sequence": 3
     }
   },
   "sections": {
     "plan": {
-      "constraints": {
-        "file_touch_budget": null,
-        "forbidden_paths": []
-      },
-      "deferred_questions": [],
-      "human_questions": [],
-      "intent": "Studio uplift (#103, #104, #106): positioning contract, homepage overhaul, proof/trust/secondary pages alignment",
-      "phases": [],
+      "constraints": {},
+      "intent": "Track 4 (#103): connected cross-repo review and first-use research script",
       "proof_hooks": [
         "decapod validate"
       ],
       "schema_version": "1.1.0",
-      "spec_reviews": [
-        {
-          "disposition": "updated",
-          "path": ".decapod/managed/specs/ARCHITECTURE.md",
-          "reason": "Document #103/#104/#106/#101 website studio uplift, self-hosted Geist system, discovery links, and 20261127-uplift Propodus Cloud bundle (7e4aba65)",
-          "reviewed_code_fingerprint": "cdcafd88d84cde8538d86a9aab9886411cdd5082af6f61608eaae086629cfd7f",
-          "spec_material_hash": "9b1ec56af1338941c54a9041882500a46f245a948693940cbd5030aebf27d4a9"
-        },
-        {
-          "disposition": "updated",
-          "path": ".decapod/managed/specs/INTERFACES.md",
-          "reason": "Document shared nav/footer Chrome contract, robots/llms discovery links, and 20261127-uplift Cloud presentation interfaces (7e4aba65)",
-          "reviewed_code_fingerprint": "cdcafd88d84cde8538d86a9aab9886411cdd5082af6f61608eaae086629cfd7f",
-          "spec_material_hash": "989176490fa6b6230b87d149b4a8555f658164e4c8257ce71ecf262192c7718d"
-        },
-        {
-          "disposition": "updated",
-          "path": ".decapod/managed/specs/SECURITY.md",
-          "reason": "Update Cloud manifest provenance boundary for 20261127-uplift (7e4aba65) and zero-external-CDN/zero-tracker static hygiene",
-          "reviewed_code_fingerprint": "cdcafd88d84cde8538d86a9aab9886411cdd5082af6f61608eaae086629cfd7f",
-          "spec_material_hash": "62bb344f61469fd3f75f5c09e37936d8b4912412b38d5593b58f2503a16f9d5a"
-        }
-      ],
-      "state": "APPROVED",
-      "stop_conditions": [],
-      "title": "Studio uplift (#103, #104, #106): positioning contract, homepage overhaul, proof/trust/secondary pages alignment",
+      "state": "DRAFT",
+      "title": "Track 4 (#103): connected cross-repo review and first-use research script",
       "todo_ids": [
-        "code_01m8fjny6bveczsn"
+        "arch_01m8g1r38g4v0x9w"
       ],
-      "unknowns": [],
-      "unresolved_contradictions": [],
-      "updated_at": "1795832803Z"
+      "updated_at": "1795835093Z"
     },
     "trajectory": {
       "active_boundaries": [
         "Current claimed task and isolated work branch"
       ],
-      "artifact_hash": "sha256:df7f81ba967389c2f2071f4ca54b54a011af83ab0bd0440374e347361ab30992",
-      "checks": [
-        {
-          "name": "check_site",
-          "status": "passed"
-        },
-        {
-          "name": "deno_tests",
-          "status": "passed"
-        }
-      ],
+      "artifact_hash": "sha256:7d7db50e299e525755a4e9f47b191bf9e3a94043dae6c15bd39fce4f6aec2ef7",
+      "checks": [],
       "current_phase": "intent",
       "custody": {
         "events": [
           {
             "event_id": "event:2",
-            "intent_id": "intent:change_01M8FZDCV5W770563BACPGMTK2",
+            "intent_id": "intent:change_01M8G1SRHCP3JSPXXEF813B8MZ",
             "kind": "created",
             "sequence": 2
           },
           {
             "event_id": "event:3",
-            "intent_id": "intent:change_01M8FZDCV5W770563BACPGMTK2",
+            "intent_id": "intent:change_01M8G1SRHCP3JSPXXEF813B8MZ",
             "kind": "refined",
             "sequence": 3
-          },
-          {
-            "detail": "trajectory:branch_01M8FZDCXW4B5NBA4JRCMW68MX",
-            "event_id": "event:4",
-            "intent_id": "intent:change_01M8FZDCV5W770563BACPGMTK2",
-            "kind": "trajectory_step_recorded",
-            "sequence": 4
           }
         ],
         "knowledge_candidates": [],
-        "next_sequence": 4,
+        "next_sequence": 3,
         "schema_version": "1.1.0",
-        "trajectories": {
-          "branch_01M8FZDCXW4B5NBA4JRCMW68MX": {
-            "evidence_only": true,
-            "id": "branch_01M8FZDCXW4B5NBA4JRCMW68MX",
-            "intent_id": "intent:change_01M8FZDCV5W770563BACPGMTK2",
-            "steps": [
-              {
-                "action": "trajectory.record",
-                "custody_event_id": "event:4",
-                "observations": [
-                  "scripts/check-site.ts",
-                  "cloud-app-manifest.json",
-                  "index.html",
-                  "styles.css",
-                  "proof.html",
-                  "trust/index.html",
-                  "tecr.html",
-                  "clack/index.html",
-                  "robots.txt",
-                  "llms.txt"
-                ],
-                "proof_refs": [
-                  "check_site",
-                  "deno_tests"
-                ],
-                "scope": [
-                  "root"
-                ],
-                "sequence": 4,
-                "validation_findings": []
-              }
-            ]
-          }
-        }
+        "trajectories": {}
       },
       "declared_commands": [],
       "destination": "pull request",
       "evidence": [],
-      "inspected_files": [
-        "cloud-app-manifest.json",
-        "scripts/check-site.ts"
-      ],
-      "intent_id": "intent:change_01M8FZDCV5W770563BACPGMTK2",
-      "modified_files": [
-        "clack/index.html",
-        "index.html",
-        "llms.txt",
-        "proof.html",
-        "robots.txt",
-        "styles.css",
-        "tecr.html",
-        "trust/index.html"
-      ],
+      "inspected_files": [],
+      "intent_id": "intent:change_01M8G1SRHCP3JSPXXEF813B8MZ",
+      "modified_files": [],
       "next_transitions": [
         "Refine plan and declare falsifiable checks"
       ],
       "repo_scope": [
         "root"
       ],
-      "run_id": "branch_01M8FZDCXW4B5NBA4JRCMW68MX",
+      "run_id": "branch_01M8G1SRVR1FCYB10ZWWCHNMJT",
       "schema_version": "1.1.0",
       "shortcut_risk_signals": [],
-      "task_id": "code_01m8fjny6bveczsn",
+      "task_id": "arch_01m8g1r38g4v0x9w",
       "tool_calls": [],
       "unresolved_assumptions": []
     }
