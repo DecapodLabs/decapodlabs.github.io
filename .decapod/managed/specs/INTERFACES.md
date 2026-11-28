@@ -11,7 +11,7 @@
 
 - **`pricing.js` & `pricing/index.html`**: Emits `?repo=`, `billing` (`month`/`year`), and `seats` (`1..1000`) through `DecapodCloudFlow.buildSignupHandoffUrl`, preserves selection across `/auth` PKCE `return_to`, uses HTTPS custom-plan issue links (`github.com/DecapodLabs/decapod/issues/new`) instead of raw `mailto:` hrefs to preserve byte-identical CDN delivery, and links cleanly to live Cloud purchase initiation.
 - **`cloud-app-manifest.json`**: Exposes SHA-256 digests (`files`), clean upstream source revision (`7e4aba65`, `source_clean: true`), and `asset_release: "20261127-uplift"` verified offline by `tests/publication_provenance_test.ts`.
-- **Shared Public Navigation, Pinned Footer & Discovery Interfaces (`styles.css`, `robots.txt`, `llms.txt`)**: Public static pages (`index.html`, `proof.html`, `trust/index.html`, `tecr.html`, `clack/index.html`) share the unified `.nav` sticky 6-link header (`Docs`, `Proof`, `Pricing`, `Rework`, `Clack`, `Trust`, `GitHub ↗`) and proportionate `.site-footer-pinned > .footer` bar with `<a href="/trust/index.html">Trust &amp; Privacy ↗</a>`, self-hosted Geist typography, and zero external font CDN links. `robots.txt` declares `Sitemap: https://decapodlabs.ai/decapod/sitemap.xml` alongside `/sitemap.xml`, and `llms.txt` links `https://decapodlabs.ai/decapod/llms.txt`.
+- **Public navigation and discovery.** The homepage, case study, Trust, and Rework link directly to the operating model, visible capabilities, applications, manual, Cloud, and founder’s thesis. Supporting evaluation, privacy, and Clack destinations remain reachable. The public discovery files keep canonical sitemap and documentation index links. The generated Cloud bundle retains its own source and metadata.
 - **`admin/*`, `pricing/*` & `signup/*` Presentation Surface (Propodus PRs #282 & #286, `20261127-uplift`)**: Pricing configurator starts at `1` repository × `1` contributor (`$50/mo` or `$552/yr`, paired `#repo-count-number`/`#seat-count-number` inputs and 4-pillar Cloud value justification with zero hype phrasing); Signup renders a 5-stage `#signup-stepper` with `#reservations-disclosure` and zero internal attempt counters; Admin enforces the explicit `usageObservation` state machine (`loading`, `unavailable`, `stale`, `action_needed`, `measured_healthy`) fenced by org/session/render generation across Overview and Usage while preserving `#admin-auth-gate`, `#tab-btn-*`, `#tab-panel-*`, and `isVerifiedCustomerOrganization` boundaries.
 
 ## Behavioral Privacy & Trust Contract Interface (`/trust/index.html`)
@@ -150,8 +150,8 @@ Generated capability obligations: `public-api` is declared for this project. The
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `cdcafd88d84cde8538d86a9aab9886411cdd5082af6f61608eaae086629cfd7f`
-- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (3 files)
+- Repository signal fingerprint: `5b956d539f592f1bdf78407c96851615a0bf485d0ef9612da68666858e3c3420`
+- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (8 files), `signup/` (1 files), `tests/` (4 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->
 

@@ -16,9 +16,9 @@ Deliver the calm, approachable Organization Admin surface compiled from upstream
 
 ## Behavioral Privacy & Trust Contract (`/trust/index.html`)
 
-Publish a versioned, public Behavioral Privacy & Trust Contract at `/trust/index.html` (`v1.0.0`, effective `2026-11-24`) linked cleanly from the footer across site pages (`index.html`, `pricing.html`, `pricing/index.html`, `signup/index.html`, `clack/index.html`, `tecr.html`, `admin/index.html`, `trust/index.html`). The contract discloses exact network boundaries for Decapod Local CLI (zero telemetry/analytics), Decapod Cloud, Dactyl, and Clack, documents Cloudflare Workers relay transparency, states all nine permanent trust invariants, and provides incident accountability and revocation channels.
+Publish a versioned, public Behavioral Privacy & Trust Contract at `/trust/index.html` (`v1.0.1`, effective `2026-11-27`) linked cleanly from the footer across site pages (`index.html`, `pricing.html`, `pricing/index.html`, `signup/index.html`, `clack/index.html`, `tecr.html`, `admin/index.html`, `trust/index.html`). The contract discloses exact network boundaries for Decapod Local CLI (zero telemetry/analytics), Decapod Cloud, Dactyl, and Clack, documents Cloudflare Workers relay transparency, states all nine permanent trust invariants, and provides incident accountability and revocation channels.
 
-The public Decapod Labs website explains the repo-native governance kernel and helps humans begin with their existing coding agents. The accepted pricing.html preview compares Local with the planned Cloud offering; the homepage links to it without replacing the accepted hero, capability catalog or closing layout.
+The public website introduces the lab’s autonomous engineering work and explains what an existing coding agent gains by calling Decapod. An ordinary feature and an illustrative recovery make the workflow understandable before the visible capability catalog, research, Waystead, and the kernel film. The historical evaluation remains supporting material with its source-specific provenance.
 
 Local is free forever, works offline without signup, and links Get started to https://decapodlabs.github.io/decapod/quickstart.html. Decapod Cloud leads `/pricing` at $50 per contributor per repository per month ($552 billed annually) with transparent annual and volume discounts and live team configuration routing cleanly into authenticated Signup.
 
@@ -87,7 +87,7 @@ These declarations select authoring and proof obligations; they do not attest im
 
 ## Codebase Contract Snapshot
 
-- Tracked significant codebase files: 21 across `.github/` (1), `README.md/` (1), `admin/` (1), `cloud-flow.js/` (1), `evidence/` (4), `main.js/` (1), `pricing.js/` (1), `scripts/` (7), `signup/` (1), `tests/` (3)
+- Tracked significant codebase files: 23 across `.github/` (1), `README.md/` (1), `admin/` (1), `cloud-flow.js/` (1), `evidence/` (4), `main.js/` (1), `pricing.js/` (1), `scripts/` (8), `signup/` (1), `tests/` (4)
 - Core modules: 0 | Workflows: 1 | Integration targets: 0
 <!-- decapod:codebase-contract:end -->
 
@@ -95,8 +95,8 @@ These declarations select authoring and proof obligations; they do not attest im
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `cdcafd88d84cde8538d86a9aab9886411cdd5082af6f61608eaae086629cfd7f`
-- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (3 files)
+- Repository signal fingerprint: `5b956d539f592f1bdf78407c96851615a0bf485d0ef9612da68666858e3c3420`
+- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (8 files), `signup/` (1 files), `tests/` (4 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->
 

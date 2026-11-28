@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#fff9f0">
 <meta name="referrer" content="no-referrer">
-<meta name="decapod-trust-contract-version" content="1.0.0">
-<meta name="decapod-trust-effective-date" content="2026-11-24">
+<meta name="decapod-trust-contract-version" content="1.0.1">
+<meta name="decapod-trust-effective-date" content="2026-11-27">
 <meta name="description" content="Decapod Labs Behavioral Privacy &amp; Trust Contract: zero covert analytics, strictly declared network egress across Local CLI, Decapod Cloud, Dactyl, and Clack, Cloudflare relay transparency, and permanent trust invariants.">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Decapod Labs">
@@ -36,12 +36,12 @@
   <div class="wrap nav-content">
     <a href="/" class="brand" aria-label="Decapod Labs home"><img class="site-wordmark" src="/assets/logo-a.png" alt="Decapod Labs" width="420" height="140"></a>
     <nav class="nav-links" aria-label="Site navigation">
+      <a href="/#architecture">How it works</a>
+      <a href="/#capabilities">Capabilities</a>
+      <a href="/#showcase">Applications</a>
       <a href="https://decapodlabs.ai/decapod/">Docs</a>
-      <a href="/proof.html">Proof</a>
-      <a class="nav-pricing" href="https://decapodlabs.ai/pricing">Pricing</a>
+      <a class="nav-pricing" href="https://decapodlabs.ai/pricing">Cloud</a>
       <a href="/tecr.html">Rework</a>
-      <a href="/clack/index.html">Clack</a>
-      <a href="/trust/index.html" aria-current="page">Trust</a>
     </nav>
     <a class="nav-cta" href="https://github.com/DecapodLabs/decapod" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>
   </div>
@@ -65,8 +65,8 @@
       <aside class="trust-meta-card" aria-label="Contract version metadata">
         <h2>Contract Metadata</h2>
         <ul class="trust-meta-list">
-          <li><strong>Contract Version</strong><span><code>1.0.0</code></span></li>
-          <li><strong>Effective Date</strong><span><time datetime="2026-11-24">2026-11-24</time></span></li>
+          <li><strong>Contract Version</strong><span><code>1.0.1</code></span></li>
+          <li><strong>Effective Date</strong><span><time datetime="2026-11-27">2026-11-27</time></span></li>
           <li><strong>Third-Party Analytics &amp; Pixels</strong><span>Zero across website, CLI, Cloud, Dactyl, and Clack</span></li>
         </ul>
         <p class="trust-change-promise"><strong>Change-Control Guarantee:</strong> Removing or weakening a guarantee requires explicit version increment and changelog entry; updates never silently broaden collection.</p>
@@ -123,7 +123,18 @@
         </article>
       </div>
       <div class="trust-limitations" role="note" aria-label="Material trust boundaries">
-        <strong>Material boundaries:</strong> Your chosen coding model provider (OpenAI, Anthropic, Google, local Ollama, etc.) sees the repository context you permit; hosted Cloud routes require authenticated GitHub/GitLab identity; and this public site uses zero analytics scripts or tracking pixels.
+        <strong>Material boundaries:</strong> Your chosen coding model provider (OpenAI, Anthropic, Google, local Ollama, etc.) sees the repository context you permit; hosted Cloud routes require authenticated GitHub/GitLab identity; and Decapod’s public website, documentation, Signup, and Admin use zero analytics scripts or tracking pixels.
+      </div>
+    </div>
+  </section>
+
+  <section class="trust-section" id="website-privacy" aria-labelledby="website-privacy-heading">
+    <div class="wrap">
+      <div class="trust-section-heading">
+        <h2 id="website-privacy-heading">Public website and hosting</h2>
+        <p>Decapod’s public pages, documentation, Signup, and Admin load without browser analytics or tracking pixels. Our hosting configuration disables automatic analytics injection on these routes.</p>
+        <p>Cloudflare may provide a Network Error Logging policy in response headers. Supported browsers can send network-failure reports to Cloudflare for connectivity diagnostics. Cloudflare operates that reporting separately from page analytics and Decapod Cloud API logs.</p>
+        <a class="text-link" href="https://github.com/DecapodLabs/decapodlabs.github.io/blob/main/docs/website-egress-inventory.md">Read the website egress inventory</a>
       </div>
     </div>
   </section>
@@ -266,6 +277,7 @@
           <p>No guarantee in this contract may be weakened or removed without incrementing the contract version and documenting the change here.</p>
         </div>
         <ul class="trust-changelog">
+          <li><strong>v1.0.1 — 2026-11-27:</strong> Documents the hosting control for browser analytics and the separate Network Error Logging policy.</li>
           <li><strong>v1.0.0 — 2026-11-24:</strong> Initial Behavioral Privacy &amp; Trust Contract covering Decapod Local CLI, Decapod Cloud, Dactyl, Clack, Cloudflare Workers relay transparency, declared endpoints, all 9 permanent trust invariants, and incident accountability channels.</li>
         </ul>
         <div class="trust-next-row">

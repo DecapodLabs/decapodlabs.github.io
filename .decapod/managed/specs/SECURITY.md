@@ -1,5 +1,9 @@
 # Security
 
+## Delivered website privacy
+
+Cloudflare’s path-scoped Configuration Rule disables automatic Web Analytics injection on Decapod’s public host outside the Clack path. The existing edge Network Error Logging policy is an independently declared transport diagnostic. `scripts/check-website-privacy.ts` inspects served HTML and reporting destinations. The regression fixture injects undeclared analytics and reporting into clean responses to verify exclusion beyond source scanning.
+
 ## Signed Cloud Bundle Provenance & Secret Boundary (`tests/publication_provenance_test.ts`)
 
 `DecapodLabs/decapodlabs.github.io` receives only compiled/static Cloud web artifacts (`cloud-flow.js`, `pricing/*`, `signup/*`, `admin/*`, `404.html`, `shared/commercial-ui.css`, `assets/fonts/*`, `cloud-app-manifest.json`, currently `20261127-uplift` from clean `7e4aba65`) verified against source revision provenance, keeping internal billing/auth tests, operational runbooks, signing helpers, and backend code out of the public marketing repository. `tests/publication_provenance_test.ts` and `tests/trust_privacy_contract_test.ts` enforce byte-level SHA-256 integrity, zero pre-launch placeholders, zero third-party trackers/cookies, zero external font/script CDNs, and zero exposed secrets or internal identifiers. Immutable `evidence/` bytes remain untouched, and `proof.html`/`trust/index.html` presentation changes add no authentication, merge authority, or telemetry.
@@ -132,7 +136,7 @@ Generated capability obligations: `public-api` is declared for this project. The
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `cdcafd88d84cde8538d86a9aab9886411cdd5082af6f61608eaae086629cfd7f`
-- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (3 files)
+- Repository signal fingerprint: `5b956d539f592f1bdf78407c96851615a0bf485d0ef9612da68666858e3c3420`
+- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (8 files), `signup/` (1 files), `tests/` (4 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->

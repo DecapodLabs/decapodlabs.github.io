@@ -13,8 +13,8 @@ Compiled Decapod Cloud web presentation assets (`cloud-flow.js`, `pricing/*`, `s
 ## Studio Uplift Design System, Homepage, Proof, Trust & Discovery (`#103`, `#104`, `#106`, `#101`)
 
 - `docs/design-system/positioning-and-design-contract.md` establishes the cross-surface positioning brief, bounded reference review, user journeys, self-hosted Geist + Warm Cream/Espresso/Coral design tokens, attention-order matrices, and propagation protocol across the marketing site, `/decapod/`, and Propodus Cloud routes.
-- `styles.css`, `index.html`, and `main.js` consolidate site styling around self-hosted `Geist-Variable.woff2` and `GeistMono-Variable.woff2` (`/assets/fonts/`), remove external Google Fonts requests, lead the homepage hero with practical engineering delegation and a dominant local-start box (`cargo binstall decapod && decapod init`, `cargo install decapod --locked`, `nix`), surface the historical Pi terminal proof (`#proofs`) immediately after the hero, structure adoption Q&As cleanly with progressive `<details>` disclosures for the 14-capability grid, Waystead showcase, and introductory film, and preserve a proportionate pinned footer.
-- `proof.html`, `trust/index.html`, `trust/trust.css`, `tecr.html`, `tecr.css`, `offerings.html`, and `clack/index.html` align with the shared sticky 6-link header and pinned footer chrome, foregrounding the 5-step causal proof story, reader-question Trust layout with immutable `evidence/` bytes untouched, verbatim Rework essay preservation, and self-hosted Geist typography on `/clack/` with exact `Clack-0.11.2-macOS-arm64.dmg` links preserved.
+- The static homepage uses the existing site shell and self-hosted Geist fonts. It explains the lab, existing-agent workflow and knowledge architecture before the visible capability catalog, public research, applied work and optional reference sections. The Local install controls, released assets, and pinned footer retain their established behavior.
+- The historical Pi recording and evidence are supporting evaluation material, with the same immutable artifacts and direct case-study URL. Trust describes the public route analytics control and independent network-error reporting. Rework keeps the founder’s letter intact.
 - `robots.txt` and `llms.txt` advertise the live `/decapod/sitemap.xml` and `/decapod/llms.txt` documentation discovery endpoints deployed by `DecapodLabs/decapod`.
 
 ## Privacy & Trust Contract Surface (`trust/index.html`, `trust/trust.css`, `tests/trust_privacy_contract_test.ts`)
@@ -130,8 +130,8 @@ Generated capability obligations: `persistent-state` is declared for this projec
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `cdcafd88d84cde8538d86a9aab9886411cdd5082af6f61608eaae086629cfd7f`
-- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (3 files)
+- Repository signal fingerprint: `5b956d539f592f1bdf78407c96851615a0bf485d0ef9612da68666858e3c3420`
+- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (8 files), `signup/` (1 files), `tests/` (4 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->
 
