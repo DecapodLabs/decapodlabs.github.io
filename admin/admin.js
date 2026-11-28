@@ -9,6 +9,107 @@
   };
 
   var TAB_NAMES = ["overview", "repositories", "people", "billing", "usage", "settings"];
+  var USAGE_STALE_SECONDS = 900;
+
+  function createLoadingUsageObservation(ctx) {
+    return {
+      state: "loading",
+      reason: "loading",
+      orgId: ctx && ctx.cloudOrgId ? ctx.cloudOrgId : null,
+      sessionEpoch: ctx && typeof ctx.sessionEpoch === "number" ? ctx.sessionEpoch : 0,
+      generation: ctx && typeof ctx.generation === "number" ? ctx.generation : 0,
+      measuredCount: 0,
+      breachedCount: 0,
+      activeAlertsCount: 0,
+      observedAt: null,
+      correlationId: null
+    };
+  }
+
+  function isValidUsageMetric(metric) {
+    if (!metric || typeof metric !== "object" || Array.isArray(metric)) return false;
+    var name = typeof metric.key === "string" && metric.key.trim()
+      ? metric.key.trim()
+      : (typeof metric.metric === "string" ? metric.metric.trim() : "");
+    if (!name) return false;
+    return Number.isFinite(Number(metric.used)) && Number.isFinite(Number(metric.effective_limit));
+  }
+
+  function isMetricBreached(metric) {
+    if (!metric || typeof metric !== "object") return false;
+    if (metric.breached === true) return true;
+    var state = typeof metric.alert_state === "string" ? metric.alert_state.toLowerCase() : "";
+    if (state === "warning" || state === "critical" || state === "blocked" || state === "breached") return true;
+    var used = Number(metric.used);
+    var limit = Number(metric.effective_limit);
+    if (Number.isFinite(used) && Number.isFinite(limit) && limit > 0) {
+      if (used >= limit) return true;
+      var warnPct = Number(metric.warning_pct);
+      if (Number.isFinite(warnPct) && warnPct > 0 && ((used * 100) / limit) >= warnPct) return true;
+    }
+    return false;
+  }
+
+  function isUsageSnapshotStale(snap, currentNowSec) {
+    if (!snap || typeof snap !== "object") return false;
+    if (snap.stale === true || snap.is_stale === true) return true;
+    if (typeof snap.freshness === "string" && snap.freshness.toLowerCase() === "stale") return true;
+    if (Number.isFinite(Number(snap.age_seconds)) && Number(snap.age_seconds) > USAGE_STALE_SECONDS) return true;
+    var rawTs = typeof snap.observed_at === "string" ? snap.observed_at : (typeof snap.updated_at === "string" ? snap.updated_at : null);
+    if (rawTs) {
+      var parsedMs = Date.parse(rawTs);
+      if (Number.isFinite(parsedMs) && ((currentNowSec * 1000) - parsedMs) > (USAGE_STALE_SECONDS * 1000)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  function deriveUsageObservation(ctx, snap, error, currentNowSec) {
+    var base = {
+      orgId: ctx && ctx.cloudOrgId ? ctx.cloudOrgId : null,
+      sessionEpoch: ctx && typeof ctx.sessionEpoch === "number" ? ctx.sessionEpoch : 0,
+      generation: ctx && typeof ctx.generation === "number" ? ctx.generation : 0,
+      measuredCount: 0,
+      breachedCount: 0,
+      activeAlertsCount: 0,
+      observedAt: snap && (snap.observed_at || snap.updated_at) ? (snap.observed_at || snap.updated_at) : null,
+      correlationId: error && typeof error.correlationId === "string" ? error.correlationId : null
+    };
+    if (error) {
+      return Object.assign(base, {
+        state: "unavailable",
+        reason: error.message === "invalid_response" ? "invalid_payload" : "fetch_failed"
+      });
+    }
+    if (!snap || typeof snap !== "object" || Array.isArray(snap) || !Array.isArray(snap.metrics)) {
+      return Object.assign(base, { state: "unavailable", reason: "invalid_payload" });
+    }
+    var validMetrics = snap.metrics.filter(isValidUsageMetric);
+    if (snap.metrics.length > 0 && validMetrics.length !== snap.metrics.length) {
+      return Object.assign(base, { state: "unavailable", reason: "invalid_payload" });
+    }
+    if (validMetrics.length === 0) {
+      return Object.assign(base, { state: "unavailable", reason: "empty_metrics" });
+    }
+    var alerts = Array.isArray(snap.alerts) ? snap.alerts : [];
+    var activeAlerts = alerts.filter(function (a) { return a && (a.state === "pending" || a.state === "dispatched"); });
+    var breachedMetrics = validMetrics.filter(isMetricBreached);
+    base.measuredCount = validMetrics.length;
+    base.breachedCount = breachedMetrics.length;
+    base.activeAlertsCount = activeAlerts.length;
+
+    if (isUsageSnapshotStale(snap, typeof currentNowSec === "number" ? currentNowSec : Math.floor(Date.now() / 1000))) {
+      return Object.assign(base, { state: "stale", reason: "stale" });
+    }
+    if (activeAlerts.length > 0 || breachedMetrics.length > 0) {
+      return Object.assign(base, {
+        state: "action_needed",
+        reason: activeAlerts.length > 0 ? "active_alerts" : "breached_metrics"
+      });
+    }
+    return Object.assign(base, { state: "measured_healthy", reason: null });
+  }
 
   function hasCompatibleFlow(candidate) {
     return Boolean(
@@ -100,6 +201,7 @@
     var invitationCursor = null;
     var createdInvitation = null;
     var limitsSnapshot = null;
+    var usageObservation = createLoadingUsageObservation(null);
     var enrollRequestId = null;
     var enrollRepoSlug = null;
     var adminRevision = 0;
@@ -358,6 +460,11 @@
       invitationCursor = null;
       createdInvitation = null;
       limitsSnapshot = null;
+      usageObservation = createLoadingUsageObservation({
+        cloudOrgId: activeOrg ? activeOrg.cloud_org_id : null,
+        sessionEpoch: sessionEpoch,
+        generation: renderGeneration
+      });
       enrollRequestId = null;
       enrollRepoSlug = null;
       adminRevision = 0;
@@ -1038,9 +1145,57 @@
       var overviewAlerts = byId("admin-overview-alerts");
       var alertsEmpty = byId("overview-alerts-empty");
       var alerts = limitsSnapshot && Array.isArray(limitsSnapshot.alerts) ? limitsSnapshot.alerts : [];
-      var activeAlerts = alerts.filter(function (a) { return a.state === "pending" || a.state === "dispatched"; });
-      if (usageValEl) usageValEl.textContent = activeAlerts.length ? (activeAlerts.length + " alert" + (activeAlerts.length > 1 ? "s" : "")) : "Healthy";
-      if (usageMetaEl) usageMetaEl.textContent = activeAlerts.length ? "Thresholds triggered in Usage" : "All metrics within included limits";
+      var activeAlerts = alerts.filter(function (a) { return a && (a.state === "pending" || a.state === "dispatched"); });
+      var obs = usageObservation && (!activeOrg || !obsMatchesActiveOrg(usageObservation, activeOrg))
+        ? createLoadingUsageObservation({
+            cloudOrgId: activeOrg.cloud_org_id,
+            sessionEpoch: sessionEpoch,
+            generation: renderGeneration
+          })
+        : (usageObservation || createLoadingUsageObservation(null));
+
+      function applyKpiTone(el, tone) {
+        if (!el || !el.classList || typeof el.classList.remove !== "function") return;
+        el.classList.remove("is-healthy", "is-warning", "is-danger", "is-muted");
+        if (tone) el.classList.add(tone);
+      }
+
+      if (obs.state === "measured_healthy") {
+        if (usageValEl) usageValEl.textContent = "Healthy";
+        applyKpiTone(usageValEl, "is-healthy");
+        if (usageMetaEl) {
+          usageMetaEl.textContent = "All " + obs.measuredCount + " measured metrics within included limits";
+        }
+      } else if (obs.state === "action_needed") {
+        if (activeAlerts.length > 0) {
+          if (usageValEl) usageValEl.textContent = activeAlerts.length + " alert" + (activeAlerts.length > 1 ? "s" : "");
+          if (usageMetaEl) usageMetaEl.textContent = "Thresholds triggered in Usage";
+        } else {
+          if (usageValEl) usageValEl.textContent = obs.breachedCount + " limit reached";
+          if (usageMetaEl) usageMetaEl.textContent = "Threshold exceeded (alert dismissed) — check Usage";
+        }
+        applyKpiTone(usageValEl, "is-warning");
+      } else if (obs.state === "stale") {
+        if (usageValEl) usageValEl.textContent = "Stale";
+        applyKpiTone(usageValEl, "is-warning");
+        if (usageMetaEl) usageMetaEl.textContent = "Usage snapshot out of date — refresh in Usage";
+      } else if (obs.state === "unavailable") {
+        if (usageValEl) usageValEl.textContent = "Unavailable";
+        applyKpiTone(usageValEl, obs.reason === "empty_metrics" ? "is-muted" : "is-danger");
+        if (usageMetaEl) {
+          usageMetaEl.textContent = obs.reason === "empty_metrics"
+            ? "No measured usage metrics reported yet"
+            : (obs.reason === "invalid_payload"
+              ? "Usage payload invalid — refresh in Usage"
+              : "Usage telemetry unavailable — check Usage");
+        }
+      } else {
+        if (usageValEl) usageValEl.textContent = "Checking…";
+        applyKpiTone(usageValEl, "is-muted");
+        if (usageMetaEl) usageMetaEl.textContent = "Verifying included capacity metrics";
+      }
+
+      renderOverviewGuidanceBanner();
 
       if (overviewAlerts && alertsEmpty) {
         overviewAlerts.replaceChildren();
@@ -1051,16 +1206,118 @@
         if (pendingBillingOrder && pendingBillingOrder.order_id) {
           items.push("Pending subscription update (" + (pendingBillingOrder.status || "in progress") + ").");
         }
+        if (obs.state === "unavailable" && obs.reason !== "empty_metrics") {
+          items.push("Usage telemetry unavailable — metrics could not be verified. Open Usage to retry.");
+        } else if (obs.state === "stale") {
+          items.push("Usage observation is stale — refresh metrics in Usage before relying on capacity status.");
+        } else if (obs.state === "action_needed" && activeAlerts.length === 0 && obs.breachedCount > 0) {
+          items.push("Usage threshold exceeded on " + obs.breachedCount + " metric" + (obs.breachedCount === 1 ? "" : "s") + " (alert dismissed).");
+        }
         for (var j = 0; j < activeAlerts.length; j++) {
           items.push(String(activeAlerts[j].level || "Alert").toUpperCase() + ": " + activeAlerts[j].key + " near limit.");
         }
-        alertsEmpty.hidden = items.length > 0;
+        var showAllClear = items.length === 0 && obs.state === "measured_healthy";
+        if (items.length > 0) {
+          alertsEmpty.hidden = true;
+        } else if (showAllClear) {
+          alertsEmpty.hidden = false;
+          alertsEmpty.textContent = "All clear — no active alerts";
+          if (alertsEmpty.classList) alertsEmpty.classList.add("admin-all-clear");
+        } else if (obs.state === "loading") {
+          alertsEmpty.hidden = false;
+          alertsEmpty.textContent = "Checking usage metrics and alerts…";
+          if (alertsEmpty.classList) alertsEmpty.classList.remove("admin-all-clear");
+        } else {
+          alertsEmpty.hidden = false;
+          alertsEmpty.textContent = "No active billing alerts; usage metrics have not reported yet.";
+          if (alertsEmpty.classList) alertsEmpty.classList.remove("admin-all-clear");
+        }
         for (var k = 0; k < items.length; k++) {
           var li = doc.createElement("li");
           li.textContent = items[k];
           overviewAlerts.appendChild(li);
         }
       }
+    }
+
+    function obsMatchesActiveOrg(obs, orgObj) {
+      return Boolean(obs && orgObj && (!obs.orgId || obs.orgId === orgObj.cloud_org_id));
+    }
+
+    function renderOverviewGuidanceBanner() {
+      var banner = byId("overview-empty-guidance");
+      var titleEl = byId("overview-empty-guidance-title");
+      var noteEl = byId("overview-empty-guidance-note");
+      var linkEl = byId("overview-empty-guidance-link");
+      if (!banner || !titleEl || !noteEl) return;
+      if (!activeOrg || !billingSectionLoaded) {
+        banner.hidden = true;
+        return;
+      }
+      var b = billingStateSnapshot;
+      var totalCap = b && Number.isSafeInteger(b.purchased_contributor_capacity)
+        ? b.purchased_contributor_capacity
+        : (b ? Number(b.quantity || 0) : 0);
+      var totalAssigned = b && Number.isSafeInteger(b.assigned_contributor_capacity)
+        ? b.assigned_contributor_capacity
+        : lastCapacities.reduce(function (acc, c) { return acc + Number(c.assigned || 0); }, 0);
+      var availSeats = b && Number.isSafeInteger(b.available_contributor_capacity)
+        ? b.available_contributor_capacity
+        : Math.max(0, totalCap - totalAssigned);
+      var availRepoSlots = b && Number.isSafeInteger(b.available_repository_slots) ? b.available_repository_slots : 0;
+      var adminAssignedCount = 0;
+      for (var i = 0; i < orgProjects.length; i++) {
+        var st = projectStates.get(orgProjects[i].project_id);
+        if (st && (st.repo_assigned === true || st.backend_authorized === true)) adminAssignedCount++;
+      }
+
+      banner.classList.remove("is-warning");
+      if (!b || totalCap === 0) {
+        titleEl.textContent = "Organization ready for setup";
+        noteEl.textContent = orgProjects.length === 0
+          ? "Enroll a repository in Repositories or add seats when your team is ready."
+          : "Repositories are enrolled with 0 purchased seats. Add contributor capacity from Signup when ready.";
+        if (linkEl) {
+          linkEl.href = flow.buildSignupHandoffUrl({
+            origin: siteOrigin(),
+            repo: orgProjects[0] ? (orgProjects[0].name || orgProjects[0].project_id) : "",
+            source: "admin"
+          });
+          linkEl.hidden = false;
+        }
+        banner.hidden = false;
+        return;
+      }
+      if (availRepoSlots > 0) {
+        titleEl.textContent = availRepoSlots + " reserved repository " + (availRepoSlots === 1 ? "slot" : "slots") + " available";
+        noteEl.textContent = "Bind a reserved slot to an enrolled repository in Repositories without creating a second subscription.";
+        if (linkEl) linkEl.hidden = true;
+        banner.hidden = false;
+        return;
+      }
+      if (totalCap > 0 && availSeats === 0) {
+        banner.classList.add("is-warning");
+        titleEl.textContent = "Purchased seat capacity full (" + totalAssigned + " / " + totalCap + ")";
+        noteEl.textContent = "Revoke an unused assignment in Repositories or add capacity if another collaborator needs access.";
+        if (linkEl) {
+          linkEl.href = flow.buildSignupHandoffUrl({
+            origin: siteOrigin(),
+            repo: orgProjects[0] ? (orgProjects[0].name || orgProjects[0].project_id) : "",
+            source: "admin"
+          });
+          linkEl.hidden = false;
+        }
+        banner.hidden = false;
+        return;
+      }
+      if (adminAssignedCount === 0 && availSeats > 0) {
+        titleEl.textContent = "Zero-seat administrator view";
+        noteEl.textContent = "You manage billing, policies, and " + availSeats + " available seat" + (availSeats === 1 ? "" : "s") + " without holding repository data access.";
+        if (linkEl) linkEl.hidden = true;
+        banner.hidden = false;
+        return;
+      }
+      banner.hidden = true;
     }
 
     function renderRepositoriesSection() {
@@ -1287,9 +1544,84 @@
       };
     }
 
-    function renderResourceLimits(ctx, snap) {
+    function renderUsageStateIndicators(obs) {
+      var badge = byId("admin-usage-state-badge");
+      var emptyNote = byId("admin-usage-empty-note");
+      var alertsEmpty = byId("admin-alerts-empty");
+      if (badge) {
+        badge.className = "ds-badge";
+        if (obs.state === "measured_healthy") {
+          badge.classList.add("ds-badge-success");
+          badge.textContent = "Healthy · " + obs.measuredCount + " measured";
+        } else if (obs.state === "action_needed") {
+          badge.classList.add("ds-badge-warning");
+          badge.textContent = obs.activeAlertsCount > 0
+            ? (obs.activeAlertsCount + " active alert" + (obs.activeAlertsCount === 1 ? "" : "s"))
+            : (obs.breachedCount + " limit reached");
+        } else if (obs.state === "stale") {
+          badge.classList.add("ds-badge-warning");
+          badge.textContent = "Stale snapshot";
+        } else if (obs.state === "unavailable") {
+          badge.classList.add(obs.reason === "empty_metrics" ? "ds-badge" : "ds-badge-danger");
+          badge.textContent = obs.reason === "empty_metrics" ? "No metrics yet" : "Unavailable";
+        } else {
+          badge.textContent = "Checking metrics…";
+        }
+      }
+      if (emptyNote) {
+        if (obs.state === "unavailable") {
+          emptyNote.hidden = false;
+          if (obs.reason === "empty_metrics") {
+            emptyNote.textContent = "No measured usage metrics have been reported for this organization yet.";
+          } else if (obs.reason === "invalid_payload") {
+            emptyNote.textContent = "Usage response could not be verified. Select Refresh usage to try again.";
+          } else {
+            emptyNote.textContent = "Usage telemetry unavailable right now. Select Refresh usage to retry." +
+              (obs.correlationId ? " Ref: " + obs.correlationId : "");
+          }
+        } else if (obs.state === "loading") {
+          emptyNote.hidden = false;
+          emptyNote.textContent = "Checking usage metrics…";
+        } else {
+          emptyNote.hidden = true;
+        }
+      }
+      if (alertsEmpty) {
+        if (obs.state === "unavailable" && obs.reason !== "empty_metrics") {
+          alertsEmpty.textContent = "Usage alerts cannot be verified while telemetry is unavailable.";
+        } else if (obs.state === "stale") {
+          alertsEmpty.textContent = "Usage metrics are stale — refresh usage to verify alert status.";
+        } else if (obs.state === "action_needed" && obs.activeAlertsCount === 0 && obs.breachedCount > 0) {
+          alertsEmpty.textContent = "Alert dismissed, but " + obs.breachedCount + " metric" + (obs.breachedCount === 1 ? " remains" : "s remain") + " above threshold.";
+        } else if (obs.state === "measured_healthy") {
+          alertsEmpty.textContent = "All clear — no active resource alerts.";
+        } else if (obs.state === "loading") {
+          alertsEmpty.textContent = "Checking usage alerts…";
+        } else {
+          alertsEmpty.textContent = "No usage metrics reported yet.";
+        }
+      }
+    }
+
+    function renderResourceLimits(ctx, snap, obsOverride) {
       if (!isActiveContext(ctx)) return;
+      var obs = obsOverride || deriveUsageObservation(ctx, snap, null, nowSec());
+      if (obs.reason === "invalid_payload") {
+        limitsSnapshot = null;
+        usageObservation = obs;
+        var cardsInvalid = byId("admin-resource-cards");
+        if (cardsInvalid) cardsInvalid.replaceChildren();
+        var alertsInvalid = byId("admin-resource-alerts");
+        if (alertsInvalid) alertsInvalid.replaceChildren();
+        var statusInvalid = byId("admin-overage-status");
+        if (statusInvalid) statusInvalid.textContent = "Usage observation invalid — metrics could not be verified.";
+        renderUsageStateIndicators(obs);
+        renderOverviewSection();
+        return;
+      }
       limitsSnapshot = snap;
+      usageObservation = obs;
+      renderUsageStateIndicators(obs);
 
       var ovg = snap.paid_overages || {};
       var active = ovg.opted_in === true || ovg.enabled === true;
@@ -1461,22 +1793,38 @@
 
     async function loadResourceLimits(ctx) {
       if (!isActiveContext(ctx)) return;
+      usageObservation = createLoadingUsageObservation(ctx);
+      renderUsageStateIndicators(usageObservation);
+      renderOverviewSection();
       try {
         var snap = await edgePost("resource-limits", {
           action: "status",
           organization_id: ctx.orgId
         }, orgReqOpts(ctx));
         if (!isActiveContext(ctx)) return;
-        if (!snap || !Array.isArray(snap.metrics)) throw new Error("invalid_response");
-        renderResourceLimits(ctx, snap);
+        var obs = deriveUsageObservation(ctx, snap, null, nowSec());
+        renderResourceLimits(ctx, snap, obs);
       } catch (error) {
         if ((error && error.name === "AbortError") || !isActiveContext(ctx)) return;
         if (isAdminRevocationError(error)) {
           handleOrgAccessRevoked(ctx, error.message);
           return;
         }
+        limitsSnapshot = null;
+        usageObservation = deriveUsageObservation(ctx, null, error, nowSec());
+        var cardsEl = byId("admin-resource-cards");
+        if (cardsEl) cardsEl.replaceChildren();
+        var alertsEl = byId("admin-resource-alerts");
+        if (alertsEl) alertsEl.replaceChildren();
+        var alertsEmptyEl = byId("admin-alerts-empty");
+        if (alertsEmptyEl) alertsEmptyEl.hidden = false;
         var statusEl = byId("admin-overage-status");
-        if (statusEl) statusEl.textContent = "Usage telemetry unavailable right now.";
+        if (statusEl) {
+          statusEl.textContent = "Usage telemetry unavailable right now." +
+            (usageObservation.correlationId ? " Ref: " + usageObservation.correlationId : "");
+        }
+        renderUsageStateIndicators(usageObservation);
+        renderOverviewSection();
       }
     }
 
@@ -3279,6 +3627,13 @@
           await loadBillingSection(ctx);
         });
       }
+
+      var usageRefreshBtn = byId("admin-usage-refresh-btn");
+      if (usageRefreshBtn) {
+        usageRefreshBtn.onclick = withOrgLock(async function (ctx) {
+          await loadResourceLimits(ctx);
+        });
+      }
     }
 
     async function init() {
@@ -3365,7 +3720,13 @@
           adminRevision: adminRevision,
           recoveryRevision: recoveryRevision,
           sessionEpoch: sessionEpoch,
-          renderGeneration: renderGeneration
+          renderGeneration: renderGeneration,
+          usageState: usageObservation ? usageObservation.state : "loading",
+          usageReason: usageObservation ? usageObservation.reason : null,
+          usageMeasuredCount: usageObservation ? usageObservation.measuredCount : 0,
+          usageBreachedCount: usageObservation ? usageObservation.breachedCount : 0,
+          usageActiveAlertsCount: usageObservation ? usageObservation.activeAlertsCount : 0,
+          usageOrgId: usageObservation ? usageObservation.orgId : null
         };
       }
     };

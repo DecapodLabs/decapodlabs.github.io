@@ -1,4 +1,4 @@
-/* Decapod Cloud Public Pricing Surface (20261126-brand) */
+/* Decapod Cloud Public Pricing Surface (20261127-uplift) */
 
 .pricing-shell {
   display: grid;
@@ -26,11 +26,25 @@
 }
 
 .pricing-hero-lead {
-  margin: 0 0 var(--ds-space-5);
-  max-width: 580px;
-  font-size: 15px;
+  margin: 0 0 var(--ds-space-4);
+  max-width: 600px;
+  font-size: 16px;
   line-height: 1.55;
   color: var(--ds-fg-secondary);
+}
+
+.pricing-value-points {
+  margin: 0 0 var(--ds-space-5);
+  padding-left: 18px;
+  display: grid;
+  gap: 6px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ds-fg-secondary);
+}
+
+.pricing-value-points strong {
+  color: var(--ds-fg);
 }
 
 .pricing-hero-actions {
@@ -181,6 +195,15 @@
   gap: var(--ds-space-2);
 }
 
+.slider-number-input {
+  width: 64px;
+  min-height: 34px;
+  padding: 4px 8px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 600;
+}
+
 .slider-output {
   font-size: 18px;
   font-weight: 600;
@@ -193,28 +216,35 @@
   -webkit-appearance: none;
   appearance: none;
   width: 100%;
-  height: 6px;
+  height: 8px;
   border-radius: var(--ds-radius-full);
-  background: linear-gradient(to right, var(--ds-fg) 0%, var(--ds-fg) var(--fill, 0%), var(--ds-border) var(--fill, 0%), var(--ds-border) 100%);
+  background: linear-gradient(to right, var(--ds-accent) 0%, var(--ds-accent) var(--fill, 0%), var(--ds-border-strong) var(--fill, 0%), var(--ds-border-strong) 100%);
   cursor: pointer;
+  touch-action: pan-y;
 }
 
 .ds-range::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 18px;
-  height: 18px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
-  background: var(--ds-bg);
+  background: var(--ds-surface);
   border: 2px solid var(--ds-fg);
   box-shadow: var(--ds-shadow-xs);
+  transition: transform 0.12s ease, border-color 0.12s ease;
+}
+
+.ds-range:hover::-webkit-slider-thumb {
+  transform: scale(1.06);
+  border-color: var(--ds-accent);
 }
 
 .ds-range::-moz-range-thumb {
-  width: 18px;
-  height: 18px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
-  background: var(--ds-bg);
+  background: var(--ds-surface);
   border: 2px solid var(--ds-fg);
   box-shadow: var(--ds-shadow-xs);
 }

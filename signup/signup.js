@@ -404,12 +404,12 @@
     }
 
     function setStep(activeStage) {
-      var stages = ["auth", "repo", "review", "ready"];
+      var stages = ["auth", "repo", "review", "confirm", "ready"];
       var activeIdx = stages.indexOf(activeStage);
       for (var i = 0; i < stages.length; i++) {
         var pill = byId("step-pill-" + stages[i]);
         if (!pill) continue;
-        var done = activeStage === "ready" ? i <= 3 : (activeIdx > i);
+        var done = activeStage === "ready" ? i <= 4 : (activeIdx > i);
         var active = activeStage !== "ready" && i === activeIdx;
         pill.classList.toggle("is-done", done);
         pill.classList.toggle("is-active", active);
@@ -907,7 +907,7 @@
       lastStateKind = kind;
       hideAllProtectedPanels();
       renderAccountBar();
-      setStep(kind === "pending_fulfillment" ? "ready" : "review");
+      setStep(kind === "pending_fulfillment" ? "confirm" : "review");
       var card = byId("step-state");
       if (!card) return;
       byId("state-kicker").textContent = kicker;
@@ -1303,8 +1303,8 @@
             var detail = byId("state-detail");
             if (!detail) return;
             detail.textContent = info.phase === "checking"
-              ? "Confirming payment settlement (" + info.attempt + " of " + info.maxAttempts + ")…"
-              : "Waiting for Stripe confirmation (" + info.attempt + " of " + info.maxAttempts + ")…";
+              ? "Verifying Stripe payment settlement and repository authorization…"
+              : "Waiting for Stripe confirmation — refreshing automatically…";
           },
           checkFn: async function () {
             if (contToken || !targetProjectRef) {
@@ -1491,10 +1491,12 @@
     function renderReservationsTable() {
       var badge = byId("reservations-count-badge");
       var wrap = byId("reservations-table-wrap");
+      var disclosure = byId("reservations-disclosure");
       var tbody = byId("reservations-tbody");
       var resCount = orderReservations.length;
       if (badge) badge.textContent = resCount + (resCount === 1 ? " slot" : " slots");
       if (wrap) wrap.hidden = resCount === 0;
+      if (disclosure && resCount > 0) disclosure.open = true;
       if (!tbody) return;
       tbody.replaceChildren();
       for (var i = 0; i < orderReservations.length; i++) {

@@ -6,14 +6,14 @@
 <meta name="theme-color" content="#fff9f0">
 <meta name="referrer" content="no-referrer">
 <meta name="decapod-flow-contract" content="1">
-<meta name="decapod-asset-release" content="20261126-brand">
-<meta name="description" content="Decapod Cloud pricing: $50/month or $552/year per human-repository assignment. Shared governance context across engineers and coding agents. Decapod Local stays free forever.">
+<meta name="decapod-asset-release" content="20261127-uplift">
+<meta name="description" content="Decapod Cloud pricing: $50/month or $552/year per human-repository assignment. Unlimited coding agents, worktrees, and devices at $0 extra cost. Decapod Local stays free forever.">
 <link rel="canonical" href="https://decapodlabs.ai/pricing">
 <link rel="icon" type="image/png" href="/assets/favicon.png">
-<link rel="stylesheet" href="/shared/commercial-ui.css?v=20261126-brand">
-<link rel="stylesheet" href="/pricing.css?v=20261126-brand">
-<script src="/cloud-flow.js?v=20261126-brand" defer></script>
-<script src="/pricing.js?v=20261126-brand" defer></script>
+<link rel="stylesheet" href="/shared/commercial-ui.css?v=20261127-uplift">
+<link rel="stylesheet" href="/pricing.css?v=20261127-uplift">
+<script src="/cloud-flow.js?v=20261127-uplift" defer></script>
+<script src="/pricing.js?v=20261127-uplift" defer></script>
 <title>Pricing — Decapod Cloud</title>
 </head>
 <body class="ds-body pricing-page">
@@ -28,13 +28,15 @@
       </a>
       <span class="ds-header-sep" aria-hidden="true">/</span>
       <nav class="ds-header-nav" aria-label="Primary navigation">
+        <a class="ds-nav-link" href="https://decapodlabs.ai/decapod/">Docs</a>
+        <a class="ds-nav-link" href="/proof.html">Proof</a>
         <a class="ds-nav-link" href="/pricing/index.html" aria-current="page">Pricing</a>
-        <a class="ds-nav-link" href="https://decapodlabs.github.io/decapod/quickstart.html">Docs</a>
-        <a class="ds-nav-link" href="https://github.com/DecapodLabs/decapod" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a class="ds-nav-link" href="/admin/index.html">Admin</a>
+        <a class="ds-nav-link" href="/trust/index.html">Trust</a>
+        <a class="ds-nav-link" href="https://github.com/DecapodLabs/decapod" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
       </nav>
     </div>
     <div class="ds-header-right">
-      <a class="ds-nav-link" href="/admin/index.html">Admin</a>
       <a class="ds-btn ds-btn-secondary ds-btn-sm" href="/signup/index.html">Sign in</a>
     </div>
   </div>
@@ -52,27 +54,33 @@
 
     <section class="pricing-hero" aria-labelledby="pricing-hero-heading">
       <div class="pricing-hero-copy">
-        <p class="ds-eyebrow">Decapod Cloud · Available Now</p>
-        <h1 class="pricing-hero-title" id="pricing-hero-heading">One team. One source of proof.</h1>
-        <p class="pricing-hero-lead">Give every engineer and coding agent the same governed repository context, clear ownership, and evidence tied directly to delivered work. Configure your team below and activate Decapod Cloud in minutes.</p>
+        <p class="ds-eyebrow">Decapod Cloud</p>
+        <h1 class="pricing-hero-title" id="pricing-hero-heading">Shared repository governance for your team and every agent.</h1>
+        <p class="pricing-hero-lead">Pay once per human contributor on a repository. Coding agents, subagents, concurrent sessions, git worktrees, and enrolled CLI devices are always included at $0 extra cost—with $0 automatic overage exposure.</p>
+        <ul class="pricing-value-points">
+          <li><strong>Unlimited AI agents, $0 extra agent seats:</strong> Connect Claude, Codex, Gemini, parallel worktrees/subagents, or enrolled devices with zero per-agent seat tax.</li>
+          <li><strong>Durable multi-agent custody, not continuous rework:</strong> Shared repository custody, living specs, and commit-bound receipts prevent collisions and state drift across sessions.</li>
+          <li><strong>Zero surprise overages &amp; hardware-bound security:</strong> Hardware-bound device signing, repo access fencing, and default-OFF paid overages ($0 automatic overage bills).</li>
+          <li><strong>Decapod Local stays $0 forever:</strong> Full solo CLI workflow remains completely free with no signup; Cloud charges only when teams share durable custody ($50/mo or $552/yr).</li>
+        </ul>
         <div class="pricing-hero-actions">
-          <button type="button" class="ds-btn ds-btn-primary ds-btn-lg" id="cloud-pay-cta">Get Decapod Cloud <span aria-hidden="true">→</span></button>
-          <a class="ds-btn ds-btn-secondary ds-btn-lg" href="#configurator">Configure seats &amp; repos</a>
+          <a class="ds-btn ds-btn-primary ds-btn-lg" href="#configurator">Configure your team ↓</a>
+          <button type="button" class="ds-btn ds-btn-secondary ds-btn-lg" id="cloud-pay-cta">Sign in with GitHub <span aria-hidden="true">→</span></button>
         </div>
       </div>
 
       <aside class="ds-card local-compact-card" aria-labelledby="local-heading">
         <div class="local-card-top">
           <div>
-            <p class="local-kicker">Single-developer option</p>
+            <p class="local-kicker">Solo local-first CLI</p>
             <h2 class="ds-section-title" id="local-heading">Decapod Local</h2>
           </div>
           <span class="ds-badge">Free forever</span>
         </div>
-        <p class="local-copy">Full local-first SQLite governance kernel with git worktrees and verification gates for solo workflows—zero account or network dependency.</p>
+        <p class="local-copy">Full SQLite governance kernel with isolated git worktrees and validation gates on your own machine—no account required and no artificial limits.</p>
         <div class="local-card-footer">
           <code class="ds-mono local-cmd">decapod init</code>
-          <a class="ds-link-btn" href="https://decapodlabs.github.io/decapod/quickstart.html">Install Local ↗</a>
+          <a class="ds-link-btn" href="https://decapodlabs.ai/decapod/quickstart.html">Quickstart ↗</a>
         </div>
       </aside>
     </section>
@@ -80,8 +88,8 @@
     <section class="ds-card cloud-config-card" id="configurator" aria-labelledby="configurator-heading">
       <div class="cloud-config-header">
         <div>
-          <h2 class="ds-section-title" id="configurator-heading">Decapod Cloud — Organizational Governance</h2>
-          <p class="ds-subtitle">Shared repository-scoped tasks, human ownership, hardware-bound agent sessions, and centralized usage protection. Coding agents, subagents, worktrees, and devices never add seats.</p>
+          <h2 class="ds-section-title" id="configurator-heading">Configure repositories &amp; contributors</h2>
+          <p class="ds-subtitle">Each assignment grants one human contributor access to one subscribed repository. Start with 1 repository and 1 contributor at $50/month ($552/year).</p>
         </div>
         <div class="billing-segmented" role="group" aria-label="Billing cadence">
           <button type="button" class="billing-seg-btn is-selected" data-billing="month" aria-pressed="true">Monthly · $50</button>
@@ -95,11 +103,13 @@
             <div class="slider-label-row">
               <label for="repo-count">Repositories</label>
               <div class="slider-value-group">
-                <output class="slider-output ds-tabular" id="repo-count-value" for="repo-count">2</output>
+                <label class="sr-only" for="repo-count-number">Exact repository count</label>
+                <input id="repo-count-number" class="ds-input ds-tabular slider-number-input" type="number" min="1" max="10" step="1" value="1" inputmode="numeric">
+                <output class="slider-output ds-tabular sr-only" id="repo-count-value" for="repo-count">1</output>
                 <span class="ds-badge ds-tabular" id="repo-discount">+0%</span>
               </div>
             </div>
-            <input id="repo-count" class="ds-range" type="range" min="1" max="10" step="1" value="2" aria-describedby="repo-tiers">
+            <input id="repo-count" class="ds-range" type="range" min="1" max="10" step="1" value="1" aria-describedby="repo-tiers">
             <div class="tier-scale ds-tabular" id="repo-tiers" aria-label="Repository volume tiers">
               <span>1–2 repos (0%)</span>
               <span class="tier-stop" data-repo-threshold="3">3+ repos (+2%)</span>
@@ -112,11 +122,13 @@
             <div class="slider-label-row">
               <label for="seat-count">Contributors per repository</label>
               <div class="slider-value-group">
-                <output class="slider-output ds-tabular" id="seat-count-value" for="seat-count">5</output>
-                <span class="ds-badge ds-tabular" id="contributor-discount">+2%</span>
+                <label class="sr-only" for="seat-count-number">Exact contributors per repository</label>
+                <input id="seat-count-number" class="ds-input ds-tabular slider-number-input" type="number" min="1" max="25" step="1" value="1" inputmode="numeric">
+                <output class="slider-output ds-tabular sr-only" id="seat-count-value" for="seat-count">1</output>
+                <span class="ds-badge ds-tabular" id="contributor-discount">+0%</span>
               </div>
             </div>
-            <input id="seat-count" class="ds-range" type="range" min="1" max="25" step="1" value="5" aria-describedby="contributor-tiers">
+            <input id="seat-count" class="ds-range" type="range" min="1" max="25" step="1" value="1" aria-describedby="contributor-tiers">
             <div class="tier-scale ds-tabular" id="contributor-tiers" aria-label="Distinct human volume tiers">
               <span>1–4 people (0%)</span>
               <span class="tier-stop" data-contributor-threshold="5">5+ people (+2%)</span>
@@ -128,16 +140,16 @@
           <div class="tier-summary-bar">
             <div>
               <span class="tier-summary-label">Illustrative volume tier</span>
-              <p class="tier-summary-note">Distinct-human discounts count verified assigned contributors only—unassigned seats and pending invitations do not qualify.</p>
+              <p class="tier-summary-note">Distinct-human discounts count verified assigned contributors only—unassigned seats, pending invitations, and unbound reservations never qualify before server verification.</p>
             </div>
-            <strong class="tier-summary-pct ds-tabular" id="combined-discount">2%</strong>
+            <strong class="tier-summary-pct ds-tabular" id="combined-discount">0%</strong>
           </div>
 
           <div class="annual-breakdown" id="annual-savings" hidden role="status" aria-label="Annual savings breakdown">
             <div class="annual-breakdown-items ds-tabular">
               <span>Annual commitment: <strong>8%</strong></span>
-              <span>+ Volume: <strong id="annual-volume">2%</strong></span>
-              <span>= Effective standard discount (20% cap): <strong id="annual-discount">10%</strong></span>
+              <span>+ Volume: <strong id="annual-volume">0%</strong></span>
+              <span>= Effective standard discount (20% cap): <strong id="annual-discount">8%</strong></span>
             </div>
             <button type="button" class="ds-link-btn" id="annual-dismiss" aria-label="Dismiss annual breakdown">Hide</button>
           </div>
@@ -147,19 +159,19 @@
           <div class="estimate-card">
             <div class="estimate-header">
               <span class="estimate-eyebrow">Estimated subscription</span>
-              <span class="ds-badge ds-badge-accent ds-tabular" id="estimate-unit-rate">$49 / seat / mo</span>
+              <span class="ds-badge ds-badge-accent ds-tabular" id="estimate-unit-rate">$50 / seat / mo</span>
             </div>
 
             <div class="estimate-amount-row">
-              <strong class="estimate-total ds-tabular" id="estimate-total">$490</strong>
+              <strong class="estimate-total ds-tabular" id="estimate-total">$50</strong>
               <span class="estimate-cadence" id="estimate-cadence">/ month</span>
             </div>
-            <p class="estimate-formula ds-tabular" id="assignment-formula">2 repositories × 5 contributors each</p>
+            <p class="estimate-formula ds-tabular" id="assignment-formula">1 repository × 1 contributor</p>
 
             <dl class="ds-dl estimate-dl ds-tabular">
               <div>
                 <dt>Purchased seat units</dt>
-                <dd><span id="assignment-count">10</span> assignments</dd>
+                <dd><span id="assignment-count">1</span> assignment</dd>
               </div>
               <div>
                 <dt>Coding agents &amp; worktrees</dt>
@@ -176,11 +188,11 @@
             </dl>
 
             <div class="estimate-cta-stack">
-              <button type="button" class="ds-btn ds-btn-primary ds-btn-lg" id="preview-checkout" style="width:100%">Continue to Decapod Cloud <span aria-hidden="true">→</span></button>
+              <button type="button" class="ds-btn ds-btn-accent ds-btn-lg" id="preview-checkout" style="width:100%">Continue to Decapod Cloud <span aria-hidden="true">→</span></button>
               <p class="ds-hint" id="pricing-availability-note" role="status">Connecting to Decapod Cloud status…</p>
             </div>
 
-            <p class="estimate-disclaimer" id="cloud-fineprint">Your selection carries into GitHub sign-in, where you verify exact repository slugs and per-repository seat counts before the final server quote and Stripe Checkout. Applicable taxes are calculated at Checkout.</p>
+            <p class="estimate-disclaimer" id="cloud-fineprint">Next: sign in with GitHub and verify your repository slugs. No charge happens during sign-in or quote calculation—you review the final server quote before Stripe Checkout. Applicable taxes are calculated at Checkout.</p>
           </div>
         </div>
       </div>
@@ -189,29 +201,29 @@
     <section class="ds-card outcome-diagram-card" aria-labelledby="workflow-heading">
       <div class="outcome-header">
         <div>
-          <p class="ds-eyebrow">How teams work in Cloud</p>
-          <h2 class="ds-section-title" id="workflow-heading">Shared governance from repository selection to verified delivery</h2>
+          <p class="ds-eyebrow">What happens next</p>
+          <h2 class="ds-section-title" id="workflow-heading">Three steps from sign-in to resumed agent work</h2>
         </div>
         <a class="ds-nav-link" href="https://github.com/DecapodLabs/decapod/issues/new?title=Decapod+Cloud+Custom+Plan" target="_blank" rel="noopener noreferrer">Need &gt;10 repos or custom terms? Contact sales ↗</a>
       </div>
 
       <div class="workflow-grid" aria-label="Decapod Cloud workflow diagram">
         <div class="workflow-node">
-          <span class="workflow-step ds-mono">01 · REPOSITORY</span>
-          <h3>GitHub org &amp; repo identity</h3>
-          <p>Bind exact repositories under verified organization administration. One organization per subscription; add uneven seat capacities per repo.</p>
+          <span class="workflow-step ds-mono">01 · SIGN IN &amp; VERIFY</span>
+          <h3>Bind your GitHub org &amp; repo</h3>
+          <p>Confirm your organization repository once. One organization per subscription; adjust uneven seat counts per repo before paying.</p>
         </div>
         <div class="workflow-arrow" aria-hidden="true">→</div>
         <div class="workflow-node">
-          <span class="workflow-step ds-mono">02 · SHARED OWNERSHIP</span>
-          <h3>Contributors &amp; AI agents</h3>
-          <p>Engineers and agents running in separate terminals or containers read and claim tasks against the same server-enforced lease state.</p>
+          <span class="workflow-step ds-mono">02 · AUTHORITATIVE QUOTE</span>
+          <h3>Review exact terms in Stripe</h3>
+          <p>See verified repository capacities, recurring or upfront totals, and confirm explicitly in Stripe Checkout.</p>
         </div>
         <div class="workflow-arrow" aria-hidden="true">→</div>
         <div class="workflow-node">
-          <span class="workflow-step ds-mono">03 · PROOF LEDGER</span>
-          <h3>Exact-revision evidence</h3>
-          <p>Living specs, validation receipts, and resource usage thresholds stay scoped to the repository across machines without silent overages.</p>
+          <span class="workflow-step ds-mono">03 · RESUME WORK</span>
+          <h3>Shared custody across terminals</h3>
+          <p>Your CLI resumes directly on the verified repository with living specs, exact-revision proof, and $0 overage protection.</p>
         </div>
       </div>
     </section>
@@ -238,17 +250,6 @@
       </div>
     </section>
 
-    <section class="ds-card closing-cloud-cta" aria-labelledby="closing-cta-heading">
-      <div>
-        <h2 class="ds-section-title" id="closing-cta-heading">Ready to activate Decapod Cloud for your repositories?</h2>
-        <p class="ds-subtitle">Your repository count, seat selection, and billing cadence carry straight through GitHub sign-in into Stripe Checkout.</p>
-      </div>
-      <div class="closing-cta-actions">
-        <button type="button" class="ds-btn ds-btn-accent ds-btn-lg" id="closing-cloud-cta">Get Decapod Cloud <span aria-hidden="true">→</span></button>
-        <a class="ds-nav-link" href="https://github.com/DecapodLabs/decapod/issues/new?title=Decapod+Cloud+Enterprise+Plan" target="_blank" rel="noopener noreferrer">Enterprise / custom plans ↗</a>
-      </div>
-    </section>
-
   </div>
 </main>
 
@@ -256,11 +257,13 @@
   <div class="ds-footer-inner">
     <span>© 2026 Decapod Labs</span>
     <div class="ds-footer-links">
+      <a href="https://decapodlabs.ai/decapod/">Docs</a>
+      <a href="/proof.html">Proof</a>
       <a href="/pricing/index.html">Pricing</a>
       <a href="/signup/index.html">Signup</a>
       <a href="/admin/index.html">Admin</a>
       <a href="/trust/index.html">Trust &amp; Privacy</a>
-      <a href="https://github.com/DecapodLabs/decapod" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="https://github.com/DecapodLabs/decapod" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
     </div>
   </div>
 </footer>

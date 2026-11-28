@@ -1,50 +1,334 @@
-/* Behavioral Privacy & Trust Contract page styling matching Decapod Labs design system. */
-.trust-page{overflow-x:clip;background:#fff9f0;color:var(--ink)}
-.trust-page .nav-links a:focus-visible,.trust-page a:focus-visible{outline:3px solid var(--orange);outline-offset:4px}
-.trust-page .site-wordmark{width:170px;height:auto;max-height:80px;object-fit:contain}
-.trust-hero{background:radial-gradient(ellipse 55% 90% at 88% 20%,#ffdbb2,transparent 88%),#fff3e2;padding:72px 0 60px;border-bottom:1px solid #ead7c8}
-.trust-hero-grid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(260px,.75fr);gap:clamp(28px,5vw,84px);align-items:center}
-.trust-eyebrow{margin:0 0 18px;font-size:11px;line-height:1.5;font-weight:900;letter-spacing:.17em;color:#ad492d;text-transform:uppercase}
-.trust-hero h1{font-family:"Space Grotesk",sans-serif;font-size:clamp(46px,6.2vw,88px);letter-spacing:-.075em;line-height:.98;font-weight:700;margin:0 0 22px}
-.trust-hero h1 span{color:var(--orange)}
-.trust-intro{max-width:680px;font-size:18px;line-height:1.6;color:#4f4148;margin:0}
-.trust-meta-card{border:1px solid #d9c5b8;background:#fffdfa;border-radius:10px;padding:22px 24px;box-shadow:0 1px 2px rgba(23,19,26,.04),0 8px 20px rgba(23,19,26,.05)}
-.trust-meta-card h2{font-family:"Space Grotesk",sans-serif;font-size:13px;letter-spacing:.14em;text-transform:uppercase;margin:0 0 14px;color:#ad492d}
-.trust-meta-list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px;font-size:14px;line-height:1.45}
-.trust-meta-list li strong{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:#74595f}
-.trust-change-promise{margin:16px 0 0;padding-top:14px;border-top:1px solid #e6cdb7;font-size:13px;line-height:1.55;color:#4f3e44}
-.trust-section{padding:64px 0}
-.trust-section-alt{background:#fff3e3;border-top:1px solid #ecd9c9;border-bottom:1px solid #ecd9c9}
-.trust-section-dark{background:#211a25;color:#fff9f0}
-.trust-section-heading{max-width:760px;margin:0 0 36px}
-.trust-section-heading h2{font-family:"Space Grotesk",sans-serif;font-size:clamp(32px,4.2vw,54px);letter-spacing:-.065em;line-height:1.04;margin:0 0 14px}
-.trust-section-heading p{font-size:16px;line-height:1.6;color:#5a4b52;margin:0}
-.trust-section-dark .trust-section-heading p{color:#d7c8cc}
-.trust-section-dark .trust-eyebrow{color:#ffa780}
-.trust-grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
-.trust-grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
-.trust-card{background:#fffdfa;border:1px solid #dcc9be;border-radius:20px;padding:26px 28px}
-.trust-section-dark .trust-card{background:#2e2432;border-color:#5b4754;color:#fff9f0}
-.trust-card-tag{display:inline-block;font-size:10px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;padding:6px 10px;border-radius:100px;background:#ffe4c7;color:#7f371d;margin-bottom:14px}
-.trust-section-dark .trust-card-tag{background:#473445;color:#ffbe85}
-.trust-card h3{font-family:"Space Grotesk",sans-serif;font-size:24px;letter-spacing:-.04em;margin:0 0 10px}
-.trust-card p,.trust-card li{font-size:15px;line-height:1.58;color:#504248}
-.trust-section-dark .trust-card p,.trust-section-dark .trust-card li{color:#dfd1d5}
-.trust-card ul{margin:12px 0 0;padding-left:18px}
-.trust-card li+li{margin-top:6px}
-.trust-table-wrap{overflow-x:auto;border:1px solid #d9c5b8;border-radius:18px;background:#fffdfa}
-.trust-table{width:100%;border-collapse:collapse;font-size:14px;text-align:left}
-.trust-table th,.trust-table td{padding:14px 16px;border-bottom:1px solid #eee0d4;vertical-align:top;line-height:1.5}
-.trust-table th{font-size:11px;font-weight:900;letter-spacing:.11em;text-transform:uppercase;background:#fff4e4;color:#6c4840}
-.trust-table tr:last-child td{border-bottom:0}
-.trust-table code{font-family:"SFMono-Regular",Consolas,monospace;font-size:12px;background:#f7ebe0;padding:2px 6px;border-radius:5px}
-.trust-invariants{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
-.trust-invariant{background:#fffdfa;border:1px solid #dfd0c5;border-radius:16px;padding:20px 22px}
-.trust-invariant span{display:block;font-size:11px;font-weight:900;letter-spacing:.13em;color:#c3492b;margin-bottom:8px}
-.trust-invariant h3{font-family:"Space Grotesk",sans-serif;font-size:19px;letter-spacing:-.035em;margin:0 0 8px}
-.trust-invariant p{margin:0;font-size:14px;line-height:1.55;color:#57494f}
-.trust-changelog{margin:0;padding:0;list-style:none}
-.trust-changelog li{background:#fffdfa;border:1px solid #dfd0c5;border-radius:14px;padding:16px 20px;font-size:14px;line-height:1.55}
-@media(max-width:960px){
-  .trust-hero-grid,.trust-grid-2,.trust-grid-3,.trust-invariants{grid-template-columns:1fr}
+/* Behavioral Privacy & Trust Contract styling aligned with styles.css (20261127-uplift). */
+.trust-page {
+  overflow-x: clip;
+  background: var(--bg);
+  color: var(--ink);
+}
+.trust-page .nav-links a:focus-visible,
+.trust-page a:focus-visible,
+.trust-page summary:focus-visible {
+  outline: 3px solid var(--orange);
+  outline-offset: 4px;
+}
+.trust-hero {
+  background: radial-gradient(ellipse 55% 90% at 88% 20%, #ffdfb8, transparent 88%), #fff6ea;
+  padding: clamp(44px, 5vw, 72px) 0 clamp(38px, 4.5vw, 56px);
+  border-bottom: 1px solid var(--border);
+}
+.trust-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(260px, 0.78fr);
+  gap: clamp(24px, 4.5vw, 72px);
+  align-items: center;
+}
+.trust-hero-grid > * { min-width: 0; }
+.trust-eyebrow {
+  margin: 0 0 14px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.45;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--accent-ink);
+  text-transform: uppercase;
+}
+.trust-hero h1 {
+  font-family: var(--font-sans);
+  font-size: clamp(36px, 5.4vw, 72px);
+  letter-spacing: -0.055em;
+  line-height: 1.01;
+  font-weight: 800;
+  margin: 0 0 18px;
+}
+.trust-hero h1 span { color: var(--accent-ink); }
+.trust-intro {
+  max-width: 64ch;
+  font-size: 17.5px;
+  line-height: 1.6;
+  color: var(--ink-secondary);
+  margin: 0 0 22px;
+}
+.trust-qa-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.trust-qa-nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 6px 13px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-strong);
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+}
+.trust-qa-nav a:hover {
+  background: var(--milk);
+  border-color: var(--accent-ink);
+  color: var(--accent-ink);
+}
+.trust-meta-card {
+  border: 1px solid var(--border-strong);
+  background: var(--surface);
+  border-radius: 14px;
+  padding: 22px 24px;
+  box-shadow: var(--shadow-sm);
+}
+.trust-meta-card h2 {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin: 0 0 14px;
+  color: var(--accent-ink);
+}
+.trust-meta-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 14px;
+  line-height: 1.45;
+}
+.trust-meta-list li strong {
+  display: block;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-muted);
+}
+.trust-change-promise {
+  margin: 16px 0 0;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--ink-secondary);
+}
+.trust-section {
+  padding: clamp(44px, 5vw, 64px) 0;
+  scroll-margin-top: 104px;
+}
+.trust-section-alt {
+  background: var(--milk);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.trust-section-dark {
+  background: #211722;
+  color: #fff9f0;
+}
+.trust-section-heading {
+  max-width: 74ch;
+  margin: 0 0 28px;
+}
+.trust-section-heading h2 {
+  font-family: var(--font-sans);
+  font-size: clamp(28px, 3.8vw, 46px);
+  letter-spacing: -0.045em;
+  line-height: 1.07;
+  margin: 0 0 12px;
+}
+.trust-section-heading p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--ink-secondary);
+  margin: 0;
+}
+.trust-section-dark .trust-section-heading p { color: #e4d7df; }
+.trust-section-dark .trust-eyebrow { color: #ffba96; }
+.trust-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+.trust-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+.trust-card {
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: 18px;
+  padding: 24px 26px;
+  min-width: 0;
+}
+.trust-section-dark .trust-card {
+  background: #2e2432;
+  border-color: #5b4754;
+  color: #fff9f0;
+}
+.trust-card-tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 5px 10px;
+  border-radius: var(--radius-pill);
+  background: #ffe4c7;
+  color: #7f371d;
+  margin-bottom: 12px;
+}
+.trust-section-dark .trust-card-tag {
+  background: #473445;
+  color: #ffd09c;
+}
+.trust-card h3 {
+  font-family: var(--font-sans);
+  font-size: 22px;
+  letter-spacing: -0.03em;
+  margin: 0 0 10px;
+}
+.trust-card p,
+.trust-card li {
+  font-size: 15.5px;
+  line-height: 1.58;
+  color: var(--ink-secondary);
+}
+.trust-section-dark .trust-card p,
+.trust-section-dark .trust-card li { color: #e8dce2; }
+.trust-card ul {
+  margin: 12px 0 0;
+  padding-left: 18px;
+}
+.trust-card li + li { margin-top: 6px; }
+.trust-limitations {
+  margin-top: 20px;
+  padding: 16px 20px;
+  border-radius: 14px;
+  border: 1px solid rgba(185, 60, 27, 0.28);
+  background: var(--milk);
+  font-size: 14.5px;
+  line-height: 1.58;
+  color: var(--ink-secondary);
+}
+.trust-details {
+  border: 1px solid var(--border-strong);
+  border-radius: 16px;
+  background: var(--surface);
+  padding: 16px 18px;
+}
+.trust-details summary {
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 15.5px;
+  color: var(--ink);
+}
+.trust-details[open] summary {
+  margin-bottom: 16px;
+}
+.trust-details-dark {
+  background: #281e2c;
+  border-color: #5b4754;
+}
+.trust-details-dark summary { color: #fff9f0; }
+.trust-table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+}
+.trust-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14.5px;
+  text-align: left;
+}
+.trust-table th,
+.trust-table td {
+  padding: 13px 15px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+.trust-table th {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  background: #fff4e4;
+  color: #6c4840;
+}
+.trust-table tr:last-child td { border-bottom: 0; }
+.trust-table code {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  background: #f7ebe0;
+  padding: 2px 6px;
+  border-radius: 5px;
+}
+.trust-invariants {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+.trust-invariant {
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: 16px;
+  padding: 20px 22px;
+  min-width: 0;
+}
+.trust-invariant span {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--accent-ink);
+  margin-bottom: 8px;
+}
+.trust-invariant h3 {
+  font-family: var(--font-sans);
+  font-size: 19px;
+  letter-spacing: -0.025em;
+  margin: 0 0 8px;
+}
+.trust-invariant p {
+  margin: 0;
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--ink-secondary);
+}
+.trust-changelog {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.trust-changelog li {
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: 14px;
+  padding: 16px 20px;
+  font-size: 14.5px;
+  line-height: 1.55;
+}
+.trust-next-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+@media (max-width: 960px) {
+  .trust-hero-grid,
+  .trust-grid-2,
+  .trust-grid-3,
+  .trust-invariants {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (max-width: 540px) {
+  .trust-card { padding: 20px 18px; }
+  .trust-qa-nav a { font-size: 12.5px; padding: 6px 11px; }
 }

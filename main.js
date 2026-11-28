@@ -26,8 +26,6 @@
   const muteIcon = document.getElementById("muteIcon");
 
   if (film) {
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
     function syncPlaybackControls() {
       const playing = !film.paused && !film.ended;
       if (pauseLabel) pauseLabel.textContent = playing ? "Pause" : "Play";
@@ -39,16 +37,6 @@
     }
 
     film.muted = true;
-    if (reducedMotion) {
-      film.removeAttribute("autoplay");
-      film.pause();
-    } else {
-      film.play().catch(() => {
-        // Browsers may block autoplay; the Play button remains available.
-        syncPlaybackControls();
-      });
-    }
-
     for (const event of ["play", "pause", "ended", "volumechange", "loadedmetadata"]) {
       film.addEventListener(event, syncPlaybackControls);
     }
@@ -87,60 +75,84 @@
     syncPlaybackControls();
   }
 
-  const installCommands = Object.freeze({
-    cargo: "cargo binstall decapod && decapod init",
-    nix: [
-      "nix run nixpkgs#cachix -- use decapod &&",
-      "nix profile install github:DecapodLabs/decapod &&",
-      "decapod init"
-    ].join("\n")
+  const installMeta = Object.freeze({
+    binstall: {
+      command: "cargo binstall decapod && decapod init",
+      note: "Requires cargo-binstall (or switch to Cargo source). Initializes .decapod/ once per repo—then tell your agent what to build.",
+      href: "https://crates.io/crates/decapod",
+      label: "Crates.io ↗"
+    },
+    cargo: {
+      command: "cargo install decapod --locked && decapod init",
+      note: "Requires Rust toolchain (cargo). Compiles locked release locally and initializes .decapod/ once per repository.",
+      href: "https://crates.io/crates/decapod",
+      label: "Crates.io ↗"
+    },
+    nix: {
+      command: [
+        "nix run nixpkgs#cachix -- use decapod &&",
+        "nix profile install github:DecapodLabs/decapod &&",
+        "decapod init"
+      ].join("\n"),
+      note: "Requires Nix with flakes enabled. Pulls binary cache via Cachix and initializes .decapod/ once per project.",
+      href: "https://app.cachix.org/organization/decapodlabs/cache/decapod#pull",
+      label: "Decapod Cachix ↗"
+    }
   });
 
   const copy = document.getElementById("copyBtn");
   const copyStatus = document.getElementById("copyStatus");
   const commandNode = document.getElementById("installCommand");
+  const binstallButton = document.getElementById("installBinstall");
   const cargoButton = document.getElementById("installCargo");
   const nixButton = document.getElementById("installNix");
   const sourceLink = document.getElementById("installSource");
-  let selectedInstall = "cargo";
+  let selectedInstall = "binstall";
 
   function selectInstall(method) {
-    if (!Object.prototype.hasOwnProperty.call(installCommands, method)) return;
+    if (!Object.prototype.hasOwnProperty.call(installMeta, method)) return;
     selectedInstall = method;
-    if (commandNode) commandNode.textContent = installCommands[method];
+    const item = installMeta[method];
+    if (commandNode) commandNode.textContent = item.command;
+    binstallButton?.classList.toggle("is-active", method === "binstall");
     cargoButton?.classList.toggle("is-active", method === "cargo");
     nixButton?.classList.toggle("is-active", method === "nix");
+    binstallButton?.setAttribute("aria-pressed", String(method === "binstall"));
     cargoButton?.setAttribute("aria-pressed", String(method === "cargo"));
     nixButton?.setAttribute("aria-pressed", String(method === "nix"));
     if (sourceLink) {
-      sourceLink.href = method === "nix"
-        ? "https://app.cachix.org/organization/decapodlabs/cache/decapod#pull"
-        : "https://crates.io/crates/decapod";
-      sourceLink.textContent = method === "nix" ? "Decapod Cachix ↗" : "Crates.io ↗";
+      sourceLink.href = item.href;
+      sourceLink.textContent = item.label;
     }
-    if (copy) copy.textContent = "COPY";
-    if (copyStatus) copyStatus.textContent = method === "nix"
-      ? "Requires Nix with flakes enabled. Initializes once per project."
-      : "One initialization per project.";
+    if (copy) copy.textContent = "Copy";
+    if (copyStatus) copyStatus.textContent = item.note;
   }
 
+  binstallButton?.addEventListener("click", () => selectInstall("binstall"));
   cargoButton?.addEventListener("click", () => selectInstall("cargo"));
   nixButton?.addEventListener("click", () => selectInstall("nix"));
 
   copy?.addEventListener("click", async () => {
-    const command = installCommands[selectedInstall];
+    const command = installMeta[selectedInstall].command;
     try {
+      if (!navigator.clipboard || typeof navigator.clipboard.writeText !== "function") {
+        throw new Error("clipboard_unavailable");
+      }
       await navigator.clipboard.writeText(command);
-      copy.textContent = "COPIED ✓";
-      copyStatus.textContent = "Copied. Run this inside your repository.";
+      copy.textContent = "Copied ✓";
+      if (copyStatus) copyStatus.textContent = "Copied to clipboard. Run this inside your repository.";
     } catch {
-      if (!commandNode) return;
-      const selection = window.getSelection();
-      const range = document.createRange();
-      range.selectNodeContents(commandNode);
-      selection.removeAllRanges();
-      selection.addRange(range);
-      copyStatus.textContent = "Select and copy the highlighted command.";
+      if (commandNode) {
+        const selection = window.getSelection();
+        if (selection) {
+          const range = document.createRange();
+          range.selectNodeContents(commandNode);
+          selection.removeAllRanges();
+          selection.addRange(range);
+        }
+      }
+      if (copy) copy.textContent = "Select text";
+      if (copyStatus) copyStatus.textContent = "Clipboard access unavailable—the command above is highlighted to copy manually.";
     }
   });
 
@@ -152,11 +164,11 @@
       if (!(seconds > 0)) return;
       event.preventDefault();
       proofVideo.currentTime = seconds;
-      proofVideo.scrollIntoView({block: "center"});
+      proofVideo.scrollIntoView({ block: "center" });
       proofVideo.play().catch(() => {});
     });
   }
-  // Three separate Ghostty / Antigravity CLI swarms, presented as an inspectable stack.
+
   const swarm = document.querySelector("[data-swarm-carousel]");
   if (swarm) {
     const deck = swarm.querySelector(".swarm-deck");
@@ -168,14 +180,15 @@
     const body = swarm.querySelector("[data-swarm-body]");
     const full = swarm.querySelector("[data-swarm-full]");
     const slides = [
-      {label:"DECAPOD KERNEL",title:"Issues in motion.",body:"Parallel issue work, revalidation after upstream merges, and independent verification."},
-      {label:"DECAPOD DELIVERY",title:"Checks before merges.",body:"Review, governed publication, and merge coordination across multiple active issues."},
-      {label:"PROPODUS DELIVERY",title:"Product work ships.",body:"Billing, identity, limits, and deployment work moving in parallel with validation and review."}
+      { label: "DECAPOD KERNEL", title: "Issues in motion.", body: "Parallel issue work, revalidation after upstream merges, and independent verification." },
+      { label: "DECAPOD DELIVERY", title: "Checks before merges.", body: "Review, governed publication, and merge coordination across multiple active issues." },
+      { label: "PROPODUS DELIVERY", title: "Product work ships.", body: "Billing, identity, limits, and deployment work moving in parallel with validation and review." }
     ];
     let current = 0;
     let wheelAt = 0;
     let touchStart = null;
     let suppressClickUntil = 0;
+
     function renderSwarm(next) {
       current = (next + cards.length) % cards.length;
       cards.forEach((card, i) => {
@@ -190,12 +203,13 @@
         dot.classList.toggle("is-active", i === current);
         dot.setAttribute("aria-pressed", String(i === current));
       });
-      counter.textContent = String(current + 1).padStart(2, "0") + " / 03";
-      label.textContent = slides[current].label;
-      title.textContent = slides[current].title;
-      body.textContent = slides[current].body;
-      full.href = cards[current].href;
+      if (counter) counter.textContent = String(current + 1).padStart(2, "0") + " / 03";
+      if (label) label.textContent = slides[current].label;
+      if (title) title.textContent = slides[current].title;
+      if (body) body.textContent = slides[current].body;
+      if (full) full.href = cards[current].href;
     }
+
     swarm.classList.add("is-enhanced");
     renderSwarm(0);
     swarm.querySelector("[data-swarm-prev]")?.addEventListener("click", () => renderSwarm(current - 1));
@@ -207,28 +221,27 @@
         if (Date.now() >= suppressClickUntil) renderSwarm(i);
       }
     }));
-    deck.addEventListener("keydown", event => {
+    deck?.addEventListener("keydown", event => {
       if (event.key === "ArrowRight") { event.preventDefault(); renderSwarm(current + 1); }
       if (event.key === "ArrowLeft") { event.preventDefault(); renderSwarm(current - 1); }
       if (event.key === "Home") { event.preventDefault(); renderSwarm(0); }
       if (event.key === "End") { event.preventDefault(); renderSwarm(cards.length - 1); }
     });
-    deck.addEventListener("wheel", event => {
+    deck?.addEventListener("wheel", event => {
       if (Math.abs(event.deltaY) < 8 || Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;
       const next = current + (event.deltaY > 0 ? 1 : -1);
-      // Release scrolling at either end; never trap the visitor inside the carousel.
       if (next < 0 || next >= cards.length) return;
       event.preventDefault();
       const now = Date.now();
       if (now - wheelAt < 480) return;
       wheelAt = now;
       renderSwarm(next);
-    }, {passive:false});
-    deck.addEventListener("touchstart", event => {
+    }, { passive: false });
+    deck?.addEventListener("touchstart", event => {
       if (event.touches.length !== 1) return;
-      touchStart = {x:event.touches[0].clientX,y:event.touches[0].clientY};
-    }, {passive:true});
-    deck.addEventListener("touchend", event => {
+      touchStart = { x: event.touches[0].clientX, y: event.touches[0].clientY };
+    }, { passive: true });
+    deck?.addEventListener("touchend", event => {
       if (!touchStart || !event.changedTouches.length) return;
       const dx = event.changedTouches[0].clientX - touchStart.x;
       const dy = event.changedTouches[0].clientY - touchStart.y;
@@ -236,23 +249,21 @@
       if (Math.abs(dx) < 45 || Math.abs(dx) < Math.abs(dy) * 1.3) return;
       suppressClickUntil = Date.now() + 380;
       renderSwarm(current + (dx < 0 ? 1 : -1));
-    }, {passive:true});
+    }, { passive: true });
   }
 
-
-  // Source screenshots from the WAYSTEAD development build. No external carousel dependency.
   const showcase = document.querySelector("[data-showcase-carousel]");
   if (showcase) {
     const slides = [...showcase.querySelectorAll("[data-showcase-slide]")];
     const dots = [...showcase.querySelectorAll("[data-showcase-go]")];
     const details = [
-      ["A character of your own.","Character creation, appearance, identity, and the start of a personal journey."],
-      ["A world to explore.","Playable terrain, vegetation, camera movement, and a persistent character."],
-      ["Geography with depth.","Procedurally realized environments viewed at multiple scales."],
-      ["History worth keeping.","Observation and discovery become lasting records in the player's journal."],
-      ["Survive. Build. Continue.","Survival systems, resource constraints, and construction options."],
-      ["A connected survival system.","Equipment, inventory, resources, and crafting belong to one persistent simulation."],
-      ["By the water.","A playable character among trees, grasses, and water in the developing world."]
+      ["A character of your own.", "Character creation, appearance, identity, and the start of a personal journey."],
+      ["A world to explore.", "Playable terrain, vegetation, camera movement, and a persistent character."],
+      ["Geography with depth.", "Procedurally realized environments viewed at multiple scales."],
+      ["History worth keeping.", "Observation and discovery become lasting records in the player's journal."],
+      ["Survive. Build. Continue.", "Survival systems, resource constraints, and construction options."],
+      ["A connected survival system.", "Equipment, inventory, resources, and crafting belong to one persistent simulation."],
+      ["By the water.", "A playable character among trees, grasses, and water in the developing world."]
     ];
     const stage = showcase.querySelector(".showcase-gallery-stage");
     const title = showcase.querySelector("[data-showcase-title]");
@@ -260,8 +271,9 @@
     const counter = showcase.querySelector("[data-showcase-count]");
     const topline = showcase.querySelector(".showcase-gallery-topline span:last-child");
     const fullImageLink = showcase.querySelector("[data-showcase-full]");
-    const imageFiles = ["character","exploration","landscape","journal","construction","inventory","waterside"];
+    const imageFiles = ["character", "exploration", "landscape", "journal", "construction", "inventory", "waterside"];
     let current = 0;
+
     function choose(index) {
       current = (index + slides.length) % slides.length;
       slides.forEach((slide, i) => {
@@ -280,6 +292,7 @@
       if (caption) caption.textContent = details[current][1];
       if (fullImageLink) fullImageLink.href = "assets/waystead-" + imageFiles[current] + ".webp";
     }
+
     showcase.querySelector("[data-showcase-prev]")?.addEventListener("click", () => choose(current - 1));
     showcase.querySelector("[data-showcase-next]")?.addEventListener("click", () => choose(current + 1));
     dots.forEach((dot, i) => dot.addEventListener("click", () => choose(i)));
@@ -292,43 +305,28 @@
     let touchX = null;
     stage?.addEventListener("touchstart", event => {
       if (event.touches.length === 1) touchX = event.touches[0].clientX;
-    }, {passive:true});
+    }, { passive: true });
     stage?.addEventListener("touchend", event => {
       if (touchX === null || !event.changedTouches.length) return;
       const delta = event.changedTouches[0].clientX - touchX;
       touchX = null;
       if (Math.abs(delta) > 48) choose(current + (delta < 0 ? 1 : -1));
-    }, {passive:true});
+    }, { passive: true });
     choose(0);
-  }
-
-  const revealed = document.querySelectorAll("[data-reveal]");
-  if ("IntersectionObserver" in window) {
-    const observer = new IntersectionObserver(entries => {
-      for (const entry of entries) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("revealed");
-          observer.unobserve(entry.target);
-        }
-      }
-    }, { threshold: 0.09 });
-    revealed.forEach(element => observer.observe(element));
-  } else {
-    revealed.forEach(element => element.classList.add("revealed"));
   }
 
   const progress = document.getElementById("scrollProgress");
   let ticking = false;
   addEventListener("scroll", () => {
-    if (ticking) return;
+    if (!progress || ticking) return;
     ticking = true;
     requestAnimationFrame(() => {
       const height = document.documentElement.scrollHeight - innerHeight;
-      progress.style.width = (height > 0 ? scrollY / height * 100 : 0) + "%";
+      progress.style.width = (height > 0 ? (scrollY / height) * 100 : 0) + "%";
       ticking = false;
     });
   }, { passive: true });
 
   const year = document.getElementById("year");
-  if (year) year.textContent = new Date().getFullYear();
+  if (year) year.textContent = String(new Date().getFullYear());
 })();

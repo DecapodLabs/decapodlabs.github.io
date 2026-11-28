@@ -4,10 +4,12 @@
   const byId = id => (typeof document !== "undefined" ? document.getElementById(id) : null);
   const repositories = byId("repo-count");
   const contributors = byId("seat-count");
+  const repositoriesNumber = byId("repo-count-number");
+  const contributorsNumber = byId("seat-count-number");
   const flow = typeof DecapodCloudFlow !== "undefined" ? DecapodCloudFlow : null;
   if (!repositories || !contributors) return;
 
-  const PRICING_ASSET_RELEASE = "20261126-brand";
+  const PRICING_ASSET_RELEASE = "20261127-uplift";
   const PRICING_META_KEY = "decapod:pricing-meta";
   const ALLOWLISTED_RECOVERY_ERRORS = Object.freeze([
     "stale_quote",
@@ -292,13 +294,23 @@
       annual = billingCheck.billing === "year";
       showAnnualDetails = annual;
     }
+    const clampInt = (raw, min, max, fallback) => {
+      const parsed = Math.floor(Number(raw));
+      if (!Number.isSafeInteger(parsed)) return fallback;
+      return Math.max(min, Math.min(max, parsed));
+    };
+
     const repoCountCheck = flow.parseRepoCountParam ? flow.parseRepoCountParam(searchParams) : { status: "absent" };
     if (repoCountCheck.status === "valid" && repositories) {
-      repositories.value = String(Math.min(10, Math.max(1, repoCountCheck.repos)));
+      const nextRepos = String(clampInt(repoCountCheck.repos, 1, 10, 1));
+      repositories.value = nextRepos;
+      if (repositoriesNumber) repositoriesNumber.value = nextRepos;
     }
     const seatCheck = flow.parseSeatParam ? flow.parseSeatParam(searchParams) : { status: "absent" };
     if (seatCheck.status === "valid" && contributors) {
-      contributors.value = String(Math.min(25, Math.max(1, seatCheck.seats)));
+      const nextSeats = String(clampInt(seatCheck.seats, 1, 25, 1));
+      contributors.value = nextSeats;
+      if (contributorsNumber) contributorsNumber.value = nextSeats;
     }
 
     if (flow.hasHostileFragmentTokens(rawHash) ||
@@ -365,7 +377,7 @@
 
     if (cloudBtn) {
       cloudBtn.disabled = !enabled;
-      setButtonLabel(cloudBtn, payInFlight ? "Continuing to Cloud…" : "Get Decapod Cloud");
+      setButtonLabel(cloudBtn, payInFlight ? "Continuing to Cloud…" : "Sign in with GitHub");
     }
     if (previewBtn) {
       previewBtn.disabled = !enabled;
@@ -383,7 +395,7 @@
           ? "Could not reach Decapod Cloud discovery. Reload shortly."
           : "Verifying live Decapod Cloud checkout status…";
       } else if (liveSaleEnabled) {
-        availabilityNote.textContent = "Available now · Instant repository activation via Stripe Checkout.";
+        availabilityNote.textContent = "Sign in with GitHub to verify repositories, confirm your final quote, and complete Stripe Checkout.";
       } else {
         availabilityNote.textContent = "Sign in with GitHub to verify organization eligibility and activate Decapod Cloud.";
       }
@@ -525,8 +537,16 @@
   }
 
   function render() {
-    const repos = Math.max(1, Math.min(10, Number(repositories.value) || 1));
-    const perRepo = Math.max(1, Math.min(25, Number(contributors.value) || 1));
+    const repos = Math.max(1, Math.min(10, Math.floor(Number(repositories.value)) || 1));
+    const perRepo = Math.max(1, Math.min(25, Math.floor(Number(contributors.value)) || 1));
+    repositories.value = String(repos);
+    contributors.value = String(perRepo);
+    if (repositoriesNumber && repositoriesNumber.value !== String(repos)) {
+      repositoriesNumber.value = String(repos);
+    }
+    if (contributorsNumber && contributorsNumber.value !== String(perRepo)) {
+      contributorsNumber.value = String(perRepo);
+    }
     const totalAssignments = repos * perRepo;
     const repoDiscount = tier(repos, steps.repos);
     // Conservative illustrative floor assuming equal distinct humans per repo.
@@ -594,6 +614,28 @@
   });
   repositories.addEventListener("input", render);
   contributors.addEventListener("input", render);
+
+  const syncFromNumericInput = (numInput, rangeInput, min, max) => {
+    if (!numInput || !rangeInput) return;
+    numInput.addEventListener("input", () => {
+      const raw = String(numInput.value || "").trim();
+      if (raw === "") return;
+      const parsed = Math.floor(Number(raw));
+      if (!Number.isSafeInteger(parsed)) return;
+      const clamped = Math.max(min, Math.min(max, parsed));
+      rangeInput.value = String(clamped);
+      render();
+    });
+    numInput.addEventListener("blur", () => {
+      const parsed = Math.floor(Number(numInput.value));
+      const clamped = Number.isSafeInteger(parsed) ? Math.max(min, Math.min(max, parsed)) : min;
+      numInput.value = String(clamped);
+      rangeInput.value = String(clamped);
+      render();
+    });
+  };
+  syncFromNumericInput(repositoriesNumber, repositories, 1, 10);
+  syncFromNumericInput(contributorsNumber, contributors, 1, 25);
 
   const cloudBtn = byId("cloud-pay-cta");
   const previewBtn = byId("preview-checkout");

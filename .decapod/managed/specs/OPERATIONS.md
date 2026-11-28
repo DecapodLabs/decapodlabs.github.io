@@ -2,7 +2,7 @@
 
 Publish the nontransactional pricing preview and verified launch film through the existing GitHub Pages main/root setup after exact-candidate governed validation. Rebase onto the latest accepted main and preserve other agents' design changes. Inspect actual Pages publication and all public documents; do not infer deployment from Git alone.
 
-Public Cloud sales presentation (`20261126-geist`) is live on `/pricing`, `/signup`, and `/admin` using compiled static bundles published via `cloud-app-manifest.json`. Backend merchant configuration and webhook processing operate independently of static GitHub Pages deployments.
+Public Cloud sales presentation (`20261127-uplift`, compiled from `DecapodLabs/propodus` `7e4aba65`) is live on `/pricing`, `/signup`, and `/admin` using compiled static bundles published via `cloud-app-manifest.json`, paired with self-hosted Geist public marketing/proof/trust/rework/clack pages (`#103`, `#104`, `#106`) and root `/decapod/sitemap.xml` + `/decapod/llms.txt` discovery links (`#101`). Backend merchant configuration and webhook processing operate independently of static GitHub Pages deployments.
 
 ## Service Level Objectives
 No new uptime, support, backup, launch date or recovery commitment is declared.
@@ -75,7 +75,7 @@ Generated capability obligations: `persistent-state` is declared for this projec
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `8ff16d5b31cbdbd35a476e98778d5f571d60c0ffcf4b78519dd9a58e568c2929`
+- Repository signal fingerprint: `cdcafd88d84cde8538d86a9aab9886411cdd5082af6f61608eaae086629cfd7f`
 - Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (3 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->

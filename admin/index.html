@@ -7,14 +7,14 @@
 <meta name="robots" content="noindex,nofollow">
 <meta name="referrer" content="no-referrer">
 <meta name="decapod-flow-contract" content="1">
-<meta name="decapod-asset-release" content="20261126-brand">
+<meta name="decapod-asset-release" content="20261127-uplift">
 <meta name="description" content="Manage your Decapod Cloud organization: repositories, contributor seats, team members, billing, usage thresholds, and device security.">
 <link rel="canonical" href="https://decapodlabs.ai/admin/">
 <link rel="icon" type="image/png" href="/assets/favicon.png">
-<link rel="stylesheet" href="/shared/commercial-ui.css?v=20261126-brand">
-<link rel="stylesheet" href="/admin/admin.css?v=20261126-brand">
-<script src="/cloud-flow.js?v=20261126-brand" defer></script>
-<script src="/admin/admin.js?v=20261126-brand" defer></script>
+<link rel="stylesheet" href="/shared/commercial-ui.css?v=20261127-uplift">
+<link rel="stylesheet" href="/admin/admin.css?v=20261127-uplift">
+<script src="/cloud-flow.js?v=20261127-uplift" defer></script>
+<script src="/admin/admin.js?v=20261127-uplift" defer></script>
 <title>Organization Admin — Decapod Cloud</title>
 </head>
 <body class="ds-body admin-page">
@@ -35,7 +35,12 @@
       </div>
     </div>
     <div class="ds-header-right">
-      <a class="ds-nav-link" href="/pricing">Pricing</a>
+      <a class="ds-nav-link" href="https://decapodlabs.ai/decapod/">Docs</a>
+      <a class="ds-nav-link" href="/proof.html">Proof</a>
+      <a class="ds-nav-link" href="/pricing/index.html">Pricing</a>
+      <a class="ds-nav-link" href="/admin/index.html" aria-current="page">Admin</a>
+      <a class="ds-nav-link" href="/trust/index.html">Trust</a>
+      <a class="ds-nav-link" href="https://github.com/DecapodLabs/decapod" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
       <a class="ds-nav-link" id="add-repo-link" href="/signup">Add repositories</a>
       <div class="admin-topbar-account" id="admin-account-bar" hidden>
         <div class="admin-identity-pill">
@@ -181,10 +186,18 @@
             <p class="kpi-meta" id="overview-repos-meta">Activated &amp; reserved slots</p>
           </article>
           <article class="ds-card ds-card-compact kpi-card">
-            <span class="kpi-label">Health</span>
-            <strong class="kpi-value" id="overview-usage-value">—</strong>
-            <p class="kpi-meta" id="overview-usage-meta">Included monthly capacity</p>
+            <span class="kpi-label">Usage health</span>
+            <strong class="kpi-value is-muted" id="overview-usage-value">Checking…</strong>
+            <p class="kpi-meta" id="overview-usage-meta">Verifying included capacity metrics</p>
           </article>
+        </div>
+
+        <div class="ds-banner" id="overview-empty-guidance" role="status" hidden>
+          <div>
+            <strong id="overview-empty-guidance-title"></strong>
+            <span id="overview-empty-guidance-note" style="margin-left:8px"></span>
+          </div>
+          <a class="ds-btn ds-btn-secondary ds-btn-sm" id="overview-empty-guidance-link" href="/signup" hidden>Configure capacity</a>
         </div>
 
         <section class="admin-quick-actions" aria-label="Quick actions">
@@ -464,10 +477,16 @@
         <article class="ds-card">
           <div class="section-head-row">
             <div>
-              <h2 class="ds-section-title">Usage &amp; included capacity</h2>
+              <div class="admin-title-badge-row">
+                <h2 class="ds-section-title">Usage &amp; included capacity</h2>
+                <span class="ds-badge" id="admin-usage-state-badge">Checking metrics…</span>
+              </div>
               <p class="ds-subtitle">Monthly utilization across your included capacity pools. Alerts notify early without automatic charges.</p>
             </div>
-            <div class="ds-badge ds-badge-success"><span class="ds-dot" aria-hidden="true"></span> $0 surprise overages — disabled by default</div>
+            <div class="admin-actions" style="margin-top:0">
+              <span class="ds-badge ds-badge-success"><span class="ds-dot" aria-hidden="true"></span> $0 surprise overages — disabled by default</span>
+              <button type="button" class="ds-btn ds-btn-secondary ds-btn-sm" id="admin-usage-refresh-btn">Refresh usage</button>
+            </div>
           </div>
 
           <div class="ds-card-subtle" style="margin-top:14px">
@@ -479,6 +498,7 @@
             <p class="ds-hint" id="admin-overage-save-status" role="status"></p>
           </div>
 
+          <p class="ds-empty" id="admin-usage-empty-note" hidden style="margin-top:14px">Checking usage metrics…</p>
           <div class="admin-resource-grid" id="admin-resource-cards" style="margin-top:16px"></div>
         </article>
 
@@ -623,10 +643,12 @@
   <div class="ds-footer-inner">
     <span>© 2026 Decapod Labs</span>
     <div class="ds-footer-links">
-      <a href="/pricing">Pricing</a>
-      <a href="/signup">Signup</a>
+      <a href="https://decapodlabs.ai/decapod/">Docs</a>
+      <a href="/proof.html">Proof</a>
+      <a href="/pricing/index.html">Pricing</a>
+      <a href="/signup/index.html">Signup</a>
       <a href="/trust/index.html">Trust &amp; Privacy</a>
-      <a href="https://github.com/DecapodLabs/decapod" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="https://github.com/DecapodLabs/decapod" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
     </div>
   </div>
 </footer>
