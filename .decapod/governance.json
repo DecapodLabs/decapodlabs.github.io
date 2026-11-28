@@ -49,6 +49,11 @@
       "proof_refs": [
         "scripts/check-site.ts"
       ]
+    },
+    {
+      "id": "chk-5-cloud-bundle-20261128-ia",
+      "summary": "Ingest Propodus 20261128-ia Cloud web bundle from origin/main 364d8a2f6901d9be4588b808a8001cd522fcf777 and update provenance release assertion",
+      "input_digest": "sha256:bf53e661c13c5fbe33cc22aeff63c38bf023e30a3da9344cb77bf08d5e4b3a19"
     }
   ],
   "intents": {

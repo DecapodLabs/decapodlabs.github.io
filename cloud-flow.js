@@ -1,7 +1,7 @@
 (function (root) {
   "use strict";
 
-  var ASSET_RELEASE = "20261127-uplift";
+  var ASSET_RELEASE = "20261128-ia";
   var CONTRACT_VERSION = 1;
   var SUPPORTED_API_CONTRACT_MAJORS = Object.freeze([1]);
   var CANONICAL_SITE_ORIGIN = "https://decapodlabs.ai";
