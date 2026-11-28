@@ -26,6 +26,7 @@ This index covers public product information and documentation. Authenticated ac
 ## Evaluation and boundaries
 
 - [Proof concepts](https://decapodlabs.ai/decapod/concepts/proof.html): Evidence and validation boundaries.
+- [Versioned agent-host results](https://github.com/DecapodLabs/decapod/blob/a2d7266db2c63fea15f86c2de75a84f2cb55e8f3/docs/research/host-outcome-pilot/sec12-host-activation-2026-11-26.md) records executed host trials and partial outcomes. [Cloud acceptance](https://github.com/DecapodLabs/decapod/issues/1809) tracks hosted qualification.
 - [Recorded engineering case study](https://decapodlabs.ai/proof.html): An observed failure, repair, validation, and publication, with evidence and explicit limits.
 - [Trust and privacy](https://decapodlabs.ai/trust/): Public network, privacy, credential, and service boundaries.
 

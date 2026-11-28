@@ -16,7 +16,7 @@ INTENT describes the current public contract; ARCHITECTURE and INTERFACES descri
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `a964046afa09158113f410b9b98bf9d6641b3715d482b8417149c0c74ac8b4e3`
+- Repository signal fingerprint: `90fc5e430a2003d07c5179b7763b43ee2cefa3e96df435bbd07f238357ca552c`
 - Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (5 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->

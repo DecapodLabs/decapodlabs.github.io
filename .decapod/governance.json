@@ -59,6 +59,14 @@
       "proof_refs": [
         "docs/website-egress-inventory.md"
       ]
+    },
+    {
+      "id": "website-accepted-108-integration",
+      "summary": "Reconcile accepted website PR 108 with the remaining workflow examples and independent deployed-privacy control",
+      "input_digest": "sha256:84e065b5251cdf8645b901547f9d0a1bd55a66d16e01f751226b4c7864fefb1a",
+      "proof_refs": [
+        "GitHub Pages accepted target 9c551191bbcf970e3263661fc10b590826ed129b"
+      ]
     }
   ],
   "intents": {
@@ -105,23 +113,23 @@
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/ARCHITECTURE.md",
-          "reason": "Reviews the final source and builds the page around the visible operating model, capabilities, applications, and supporting historical record.",
-          "reviewed_code_fingerprint": "a964046afa09158113f410b9b98bf9d6641b3715d482b8417149c0c74ac8b4e3",
-          "spec_material_hash": "97515522663b058cd97783e8de734b377e71e391a81f8fc5d87f7fdf9af65f97"
+          "reason": "Preserves accepted #108 and models independent origin, browser and Cloudflare privacy evidence.",
+          "reviewed_code_fingerprint": "90fc5e430a2003d07c5179b7763b43ee2cefa3e96df435bbd07f238357ca552c",
+          "spec_material_hash": "5c8ea6cd2e19e44471d10cf66676c847ecef09cf2cc09106e5655c9b0333d89d"
         },
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/INTERFACES.md",
-          "reason": "Reviews the final navigation, compatibility routes, and unchanged generated Cloud app authority.",
-          "reviewed_code_fingerprint": "a964046afa09158113f410b9b98bf9d6641b3715d482b8417149c0c74ac8b4e3",
-          "spec_material_hash": "bfa499f43dfff8c5e48dd006208800b20a22508d0daa89499271057d1fb0a107"
+          "reason": "Binds Trust version 1.0.1 and the delivered response check to the published routes.",
+          "reviewed_code_fingerprint": "90fc5e430a2003d07c5179b7763b43ee2cefa3e96df435bbd07f238357ca552c",
+          "spec_material_hash": "0bdf54854def2342aba08698f36562da59591057380a8995935b929a744e65e6"
         },
         {
-          "disposition": "updated",
+          "disposition": "unchanged_with_reason",
           "path": ".decapod/managed/specs/SECURITY.md",
-          "reason": "Reviews the final privacy test helper, observed scoped analytics exclusion, and separately declared network reporting.",
-          "reviewed_code_fingerprint": "a964046afa09158113f410b9b98bf9d6641b3715d482b8417149c0c74ac8b4e3",
-          "spec_material_hash": "344c67721d4393d2aab7d6d04a5016b3c7774f59346e04f812e533c7b0db6ec1"
+          "reason": "The accepted authority, credential boundaries, and signed commercial artifact stay in place. The new edge control turns off browser analytics for Decapod routes.",
+          "reviewed_code_fingerprint": "90fc5e430a2003d07c5179b7763b43ee2cefa3e96df435bbd07f238357ca552c",
+          "spec_material_hash": "62bb344f61469fd3f75f5c09e37936d8b4912412b38d5593b58f2503a16f9d5a"
         }
       ],
       "state": "APPROVED",
@@ -132,16 +140,20 @@
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1795838529Z"
+      "updated_at": "1795838881Z"
     },
     "trajectory": {
       "active_boundaries": [
         "Current claimed task and isolated work branch"
       ],
-      "artifact_hash": "sha256:c193752d5ebebe3bb0be9cf0cc105cc078d1db59203864695067d3d8dc7ea9c0",
+      "artifact_hash": "sha256:a396cde4e5b677b060e8130161b1941f96324a07b5e4ab80c6ac2f09011d36f2",
       "checks": [
         {
           "name": "chrome_candidate_reading_order",
+          "status": "passed"
+        },
+        {
+          "name": "clack_paths_unchanged_from_accepted_base",
           "status": "passed"
         },
         {
@@ -192,10 +204,17 @@
             "intent_id": "intent:change_01M8G4C64SNH9QPRXYRRWTD0WD",
             "kind": "trajectory_step_recorded",
             "sequence": 6
+          },
+          {
+            "detail": "trajectory:branch_01M8G4C680G8E43W5Z8G1BVJ3T",
+            "event_id": "event:7",
+            "intent_id": "intent:change_01M8G4C64SNH9QPRXYRRWTD0WD",
+            "kind": "trajectory_step_recorded",
+            "sequence": 7
           }
         ],
         "knowledge_candidates": [],
-        "next_sequence": 6,
+        "next_sequence": 7,
         "schema_version": "1.1.0",
         "trajectories": {
           "branch_01M8G4C680G8E43W5Z8G1BVJ3T": {
@@ -254,6 +273,25 @@
                 ],
                 "sequence": 6,
                 "validation_findings": []
+              },
+              {
+                "action": "trajectory.record",
+                "custody_event_id": "event:7",
+                "observations": [
+                  "docs/design-system/content-recovery-inventory.md",
+                  "index.html",
+                  "trust/index.html",
+                  "index.html",
+                  "PR #108 merged during preflight. Its accepted editorial, navigation and Clack bytes were preserved. Integrated the remaining editorial examples, historical qualification link and privacy documentation against 9c551191bbcf970e3263661fc10b590826ed129b."
+                ],
+                "proof_refs": [
+                  "clack_paths_unchanged_from_accepted_base"
+                ],
+                "scope": [
+                  "root"
+                ],
+                "sequence": 7,
+                "validation_findings": []
               }
             ]
           }
@@ -264,9 +302,11 @@
       "evidence": [
         "Chrome 158.0.8127.38, local 320/390/1440 widths with zero horizontal overflow and 14 visible capabilities. Live navigation across seven pages detected zero analytics requests; incumbent Quickstart loaded third-party fonts separately. No external participant study or authenticated Cloud workflow is claimed.",
         "Deno all site suites 9/9. Cloudflare rule disables automatic analytics on scoped paths, excluding Clack. Nine live HTML destinations with cold and warm probes passed script and declared reporting checks. Website HTML candidate and external participant evidence remain distinct.",
-        "Nine Deno checks passed after keeping the optional deployed check with the regression tests. Accepted configured proof command and proof-source inputs are unchanged."
+        "Nine Deno checks passed after keeping the optional deployed check with the regression tests. Accepted configured proof command and proof-source inputs are unchanged.",
+        "PR #108 merged during preflight. Its accepted editorial, navigation and Clack bytes were preserved. Integrated the remaining editorial examples, historical qualification link and privacy documentation against 9c551191bbcf970e3263661fc10b590826ed129b."
       ],
       "inspected_files": [
+        "docs/design-system/content-recovery-inventory.md",
         "docs/design-system/positioning-and-design-contract.md",
         "index.html"
       ],
@@ -274,7 +314,8 @@
       "modified_files": [
         "index.html",
         "scripts/check-website-privacy.ts",
-        "tests/support/delivered-website-privacy.ts"
+        "tests/support/delivered-website-privacy.ts",
+        "trust/index.html"
       ],
       "next_transitions": [
         "Refine plan and declare falsifiable checks"
