@@ -59,6 +59,11 @@
       "id": "chk-5-governance-claims-trajectory",
       "summary": "Record approved plan, falsifiable claim, and trajectory evidence for #103/#104/#106",
       "input_digest": "sha256:400fc425c6efbc9e65043cf8ee531cfe50fec2ca42390fcaa774c283dfb0e2b6"
+    },
+    {
+      "id": "chk-6-refresh-v0169-4",
+      "summary": "Refresh v0.169.4 entrypoints, Dockerfile pin, specs manifest, and spec reviews",
+      "input_digest": "sha256:6c245e9b4b35ac1af0585b22efa8bcc4fa2c21eabcbc06af6b4433b4bc4c1dd7"
     }
   ],
   "intents": {
@@ -98,6 +103,29 @@
         "decapod validate"
       ],
       "schema_version": "1.1.0",
+      "spec_reviews": [
+        {
+          "disposition": "updated",
+          "path": ".decapod/managed/specs/ARCHITECTURE.md",
+          "reason": "Refreshed v0.169.4 entrypoints/Dockerfile and preserved #103/#104/#106 architecture specs.",
+          "reviewed_code_fingerprint": "3a82b606f5db227a747d549ff0987c19cbcb23210a9eba5bd08de4a357417d00",
+          "spec_material_hash": "0cabed963e1ec2d33fcc47400188a219090a4fbc553f3af0e26b5831e097f5d1"
+        },
+        {
+          "disposition": "updated",
+          "path": ".decapod/managed/specs/INTERFACES.md",
+          "reason": "Explicitly reviewed INTERFACES.md against restored exploration nav, footer, and v0.169.4 surfaces.",
+          "reviewed_code_fingerprint": "3a82b606f5db227a747d549ff0987c19cbcb23210a9eba5bd08de4a357417d00",
+          "spec_material_hash": "9351b1eb05894684886f2c970df9142b103815b0765b70e0f623bc45869e7256"
+        },
+        {
+          "disposition": "unchanged_with_reason",
+          "path": ".decapod/managed/specs/SECURITY.md",
+          "reason": "v0.169.4 entrypoint/Dockerfile pin refresh and #103/#104/#106 editorial recovery preserve security boundaries.",
+          "reviewed_code_fingerprint": "3a82b606f5db227a747d549ff0987c19cbcb23210a9eba5bd08de4a357417d00",
+          "spec_material_hash": "62bb344f61469fd3f75f5c09e37936d8b4912412b38d5593b58f2503a16f9d5a"
+        }
+      ],
       "state": "APPROVED",
       "stop_conditions": [],
       "title": "Track 4 (#103): connected cross-repo review and first-use research script",
@@ -106,7 +134,7 @@
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1795838150Z"
+      "updated_at": "1795838365Z"
     },
     "trajectory": {
       "active_boundaries": [
