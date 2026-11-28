@@ -40,6 +40,11 @@
       "id": "chk-1-clack-showcase-theater",
       "summary": "Build bespoke deep-sea Clack Showcase Theater (#clack-showcase) with live trailer video, scene-jump pills, 3-mode tablist, zero duplicate photos, ?v=20261128-clack cache bust, and updated living specs",
       "input_digest": "sha256:6c9adcd7c005baa42c69ec09a730a152658a91e7890ba8f28113b1726aa6debb"
+    },
+    {
+      "id": "cp_code_01m8gw8mjkf4x1jg_spec_review",
+      "summary": "Record explicit spec review dispositions for ARCHITECTURE, INTERFACES, and SECURITY",
+      "input_digest": "sha256:ab1768e175cec953c8b6147885383b8e45a63ad6899d3ce44cdb8c8afdde7d7d"
     }
   ],
   "intents": {
@@ -79,6 +84,29 @@
         "decapod validate"
       ],
       "schema_version": "1.1.0",
+      "spec_reviews": [
+        {
+          "disposition": "updated",
+          "path": ".decapod/managed/specs/ARCHITECTURE.md",
+          "reason": "Documented bespoke Clack Showcase Theater (#clackTrailerVideo, 3-mode tablist switcher, scene-jump pills, ?v=20261128-clack cache versioning) in ARCHITECTURE.md.",
+          "reviewed_code_fingerprint": "a33d7b973753f1dcbae64677d107f394357d2b847276bd0315041ef6c070ab55",
+          "spec_material_hash": "e412ee6e70f5df451b6b912021b3aa3d1682bd708206f970786aec2379c33072"
+        },
+        {
+          "disposition": "updated",
+          "path": ".decapod/managed/specs/INTERFACES.md",
+          "reason": "Documented Clack Showcase Theater interactive tablist, trailer playback/seek HUD, and /clack/index.html + DMG CTA contracts in INTERFACES.md.",
+          "reviewed_code_fingerprint": "a33d7b973753f1dcbae64677d107f394357d2b847276bd0315041ef6c070ab55",
+          "spec_material_hash": "e2cc4e550ad6d45b16941c0a86f11bf54faaa3451023d5334c4e118ba3d60023"
+        },
+        {
+          "disposition": "unchanged_with_reason",
+          "path": ".decapod/managed/specs/SECURITY.md",
+          "reason": "Static-only self-hosted media theater; zero external CDN/analytics and Propodus Cloud provenance boundaries unchanged.",
+          "reviewed_code_fingerprint": "a33d7b973753f1dcbae64677d107f394357d2b847276bd0315041ef6c070ab55",
+          "spec_material_hash": "62bb344f61469fd3f75f5c09e37936d8b4912412b38d5593b58f2503a16f9d5a"
+        }
+      ],
       "state": "APPROVED",
       "stop_conditions": [],
       "title": "Bespoke Clack Showcase Theater in index.html#showcase",
@@ -87,7 +115,7 @@
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1795863222Z"
+      "updated_at": "1795863393Z"
     },
     "trajectory": {
       "active_boundaries": [
