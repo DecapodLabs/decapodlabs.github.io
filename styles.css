@@ -2188,3 +2188,23 @@ code, pre, kbd {
   .site-footer-pinned { padding-bottom: 0; }
   .site-footer-pinned > .footer { position: static; }
 }
+
+.work-examples {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1rem, 3vw, 2rem);
+  margin: clamp(2rem, 5vw, 4rem) 0;
+}
+
+.work-examples article {
+  padding: clamp(1rem, 3vw, 2rem);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface, #fffdfa);
+}
+
+.work-examples h3 { margin-top: 0; }
+.work-example-prompt { font-weight: 650; }
+@media (max-width: 640px) {
+  .work-examples { grid-template-columns: 1fr; }
+}

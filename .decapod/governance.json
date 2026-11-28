@@ -19,55 +19,58 @@
     }
   },
   "change": {
-    "id": "change_01M8G1SRHCP3JSPXXEF813B8MZ",
+    "id": "change_01M8G4C64SNH9QPRXYRRWTD0WD",
     "base_commit": "5bad19cb74b00bbc77a3bfa1d62fddee6750857d",
     "target_base": "origin/main"
   },
   "claims": {
-    "claim:site-editorial-recovery-103": {
-      "statement": "The homepage, design-system docs, and secondary pages restore AI lab identity, visible 14 capabilities (including full Constitution copy), visible film and Waystead/swarms showcases, research section, exploration navigation, and case-study evaluation framing while preserving self-hosted Geist fonts, zero trackers, verbatim Rework essay, Clack DMG integrity, and signed Cloud bundle provenance.",
-      "falsifier": "Any closed details disclosure hides the 14 capabilities or Waystead/film on index.html, check-site.ts or deno test tests/ fails, Google Fonts/tracking beacons load, or Clack/TECR/Trust/Cloud assertions fail.",
+    "website-learning-privacy": {
+      "statement": "The revised site explains the autonomous work lifecycle ahead of supporting proof, and the deployed scoped paths reject undeclared browser analytics.",
+      "falsifier": "Capabilities or film remain in closed disclosures, historical verification fails, or the delivered privacy guard accepts injected analytics and undeclared reporting.",
       "status": "supported",
       "proof_refs": [
-        "deno test tests/",
-        "scripts/check-site.ts"
+        "docs/design-system/content-recovery-103.md",
+        "tests/website_delivered_privacy_test.ts"
       ]
     }
   },
   "checkpoints": [
     {
-      "id": "chk-1-research-script",
-      "summary": "Draft first-use research script and connected review protocol for #103 (with 0.169.3 release entrypoint refresh)",
-      "input_digest": "sha256:bf4eeaaed5fcedd1d17752949455cbf16631b2d05c7a186464e6c8c1ee762021"
+      "id": "website-owner-learning-privacy",
+      "summary": "Restore product education and preserve historical evidence while verifying delivered privacy on scoped website routes.",
+      "input_digest": "sha256:2522896bdd5c33de4bd0c7a7f89ef84e58e6506b270987a2abcc154c8accc0b6",
+      "proof_refs": [
+        "docs/design-system/content-recovery-103.md",
+        "tests/website_delivered_privacy_test.ts"
+      ]
     },
     {
-      "id": "chk-2-editorial-recovery",
-      "summary": "Phase A editorial & IA recovery (#103/#104): restore lab identity, visible film/14 capabilities/Waystead/swarms/research, and exploration nav",
-      "input_digest": "sha256:a3b7c70770b962a4e26182fdb64766a0d7a50fe5cd6970b9ee293e182009f263"
+      "id": "website-owner-probe-test-helper",
+      "summary": "Keep the independent delivered privacy probe with its regression harness and preserve the accepted publication command profile.",
+      "input_digest": "sha256:db9feb4bbf0954ef07677a983aaf3e4ba69891bb04314b6a359f21ff237e51dd",
+      "proof_refs": [
+        "tests/website_delivered_privacy_test.ts"
+      ]
     },
     {
-      "id": "chk-3-secondary-and-proof-reframe",
-      "summary": "Phase B (#103, #106): reframe proof.html as Engineering Case Study & Evaluation Record and sync exploration-led nav/footer across Trust, Rework, offerings, and Clack",
-      "input_digest": "sha256:84f16db22e3b8d089851936fee38c6b0acca96abbc1e930fe3287e3939e26cfd"
+      "id": "website-final-reviewed-source",
+      "summary": "Bind spec reviews to the final source and record independent browser observations.",
+      "input_digest": "sha256:0ff3798d69bfe2eb922119f4bc1381c253a469d2aca922cbb50d386c41980035",
+      "proof_refs": [
+        "docs/website-egress-inventory.md"
+      ]
     },
     {
-      "id": "chk-4-living-specs",
-      "summary": "Update authored living specs (INTENT, ARCHITECTURE, INTERFACES) and refresh manifest for #103/#104/#106",
-      "input_digest": "sha256:f0d38646098052c63c6d91b5f2a2ed0e217022d7b04e1d3f07fb11120825f67d"
-    },
-    {
-      "id": "chk-5-governance-claims-trajectory",
-      "summary": "Record approved plan, falsifiable claim, and trajectory evidence for #103/#104/#106",
-      "input_digest": "sha256:400fc425c6efbc9e65043cf8ee531cfe50fec2ca42390fcaa774c283dfb0e2b6"
-    },
-    {
-      "id": "chk-6-refresh-v0169-4",
-      "summary": "Refresh v0.169.4 entrypoints, Dockerfile pin, specs manifest, and spec reviews",
-      "input_digest": "sha256:6c245e9b4b35ac1af0585b22efa8bcc4fa2c21eabcbc06af6b4433b4bc4c1dd7"
+      "id": "website-accepted-108-integration",
+      "summary": "Reconcile accepted website PR 108 with the remaining workflow examples and independent deployed-privacy control",
+      "input_digest": "sha256:84e065b5251cdf8645b901547f9d0a1bd55a66d16e01f751226b4c7864fefb1a",
+      "proof_refs": [
+        "GitHub Pages accepted target 9c551191bbcf970e3263661fc10b590826ed129b"
+      ]
     }
   ],
   "intents": {
-    "intent:change_01M8G1SRHCP3JSPXXEF813B8MZ": {
+    "intent:change_01M8G4C64SNH9QPRXYRRWTD0WD": {
       "acceptance_criteria": [],
       "assumptions": [],
       "boundaries": [
@@ -77,14 +80,14 @@
         "root"
       ],
       "created_sequence": 1,
-      "id": "intent:change_01M8G1SRHCP3JSPXXEF813B8MZ",
+      "id": "intent:change_01M8G4C64SNH9QPRXYRRWTD0WD",
       "instruction_origin": {
         "source_ref": "caller:unverified"
       },
       "out_of_scope": [],
       "proof_requirements": [],
-      "raw_intent": "Track 4 (#103): connected cross-repo review and first-use research script",
-      "refined_intent": "Track 4 (#103): connected cross-repo review and first-use research script",
+      "raw_intent": "Restore Decapod Labs product education and verify the public website privacy boundary",
+      "refined_intent": "Restore Decapod Labs product education and verify the public website privacy boundary",
       "status": "refined",
       "updated_sequence": 3
     }
@@ -93,61 +96,76 @@
     "plan": {
       "constraints": {
         "file_touch_budget": null,
-        "forbidden_paths": []
+        "forbidden_paths": [
+          "clack/"
+        ]
       },
       "deferred_questions": [],
       "human_questions": [],
-      "intent": "Track 4 (#103): connected cross-repo review and first-use research script",
+      "intent": "Restore newcomer education about Decapod Labs and autonomous engineering, preserve historical case-study evidence, and check the delivered website for undeclared browser analytics. Keep Clack outside the change.",
       "phases": [],
       "proof_hooks": [
-        "decapod validate"
+        "decapod validate",
+        "deployed route analytics check"
       ],
       "schema_version": "1.1.0",
       "spec_reviews": [
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/ARCHITECTURE.md",
-          "reason": "Refreshed v0.169.4 entrypoints/Dockerfile and preserved #103/#104/#106 architecture specs.",
-          "reviewed_code_fingerprint": "3a82b606f5db227a747d549ff0987c19cbcb23210a9eba5bd08de4a357417d00",
-          "spec_material_hash": "0cabed963e1ec2d33fcc47400188a219090a4fbc553f3af0e26b5831e097f5d1"
+          "reason": "Preserves accepted #108 and models independent origin, browser and Cloudflare privacy evidence.",
+          "reviewed_code_fingerprint": "90fc5e430a2003d07c5179b7763b43ee2cefa3e96df435bbd07f238357ca552c",
+          "spec_material_hash": "5c8ea6cd2e19e44471d10cf66676c847ecef09cf2cc09106e5655c9b0333d89d"
         },
         {
           "disposition": "updated",
           "path": ".decapod/managed/specs/INTERFACES.md",
-          "reason": "Explicitly reviewed INTERFACES.md against restored exploration nav, footer, and v0.169.4 surfaces.",
-          "reviewed_code_fingerprint": "3a82b606f5db227a747d549ff0987c19cbcb23210a9eba5bd08de4a357417d00",
-          "spec_material_hash": "9351b1eb05894684886f2c970df9142b103815b0765b70e0f623bc45869e7256"
+          "reason": "Binds Trust version 1.0.1 and the delivered response check to the published routes.",
+          "reviewed_code_fingerprint": "90fc5e430a2003d07c5179b7763b43ee2cefa3e96df435bbd07f238357ca552c",
+          "spec_material_hash": "0bdf54854def2342aba08698f36562da59591057380a8995935b929a744e65e6"
         },
         {
           "disposition": "unchanged_with_reason",
           "path": ".decapod/managed/specs/SECURITY.md",
-          "reason": "v0.169.4 entrypoint/Dockerfile pin refresh and #103/#104/#106 editorial recovery preserve security boundaries.",
-          "reviewed_code_fingerprint": "3a82b606f5db227a747d549ff0987c19cbcb23210a9eba5bd08de4a357417d00",
+          "reason": "The accepted authority, credential boundaries, and signed commercial artifact stay in place. The new edge control turns off browser analytics for Decapod routes.",
+          "reviewed_code_fingerprint": "90fc5e430a2003d07c5179b7763b43ee2cefa3e96df435bbd07f238357ca552c",
           "spec_material_hash": "62bb344f61469fd3f75f5c09e37936d8b4912412b38d5593b58f2503a16f9d5a"
         }
       ],
       "state": "APPROVED",
       "stop_conditions": [],
-      "title": "Track 4 (#103): connected cross-repo review and first-use research script",
+      "title": "Restore Decapod Labs product education and verify the public website privacy boundary",
       "todo_ids": [
-        "arch_01m8g1r38g4v0x9w"
+        "fend_01m8g49fna58hztd"
       ],
       "unknowns": [],
       "unresolved_contradictions": [],
-      "updated_at": "1795838365Z"
+      "updated_at": "1795838881Z"
     },
     "trajectory": {
       "active_boundaries": [
         "Current claimed task and isolated work branch"
       ],
-      "artifact_hash": "sha256:8c1d7bd3ef19e75985e4e52d088fc31d92590952f889083021932c0d30be9deb",
+      "artifact_hash": "sha256:a396cde4e5b677b060e8130161b1941f96324a07b5e4ab80c6ac2f09011d36f2",
       "checks": [
         {
-          "name": "check-site",
+          "name": "chrome_candidate_reading_order",
           "status": "passed"
         },
         {
-          "name": "deno-test",
+          "name": "clack_paths_unchanged_from_accepted_base",
+          "status": "passed"
+        },
+        {
+          "name": "delivered_route_privacy",
+          "status": "passed"
+        },
+        {
+          "name": "live_browser_analytics",
+          "status": "passed"
+        },
+        {
+          "name": "site_source_regressions",
           "status": "passed"
         }
       ],
@@ -156,68 +174,124 @@
         "events": [
           {
             "event_id": "event:2",
-            "intent_id": "intent:change_01M8G1SRHCP3JSPXXEF813B8MZ",
+            "intent_id": "intent:change_01M8G4C64SNH9QPRXYRRWTD0WD",
             "kind": "created",
             "sequence": 2
           },
           {
             "event_id": "event:3",
-            "intent_id": "intent:change_01M8G1SRHCP3JSPXXEF813B8MZ",
+            "intent_id": "intent:change_01M8G4C64SNH9QPRXYRRWTD0WD",
             "kind": "refined",
             "sequence": 3
           },
           {
-            "detail": "trajectory:branch_01M8G1SRVR1FCYB10ZWWCHNMJT",
+            "detail": "trajectory:branch_01M8G4C680G8E43W5Z8G1BVJ3T",
             "event_id": "event:4",
-            "intent_id": "intent:change_01M8G1SRHCP3JSPXXEF813B8MZ",
+            "intent_id": "intent:change_01M8G4C64SNH9QPRXYRRWTD0WD",
             "kind": "trajectory_step_recorded",
             "sequence": 4
+          },
+          {
+            "detail": "trajectory:branch_01M8G4C680G8E43W5Z8G1BVJ3T",
+            "event_id": "event:5",
+            "intent_id": "intent:change_01M8G4C64SNH9QPRXYRRWTD0WD",
+            "kind": "trajectory_step_recorded",
+            "sequence": 5
+          },
+          {
+            "detail": "trajectory:branch_01M8G4C680G8E43W5Z8G1BVJ3T",
+            "event_id": "event:6",
+            "intent_id": "intent:change_01M8G4C64SNH9QPRXYRRWTD0WD",
+            "kind": "trajectory_step_recorded",
+            "sequence": 6
+          },
+          {
+            "detail": "trajectory:branch_01M8G4C680G8E43W5Z8G1BVJ3T",
+            "event_id": "event:7",
+            "intent_id": "intent:change_01M8G4C64SNH9QPRXYRRWTD0WD",
+            "kind": "trajectory_step_recorded",
+            "sequence": 7
           }
         ],
         "knowledge_candidates": [],
-        "next_sequence": 4,
+        "next_sequence": 7,
         "schema_version": "1.1.0",
         "trajectories": {
-          "branch_01M8G1SRVR1FCYB10ZWWCHNMJT": {
+          "branch_01M8G4C680G8E43W5Z8G1BVJ3T": {
             "evidence_only": true,
-            "id": "branch_01M8G1SRVR1FCYB10ZWWCHNMJT",
-            "intent_id": "intent:change_01M8G1SRHCP3JSPXXEF813B8MZ",
+            "id": "branch_01M8G4C680G8E43W5Z8G1BVJ3T",
+            "intent_id": "intent:change_01M8G4C64SNH9QPRXYRRWTD0WD",
             "steps": [
               {
                 "action": "verification",
                 "custody_event_id": "event:4",
                 "observations": [
                   "index.html",
-                  "styles.css",
-                  "main.js",
-                  "proof.html",
-                  "trust/index.html",
-                  "tecr.html",
-                  "clack/index.html",
-                  "docs/design-system/content-recovery-inventory.md",
                   "docs/design-system/positioning-and-design-contract.md",
-                  "docs/design-system/first-use-research-script.md",
                   "index.html",
-                  "styles.css",
-                  "main.js",
-                  "proof.html",
-                  "trust/index.html",
-                  "tecr.html",
-                  "offerings.html",
-                  "clack/index.html",
-                  "check-site.ts PASS (documents: 4, local_assets: 129, fragment_links: 27); deno test tests/ 7 passed 0 failed"
+                  "scripts/check-website-privacy.ts",
+                  "Deno all site suites 9/9. Cloudflare rule disables automatic analytics on scoped paths, excluding Clack. Nine live HTML destinations with cold and warm probes passed script and declared reporting checks. Website HTML candidate and external participant evidence remain distinct."
                 ],
                 "proof_refs": [
-                  "check-site",
-                  "deno-test"
+                  "site_source_regressions",
+                  "delivered_route_privacy"
                 ],
                 "scope": [
                   "root"
                 ],
                 "sequence": 4,
-                "validation_findings": [
-                  "Zero external participant sessions run; live post-merge readback pending PR merge"
-                ]
+                "validation_findings": []
+              },
+              {
+                "action": "verification",
+                "custody_event_id": "event:5",
+                "observations": [
+                  "tests/support/delivered-website-privacy.ts",
+                  "Nine Deno checks passed after keeping the optional deployed check with the regression tests. Accepted configured proof command and proof-source inputs are unchanged."
+                ],
+                "proof_refs": [
+                  "site_source_regressions"
+                ],
+                "scope": [
+                  "root"
+                ],
+                "sequence": 5,
+                "validation_findings": []
+              },
+              {
+                "action": "verification",
+                "custody_event_id": "event:6",
+                "observations": [
+                  "Chrome 158.0.8127.38, local 320/390/1440 widths with zero horizontal overflow and 14 visible capabilities. Live navigation across seven pages detected zero analytics requests; incumbent Quickstart loaded third-party fonts separately. No external participant study or authenticated Cloud workflow is claimed."
+                ],
+                "proof_refs": [
+                  "chrome_candidate_reading_order",
+                  "live_browser_analytics"
+                ],
+                "scope": [
+                  "root"
+                ],
+                "sequence": 6,
+                "validation_findings": []
+              },
+              {
+                "action": "trajectory.record",
+                "custody_event_id": "event:7",
+                "observations": [
+                  "docs/design-system/content-recovery-inventory.md",
+                  "index.html",
+                  "trust/index.html",
+                  "index.html",
+                  "PR #108 merged during preflight. Its accepted editorial, navigation and Clack bytes were preserved. Integrated the remaining editorial examples, historical qualification link and privacy documentation against 9c551191bbcf970e3263661fc10b590826ed129b."
+                ],
+                "proof_refs": [
+                  "clack_paths_unchanged_from_accepted_base"
+                ],
+                "scope": [
+                  "root"
+                ],
+                "sequence": 7,
+                "validation_findings": []
               }
             ]
           }
@@ -226,29 +300,21 @@
       "declared_commands": [],
       "destination": "pull request",
       "evidence": [
-        "check-site.ts PASS (documents: 4, local_assets: 129, fragment_links: 27); deno test tests/ 7 passed 0 failed"
+        "Chrome 158.0.8127.38, local 320/390/1440 widths with zero horizontal overflow and 14 visible capabilities. Live navigation across seven pages detected zero analytics requests; incumbent Quickstart loaded third-party fonts separately. No external participant study or authenticated Cloud workflow is claimed.",
+        "Deno all site suites 9/9. Cloudflare rule disables automatic analytics on scoped paths, excluding Clack. Nine live HTML destinations with cold and warm probes passed script and declared reporting checks. Website HTML candidate and external participant evidence remain distinct.",
+        "Nine Deno checks passed after keeping the optional deployed check with the regression tests. Accepted configured proof command and proof-source inputs are unchanged.",
+        "PR #108 merged during preflight. Its accepted editorial, navigation and Clack bytes were preserved. Integrated the remaining editorial examples, historical qualification link and privacy documentation against 9c551191bbcf970e3263661fc10b590826ed129b."
       ],
       "inspected_files": [
-        "clack/index.html",
-        "index.html",
-        "main.js",
-        "proof.html",
-        "styles.css",
-        "tecr.html",
-        "trust/index.html"
-      ],
-      "intent_id": "intent:change_01M8G1SRHCP3JSPXXEF813B8MZ",
-      "modified_files": [
-        "clack/index.html",
         "docs/design-system/content-recovery-inventory.md",
-        "docs/design-system/first-use-research-script.md",
         "docs/design-system/positioning-and-design-contract.md",
+        "index.html"
+      ],
+      "intent_id": "intent:change_01M8G4C64SNH9QPRXYRRWTD0WD",
+      "modified_files": [
         "index.html",
-        "main.js",
-        "offerings.html",
-        "proof.html",
-        "styles.css",
-        "tecr.html",
+        "scripts/check-website-privacy.ts",
+        "tests/support/delivered-website-privacy.ts",
         "trust/index.html"
       ],
       "next_transitions": [
@@ -257,14 +323,12 @@
       "repo_scope": [
         "root"
       ],
-      "run_id": "branch_01M8G1SRVR1FCYB10ZWWCHNMJT",
+      "run_id": "branch_01M8G4C680G8E43W5Z8G1BVJ3T",
       "schema_version": "1.1.0",
       "shortcut_risk_signals": [],
-      "task_id": "arch_01m8g1r38g4v0x9w",
+      "task_id": "fend_01m8g49fna58hztd",
       "tool_calls": [],
-      "unresolved_assumptions": [
-        "Zero external participant sessions run; live post-merge readback pending PR merge"
-      ]
+      "unresolved_assumptions": []
     }
   }
 }

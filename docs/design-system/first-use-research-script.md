@@ -14,7 +14,7 @@
    1. *What is this, and what problem is Decapod Labs addressing?*
    2. *How does it work with the coding agent I already use?*
    3. *What does Decapod contribute before and during the work (Constitution, living specs, context capsules, boundaries)?*
-   4. *How do knowledge, intent, ownership, and progress survive across people, agents, and sessions?*
+   4. *What does the maintainer delegate, what can the agent handle when a routine check fails, what survives a session change, and when is human input necessary?*
    5. *What kinds of work can I apply it to?*
    6. *Where do I explore the architecture, research, or capabilities, and how do I start?*
 3. **Evidence Separation:**
@@ -46,15 +46,17 @@
 **Neutral Observation Questions:**
 1. **First Screen & Film (`/` hero + `Meet the kernel.`):** *"Without scrolling past the opening and film, what problem does Decapod address, and who runs it—you or your coding agent?"*
 2. **Operating Model & Pillars (`#features`, `#architecture`):** *"In your own words, what happens to your idea before your agent edits code, and what stays on disk after a call exits?"*
-3. **Capabilities & Constitution (`#capabilities`):** *"Pick two capabilities that seem essential to multi-session engineering. What is the Constitution, and how do agents use it?"*
-4. **Applied Work & Research (`#showcase`, `#research`):** *"What kinds of software projects are shown here, and how would you describe the lab's ongoing research report?"*
-5. **Starting Locally (`#quickstart` -> `/decapod/quickstart.html`):** *"If you wanted to start on one repo today, what commands do you run yourself versus what do you tell your coding agent?"*
-6. **Technical Reference (`/proof.html`, `/trust/index.html`):** *"If a teammate asked for a concrete engineering case study or wanted to verify what data leaves your laptop locally, where would you send them?"*
+3. **Feature and recovery examples (`#architecture`):** *“What result did the maintainer ask for? What does the agent do when a test finds a problem? What would require the maintainer to act?”*
+4. **Capabilities & Constitution (`#capabilities`):** *"Pick two capabilities that seem essential to multi-session engineering. What is the Constitution, and how do agents use it?"*
+5. **Applied Work & Research (`#showcase`, `#research`):** *"What kinds of software projects are shown here, and how would you describe the lab's ongoing research report?"*
+6. **Starting Locally (`#quickstart` -> `/decapod/quickstart.html`):** *"If you wanted to start on one repo today, what commands do you run yourself versus what do you tell your coding agent?"*
+7. **Technical Reference (`/proof.html`, `/trust/index.html`):** *"If a teammate asked for a concrete engineering case study or wanted to verify what data leaves your laptop locally, where would you send them?"*
 
 **Observable Success Signals (mapped to the 6 newcomer outcomes):**
 - Answers all 6 newcomer comprehension questions accurately in plain prose without clicking closed drawers or deciphering commit hashes first.
 - Recognizes that existing coding agents remain in use (`Codex`, `Claude Code`, `Cursor`, `Antigravity`, `Pi`) and call Decapod on demand with zero background daemon.
 - Distinguishes the whole kernel (Constitution, living specs, context capsules, durable memory, worktree custody, recovery, publication) from a single validation script or case study.
+- Connects the illustrative keyboard-navigation request and failed focus check to the intended result, permitted repair, and revised candidate. Identifies missing authority or an unresolved product decision as a reason for human input.
 - Separates human bootstrap (`cargo binstall decapod && decapod init`) from short outcome-based agent delegation (`decapod validate` / PR policy).
 
 ---
@@ -90,7 +92,7 @@
 
 | ID | Surface | Untested Hypothesis | Falsification / Refutation Signal |
 | --- | --- | --- | --- |
-| **H1** | Hero & Film (`/`) | Leading with `HARNESS AI METACOGNITION.`, plain-language explanation, install card, and the visible kernel film answers *what Decapod is* faster and with stronger lab stature than leading with commit-SHA test failures. | External newcomers still struggle after scrolling past the hero/film to explain what problem Decapod solves or why an agent invokes it. |
+| **H1** | Hero & Film (`/`) | Leading with `Infrastructure for autonomous engineering.`, plain-language explanation, install card, and the visible kernel film answers *what Decapod is* faster and with stronger lab stature than leading with commit-SHA test failures. | External newcomers still struggle after scrolling past the hero/film to explain what problem Decapod solves or why an agent invokes it. |
 | **H2** | Architecture & Constitution (`#architecture`, `#capabilities`) | Making all 14 capabilities (including full Constitution doctrine on curated golden paths, research, architecture, business knowledge, and PR openness) visibly browsable clarifies how Decapod differs from an ad-hoc prompt checklist. | Readers skim past the capability grid without grasping the relationship between Constitution, living specs, context capsules, and worktree custody. |
 | **H3** | Showcases & Research (`#showcase`, `#research`) | Visible Waystead + concurrent swarm carousels paired with *Accountable Agentic Execution* and *The End of Continuous Rework* demonstrate real breadth without defensive disclaimers. | Visitors confuse internal showcases (`Waystead`, concurrent Ghostty swarms) for third-party customer testimonials or find pre-results research status ambiguous. |
 | **H4** | Quickstart (`/decapod/quickstart.html`) | Splitting human bootstrap (`decapod init`) from short outcome-only agent delegation (`Fix the failing retry-backoff test.`) and clarifying standing PR/merge policy lowers setup friction. | First-time users still copy internal CLI commands into manual prompts or assume validation implies automatic merge. |

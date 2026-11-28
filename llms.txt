@@ -1,8 +1,8 @@
 # Decapod Labs
 
-> Decapod is a local-first, repo-native governance kernel for AI coding agents. It preserves task ownership, intent, repository boundaries, and evidence tied to the work delivered across agent sessions.
+> Decapod Labs builds infrastructure for autonomous engineering. Decapod is a local-first governance kernel existing coding agents call for durable project knowledge, ownership, authority checks, and delivery.
 
-Decapod runs when an agent invokes it and then exits. Agents perform the engineering work; the kernel governs accepted work. Decapod Local is free and works without signup. Decapod Cloud provides an optional shared service for teams. Current commands and their contracts are available from the installed binary through `decapod docs ingest`.
+A person delegates an outcome in ordinary language. The agent resolves relevant knowledge and constraints, coordinates changes, recovers from ordinary failures, and delivers under existing authority. Decapod runs on demand and preserves the decisions, work state, and evidence that subsequent sessions need. Decapod Local is free and works without signup. Decapod Cloud provides an optional shared service for teams. Current commands and their contracts are available from the installed binary through `decapod docs ingest`.
 
 This index covers public product information and documentation. Authenticated account, organization, billing, and repository data are outside its scope. The linked pages are the current sources for product details and limitations.
 
@@ -17,10 +17,17 @@ This index covers public product information and documentation. Authenticated ac
 - [CLI reference](https://decapodlabs.ai/decapod/reference/cli.html): Public command reference; consult the installed binary for version-matched contracts.
 - [Errors and recovery](https://decapodlabs.ai/decapod/reference/errors.html): Interpret failures and supported recovery paths.
 
-## Proof and boundaries
+## Research and applications
+
+- [Capabilities](https://decapodlabs.ai/#capabilities) explains how intent, the Constitution, living specs, context, durable memory, and work ownership fit together.
+- [Applied work](https://decapodlabs.ai/#showcase) describes the Waystead development example and introduces the kernel.
+- [Accountable Agentic Execution](https://github.com/DecapodLabs/accountable-agentic-execution) is a public technical report and reproducible evaluation harness in pre-results status.
+
+## Evaluation and boundaries
 
 - [Proof concepts](https://decapodlabs.ai/decapod/concepts/proof.html): Evidence and validation boundaries.
-- [Recorded engineering proof](https://decapodlabs.ai/proof.html): An observed failure, repair, validation, and publication, with evidence and explicit limits.
+- [Versioned agent-host results](https://github.com/DecapodLabs/decapod/blob/a2d7266db2c63fea15f86c2de75a84f2cb55e8f3/docs/research/host-outcome-pilot/sec12-host-activation-2026-11-26.md) records executed host trials and partial outcomes. [Cloud acceptance](https://github.com/DecapodLabs/decapod/issues/1809) tracks hosted qualification.
+- [Recorded engineering case study](https://decapodlabs.ai/proof.html): An observed failure, repair, validation, and publication, with evidence and explicit limits.
 - [Trust and privacy](https://decapodlabs.ai/trust/): Public network, privacy, credential, and service boundaries.
 
 ## Products

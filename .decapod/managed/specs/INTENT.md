@@ -23,7 +23,7 @@ Restore Decapod Labs' identity as an AI research and engineering organization an
 
 ## Behavioral Privacy & Trust Contract (`/trust/index.html`)
 
-Publish a versioned, public Behavioral Privacy & Trust Contract at `/trust/index.html` (`v1.0.0`, effective `2026-11-24`) linked cleanly from the footer across site pages (`index.html`, `pricing.html`, `pricing/index.html`, `signup/index.html`, `clack/index.html`, `tecr.html`, `admin/index.html`, `trust/index.html`). The contract discloses exact network boundaries for Decapod Local CLI (zero telemetry/analytics), Decapod Cloud, Dactyl, and Clack, documents Cloudflare Workers relay transparency, states all nine permanent trust invariants, and provides incident accountability and revocation channels.
+Publish a versioned, public Behavioral Privacy & Trust Contract at `/trust/index.html` (`v1.0.1`, effective `2026-11-27`) linked cleanly from the footer across site pages (`index.html`, `pricing.html`, `pricing/index.html`, `signup/index.html`, `clack/index.html`, `tecr.html`, `admin/index.html`, `trust/index.html`). The contract discloses exact network boundaries for Decapod Local CLI (zero telemetry/analytics), Decapod Cloud, Dactyl, and Clack, documents Cloudflare Workers relay transparency, states all nine permanent trust invariants, and provides incident accountability and revocation channels. Visitors can review what public routes send to the network, including the distinct Cloudflare failure-reporting policy and API calls for Cloud entry. The homepage teaches the operating model with an ordinary feature request and a routine failure that the agent can repair under standing authority.
 
 The public Decapod Labs website explains the repo-native governance kernel and helps humans begin with their existing coding agents. The accepted pricing.html preview compares Local with the planned Cloud offering; the homepage links to it without replacing the accepted hero, capability catalog or closing layout.
 
@@ -94,7 +94,7 @@ These declarations select authoring and proof obligations; they do not attest im
 
 ## Codebase Contract Snapshot
 
-- Tracked significant codebase files: 21 across `.github/` (1), `README.md/` (1), `admin/` (1), `cloud-flow.js/` (1), `evidence/` (4), `main.js/` (1), `pricing.js/` (1), `scripts/` (7), `signup/` (1), `tests/` (3)
+- Tracked significant codebase files: 23 across `.github/` (1), `README.md/` (1), `admin/` (1), `cloud-flow.js/` (1), `evidence/` (4), `main.js/` (1), `pricing.js/` (1), `scripts/` (7), `signup/` (1), `tests/` (5)
 - Core modules: 0 | Workflows: 1 | Integration targets: 0
 <!-- decapod:codebase-contract:end -->
 
@@ -102,8 +102,8 @@ These declarations select authoring and proof obligations; they do not attest im
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `3a82b606f5db227a747d549ff0987c19cbcb23210a9eba5bd08de4a357417d00`
-- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (3 files)
+- Repository signal fingerprint: `90fc5e430a2003d07c5179b7763b43ee2cefa3e96df435bbd07f238357ca552c`
+- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (5 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->
 

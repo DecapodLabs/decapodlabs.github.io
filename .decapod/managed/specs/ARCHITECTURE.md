@@ -21,6 +21,8 @@ Compiled Decapod Cloud web presentation assets (`cloud-flow.js`, `pricing/*`, `s
 
 `trust/index.html` is a static semantic HTML page styled with `styles.css` and `trust/trust.css` using the existing Decapod Labs typography and palette, with zero third-party scripts, tracking pixels, or analytics beacons. `tests/trust_privacy_contract_test.ts` scans every `.html` and `.js` asset in the repository to fail closed on third-party trackers, external `<script src>` embeds, fingerprinting scripts, missing contract metadata/disclosures, or missing footer links.
 
+Cloudflare’s host-scoped Configuration Rule disables Web Analytics browser injection for Decapod routes, with the Clack path explicitly outside the rule. Network Error Logging is an independent edge feature. `docs/website-egress-inventory.md` records origins and payload categories. `tests/support/delivered-website-privacy.ts` verifies actual delivered HTML and response headers independently from source checks.
+
 GitHub Pages serves a static homepage and a dedicated pricing.html preview. Existing styles.css supplies branding and responsive layout; main.js retains film controls and install-selection/copy behavior on the homepage. pricing.js updates illustrative assignment, discount and resource-capacity controls locally; no application server or payment authority is introduced. offerings.html redirects to pricing.html. Website-owned media generation extends the existing renderer and main/manual workflow with verified real-agent launch assets.
 
 ## Direction
@@ -130,8 +132,8 @@ Generated capability obligations: `persistent-state` is declared for this projec
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `3a82b606f5db227a747d549ff0987c19cbcb23210a9eba5bd08de4a357417d00`
-- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (3 files)
+- Repository signal fingerprint: `90fc5e430a2003d07c5179b7763b43ee2cefa3e96df435bbd07f238357ca552c`
+- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (5 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->
 

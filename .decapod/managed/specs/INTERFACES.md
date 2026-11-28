@@ -16,7 +16,8 @@
 
 ## Behavioral Privacy & Trust Contract Interface (`/trust/index.html`)
 
-- **Version Metadata:** `<meta name="decapod-trust-contract-version" content="1.0.0">` and `<meta name="decapod-trust-effective-date" content="2026-11-24">` plus visible contract metadata, change-control guarantee, and changelog section.
+- **Version Metadata:** `<meta name="decapod-trust-contract-version" content="1.0.1">` and `<meta name="decapod-trust-effective-date" content="2026-11-27">` plus visible contract metadata, change-control guarantee, and changelog section.
+- **Public hosting disclosure:** `/trust/#website-privacy` describes the browser analytics control and separate transport reporting policy. The delivered-response check requires the known Cloudflare HTTPS report origin when reporting headers are present, and rejects analytics injection into successful public HTML responses.
 - **Footer Navigation:** All primary site pages (`index.html`, `pricing.html`, `pricing/index.html`, `signup/index.html`, `clack/index.html`, `tecr.html`, `admin/index.html`, `trust/index.html`) include `<a href="/trust/index.html">Trust &amp; Privacy ↗</a>` inside `.footer-grid`.
 
 index.html links to pricing.html from navigation and its highlighted hero entry. The dedicated document loads shared commercial Geist styling (`shared/commercial-ui.css`, `pricing.css`), self-hosted Geist fonts (`assets/fonts/*`), and `pricing.js` displaying live $50/mo and $552/yr Cloud rates alongside the compact Decapod Local free tier. Get started links for Local point to `https://decapodlabs.github.io/decapod/quickstart.html`.
@@ -150,8 +151,8 @@ Generated capability obligations: `public-api` is declared for this project. The
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `3a82b606f5db227a747d549ff0987c19cbcb23210a9eba5bd08de4a357417d00`
-- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (3 files)
+- Repository signal fingerprint: `90fc5e430a2003d07c5179b7763b43ee2cefa3e96df435bbd07f238357ca552c`
+- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `admin/` (1 files), `cloud-flow.js/` (1 files), `evidence/` (4 files), `main.js/` (1 files), `pricing.js/` (1 files), `scripts/` (7 files), `signup/` (1 files), `tests/` (5 files)
 - Refreshed from the current codebase by `decapod rpc --op specs.refresh`
 <!-- decapod:codebase-attestation:end -->
 

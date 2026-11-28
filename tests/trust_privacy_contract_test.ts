@@ -52,8 +52,8 @@ Deno.test('Zero third-party analytics, tracking pixels, fingerprinting scripts, 
 Deno.test('/trust/index.html specifies versioned contract metadata, product scopes, relay transparency, 9 invariants, and incident accountability', async () => {
   const trustHtml = await Deno.readTextFile('trust/index.html');
   assert(trustHtml.includes('lang="en"') && /<meta\s+name="viewport"/i.test(trustHtml), 'accessibility baseline');
-  assert(trustHtml.includes('name="decapod-trust-contract-version" content="1.0.0"'), 'contract version meta');
-  assert(trustHtml.includes('name="decapod-trust-effective-date" content="2026-11-24"'), 'effective date meta');
+  assert(trustHtml.includes('name="decapod-trust-contract-version" content="1.0.1"'), 'contract version meta');
+  assert(trustHtml.includes('name="decapod-trust-effective-date" content="2026-11-27"'), 'effective date meta');
   assert(trustHtml.includes('Contract Version') && trustHtml.includes('Effective Date'), 'visible contract version and effective date');
   assert(
     trustHtml.includes('Removing or weakening a guarantee requires explicit version increment and changelog entry; updates never silently broaden collection.'),
