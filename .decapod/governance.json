@@ -28,6 +28,14 @@
       "id": "chk-1-ia-phase-a",
       "summary": "Track 3 Phase A (#103): 6-link nav, single-row mobile header strip, compact footer, inline Quickstart/Team Cloud hero links, and internal -> vs external up-right arrow consistency",
       "input_digest": "sha256:1bc21541b20528a4a1ee13500ac3313a7850acbe4320c16fe63b6254cc5454c4"
+    },
+    {
+      "id": "chk-2-ia-phase-b",
+      "summary": "Sync streamlined 6-link nav, 20261128-ia stylesheet, footer, and arrow conventions across secondary pages (#103, #106)",
+      "input_digest": "sha256:2ecc35d9b486ee90c0b93c55f5d7f5066492eeeaa693bd9d5479735fd0b30b3f",
+      "proof_refs": [
+        "scripts/check-site.ts"
+      ]
     }
   ],
   "intents": {
