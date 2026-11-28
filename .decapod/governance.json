@@ -38,6 +38,11 @@
       "id": "chk-3-proof-trust",
       "summary": "Causal 5-step Proof story and reader-question Trust layout (#106)",
       "input_digest": "sha256:b700e6ce76c1d986129f42075c05e6cba8b5a6893dfa0fe5ef2a634aeb9f2a91"
+    },
+    {
+      "id": "chk-4-secondary-chrome",
+      "summary": "Align Rework, offerings redirect, and Clack chrome with self-hosted Geist system (#103)",
+      "input_digest": "sha256:a89246beee9c9551d4a3e37538b15699811f15ab5e7843b7b7ad7b27dad98d3b"
     }
   ],
   "intents": {

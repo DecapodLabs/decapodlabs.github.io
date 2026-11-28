@@ -11,25 +11,50 @@
   <meta property="og:image:alt" content="Illustration of a crab lifting one claw in the underwater town of Siltwick">
   <link rel="canonical" href="https://decapodlabs.ai/clack/">
   <link rel="icon" type="image/png" href="/clack/icon.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/styles.css?v=20261123-current-nav">
+  <link rel="stylesheet" href="/styles.css?v=20261127-uplift">
   <link rel="stylesheet" href="/clack/clack.css?v=11">
+  <style>
+    .clack-site .nav-links a { color: var(--clack-text); }
+    .clack-site .nav-links a:hover { color: var(--clack-seaglass); }
+    .clack-site .nav-links a:is([aria-current="page"], [aria-current="location"]):not(.nav-pricing) {
+      color: var(--clack-text);
+      box-shadow: inset 0 -2px 0 var(--clack-seaglass);
+    }
+    .clack-site .nav-links a.nav-pricing {
+      background: var(--clack-surface);
+      color: var(--clack-text);
+    }
+    .clack-site .nav-links a.nav-pricing:hover {
+      background: #173a45;
+      color: var(--clack-seaglass);
+    }
+    .clack-site .nav-cta {
+      background: var(--clack-surface);
+      border-color: var(--clack-line);
+      color: var(--clack-text);
+    }
+    .clack-site .nav-cta:hover {
+      box-shadow: 0 4px 0 var(--clack-coral);
+    }
+    .clack-page :is(h1, h2, h3, .clack-lead) {
+      font-family: var(--font-sans);
+    }
+    .clack-site .footer-copy { color: var(--clack-muted); }
+  </style>
   <title>Clack for macOS · Decapod Labs</title>
 </head>
-<body class="clack-site">
+<body class="clack-site site-footer-pinned">
   <a class="skip" href="#main">Skip to content</a>
 <header class="nav">
   <div class="wrap nav-content">
     <a href="/" class="brand" aria-label="Decapod Labs home"><img class="site-wordmark" src="/assets/logo-c.png" alt="Decapod Labs" width="420" height="140"></a>
     <nav class="nav-links" aria-label="Site navigation">
-      <a href="/#showcase">Showcase</a>
-      <a href="/#features">Features</a>
-      <a href="/#architecture">Architecture</a>
+      <a href="https://decapodlabs.ai/decapod/">Docs</a>
+      <a href="/proof.html">Proof</a>
+      <a class="nav-pricing" href="https://decapodlabs.ai/pricing">Pricing</a>
       <a href="/tecr.html">Rework</a>
       <a href="/clack/index.html" aria-current="page">Clack</a>
-      <a class="nav-pricing" href="/pricing.html">Pricing</a>
+      <a href="/trust/index.html">Trust</a>
     </nav>
     <a class="nav-cta" href="https://github.com/DecapodLabs/decapod" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>
   </div>
@@ -124,6 +149,20 @@
       </a>
     </section>
   </main>
-<footer class="footer"><div class="wrap footer-grid"><a href="/" class="footer-brand" aria-label="Decapod Labs home"><img class="site-wordmark" src="/assets/logo-b.png" alt="Decapod Labs" width="420" height="140"></a><span>© 2026 Decapod Labs</span><div><a href="/pricing.html">Pricing ↗</a><a href="/trust/index.html">Trust &amp; Privacy ↗</a><a href="https://github.com/DecapodLabs/decapod">GitHub ↗</a><a href="https://decapodlabs.github.io/decapod/">Read the docs ↗</a></div></div></footer>
+<footer class="footer">
+  <div class="wrap footer-grid">
+    <a href="/" class="footer-brand" aria-label="Decapod Labs home"><img class="site-wordmark" src="/assets/logo-b.png?v=20261127-uplift" alt="Decapod Labs" width="420" height="140"></a>
+    <span class="footer-copy">© 2026 Decapod Labs</span>
+    <div class="footer-links">
+      <a href="https://decapodlabs.ai/decapod/">Docs ↗</a>
+      <a href="/proof.html">Proof</a>
+      <a href="https://decapodlabs.ai/pricing">Pricing ↗</a>
+      <a href="/trust/index.html">Trust &amp; Privacy ↗</a>
+      <a href="/tecr.html">Rework</a>
+      <a href="https://github.com/DecapodLabs/decapod">GitHub ↗</a>
+      <a href="/llms.txt">For agents</a>
+    </div>
+  </div>
+</footer>
 </body>
 </html>
