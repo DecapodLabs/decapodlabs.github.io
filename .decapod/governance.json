@@ -33,6 +33,11 @@
       "id": "chk-2-home-uplift",
       "summary": "Self-hosted Geist homepage, immediate Pi proof preview, 320/390/1024/1440 reflow, and Cloud 4 pillars (#103, #104)",
       "input_digest": "sha256:b8243621c7aaab56744a767817d17c2c07f88a5425dde7eca7b9a745670ff407"
+    },
+    {
+      "id": "chk-3-proof-trust",
+      "summary": "Causal 5-step Proof story and reader-question Trust layout (#106)",
+      "input_digest": "sha256:b700e6ce76c1d986129f42075c05e6cba8b5a6893dfa0fe5ef2a634aeb9f2a91"
     }
   ],
   "intents": {

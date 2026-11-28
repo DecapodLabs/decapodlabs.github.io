@@ -1,5 +1,13 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Governed Agent Work: Recorded Proof — Decapod Labs</title><meta name="description" content="Inspect the actual Pi failure, repair, fresh validation and exact-head GitHub admission behind the terminal proof video and case study."><link rel="stylesheet" href="styles.css?v=20261123-current-nav"><link rel="icon" href="assets/favicon.png">
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#fff9f0">
+<title>Governed Agent Work: Recorded Proof — Decapod Labs</title>
+<meta name="description" content="Inspect the actual Pi 0.73.1 failure, agent repair, fresh validation, and exact-head GitHub admission behind Decapod’s recorded terminal case study.">
+<link rel="stylesheet" href="/styles.css?v=20261127-uplift">
+<link rel="icon" href="/assets/favicon.png">
 <link rel="describedby" href="/llms.txt" type="text/plain">
 <link rel="canonical" href="https://decapodlabs.ai/proof.html">
 <meta property="og:type" content="website">
@@ -10,61 +18,566 @@
 <meta property="og:image" content="https://decapodlabs.ai/assets/social-preview.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Decapod Labs: Your ideas. Your agents. Metacognition, persistent state, proof.">
+<meta property="og:image:alt" content="Decapod Labs: Local-first governance kernel for AI coding agents with persistent state and commit-bound proof.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Governed Agent Work: Recorded Proof — Decapod Labs">
 <meta name="twitter:description" content="Inspect a recorded agent failure, repair, fresh validation, and commit-bound evidence from a Decapod-governed engineering task.">
 <meta name="twitter:image" content="https://decapodlabs.ai/assets/social-preview.png">
-<meta name="twitter:image:alt" content="Decapod Labs: Your ideas. Your agents. Metacognition, persistent state, proof.">
+<meta name="twitter:image:alt" content="Decapod Labs: Local-first governance kernel for AI coding agents with persistent state and commit-bound proof.">
+<style>
+  .proof-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--accent-ink);
+    text-decoration: none;
+    margin-bottom: 12px;
+  }
+  .proof-back:hover { text-decoration: underline; text-underline-offset: 4px; }
+  .proof-lead {
+    font-size: clamp(16.5px, 1.3vw, 18.5px);
+    line-height: 1.62;
+    color: var(--ink-secondary);
+    max-width: 66ch;
+    margin: 0 0 24px;
+  }
+  .proof-provenance-card {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+    padding: 18px 20px;
+    border-radius: 16px;
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 32px;
+  }
+  .proof-stat { min-width: 0; }
+  .proof-stat-label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 4px;
+  }
+  .proof-stat-val {
+    display: block;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--ink);
+    overflow-wrap: anywhere;
+  }
+  .proof-arc {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0 28px;
+    display: grid;
+    gap: 12px;
+  }
+  .proof-arc-step {
+    display: grid;
+    grid-template-columns: 116px minmax(0, 1fr);
+    gap: 14px;
+    align-items: start;
+    padding: 16px 18px;
+    border-radius: 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+  }
+  .proof-arc-step.is-failure {
+    border-color: rgba(185, 60, 27, 0.38);
+    background: #fff4ec;
+  }
+  .proof-arc-step.is-outcome {
+    border-color: rgba(15, 118, 110, 0.36);
+    background: #f2fbf9;
+  }
+  .proof-step-badge {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 5px 9px;
+    border-radius: 8px;
+    background: var(--milk);
+    color: var(--accent-ink);
+    text-align: center;
+  }
+  .proof-arc-step.is-outcome .proof-step-badge {
+    background: #dcf5f1;
+    color: #0b5d56;
+  }
+  .proof-arc-step h3 {
+    margin: 0 0 4px;
+    font-size: 17px;
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+  }
+  .proof-arc-step p {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--ink-secondary);
+  }
+  .proof-qa-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    margin: 18px 0 32px;
+  }
+  .proof-qa-card {
+    padding: 18px 20px;
+    border-radius: 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    min-width: 0;
+  }
+  .proof-qa-card h3 {
+    margin: 0 0 8px;
+    font-size: 17px;
+    letter-spacing: -0.02em;
+  }
+  .proof-qa-card p {
+    margin: 0 0 10px;
+    font-size: 14.5px;
+    line-height: 1.56;
+    color: var(--ink-secondary);
+  }
+  .proof-qa-card p:last-child { margin-bottom: 0; }
+  .proof-code-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .proof-hash {
+    user-select: all;
+    background: var(--milk);
+    padding: 3px 7px;
+    border-radius: 6px;
+    color: var(--ink);
+  }
+  .proof-copy-btn {
+    border: 1px solid var(--border-strong);
+    background: var(--bg);
+    color: var(--ink);
+    border-radius: 7px;
+    padding: 4px 10px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .proof-copy-btn:hover { background: var(--milk); }
+  .proof-blockquote {
+    margin: 14px 0 18px;
+    padding: 14px 18px;
+    border-left: 4px solid var(--orange);
+    border-radius: 0 12px 12px 0;
+    background: var(--surface);
+    font-size: 15.5px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .proof-pill-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 14px;
+    margin: 16px 0;
+    font-size: 14px;
+  }
+  .proof-pill-links a {
+    color: var(--accent-ink);
+    font-weight: 600;
+    text-underline-offset: 3px;
+  }
+  .proof-disclosure {
+    margin: 18px 0;
+    border: 1px solid var(--border-strong);
+    border-radius: 14px;
+    background: var(--surface);
+    padding: 14px 18px;
+  }
+  .proof-disclosure summary {
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 15.5px;
+    color: var(--ink);
+  }
+  .proof-disclosure[open] summary {
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .proof-disclosure ul {
+    margin: 12px 0;
+    padding-left: 20px;
+  }
+  .proof-disclosure li + li { margin-top: 8px; }
+  .proof-note-box {
+    margin: 16px 0;
+    padding: 14px 16px;
+    border-radius: 12px;
+    background: var(--milk);
+    border: 1px solid rgba(185, 60, 27, 0.24);
+    font-size: 14.5px;
+    color: var(--ink-secondary);
+  }
+  .proof-next-actions {
+    margin-top: 36px;
+    padding: 24px;
+    border-radius: 16px;
+    background: #1f1722;
+    color: #fff9f0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .proof-next-actions h2 {
+    margin: 0 0 6px;
+    font-size: 22px;
+    color: #fff9f0;
+  }
+  .proof-next-actions p {
+    margin: 0;
+    font-size: 14.5px;
+    color: #e4d7df;
+    max-width: 54ch;
+  }
+  .proof-next-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .proof-content section { scroll-margin-top: 104px; }
+  @media (max-width: 780px) {
+    .proof-provenance-card,
+    .proof-qa-grid { grid-template-columns: minmax(0, 1fr); }
+    .proof-arc-step { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+    .proof-step-badge { justify-self: start; }
+  }
+</style>
 </head>
-<body class="proof-page">
+<body class="proof-page site-footer-pinned">
 <a class="skip" href="#main">Skip to content</a>
 <header class="nav">
   <div class="wrap nav-content">
     <a href="/" class="brand" aria-label="Decapod Labs home"><img class="site-wordmark" src="/assets/logo-a.png" alt="Decapod Labs" width="420" height="140"></a>
     <nav class="nav-links" aria-label="Site navigation">
-      <a href="/#showcase">Showcase</a>
-      <a href="/#features">Features</a>
-      <a href="/#architecture">Architecture</a>
+      <a href="https://decapodlabs.ai/decapod/">Docs</a>
+      <a href="/proof.html" aria-current="page">Proof</a>
+      <a class="nav-pricing" href="https://decapodlabs.ai/pricing">Pricing</a>
       <a href="/tecr.html">Rework</a>
       <a href="/clack/index.html">Clack</a>
-      <a class="nav-pricing" href="https://decapodlabs.ai/pricing">Pricing</a>
+      <a href="/trust/index.html">Trust</a>
     </nav>
     <a class="nav-cta" href="https://github.com/DecapodLabs/decapod" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>
   </div>
 </header>
-<main id="main" class="proof-content"><a href="index.html#proofs">← Decapod Labs</a><h1>An objective.<br>A repair.<br>The receipts.</h1><section id="case-study" aria-labelledby="caseStudyHeading">
-<h2 id="caseStudyHeading">The case study</h2>
-<p>The 56-second case study follows the run shown in the native terminal recording, with the original scene timing and soundtrack.</p>
-<div class="launch-player">
-<video id="launchVideo" controls playsinline preload="none" poster="assets/decapod-launch-poster.png" aria-label="Decapod autonomous engineering case study">
-  <source src="assets/decapod-launch-mobile.mp4" media="(max-width: 600px)" type="video/mp4">
-  <source src="assets/decapod-launch.mp4" type="video/mp4">
-  <track kind="captions" src="assets/decapod-launch.vtt" srclang="en" label="English">
-  <p><a href="assets/decapod-launch.mp4">Download the case study</a>.</p>
-</video>
-</div>
-<p><a href="index.html#proofs">Watch the native Pi terminal recording</a> · <a href="assets/decapod-launch-social.mp4">12-second cut</a></p>
-</section>
-<section id="recorded-run" aria-labelledby="recordedRunHeading">
-<h2 id="recordedRunHeading">The recorded Pi run</h2>
-<blockquote>Implement the repository-scoped read authorization described in README.md and publish a verified pull request.</blockquote>
-<p>Pi 0.73.1 with gpt-6.1-sol and Decapod 0.148.8 executed 43 tool calls. The film renders Pi’s recorded terminal stream with larger type and expanded results. Pi received one objective and no follow-up input.</p>
-<table><tbody>
-<tr><th>Failed candidate</th><td><code>ed086de6691d92da623febfaa6b411514828440e</code></td></tr>
-<tr><th>Validated and published head</th><td><code>a063de9040c458204eace1929d1e8536ad048a88</code></td></tr>
-<tr><th>Accepted base</th><td><code>ada3eb89c3707801a5b86265dccc899fdabe5e1c</code></td></tr>
-<tr><th>Fresh validation receipt</th><td><code>sha256:bcd043bc1cec93ccb51d227c699ef137014bb54ab7714518404c60de8b888542</code></td></tr>
-<tr><th>Independent forge readback</th><td><a href="https://github.com/alexhraber/decapod-admission-acceptance-20261117-1747-06/pull/7">GitHub PR #7</a></td></tr>
-</tbody></table>
-<p><a href="evidence/pi-1758-tui-06/tui-capture.json">Recording metadata</a> · <a href="evidence/pi-1758-tui-06/tui-pixels.json">Frame timing and digests</a> · <a href="evidence/pi-1758-tui-06/manifest.json">Observer manifest</a> · <a href="evidence/pi-1758-tui-06/kernel.json">Native checks and receipts</a> · <a href="evidence/pi-1758-tui-06/github.json">Independent GitHub readback</a> · <a href="evidence/pi-1758-tui-06/README.md">Reproduction and capture limits</a></p>
-<p>Admission grants no merge authorization.</p>
-</section>
-<h2>The earlier fixture run</h2><p>The original launch film was based on this first independently observed run. A read-only Rust observer correlated actual provider tool requests, host execution, kernel records, Git state and independent GitHub readback. Model narration is not completion evidence.</p>
-<h2>The objective</h2><blockquote>Implement the repository-scoped read authorization described in README.md and publish a verified pull request.</blockquote><p>Under the human-authorized launch mission, the controller selected this single engineering objective for Pi. It was supplied once, with zero post-objective input. Direct human authorship of that one-sentence prompt is not attested. Pi discovered the governance workflow through repository entrypoints. The baseline defect and the requirement to retain a failing baseline were explicitly seeded in the repository; the controller supplied no repair.</p>
-<table><tbody><tr><th>Agent</th><td>Pi 0.73.1 · openai-codex · gpt-6.1-sol</td></tr><tr><th>Kernel</th><td>Decapod 0.148.8, byte-pinned throughout the experiment</td></tr><tr><th>Execution</th><td>458.276 seconds · 42 tool calls · 32 assistant responses</td></tr><tr><th>Required proof</th><td>10 fixed authorization assertions and an independent source guard</td></tr></tbody></table>
-<h2>What actually happened</h2><ol><li>The agent consulted Decapod, claimed a task and entered an isolated workspace.</li><li>Initial specification/governance rejections provided actionable feedback. These do not count as the engineering failure.</li><li>The accepted authorization check executed and failed: a member without a repository grant was incorrectly allowed access. The process exited 1.</li><li>After receiving that failure, the agent inspected the actual output and changed repository-scoped access logic.</li><li>Fresh execution passed all required checks. Decapod published and verified <a href="https://github.com/alexhraber/decapod-admission-acceptance-20261117-1747-06/pull/2">real GitHub PR #2</a>. Independent readback matched both the validated head and accepted target.</li></ol>
-<p>Validated head: <code>f3a7a160946b42fed7eefa3898362f0dbb122fd0</code><br>Accepted base: <code>4b7f3b05637120a2ac6d638c46a13288fa6d74ce</code><br>Failed candidate: <code>bb1563c98fa8fb8845a24d76d9c722e9e4078659</code></p>
-<p><a href="evidence/pi-1758-20261117-01/publication-receipt.json">Inspect the exact publication-time receipt</a> and <a href="evidence/pi-1758-20261117-01/publication-record.json">canonical completion record</a>. This proof was created inside the observed publisher invocation. Standalone validation and later task-completion records remain distinct.</p><h2>A green result expires</h2><p>Separately labelled operator-owned probes followed the completed agent run. They did not change the agent’s source branch or supply its repair.</p><ul><li>A source mutation after real PR creation returned <code>PR_CREATED_NOT_ADMITTED</code> and <code>WORKUNIT_PROOF_STALE</code>. Decapod confirmed draft quarantine for <a href="https://github.com/alexhraber/decapod-admission-acceptance-20261117-1747-06/pull/3">probe PR #3</a>.</li><li>A subsequent source mutation was rejected with <code>GOVERNANCE_CHECKPOINT_MISSING</code>; historical proof could not publish it.</li><li>Advancing only the issue-owned target returned <code>STALE_ACCEPTED_BASE</code>, including on repeated validation. The new target is <code>ada3eb89c3707801a5b86265dccc899fdabe5e1c</code>.</li></ul><p><strong>PR #2’s admission is historical; its current applicability is false.</strong> Its exact head is preserved, and it was made draft after the target control. No merge is authorized. The original archive and historical PR #1 remain untouched.</p>
-<h2>Inspect and reproduce</h2><p><a href="evidence/pi-1758-20261117-01/manifest.json">Observer manifest</a> · <a href="evidence/pi-1758-20261117-01/objective-provenance.json">Objective provenance disclosure</a> · <a href="evidence/pi-1758-20261117-01/human-mission.txt">Original human mission</a> · <a href="evidence/pi-1758-20261117-01/capture.json">Capture index</a> · <a href="evidence/pi-1758-20261117-01/kernel.json">Native checks and receipts</a> · <a href="evidence/pi-1758-20261117-01/controls.json">Adversarial results</a> · <a href="evidence/pi-1758-20261117-01/README.md">Reproduction and fixture ledger</a></p><p>Implementation and experiment ownership: <a href="https://github.com/DecapodLabs/decapod/issues/1757">Decapod #1757</a> and <a href="https://github.com/DecapodLabs/decapod/issues/1758">#1758</a>. Film production: <a href="https://github.com/DecapodLabs/decapodlabs.github.io/issues/9">website #9</a>.</p>
-<p><a href="https://github.com/alexhraber/decapod-admission-acceptance-20261117-1747-06/tree/3c6c373ea703144a2a096e7c3ad6b17c45fcdc38">Inspect the immutable GitHub evidence archive ↗</a></p><h2>Assurance boundary</h2><p>Digests bind captured bytes; they do not authenticate a producer. Host provenance is a trusted operator assertion with bounded tool-boundary observation. This is no universal OS sandbox or guarantee about uncaptured activity. The model provider exposes an alias, not immutable weights. This small seeded task is one observed run, not comparative evidence of general agent reliability. Native local checks do not attest a hosted CI matrix. PR admission never authorizes merge.</p><p>The kernel enforced admission through its native publisher. The observer only reports what it captured and cannot admit a PR. No independent GitHub enforcement of the fixture’s admission policy or prevention of every direct forge bypass is claimed. Offline observer regressions cover bypass and false-completion classification; the kernel source repository’s required CI policy is a separate control.</p><p>No Cloud purchase or hosted onboarding success is depicted. The local-first demonstration requires no Cloud subscription.</p><p><a href="assets/decapod-launch.mp4">Main film</a> · <a href="assets/decapod-launch-social.mp4">Social cut</a> · <a href="assets/decapod-launch-mobile.mp4">Vertical film</a> · <a href="assets/decapod-launch.vtt">Captions</a> · <a href="index.html#proofs">Watch with accessible controls</a></p></main></body></html>
+
+<main id="main" class="proof-content">
+  <a class="proof-back" href="index.html#proofs">← Decapod Labs</a>
+  <p class="kicker">Historical Case Study · Zero Live Telemetry</p>
+  <h1>An objective.<br>A repair.<br>The receipts.</h1>
+  <p class="proof-lead">One coding agent, one prompt, zero follow-up coaching. Below is the observed causal chain from a recorded Decapod-governed run—showing what failed on the first validation attempt, what the agent repaired, what passed against exact Git commits, and why historical receipts expire when code or targets move.</p>
+
+  <section class="proof-provenance-card" aria-label="Primary recorded run provenance">
+    <div class="proof-stat">
+      <span class="proof-stat-label">Agent Runtime</span>
+      <span class="proof-stat-val">Pi 0.73.1 · gpt-6.1-sol</span>
+    </div>
+    <div class="proof-stat">
+      <span class="proof-stat-label">Kernel Pinned</span>
+      <span class="proof-stat-val">Decapod 0.148.8 (43 tool calls)</span>
+    </div>
+    <div class="proof-stat">
+      <span class="proof-stat-label">Human Follow-Ups</span>
+      <span class="proof-stat-val">0 after objective</span>
+    </div>
+    <div class="proof-stat">
+      <span class="proof-stat-label">Authority Scope</span>
+      <span class="proof-stat-val">Historical unmerged PR fixture</span>
+    </div>
+  </section>
+
+  <section id="causal-story" aria-labelledby="storyHeading">
+    <h2 id="storyHeading">Five-step causal run</h2>
+    <p>Every recorded step maps back to an immutable observer digest in <code>evidence/</code>. Model narration alone is never treated as proof.</p>
+    <ol class="proof-arc">
+      <li class="proof-arc-step">
+        <span class="proof-step-badge">01 · Objective</span>
+        <div>
+          <h3>Requested change</h3>
+          <p>The controller gave Pi one sentence once: implement repository-scoped read authorization and publish a verified pull request, with zero post-objective hints.</p>
+        </div>
+      </li>
+      <li class="proof-arc-step is-failure">
+        <span class="proof-step-badge">02 · Rejected</span>
+        <div>
+          <h3>Required check failed (exit 1)</h3>
+          <p><code>decapod validate</code> ran the <code>authorization-contract</code> check against candidate <code>ed086de6</code> and failed: an unauthorized member was still permitted repository read access.</p>
+        </div>
+      </li>
+      <li class="proof-arc-step">
+        <span class="proof-step-badge">03 · Repair</span>
+        <div>
+          <h3>Agent repaired the source</h3>
+          <p>Reading the concrete failure output, Pi modified the repository-scoped access check on candidate commit <code>a063de90</code> without human intervention.</p>
+        </div>
+      </li>
+      <li class="proof-arc-step">
+        <span class="proof-step-badge">04 · Fresh Check</span>
+        <div>
+          <h3>Re-validated against accepted base</h3>
+          <p><code>decapod validate</code> passed 2 of 2 required checks on commit <code>a063de90</code> against accepted base <code>ada3eb89</code>, emitting receipt <code>sha256:bcd043bc…</code>.</p>
+        </div>
+      </li>
+      <li class="proof-arc-step is-outcome">
+        <span class="proof-step-badge">05 · Admitted PR</span>
+        <div>
+          <h3>Publication &amp; GitHub readback correlated</h3>
+          <p>Decapod published <a href="https://github.com/alexhraber/decapod-admission-acceptance-20261117-1747-06/pull/7">GitHub PR #7</a> matching exact candidate head and accepted base without granting merge rights.</p>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <section id="skeptic-qa" aria-labelledby="qaHeading">
+    <h2 id="qaHeading">Questions from skeptical engineers</h2>
+    <div class="proof-qa-grid">
+      <article class="proof-qa-card">
+        <h3>What was checked?</h3>
+        <p>The seeded repository’s configured validation suite (<code>authorization-contract</code>, 10 fixed assertions plus source guard in the earlier fixture) executed through native <code>decapod validate</code>.</p>
+      </article>
+      <article class="proof-qa-card">
+        <h3>What changed?</h3>
+        <p>Between failed candidate <code>ed086de6</code> and verified head <code>a063de90</code>, the agent fixed the repository-grant check inside the isolated worktree so ungranted reads fail closed.</p>
+      </article>
+      <article class="proof-qa-card">
+        <h3>What makes evidence stale?</h3>
+        <p>Any new source edit without a fresh checkpoint/validation or any advance of the accepted target branch immediately invalidates prior admission (<a href="#stale-probes">see operator probes below</a>).</p>
+      </article>
+      <article class="proof-qa-card">
+        <h3>What does this prove?</h3>
+        <p>It establishes one bounded run where configured checks failed, triggered agent repair, and correlated PR admission cleanly. It does not guarantee general autonomy or merge safety (<a href="#assurance">see limits</a>).</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="case-study" aria-labelledby="caseStudyHeading">
+    <h2 id="caseStudyHeading">56-second terminal case study</h2>
+    <p>Renders the recorded terminal stream timing with expanded readable type and English captions. For the unedited native Pi TUI recording, see <a href="index.html#proofs">the homepage preview</a>.</p>
+    <div class="launch-player">
+      <video id="launchVideo" controls playsinline preload="none" poster="assets/decapod-launch-poster.png" aria-label="Decapod autonomous engineering case study">
+        <source src="assets/decapod-launch-mobile.mp4" media="(max-width: 600px)" type="video/mp4">
+        <source src="assets/decapod-launch.mp4" type="video/mp4">
+        <track kind="captions" src="assets/decapod-launch.vtt" srclang="en" label="English">
+        <p><a href="assets/decapod-launch.mp4">Download the case study (MP4)</a> · <a href="assets/decapod-launch.vtt">Download English captions (VTT)</a>.</p>
+      </video>
+    </div>
+    <p class="proof-pill-links"><a href="index.html#proofs">Watch the native Pi terminal recording</a><a href="assets/decapod-launch-social.mp4">12-second cut (MP4)</a><a href="assets/decapod-launch.vtt">Transcript / captions (VTT)</a></p>
+  </section>
+
+  <section id="recorded-run" aria-labelledby="recordedRunHeading">
+    <h2 id="recordedRunHeading">Primary recorded Pi run (`pi-1758-tui-06`)</h2>
+    <blockquote class="proof-blockquote">Implement the repository-scoped read authorization described in README.md and publish a verified pull request.</blockquote>
+    <p>Pi 0.73.1 with gpt-6.1-sol and Decapod 0.148.8 executed 43 tool calls. Pi received one objective and no follow-up input.</p>
+    <div class="table-scroll">
+      <table>
+        <tbody>
+          <tr>
+            <th scope="row">Failed candidate</th>
+            <td>
+              <div class="proof-code-row">
+                <code class="proof-hash">ed086de6691d92da623febfaa6b411514828440e</code>
+                <button type="button" class="proof-copy-btn" data-copy="ed086de6691d92da623febfaa6b411514828440e">Copy</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Validated and published head</th>
+            <td>
+              <div class="proof-code-row">
+                <code class="proof-hash">a063de9040c458204eace1929d1e8536ad048a88</code>
+                <button type="button" class="proof-copy-btn" data-copy="a063de9040c458204eace1929d1e8536ad048a88">Copy</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Accepted base</th>
+            <td>
+              <div class="proof-code-row">
+                <code class="proof-hash">ada3eb89c3707801a5b86265dccc899fdabe5e1c</code>
+                <button type="button" class="proof-copy-btn" data-copy="ada3eb89c3707801a5b86265dccc899fdabe5e1c">Copy</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Fresh validation receipt</th>
+            <td>
+              <div class="proof-code-row">
+                <code class="proof-hash">sha256:bcd043bc1cec93ccb51d227c699ef137014bb54ab7714518404c60de8b888542</code>
+                <button type="button" class="proof-copy-btn" data-copy="sha256:bcd043bc1cec93ccb51d227c699ef137014bb54ab7714518404c60de8b888542">Copy</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Independent forge readback</th>
+            <td><a href="https://github.com/alexhraber/decapod-admission-acceptance-20261117-1747-06/pull/7">GitHub PR #7 ↗</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="proof-pill-links">
+      <a href="evidence/pi-1758-tui-06/tui-capture.json">Recording metadata</a>
+      <a href="evidence/pi-1758-tui-06/tui-pixels.json">Frame timing and digests</a>
+      <a href="evidence/pi-1758-tui-06/manifest.json">Observer manifest</a>
+      <a href="evidence/pi-1758-tui-06/kernel.json">Native checks and receipts</a>
+      <a href="evidence/pi-1758-tui-06/github.json">Independent GitHub readback</a>
+      <a href="evidence/pi-1758-tui-06/README.md">Reproduction and capture limits</a>
+    </p>
+    <p class="proof-note-box"><strong>Boundary reminder:</strong> Admission grants no merge authorization.</p>
+  </section>
+
+  <section id="stale-probes" aria-labelledby="probesHeading">
+    <h2 id="probesHeading">Earlier fixture (`pi-1758-20261117-01`) &amp; stale-proof probes</h2>
+    <p>The historical archive preserves both the original launch fixture (PR #2) and separately labeled operator-owned negative controls showing that green checks expire as soon as source commits or target bases change.</p>
+
+    <details class="proof-disclosure" open>
+      <summary>Inspect earlier fixture run (PR #2) and operator-owned stale-proof probes</summary>
+      <h3>The earlier fixture run</h3>
+      <p>The original launch film was based on this first independently observed run. A read-only Rust observer correlated actual provider tool requests, host execution, kernel records, Git state and independent GitHub readback. Model narration is not completion evidence.</p>
+      <blockquote class="proof-blockquote">Implement the repository-scoped read authorization described in README.md and publish a verified pull request.</blockquote>
+      <p>Under the human-authorized launch mission, the controller selected this single engineering objective for Pi. It was supplied once, with zero post-objective input. Direct human authorship of that one-sentence prompt is not attested. Pi discovered the governance workflow through repository entrypoints. The baseline defect and the requirement to retain a failing baseline were explicitly seeded in the repository; the controller supplied no repair.</p>
+      <div class="table-scroll">
+        <table>
+          <tbody>
+            <tr><th scope="row">Agent</th><td>Pi 0.73.1 · openai-codex · gpt-6.1-sol</td></tr>
+            <tr><th scope="row">Kernel</th><td>Decapod 0.148.8, byte-pinned throughout the experiment</td></tr>
+            <tr><th scope="row">Execution</th><td>458.276 seconds · 42 tool calls · 32 assistant responses</td></tr>
+            <tr><th scope="row">Required proof</th><td>10 fixed authorization assertions and an independent source guard</td></tr>
+            <tr><th scope="row">Validated head</th><td><code>f3a7a160946b42fed7eefa3898362f0dbb122fd0</code></td></tr>
+            <tr><th scope="row">Accepted base</th><td><code>4b7f3b05637120a2ac6d638c46a13288fa6d74ce</code></td></tr>
+            <tr><th scope="row">Failed candidate</th><td><code>bb1563c98fa8fb8845a24d76d9c722e9e4078659</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3>What actually happened</h3>
+      <ol>
+        <li>The agent consulted Decapod, claimed a task and entered an isolated workspace.</li>
+        <li>Initial specification/governance rejections provided actionable feedback. These do not count as the engineering failure.</li>
+        <li>The accepted authorization check executed and failed: a member without a repository grant was incorrectly allowed access. The process exited 1.</li>
+        <li>After receiving that failure, the agent inspected the actual output and changed repository-scoped access logic.</li>
+        <li>Fresh execution passed all required checks. Decapod published and verified <a href="https://github.com/alexhraber/decapod-admission-acceptance-20261117-1747-06/pull/2">real GitHub PR #2</a>. Independent readback matched both the validated head and accepted target.</li>
+      </ol>
+      <p><a href="evidence/pi-1758-20261117-01/publication-receipt.json">Inspect the exact publication-time receipt</a> and <a href="evidence/pi-1758-20261117-01/publication-record.json">canonical completion record</a>. This proof was created inside the observed publisher invocation. Standalone validation and later task-completion records remain distinct.</p>
+
+      <h3>A green result expires (operator-owned negative controls)</h3>
+      <p>Separately labelled operator-owned probes followed the completed agent run. They did not change the agent’s source branch or supply its repair.</p>
+      <ul>
+        <li>A source mutation after real PR creation returned <code>PR_CREATED_NOT_ADMITTED</code> and <code>WORKUNIT_PROOF_STALE</code>. Decapod confirmed draft quarantine for <a href="https://github.com/alexhraber/decapod-admission-acceptance-20261117-1747-06/pull/3">probe PR #3</a>.</li>
+        <li>A subsequent source mutation was rejected with <code>GOVERNANCE_CHECKPOINT_MISSING</code>; historical proof could not publish it.</li>
+        <li>Advancing only the issue-owned target returned <code>STALE_ACCEPTED_BASE</code>, including on repeated validation. The new target is <code>ada3eb89c3707801a5b86265dccc899fdabe5e1c</code>.</li>
+      </ul>
+      <p class="proof-note-box"><strong>PR #2’s admission is historical; its current applicability is false.</strong> Its exact head is preserved, and it was made draft after the target control. No merge is authorized. The original archive and historical PR #1 remain untouched.</p>
+    </details>
+
+    <details class="proof-disclosure">
+      <summary>Inspect immutable archive files &amp; reproduction references</summary>
+      <p class="proof-pill-links">
+        <a href="evidence/pi-1758-20261117-01/manifest.json">Observer manifest</a>
+        <a href="evidence/pi-1758-20261117-01/objective-provenance.json">Objective provenance disclosure</a>
+        <a href="evidence/pi-1758-20261117-01/human-mission.txt">Original human mission</a>
+        <a href="evidence/pi-1758-20261117-01/capture.json">Capture index</a>
+        <a href="evidence/pi-1758-20261117-01/kernel.json">Native checks and receipts</a>
+        <a href="evidence/pi-1758-20261117-01/controls.json">Adversarial results</a>
+        <a href="evidence/pi-1758-20261117-01/README.md">Reproduction and fixture ledger</a>
+      </p>
+      <p>Implementation and experiment ownership: <a href="https://github.com/DecapodLabs/decapod/issues/1757">Decapod #1757</a> and <a href="https://github.com/DecapodLabs/decapod/issues/1758">#1758</a>. Film production: <a href="https://github.com/DecapodLabs/decapodlabs.github.io/issues/9">website #9</a>.</p>
+      <p><a href="https://github.com/alexhraber/decapod-admission-acceptance-20261117-1747-06/tree/3c6c373ea703144a2a096e7c3ad6b17c45fcdc38">Inspect the immutable GitHub evidence archive ↗</a></p>
+    </details>
+  </section>
+
+  <section id="assurance" aria-labelledby="assuranceHeading">
+    <h2 id="assuranceHeading">Assurance boundary</h2>
+    <p>Digests bind captured bytes; they do not authenticate a producer. Host provenance is a trusted operator assertion with bounded tool-boundary observation. This is no universal OS sandbox or guarantee about uncaptured activity. The model provider exposes an alias, not immutable weights. This small seeded task is one observed run, not comparative evidence of general agent reliability. Native local checks do not attest a hosted CI matrix. PR admission never authorizes merge.</p>
+    <p>The kernel enforced admission through its native publisher. The observer only reports what it captured and cannot admit a PR. No independent GitHub enforcement of the fixture’s admission policy or prevention of every direct forge bypass is claimed. Offline observer regressions cover bypass and false-completion classification; the kernel source repository’s required CI policy is a separate control.</p>
+    <p>No Cloud purchase or hosted onboarding success is depicted. The local-first demonstration requires no Cloud subscription.</p>
+    <p class="proof-pill-links">
+      <a href="assets/decapod-launch.mp4">Main film</a>
+      <a href="assets/decapod-launch-social.mp4">Social cut</a>
+      <a href="assets/decapod-launch-mobile.mp4">Vertical film</a>
+      <a href="assets/decapod-launch.vtt">Captions</a>
+      <a href="index.html#proofs">Watch with accessible controls</a>
+    </p>
+  </section>
+
+  <aside class="proof-next-actions" aria-label="Next steps">
+    <div>
+      <h2>Run Decapod locally, or check privacy boundaries</h2>
+      <p>Local governance is free forever with zero signup. Initialize <code>.decapod/</code> once inside any repository or inspect every declared egress boundary first.</p>
+    </div>
+    <div class="proof-next-buttons">
+      <a class="btn btn-primary" href="/#quickstart">Install locally</a>
+      <a class="btn btn-light" href="https://decapodlabs.ai/decapod/quickstart.html">Read Quickstart ↗</a>
+      <a class="btn btn-light" href="/trust/index.html">Trust &amp; Privacy</a>
+    </div>
+  </aside>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-grid">
+    <a href="/" class="footer-brand" aria-label="Decapod Labs home"><img class="site-wordmark" src="/assets/logo-b.png?v=20261127-uplift" alt="Decapod Labs" width="420" height="140"></a>
+    <span class="footer-copy">© 2026 Decapod Labs</span>
+    <div class="footer-links">
+      <a href="https://decapodlabs.ai/decapod/">Docs ↗</a>
+      <a href="/proof.html" aria-current="page">Proof</a>
+      <a href="https://decapodlabs.ai/pricing">Pricing ↗</a>
+      <a href="/trust/index.html">Trust &amp; Privacy ↗</a>
+      <a href="/tecr.html">Rework</a>
+      <a href="https://github.com/DecapodLabs/decapod">GitHub ↗</a>
+      <a href="/llms.txt">For agents</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(() => {
+  for (const btn of document.querySelectorAll('.proof-copy-btn[data-copy]')) {
+    btn.addEventListener('click', async () => {
+      const value = btn.getAttribute('data-copy') || '';
+      const row = btn.closest('.proof-code-row');
+      const code = row ? row.querySelector('code') : null;
+      try {
+        if (!navigator.clipboard || typeof navigator.clipboard.writeText !== 'function') throw new Error('unavailable');
+        await navigator.clipboard.writeText(value);
+        btn.textContent = 'Copied ✓';
+        setTimeout(() => { btn.textContent = 'Copy'; }, 1800);
+      } catch {
+        if (code) {
+          const sel = window.getSelection();
+          if (sel) {
+            const range = document.createRange();
+            range.selectNodeContents(code);
+            sel.removeAllRanges();
+            sel.addRange(range);
+          }
+        }
+        btn.textContent = 'Selected';
+        setTimeout(() => { btn.textContent = 'Copy'; }, 1800);
+      }
+    });
+  }
+})();
+</script>
+</body>
+</html>
