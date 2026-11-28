@@ -23,6 +23,17 @@
     "base_commit": "5bad19cb74b00bbc77a3bfa1d62fddee6750857d",
     "target_base": "origin/main"
   },
+  "claims": {
+    "claim:site-editorial-recovery-103": {
+      "statement": "The homepage, design-system docs, and secondary pages restore AI lab identity, visible 14 capabilities (including full Constitution copy), visible film and Waystead/swarms showcases, research section, exploration navigation, and case-study evaluation framing while preserving self-hosted Geist fonts, zero trackers, verbatim Rework essay, Clack DMG integrity, and signed Cloud bundle provenance.",
+      "falsifier": "Any closed details disclosure hides the 14 capabilities or Waystead/film on index.html, check-site.ts or deno test tests/ fails, Google Fonts/tracking beacons load, or Clack/TECR/Trust/Cloud assertions fail.",
+      "status": "supported",
+      "proof_refs": [
+        "deno test tests/",
+        "scripts/check-site.ts"
+      ]
+    }
+  },
   "checkpoints": [
     {
       "id": "chk-1-research-script",
@@ -43,6 +54,11 @@
       "id": "chk-4-living-specs",
       "summary": "Update authored living specs (INTENT, ARCHITECTURE, INTERFACES) and refresh manifest for #103/#104/#106",
       "input_digest": "sha256:f0d38646098052c63c6d91b5f2a2ed0e217022d7b04e1d3f07fb11120825f67d"
+    },
+    {
+      "id": "chk-5-governance-claims-trajectory",
+      "summary": "Record approved plan, falsifiable claim, and trajectory evidence for #103/#104/#106",
+      "input_digest": "sha256:400fc425c6efbc9e65043cf8ee531cfe50fec2ca42390fcaa774c283dfb0e2b6"
     }
   ],
   "intents": {
@@ -70,26 +86,44 @@
   },
   "sections": {
     "plan": {
-      "constraints": {},
+      "constraints": {
+        "file_touch_budget": null,
+        "forbidden_paths": []
+      },
+      "deferred_questions": [],
+      "human_questions": [],
       "intent": "Track 4 (#103): connected cross-repo review and first-use research script",
+      "phases": [],
       "proof_hooks": [
         "decapod validate"
       ],
       "schema_version": "1.1.0",
-      "state": "DRAFT",
+      "state": "APPROVED",
+      "stop_conditions": [],
       "title": "Track 4 (#103): connected cross-repo review and first-use research script",
       "todo_ids": [
         "arch_01m8g1r38g4v0x9w"
       ],
-      "updated_at": "1795835093Z"
+      "unknowns": [],
+      "unresolved_contradictions": [],
+      "updated_at": "1795838150Z"
     },
     "trajectory": {
       "active_boundaries": [
         "Current claimed task and isolated work branch"
       ],
-      "artifact_hash": "sha256:7d7db50e299e525755a4e9f47b191bf9e3a94043dae6c15bd39fce4f6aec2ef7",
-      "checks": [],
-      "current_phase": "intent",
+      "artifact_hash": "sha256:8c1d7bd3ef19e75985e4e52d088fc31d92590952f889083021932c0d30be9deb",
+      "checks": [
+        {
+          "name": "check-site",
+          "status": "passed"
+        },
+        {
+          "name": "deno-test",
+          "status": "passed"
+        }
+      ],
+      "current_phase": "verification",
       "custody": {
         "events": [
           {
@@ -103,19 +137,92 @@
             "intent_id": "intent:change_01M8G1SRHCP3JSPXXEF813B8MZ",
             "kind": "refined",
             "sequence": 3
+          },
+          {
+            "detail": "trajectory:branch_01M8G1SRVR1FCYB10ZWWCHNMJT",
+            "event_id": "event:4",
+            "intent_id": "intent:change_01M8G1SRHCP3JSPXXEF813B8MZ",
+            "kind": "trajectory_step_recorded",
+            "sequence": 4
           }
         ],
         "knowledge_candidates": [],
-        "next_sequence": 3,
+        "next_sequence": 4,
         "schema_version": "1.1.0",
-        "trajectories": {}
+        "trajectories": {
+          "branch_01M8G1SRVR1FCYB10ZWWCHNMJT": {
+            "evidence_only": true,
+            "id": "branch_01M8G1SRVR1FCYB10ZWWCHNMJT",
+            "intent_id": "intent:change_01M8G1SRHCP3JSPXXEF813B8MZ",
+            "steps": [
+              {
+                "action": "verification",
+                "custody_event_id": "event:4",
+                "observations": [
+                  "index.html",
+                  "styles.css",
+                  "main.js",
+                  "proof.html",
+                  "trust/index.html",
+                  "tecr.html",
+                  "clack/index.html",
+                  "docs/design-system/content-recovery-inventory.md",
+                  "docs/design-system/positioning-and-design-contract.md",
+                  "docs/design-system/first-use-research-script.md",
+                  "index.html",
+                  "styles.css",
+                  "main.js",
+                  "proof.html",
+                  "trust/index.html",
+                  "tecr.html",
+                  "offerings.html",
+                  "clack/index.html",
+                  "check-site.ts PASS (documents: 4, local_assets: 129, fragment_links: 27); deno test tests/ 7 passed 0 failed"
+                ],
+                "proof_refs": [
+                  "check-site",
+                  "deno-test"
+                ],
+                "scope": [
+                  "root"
+                ],
+                "sequence": 4,
+                "validation_findings": [
+                  "Zero external participant sessions run; live post-merge readback pending PR merge"
+                ]
+              }
+            ]
+          }
+        }
       },
       "declared_commands": [],
       "destination": "pull request",
-      "evidence": [],
-      "inspected_files": [],
+      "evidence": [
+        "check-site.ts PASS (documents: 4, local_assets: 129, fragment_links: 27); deno test tests/ 7 passed 0 failed"
+      ],
+      "inspected_files": [
+        "clack/index.html",
+        "index.html",
+        "main.js",
+        "proof.html",
+        "styles.css",
+        "tecr.html",
+        "trust/index.html"
+      ],
       "intent_id": "intent:change_01M8G1SRHCP3JSPXXEF813B8MZ",
-      "modified_files": [],
+      "modified_files": [
+        "clack/index.html",
+        "docs/design-system/content-recovery-inventory.md",
+        "docs/design-system/first-use-research-script.md",
+        "docs/design-system/positioning-and-design-contract.md",
+        "index.html",
+        "main.js",
+        "offerings.html",
+        "proof.html",
+        "styles.css",
+        "tecr.html",
+        "trust/index.html"
+      ],
       "next_transitions": [
         "Refine plan and declare falsifiable checks"
       ],
@@ -127,7 +234,9 @@
       "shortcut_risk_signals": [],
       "task_id": "arch_01m8g1r38g4v0x9w",
       "tool_calls": [],
-      "unresolved_assumptions": []
+      "unresolved_assumptions": [
+        "Zero external participant sessions run; live post-merge readback pending PR merge"
+      ]
     }
   }
 }
