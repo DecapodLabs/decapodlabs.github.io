@@ -53,6 +53,11 @@
       "id": "chk-6-propodus-bundle",
       "summary": "Layer Propodus 20261127-uplift Cloud bundle (7e4aba65) and update provenance assertion",
       "input_digest": "sha256:de83a22b526a21ffce5bc27c3e265e1b159cae2ca05e9f487ae48305158edebb"
+    },
+    {
+      "id": "chk-7-specs-final",
+      "summary": "Refresh living specs, record spec reviews, and pass final verification (#103, #104, #106, #101)",
+      "input_digest": "sha256:f8ed35f17e4e2e0b05f07f2dfc7617389777f147bdaafa011ea0c7081a6c60f4"
     }
   ],
   "intents": {
@@ -80,18 +85,50 @@
   },
   "sections": {
     "plan": {
-      "constraints": {},
+      "constraints": {
+        "file_touch_budget": null,
+        "forbidden_paths": []
+      },
+      "deferred_questions": [],
+      "human_questions": [],
       "intent": "Studio uplift (#103, #104, #106): positioning contract, homepage overhaul, proof/trust/secondary pages alignment",
+      "phases": [],
       "proof_hooks": [
         "decapod validate"
       ],
       "schema_version": "1.1.0",
+      "spec_reviews": [
+        {
+          "disposition": "updated",
+          "path": ".decapod/managed/specs/ARCHITECTURE.md",
+          "reason": "Document #103/#104/#106/#101 website studio uplift, self-hosted Geist system, discovery links, and 20261127-uplift Propodus Cloud bundle (7e4aba65)",
+          "reviewed_code_fingerprint": "cdcafd88d84cde8538d86a9aab9886411cdd5082af6f61608eaae086629cfd7f",
+          "spec_material_hash": "9b1ec56af1338941c54a9041882500a46f245a948693940cbd5030aebf27d4a9"
+        },
+        {
+          "disposition": "updated",
+          "path": ".decapod/managed/specs/INTERFACES.md",
+          "reason": "Document shared nav/footer Chrome contract, robots/llms discovery links, and 20261127-uplift Cloud presentation interfaces (7e4aba65)",
+          "reviewed_code_fingerprint": "cdcafd88d84cde8538d86a9aab9886411cdd5082af6f61608eaae086629cfd7f",
+          "spec_material_hash": "989176490fa6b6230b87d149b4a8555f658164e4c8257ce71ecf262192c7718d"
+        },
+        {
+          "disposition": "updated",
+          "path": ".decapod/managed/specs/SECURITY.md",
+          "reason": "Update Cloud manifest provenance boundary for 20261127-uplift (7e4aba65) and zero-external-CDN/zero-tracker static hygiene",
+          "reviewed_code_fingerprint": "cdcafd88d84cde8538d86a9aab9886411cdd5082af6f61608eaae086629cfd7f",
+          "spec_material_hash": "62bb344f61469fd3f75f5c09e37936d8b4912412b38d5593b58f2503a16f9d5a"
+        }
+      ],
       "state": "DRAFT",
+      "stop_conditions": [],
       "title": "Studio uplift (#103, #104, #106): positioning contract, homepage overhaul, proof/trust/secondary pages alignment",
       "todo_ids": [
         "code_01m8fjny6bveczsn"
       ],
-      "updated_at": "1795832591Z"
+      "unknowns": [],
+      "unresolved_contradictions": [],
+      "updated_at": "1795832606Z"
     },
     "trajectory": {
       "active_boundaries": [
